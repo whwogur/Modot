@@ -8,6 +8,9 @@
 #include <DirectXMath.h>
 #include <DirectXPackedVector.h>
 
+#include <wrl.h>
+namespace WRL = Microsoft::WRL;
+
 #pragma comment(lib, "d3d11")
 #pragma comment(lib, "d3dcompiler")
 

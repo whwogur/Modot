@@ -4,13 +4,6 @@
 
 class CEntity
 {
-private:
-	static UINT g_ID;
-
-private:
-	wstring		m_Name;
-	const UINT	m_ID;
-
 public:
 	void SetName(const wstring& _Name) { m_Name = _Name; }
 	const wstring& GetName() { return m_Name; }
@@ -22,5 +15,12 @@ public:
 	CEntity();
 	CEntity(const CEntity& _Other);
 	virtual ~CEntity();
+
+private:
+	static UINT g_ID;
+
+private:
+	wstring		m_Name;
+	const UINT	m_ID;
 };
 

@@ -50,6 +50,7 @@
     <ClInclude Include="enum.h">
       <Filter>01. Header</Filter>
     </ClInclude>
+    <ClInclude Include="CConstBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -80,6 +81,7 @@
     <ClCompile Include="CAsset.cpp">
       <Filter>05. Asset</Filter>
     </ClCompile>
+    <ClCompile Include="CConstBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">

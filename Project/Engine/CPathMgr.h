@@ -4,11 +4,6 @@ class CPathMgr
 	: public CSingleton<CPathMgr>
 {
 	SINGLE(CPathMgr);
-private:
-	wstring		m_Content;
-	wstring		m_Solution;
-
-
 public:
 	void Init();
 
@@ -18,5 +13,9 @@ private:
 public:
 	const wstring& GetContentPath() { return m_Content; }
 	const wstring& GetSolutionPath() { return m_Solution; }	
+
+private:
+	wstring		m_Content;
+	wstring		m_Solution;
 };
 

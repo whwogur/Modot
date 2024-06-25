@@ -42,13 +42,6 @@ class CKeyMgr
 	: public CSingleton<CKeyMgr>
 {
 	SINGLE(CKeyMgr);
-private:
-	vector<tKeyInfo>	m_vecKeyInfo;
-
-	Vec2				m_MousePos;
-	Vec2				m_PrevMousePos;
-	Vec2				m_DragDir;
-
 public:
 	void Init();
 	void Tick();
@@ -57,5 +50,12 @@ public:
 	KEY_STATE GetKeyState(KEY _Key) { return m_vecKeyInfo[(UINT)_Key].eKeyState; }
 	Vec2 GetMousePos() { return m_MousePos; }
 	Vec2 GetDragDir() { return m_DragDir; }
+
+private:
+	vector<tKeyInfo>	m_vecKeyInfo;
+
+	Vec2				m_MousePos;
+	Vec2				m_PrevMousePos;
+	Vec2				m_DragDir;
 };
 

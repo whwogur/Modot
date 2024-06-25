@@ -1,28 +1,15 @@
 #pragma once
 
+class CConstBuffer;
+
 class CDevice
 	: public CSingleton<CDevice>
 {
 	SINGLE(CDevice);
-private:
-	HWND						m_hWnd;
-	Vec2						m_vResolution;
-
-	ID3D11Device*				m_Device;
-	ID3D11DeviceContext*		m_Context;
-
-	IDXGISwapChain*				m_SwapChain;
-
-	ID3D11Texture2D*			m_RTTex;
-	ID3D11Texture2D*			m_DSTex;
-
-	ID3D11RenderTargetView*		m_RTView;
-	ID3D11DepthStencilView*		m_DSView;
-
-	ID3D11BlendState*			m_BSState;
-	ID3D11DepthStencilState*	m_DSState;
-	ID3D11SamplerState*			m_Sampler;
-	ID3D11RasterizerState*		m_RSState;
+public:
+	ID3D11Device* GetDevice() { return m_Device.Get(); }
+	ID3D11DeviceContext* GetContext() { return m_Context.Get(); }
+	CConstBuffer* GetConstBuffer(CB_TYPE _Type) { return m_arrCB[(UINT)_Type]; }
 
 public:
 	int Init(HWND _hWnd, UINT _Width, UINT _Height);
@@ -32,9 +19,28 @@ public:
 private:
 	int CreateSwapChain();
 	int CreateView();
+	int CreateConstBuffer();
 
-public:
-	ID3D11Device* GetDevice() { return m_Device; }
-	ID3D11DeviceContext* GetContext() { return m_Context; }
+private:
+	HWND m_hWnd;
+	Vec2 m_vResolution;
+
+	WRL::ComPtr<ID3D11Device>			m_Device;
+	WRL::ComPtr<ID3D11DeviceContext>		m_Context;
+
+	WRL::ComPtr<IDXGISwapChain>			m_SwapChain;
+
+	WRL::ComPtr<ID3D11Texture2D>			m_RTTex;
+	WRL::ComPtr<ID3D11Texture2D>			m_DSTex;
+
+	WRL::ComPtr<ID3D11RenderTargetView>	m_RTView;
+	WRL::ComPtr<ID3D11DepthStencilView>	m_DSView;
+
+	WRL::ComPtr<ID3D11BlendState>		m_BSState;
+	WRL::ComPtr<ID3D11DepthStencilState>	m_DSState;
+	WRL::ComPtr<ID3D11SamplerState>		m_Sampler;
+	WRL::ComPtr<ID3D11RasterizerState>	m_RSState;
+
+	CConstBuffer* m_arrCB[(UINT)CB_TYPE::END];
 };
 
