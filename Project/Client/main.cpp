@@ -66,7 +66,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
         else
         {
-            CEngine::GetInst()->Progress();
+            CEngine::GetInst()->Run();
         }
     }
 

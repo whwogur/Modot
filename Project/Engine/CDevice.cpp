@@ -81,6 +81,19 @@ int CDevice::Init(HWND _hWnd, UINT _Width, UINT _Height)
     // Output Merge State (출력 병합 단계)
     m_Context->OMSetRenderTargets(1, &m_RTView, m_DSView);
 
+    // Viewport
+    D3D11_VIEWPORT viewport = {};
+
+    viewport.TopLeftX = 0;
+    viewport.TopLeftY = 0;
+    viewport.Width = m_vResolution.x;
+    viewport.Height = m_vResolution.y;
+
+    viewport.MinDepth = 0;
+    viewport.MaxDepth = 1.0f;
+
+    CONTEXT->RSSetViewports(1, &viewport);
+
     return S_OK;
 }
 
