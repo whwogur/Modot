@@ -8,8 +8,6 @@ workspace "Yeti"
 		"Release"
 	}
 
-outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-
 project "Engine"
 	location "Project/Engine"
 	kind "StaticLib"
@@ -17,8 +15,8 @@ project "Engine"
 	cppdialect "C++17"
 	staticruntime "on"
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("External/Library/Engine")
+	objdir ("%{cfg.architecture}/{cfg.buildcfg}")
 
 	files
 	{
@@ -34,12 +32,12 @@ project "Engine"
 		}
 
 	filter "configurations:Debug"
-		defines "DEBUG"
+		defines "_DEBUG"
 		runtime "Debug"
 		symbols "on"
 
 	filter "configurations:Release"
-		defines "NDEBUG"
+		defines "_NDEBUG"
 		runtime "Release"
 		optimize "on"
 
@@ -53,8 +51,8 @@ project "Client"
 	dependson { "Engine" }
 	links { "Engine" }
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("OutputFile/bin")
+	objdir ("%{cfg.architecture}/{cfg.buildcfg}")
 
 	files
 	{
@@ -64,7 +62,8 @@ project "Client"
 
 	includedirs
 	{
-		"Project/Engine"
+		"Project/Engine",
+        "External/spdlog/include"
 	}
 
 	filter "system:windows"
@@ -75,11 +74,11 @@ project "Client"
 		}
 
 	filter "configurations:Debug"
-		defines "DEBUG"
+		defines "_DEBUG"
 		runtime "Debug"
 		symbols "on"
 
 	filter "configurations:Release"
-		defines "NDEBUG"
+		defines "_NDEBUG"
 		runtime "Release"
 		optimize "on"
