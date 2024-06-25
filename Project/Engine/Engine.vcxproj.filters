@@ -25,6 +25,32 @@
     <ClInclude Include="SimpleMath.h">
       <Filter>Module</Filter>
     </ClInclude>
+    <ClInclude Include="struct.h">
+      <Filter>01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CKeyMgr.h">
+      <Filter>04. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CPathMgr.h">
+      <Filter>04. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CTaskMgr.h">
+      <Filter>04. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimeMgr.h">
+      <Filter>04. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CAssetMgr.h">
+      <Filter>04. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CEntity.h" />
+    <ClInclude Include="CAsset.h">
+      <Filter>05. Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="enum.h">
+      <Filter>01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CConstBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -39,6 +65,23 @@
     <ClCompile Include="CDevice.cpp">
       <Filter>03. Device</Filter>
     </ClCompile>
+    <ClCompile Include="CPathMgr.cpp">
+      <Filter>04. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CKeyMgr.cpp">
+      <Filter>04. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CTimeMgr.cpp">
+      <Filter>04. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CAssetMgr.cpp">
+      <Filter>04. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CEntity.cpp" />
+    <ClCompile Include="CAsset.cpp">
+      <Filter>05. Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="CConstBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -55,6 +98,15 @@
     </Filter>
     <Filter Include="Module">
       <UniqueIdentifier>{93a7ac77-f674-4ed6-a32a-19a3f16d30e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Manager">
+      <UniqueIdentifier>{3c07900d-fa40-4f84-96e9-7eaabbbcef02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Asset">
+      <UniqueIdentifier>{a1caed79-31f7-4d87-b223-e662bb1c6e37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Asset\Shader">
+      <UniqueIdentifier>{282c8023-2010-4afc-ab45-150e3e7ff0bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

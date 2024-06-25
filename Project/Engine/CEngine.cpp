@@ -2,6 +2,9 @@
 #include "CEngine.h"
 
 #include "CDevice.h"
+#include "CPathMgr.h"
+#include "CKeyMgr.h"
+#include "CTimeMgr.h"
 
 CEngine::CEngine()
 	: m_hWnd(nullptr)
@@ -25,12 +28,21 @@ int CEngine::Init(HWND _wnd, POINT _ptResolution)
 		return E_FAIL;
 	}
 
+	CPathMgr::GetInst()->Init();
+	CKeyMgr::GetInst()->Init();
+	CTimeMgr::GetInst()->Init();
+
 	return S_OK;
 }
 
 
-void CEngine::Progress()
+void CEngine::Run()
 {
+	// Manager
+	CKeyMgr::GetInst()->Tick();
+	CTimeMgr::GetInst()->Tick();
+
+	// Render
 	CDevice::GetInst()->Clear();
 
 
