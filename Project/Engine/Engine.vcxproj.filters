@@ -51,6 +51,16 @@
       <Filter>01. Header</Filter>
     </ClInclude>
     <ClInclude Include="CConstBuffer.h" />
+    <ClInclude Include="CShader.h">
+      <Filter>05. Asset\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="CMesh.h">
+      <Filter>05. Asset\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="CGraphicShader.h">
+      <Filter>05. Asset\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Temp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -82,6 +92,16 @@
       <Filter>05. Asset</Filter>
     </ClCompile>
     <ClCompile Include="CConstBuffer.cpp" />
+    <ClCompile Include="CShader.cpp">
+      <Filter>05. Asset\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="CMesh.cpp">
+      <Filter>05. Asset\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="CGraphicShader.cpp">
+      <Filter>05. Asset\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Temp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -108,10 +128,21 @@
     <Filter Include="05. Asset\Shader">
       <UniqueIdentifier>{282c8023-2010-4afc-ab45-150e3e7ff0bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. Asset\Mesh">
+      <UniqueIdentifier>{f1afad9d-bf6c-4dc5-b252-234c9a0abc0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{2f103e03-edd5-4222-a648-4711c379c3f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
       <Filter>Module</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="test.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

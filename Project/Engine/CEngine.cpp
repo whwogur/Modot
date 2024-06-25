@@ -5,6 +5,7 @@
 #include "CPathMgr.h"
 #include "CKeyMgr.h"
 #include "CTimeMgr.h"
+#include "Temp.h"
 
 CEngine::CEngine()
 	: m_hWnd(nullptr)
@@ -32,6 +33,7 @@ int CEngine::Init(HWND _wnd, POINT _ptResolution)
 	CKeyMgr::GetInst()->Init();
 	CTimeMgr::GetInst()->Init();
 
+	TempInit();
 	return S_OK;
 }
 
@@ -41,12 +43,11 @@ void CEngine::Run()
 	// Manager
 	CKeyMgr::GetInst()->Tick();
 	CTimeMgr::GetInst()->Tick();
+	TempTick();
 
 	// Render
 	CDevice::GetInst()->Clear();
-
-
-
+	TempRender();
 	CDevice::GetInst()->Present();
 }
 
