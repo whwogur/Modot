@@ -4,6 +4,7 @@
 #include <Windows.h>
 
 #include <d3d11.h>
+#include <dxgi.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 #include <DirectXPackedVector.h>
@@ -36,3 +37,16 @@ using std::make_pair;
 #include "define.h"
 #include "enum.h"
 #include "struct.h"
+
+
+#ifdef _DEBUG
+#define MD_ENABLE_ASSERTS
+#endif
+
+#ifdef MD_ENABLE_ASSERTS
+#define MD_ASSERT(x, ...) { if(!(x)) { MD_ERROR(L"Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#define MD_ENGINE_ASSERT(x, ...) { if(!(x)) { MD_ENGINE_ERROR(L"Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#else
+#define YT_ASSERT(x, ...)
+#define YT_ENGINE_ASSERT(x, ...)
+#endif

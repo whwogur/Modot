@@ -48,12 +48,7 @@ int CMesh::Create(Vtx* _VtxSysMem, UINT _VtxCount, UINT* _IdxSysMem, UINT _IdxCo
 	D3D11_SUBRESOURCE_DATA tSub = {};
 	tSub.pSysMem = _VtxSysMem;
 
-	if (FAILED(DEVICE->CreateBuffer(&m_VBDesc, &tSub, m_VB.GetAddressOf())))
-	{
-		MessageBox(nullptr, L"VertexBuffer 积己 角菩", L"Mesh 积己 角菩", MB_OK);
-		return E_FAIL;
-	}
-
+	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateBuffer(&m_VBDesc, &tSub, m_VB.GetAddressOf())), L"Mesh 积己 角菩 - VertexBuffer 积己 角菩");
 
 	m_IBDesc.ByteWidth = sizeof(UINT) * m_IdxCount;
 	m_IBDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
@@ -67,11 +62,7 @@ int CMesh::Create(Vtx* _VtxSysMem, UINT _VtxCount, UINT* _IdxSysMem, UINT _IdxCo
 
 	tSub.pSysMem = _IdxSysMem;
 
-	if (FAILED(DEVICE->CreateBuffer(&m_IBDesc, &tSub, m_IB.GetAddressOf())))
-	{
-		MessageBox(nullptr, L"IndexBuffer 积己 角菩", L"Mesh 积己 角菩", MB_OK);
-		return E_FAIL;
-	}
+	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateBuffer(&m_IBDesc, &tSub, m_IB.GetAddressOf())), L"Mesh 积己 角菩 - IndexBuffer 积己 角菩");
 
 	return S_OK;
 }

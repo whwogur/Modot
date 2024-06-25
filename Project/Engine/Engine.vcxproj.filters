@@ -61,6 +61,9 @@
       <Filter>05. Asset\Shader</Filter>
     </ClInclude>
     <ClInclude Include="Temp.h" />
+    <ClInclude Include="Log.h">
+      <Filter>Default</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -102,6 +105,9 @@
       <Filter>05. Asset\Shader</Filter>
     </ClCompile>
     <ClCompile Include="Temp.cpp" />
+    <ClCompile Include="Log.cpp">
+      <Filter>Default</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">

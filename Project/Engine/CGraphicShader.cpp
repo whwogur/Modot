@@ -23,22 +23,16 @@ int CGraphicShader::CreateVertexShader(const wstring& _RelativePath, const strin
 								  , _FuncName.c_str(), "vs_5_0", D3DCOMPILE_DEBUG, 0
 								  , m_VSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf());
 
+	MD_ENGINE_ASSERT(SUCCEEDED(hr), L"쉐이더 컴파일 실패");
+
 	if (FAILED(hr))
 	{
-		if (nullptr != m_ErrBlob)
-		{
-			MessageBoxA(nullptr, (char*)m_ErrBlob->GetBufferPointer(), "쉐이더 컴파일 실패", MB_OK);
-		}
+		if (m_ErrBlob != nullptr)
+			MD_ENGINE_TRACE((char*)m_ErrBlob->GetBufferPointer());
 		else
-		{
-			errno_t err = GetLastError();
-			wchar_t szErrMsg[255] = {};
-			swprintf_s(szErrMsg, 255, L"Error Code : %d", err);
-			MessageBox(nullptr, szErrMsg, L"쉐이더 컴파일 실패", MB_OK);
-		}
-
-		return E_FAIL;
+			MD_ENGINE_TRACE(L"에러 번호 : {0}", GetLastError());
 	}
+
 
 	DEVICE->CreateVertexShader(m_VSBlob->GetBufferPointer()
 							 , m_VSBlob->GetBufferSize(), nullptr, m_VS.GetAddressOf());
@@ -79,21 +73,14 @@ int CGraphicShader::CreatePixelShader(const wstring& _RelativePath, const string
 		, _FuncName.c_str(), "ps_5_0", D3DCOMPILE_DEBUG, 0
 		, m_PSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf());
 
+	MD_ENGINE_ASSERT(SUCCEEDED(hr), L"쉐이더 컴파일 실패");
+
 	if (FAILED(hr))
 	{
-		if (nullptr != m_ErrBlob)
-		{
-			MessageBoxA(nullptr, (char*)m_ErrBlob->GetBufferPointer(), "쉐이더 컴파일 실패", MB_OK);
-		}
+		if (m_ErrBlob != nullptr)
+			MD_ENGINE_TRACE((char*)m_ErrBlob->GetBufferPointer());
 		else
-		{
-			errno_t err = GetLastError();
-			wchar_t szErrMsg[255] = {};
-			swprintf_s(szErrMsg, 255, L"Error Code : %d", err);
-			MessageBox(nullptr, szErrMsg, L"쉐이더 컴파일 실패", MB_OK);
-		}
-
-		return E_FAIL;
+			MD_ENGINE_TRACE(L"에러 번호 : {0}", GetLastError());
 	}
 
 	DEVICE->CreatePixelShader(m_PSBlob->GetBufferPointer()

@@ -1,6 +1,5 @@
 ﻿#include "pch.h"
 #include "CDevice.h"
-
 #include "CConstBuffer.h"
 
 CDevice::CDevice()
@@ -33,28 +32,29 @@ int CDevice::Init(HWND _hWnd, UINT _Width, UINT _Height)
     Flag = D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
-    if (FAILED(D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE
+    MD_ENGINE_ASSERT(SUCCEEDED(D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE
         , nullptr, Flag
         , nullptr, 0
         , D3D11_SDK_VERSION
-        , m_Device.GetAddressOf(), nullptr, m_Context.GetAddressOf())))
-    {
-        MessageBox(nullptr, L"Device, Context 생성 실패", L"장치초기화 실패", MB_OK);
-        return E_FAIL;
-    }
+        , m_Device.GetAddressOf(), nullptr, m_Context.GetAddressOf())), L"Device, Context 생성 실패", L"장치초기화 실패");
 
-    if (FAILED(CreateSwapChain()))
-    {
-        MessageBox(nullptr, L"SwapChain 생성 실패", L"장치초기화 실패", MB_OK);
-        return E_FAIL;
-    }
+    WRL::ComPtr<IDXGIFactory> pFactory;
+    MD_ENGINE_ASSERT(SUCCEEDED(CreateDXGIFactory(__uuidof(IDXGIFactory), reinterpret_cast<void**>(pFactory.GetAddressOf()))), L"장치 초기화 중 DXGIFactory 생성 실패");
+
+    WRL::ComPtr<IDXGIAdapter> pAdapter;
+    MD_ENGINE_ASSERT(SUCCEEDED(pFactory->EnumAdapters(0, &pAdapter)), L"장치 초기화 중 Enumerate IDXGIAdapter 실패");
+
+    DXGI_ADAPTER_DESC adapterDesc;
+    pAdapter->GetDesc(&adapterDesc);
+
+    MD_ENGINE_INFO(L"************* IDXGI 정보 *************");
+    MD_ENGINE_INFO(L"**   GPU: {0}   **", adapterDesc.Description);
+
+    MD_ENGINE_ASSERT(SUCCEEDED(CreateSwapChain()), L"SwapChain 생성 실패", L"장치초기화 실패");
 
     // RenderTargetView, DepthStencilView
-    if (FAILED(CreateView()))
-    {
-        MessageBox(nullptr, L"View 생성 실패", L"장치초기화 실패", MB_OK);
-        return E_FAIL;
-    }
+    MD_ENGINE_ASSERT(SUCCEEDED(CreateView()), L"장치초기화 실패 - SwapChain 생성 실패");
+ 
 
     // Output Merge State
     m_Context->OMSetRenderTargets(1, m_RTView.GetAddressOf(), m_DSView.Get());
@@ -72,11 +72,7 @@ int CDevice::Init(HWND _hWnd, UINT _Width, UINT _Height)
 
     CONTEXT->RSSetViewports(1, &viewport);
 
-    if (FAILED(CreateConstBuffer()))
-    {
-        MessageBox(nullptr, L"상수버퍼 생성 실패", L"장치 초기화 실패", MB_OK);
-        return E_FAIL;
-    }
+    MD_ENGINE_ASSERT(SUCCEEDED(CreateConstBuffer()), L"장치초기화 실패 - const Buffer 생성 실패");
 
     return S_OK;
 }
@@ -155,27 +151,15 @@ int CDevice::CreateView()
     Desc.SampleDesc.Count = 1;
     Desc.SampleDesc.Quality = 0;
 
-    if (FAILED(m_Device->CreateTexture2D(&Desc, nullptr, m_DSTex.GetAddressOf())))
-    {
-        MessageBox(nullptr, L"DepthStencil 텍스쳐 생성 실패", L"View 생성 실패", MB_OK);
-        return E_FAIL;
-    }
+    MD_ENGINE_ASSERT(SUCCEEDED(m_Device->CreateTexture2D(&Desc, nullptr, m_DSTex.GetAddressOf())), L"View 생성 실패 - DepthStencil Texture 생성 실패");
+    
 
 
     /////////////////////////////////////////////
     // RenderTargetView, DepthStencilView 생성
     ///////////////////////////////////////////// 
-    if (FAILED(m_Device->CreateRenderTargetView(m_RTTex.Get(), nullptr, m_RTView.GetAddressOf())))
-    {
-        MessageBox(nullptr, L"RenderTargetView 생성 실패", L"View 생성 실패", MB_OK);
-        return E_FAIL;
-    }
-
-    if (FAILED(m_Device->CreateDepthStencilView(m_DSTex.Get(), nullptr, m_DSView.GetAddressOf())))
-    {
-        MessageBox(nullptr, L"DepthStencilView 생성 실패", L"View 생성 실패", MB_OK);
-        return E_FAIL;
-    }
+    MD_ENGINE_ASSERT(SUCCEEDED(m_Device->CreateRenderTargetView(m_RTTex.Get(), nullptr, m_RTView.GetAddressOf())), L"View 생성 실패 - RenderTargetView 생성 실패");
+    MD_ENGINE_ASSERT(SUCCEEDED(m_Device->CreateDepthStencilView(m_DSTex.Get(), nullptr, m_DSView.GetAddressOf())), L"View 생성 실패 - DepthStencilView 생성 실패");
 
     return S_OK;
 }
@@ -186,13 +170,9 @@ int CDevice::CreateConstBuffer()
 
     // 상수버퍼
     pCB = new CConstBuffer;
-    if (FAILED(pCB->Create(CB_TYPE::TRANSFORM, sizeof(tTransform))))
-    {
-        MessageBox(nullptr, L"상수버퍼 생성 실패", L"초기화 실패", MB_OK);
-        return E_FAIL;
-    }
+    MD_ENGINE_ASSERT(SUCCEEDED(pCB->Create(CB_TYPE::TRANSFORM, sizeof(tTransform))), L"초기화 실패 - 상수버퍼 생성 실패");
+    
     m_arrCB[(UINT)CB_TYPE::TRANSFORM] = pCB;
-
 
     return S_OK;
 }

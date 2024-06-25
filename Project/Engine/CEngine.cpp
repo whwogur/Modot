@@ -6,6 +6,7 @@
 #include "CKeyMgr.h"
 #include "CTimeMgr.h"
 #include "Temp.h"
+#include "Log.h"
 
 CEngine::CEngine()
 	: m_hWnd(nullptr)
@@ -19,6 +20,8 @@ CEngine::~CEngine()
 
 int CEngine::Init(HWND _wnd, POINT _ptResolution)
 {
+	Modot::Log::Init();
+
 	m_hWnd = _wnd;
 	m_ptResolution = _ptResolution;
 	ChangeWindowScale(_ptResolution.x, _ptResolution.y);

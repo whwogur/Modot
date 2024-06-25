@@ -20,26 +20,25 @@ private:
 	int CreateSwapChain();
 	int CreateView();
 	int CreateConstBuffer();
-
 private:
 	HWND m_hWnd;
 	Vec2 m_vResolution;
 
-	WRL::ComPtr<ID3D11Device>			m_Device;
+	WRL::ComPtr<ID3D11Device>				m_Device;
 	WRL::ComPtr<ID3D11DeviceContext>		m_Context;
 
-	WRL::ComPtr<IDXGISwapChain>			m_SwapChain;
+	WRL::ComPtr<IDXGISwapChain>				m_SwapChain;
 
 	WRL::ComPtr<ID3D11Texture2D>			m_RTTex;
 	WRL::ComPtr<ID3D11Texture2D>			m_DSTex;
 
-	WRL::ComPtr<ID3D11RenderTargetView>	m_RTView;
-	WRL::ComPtr<ID3D11DepthStencilView>	m_DSView;
+	WRL::ComPtr<ID3D11RenderTargetView>		m_RTView;
+	WRL::ComPtr<ID3D11DepthStencilView>		m_DSView;
 
-	WRL::ComPtr<ID3D11BlendState>		m_BSState;
+	WRL::ComPtr<ID3D11BlendState>			m_BSState;
 	WRL::ComPtr<ID3D11DepthStencilState>	m_DSState;
-	WRL::ComPtr<ID3D11SamplerState>		m_Sampler;
-	WRL::ComPtr<ID3D11RasterizerState>	m_RSState;
+	WRL::ComPtr<ID3D11SamplerState>			m_Sampler;
+	WRL::ComPtr<ID3D11RasterizerState>		m_RSState;
 
 	CConstBuffer* m_arrCB[(UINT)CB_TYPE::END];
 };
