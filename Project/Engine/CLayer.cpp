@@ -3,6 +3,23 @@
 
 #include "CGameObject.h"
 
+CLayer::CLayer(int _LayerIdx)
+	: m_LayerIdx(_LayerIdx)
+{
+}
+
+CLayer::~CLayer()
+{
+}
+
+void CLayer::Begin()
+{
+	for (size_t i = 0; i < m_Parents.size(); ++i)
+	{
+		m_Parents[i]->Begin();
+	}
+}
+
 void CLayer::Tick()
 {
 	for (size_t i = 0; i < m_Parents.size(); ++i)

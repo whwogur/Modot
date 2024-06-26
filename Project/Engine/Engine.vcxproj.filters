@@ -59,7 +59,6 @@
     <ClInclude Include="CGraphicShader.h">
       <Filter>06. Asset\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="Temp.h" />
     <ClInclude Include="Log.h">
       <Filter>Default</Filter>
     </ClInclude>
@@ -84,6 +83,19 @@
     <ClInclude Include="CEntity.h">
       <Filter>07. GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="CComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CTransform.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="components.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CMeshRender.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -123,7 +135,6 @@
     <ClCompile Include="CGraphicShader.cpp">
       <Filter>06. Asset\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="Temp.cpp" />
     <ClCompile Include="Log.cpp">
       <Filter>Default</Filter>
     </ClCompile>
@@ -142,6 +153,16 @@
     <ClCompile Include="CEntity.cpp">
       <Filter>07. GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="CComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CTransform.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CMeshRender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -179,6 +200,9 @@
     </Filter>
     <Filter Include="06. Asset\Mesh">
       <UniqueIdentifier>{f1afad9d-bf6c-4dc5-b252-234c9a0abc0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component">
+      <UniqueIdentifier>{5ebb3e06-804f-4b56-b031-eaecfd721cb8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

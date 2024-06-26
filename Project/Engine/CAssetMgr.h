@@ -41,7 +41,7 @@ void CAssetMgr::AddAsset(const wstring& _Key, T* _Asset)
 {
 	ASSET_TYPE Type = GetAssetType<T>();
 
-	MD_ENGINE_ASSERT(!FindAsset(Type, _Key));
+	assert(!FindAsset(Type, _Key));
 
 	m_mapAsset[(UINT)Type].insert(make_pair(_Key, _Asset));
 }

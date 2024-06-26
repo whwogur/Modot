@@ -9,8 +9,6 @@
 #include "CAssetMgr.h"
 #include "CLevelMgr.h"
 
-#include "Temp.h"
-
 CEngine::CEngine()
 	: m_hWnd(nullptr)
 	, m_ptResolution{}
@@ -41,7 +39,6 @@ int CEngine::Init(HWND _wnd, POINT _ptResolution)
 	CAssetMgr::GetInst()->Init();
 	CLevelMgr::GetInst()->Init();
 
-	TempInit();
 	return S_OK;
 }
 
@@ -53,12 +50,10 @@ void CEngine::Run()
 	CTimeMgr::GetInst()->Tick();
 
 	CLevelMgr::GetInst()->Progress();
-	TempTick();
 
 	// Render
 	CDevice::GetInst()->Clear();
 	CLevelMgr::GetInst()->Render();
-	TempRender();
 	CDevice::GetInst()->Present();
 }
 
