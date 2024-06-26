@@ -70,6 +70,8 @@
     <ClInclude Include="assets.h">
       <Filter>05. Asset</Filter>
     </ClInclude>
+    <ClInclude Include="CGameObject.h" />
+    <ClInclude Include="CLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -114,6 +116,8 @@
     <ClCompile Include="Log.cpp">
       <Filter>Default</Filter>
     </ClCompile>
+    <ClCompile Include="CGameObject.cpp" />
+    <ClCompile Include="CLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
