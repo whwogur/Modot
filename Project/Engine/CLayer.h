@@ -6,10 +6,6 @@ class CGameObject;
 class CLayer :
     public CEntity
 {
-private:
-    vector<CGameObject*>    m_Parents;
-
-
 public:
     void Tick();
     void FinalTick();
@@ -18,4 +14,6 @@ public:
 public:
     virtual CLayer* Clone() { return new CLayer(*this); }
 
+private:
+    vector<CGameObject*>    m_Parents;
 };

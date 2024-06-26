@@ -108,6 +108,8 @@ call EngineHeaderCopy.bat</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="CLayer.h" />
+    <ClInclude Include="CLevel.h" />
+    <ClInclude Include="CLevelMgr.h" />
     <ClInclude Include="CMesh.h" />
     <ClInclude Include="CPathMgr.h" />
     <ClInclude Include="CShader.h" />
@@ -140,6 +142,8 @@ call EngineHeaderCopy.bat</Command>
     <ClCompile Include="CGraphicShader.cpp" />
     <ClCompile Include="CKeyMgr.cpp" />
     <ClCompile Include="CLayer.cpp" />
+    <ClCompile Include="CLevel.cpp" />
+    <ClCompile Include="CLevelMgr.cpp" />
     <ClCompile Include="CMesh.cpp" />
     <ClCompile Include="CPathMgr.cpp" />
     <ClCompile Include="CShader.cpp" />
