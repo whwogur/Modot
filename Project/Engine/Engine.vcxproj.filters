@@ -64,6 +64,12 @@
     <ClInclude Include="Log.h">
       <Filter>Default</Filter>
     </ClInclude>
+    <ClInclude Include="func.h">
+      <Filter>01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="assets.h">
+      <Filter>05. Asset</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
