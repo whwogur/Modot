@@ -43,24 +43,22 @@
     <ClInclude Include="CAssetMgr.h">
       <Filter>04. Manager</Filter>
     </ClInclude>
-    <ClInclude Include="CEntity.h" />
     <ClInclude Include="CAsset.h">
-      <Filter>05. Asset</Filter>
+      <Filter>06. Asset</Filter>
     </ClInclude>
     <ClInclude Include="enum.h">
       <Filter>01. Header</Filter>
     </ClInclude>
     <ClInclude Include="CConstBuffer.h" />
     <ClInclude Include="CShader.h">
-      <Filter>05. Asset\Shader</Filter>
+      <Filter>06. Asset\Shader</Filter>
     </ClInclude>
     <ClInclude Include="CMesh.h">
-      <Filter>05. Asset\Mesh</Filter>
+      <Filter>06. Asset\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="CGraphicShader.h">
-      <Filter>05. Asset\Shader</Filter>
+      <Filter>06. Asset\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="Temp.h" />
     <ClInclude Include="Log.h">
       <Filter>Default</Filter>
     </ClInclude>
@@ -68,8 +66,36 @@
       <Filter>01. Header</Filter>
     </ClInclude>
     <ClInclude Include="assets.h">
-      <Filter>05. Asset</Filter>
+      <Filter>06. Asset</Filter>
     </ClInclude>
+    <ClInclude Include="CLevelMgr.h">
+      <Filter>04. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CLevel.h">
+      <Filter>05. Level</Filter>
+    </ClInclude>
+    <ClInclude Include="CLayer.h">
+      <Filter>05. Level</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameObject.h">
+      <Filter>07. GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CEntity.h">
+      <Filter>07. GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CTransform.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="components.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CMeshRender.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -96,24 +122,47 @@
     <ClCompile Include="CAssetMgr.cpp">
       <Filter>04. Manager</Filter>
     </ClCompile>
-    <ClCompile Include="CEntity.cpp" />
     <ClCompile Include="CAsset.cpp">
-      <Filter>05. Asset</Filter>
+      <Filter>06. Asset</Filter>
     </ClCompile>
     <ClCompile Include="CConstBuffer.cpp" />
     <ClCompile Include="CShader.cpp">
-      <Filter>05. Asset\Shader</Filter>
+      <Filter>06. Asset\Shader</Filter>
     </ClCompile>
     <ClCompile Include="CMesh.cpp">
-      <Filter>05. Asset\Mesh</Filter>
+      <Filter>06. Asset\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="CGraphicShader.cpp">
-      <Filter>05. Asset\Shader</Filter>
+      <Filter>06. Asset\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="Temp.cpp" />
     <ClCompile Include="Log.cpp">
       <Filter>Default</Filter>
     </ClCompile>
+    <ClCompile Include="CLevelMgr.cpp">
+      <Filter>04. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CLevel.cpp">
+      <Filter>05. Level</Filter>
+    </ClCompile>
+    <ClCompile Include="CLayer.cpp">
+      <Filter>05. Level</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameObject.cpp">
+      <Filter>07. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CEntity.cpp">
+      <Filter>07. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CTransform.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CMeshRender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -134,17 +183,26 @@
     <Filter Include="04. Manager">
       <UniqueIdentifier>{3c07900d-fa40-4f84-96e9-7eaabbbcef02}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05. Asset">
-      <UniqueIdentifier>{a1caed79-31f7-4d87-b223-e662bb1c6e37}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05. Asset\Shader">
-      <UniqueIdentifier>{282c8023-2010-4afc-ab45-150e3e7ff0bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05. Asset\Mesh">
-      <UniqueIdentifier>{f1afad9d-bf6c-4dc5-b252-234c9a0abc0b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shader">
       <UniqueIdentifier>{2f103e03-edd5-4222-a648-4711c379c3f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Level">
+      <UniqueIdentifier>{794d43a7-508c-4996-9266-05ff5ffdc18f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. GameObject">
+      <UniqueIdentifier>{4f37026f-6c75-4182-b9bf-04d5c18da399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Asset">
+      <UniqueIdentifier>{a1caed79-31f7-4d87-b223-e662bb1c6e37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Asset\Shader">
+      <UniqueIdentifier>{282c8023-2010-4afc-ab45-150e3e7ff0bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Asset\Mesh">
+      <UniqueIdentifier>{f1afad9d-bf6c-4dc5-b252-234c9a0abc0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component">
+      <UniqueIdentifier>{5ebb3e06-804f-4b56-b031-eaecfd721cb8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
