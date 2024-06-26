@@ -24,12 +24,19 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_ LPWSTR    lpCmdLine,
     _In_ int       nCmdShow)
 {
+#ifdef _DEBUG
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+    //_CrtSetBreakAlloc(492);
 
     AllocConsole();
     FILE* pConsole;
     freopen_s(&pConsole, "CONOUT$", "w", stdout);
 
     SetConsoleOutputCP(CP_UTF8);
+    
+    HWND consoleWindow = GetConsoleWindow();
+    SetWindowPos(consoleWindow, nullptr, 1280, 0, 600, 600, SWP_NOZORDER);
+#endif
     g_hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
     MyRegisterClass(hInstance);
@@ -73,7 +80,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
     }
 
+#ifdef _DEBUG
     FreeConsole();
+#endif
     return (int)msg.wParam;
 }
 

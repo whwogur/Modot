@@ -8,6 +8,5 @@ struct Vtx
 
 struct tTransform
 {
-	Vec4 Pos;
-	Vec4 Scale;
+	Matrix matWorld;
 };

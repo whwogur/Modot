@@ -10,6 +10,7 @@ CLayer::CLayer(int _LayerIdx)
 
 CLayer::~CLayer()
 {
+	Delete_Vec(m_Parents);
 }
 
 void CLayer::Begin()

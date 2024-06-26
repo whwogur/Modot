@@ -20,11 +20,6 @@ void CTransform::FinalTick()
 
 void CTransform::Binding()
 {
-	tTransform trans = {};
-	trans.Pos = m_RelativePos;
-	trans.Scale = m_RelativeScale;
-
-	CConstBuffer* pTransformCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::TRANSFORM);
-	pTransformCB->SetData(&trans);
-	pTransformCB->Binding();
+	m_matWorld = XMMatrixIdentity();
+	m_matWorld.Translation();
 }

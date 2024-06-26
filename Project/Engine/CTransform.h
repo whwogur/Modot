@@ -31,4 +31,5 @@ private:
     Vec3    m_RelativePos;
     Vec3    m_RelativeScale;
     Vec3    m_RelativeRotation;
+    Matrix  m_matWorld;
 };

@@ -38,6 +38,7 @@ using std::make_pair;
 #include "enum.h"
 #include "struct.h"
 #include "func.h"
+#include "Ptr.h"
 
 #ifdef _DEBUG
 #define MD_ENABLE_ASSERTS
@@ -45,6 +46,7 @@ using std::make_pair;
 
 #ifdef MD_ENABLE_ASSERTS
 #define MD_ASSERT(x, ...) { if(!(x)) { MD_ERROR(L"Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#define MD_ASSERT(x) { if(!(x)) { MD_ERROR("Assertion Failed: {0}", __FUNCSIG__); __debugbreak(); } }
 #define MD_ENGINE_ASSERT(x, ...) { if(!(x)) { MD_ENGINE_ERROR(L"Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
 #else
 #define YT_ASSERT(x, ...)

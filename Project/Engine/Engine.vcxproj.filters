@@ -96,6 +96,9 @@
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="CMeshRender.h" />
+    <ClInclude Include="Ptr.h">
+      <Filter>06. Asset</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
