@@ -16,8 +16,11 @@ CCamera::CCamera()
 	: CComponent(COMPONENT_TYPE::CAMERA)
 	, m_Priority(-1)
 	, m_LayerCheck(0)
+	, m_ProjType(PROJ_TYPE::ORTHOGRAPHIC)
 	, m_Width(0)
 	, m_Height(0)
+	, m_Far(10000.f)
+	, m_FOV(XM_PI / 2.f)
 {
 	Vec2 vResolution = CDevice::GetInst()->GetResolution();
 	m_Width = vResolution.x;
@@ -39,12 +42,34 @@ void CCamera::Begin()
 
 void CCamera::FinalTick()
 {
-	// View 행렬	
-	m_matView = XMMatrixTranslation(-Transform()->GetRelativePos().x, -Transform()->GetRelativePos().y, -Transform()->GetRelativePos().z);
+	// View 행렬 계산
+	Matrix matTrans = XMMatrixTranslation(-Transform()->GetRelativePos().x, -Transform()->GetRelativePos().y, -Transform()->GetRelativePos().z);
 
-	// Orthographic
-	m_matProj = XMMatrixOrthographicLH(m_Width, m_Height, 1.f, 10000.f);
+	Matrix matRot;
+	Vec3 vR = Transform()->GetDir(DIR::RIGHT);
+	Vec3 vU = Transform()->GetDir(DIR::UP);
+	Vec3 vF = Transform()->GetDir(DIR::FRONT);
 
+	matRot._11 = vR.x; matRot._12 = vU.x; matRot._13 = vF.x;
+	matRot._21 = vR.y; matRot._22 = vU.y; matRot._23 = vF.y;
+	matRot._31 = vR.z; matRot._32 = vU.z; matRot._33 = vF.z;
+
+	m_matView = matTrans * matRot;
+
+
+	// Projection Space 투영 좌표계 (NDC)
+	if (PROJ_TYPE::ORTHOGRAPHIC == m_ProjType)
+	{
+		// Orthographic
+		m_matProj = XMMatrixOrthographicLH(m_Width, m_Height, 1.f, m_Far);
+	}
+
+	else
+	{
+		// Perspective
+		float AspectRatio = m_Width / m_Height;
+		m_matProj = XMMatrixPerspectiveFovLH(m_FOV, AspectRatio, 1.f, m_Far);
+	}
 }
 
 void CCamera::Render()

@@ -75,6 +75,32 @@ int CDevice::Init(HWND _hWnd, UINT _Width, UINT _Height)
 
     MD_ENGINE_ASSERT(SUCCEEDED(CreateConstBuffer()), L"장치초기화 실패 - const Buffer 생성 실패");
 
+    MD_ENGINE_ASSERT(SUCCEEDED(CreateRasterizerState()), L"장치 초기화 실패 - 래스터라이저 스테이트 생성 실패");
+    return S_OK;
+}
+
+int CDevice::CreateRasterizerState()
+{
+    D3D11_RASTERIZER_DESC Desc = {};
+
+    // Cull Back
+    m_RSState[(UINT)RS_TYPE::CULL_BACK] = nullptr;
+
+    // Cull Front 
+    Desc.CullMode = D3D11_CULL_FRONT;
+    Desc.FillMode = D3D11_FILL_SOLID;
+    DEVICE->CreateRasterizerState(&Desc, m_RSState[(UINT)RS_TYPE::CULL_FRONT].GetAddressOf());
+
+    // Cull None
+    Desc.CullMode = D3D11_CULL_NONE;
+    Desc.FillMode = D3D11_FILL_SOLID;
+    DEVICE->CreateRasterizerState(&Desc, m_RSState[(UINT)RS_TYPE::CULL_NONE].GetAddressOf());
+
+    // Wire Frame
+    Desc.CullMode = D3D11_CULL_NONE;
+    Desc.FillMode = D3D11_FILL_WIREFRAME;
+    DEVICE->CreateRasterizerState(&Desc, m_RSState[(UINT)RS_TYPE::WIRE_FRAME].GetAddressOf());
+
     return S_OK;
 }
 

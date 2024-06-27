@@ -24,5 +24,12 @@ void CPlayerScript::Tick()
 		vPos.x += DT * m_Speed;
 	}
 
+	if (KEY_PRESSED(KEY::Z))
+	{
+		Vec3 vRot = Transform()->GetRelativeRoatation();
+		vRot.y += XM_PI * DT;
+		Transform()->SetRelativeRotation(vRot);
+	}
+
 	Transform()->SetRelativePos(vPos);
 }
