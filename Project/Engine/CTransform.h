@@ -6,13 +6,12 @@ class CTransform :
     public CComponent
 {
 public:
-    virtual CTransform* Clone() { return new CTransform; }
     CTransform();
     ~CTransform();
 
 public:
     virtual void FinalTick() override;
-    void Binding();
+    void Bind();
 
 public:
     void SetRelativePos(Vec3 _Pos) { m_RelativePos = _Pos; }

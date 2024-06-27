@@ -89,7 +89,7 @@ int CGraphicShader::CreatePixelShader(const wstring& _RelativePath, const string
 	return S_OK;
 }
 
-void CGraphicShader::Binding()
+void CGraphicShader::Bind()
 {
 	CONTEXT->IASetPrimitiveTopology(m_Topology);
 	CONTEXT->IASetInputLayout(m_Layout.Get());

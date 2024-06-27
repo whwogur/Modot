@@ -7,8 +7,6 @@ public:
 	const wstring& GetName() { return m_Name; }
 	UINT GetID() { return m_ID; }
 
-
-	virtual CEntity* Clone() = 0;
 public:
 	CEntity();
 	CEntity(const CEntity& _Other);

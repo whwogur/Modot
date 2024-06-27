@@ -7,10 +7,6 @@ CComponent::CComponent(COMPONENT_TYPE _Type)
 {
 }
 
-CComponent::~CComponent()
-{
-}
-
 void CComponent::Begin()
 {
 }

@@ -11,7 +11,7 @@ public:
     int CreateVertexShader(const wstring& _RelativePath, const string& _FuncName);
     int CreatePixelShader(const wstring& _RelativePath, const string& _FuncName);
 
-    virtual void Binding() override;
+    virtual void Bind() override;
 
 private:
     WRL::ComPtr<ID3DBlob>			    m_VSBlob;

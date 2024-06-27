@@ -1,10 +1,11 @@
 #ifndef _TEST
 #define _TEST
 
+// 4096
 cbuffer OBJECT_POS : register(b0)
 {
-    float4 g_ObjectPos;
-    float4 g_ObjectScale;
+    row_major matrix matWorld;
+    row_major matrix matView;
 };
 
 
@@ -27,10 +28,10 @@ VTX_OUT VS_Test(VTX_IN _in)
     VTX_OUT output = (VTX_OUT)0.f;
 
     // LocalSpace -> WorldSpace
-    _in.vPos += g_ObjectPos.xyz;
-    _in.vPos *= g_ObjectScale.xyz;
+    float3 vWorldPos = mul(float4(_in.vPos, 1.f), matWorld);
+    float4 vViewPos = mul(float4(vWorldPos, 1.f), matView);
 
-    output.vPosition = float4(_in.vPos, 1.f);
+    output.vPosition = vViewPos;
     output.vColor = _in.vColor;
 
     return output;

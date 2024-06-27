@@ -17,8 +17,7 @@ public:
     const wstring& GetKey() { return m_Key; }
     const wstring& GetRelativePath() { return m_RelativePath; }
 public:
-    virtual void Binding() = 0;
-    virtual CAsset* Clone() { return nullptr; }
+    virtual void Bind() = 0;
     
 private:
     void SetKey(const wstring& _Key) { m_Key = _Key; }

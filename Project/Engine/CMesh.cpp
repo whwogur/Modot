@@ -67,7 +67,7 @@ int CMesh::Create(Vtx* _VtxSysMem, UINT _VtxCount, UINT* _IdxSysMem, UINT _IdxCo
 	return S_OK;
 }
 
-void CMesh::Binding()
+void CMesh::Bind()
 {
 	UINT stride = sizeof(Vtx);
 	UINT offset = 0;
@@ -77,7 +77,7 @@ void CMesh::Binding()
 
 void CMesh::render()
 {
-	Binding();
+	Bind();
 
 	CONTEXT->DrawIndexed(m_IdxCount, 0, 0);
 }

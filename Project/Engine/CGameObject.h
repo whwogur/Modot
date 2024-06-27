@@ -12,7 +12,6 @@ class CGameObject :
 public:
     CGameObject();
     ~CGameObject();
-    virtual CGameObject* Clone() { return new CGameObject(*this); }
 
 public:
     void AddComponent(CComponent* _Comopnent);
@@ -20,6 +19,7 @@ public:
 
     GET_COMPONENT(Transform, TRANSFORM);
     GET_COMPONENT(MeshRender, MESHRENDER);
+    GET_COMPONENT(Camera, CAMERA);
 
 public:
     void Begin();

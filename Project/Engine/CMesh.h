@@ -9,7 +9,7 @@ public:
     ~CMesh();
 public:
     int Create(Vtx* _VtxSysMem, UINT _VtxCount, UINT* _IdxSysMem, UINT _IdxCount);
-    virtual void Binding() override;
+    virtual void Bind() override;
     void render();
 
 private:

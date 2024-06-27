@@ -7,7 +7,6 @@ class CLevel :
     public CEntity
 {
 public:
-    virtual CLevel* Clone() { return new CLevel(*this); }
     CLevel();
     ~CLevel();
 
@@ -15,8 +14,8 @@ public:
     void Begin();
     void Tick();
     void FinalTick();
-    void Render();
     void AddObject(int LayerIdx, CGameObject* _Object);
+    CLayer* GetLayer(int _LayerIdx) { return m_Layer[_LayerIdx]; }
 
 
 private:

@@ -12,5 +12,4 @@ public:
 public:
     virtual void FinalTick() override;
     virtual void Render() override;
-    virtual CMeshRender* Clone() { return new CMeshRender(*this); }
 };
