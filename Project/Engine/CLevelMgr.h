@@ -7,9 +7,11 @@ class CLevelMgr
 {
 	SINGLE(CLevelMgr);
 public:
+	CLevel* GetCurrentLevel() { return m_CurLevel; }
+
+public:
 	void Init();
 	void Progress();
-	void Render();
 
 private:
 	CLevel* m_CurLevel;

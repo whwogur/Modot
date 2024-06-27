@@ -15,6 +15,15 @@ namespace WRL = Microsoft::WRL;
 #pragma comment(lib, "d3d11")
 #pragma comment(lib, "d3dcompiler")
 
+// DirectxTex
+#include <DirectxTex/DirectXTex.h>
+
+#ifdef _DEBUG
+#pragma comment(lib, "DirectxTex//DirectXTex_debug.lib")
+#else
+#pragma comment(lib, "DirectxTex//DirectXTex.lib")
+#endif
+
 #include "SimpleMath.h"
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -45,10 +54,9 @@ using std::make_pair;
 #endif
 
 #ifdef MD_ENABLE_ASSERTS
-#define MD_ASSERT(x, ...) { if(!(x)) { MD_ERROR(L"Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
-#define MD_ASSERT(x) { if(!(x)) { MD_ERROR("Assertion Failed: {0}", __FUNCSIG__); __debugbreak(); } }
-#define MD_ENGINE_ASSERT(x, ...) { if(!(x)) { MD_ENGINE_ERROR(L"Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#define MD_ASSERT(x, ...) { if(!(x)) { MD_ERROR(L"Assert 실패!: {0}", __VA_ARGS__); __debugbreak(); } }
+#define MD_ENGINE_ASSERT(x, ...) { if(!(x)) { MD_ENGINE_ERROR(L"Assert 실패!: {0}", __VA_ARGS__); __debugbreak(); } }
 #else
-#define YT_ASSERT(x, ...)
-#define YT_ENGINE_ASSERT(x, ...)
+#define MD_ASSERT(...)
+#define MD_ENGINE_ASSERT(...)
 #endif

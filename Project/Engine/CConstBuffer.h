@@ -12,9 +12,7 @@ public:
     int Create(CB_TYPE _type, UINT _BufferSize);
 
     void SetData(void* _pData);
-    void Binding();
-
-    virtual CConstBuffer* Clone() { return nullptr; }
+    void Bind();
 
 private:
     WRL::ComPtr<ID3D11Buffer>               m_CB;

@@ -19,7 +19,6 @@ public:
 public:
     virtual void FinalTick() = 0;
     virtual void Render() = 0;
-    virtual CRenderComponent* Clone() = 0;
 
 
 private:

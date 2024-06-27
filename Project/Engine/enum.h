@@ -12,6 +12,12 @@ enum class CB_TYPE
 	END,
 };
 
+enum DIR
+{
+	RIGHT,
+	UP,
+	FRONT,
+};
 
 enum class ASSET_TYPE
 {
@@ -44,5 +50,16 @@ enum class COMPONENT_TYPE
 	SKYBOX,
 	LANDSCAPE,
 
+	END,
+
+	SCRIPT,
+};
+
+enum class RS_TYPE
+{
+	CULL_BACK,
+	CULL_FRONT,
+	CULL_NONE,
+	WIRE_FRAME,
 	END,
 };

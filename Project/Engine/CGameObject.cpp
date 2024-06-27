@@ -4,9 +4,7 @@
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
 
-#include "CTransform.h"
-#include "CComponent.h"
-#include "CRenderComponent.h"
+#include "components.h"
 
 CGameObject::CGameObject()
 	: m_arrCom{}
@@ -17,55 +15,65 @@ CGameObject::CGameObject()
 CGameObject::~CGameObject()
 {
 	Delete_Array(m_arrCom);
+	Delete_Vec(m_vecScript);
 }
 
-void CGameObject::AddComponent(CComponent* _Comopnent)
+void CGameObject::AddComponent(CComponent* _Component)
 {
-	COMPONENT_TYPE Type = _Comopnent->GetComponentType();
+	COMPONENT_TYPE Type = _Component->GetComponentType();
 
-	assert(nullptr == m_arrCom[(UINT)Type]);
-
-	m_arrCom[(UINT)Type] = _Comopnent;
-	m_arrCom[(UINT)Type]->SetOwner(this);
-
-	CRenderComponent* pRenderCom = dynamic_cast<CRenderComponent*>(_Comopnent);
-
-	assert(!(pRenderCom && m_RenderCom));
-
-	if (pRenderCom)
+	if (COMPONENT_TYPE::SCRIPT == Type)
 	{
-		m_RenderCom = pRenderCom;
+		m_vecScript.push_back((CScript*)_Component);
+		_Component->SetOwner(this);
+	}
+	else
+	{
+		MD_ENGINE_ASSERT(m_arrCom[(UINT)Type] == nullptr, L"이미 있는 컴포넌트 추가 시도");
+
+		m_arrCom[(UINT)Type] = _Component;
+		m_arrCom[(UINT)Type]->SetOwner(this);
+
+		CRenderComponent* pRenderCom = dynamic_cast<CRenderComponent*>(_Component);
+
+		MD_ENGINE_ASSERT(!(pRenderCom && m_RenderCom), L"렌더 컴포넌트 추가 중 오류");
+
+		if (pRenderCom)
+		{
+			m_RenderCom = pRenderCom;
+		}
 	}
 }
 
+
 void CGameObject::Begin()
 {
+	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
+	{
+		if (nullptr == m_arrCom[i])
+			continue;
+
+		m_arrCom[i]->Begin();
+	}
+
+	for (size_t i = 0; i < m_vecScript.size(); ++i)
+	{
+		m_vecScript[i]->Begin();
+	}
 }
 
 void CGameObject::Tick()
 {
-	float dt = CTimeMgr::GetInst()->GetDeltaTime();
-
-	Vec3 vPos = Transform()->GetRelativePos();
-
-	if (CKeyMgr::GetInst()->GetKeyState(KEY::LEFT) == KEY_STATE::PRESSED)
+	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
-		vPos.x -= dt * 1.f;
-	}
-	if (CKeyMgr::GetInst()->GetKeyState(KEY::RIGHT) == KEY_STATE::PRESSED)
-	{
-		vPos.x += dt * 1.f;
-	}
-	if (CKeyMgr::GetInst()->GetKeyState(KEY::UP) == KEY_STATE::PRESSED)
-	{
-		vPos.y += dt * 1.f;
-	}
-	if (CKeyMgr::GetInst()->GetKeyState(KEY::DOWN) == KEY_STATE::PRESSED)
-	{
-		vPos.y -= dt * 1.f;
+		if (nullptr != m_arrCom[i])
+			m_arrCom[i]->Tick();
 	}
 
-	Transform()->SetRelativePos(vPos);
+	for (size_t i = 0; i < m_vecScript.size(); ++i)
+	{
+		m_vecScript[i]->Tick();
+	}
 }
 
 void CGameObject::FinalTick()

@@ -11,7 +11,8 @@ public:
     int CreateVertexShader(const wstring& _RelativePath, const string& _FuncName);
     int CreatePixelShader(const wstring& _RelativePath, const string& _FuncName);
 
-    virtual void Binding() override;
+    void SetRSType(RS_TYPE _Type) { m_RSType = _Type; }
+    virtual void Bind() override;
 
 private:
     WRL::ComPtr<ID3DBlob>			    m_VSBlob;
@@ -23,5 +24,6 @@ private:
     WRL::ComPtr<ID3D11InputLayout>      m_Layout;
 
     D3D11_PRIMITIVE_TOPOLOGY            m_Topology;
+    RS_TYPE                             m_RSType;
 };
 

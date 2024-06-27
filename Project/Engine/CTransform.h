@@ -6,13 +6,12 @@ class CTransform :
     public CComponent
 {
 public:
-    virtual CTransform* Clone() { return new CTransform; }
     CTransform();
     ~CTransform();
 
 public:
     virtual void FinalTick() override;
-    void Binding();
+    void Bind();
 
 public:
     void SetRelativePos(Vec3 _Pos) { m_RelativePos = _Pos; }
@@ -26,10 +25,12 @@ public:
     Vec3 GetRelativePos() { return m_RelativePos; }
     Vec3 GetRelativeScale() { return m_RelativeScale; }
     Vec3 GetRelativeRoatation() { return m_RelativeRotation; }
-
+    Vec3 GetDir(DIR _Type) { return m_RelativeDir[_Type]; }
 private:
     Vec3    m_RelativePos;
     Vec3    m_RelativeScale;
     Vec3    m_RelativeRotation;
+    Vec3    m_RelativeDir[3] = {};
+
     Matrix  m_matWorld;
 };

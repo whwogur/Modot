@@ -3,11 +3,13 @@
 #include "Log.h"
 
 #include "CDevice.h"
+
 #include "CPathMgr.h"
 #include "CKeyMgr.h"
 #include "CTimeMgr.h"
 #include "CAssetMgr.h"
 #include "CLevelMgr.h"
+#include "CRenderMgr.h"
 
 CEngine::CEngine()
 	: m_hWnd(nullptr)
@@ -38,6 +40,7 @@ int CEngine::Init(HWND _wnd, POINT _ptResolution)
 	CTimeMgr::GetInst()->Init();
 	CAssetMgr::GetInst()->Init();
 	CLevelMgr::GetInst()->Init();
+	CRenderMgr::GetInst()->Init();
 
 	return S_OK;
 }
@@ -53,7 +56,7 @@ void CEngine::Run()
 
 	// Render
 	CDevice::GetInst()->Clear();
-	CLevelMgr::GetInst()->Render();
+	CRenderMgr::GetInst()->Tick();
 	CDevice::GetInst()->Present();
 }
 

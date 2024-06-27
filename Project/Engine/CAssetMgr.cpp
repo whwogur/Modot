@@ -23,7 +23,7 @@ void CAssetMgr::Init()
 	arrVtx[1].vPos = Vec3(0.5f, 0.5f, 0.f);
 	arrVtx[1].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
 
-	arrVtx[2].vPos = Vec3(0.5f, -0.5f, 0.5f);
+	arrVtx[2].vPos = Vec3(0.5f, -0.5f, 0.0f);
 	arrVtx[2].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
 
 	arrVtx[3].vPos = Vec3(-0.5f, -0.5f, 0.f);
@@ -42,6 +42,7 @@ void CAssetMgr::Init()
 	pShader = new CGraphicShader;
 	pShader->CreateVertexShader(L"shader\\test.fx", "VS_Test");
 	pShader->CreatePixelShader(L"shader\\test.fx", "PS_Test");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	AddAsset(L"TestShader", pShader);
 }
 

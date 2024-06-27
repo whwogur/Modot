@@ -37,7 +37,7 @@ void CConstBuffer::SetData(void* _pData)
     CONTEXT->Unmap(m_CB.Get(), 0);
 }
 
-void CConstBuffer::Binding()
+void CConstBuffer::Bind()
 { 
     CONTEXT->VSSetConstantBuffers((UINT)m_CBType, 1, m_CB.GetAddressOf());
 }
