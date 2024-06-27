@@ -103,6 +103,10 @@
     <ClInclude Include="CCamera.h">
       <Filter>Component</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayerScript.h">
+      <Filter>Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -175,6 +179,10 @@
       <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="extern.cpp" />
+    <ClCompile Include="CPlayerScript.cpp">
+      <Filter>Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -215,6 +223,9 @@
     </Filter>
     <Filter Include="Component">
       <UniqueIdentifier>{5ebb3e06-804f-4b56-b031-eaecfd721cb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script">
+      <UniqueIdentifier>{32f3b632-7af2-46ae-bb15-8ad2f3c3fbed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -45,8 +45,8 @@ using std::make_pair;
 #endif
 
 #ifdef MD_ENABLE_ASSERTS
-#define MD_ASSERT(x, ...) { if(!(x)) { MD_ERROR(L"Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
-#define MD_ENGINE_ASSERT(x, ...) { if(!(x)) { MD_ENGINE_ERROR(L"Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#define MD_ASSERT(x, ...) { if(!(x)) { MD_ERROR(L"Assert 실패!: {0}", __VA_ARGS__); __debugbreak(); } }
+#define MD_ENGINE_ASSERT(x, ...) { if(!(x)) { MD_ENGINE_ERROR(L"Assert 실패!: {0}", __VA_ARGS__); __debugbreak(); } }
 #else
 #define MD_ASSERT(...)
 #define MD_ENGINE_ASSERT(...)

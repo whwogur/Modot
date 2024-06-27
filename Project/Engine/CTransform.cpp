@@ -24,6 +24,22 @@ void CTransform::FinalTick()
 		* XMMatrixRotationZ(m_RelativeRotation.z);
 
 	m_matWorld = matScale * matRot * matTranslation; // OpenGL이랑 순서 다름
+
+	// 방향벡터 계산
+	m_RelativeDir[DIR::RIGHT] = Vec3(1.f, 0.f, 0.f);
+	m_RelativeDir[DIR::UP] = Vec3(0.f, 1.f, 0.f);
+	m_RelativeDir[DIR::FRONT] = Vec3(0.f, 0.f, 1.f);
+
+	// HLSL mul
+	// w 를 1 로 확장
+	//XMVector3TransformCoord(m_RelativeDir[DIR::RIGHT], matRot);
+
+	for (int i = 0; i < 3; ++i)
+	{
+		// w 를 0 으로 확장
+		m_RelativeDir[i] = XMVector3TransformNormal(m_RelativeDir[i], matRot);
+		m_RelativeDir[i].Normalize();
+	}
 }
 
 void CTransform::Bind()

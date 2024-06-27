@@ -6,6 +6,7 @@ cbuffer OBJECT_POS : register(b0)
 {
     row_major matrix matWorld;
     row_major matrix matView;
+    row_major matrix matProj;
 };
 
 
@@ -30,8 +31,9 @@ VTX_OUT VS_Test(VTX_IN _in)
     // LocalSpace -> WorldSpace
     float3 vWorldPos = mul(float4(_in.vPos, 1.f), matWorld);
     float4 vViewPos = mul(float4(vWorldPos, 1.f), matView);
+    float4 vProjPos = mul(vViewPos, matProj);
 
-    output.vPosition = vViewPos;
+    output.vPosition = vProjPos;
     output.vColor = _in.vColor;
 
     return output;

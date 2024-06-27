@@ -11,6 +11,7 @@ public:
 	ID3D11DeviceContext* GetContext() { return m_Context.Get(); }
 	CConstBuffer* GetConstBuffer(CB_TYPE _Type) { return m_arrCB[(UINT)_Type]; }
 
+	Vec2 GetResolution() { return m_vResolution; }
 public:
 	int Init(HWND _hWnd, UINT _Width, UINT _Height);
 	void Clear();

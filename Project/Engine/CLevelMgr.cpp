@@ -9,6 +9,7 @@
 #include "CAssetMgr.h"
 #include "assets.h"
 
+#include "CPlayerScript.h"
 CLevelMgr::CLevelMgr()
 	: m_CurLevel(nullptr)
 {
@@ -33,6 +34,9 @@ void CLevelMgr::Init()
 
 	// 우선순위를 0 : MainCamera 로 설정
 	CamObj->Camera()->SetPriority(0);
+	// 카메라 레이어 설정 (31번 레이어 제외 모든 레이어를 촬영)
+	CamObj->Camera()->SetLayerAll();
+	CamObj->Camera()->SetLayer(31, false);
 
 	m_CurLevel->AddObject(0, CamObj);
 
@@ -54,9 +58,10 @@ void CLevelMgr::Init()
 	pObject->SetName(L"Monster");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
+	pObject->AddComponent(new CPlayerScript);
 
-	pObject->Transform()->SetRelativePos(0.5f, 0.f, 0.f);
-	pObject->Transform()->SetRelativeScale(0.5f, 0.5f, 0.5f);
+	pObject->Transform()->SetRelativePos(0.f, 0.f, 500.f);
+	pObject->Transform()->SetRelativeScale(200.f, 200.f, 1.f);
 	pObject->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pObject->MeshRender()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicShader>(L"TestShader"));
 

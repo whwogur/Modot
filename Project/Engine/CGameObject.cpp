@@ -15,26 +15,36 @@ CGameObject::CGameObject()
 CGameObject::~CGameObject()
 {
 	Delete_Array(m_arrCom);
+	Delete_Vec(m_vecScript);
 }
 
-void CGameObject::AddComponent(CComponent* _Comopnent)
+void CGameObject::AddComponent(CComponent* _Component)
 {
-	COMPONENT_TYPE Type = _Comopnent->GetComponentType();
+	COMPONENT_TYPE Type = _Component->GetComponentType();
 
-	assert(nullptr == m_arrCom[(UINT)Type]);
-
-	m_arrCom[(UINT)Type] = _Comopnent;
-	m_arrCom[(UINT)Type]->SetOwner(this);
-
-	CRenderComponent* pRenderCom = dynamic_cast<CRenderComponent*>(_Comopnent);
-
-	assert(!(pRenderCom && m_RenderCom));
-
-	if (pRenderCom)
+	if (COMPONENT_TYPE::SCRIPT == Type)
 	{
-		m_RenderCom = pRenderCom;
+		m_vecScript.push_back((CScript*)_Component);
+		_Component->SetOwner(this);
+	}
+	else
+	{
+		MD_ENGINE_ASSERT(m_arrCom[(UINT)Type] == nullptr, L"이미 있는 컴포넌트 추가 시도");
+
+		m_arrCom[(UINT)Type] = _Component;
+		m_arrCom[(UINT)Type]->SetOwner(this);
+
+		CRenderComponent* pRenderCom = dynamic_cast<CRenderComponent*>(_Component);
+
+		MD_ENGINE_ASSERT(!(pRenderCom && m_RenderCom), L"렌더 컴포넌트 추가 중 오류");
+
+		if (pRenderCom)
+		{
+			m_RenderCom = pRenderCom;
+		}
 	}
 }
+
 
 void CGameObject::Begin()
 {
@@ -45,39 +55,25 @@ void CGameObject::Begin()
 
 		m_arrCom[i]->Begin();
 	}
+
+	for (size_t i = 0; i < m_vecScript.size(); ++i)
+	{
+		m_vecScript[i]->Begin();
+	}
 }
 
 void CGameObject::Tick()
 {
-	Vec3 vPos = Transform()->GetRelativePos();
-
-	if (KEY_PRESSED(KEY::LEFT))
+	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
-		vPos.x -= DT * 1.f;
-	}
-	if (KEY_PRESSED(KEY::RIGHT))
-	{
-		vPos.x += DT * 1.f;
-	}
-	if (KEY_PRESSED(KEY::UP))
-	{
-		vPos.y += DT * 1.f;
-	}
-	if (KEY_PRESSED(KEY::DOWN))
-	{
-		vPos.y -= DT * 1.f;
+		if (nullptr != m_arrCom[i])
+			m_arrCom[i]->Tick();
 	}
 
-	if (KEY_PRESSED(KEY::Z))
+	for (size_t i = 0; i < m_vecScript.size(); ++i)
 	{
-		Vec3 vRot = Transform()->GetRelativeRoatation();
-
-		vRot.z += DT * XM_PI * 2.f;
-
-		Transform()->SetRelativeRotation(vRot);
+		m_vecScript[i]->Tick();
 	}
-
-	Transform()->SetRelativePos(vPos);
 }
 
 void CGameObject::FinalTick()
