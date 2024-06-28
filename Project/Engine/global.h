@@ -23,7 +23,7 @@ namespace WRL = Microsoft::WRL;
 #else
 #pragma comment(lib, "DirectxTex//DirectXTex.lib")
 #endif
-
+#include "Log.h"
 #include "SimpleMath.h"
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
