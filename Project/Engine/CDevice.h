@@ -1,4 +1,5 @@
 #pragma once
+#include "CTexture.h"
 
 class CConstBuffer;
 
@@ -23,6 +24,7 @@ private:
 	int CreateView();
 	int CreateConstBuffer();
 	int CreateRasterizerState();
+	int CreateSamplerState();
 private:
 	HWND m_hWnd;
 	Vec2 m_vResolution;
@@ -32,17 +34,14 @@ private:
 
 	WRL::ComPtr<IDXGISwapChain>				m_SwapChain;
 
-	WRL::ComPtr<ID3D11Texture2D>			m_RTTex;
-	WRL::ComPtr<ID3D11Texture2D>			m_DSTex;
-
-	WRL::ComPtr<ID3D11RenderTargetView>		m_RTView;
-	WRL::ComPtr<ID3D11DepthStencilView>		m_DSView;
-
 	WRL::ComPtr<ID3D11BlendState>			m_BSState;
 	WRL::ComPtr<ID3D11DepthStencilState>	m_DSState;
-	WRL::ComPtr<ID3D11SamplerState>			m_Sampler;
-	
+
 	WRL::ComPtr<ID3D11RasterizerState>		m_RSState[(UINT)RS_TYPE::END];
+	WRL::ComPtr<ID3D11SamplerState>			m_Sampler[2];
+
+	Ptr<CTexture>							m_RTTex;
+	Ptr<CTexture>							m_DSTex;
 
 	CConstBuffer* m_arrCB[(UINT)CB_TYPE::END];
 };

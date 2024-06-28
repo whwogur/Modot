@@ -24,23 +24,18 @@ CEngine::~CEngine()
 int CEngine::Init(HWND _wnd, POINT _ptResolution)
 {
 	Modot::Log::Init();
-
 	m_hWnd = _wnd;
 	m_ptResolution = _ptResolution;
 	ChangeWindowScale(_ptResolution.x, _ptResolution.y);
 
-	if (FAILED(CDevice::GetInst()->Init(m_hWnd, m_ptResolution.x, m_ptResolution.y)))
-	{
-		MessageBox(nullptr, L"장치 초기화 실패", L"Device 초기화 실패", MB_OK);
-		return E_FAIL;
-	}
+	MD_ENGINE_ASSERT(SUCCEEDED(CDevice::GetInst()->Init(m_hWnd, m_ptResolution.x, m_ptResolution.y)), L"Device 초기화 실패");
 
-	CPathMgr::GetInst()->Init();
-	CKeyMgr::GetInst()->Init();
-	CTimeMgr::GetInst()->Init();
-	CAssetMgr::GetInst()->Init();
-	CLevelMgr::GetInst()->Init();
-	CRenderMgr::GetInst()->Init();
+	CPathMgr::GetInst()->Init(); MD_ENGINE_TRACE(L"Path Manager 초기화 완료");
+	CKeyMgr::GetInst()->Init(); MD_ENGINE_TRACE(L"Key Manager 초기화 완료");
+	CTimeMgr::GetInst()->Init(); MD_ENGINE_TRACE(L"Time Manager 초기화 완료");
+	CAssetMgr::GetInst()->Init(); MD_ENGINE_TRACE(L"Asset Manager 초기화 완료");
+	CLevelMgr::GetInst()->Init(); MD_ENGINE_TRACE(L"Level Manager 초기화 완료");
+	CRenderMgr::GetInst()->Init(); MD_ENGINE_TRACE(L"Render Manager 초기화 완료");
 
 	return S_OK;
 }
@@ -52,7 +47,7 @@ void CEngine::Run()
 	CKeyMgr::GetInst()->Tick();
 	CTimeMgr::GetInst()->Tick();
 
-	CLevelMgr::GetInst()->Progress();
+	CLevelMgr::GetInst()->Run();
 
 	// Render
 	CDevice::GetInst()->Clear();

@@ -9,8 +9,11 @@ public:
     ~CMesh();
 public:
     int Create(Vtx* _VtxSysMem, UINT _VtxCount, UINT* _IdxSysMem, UINT _IdxCount);
-    virtual void Bind() override;
+    void Bind();
     void render();
+
+    virtual int Load(const wstring& _FilePath) { return S_OK; }
+    virtual int Save(const wstring& _FilePath) { return S_OK; }
 
 private:
     WRL::ComPtr<ID3D11Buffer>	m_VB;

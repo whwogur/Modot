@@ -11,7 +11,7 @@ public:
 
 public:
 	void Init();
-	void Progress();
+	void Run();
 
 private:
 	CLevel* m_CurLevel;

@@ -23,7 +23,7 @@ namespace WRL = Microsoft::WRL;
 #else
 #pragma comment(lib, "DirectxTex//DirectXTex.lib")
 #endif
-
+#include "Log.h"
 #include "SimpleMath.h"
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -41,6 +41,9 @@ using std::list;
 #include <map>
 using std::map;
 using std::make_pair;
+
+#include <filesystem>
+using namespace std::filesystem;
 
 #include "singleton.h"
 #include "define.h"
