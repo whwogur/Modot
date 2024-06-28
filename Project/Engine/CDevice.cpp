@@ -1,10 +1,12 @@
 ﻿#include "pch.h"
 #include "CDevice.h"
 #include "CConstBuffer.h"
+#include "CAssetMgr.h"
 
 CDevice::CDevice()
     : m_hWnd(nullptr)
     , m_arrCB{}
+    , m_Sampler{}
 {
 }
 
@@ -48,7 +50,13 @@ int CDevice::Init(HWND _hWnd, UINT _Width, UINT _Height)
     pAdapter->GetDesc(&adapterDesc);
 
     MD_ENGINE_INFO(L"************* IDXGI 정보 *************");
-    MD_ENGINE_INFO(L"**   GPU: {0}   **", adapterDesc.Description);
+    MD_ENGINE_INFO(L"   GPU: {0}   ", adapterDesc.Description);
+    MD_ENGINE_INFO(L"   DeviceID: {0}   ", adapterDesc.DeviceId);
+    MD_ENGINE_INFO(L"   VendorID: {0}   ", adapterDesc.VendorId);
+    float DedicatedVideoMemoryGB = static_cast<float>(adapterDesc.DedicatedVideoMemory) / (1024 * 1024 * 1024);
+    MD_ENGINE_INFO(L"   Dedicated Video Memory: {:8.2f}G", DedicatedVideoMemoryGB);
+    float sharedSystemMemoryGB = static_cast<float>(adapterDesc.SharedSystemMemory) / (1024 * 1024 * 1024);
+    MD_ENGINE_INFO(L"   Shared System Memory: {:10.2f}G", sharedSystemMemoryGB);
     MD_ENGINE_INFO(L"**************************************");
 
     MD_ENGINE_ASSERT(SUCCEEDED(CreateSwapChain()), L"SwapChain 생성 실패", L"장치초기화 실패");
@@ -58,7 +66,7 @@ int CDevice::Init(HWND _hWnd, UINT _Width, UINT _Height)
  
 
     // Output Merge State
-    m_Context->OMSetRenderTargets(1, m_RTView.GetAddressOf(), m_DSView.Get());
+    m_Context->OMSetRenderTargets(1, m_RTTex->GetRTV().GetAddressOf(), m_DSTex->GetDSV().Get());
 
     // Viewport
     D3D11_VIEWPORT viewport = {};
@@ -76,6 +84,9 @@ int CDevice::Init(HWND _hWnd, UINT _Width, UINT _Height)
     MD_ENGINE_ASSERT(SUCCEEDED(CreateConstBuffer()), L"장치초기화 실패 - const Buffer 생성 실패");
 
     MD_ENGINE_ASSERT(SUCCEEDED(CreateRasterizerState()), L"장치 초기화 실패 - 래스터라이저 스테이트 생성 실패");
+    
+    MD_ENGINE_ASSERT(SUCCEEDED(CreateSamplerState()), L"장치 초기화 실패 - 샘플러 스테이트 생성 실패");
+
     return S_OK;
 }
 
@@ -107,8 +118,8 @@ int CDevice::CreateRasterizerState()
 void CDevice::Clear()
 {
     float color[4] = { 0.4f, 0.4f, 0.4f, 1.f };
-    m_Context->ClearRenderTargetView(m_RTView.Get(), color);
-    m_Context->ClearDepthStencilView(m_DSView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+    m_Context->ClearRenderTargetView(m_RTTex->GetRTV().Get(), color);
+    m_Context->ClearDepthStencilView(m_DSTex->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 }
 
 int CDevice::CreateSwapChain()
@@ -158,35 +169,17 @@ int CDevice::CreateView()
     ///////////////////////////////////////////////////
     // RenderTarget Texture, DepthStencil Texture 생성
     ///////////////////////////////////////////////////
-    m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)m_RTTex.GetAddressOf());
+    WRL::ComPtr<ID3D11Texture2D> RenderTargetTex;
+    m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)RenderTargetTex.GetAddressOf());
+    m_RTTex = CAssetMgr::GetInst()->CreateTexture(L"RenderTargetTex", RenderTargetTex);
 
-    // DepthStencil 텍스쳐 생성
-    D3D11_TEXTURE2D_DESC Desc = {};
-
-    Desc.Width = (UINT)m_vResolution.x; // ** DepthStencil 텍스쳐는 렌더타겟 해상도와 반드시 일치해야한다.
-    Desc.Height = (UINT)m_vResolution.y;
-    Desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-    Desc.ArraySize = 1;
-    Desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-
-    Desc.Usage = D3D11_USAGE_DEFAULT;
-    Desc.CPUAccessFlags = 0;
-
-    Desc.MiscFlags = 0;
-    Desc.MipLevels = 1;
-
-    Desc.SampleDesc.Count = 1;
-    Desc.SampleDesc.Quality = 0;
-
-    MD_ENGINE_ASSERT(SUCCEEDED(m_Device->CreateTexture2D(&Desc, nullptr, m_DSTex.GetAddressOf())), L"View 생성 실패 - DepthStencil Texture 생성 실패");
+    m_DSTex = CAssetMgr::GetInst()->CreateTexture(L"DepthStencilTex"
+        , (UINT)m_vResolution.x, (UINT)m_vResolution.y
+        , DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_DEPTH_STENCIL);
     
-
-
     /////////////////////////////////////////////
     // RenderTargetView, DepthStencilView 생성
-    ///////////////////////////////////////////// 
-    MD_ENGINE_ASSERT(SUCCEEDED(m_Device->CreateRenderTargetView(m_RTTex.Get(), nullptr, m_RTView.GetAddressOf())), L"View 생성 실패 - RenderTargetView 생성 실패");
-    MD_ENGINE_ASSERT(SUCCEEDED(m_Device->CreateDepthStencilView(m_DSTex.Get(), nullptr, m_DSView.GetAddressOf())), L"View 생성 실패 - DepthStencilView 생성 실패");
+    /////////////////////////////////////////////
 
     return S_OK;
 }
@@ -200,6 +193,47 @@ int CDevice::CreateConstBuffer()
     MD_ENGINE_ASSERT(SUCCEEDED(pCB->Create(CB_TYPE::TRANSFORM, sizeof(tTransform))), L"초기화 실패 - 상수버퍼 생성 실패");
     
     m_arrCB[(UINT)CB_TYPE::TRANSFORM] = pCB;
+
+    return S_OK;
+}
+
+int CDevice::CreateSamplerState()
+{
+    D3D11_SAMPLER_DESC Desc = {};
+
+    Desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+    Desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+    Desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+    Desc.Filter = D3D11_FILTER_ANISOTROPIC; // 이방성 필터링
+
+    if (FAILED(DEVICE->CreateSamplerState(&Desc, m_Sampler[0].GetAddressOf())))
+    {
+        return E_FAIL;
+    }
+
+    Desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+    Desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+    Desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+    Desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT; // 포인트 필터링
+
+    if (FAILED(DEVICE->CreateSamplerState(&Desc, m_Sampler[1].GetAddressOf())))
+    {
+        return E_FAIL;
+    }
+
+    CONTEXT->VSSetSamplers(0, 1, m_Sampler[0].GetAddressOf());
+    CONTEXT->HSSetSamplers(0, 1, m_Sampler[0].GetAddressOf());
+    CONTEXT->DSSetSamplers(0, 1, m_Sampler[0].GetAddressOf());
+    CONTEXT->GSSetSamplers(0, 1, m_Sampler[0].GetAddressOf());
+    CONTEXT->PSSetSamplers(0, 1, m_Sampler[0].GetAddressOf());
+    CONTEXT->CSSetSamplers(0, 1, m_Sampler[0].GetAddressOf());
+
+    CONTEXT->VSSetSamplers(1, 1, m_Sampler[1].GetAddressOf());
+    CONTEXT->HSSetSamplers(1, 1, m_Sampler[1].GetAddressOf());
+    CONTEXT->DSSetSamplers(1, 1, m_Sampler[1].GetAddressOf());
+    CONTEXT->GSSetSamplers(1, 1, m_Sampler[1].GetAddressOf());
+    CONTEXT->PSSetSamplers(1, 1, m_Sampler[1].GetAddressOf());
+    CONTEXT->CSSetSamplers(1, 1, m_Sampler[1].GetAddressOf());
 
     return S_OK;
 }

@@ -52,7 +52,7 @@ void CEngine::Run()
 	CKeyMgr::GetInst()->Tick();
 	CTimeMgr::GetInst()->Tick();
 
-	CLevelMgr::GetInst()->Progress();
+	CLevelMgr::GetInst()->Run();
 
 	// Render
 	CDevice::GetInst()->Clear();

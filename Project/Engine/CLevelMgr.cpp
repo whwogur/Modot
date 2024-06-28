@@ -25,6 +25,9 @@ CLevelMgr::~CLevelMgr()
 
 void CLevelMgr::Init()
 {
+	Ptr<CTexture> pTexture = CAssetMgr::GetInst()->Load<CTexture>(L"LogoTex", L"texture//Logo.png");
+	pTexture->Bind(0);
+
 	m_CurLevel = new CLevel;
 
 	// 카메라 오브젝트
@@ -36,6 +39,7 @@ void CLevelMgr::Init()
 
 	// 우선순위를 0 : MainCamera 로 설정
 	CamObj->Camera()->SetPriority(0);
+
 	// 카메라 레이어 설정 (31번 레이어 제외 모든 레이어를 촬영)
 	CamObj->Camera()->SetLayerAll();
 	CamObj->Camera()->SetLayer(31, false);
@@ -44,24 +48,25 @@ void CLevelMgr::Init()
 
 	m_CurLevel->AddObject(0, CamObj);
 
+	// 플레이어 오브젝트
 	CGameObject* pObject = nullptr;
 	pObject = new CGameObject;
 	pObject->SetName(L"Player");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CMeshRender);
+	pObject->AddComponent(new CPlayerScript);
 
 	pObject->Transform()->SetRelativePos(0.f, 0.f, 100.f);
-	pObject->Transform()->SetRelativeScale(0.2f, 0.2f, 0.2f);
+	pObject->Transform()->SetRelativeScale(200.f, 200.f, 1.f);
 	pObject->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pObject->MeshRender()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicShader>(L"TestShader"));
 
 	m_CurLevel->AddObject(0, pObject);
 
-
 	m_CurLevel->Begin();
 }
 
-void CLevelMgr::Progress()
+void CLevelMgr::Run()
 {
 	m_CurLevel->Tick();
 	m_CurLevel->FinalTick();

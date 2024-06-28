@@ -99,17 +99,26 @@
     <ClInclude Include="Ptr.h">
       <Filter>06. Asset</Filter>
     </ClInclude>
-    <ClInclude Include="CRenderMgr.h" />
     <ClInclude Include="CCamera.h">
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="CPlayerScript.h">
       <Filter>Component\Script</Filter>
     </ClInclude>
-    <ClInclude Include="CScript.h" />
-    <ClInclude Include="CCameraMoveScript.h" />
     <ClInclude Include="CTexture.h">
       <Filter>06. Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraMoveScript.h">
+      <Filter>Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CScript.h">
+      <Filter>Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderMgr.h">
+      <Filter>04. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CMaterial.h">
+      <Filter>06. Asset\Material</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -178,7 +187,6 @@
       <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="CMeshRender.cpp" />
-    <ClCompile Include="CRenderMgr.cpp" />
     <ClCompile Include="CCamera.cpp">
       <Filter>Component</Filter>
     </ClCompile>
@@ -186,10 +194,20 @@
     <ClCompile Include="CPlayerScript.cpp">
       <Filter>Component\Script</Filter>
     </ClCompile>
-    <ClCompile Include="CScript.cpp" />
-    <ClCompile Include="CCameraMoveScript.cpp" />
     <ClCompile Include="CTexture.cpp">
       <Filter>06. Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraMoveScript.cpp">
+      <Filter>Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CScript.cpp">
+      <Filter>Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderMgr.cpp">
+      <Filter>04. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CMaterial.cpp">
+      <Filter>06. Asset\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +253,9 @@
     <Filter Include="Component\Script">
       <UniqueIdentifier>{32f3b632-7af2-46ae-bb15-8ad2f3c3fbed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06. Asset\Material">
+      <UniqueIdentifier>{7a1eec37-53aa-4ce5-9f89-9ac5397a0eb7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -243,6 +264,9 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="test.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="value.fx">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

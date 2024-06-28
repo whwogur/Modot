@@ -8,11 +8,28 @@ public:
     CTexture();
     ~CTexture();
 public:
-    virtual int Load(const wstring& _FilePath) { return S_OK; };
-    virtual int Save(const wstring& _FilePath) { return S_OK; };
+    virtual int Load(const wstring& _FilePath);
+    virtual int Save(const wstring& _FilePath);
+   
+    int Create(UINT _Width, UINT _Height, DXGI_FORMAT _PixelFormat, UINT _Flags, D3D11_USAGE _Usage = D3D11_USAGE_DEFAULT);
+    int Create(WRL::ComPtr<ID3D11Texture2D> _Tex2D);
+
+    void Bind(UINT _RegisterNum);
+public:
+    WRL::ComPtr<ID3D11Texture2D>             GetTex2D() { return m_Tex2D; }
+    WRL::ComPtr<ID3D11RenderTargetView>      GetRTV() { return m_RTV; }
+    WRL::ComPtr<ID3D11DepthStencilView>      GetDSV() { return m_DSV; }
+    WRL::ComPtr<ID3D11ShaderResourceView>    GetSRV() { return m_SRV; }
+    WRL::ComPtr<ID3D11UnorderedAccessView>   GetUAV() { return m_UAV; }
 
 private:
+    WRL::ComPtr<ID3D11RenderTargetView>         m_RTV;
+    WRL::ComPtr<ID3D11DepthStencilView>         m_DSV;
+    WRL::ComPtr<ID3D11ShaderResourceView>       m_SRV;
+    WRL::ComPtr<ID3D11UnorderedAccessView>      m_UAV;
 
-    WRL::ComPtr<ID3D11Texture2D>			m_Tex2D;
-    D3D11_TEXTURE2D_DESC                    m_Desc;
+    D3D11_TEXTURE2D_DESC                        m_Desc;
+
+    ScratchImage                                m_Image;
+    WRL::ComPtr<ID3D11Texture2D>			    m_Tex2D;
 };

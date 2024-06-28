@@ -2,4 +2,5 @@
 
 
 #include "CMesh.h"
+#include "CTexture.h"
 #include "CGraphicShader.h"

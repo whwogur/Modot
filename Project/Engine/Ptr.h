@@ -13,6 +13,14 @@ public:
 
 
 public:
+	bool operator ==(Ptr<T> _Other) { return Asset == _Other.Asset; }
+
+	bool operator ==(T* _Other) { return Asset == _Other; }
+
+	bool operator != (Ptr<T> _Other) { return Asset != _Other.Asset; }
+
+	bool operator !=(T* _Other) { return Asset != _Other; }
+
 	bool operator !() { return !Asset; }
 
 	Ptr& operator = (T* _Other)
@@ -66,3 +74,15 @@ public:
 			Asset->Release();
 	}
 };
+
+template<typename T>
+bool operator == (void* _Asset, Ptr<T> _PtrAsset)
+{
+	return _Asset == _PtrAsset.Get();
+}
+
+template<typename T>
+bool operator != (void* _Asset, Ptr<T> _PtrAsset)
+{
+	return _Asset != _PtrAsset.Get();
+}

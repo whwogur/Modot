@@ -12,7 +12,8 @@ public:
     int CreatePixelShader(const wstring& _RelativePath, const string& _FuncName);
 
     void SetRSType(RS_TYPE _Type) { m_RSType = _Type; }
-    virtual void Bind() override;
+
+    void Bind();
 
 private:
     WRL::ComPtr<ID3DBlob>			    m_VSBlob;
