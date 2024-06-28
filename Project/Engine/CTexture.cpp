@@ -14,7 +14,21 @@ CTexture::~CTexture()
 
 void CTexture::Bind(UINT _RegisterNum)
 {
+	CONTEXT->VSSetShaderResources(_RegisterNum, 1, m_SRV.GetAddressOf());
+	CONTEXT->HSSetShaderResources(_RegisterNum, 1, m_SRV.GetAddressOf());
+	CONTEXT->DSSetShaderResources(_RegisterNum, 1, m_SRV.GetAddressOf());
+	CONTEXT->GSSetShaderResources(_RegisterNum, 1, m_SRV.GetAddressOf());
 	CONTEXT->PSSetShaderResources(_RegisterNum, 1, m_SRV.GetAddressOf());
+}
+
+void CTexture::Clear(UINT _RegisterNum)
+{
+	ID3D11ShaderResourceView* pSRV = nullptr;
+	CONTEXT->VSSetShaderResources(_RegisterNum, 1, &pSRV);
+	CONTEXT->HSSetShaderResources(_RegisterNum, 1, &pSRV);
+	CONTEXT->DSSetShaderResources(_RegisterNum, 1, &pSRV);
+	CONTEXT->GSSetShaderResources(_RegisterNum, 1, &pSRV);
+	CONTEXT->PSSetShaderResources(_RegisterNum, 1, &pSRV);
 }
 
 int CTexture::Load(const wstring& _FilePath)

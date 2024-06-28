@@ -15,6 +15,7 @@ public:
     int Create(WRL::ComPtr<ID3D11Texture2D> _Tex2D);
 
     void Bind(UINT _RegisterNum);
+    static void Clear(UINT _RegisterNum);
 public:
     WRL::ComPtr<ID3D11Texture2D>             GetTex2D() { return m_Tex2D; }
     WRL::ComPtr<ID3D11RenderTargetView>      GetRTV() { return m_RTV; }

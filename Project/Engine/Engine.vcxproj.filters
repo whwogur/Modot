@@ -209,6 +209,9 @@
     <ClCompile Include="CMaterial.cpp">
       <Filter>06. Asset\Material</Filter>
     </ClCompile>
+    <ClCompile Include="CAssetInit.cpp">
+      <Filter>06. Asset</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -263,10 +266,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="test.fx">
+    <FxCompile Include="std2d.fx">
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="value.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="func.fx">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

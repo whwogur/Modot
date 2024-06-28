@@ -1,5 +1,5 @@
-#ifndef _TEST
-#define _TEST
+#ifndef _STD2D
+#define _STD2D
 
 #include "value.fx"
 
@@ -18,7 +18,7 @@ struct VTX_OUT
     float2 vUV : TEXCOORD;
 };
 
-VTX_OUT VS_Test(VTX_IN _in)
+VTX_OUT VS_Std2D(VTX_IN _in)
 {
     VTX_OUT output = (VTX_OUT)0.f;
 
@@ -34,7 +34,7 @@ VTX_OUT VS_Test(VTX_IN _in)
     return output;
 }
 
-float4 PS_Test(VTX_OUT _in) : SV_Target
+float4 PS_Std2D(VTX_OUT _in) : SV_Target
 {
     float4 vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
     vColor.a = 0.f;

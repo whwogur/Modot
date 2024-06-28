@@ -191,8 +191,12 @@ int CDevice::CreateConstBuffer()
     // 상수버퍼
     pCB = new CConstBuffer;
     MD_ENGINE_ASSERT(SUCCEEDED(pCB->Create(CB_TYPE::TRANSFORM, sizeof(tTransform))), L"초기화 실패 - 상수버퍼 생성 실패");
-    
     m_arrCB[(UINT)CB_TYPE::TRANSFORM] = pCB;
+    
+
+    pCB = new CConstBuffer;
+    MD_ENGINE_ASSERT(SUCCEEDED(pCB->Create(CB_TYPE::MATERIAL, sizeof(tMtrlConst))), L"초기화 실패 - 상수버퍼 생성 실패");
+    m_arrCB[(UINT)CB_TYPE::MATERIAL] = pCB;
 
     return S_OK;
 }

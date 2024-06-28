@@ -40,4 +40,10 @@ void CConstBuffer::SetData(void* _pData)
 void CConstBuffer::Bind()
 { 
     CONTEXT->VSSetConstantBuffers((UINT)m_CBType, 1, m_CB.GetAddressOf());
+    CONTEXT->VSSetConstantBuffers((UINT)m_CBType, 1, m_CB.GetAddressOf());
+    CONTEXT->HSSetConstantBuffers((UINT)m_CBType, 1, m_CB.GetAddressOf());
+    CONTEXT->DSSetConstantBuffers((UINT)m_CBType, 1, m_CB.GetAddressOf());
+    CONTEXT->GSSetConstantBuffers((UINT)m_CBType, 1, m_CB.GetAddressOf());
+    CONTEXT->PSSetConstantBuffers((UINT)m_CBType, 1, m_CB.GetAddressOf());
+    CONTEXT->CSSetConstantBuffers((UINT)m_CBType, 1, m_CB.GetAddressOf());
 }

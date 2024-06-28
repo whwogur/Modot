@@ -26,6 +26,13 @@ public:
 	Ptr<CTexture> CreateTexture(wstring _strKey, WRL::ComPtr<ID3D11Texture2D> _Tex2D);
 
 private:
+	void CreateEngineMesh();
+	void CreateEngineMaterial();
+	void CreateEngineTexture();
+	void CreateEngineGraphicShader();
+	void CreateEngineComputeShader();
+
+private:
 	map<wstring, Ptr<CAsset>> m_mapAsset[(UINT)ASSET_TYPE::END];
 };
 
