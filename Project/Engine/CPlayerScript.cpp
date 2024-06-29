@@ -24,6 +24,8 @@ void CPlayerScript::Tick()
 		vPos.x += DT * m_Speed;
 	}
 
+	if (KEY_PRESSED(KEY::SPACE))
+		DrawDebugCircle(Transform()->GetRelativePos(), Transform()->GetRelativeScale().x / 2, Vec4(0.f, 1.0f, 0.f, 1.f), 1.f, false);
 	if (KEY_PRESSED(KEY::Z))
 	{
 		Vec3 vScale = Transform()->GetRelativeScale();

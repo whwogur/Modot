@@ -9,6 +9,8 @@
 CGameObject::CGameObject()
 	: m_arrCom{}
 	, m_RenderCom(nullptr)
+	, m_Parent(nullptr)
+	, m_LayerIdx(-1)
 {
 }
 
@@ -74,6 +76,11 @@ void CGameObject::Tick()
 	{
 		m_vecScript[i]->Tick();
 	}
+
+	for (size_t i = 0; i < m_vecChildren.size(); ++i)
+	{
+		m_vecChildren[i]->Tick();
+	}
 }
 
 void CGameObject::FinalTick()
@@ -82,6 +89,11 @@ void CGameObject::FinalTick()
 	{
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->FinalTick();
+	}
+
+	for (size_t i = 0; i < m_vecChildren.size(); ++i)
+	{
+		m_vecChildren[i]->FinalTick();
 	}
 }
 

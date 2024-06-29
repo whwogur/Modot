@@ -10,7 +10,7 @@ public:
     CLayer(int _LayerIdx);
     ~CLayer();
     int GetLayerIdx() { return m_LayerIdx; }
-    void AddObject(CGameObject* _Object) { m_Parents.push_back(_Object); }
+    void AddObject(CGameObject* _Object);
     const vector<CGameObject*>& GetParentObjects() { return m_Parents; }
 
 public:
@@ -20,5 +20,6 @@ public:
 
 private:
     vector<CGameObject*>    m_Parents;
+    vector<CGameObject*>    m_Objects;
     const int               m_LayerIdx;
 };

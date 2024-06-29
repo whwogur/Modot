@@ -65,7 +65,7 @@ void CLevelMgr::Init()
 	pObject->Transform()->SetRelativeScale(200.f, 200.f, 1.f);
 	pObject->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"CircleMesh"));
 
-	pObject->MeshRender()->SetMaterial(pDebugShapeMtrl);
+	pObject->MeshRender()->SetMaterial(pMtrl);
 	pObject->MeshRender()->GetMaterial()->SetScalarParam(INT_1, 1);
 	pObject->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_0, 0.01f);
 	pObject->MeshRender()->GetMaterial()->SetScalarParam(VEC4_0, Vec4(0.f, 1.f, 0.f, 1.f));

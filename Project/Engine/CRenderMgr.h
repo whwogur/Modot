@@ -2,6 +2,7 @@
 #include "singleton.h"
 
 class CCamera;
+class CGameObject;
 
 class CRenderMgr :
     public CSingleton<CRenderMgr>
@@ -20,4 +21,5 @@ private:
 private:
     vector<CCamera*>        m_vecCam;
     list<tDebugShapeInfo>   m_DebugShapeList;
+    CGameObject*            m_DebugObject;
 };

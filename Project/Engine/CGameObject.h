@@ -18,6 +18,8 @@ public:
     void AddComponent(CComponent* _Comopnent);
     CComponent* GetComponent(COMPONENT_TYPE _Type) { return m_arrCom[(UINT)_Type]; }
     CRenderComponent* GetRenderComponent() { return m_RenderCom; }
+    CGameObject* GetParent() { return m_Parent; }
+    int GetLayerIdx() { return m_LayerIdx; }
 
     GET_COMPONENT(Transform, TRANSFORM);
     GET_COMPONENT(MeshRender, MESHRENDER);
@@ -30,7 +32,13 @@ public:
     void Render();
 
 private:
-    CComponent* m_arrCom[(UINT)COMPONENT_TYPE::END];
-    CRenderComponent* m_RenderCom;
-    vector<CScript*> m_vecScript;
+    CComponent*                 m_arrCom[(UINT)COMPONENT_TYPE::END];
+    CRenderComponent*           m_RenderCom;
+    CGameObject*                m_Parent;
+    int                         m_LayerIdx; // 소속 레이어의 인덱스 번호
+
+    vector<CScript*>            m_vecScript;
+    vector<CGameObject*>        m_vecChildren;
+    friend class CLevel;
+    friend class CLayer;
 };
