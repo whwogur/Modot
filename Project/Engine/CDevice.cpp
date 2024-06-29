@@ -85,7 +85,122 @@ int CDevice::Init(HWND _hWnd, UINT _Width, UINT _Height)
 
     MD_ENGINE_ASSERT(SUCCEEDED(CreateRasterizerState()), L"장치 초기화 실패 - 래스터라이저 스테이트 생성 실패");
     
+    MD_ENGINE_ASSERT(SUCCEEDED(CreateDepthStencilState()), L"장치 초기화 실패 - 뎁스 스텐실 스테이트 생성 실패");
+
+    MD_ENGINE_ASSERT(SUCCEEDED(CreateBlendState()), L"장치 초기화 실패 - 블렌드 스테이트 생성 실패");
+
     MD_ENGINE_ASSERT(SUCCEEDED(CreateSamplerState()), L"장치 초기화 실패 - 샘플러 스테이트 생성 실패");
+
+    return S_OK;
+}
+
+int CDevice::CreateDepthStencilState()
+{
+    D3D11_DEPTH_STENCIL_DESC Desc = {};
+
+    // Less : 더 작은 깊이가 통과
+    m_DSState[(UINT)DS_TYPE::LESS] = nullptr;
+
+
+    // Less Equal
+    Desc.DepthEnable = true;    // 깊이판정을 진행
+    Desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;   // 깊이 판정 방식
+    Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;   // 깊이판정을 성공시 깊이 기록여부
+    Desc.StencilEnable = false;
+
+    if (FAILED(DEVICE->CreateDepthStencilState(&Desc, m_DSState[(UINT)DS_TYPE::LESS_EQUAL].GetAddressOf())))
+    {
+        return E_FAIL;
+    }
+
+    // Greater
+    Desc.DepthEnable = true;    // 깊이판정을 진행
+    Desc.DepthFunc = D3D11_COMPARISON_GREATER;   // 깊이 판정 방식
+    Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;   // 깊이판정을 성공시 깊이 기록여부
+    Desc.StencilEnable = false;
+
+    if (FAILED(DEVICE->CreateDepthStencilState(&Desc, m_DSState[(UINT)DS_TYPE::GREATER].GetAddressOf())))
+    {
+        return E_FAIL;
+    }
+
+    // NO_TEST
+    Desc.DepthEnable = true;    // 깊이판정을 진행
+    Desc.DepthFunc = D3D11_COMPARISON_ALWAYS;   // 깊이 판정 방식
+    Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;   // 깊이판정을 성공시 깊이 기록여부
+    Desc.StencilEnable = false;
+
+    if (FAILED(DEVICE->CreateDepthStencilState(&Desc, m_DSState[(UINT)DS_TYPE::NO_TEST].GetAddressOf())))
+    {
+        return E_FAIL;
+    }
+
+    // NO_TEST_NO_WRITE
+    Desc.DepthEnable = true;    // 깊이판정을 진행
+    Desc.DepthFunc = D3D11_COMPARISON_ALWAYS;   // 깊이 판정 방식
+    Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;   // 깊이판정을 성공시 깊이 기록여부
+    Desc.StencilEnable = false;
+
+    if (FAILED(DEVICE->CreateDepthStencilState(&Desc, m_DSState[(UINT)DS_TYPE::NO_TEST_NO_WRITE].GetAddressOf())))
+    {
+        return E_FAIL;
+    }
+
+
+    return S_OK;
+}
+
+int CDevice::CreateBlendState()
+{
+    D3D11_BLEND_DESC Desc = {};
+
+    // Default
+    m_BSState[(UINT)BS_TYPE::DEFAULT] = nullptr;
+
+
+    // AlphaBlend
+    Desc.AlphaToCoverageEnable = true;
+    Desc.IndependentBlendEnable = false;
+
+    Desc.RenderTarget[0].BlendEnable = true;
+    Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+    // Src(Pixel RGB) * A     +      Dest(RenderTarget RGB) * (1 - A)
+    Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+    Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA; // 계수
+    Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA; // 계수
+
+    Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+    Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+    Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+
+    if (FAILED(DEVICE->CreateBlendState(&Desc, m_BSState[(UINT)BS_TYPE::ALPHABLEND].GetAddressOf())))
+    {
+        return E_FAIL;
+    }
+
+
+
+    // One - One Blend
+    Desc.AlphaToCoverageEnable = false;
+    Desc.IndependentBlendEnable = false;
+
+    Desc.RenderTarget[0].BlendEnable = true;
+    Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+    // Src(Pixel RGB) * 1  +  Dest(RenderTarget RGB) * 1
+    Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+    Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE; // 계수
+    Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE; // 계수
+
+    Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+    Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+    Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+
+    if (FAILED(DEVICE->CreateBlendState(&Desc, m_BSState[(UINT)BS_TYPE::ONE_ONE].GetAddressOf())))
+    {
+        return E_FAIL;
+    }
 
     return S_OK;
 }
