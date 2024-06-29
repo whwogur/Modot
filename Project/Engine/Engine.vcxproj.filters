@@ -212,6 +212,9 @@
     <ClCompile Include="CAssetInit.cpp">
       <Filter>06. Asset</Filter>
     </ClCompile>
+    <ClCompile Include="func.cpp">
+      <Filter>01. Header</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -273,6 +276,9 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="func.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="debug.fx">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

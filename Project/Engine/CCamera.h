@@ -1,6 +1,6 @@
 #pragma once
 #include "CComponent.h"
-
+class CGameObject;
 
 enum PROJ_TYPE
 {
@@ -30,19 +30,26 @@ public:
     void SetFar(float _Far) { m_Far = _Far; }
     float GetFar() { return m_Far; }
 
-
 public:
     virtual void Begin() override;
     virtual void FinalTick() override;
     void Render();
 
 private:
-    int         m_Priority;
-    UINT        m_LayerCheck; // 원하는 레이머나 카메라에 찍히도록
-    PROJ_TYPE   m_ProjType;
-    Matrix      m_matView, m_matProj;
-    float       m_Width, m_Height;
-    float       m_AspectRatio;  // 종횡 비
-    float       m_Far;          // 카메라가 볼 수 있는 시야 거리
-    float       m_FOV; // Field Of View (시야 범위, 시야 각)
+    void SortGameObject();
+
+private:
+    int                     m_Priority;
+    UINT                    m_LayerCheck; // 원하는 레이머나 카메라에 찍히도록
+    PROJ_TYPE               m_ProjType;
+    Matrix                  m_matView, m_matProj;
+    float                   m_Width, m_Height;
+    float                   m_AspectRatio;
+    float                   m_Far;
+    float                   m_FOV;
+
+    vector<CGameObject*>    m_vecOpaque;        // 불투명
+    vector<CGameObject*>    m_vecMasked;        // 불투명, 투명
+    vector<CGameObject*>    m_vecTransparent;   // 투명, 반투명
+    vector<CGameObject*>    m_vecParticles;     // 투명, 반투명, 입자 타입
 };

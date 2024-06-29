@@ -26,7 +26,9 @@ CLevelMgr::~CLevelMgr()
 void CLevelMgr::Init()
 {
 	// Std2DMtrl
+	Ptr<CMaterial> pMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl");
 	Ptr<CMaterial> pAlphaBlendMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DAlphaBlendMtrl");
+	Ptr<CMaterial> pDebugShapeMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DebugShapeMtrl");
 
 	Ptr<CTexture> pTexture = CAssetMgr::GetInst()->Load<CTexture>(L"LogoTex", L"texture//Logo.png");
 	pAlphaBlendMtrl->SetTexParam(TEX_0, pTexture);
@@ -61,8 +63,12 @@ void CLevelMgr::Init()
 
 	pObject->Transform()->SetRelativePos(0.f, 0.f, 100.f);
 	pObject->Transform()->SetRelativeScale(200.f, 200.f, 1.f);
-	pObject->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	pObject->MeshRender()->SetMaterial(pAlphaBlendMtrl);
+	pObject->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"CircleMesh"));
+
+	pObject->MeshRender()->SetMaterial(pDebugShapeMtrl);
+	pObject->MeshRender()->GetMaterial()->SetScalarParam(INT_1, 1);
+	pObject->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_0, 0.01f);
+	pObject->MeshRender()->GetMaterial()->SetScalarParam(VEC4_0, Vec4(0.f, 1.f, 0.f, 1.f));
 
 	m_CurLevel->AddObject(0, pObject);
 
