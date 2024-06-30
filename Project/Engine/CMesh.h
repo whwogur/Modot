@@ -11,6 +11,7 @@ public:
     int Create(Vtx* _VtxSysMem, UINT _VtxCount, UINT* _IdxSysMem, UINT _IdxCount);
     void Bind();
     void render();
+    void* GetVtxSysMem() { return m_VtxSysMem; }
 
     virtual int Load(const wstring& _FilePath) { return S_OK; }
     virtual int Save(const wstring& _FilePath) { return S_OK; }

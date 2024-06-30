@@ -10,6 +10,7 @@
 #include "CAssetMgr.h"
 #include "CLevelMgr.h"
 #include "CRenderMgr.h"
+#include "CCollisionMgr.h"
 
 CEngine::CEngine()
 	: m_hWnd(nullptr)
@@ -49,6 +50,7 @@ void CEngine::Run()
 
 	CLevelMgr::GetInst()->Run();
 
+	CCollisionMgr::GetInst()->Tick();
 	// Render
 	CDevice::GetInst()->Clear();
 	CRenderMgr::GetInst()->Tick();

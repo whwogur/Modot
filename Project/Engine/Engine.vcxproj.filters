@@ -123,6 +123,7 @@
     <ClInclude Include="CCollider2D.h">
       <Filter>Component</Filter>
     </ClInclude>
+    <ClInclude Include="CCollisionMgr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -221,6 +222,7 @@
     <ClCompile Include="CCollider2D.cpp">
       <Filter>Component</Filter>
     </ClCompile>
+    <ClCompile Include="CCollisionMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
