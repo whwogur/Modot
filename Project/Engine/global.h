@@ -45,13 +45,6 @@ using std::make_pair;
 #include <filesystem>
 using namespace std::filesystem;
 
-#include "singleton.h"
-#include "define.h"
-#include "enum.h"
-#include "struct.h"
-#include "func.h"
-#include "Ptr.h"
-
 #ifdef _DEBUG
 #define MD_ENABLE_ASSERTS
 #endif
@@ -63,3 +56,10 @@ using namespace std::filesystem;
 #define MD_ASSERT(...)
 #define MD_ENGINE_ASSERT(...)
 #endif
+
+#include "singleton.h"
+#include "define.h"
+#include "enum.h"
+#include "struct.h"
+#include "func.h"
+#include "Ptr.h"

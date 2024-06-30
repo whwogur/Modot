@@ -28,11 +28,9 @@ void CPlayerScript::Tick()
 		DrawDebugCircle(Transform()->GetRelativePos(), Transform()->GetRelativeScale().x / 2, Vec4(0.f, 1.0f, 0.f, 1.f), 1.f, false);
 	if (KEY_PRESSED(KEY::Z))
 	{
-		MeshRender()->GetMaterial()->SetScalarParam(INT_0, 1);
-
-		Vec3 vScale = Transform()->GetRelativeScale();
-		vScale += DT * 100.f * Vec3(1.f, 1.f, 1.f);
-		Transform()->SetRelativeScale(vScale);
+		Vec3 vRot = Transform()->GetRelativeRoatation();
+		vRot.z += DT * XM_PI;
+		Transform()->SetRelativeRotation(vRot);
 	}
 
 	Transform()->SetRelativePos(vPos);

@@ -24,10 +24,12 @@ public:
     const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
 
     void DetachFromLayer();
+    void DetachChild();
 
     GET_COMPONENT(Transform, TRANSFORM);
     GET_COMPONENT(MeshRender, MESHRENDER);
     GET_COMPONENT(Camera, CAMERA);
+    GET_COMPONENT(Collider2D, COLLIDER2D);
 
 public:
     void Begin();

@@ -14,10 +14,11 @@ public:
 public:
     COMPONENT_TYPE GetComponentType() { return m_Type; }
     CGameObject* GetOwner() { return m_Owner; }
+
     GET_OTHER_COMPONENT(Transform);
     GET_OTHER_COMPONENT(MeshRender);
     GET_OTHER_COMPONENT(Camera);
-
+    GET_OTHER_COMPONENT(Collider2D);
 public:
     virtual void Begin();
     virtual void Tick();

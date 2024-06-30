@@ -77,10 +77,10 @@ void CLayer::AddObject(CGameObject* _Object, bool _bChildMovesTogether)
 	}
 }
 
-
-void CLayer::DetachObject(CGameObject* _Object)
+void CLayer::RemoveFromParentsList(CGameObject* _Object)
 {
 	vector<CGameObject*>::iterator iter = m_Parents.begin();
+
 	for (; iter != m_Parents.end(); ++iter)
 	{
 		if (_Object == (*iter))
@@ -90,5 +90,17 @@ void CLayer::DetachObject(CGameObject* _Object)
 		}
 	}
 
-	MD_ENGINE_ASSERT(false, L"잘못된 DetachObject 명령");
+	MD_ENGINE_ASSERT(false, L"부모 벡터에서 오브젝트 제거 실패, 찾지 못했음");
+}
+
+void CLayer::DetachObject(CGameObject* _Object)
+{
+	MD_ENGINE_ASSERT(_Object->m_LayerIdx == m_LayerIdx, L"잘못된 레이어에서 제거 명령 실행됨");
+
+	_Object->m_LayerIdx = -1;
+
+	if (_Object->GetParent() == nullptr)
+	{
+		RemoveFromParentsList(_Object);
+	}
 }

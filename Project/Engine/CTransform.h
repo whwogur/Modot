@@ -18,6 +18,7 @@ public:
     void SetRelativeScale(Vec3 _Scale) { m_RelativeScale = _Scale; }
     void SetRelativeRotation(Vec3 _Rot) { m_RelativeRotation = _Rot; }
     void SetWorldMatrix(const Matrix& matWorld) { m_matWorld = matWorld; }
+    void SetIndependentScale(bool _Set) { m_IndependentScale = _Set; }
 
     void SetRelativePos(float x, float y, float z) { m_RelativePos = Vec3(x, y, z); }
     void SetRelativeScale(float x, float y, float z) { m_RelativeScale = Vec3(x, y, z); }
@@ -25,7 +26,9 @@ public:
 
     const Matrix& GetWorldMat() { return m_matWorld; }
     Vec3 GetRelativePos() { return m_RelativePos; }
+    Vec3 GetWorldPos() { return m_matWorld.Translation(); }
     Vec3 GetRelativeScale() { return m_RelativeScale; }
+    Vec3 GetWorldScale();
     Vec3 GetRelativeRoatation() { return m_RelativeRotation; }
     Vec3 GetRelativeDir(DIR _Type) { return m_RelativeDir[_Type]; }
     Vec3 GetWorldDir(DIR _Type) { return m_WorldDir[_Type]; }

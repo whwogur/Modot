@@ -17,7 +17,7 @@ public:
     void ClearObject() { m_Objects.clear(); }
     void RegisterGameObject(CGameObject* _Object) { m_Objects.push_back(_Object); } // finaltick¸¶´Ù
     void DetachObject(CGameObject* _Object);
-
+    void RemoveFromParentsList(CGameObject* _Object);
 public:
     void Begin();
     void Tick();

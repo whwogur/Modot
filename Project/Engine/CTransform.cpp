@@ -8,6 +8,7 @@ CTransform::CTransform()
 	: CComponent(COMPONENT_TYPE::TRANSFORM)
 	, m_RelativeDir{}
 	, m_WorldDir{}
+	, m_IndependentScale(false)
 {
 }
 
@@ -46,12 +47,23 @@ void CTransform::FinalTick()
 	{
 		// 부모의 월드행렬을 곱해서 최종 월드행렬을 계산함
 		const Matrix& matParentWorldMat = GetOwner()->GetParent()->Transform()->GetWorldMat();
-		m_matWorld *= matParentWorldMat;
+		if (m_IndependentScale)
+		{
+			Vec3 vParentScale = GetOwner()->GetParent()->Transform()->GetWorldScale();
+			Matrix matParentScale = XMMatrixScaling(vParentScale.x, vParentScale.y, vParentScale.z);
+			Matrix matParentScaceInv = XMMatrixInverse(nullptr, matParentScale);
+
+			m_matWorld = m_matWorld * matParentScaceInv * matParentWorldMat;
+		}
+		else
+		{
+			m_matWorld *= matParentWorldMat;
+		}
 
 		// 최종 월드기준 오브젝트의 방향벡터를 구함
 		for (int i = 0; i < 3; ++i)
 		{
-			XMVector3TransformNormal(vDefaultAxis[i], m_matWorld);
+			m_WorldDir[i] = XMVector3TransformNormal(vDefaultAxis[i], m_matWorld);
 		}
 	}
 
@@ -74,4 +86,23 @@ void CTransform::Bind()
 	CConstBuffer* pTransformCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::TRANSFORM);
 	pTransformCB->SetData(&g_Trans);
 	pTransformCB->Bind();
+}
+
+Vec3 CTransform::GetWorldScale()
+{
+	Vec3 vWorldScale = Vec3(1.f, 1.f, 1.f);
+
+	CGameObject* pObject = GetOwner();
+
+	while (pObject)
+	{
+		vWorldScale *= pObject->Transform()->GetRelativeScale();
+
+		if (pObject->Transform()->m_IndependentScale)
+			break;
+
+		pObject = pObject->GetParent();
+	}
+
+	return vWorldScale;
 }
