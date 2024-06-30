@@ -70,6 +70,20 @@ void CLevelMgr::Init()
 	pObject->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_0, 0.01f);
 	pObject->MeshRender()->GetMaterial()->SetScalarParam(VEC4_0, Vec4(0.f, 1.f, 0.f, 1.f));
 
+	CGameObject* pChild = new CGameObject;
+	pChild->SetName(L"Child");
+
+	pChild->AddComponent(new CTransform);
+	pChild->AddComponent(new CMeshRender);
+
+	pChild->Transform()->SetRelativePos(200.f, 0.f, 0.f);
+	pChild->Transform()->SetRelativeScale(0.8f, 0.8f, 1.f);
+
+	pChild->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	pChild->MeshRender()->SetMaterial(pMtrl);
+
+	pObject->AddChild(pChild);
+
 	m_CurLevel->AddObject(0, pObject);
 
 	m_CurLevel->Begin();
@@ -78,5 +92,6 @@ void CLevelMgr::Init()
 void CLevelMgr::Run()
 {
 	m_CurLevel->Tick();
+	m_CurLevel->ClearObject();
 	m_CurLevel->FinalTick();
 }

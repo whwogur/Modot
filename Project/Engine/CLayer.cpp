@@ -37,21 +37,58 @@ void CLayer::FinalTick()
 	}
 }
 
-void CLayer::AddObject(CGameObject* _Object)
+void CLayer::AddObject(CGameObject* _Object, bool _bChildMovesTogether)
 {
 	// 오브젝트가 다른 레이어 소속인경우
 	if (-1 != _Object->GetLayerIdx())
 	{
 		// 기존에 소속된 레이어에서 빠져나와야한다.
+		MD_ENGINE_ASSERT(_Object->GetLayerIdx() != m_LayerIdx, L"이미 레이어 소속인데 다시 추가하려 함");
+		_Object->DetachFromLayer();
 	}
 
-	// 부모오브젝트가 있는 경우
-	if (_Object->GetParent())
-	{
-		_Object->m_LayerIdx = m_LayerIdx;
-	}
-	else
+	// 최상위 오브젝트인 경우
+	if (_Object->GetParent() == nullptr)
 	{
 		m_Parents.push_back(_Object);
 	}
+	
+	// 자식들까지 딸려서 이동
+	static list<CGameObject*> queue;
+	queue.clear();
+	queue.push_back(_Object);
+	_Object->m_LayerIdx = m_LayerIdx;
+
+	while (!queue.empty())
+	{
+		CGameObject* pObject = queue.front();
+		queue.pop_front();
+
+		if (_bChildMovesTogether || pObject->m_LayerIdx == -1)
+		{
+			pObject->m_LayerIdx = m_LayerIdx;
+		}
+
+		const vector<CGameObject*>& vecChildren = pObject->GetChildren();
+		for (size_t i = 0; i < vecChildren.size(); ++i)
+		{
+			queue.push_back(vecChildren[i]);
+		}
+	}
+}
+
+
+void CLayer::DetachObject(CGameObject* _Object)
+{
+	vector<CGameObject*>::iterator iter = m_Parents.begin();
+	for (; iter != m_Parents.end(); ++iter)
+	{
+		if (_Object == (*iter))
+		{
+			m_Parents.erase(iter);
+			return;
+		}
+	}
+
+	MD_ENGINE_ASSERT(false, L"잘못된 DetachObject 명령");
 }

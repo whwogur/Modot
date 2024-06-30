@@ -27,12 +27,16 @@ public:
     Vec3 GetRelativePos() { return m_RelativePos; }
     Vec3 GetRelativeScale() { return m_RelativeScale; }
     Vec3 GetRelativeRoatation() { return m_RelativeRotation; }
-    Vec3 GetDir(DIR _Type) { return m_RelativeDir[_Type]; }
+    Vec3 GetRelativeDir(DIR _Type) { return m_RelativeDir[_Type]; }
+    Vec3 GetWorldDir(DIR _Type) { return m_WorldDir[_Type]; }
 private:
     Vec3    m_RelativePos;
     Vec3    m_RelativeScale;
     Vec3    m_RelativeRotation;
-    Vec3    m_RelativeDir[3] = {};
+    Vec3    m_RelativeDir[3];
+    Vec3    m_WorldDir[3];
 
     Matrix  m_matWorld;
+
+    bool    m_IndependentScale;
 };

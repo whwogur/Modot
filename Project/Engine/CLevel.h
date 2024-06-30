@@ -14,8 +14,9 @@ public:
     void Begin();
     void Tick();
     void FinalTick();
-    void AddObject(int LayerIdx, CGameObject* _Object);
+    void ClearObject();
     CLayer* GetLayer(int _LayerIdx) { return m_Layer[_LayerIdx]; }
+    void AddObject(int LayerIdx, CGameObject* _Object, bool _bMoveChildTogether = false);
 
 
 private:

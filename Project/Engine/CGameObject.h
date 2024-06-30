@@ -20,6 +20,10 @@ public:
     CRenderComponent* GetRenderComponent() { return m_RenderCom; }
     CGameObject* GetParent() { return m_Parent; }
     int GetLayerIdx() { return m_LayerIdx; }
+    void AddChild(CGameObject* _ChildObject);
+    const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
+
+    void DetachFromLayer();
 
     GET_COMPONENT(Transform, TRANSFORM);
     GET_COMPONENT(MeshRender, MESHRENDER);

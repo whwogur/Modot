@@ -6,7 +6,7 @@ class CShader :
 {
 public:
     CShader(ASSET_TYPE _Type);
-    ~CShader();
+    virtual ~CShader() = default;
 
 public:
     virtual int Load(const wstring& _FilePath) { return S_OK; }

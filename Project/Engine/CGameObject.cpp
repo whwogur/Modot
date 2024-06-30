@@ -3,9 +3,11 @@
 
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
+#include "CLevelMgr.h"
+#include "CLevel.h"
+#include "CLayer.h"
 
 #include "components.h"
-
 CGameObject::CGameObject()
 	: m_arrCom{}
 	, m_RenderCom(nullptr)
@@ -47,6 +49,23 @@ void CGameObject::AddComponent(CComponent* _Component)
 	}
 }
 
+void CGameObject::AddChild(CGameObject* _ChildObject)
+{
+	m_vecChildren.push_back(_ChildObject);
+	_ChildObject->m_Parent = this;
+}
+
+void CGameObject::DetachFromLayer()
+{
+	if (nullptr == m_Parent)
+	{
+		CLevel* pLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+		CLayer* pLayer = pLevel->GetLayer(m_LayerIdx);
+		pLayer->DetachObject(this);
+	}
+
+	m_LayerIdx = -1;
+}
 
 void CGameObject::Begin()
 {
@@ -61,6 +80,12 @@ void CGameObject::Begin()
 	for (size_t i = 0; i < m_vecScript.size(); ++i)
 	{
 		m_vecScript[i]->Begin();
+	}
+
+	// 자식 오브젝트
+	for (size_t i = 0; i < m_vecChildren.size(); ++i)
+	{
+		m_vecChildren[i]->Begin();
 	}
 }
 
@@ -90,6 +115,12 @@ void CGameObject::FinalTick()
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->FinalTick();
 	}
+
+	MD_ENGINE_ASSERT(m_LayerIdx != -1, L"레이어에 속하지 않은 오브젝트에 Finaltick 호출됨");
+	
+	CLevel* pLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+	CLayer* pLayer = pLevel->GetLayer(m_LayerIdx);
+	pLayer->RegisterGameObject(this);
 
 	for (size_t i = 0; i < m_vecChildren.size(); ++i)
 	{
