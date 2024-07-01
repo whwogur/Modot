@@ -20,6 +20,7 @@ CTileMap::CTileMap()
 
 CTileMap::~CTileMap()
 {
+	delete m_Buffer;
 }
 
 void CTileMap::FinalTick()

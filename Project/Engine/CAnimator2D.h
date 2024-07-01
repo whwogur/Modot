@@ -7,7 +7,7 @@ class CAnimator2D :
 {
 public:
     CAnimator2D();
-    ~CAnimator2D();
+    ~CAnimator2D() = default;
 
 public:
     virtual void FinalTick() override;

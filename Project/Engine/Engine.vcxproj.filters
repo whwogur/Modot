@@ -131,12 +131,14 @@
     <ClInclude Include="CAnimation.h">
       <Filter>06. Asset</Filter>
     </ClInclude>
-    <ClInclude Include="CSprite.h" />
     <ClInclude Include="CMeshRender.h">
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="CTileMap.h" />
     <ClInclude Include="CStructuredBuffer.h" />
+    <ClInclude Include="CSprite.h">
+      <Filter>06. Asset</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -243,7 +245,6 @@
     <ClCompile Include="CAnimation.cpp">
       <Filter>06. Asset</Filter>
     </ClCompile>
-    <ClCompile Include="CSprite.cpp" />
     <ClCompile Include="CTaskMgr.cpp">
       <Filter>04. Manager</Filter>
     </ClCompile>
@@ -252,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="CTileMap.cpp" />
     <ClCompile Include="CStructuredBuffer.cpp" />
+    <ClCompile Include="CSprite.cpp">
+      <Filter>06. Asset</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">

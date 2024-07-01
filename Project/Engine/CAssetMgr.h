@@ -92,7 +92,6 @@ void CAssetMgr::AddAsset(const wstring& _Key, Ptr<T> _Asset)
 
 	_Asset->SetKey(_Key);
 	m_mapAsset[(UINT)Type].insert(make_pair(_Key, _Asset.Get()));
-	MD_ENGINE_TRACE(L"{0} 맵에 추가됨", _Key);
 }
 
 // File 에 Asset 참조정보 저장 불러오기

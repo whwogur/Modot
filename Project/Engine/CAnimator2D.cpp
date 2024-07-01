@@ -15,10 +15,6 @@ CAnimator2D::CAnimator2D()
 {
 }
 
-CAnimator2D::~CAnimator2D()
-{
-}
-
 void CAnimator2D::FinalTick()
 {
 	if (m_Finish)

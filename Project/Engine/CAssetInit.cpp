@@ -111,7 +111,7 @@ void CAssetMgr::CreateEngineTexture()
 
 void CAssetMgr::CreateEngineSprite()
 {
-	Ptr<CTexture> pAtlasTex = Load<CTexture>(L"CathAtlas", L"texture\\Cath.bmp");
+	/*Ptr<CTexture> pAtlasTex = Load<CTexture>(L"CathAtlas", L"texture\\Cath.bmp");
 
 	Ptr<CSprite> pSprite = nullptr;
 
@@ -121,8 +121,11 @@ void CAssetMgr::CreateEngineSprite()
 		swprintf_s(szKey, 50, L"Cath_Idle_%d", i);
 
 		pSprite = new CSprite;
-		pSprite->Create(pAtlasTex, Vec2((float)i * 0.f, 0.f), Vec2(144.f, 144.f));
+		pSprite->Create(pAtlasTex, Vec2((float)i * 144.f, 0.f), Vec2(144.f, 144.f));
+		pSprite->SetBackground(Vec2(144.f, 144.f));
 		AddAsset(szKey, pSprite);
+		pSprite->SetRelativePath(wstring(L"Animation\\") + szKey + L".sprite");
+		pSprite->Save(CPathMgr::GetInst()->GetContentPath() + L"Animation\\" + szKey + L".sprite");
 	}
 
 	Ptr<CAnimation> pAnimation = nullptr;
@@ -137,12 +140,13 @@ void CAssetMgr::CreateEngineSprite()
 	}
 
 	AddAsset(L"Cath_Idle", pAnimation);
-
+	pAnimation->Save(CPathMgr::GetInst()->GetContentPath() + L"Animation\\Cath_Idle.anim");*/
+	
 	/*wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
 
 	Ptr<CSprite> pSprite = nullptr;
 
-	for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < 15; ++i)
 	{
 		wchar_t Buffer[50] = {};
 		swprintf_s(Buffer, 50, L"Cath_Idle_%d", i);
@@ -150,25 +154,24 @@ void CAssetMgr::CreateEngineSprite()
 		pSprite = Load<CSprite>(Buffer, wstring(L"Animation\\") + Buffer + L".sprite");		
 
 		pSprite->SetRelativePath(wstring(L"Animation\\") + Buffer + L".sprite");
-		pSprite->Save(strContentPath + L"Animation\\" + Buffer + L".sprite");
 	}
 
 
 	Ptr<CAnimation> pAnimation = new CAnimation;
 
-	for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < 15; ++i)
 	{
 		wchar_t Buffer[50] = {};
 		swprintf_s(Buffer, 50, L"Cath_Idle_%d", i);
 		pAnimation->AddSprite(FindAsset<CSprite>(Buffer));		
 	}
 
-	AddAsset(L"Cath_Idle", pAnimation);
-	pAnimation->Save(strContentPath + L"Animation\\" + L"Cath_Idle" + L".anim");*/
+	AddAsset(L"Cath_Idle", pAnimation);*/
 
-	/*Ptr<CAnimation> pAnimation = new CAnimation;
-	pAnimation->Load(strContentPath + L"Animation\\" + L"Cath_Idle" + L".anim");
-	AddAsset(L"Link_MoveDown", pAnimation);*/
+	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
+	Ptr<CAnimation> pAnimation = new CAnimation;
+	pAnimation->Load(strContentPath + L"Animation\\Cath_Idle.anim");
+	AddAsset(L"Cath_Idle", pAnimation);
 }
 
 void CAssetMgr::CreateEngineGraphicShader()
