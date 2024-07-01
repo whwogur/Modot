@@ -134,10 +134,12 @@
     <ClInclude Include="CMeshRender.h">
       <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="CTileMap.h" />
     <ClInclude Include="CStructuredBuffer.h" />
     <ClInclude Include="CSprite.h">
       <Filter>06. Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="CTileMap.h">
+      <Filter>Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -251,10 +253,12 @@
     <ClCompile Include="CMeshRender.cpp">
       <Filter>Component</Filter>
     </ClCompile>
-    <ClCompile Include="CTileMap.cpp" />
     <ClCompile Include="CStructuredBuffer.cpp" />
     <ClCompile Include="CSprite.cpp">
       <Filter>06. Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="CTileMap.cpp">
+      <Filter>Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

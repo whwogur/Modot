@@ -12,7 +12,7 @@ class CGameObject :
 {
 public:
     CGameObject();
-    ~CGameObject();
+    virtual ~CGameObject();
 
 public:
     void AddComponent(CComponent* _Comopnent);
@@ -38,7 +38,7 @@ public:
 public:
     void Begin();
     void Tick();
-    void FinalTick();
+    virtual void FinalTick();
     void Render();
 
 private:

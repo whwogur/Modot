@@ -36,36 +36,36 @@ struct VS_OUT
 
 VS_OUT VS_TileMap(VS_IN _in)
 {
-    VS_OUT output = (VS_OUT) 0.f;
-    
+    VS_OUT output = (VS_OUT)0.f;
+
     // TileMap 이 우측 하단으로 확장되도록 하기 위해서 
     // Local RectMesh 의 좌표를 수정한 후 상태행렬을 곱하게 한다.
     _in.vPos.x += 0.5f;
     _in.vPos.y -= 0.5f;
-    
+
     output.vPosition = mul(float4(_in.vPos, 1.f), matWVP);
     output.vUV = _in.vUV * TileColRow;
-    
+
     return output;
 }
 
 
 float4 PS_TileMap(VS_OUT _in) : SV_Target
 {
-    float4 vOutColor = (float4) 0.f;    
-    
+    float4 vOutColor = (float4)0.f;
+
     if (IsAtlasBind)
     {
-         // 픽셀쉐이더에서 본인의 타일이 몇번째 타일인지 알아내야한다.
+        // 픽셀쉐이더에서 본인의 타일이 몇번째 타일인지 알아내야한다.
         float2 CurColRow = floor(_in.vUV);
         int Idx = TileColRow.x * CurColRow.y + CurColRow.x;
-        
+
         // 그 정보로 g_Buffer 에 전달된 각 타일정보중 본인의 정보에 접근해서 ImgIdx 를 알아낸다.
         // 알아낸 ImgIdx 로 LeftTopUV 값을 계산한다.        
         int row = g_Buffer[Idx].ImgIdx / AtlasMaxCol;
         int col = g_Buffer[Idx].ImgIdx % AtlasMaxCol;
         float2 vLeftTopUV = float2(col, row) * TileSliceUV;
-        
+
         float2 vUV = vLeftTopUV + frac(_in.vUV) * TileSliceUV;
         vOutColor = AtlasTex.Sample(g_sam_1, vUV);
     }
@@ -73,7 +73,7 @@ float4 PS_TileMap(VS_OUT _in) : SV_Target
     {
         vOutColor = float4(1.f, 0.f, 1.f, 1.f);
     }
-    
+
     return vOutColor;
 }
 

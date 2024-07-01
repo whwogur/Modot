@@ -18,6 +18,10 @@
     <ClInclude Include="targetver.h">
       <Filter>Default</Filter>
     </ClInclude>
+    <ClInclude Include="CEditorCameraScript.h" />
+    <ClInclude Include="CEditorMgr.h" />
+    <ClInclude Include="CGameObjectEx.h" />
+    <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -29,6 +33,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="CEditorCameraScript.cpp" />
+    <ClCompile Include="CEditorMgr.cpp" />
+    <ClCompile Include="CGameObjectEx.cpp" />
+    <ClCompile Include="pch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">

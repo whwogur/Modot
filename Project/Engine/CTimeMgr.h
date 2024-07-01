@@ -13,6 +13,8 @@ public:
 	float GetDeltaTime() { return m_DeltaTime; }
 	float GetTime() { return m_Time; }
 	UINT GetFPS() { return m_FPS; }
+	float GetEngineDeltaTime() { return m_E_DeltaTime; }
+	float GetEngineTime() { return m_E_Time; }
 
 private:
 	LARGE_INTEGER	m_llCurCount;
@@ -23,5 +25,7 @@ private:
 
 	float			m_DeltaTime;
 	float			m_Time;
+	float			m_E_DeltaTime;
+	float			m_E_Time;
 };
 

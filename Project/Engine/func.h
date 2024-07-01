@@ -2,7 +2,7 @@
 
 void CreateObject(class CGameObject* _NewObject, int _LayerIndex);
 void DeleteObject(CGameObject* _DeleteObject);
-
+void ChangeLevelState(LEVEL_STATE _NextState);
 bool IsValid(CGameObject*& _Object);
 void DrawDebugCircle(Vec3 _Pos, float _Radius, Vec4 _Color, float _Life, bool _DepthTes);
 void DrawDebugRect(Vec3 _Pos, Vec3 _Scale, Vec3 _Rot, Vec4 _Color, float _Life, bool _DepthTest);

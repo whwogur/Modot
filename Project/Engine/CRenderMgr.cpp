@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CRenderMgr.h"
+#include "CDevice.h"
 
 #include "CCamera.h"
 #include "CTimeMgr.h"
@@ -8,7 +9,11 @@
 #include "CGameObject.h"
 #include "CTransform.h"
 #include "CMeshRender.h"
+
+#include "CLevelMgr.h"
+#include "CLevel.h"
 CRenderMgr::CRenderMgr()
+	: m_EditorCamera(nullptr)
 {
 
 }
@@ -30,12 +35,34 @@ void CRenderMgr::Init()
 
 void CRenderMgr::Tick()
 {
-	for (size_t i = 0; i < m_vecCam.size(); ++i)
-	{
-		if (nullptr == m_vecCam[i])
-			continue;
+	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+	if (nullptr == pCurLevel)
+		return;
 
-		m_vecCam[i]->Render();
+	// 렌더타겟 지정
+	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
+	Ptr<CTexture> pDSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
+	CONTEXT->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(), pDSTex->GetDSV().Get());
+
+	// Level 이 Player 상태인 경우, Level 내에 있는 카메라 시점으로 렌더링
+	if (PLAY == pCurLevel->GetState())
+	{
+		for (size_t i = 0; i < m_vecCam.size(); ++i)
+		{
+			if (nullptr == m_vecCam[i])
+				continue;
+
+			m_vecCam[i]->Render();
+		}
+	}
+
+	// Level 이 Stop 이나 Pause 인 경우, Editor 용 카메라 시점으로 렌더링
+	else
+	{
+		if (nullptr != m_EditorCamera)
+		{
+			m_EditorCamera->Render();
+		}
 	}
 
 	RenderDebugShape();
@@ -94,7 +121,7 @@ void CRenderMgr::RenderDebugShape()
 
 
 		// 수명이 다한 디버그 정보를 삭제
-		(*iter).Age += DT;
+		(*iter).Age += EngineDT;
 		if ((*iter).LifeTime < (*iter).Age)
 		{
 			iter = m_DebugShapeList.erase(iter);

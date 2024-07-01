@@ -1,16 +1,10 @@
-﻿#include "framework.h"
+﻿#include "pch.h"
+#include "framework.h"
 #include "Client.h"
 
-#ifdef _DEBUG
-#pragma comment(lib, "Engine\\Engine_D")
-#else
-#pragma comment(lib, "Engine\\Engine")
-#endif
-
-#include <Engine/global.h>
-#include <Engine/CEngine.h>
-
-
+#include "CEditorMgr.h"
+#include <Engine/CDevice.h>
+#include "ImGui/imgui_impl_win32.h"
 // 전역 변수:
 HINSTANCE g_hInst = nullptr;
 
@@ -58,6 +52,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
     MD_TRACE(L"Engine 초기화 완료");
 
+#ifdef _DEBUG
+    CEditorMgr::GetInst()->Init();
+#endif
+
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CLIENT));
     MSG msg = {};
     while (true)
@@ -76,6 +74,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         else
         {
             CEngine::GetInst()->Run();
+#ifdef _DEBUG
+            CEditorMgr::GetInst()->Tick();
+#endif
+            CDevice::GetInst()->Present();
         }
     }
 
@@ -100,22 +102,20 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_CLIENT));
     wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-    wcex.lpszMenuName = nullptr;//MAKEINTRESOURCEW(IDC_CLIENT);
+    wcex.lpszMenuName = nullptr;
     wcex.lpszClassName = L"ModotEngine";
     wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
     return RegisterClassExW(&wcex);
 }
 
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
-{
-
-
-    return TRUE;
-}
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+        return true;
+
     switch (message)
     {
     case WM_COMMAND:
@@ -135,6 +135,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
+
+    case WM_DPICHANGED:
+        if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DpiEnableScaleViewports)
+        {
+            //const int dpi = HIWORD(wParam);
+            //printf("WM_DPICHANGED to %d (%.0f%%)\n", dpi, (float)dpi / 96.0f * 100.0f);
+            const RECT* suggested_rect = (RECT*)lParam;
+            ::SetWindowPos(hWnd, nullptr, suggested_rect->left, suggested_rect->top, suggested_rect->right - suggested_rect->left, suggested_rect->bottom - suggested_rect->top, SWP_NOZORDER | SWP_NOACTIVATE);
+        }
+        break;
+
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
