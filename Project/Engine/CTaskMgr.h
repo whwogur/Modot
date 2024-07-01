@@ -6,16 +6,14 @@ class CTaskMgr
 {
 	SINGLE(CTaskMgr)
 public:
-	void tick();
+	void Tick();
 	void AddTask(const tTask& _Task) { m_vecTask.push_back(_Task); }
-
 private:
 	void ClearGC();
 	void ExecuteTask();	
 
 private:
-	vector<tTask>	m_vecTask;
-	vector<CObj*>	m_GC;
-
+	vector<tTask>			m_vecTask;
+	vector<CGameObject*>	m_GC;
 };
 

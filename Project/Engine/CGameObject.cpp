@@ -13,6 +13,7 @@ CGameObject::CGameObject()
 	, m_RenderCom(nullptr)
 	, m_Parent(nullptr)
 	, m_LayerIdx(-1)
+	, m_Dead(false)
 {
 }
 
@@ -165,9 +166,15 @@ void CGameObject::FinalTick()
 	CLayer* pLayer = pLevel->GetLayer(m_LayerIdx);
 	pLayer->RegisterGameObject(this);
 
-	for (size_t i = 0; i < m_vecChildren.size(); ++i)
+	vector<CGameObject*>::iterator iter = m_vecChildren.begin();
+	for (; iter != m_vecChildren.end(); )
 	{
-		m_vecChildren[i]->FinalTick();
+		(*iter)->FinalTick();
+
+		if ((*iter)->IsDead())
+			iter = m_vecChildren.erase(iter);
+		else
+			++iter;
 	}
 }
 

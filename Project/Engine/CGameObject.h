@@ -22,6 +22,8 @@ public:
     int GetLayerIdx() { return m_LayerIdx; }
     void AddChild(CGameObject* _ChildObject);
     const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
+    const vector<CScript*> GetScripts() { return m_vecScript; }
+    bool IsDead() { return m_Dead; }
 
     void DetachFromLayer();
     void DetachChild();
@@ -45,6 +47,8 @@ private:
 
     vector<CScript*>            m_vecScript;
     vector<CGameObject*>        m_vecChildren;
+    bool                        m_Dead;
     friend class CLevel;
     friend class CLayer;
+    friend class CTaskMgr;
 };

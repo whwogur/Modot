@@ -23,6 +23,11 @@ public:
     WRL::ComPtr<ID3D11ShaderResourceView>    GetSRV() { return m_SRV; }
     WRL::ComPtr<ID3D11UnorderedAccessView>   GetUAV() { return m_UAV; }
 
+
+public:
+    UINT Width() { return m_Desc.Width; }
+    UINT Height() { return m_Desc.Height; }
+
 private:
     WRL::ComPtr<ID3D11RenderTargetView>         m_RTV;
     WRL::ComPtr<ID3D11DepthStencilView>         m_DSV;

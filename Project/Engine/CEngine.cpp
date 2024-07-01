@@ -10,6 +10,8 @@
 #include "CAssetMgr.h"
 #include "CLevelMgr.h"
 #include "CRenderMgr.h"
+#include "CCollisionMgr.h"
+#include "CTaskMgr.h"
 
 CEngine::CEngine()
 	: m_hWnd(nullptr)
@@ -48,11 +50,13 @@ void CEngine::Run()
 	CTimeMgr::GetInst()->Tick();
 
 	CLevelMgr::GetInst()->Run();
-
+	CCollisionMgr::GetInst()->Tick();
 	// Render
 	CDevice::GetInst()->Clear();
 	CRenderMgr::GetInst()->Tick();
 	CDevice::GetInst()->Present();
+
+	CTaskMgr::GetInst()->Tick();
 }
 
 

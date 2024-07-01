@@ -1,4 +1,9 @@
 #pragma once
+
+void CreateObject(class CGameObject* _NewObject, int _LayerIndex);
+void DeleteObject(CGameObject* _DeleteObject);
+
+bool IsValid(CGameObject*& _Object);
 void DrawDebugCircle(Vec3 _Pos, float _Radius, Vec4 _Color, float _Life, bool _DepthTes);
 void DrawDebugRect(Vec3 _Pos, Vec3 _Scale, Vec3 _Rot, Vec4 _Color, float _Life, bool _DepthTest);
 void DrawDebugRect(const Matrix& _matWorld, Vec4 _Color, float _Life, bool _DepthTest);
@@ -57,6 +62,10 @@ ASSET_TYPE GetAssetType()
 	//	return ASSET_TYPE::SOUND;
 	if constexpr (std::is_same_v<T, CGraphicShader>)
 		return ASSET_TYPE::GRAPHIC_SHADER;
+	if constexpr (std::is_same_v<T, CSprite>)
+		return ASSET_TYPE::SPRITE;
+	if constexpr (std::is_same_v<T, CAnimation>)
+		return ASSET_TYPE::ANIMATION;
 	//if constexpr(std::is_same_v<T, CComputeShader>)
 		//return ASSET_TYPE::COMPUTE_SHADER;
 }
