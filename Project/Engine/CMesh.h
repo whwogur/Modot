@@ -10,7 +10,7 @@ public:
 public:
     int Create(Vtx* _VtxSysMem, UINT _VtxCount, UINT* _IdxSysMem, UINT _IdxCount);
     void Bind();
-    void render();
+    void Render();
 
     void* GetVtxSysMem() { return m_VtxSysMem; }
 

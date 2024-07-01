@@ -313,6 +313,14 @@ int CDevice::CreateConstBuffer()
     MD_ENGINE_ASSERT(SUCCEEDED(pCB->Create(CB_TYPE::MATERIAL, sizeof(tMtrlConst))), L"초기화 실패 - 상수버퍼 생성 실패");
     m_arrCB[(UINT)CB_TYPE::MATERIAL] = pCB;
 
+    pCB = new CConstBuffer;
+    if (FAILED(pCB->Create(CB_TYPE::SPRITE, sizeof(tSpriteInfo))))
+    {
+        MessageBox(nullptr, L"상수버퍼 생성 실패", L"초기화 실패", MB_OK);
+        return E_FAIL;
+    }
+    m_arrCB[(UINT)CB_TYPE::SPRITE] = pCB;
+
     return S_OK;
 }
 

@@ -8,6 +8,9 @@ void DrawDebugCircle(Vec3 _Pos, float _Radius, Vec4 _Color, float _Life, bool _D
 void DrawDebugRect(Vec3 _Pos, Vec3 _Scale, Vec3 _Rot, Vec4 _Color, float _Life, bool _DepthTest);
 void DrawDebugRect(const Matrix& _matWorld, Vec4 _Color, float _Life, bool _DepthTest);
 
+void SaveWString(const wstring& _String, FILE* _File);
+void LoadWString(wstring& _String, FILE* _File);
+
 template<typename T, int _Size>
 void Delete_Array(T(&_arr)[_Size])
 {

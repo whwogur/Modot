@@ -70,7 +70,8 @@ void CLevelMgr::Init()
 	pObject->AddComponent(new CMeshRender);
 	pObject->AddComponent(new CCollider2D);
 	pObject->AddComponent(new CPlayerScript);
-
+	pObject->AddComponent(new CAnimator2D);
+	
 	pObject->Transform()->SetRelativePos(0.f, 0.f, 100.f);
 	pObject->Transform()->SetRelativeScale(200.f, 200.f, 1.f);
 
@@ -78,32 +79,32 @@ void CLevelMgr::Init()
 	pObject->Collider2D()->SetOffset(Vec3(0.f, 0.f, 0.f));
 	pObject->Collider2D()->SetScale(Vec3(220.f, 220.f, 1.f));
 
-	pObject->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"CircleMesh"));
+	pObject->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pObject->MeshRender()->SetMaterial(pMtrl);
 	pObject->MeshRender()->GetMaterial()->SetScalarParam(INT_1, 1);
 	pObject->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_0, 0.01f);
 	pObject->MeshRender()->GetMaterial()->SetScalarParam(VEC4_0, Vec4(0.f, 1.f, 0.f, 1.f));
+	
+	pObject->Animator2D()->AddAnimation(5, CAssetMgr::GetInst()->FindAsset<CAnimation>(L"Cath_Idle"));
+	pObject->Animator2D()->Play(0, 15, true);
 
 	m_CurLevel->AddObject(3, pObject);
 
-	// Monster Object
-	CGameObject* pMonster = new CGameObject;
-	pMonster->SetName(L"Monster");
+	// TileMap Object
+	CGameObject* pTileMapObj = new CGameObject;
+	pTileMapObj->SetName(L"TileMap");
 
-	pMonster->AddComponent(new CTransform);
-	pMonster->AddComponent(new CMeshRender);
-	pMonster->AddComponent(new CCollider2D);
+	pTileMapObj->AddComponent(new CTransform);
+	pTileMapObj->AddComponent(new CTileMap);
 
-	pMonster->Transform()->SetRelativePos(-400.f, 0.f, 100.f);
-	pMonster->Transform()->SetRelativeScale(150.f, 150.f, 1.f);
+	pTileMapObj->Transform()->SetRelativePos(Vec3(-500.f, 250.f, 500.f));
+	pTileMapObj->TileMap()->SetRowCol(4, 4);
+	pTileMapObj->TileMap()->SetTileSize(Vec2(64.f, 64.f));
 
-	pMonster->Collider2D()->SetOffset(Vec3(0.f, 0.f, 0.f));
-	pMonster->Collider2D()->SetScale(Vec3(1.2f, 1.2f, 1.f));
-
-	pMonster->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	pMonster->MeshRender()->SetMaterial(pMtrl);
-
-	m_CurLevel->AddObject(4, pMonster);
+	Ptr<CTexture> pTileAtlas = CAssetMgr::GetInst()->Load<CTexture>(L"TileAtlasTex", L"texture\\Tilesheet.bmp");
+	pTileMapObj->TileMap()->SetAtlasTexture(pTileAtlas);
+	pTileMapObj->TileMap()->SetAtlasTileSize(Vec2(64.f, 64.f));
+	m_CurLevel->AddObject(2, pTileMapObj);
 
 	// 충돌 지정
 	CCollisionMgr::GetInst()->CollisionCheck(3, 4);

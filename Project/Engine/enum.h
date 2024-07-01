@@ -6,7 +6,7 @@ enum class CB_TYPE
 	TRANSFORM,
 
 	MATERIAL,
-
+	SPRITE,
 	GLOBAL,
 
 	END,

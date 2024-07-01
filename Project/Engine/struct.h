@@ -47,4 +47,14 @@ struct tMtrlConst
 	int		btex[TEX_PARAM::END + 2];
 };
 
+struct tSpriteInfo
+{
+	Vec2 LeftTopUV;
+	Vec2 SliceUV;
+	Vec2 BackGroundUV;
+	Vec2 OffsetUV;
+	int	 UseAnimator2D;
+	int  Padding[3];
+};
+
 extern tTransform g_Trans;

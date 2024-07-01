@@ -95,7 +95,6 @@
     <ClInclude Include="CRenderComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="CMeshRender.h" />
     <ClInclude Include="Ptr.h">
       <Filter>06. Asset</Filter>
     </ClInclude>
@@ -133,6 +132,11 @@
       <Filter>06. Asset</Filter>
     </ClInclude>
     <ClInclude Include="CSprite.h" />
+    <ClInclude Include="CMeshRender.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CTileMap.h" />
+    <ClInclude Include="CStructuredBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -199,7 +203,6 @@
     <ClCompile Include="CRenderComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
-    <ClCompile Include="CMeshRender.cpp" />
     <ClCompile Include="CCamera.cpp">
       <Filter>Component</Filter>
     </ClCompile>
@@ -244,6 +247,11 @@
     <ClCompile Include="CTaskMgr.cpp">
       <Filter>04. Manager</Filter>
     </ClCompile>
+    <ClCompile Include="CMeshRender.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CTileMap.cpp" />
+    <ClCompile Include="CStructuredBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -308,6 +316,9 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="debug.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="tilemap.fx">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

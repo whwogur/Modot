@@ -1,21 +1,35 @@
 #pragma once
 #include "CComponent.h"
-
-class CAnimation;
+#include "CAnimation.h"
 
 class CAnimator2D :
     public CComponent
 {
 public:
-    virtual void FinalTick() override;
-
-public:
-    CLONE(CAnimator2D);
     CAnimator2D();
     ~CAnimator2D();
 
+public:
+    virtual void FinalTick() override;
+
+public:
+    void AddAnimation(int _Idx, Ptr<CAnimation> _Animation);
+    Ptr<CAnimation> FindAnimation(const wstring& _Key);
+    void Play(int _AnimationIdx, float _FPS, bool _Repeat);
+    Ptr<CSprite> GetCurSprite() { return m_CurFrmSprite; }
+
+    void Reset();
+    void Bind();
+    static void Clear();
+
 private:
-    map<wstring, CAnimation*>       m_mapAnim;  // Animator2D 컴포넌트가 보유한 모든 애니메이션 목록
-    CAnimation*                     m_CurAnim;  // 현재 재생중인 애니메이션
-    int                             m_CurFrm;   // 현재 재생중인 애니메이션 에서 몇번째 Sprite 가 재생중인지 인덱스 기록
+    vector<Ptr<CAnimation>>     m_vecAnimation;  // 애니메이터 컴포넌트가 보유한 모든 애니메이션 목록
+    Ptr<CAnimation>             m_CurAnimation;  // 현재 재생중인 Animation
+    Ptr<CSprite>                m_CurFrmSprite; // 현재 재생중인 Animation 에서 현재 프레임 인덱스에 해당하는 스프라이트
+    int                         m_CurFrmIdx;    // 현재 재생중인 Animation 에서 몇번째 Sprite 가 재생중인지 인덱스 기록
+    int                         m_MaxFrm;       // 현재 재생중인 Animation 의 최대 프레임
+    float                       m_FPS;          // 현재 재생중인 Animation 의 초당 프레임 진행 수
+    float                       m_AccTime;      // 누적 시간값 체크
+    bool                        m_Repeat;
+    bool                        m_Finish;       // Animation 재생이 끝에 도달했는지 여부
 };

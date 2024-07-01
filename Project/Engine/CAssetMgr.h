@@ -29,6 +29,7 @@ private:
 	void CreateEngineMesh();
 	void CreateEngineMaterial();
 	void CreateEngineTexture();
+	void CreateEngineSprite();
 	void CreateEngineGraphicShader();
 	void CreateEngineComputeShader();
 
@@ -55,7 +56,7 @@ Ptr<T> CAssetMgr::Load(const wstring& _Key, const wstring& _RelativePath)
 
 	Asset = new T;
 
-	MD_ENGINE_ASSERT(SUCCEEDED(Asset->Load(strFilePath)), L"텍스쳐 로딩 실패 - 알수없는 포맷");
+	MD_ENGINE_ASSERT(SUCCEEDED(Asset->Load(strFilePath)), L"애셋 로딩 실패 !");
 
 	Asset->m_Key = _Key;
 	Asset->m_RelativePath = _RelativePath;
@@ -87,7 +88,39 @@ void CAssetMgr::AddAsset(const wstring& _Key, Ptr<T> _Asset)
 {
 	ASSET_TYPE Type = GetAssetType<T>();
 
-	assert(!FindAsset(Type, _Key).Get());
+	MD_ENGINE_ASSERT(FindAsset(Type, _Key).Get() == nullptr, L"이미 있는 애셋 추가 시도");
+
+	_Asset->SetKey(_Key);
 	m_mapAsset[(UINT)Type].insert(make_pair(_Key, _Asset.Get()));
-	MD_ENGINE_TRACE(L"{0} 맵에 추가", _Key);
+	MD_ENGINE_TRACE(L"{0} 맵에 추가됨", _Key);
+}
+
+// File 에 Asset 참조정보 저장 불러오기
+template<typename T>
+void SaveAssetRef(Ptr<T> Asset, FILE* _File)
+{
+	bool bAsset = Asset.Get();
+	fwrite(&bAsset, 1, 1, _File);
+
+	if (bAsset)
+	{
+		SaveWString(Asset->GetKey(), _File);
+		SaveWString(Asset->GetRelativePath(), _File);
+	}
+}
+
+template<typename T>
+void LoadAssetRef(Ptr<T>& Asset, FILE* _File)
+{
+	bool bAsset = false;
+	fread(&bAsset, 1, 1, _File);
+
+	if (bAsset)
+	{
+		wstring key, relativepath;
+		LoadWString(key, _File);
+		LoadWString(relativepath, _File);
+
+		Asset = CAssetMgr::GetInst()->Load<T>(key, relativepath);
+	}
 }

@@ -7,6 +7,8 @@ void CAssetMgr::Init()
 
 	CreateEngineTexture();
 
+	CreateEngineSprite();
+
 	CreateEngineGraphicShader();
 
 	CreateEngineComputeShader();
@@ -107,6 +109,68 @@ void CAssetMgr::CreateEngineTexture()
 {
 }
 
+void CAssetMgr::CreateEngineSprite()
+{
+	Ptr<CTexture> pAtlasTex = Load<CTexture>(L"CathAtlas", L"texture\\Cath.bmp");
+
+	Ptr<CSprite> pSprite = nullptr;
+
+	for (int i = 0; i < 15; ++i)
+	{
+		wchar_t szKey[50] = {};
+		swprintf_s(szKey, 50, L"Cath_Idle_%d", i);
+
+		pSprite = new CSprite;
+		pSprite->Create(pAtlasTex, Vec2((float)i * 0.f, 0.f), Vec2(144.f, 144.f));
+		AddAsset(szKey, pSprite);
+	}
+
+	Ptr<CAnimation> pAnimation = nullptr;
+
+	pAnimation = new CAnimation;
+
+	for (int i = 0; i < 15; ++i)
+	{
+		wchar_t szKey[50] = {};
+		swprintf_s(szKey, 50, L"Cath_Idle_%d", i);
+		pAnimation->AddSprite(FindAsset<CSprite>(szKey));
+	}
+
+	AddAsset(L"Cath_Idle", pAnimation);
+
+	/*wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
+
+	Ptr<CSprite> pSprite = nullptr;
+
+	for (int i = 0; i < 10; ++i)
+	{
+		wchar_t Buffer[50] = {};
+		swprintf_s(Buffer, 50, L"Cath_Idle_%d", i);
+
+		pSprite = Load<CSprite>(Buffer, wstring(L"Animation\\") + Buffer + L".sprite");		
+
+		pSprite->SetRelativePath(wstring(L"Animation\\") + Buffer + L".sprite");
+		pSprite->Save(strContentPath + L"Animation\\" + Buffer + L".sprite");
+	}
+
+
+	Ptr<CAnimation> pAnimation = new CAnimation;
+
+	for (int i = 0; i < 10; ++i)
+	{
+		wchar_t Buffer[50] = {};
+		swprintf_s(Buffer, 50, L"Cath_Idle_%d", i);
+		pAnimation->AddSprite(FindAsset<CSprite>(Buffer));		
+	}
+
+	AddAsset(L"Cath_Idle", pAnimation);
+	pAnimation->Save(strContentPath + L"Animation\\" + L"Cath_Idle" + L".anim");*/
+
+	/*Ptr<CAnimation> pAnimation = new CAnimation;
+	pAnimation->Load(strContentPath + L"Animation\\" + L"Cath_Idle" + L".anim");
+	AddAsset(L"Link_MoveDown", pAnimation);*/
+}
+
 void CAssetMgr::CreateEngineGraphicShader()
 {
 	Ptr<CGraphicShader> pShader = nullptr;
@@ -153,6 +217,20 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEBUG);
 
 	AddAsset(L"DebugShapeShader", pShader);
+
+	// TileMapShader
+	pShader = new CGraphicShader;
+
+	pShader->CreateVertexShader(L"shader\\tilemap.fx", "VS_TileMap");
+	pShader->CreatePixelShader(L"shader\\tilemap.fx", "PS_TileMap");
+
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASKED);
+
+	AddAsset(L"TileMapShader", pShader);
 }
 
 void CAssetMgr::CreateEngineComputeShader()
@@ -178,4 +256,9 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial();
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"DebugShapeShader"));
 	AddAsset(L"DebugShapeMtrl", pMtrl);
+
+	// TileMapMtrl
+	pMtrl = new CMaterial();
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"TileMapShader"));
+	AddAsset(L"TileMapMtrl", pMtrl);
 }
