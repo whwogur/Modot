@@ -33,6 +33,8 @@ enum class ASSET_TYPE
 	ANIMATION,
 	END,
 };
+extern const char* ASSET_TYPE_STRING[(UINT)ASSET_TYPE::END];
+const char* ToString(ASSET_TYPE _Type);
 
 enum class COMPONENT_TYPE
 {
@@ -56,6 +58,8 @@ enum class COMPONENT_TYPE
 
 	SCRIPT,
 };
+extern const char* COMPONENT_TYPE_STRING[(UINT)COMPONENT_TYPE::END];
+const char* ToString(COMPONENT_TYPE _Type);
 
 enum class RS_TYPE
 {

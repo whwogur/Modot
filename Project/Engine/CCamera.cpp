@@ -29,6 +29,7 @@ CCamera::CCamera()
 	Vec2 vResolution = CDevice::GetInst()->GetResolution();
 	m_Width = vResolution.x;
 	m_Height = vResolution.y;
+	m_AspectRatio = m_Width / m_Height;
 }
 
 CCamera::~CCamera()
@@ -70,9 +71,8 @@ void CCamera::FinalTick()
 
 	else
 	{
-		// Perspective
-		float AspectRatio = m_Width / m_Height;
-		m_matProj = XMMatrixPerspectiveFovLH(m_FOV, AspectRatio, 1.f, m_Far);
+		// Perspective	
+		m_matProj = XMMatrixPerspectiveFovLH(m_FOV, m_AspectRatio, 1.f, m_Far);
 	}
 }
 

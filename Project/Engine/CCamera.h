@@ -24,8 +24,24 @@ public:
             m_LayerCheck &= ~(1 << _LayerIdx);
     }
     void SetLayerAll() { m_LayerCheck = 0xffffffff; }
+    bool GetLayerCheck(UINT _LayerIdx) { return m_LayerCheck & (1 << _LayerIdx); }
     void SetProjType(PROJ_TYPE _Type) { m_ProjType = _Type; }
     PROJ_TYPE GetProjType() { return m_ProjType; }
+    void SetWidth(float _Width)
+    {
+        m_Width = _Width;
+        m_AspectRatio = m_Width / m_Height;
+    }
+
+    void SetHeight(float _Height)
+    {
+        m_Height = _Height;
+        m_AspectRatio = m_Width / m_Height;
+    }
+
+    float GetWidth() { return m_Width; }
+    float GetHeight() { return m_Height; }
+    float GetAspectRatio() { return m_AspectRatio; }
 
     void SetFar(float _Far) { m_Far = _Far; }
     float GetFar() { return m_Far; }

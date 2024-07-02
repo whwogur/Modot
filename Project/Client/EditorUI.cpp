@@ -33,9 +33,6 @@ void EditorUI::Tick()
 
 		for (size_t i = 0; i < m_vecChildUI.size(); ++i)
 		{
-			if (m_vecChildUI[i]->m_ChildBorder)
-				ImGui::Separator();
-
 			m_vecChildUI[i]->Tick();
 
 			if (m_vecChildUI[i]->m_ChildBorder && i == m_vecChildUI.size() - 1)
@@ -48,6 +45,11 @@ void EditorUI::Tick()
 	// 자식 타입 UI 인 경우
 	else
 	{
+		if (m_ChildBorder)
+		{
+			ImGui::Separator();
+		}
+
 		ImGui::BeginChild(m_FullName.c_str(), m_ChildSize);
 
 		Update();

@@ -97,6 +97,7 @@
     <ClInclude Include="..\..\vendor\ImGui\imstb_rectpack.h" />
     <ClInclude Include="..\..\vendor\ImGui\imstb_textedit.h" />
     <ClInclude Include="..\..\vendor\ImGui\imstb_truetype.h" />
+    <ClInclude Include="CameraUI.h" />
     <ClInclude Include="CEditorCameraScript.h" />
     <ClInclude Include="CEditorMgr.h" />
     <ClInclude Include="CGameObjectEx.h" />
@@ -121,6 +122,7 @@
     <ClCompile Include="..\..\vendor\ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="..\..\vendor\ImGui\imgui_tables.cpp" />
     <ClCompile Include="..\..\vendor\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="CameraUI.cpp" />
     <ClCompile Include="CEditorCameraScript.cpp" />
     <ClCompile Include="CEditorMgr.cpp" />
     <ClCompile Include="CEditorMgr_EditorObject.cpp" />

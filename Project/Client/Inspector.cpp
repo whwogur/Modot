@@ -9,20 +9,25 @@
 
 #include "TransformUI.h"
 #include "Collider2DUI.h"
-
+#include "CameraUI.h"
 Inspector::Inspector()
 	: m_TargetObject(nullptr)
 	, m_arrComUI{}
 {
 	m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM] = new TransformUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM]->SetName("TransformUI");
-	m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM]->SetChildSize(ImVec2(0.f, 100.f));
+	m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM]->SetChildSize(ImVec2(0.f, 130.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::COLLIDER2D] = new Collider2DUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::COLLIDER2D]->SetName("Collider2DUI");
 	m_arrComUI[(UINT)COMPONENT_TYPE::COLLIDER2D]->SetChildSize(ImVec2(0.f, 100.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::COLLIDER2D]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA] = new CameraUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]->SetName("CameraUI");
+	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]->SetChildSize(ImVec2(0.f, 150.f));
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]);
 }
 
 Inspector::~Inspector()
@@ -46,7 +51,7 @@ void Inspector::Update()
 {
 	if (nullptr == m_TargetObject)
 	{
-		SetTargetObject(CLevelMgr::GetInst()->FindObjectByName(L"Player"));
+		SetTargetObject(CLevelMgr::GetInst()->FindObjectByName(L"MainCamera"));
 		return;
 	}
 
