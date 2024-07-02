@@ -3,24 +3,32 @@
 #include <Engine/singleton.h>
 
 class CGameObject;
+class EditorUI;
 
 class CEditorMgr :
     public CSingleton<CEditorMgr>
 {
     SINGLE(CEditorMgr);
-private:
-    vector<CGameObject*>    m_vecEditorObject;
-
-
 public:
     void Init();
     void Tick();
 
+public:
+    EditorUI* FindEditorUI(const string& Name);
+
 private:
+    void ShortCut();
+
+    void CreateEditorObject();
+    void EditorObjectUpdate();
     void InitImGui();
     void ImGuiRun();
     void ImGuiTick();
-    void CreateEditorObject();
+    void SetDarkThemeColors();
+    void CreateEditorUI();
 
+private:
+    vector<CGameObject*>        m_vecEditorObject;
+    map<string, EditorUI*>      m_mapUI;
 };
 

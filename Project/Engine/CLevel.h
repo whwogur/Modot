@@ -18,6 +18,7 @@ public:
     CLayer* GetLayer(int _LayerIdx) { return m_Layer[_LayerIdx]; }
     void AddObject(int LayerIdx, CGameObject* _Object, bool _bMoveChildTogether = false);
     LEVEL_STATE GetState() { return m_State; }
+    CGameObject* FindObjectByName(const wstring& _Name);
 
 private:
     void ChangeState(LEVEL_STATE _NextState);

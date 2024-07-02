@@ -24,6 +24,16 @@ CLevelMgr::~CLevelMgr()
 		delete m_CurLevel;
 }
 
+CGameObject* CLevelMgr::FindObjectByName(const wstring& _Name)
+{
+	if (m_CurLevel)
+	{
+		return m_CurLevel->FindObjectByName(_Name);
+	}
+
+	return nullptr;
+}
+
 void CLevelMgr::Init()
 {
 	// Material

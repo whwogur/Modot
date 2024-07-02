@@ -4,6 +4,12 @@
     <Filter Include="Default">
       <UniqueIdentifier>{08e0f42e-92b4-437d-8778-bb22ee001197}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{25fe6411-e6de-4b8a-93aa-b9af87587a74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorUI">
+      <UniqueIdentifier>{2d24d02b-b97e-4156-a45a-259763995f7d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -22,6 +28,51 @@
     <ClInclude Include="CEditorMgr.h" />
     <ClInclude Include="CGameObjectEx.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="..\..\vendor\ImGui\imconfig.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\ImGui\imgui.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\ImGui\imgui_impl_dx11.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\ImGui\imgui_impl_win32.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\ImGui\imgui_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\ImGui\imstb_rectpack.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\ImGui\imstb_textedit.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vendor\ImGui\imstb_truetype.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorUI.h">
+      <Filter>EditorUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Inspector.h">
+      <Filter>EditorUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformUI.h">
+      <Filter>EditorUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Content.h">
+      <Filter>EditorUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentUI.h">
+      <Filter>EditorUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider2DUI.h">
+      <Filter>EditorUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Outliner.h">
+      <Filter>EditorUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -37,10 +88,59 @@
     <ClCompile Include="CEditorMgr.cpp" />
     <ClCompile Include="CGameObjectEx.cpp" />
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="..\..\vendor\ImGui\imgui.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vendor\ImGui\imgui_demo.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vendor\ImGui\imgui_draw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vendor\ImGui\imgui_impl_dx11.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vendor\ImGui\imgui_impl_win32.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vendor\ImGui\imgui_tables.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vendor\ImGui\imgui_widgets.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="CEditorMgr_EditorObject.cpp" />
+    <ClCompile Include="CEditorMgr_EditorUI.cpp" />
+    <ClCompile Include="EditorUI.cpp">
+      <Filter>EditorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Inspector.cpp">
+      <Filter>EditorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformUI.cpp">
+      <Filter>EditorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Content.cpp">
+      <Filter>EditorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentUI.cpp">
+      <Filter>EditorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider2DUI.cpp">
+      <Filter>EditorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Outliner.cpp">
+      <Filter>EditorUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
       <Filter>Default</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\vendor\ImGui\LICENSE.txt">
+      <Filter>ImGui</Filter>
+    </Text>
   </ItemGroup>
 </Project>

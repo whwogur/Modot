@@ -89,21 +89,52 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\vendor\ImGui\imconfig.h" />
+    <ClInclude Include="..\..\vendor\ImGui\imgui.h" />
+    <ClInclude Include="..\..\vendor\ImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="..\..\vendor\ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="..\..\vendor\ImGui\imgui_internal.h" />
+    <ClInclude Include="..\..\vendor\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="..\..\vendor\ImGui\imstb_textedit.h" />
+    <ClInclude Include="..\..\vendor\ImGui\imstb_truetype.h" />
     <ClInclude Include="CEditorCameraScript.h" />
     <ClInclude Include="CEditorMgr.h" />
     <ClInclude Include="CGameObjectEx.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="Collider2DUI.h" />
+    <ClInclude Include="ComponentUI.h" />
+    <ClInclude Include="Content.h" />
+    <ClInclude Include="EditorUI.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Inspector.h" />
+    <ClInclude Include="Outliner.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TransformUI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\vendor\ImGui\imgui.cpp" />
+    <ClCompile Include="..\..\vendor\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="..\..\vendor\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\vendor\ImGui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="..\..\vendor\ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\..\vendor\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="..\..\vendor\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="CEditorCameraScript.cpp" />
     <ClCompile Include="CEditorMgr.cpp" />
+    <ClCompile Include="CEditorMgr_EditorObject.cpp" />
+    <ClCompile Include="CEditorMgr_EditorUI.cpp" />
     <ClCompile Include="CGameObjectEx.cpp" />
+    <ClCompile Include="Collider2DUI.cpp" />
+    <ClCompile Include="ComponentUI.cpp" />
+    <ClCompile Include="Content.cpp" />
+    <ClCompile Include="EditorUI.cpp" />
+    <ClCompile Include="Inspector.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Outliner.cpp" />
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="TransformUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />
@@ -111,6 +142,9 @@
   <ItemGroup>
     <Image Include="Client.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\vendor\ImGui\LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
