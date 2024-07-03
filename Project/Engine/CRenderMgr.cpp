@@ -33,7 +33,6 @@ CRenderMgr::~CRenderMgr()
 
 void CRenderMgr::CreateViewportTex(Vec2 _Size)
 {
-	ID3D11Texture2D* viewportTex;
 	D3D11_TEXTURE2D_DESC textureDesc;
 	D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
 	D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
@@ -52,7 +51,7 @@ void CRenderMgr::CreateViewportTex(Vec2 _Size)
 	textureDesc.MiscFlags = 0;
 
 	// Create the texture
-	DEVICE->CreateTexture2D(&textureDesc, NULL, &viewportTex);
+	DEVICE->CreateTexture2D(&textureDesc, NULL, &m_ViewportTex);
 
 	renderTargetViewDesc.Format = textureDesc.Format;
 	renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
@@ -68,19 +67,20 @@ void CRenderMgr::CreateViewportTex(Vec2 _Size)
 
 	// Create the shader resource view.
 	DEVICE->CreateShaderResourceView(m_ViewportTex, &shaderResourceViewDesc, &m_ViewportSRV);
-
-	m_ViewportTex = viewportTex;
 }
 
 void CRenderMgr::ResizeViewportTex(Vec2 _Size)
 {
-	if (m_ViewportTex != nullptr)
+	if (m_ViewportTex != nullptr && (_Size.x != m_ViewportTexSize.x || _Size.y != m_ViewportTexSize.y))
+	{
 		m_ViewportTex->Release();
-	if (m_ViewportSRV != nullptr)
-		m_ViewportSRV->Release();
-	if (m_ViewportRTV != nullptr)
-		m_ViewportRTV->Release();
-	CreateViewportTex(_Size);
+
+		if (m_ViewportSRV != nullptr)
+			m_ViewportSRV->Release();
+		if (m_ViewportRTV != nullptr)
+			m_ViewportRTV->Release();
+		CreateViewportTex(_Size);
+	}
 }
 
 void CRenderMgr::Init()

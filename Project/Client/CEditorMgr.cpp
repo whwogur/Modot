@@ -1,17 +1,17 @@
 #include "pch.h"
 #include "CEditorMgr.h"
 
-#include <Engine/CKeyMgr.h>
-#include <Engine/CRenderMgr.h>
+#include "Engine/CKeyMgr.h"
+#include "Engine/CRenderMgr.h"
 
 #include "CGameObjectEx.h"
-#include <Engine/components.h>
+#include "Engine/components.h"
 #include "CEditorCameraScript.h"
 
 
-#include <Engine/CEngine.h>
-#include <Engine/CDevice.h>
-#include <Engine/CKeyMgr.h>
+#include "Engine/CEngine.h"
+#include "Engine/CDevice.h"
+#include "Engine/CKeyMgr.h"
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_dx11.h"
 #include "ImGui/imgui_impl_win32.h"
@@ -156,18 +156,11 @@ void CEditorMgr::ImGuiTick()
 	ImGui::Begin("Viewport");
 	// Resize
 	ImVec2 temp = ImGui::GetContentRegionAvail();
-	
-	Vec2 ViewportTexSize = CRenderMgr::GetInst()->GetViewportTexSize();
-
-	if (temp.x > 0.0f && temp.y > 0.0f &&
-		(ViewportTexSize.x != temp.x || ViewportTexSize.y != temp.y))
-	{
-		CRenderMgr::GetInst()->ResizeViewportTex(Vec2(temp.x, temp.y));
-	}
+	CRenderMgr::GetInst()->ResizeViewportTex({temp.x, temp.y});
 
 	ID3D11ShaderResourceView* ViewportTexSRV = CRenderMgr::GetInst()->GetViewportSRV();
 	
-	ImGui::Image((void*)(ViewportTexSRV), CRenderMgr::GetInst()->GetViewportTexSize());
+	ImGui::Image((void*)(ViewportTexSRV), temp);
 
 	ImGui::End();
 	ImGui::PopStyleVar();

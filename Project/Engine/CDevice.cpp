@@ -2,6 +2,7 @@
 #include "CDevice.h"
 #include "CConstBuffer.h"
 #include "CAssetMgr.h"
+#include "CRenderMgr.h"
 
 CDevice::CDevice()
     : m_hWnd(nullptr)
@@ -233,9 +234,9 @@ int CDevice::CreateRasterizerState()
 void CDevice::Clear()
 {
     float color[4] = { 0.4f, 0.4f, 0.4f, 1.f };
-    Ptr<CTexture> pVPTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"ViewportTexture");
+    ID3D11RenderTargetView* pVPTex = CRenderMgr::GetInst()->GetViewportRTV();
 
-    m_Context->ClearRenderTargetView(pVPTex->GetRTV().Get(), color);
+    m_Context->ClearRenderTargetView(pVPTex, color);
     m_Context->ClearRenderTargetView(m_RTTex->GetRTV().Get(), color);
     m_Context->ClearDepthStencilView(m_DSTex->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 }
