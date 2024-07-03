@@ -123,7 +123,10 @@ void CEditorMgr::ImGuiTick()
 
 	if (ImGui::BeginMenuBar())
 	{
-		if (ImGui::BeginMenu("File"))
+		Ptr<CTexture> LogoTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Logo");
+		ImGui::Image(LogoTex->GetSRV().Get(), {25 ,25});
+
+		if (ImGui::BeginMenu(u8"ÆÄÀÏ"))
 		{
 			// Disabling fullscreen would allow the window to be moved to the front of other windows, 
 			// which we can't undo at the moment without finer window depth/z control.
@@ -179,8 +182,8 @@ void CEditorMgr::SetDarkThemeColors()
     colors[ImGuiCol_WindowBg] = ImVec4{ 0.1f, 0.105f, 0.11f, 1.0f };
 
     // Headers
-    colors[ImGuiCol_Header] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
-    colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
+    colors[ImGuiCol_Header] = ImVec4{ 0.1f, 0.105f, 0.21f, 1.0f };
+    colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.2f, 0.205f, 0.31f, 1.0f };
     colors[ImGuiCol_HeaderActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
 
     // Buttons

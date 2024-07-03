@@ -50,15 +50,16 @@ void CRenderMgr::CreateViewportTex(Vec2 _Size)
 	textureDesc.CPUAccessFlags = 0;
 	textureDesc.MiscFlags = 0;
 
+	
 	// Create the texture
-	DEVICE->CreateTexture2D(&textureDesc, NULL, &m_ViewportTex);
+	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateTexture2D(&textureDesc, NULL, &m_ViewportTex)), L"ViewportTex 积己 角菩");
 
 	renderTargetViewDesc.Format = textureDesc.Format;
 	renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
 	renderTargetViewDesc.Texture2D.MipSlice = 0;
 
 	// Create the render target view.
-	DEVICE->CreateRenderTargetView(m_ViewportTex, &renderTargetViewDesc, &m_ViewportRTV);
+	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateRenderTargetView(m_ViewportTex, &renderTargetViewDesc, &m_ViewportRTV)), L"ViewportTex SRV 积己 角菩");
 
 	shaderResourceViewDesc.Format = textureDesc.Format;
 	shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
@@ -66,7 +67,7 @@ void CRenderMgr::CreateViewportTex(Vec2 _Size)
 	shaderResourceViewDesc.Texture2D.MipLevels = 1;
 
 	// Create the shader resource view.
-	DEVICE->CreateShaderResourceView(m_ViewportTex, &shaderResourceViewDesc, &m_ViewportSRV);
+	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateShaderResourceView(m_ViewportTex, &shaderResourceViewDesc, &m_ViewportSRV)), L"ViewportTex RTV 积己 角菩");
 }
 
 void CRenderMgr::ResizeViewportTex(Vec2 _Size)
@@ -80,6 +81,8 @@ void CRenderMgr::ResizeViewportTex(Vec2 _Size)
 		if (m_ViewportRTV != nullptr)
 			m_ViewportRTV->Release();
 		CreateViewportTex(_Size);
+		m_EditorCamera->Camera()->SetHeight(_Size.y);
+		m_EditorCamera->Camera()->SetWidth(_Size.x);
 	}
 }
 

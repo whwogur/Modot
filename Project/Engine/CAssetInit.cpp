@@ -141,7 +141,7 @@ void CAssetMgr::CreateEngineSprite()
 
 	AddAsset(L"Cath_Idle", pAnimation);
 	pAnimation->Save(CPathMgr::GetInst()->GetContentPath() + L"Animation\\Cath_Idle.anim");*/
-	
+
 	/*wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
 
 	Ptr<CSprite> pSprite = nullptr;
@@ -151,7 +151,7 @@ void CAssetMgr::CreateEngineSprite()
 		wchar_t Buffer[50] = {};
 		swprintf_s(Buffer, 50, L"Cath_Idle_%d", i);
 
-		pSprite = Load<CSprite>(Buffer, wstring(L"Animation\\") + Buffer + L".sprite");		
+		pSprite = Load<CSprite>(Buffer, wstring(L"Animation\\") + Buffer + L".sprite");
 
 		pSprite->SetRelativePath(wstring(L"Animation\\") + Buffer + L".sprite");
 	}
@@ -163,15 +163,20 @@ void CAssetMgr::CreateEngineSprite()
 	{
 		wchar_t Buffer[50] = {};
 		swprintf_s(Buffer, 50, L"Cath_Idle_%d", i);
-		pAnimation->AddSprite(FindAsset<CSprite>(Buffer));		
+		pAnimation->AddSprite(FindAsset<CSprite>(Buffer));
 	}
 
 	AddAsset(L"Cath_Idle", pAnimation);*/
 
 	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
+	wstring strSolutionPath = CPathMgr::GetInst()->GetSolutionPath();
 	Ptr<CAnimation> pAnimation = new CAnimation;
 	pAnimation->Load(strContentPath + L"Animation\\Cath_Idle.anim");
 	AddAsset(L"Cath_Idle", pAnimation);
+
+	Ptr<CTexture> LogoTex = new CTexture;
+	LogoTex->Load(strSolutionPath + L"Modot_Logo.png");
+	AddAsset(L"Logo", LogoTex);
 }
 
 void CAssetMgr::CreateEngineGraphicShader()
