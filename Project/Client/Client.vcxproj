@@ -111,6 +111,7 @@
     <ClInclude Include="Outliner.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SceneHierarchyPanel.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TransformUI.h" />
   </ItemGroup>
@@ -136,6 +137,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Outliner.cpp" />
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="SceneHierarchyPanel.cpp" />
     <ClCompile Include="TransformUI.cpp" />
   </ItemGroup>
   <ItemGroup>

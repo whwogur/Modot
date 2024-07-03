@@ -76,6 +76,7 @@
     <ClInclude Include="CameraUI.h">
       <Filter>EditorUI</Filter>
     </ClInclude>
+    <ClInclude Include="SceneHierarchyPanel.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -138,6 +139,7 @@
     <ClCompile Include="CameraUI.cpp">
       <Filter>EditorUI</Filter>
     </ClCompile>
+    <ClCompile Include="SceneHierarchyPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">

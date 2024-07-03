@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Engine/singleton.h>
+#include "SceneHierarchyPanel.h"
 
 class CGameObject;
 class EditorUI;
@@ -31,5 +32,6 @@ private:
     vector<CGameObject*>        m_vecEditorObject;
     map<string, EditorUI*>      m_mapUI;
     Vec2                        m_ViewportSize;
+    SceneHierarchyPanel         m_HierarchyPanel;
 };
 

@@ -154,6 +154,8 @@ void CEditorMgr::ImGuiTick()
 		ImGui::EndMenuBar();
 	}
 
+	m_HierarchyPanel.ImGuiTick();
+
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 	
 	ImGui::Begin("Viewport");
