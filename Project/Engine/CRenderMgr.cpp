@@ -14,16 +14,74 @@
 #include "CLevel.h"
 CRenderMgr::CRenderMgr()
 	: m_EditorCamera(nullptr)
+	, m_ViewportTexSize(Vec2(500, 500))
 {
-
 }
 
 CRenderMgr::~CRenderMgr()
 {
 	if (nullptr != m_DebugObject)
 		delete m_DebugObject;
+	if (m_ViewportTex != nullptr)
+		m_ViewportTex->Release();
+	if (m_ViewportSRV != nullptr)
+		m_ViewportSRV->Release();
+	if (m_ViewportRTV != nullptr)
+		m_ViewportRTV->Release();
 }
 
+
+void CRenderMgr::CreateViewportTex(Vec2 _Size)
+{
+	ID3D11Texture2D* viewportTex;
+	D3D11_TEXTURE2D_DESC textureDesc;
+	D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
+	D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
+
+	ZeroMemory(&textureDesc, sizeof(textureDesc));
+
+	textureDesc.Width = _Size.x;
+	textureDesc.Height = _Size.y;
+	textureDesc.MipLevels = 1;
+	textureDesc.ArraySize = 1;
+	textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	textureDesc.SampleDesc.Count = 1;
+	textureDesc.Usage = D3D11_USAGE_DEFAULT;
+	textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	textureDesc.CPUAccessFlags = 0;
+	textureDesc.MiscFlags = 0;
+
+	// Create the texture
+	DEVICE->CreateTexture2D(&textureDesc, NULL, &viewportTex);
+
+	renderTargetViewDesc.Format = textureDesc.Format;
+	renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	renderTargetViewDesc.Texture2D.MipSlice = 0;
+
+	// Create the render target view.
+	DEVICE->CreateRenderTargetView(m_ViewportTex, &renderTargetViewDesc, &m_ViewportRTV);
+
+	shaderResourceViewDesc.Format = textureDesc.Format;
+	shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
+	shaderResourceViewDesc.Texture2D.MipLevels = 1;
+
+	// Create the shader resource view.
+	DEVICE->CreateShaderResourceView(m_ViewportTex, &shaderResourceViewDesc, &m_ViewportSRV);
+
+	m_ViewportTex = viewportTex;
+}
+
+void CRenderMgr::ResizeViewportTex(Vec2 _Size)
+{
+	if (m_ViewportTex != nullptr)
+		m_ViewportTex->Release();
+	if (m_ViewportSRV != nullptr)
+		m_ViewportSRV->Release();
+	if (m_ViewportRTV != nullptr)
+		m_ViewportRTV->Release();
+	CreateViewportTex(_Size);
+}
 
 void CRenderMgr::Init()
 {
@@ -31,6 +89,8 @@ void CRenderMgr::Init()
 	m_DebugObject->AddComponent(new CTransform);
 	m_DebugObject->AddComponent(new CMeshRender);
 	m_DebugObject->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DebugShapeMtrl"));
+
+	CreateViewportTex(m_ViewportTexSize);
 }
 
 void CRenderMgr::Tick()
@@ -40,9 +100,8 @@ void CRenderMgr::Tick()
 		return;
 
 	// 렌더타겟 지정
-	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
 	Ptr<CTexture> pDSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
-	CONTEXT->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(), pDSTex->GetDSV().Get());
+	CONTEXT->OMSetRenderTargets(1, &m_ViewportRTV, pDSTex->GetDSV().Get());
 
 	// Level 이 Player 상태인 경우, Level 내에 있는 카메라 시점으로 렌더링
 	if (PLAY == pCurLevel->GetState())

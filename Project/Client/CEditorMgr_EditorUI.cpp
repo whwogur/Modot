@@ -9,7 +9,7 @@
 #include "Inspector.h"
 #include "Content.h"
 #include "Outliner.h"
-
+#include "CAssetMgr.h"
 void CEditorMgr::InitImGui()
 {
     // Setup Dear ImGui context
@@ -82,7 +82,12 @@ void CEditorMgr::ImGuiRun()
     // ImGui Tick
     ImGuiTick();
 
-    // ImGui Render    
+    // ImGui Render
+    // ∑ª¥ı≈∏∞Ÿ ¡ˆ¡§
+    Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
+    Ptr<CTexture> pDSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
+    CONTEXT->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(), pDSTex->GetDSV().Get());
+
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
