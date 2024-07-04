@@ -69,8 +69,31 @@ void CLevelMgr::Init()
 	CamObj->Camera()->SetProjType(ORTHOGRAPHIC);
 	m_CurLevel->AddObject(0, CamObj);
 
-	// 플레이어 오브젝트
 	CGameObject* pObject = nullptr;
+	// 광원 오브젝트 추가
+	pObject = new CGameObject;
+	pObject->SetName(L"PointLight 1");
+	pObject->AddComponent(new CTransform);
+	pObject->AddComponent(new CLight2D);
+	pObject->Light2D()->SetRadius(500.f);
+	pObject->Transform()->SetRelativePos(Vec3(-300.f, 0.f, 100.f));
+
+
+	m_CurLevel->AddObject(0, pObject);
+
+	pObject = new CGameObject;
+	pObject->SetName(L"PointLight 2");
+	pObject->AddComponent(new CTransform);
+	pObject->AddComponent(new CLight2D);
+
+	pObject->Light2D()->SetLightType(LIGHT_TYPE::POINT);
+	pObject->Light2D()->SetLightColor(Vec3(0.2f, 0.2f, 0.8f));
+	pObject->Light2D()->SetRadius(500.f);
+	pObject->Transform()->SetRelativePos(Vec3(300.f, 0.f, 100.f));
+
+	m_CurLevel->AddObject(0, pObject);
+
+	// 플레이어 오브젝트
 	pObject = new CGameObject;
 	pObject->SetName(L"Player");
 	pObject->AddComponent(new CTransform);
@@ -107,8 +130,11 @@ void CLevelMgr::Init()
 	// 충돌 지정
 	CCollisionMgr::GetInst()->CollisionCheck(3, 4); // Player | Monster
 	CCollisionMgr::GetInst()->CollisionCheck(5, 4); // Player Projectile | Monster
+
+	pMtrl->Save(L"material\\std2d.mtrl");
+	
 	// 레벨 시작
-	m_CurLevel->Begin();
+	//m_CurLevel->Begin();
 }
 
 void CLevelMgr::Run()

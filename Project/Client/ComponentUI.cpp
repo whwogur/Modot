@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "ComponentUI.h"
 
-#include <Engine/CGameObject.h>
-#include <Engine/CComponent.h>
+#include "Engine/CGameObject.h"
+#include "Engine/CComponent.h"
+#include "ImGui/imgui_internal.h"
 
 ComponentUI::ComponentUI(COMPONENT_TYPE _Type)
 	: m_TargetObject(nullptr)
@@ -22,24 +23,23 @@ void ComponentUI::SetTargetObject(CGameObject* _Object)
 	if (nullptr != m_TargetObject &&
 		nullptr != m_TargetObject->GetComponent(m_Type))
 	{
-		Activate();
+		SetActive(true);
 	}
 
 	else
 	{
-		Deactivate();
+		SetActive(false);
 	}
 }
 
 void ComponentUI::Title()
 {
-	ImGui::PushID((int)m_Type);
-	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.f, 0.7f, 0.8f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.f, 0.7f, 0.8f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.f, 0.7f, 0.8f));
+	const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_FramePadding;
+	ImVec2 contentRegionAvailable = ImGui::GetContentRegionAvail();
 
-	ImGui::Button(ToString(m_Type));
-
-	ImGui::PopStyleColor(3);
-	ImGui::PopID();
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
+	float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+	ImGui::Separator();
+	ImGui::TextColored({ 0.1f, 0.2f, 0.8f, 1.0f }, ToString(m_Type));
+	ImGui::PopStyleVar();
 }

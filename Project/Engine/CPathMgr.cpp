@@ -22,6 +22,10 @@ void CPathMgr::Init()
 
 	m_Content = szBuffer;
 	m_Content += L"\\content\\";	
+
+	GetParentPath(szBuffer);
+	m_Solution = szBuffer;
+	m_Solution += L"\\";
 }
 
 void CPathMgr::GetParentPath(_Inout_ wchar_t* _Buffer)

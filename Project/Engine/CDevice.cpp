@@ -231,16 +231,6 @@ int CDevice::CreateRasterizerState()
     return S_OK;
 }
 
-void CDevice::Clear()
-{
-    float color[4] = { 0.4f, 0.4f, 0.4f, 1.f };
-    ID3D11RenderTargetView* pVPTex = CRenderMgr::GetInst()->GetViewportRTV();
-
-    m_Context->ClearRenderTargetView(pVPTex, color);
-    m_Context->ClearRenderTargetView(m_RTTex->GetRTV().Get(), color);
-    m_Context->ClearDepthStencilView(m_DSTex->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
-}
-
 int CDevice::CreateSwapChain()
 {
     // SwapChain
@@ -324,6 +314,14 @@ int CDevice::CreateConstBuffer()
         return E_FAIL;
     }
     m_arrCB[(UINT)CB_TYPE::SPRITE] = pCB;
+
+    pCB = new CConstBuffer;
+    if (FAILED(pCB->Create(CB_TYPE::GLOBAL, sizeof(tGlobalData))))
+    {
+        MessageBox(nullptr, L"상수버퍼 생성 실패", L"초기화 실패", MB_OK);
+        return E_FAIL;
+    }
+    m_arrCB[(UINT)CB_TYPE::GLOBAL] = pCB;
 
     return S_OK;
 }

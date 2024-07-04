@@ -13,6 +13,7 @@ private:
 
 private:
     void LayerCheck();
+    void Projection();
 private:
     bool    m_ShowLayerCheck;
 };

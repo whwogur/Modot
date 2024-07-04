@@ -9,7 +9,7 @@ class CMaterial :
 public:
     CMaterial();
     ~CMaterial();
-
+    CMaterial* Clone() { return new CMaterial(*this); }
 public:
     template<typename T>
     void SetScalarParam(SCALAR_PARAM _Param, const T& _Data);
@@ -20,10 +20,10 @@ public:
     Ptr<CGraphicShader> GetShader() { return m_Shader; }
 public:
     void Bind();
-
+    
 public:
-    virtual int Load(const wstring& _FilePath) override { return S_OK; };
-    virtual int Save(const wstring& _FilePath) override { return S_OK; };
+    virtual int Load(const wstring& _FilePath) override;
+    virtual int Save(const wstring& _RelativePath) override;
 
 private:
     Ptr<CGraphicShader>     m_Shader;

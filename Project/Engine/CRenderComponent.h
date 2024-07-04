@@ -10,18 +10,22 @@ public:
     ~CRenderComponent();
 public:
     void SetMesh(Ptr<CMesh> _Mesh) { m_Mesh = _Mesh; }
-    void SetMaterial(Ptr<CMaterial> _Mtrl) { m_Mtrl = _Mtrl; }
+    void SetMaterial(Ptr<CMaterial> _Mtrl);
 
     Ptr<CMesh> GetMesh() { return m_Mesh; }
     Ptr<CMaterial> GetMaterial() { return m_Mtrl; }
+    Ptr<CMaterial> GetSharedMtrl();
 
-
+    Ptr<CMaterial> GetDynamicMaterial();
 public:
     virtual void FinalTick() = 0;
     virtual void Render() = 0;
 
-
+    
 private:
     Ptr<CMesh>          m_Mesh;
-    Ptr<CMaterial>      m_Mtrl;
+
+    Ptr<CMaterial>      m_Mtrl;         // 현재 사용중인 재질
+    Ptr<CMaterial>      m_SharedMtrl;   // 공유 재질(마스터)
+    Ptr<CMaterial>      m_DynamicMtrl;  // 임시 재질
 };

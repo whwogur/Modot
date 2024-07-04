@@ -14,6 +14,9 @@ public:
     ~CScript();
 
 public:
+    CRenderComponent* GetRenderComponent() { return GetOwner()->GetRenderComponent(); }
+
+public:
     virtual void Tick() = 0;
     virtual void FinalTick() final override {}
 

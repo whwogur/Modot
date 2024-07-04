@@ -18,7 +18,7 @@ public:
     const wstring& GetRelativePath() { return m_RelativePath; }
 public:
     virtual int Load(const wstring& _FilePath) = 0;
-    virtual int Save(const wstring& _FilePath) = 0;
+    virtual int Save(const wstring& _RelativePath) = 0;
 
 private:
     void SetKey(const wstring& _Key) { m_Key = _Key; }

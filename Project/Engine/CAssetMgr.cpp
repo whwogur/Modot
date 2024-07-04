@@ -57,3 +57,11 @@ Ptr<CTexture> CAssetMgr::CreateTexture(wstring _strKey, WRL::ComPtr<ID3D11Textur
 	MD_ENGINE_TRACE(L"텍스처 {0} 생성", _strKey);
 	return pTexture;
 }
+
+void CAssetMgr::GetAssetNames(ASSET_TYPE _Type, vector<string>& _vecOut)
+{
+	for (const auto& pair : m_mapAsset[(UINT)_Type])
+	{
+		_vecOut.push_back(string(pair.first.begin(), pair.first.end()));
+	}
+}
