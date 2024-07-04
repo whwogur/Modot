@@ -11,7 +11,7 @@ public:
 	void ImGuiTick();
 private:
 	void DrawObjectNode(CGameObject* _GameObject);
-	void DrawComponents(CGameObject* _GameObject);
+	void DrawComponents(CGameObject _GameObject);
 
 public:
 	CGameObject* m_SelectionObject;
