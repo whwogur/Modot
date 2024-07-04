@@ -11,11 +11,16 @@
 HierarchyView::HierarchyView()
 {
 	m_Tree = new TreeUI;
-	m_Tree->SetName("OutlinerTree");
+	m_Tree->SetName("HierarchyViewTree");
 	AddChild(m_Tree);
 
 	// 트리 옵션 세팅
-	m_Tree->ShowRoot(false); // 루트 보이지 않기
+	m_Tree->ShowRoot(false);
+
+	// Drag, Drop On
+	m_Tree->EnableDrag(true);
+	m_Tree->EnableDrop(true);
+
 	m_Tree->AddClickedDelegate(this, (DELEGATE_1)&HierarchyView::GameObjectClicked);
 
 	// Asset 상태를 Content 의 TreeUI 에 반영
