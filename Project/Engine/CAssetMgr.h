@@ -25,6 +25,9 @@ public:
 
 	Ptr<CTexture> CreateTexture(wstring _strKey, WRL::ComPtr<ID3D11Texture2D> _Tex2D);
 
+public:
+	void GetAssetNames(ASSET_TYPE _Type, vector<string>& _vecOut);
+
 private:
 	void CreateEngineMesh();
 	void CreateEngineMaterial();

@@ -8,6 +8,7 @@ EditorUI::EditorUI()
 	: m_Active(true)
 	, m_Parent(nullptr)
 	, m_ID(m_GlobalID++)
+	, m_Modal(false)
 	, m_ChildBorder(false)
 {
 
@@ -23,23 +24,60 @@ void EditorUI::Tick()
 	if (!m_Active)
 		return;
 
-
+	bool bActive = m_Active;
 	// 최상위 부모 UI 인 경우
 	if (nullptr == m_Parent)
 	{
-		ImGui::Begin(m_FullName.c_str(), &m_Active);
-
-		Update();
-
-		for (size_t i = 0; i < m_vecChildUI.size(); ++i)
+		if (false == m_Modal)
 		{
-			m_vecChildUI[i]->Tick();
+			ImGui::Begin(m_FullName.c_str(), &bActive);
 
-			if (m_vecChildUI[i]->m_ChildBorder && i == m_vecChildUI.size() - 1)
-				ImGui::Separator();
+			if (m_Active != bActive)
+			{
+				SetActive(bActive);
+			}
+
+			Update();
+
+			for (size_t i = 0; i < m_vecChildUI.size(); ++i)
+			{
+				m_vecChildUI[i]->Tick();
+
+				if (m_vecChildUI[i]->m_ChildBorder && i == m_vecChildUI.size() - 1)
+					ImGui::Separator();
+			}
+
+			ImGui::End();
 		}
 
-		ImGui::End();
+		// Modal
+		else
+		{
+			ImGui::OpenPopup(m_FullName.c_str());
+
+			if (ImGui::BeginPopupModal(m_FullName.c_str(), &bActive))
+			{
+				Update();
+
+				for (size_t i = 0; i < m_vecChildUI.size(); ++i)
+				{
+					m_vecChildUI[i]->Tick();
+
+					if (m_vecChildUI[i]->m_ChildBorder && i == m_vecChildUI.size() - 1)
+						ImGui::Separator();
+				}
+
+				ImGui::EndPopup();
+			}
+			else
+			{
+				if (m_Active != bActive)
+				{
+					SetActive(bActive);
+				}
+			}
+
+		}
 	}
 
 	// 자식 타입 UI 인 경우
@@ -84,4 +122,17 @@ void EditorUI::SetName(const string& _Name)
 	char szNum[50] = {};
 	_itoa_s(m_ID, szNum, 10);
 	m_FullName = m_FullName + "##" + szNum;
+}
+
+void EditorUI::SetActive(bool _Active)
+{
+	if (m_Active == _Active)
+		return;
+
+	m_Active = _Active;
+
+	if (m_Active)
+		Activate();
+	else
+		Deactivate();
 }

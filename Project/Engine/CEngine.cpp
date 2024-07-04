@@ -52,7 +52,6 @@ void CEngine::Run()
 	CLevelMgr::GetInst()->Run();
 	CCollisionMgr::GetInst()->Tick();
 	// Render
-	CDevice::GetInst()->Clear();
 	CRenderMgr::GetInst()->Tick();
 
 	CTaskMgr::GetInst()->Tick();

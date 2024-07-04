@@ -18,7 +18,6 @@ public:
 	ID3D11RasterizerState* GetRSState(RS_TYPE _Type) { return m_RSState[(UINT)_Type].Get(); }
 public:
 	int Init(HWND _hWnd, UINT _Width, UINT _Height);
-	void Clear();
 	void Present() { m_SwapChain->Present(0, 0); }
 
 private:

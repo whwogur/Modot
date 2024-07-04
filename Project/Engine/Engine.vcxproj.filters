@@ -141,6 +141,9 @@
     <ClInclude Include="CTileMap.h">
       <Filter>Component</Filter>
     </ClInclude>
+    <ClInclude Include="CLight2D.h">
+      <Filter>Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -260,6 +263,9 @@
     <ClCompile Include="CTileMap.cpp">
       <Filter>Component</Filter>
     </ClCompile>
+    <ClCompile Include="CLight2D.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -327,6 +333,9 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="tilemap.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="struct.fx">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

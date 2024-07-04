@@ -10,6 +10,7 @@
 #include "Content.h"
 #include "Outliner.h"
 #include "CAssetMgr.h"
+#include "ListUI.h"
 void CEditorMgr::InitImGui()
 {
     // Setup Dear ImGui context
@@ -55,20 +56,27 @@ void CEditorMgr::CreateEditorUI()
 {
     EditorUI* pUI = nullptr;
 
-    // Inspector
-    pUI = new Inspector;
-    pUI->SetName("Inspector");
-    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
-
     // Content
     pUI = new Content;
     pUI->SetName("Content");
-    m_mapUI.insert(make_pair(pUI->GetFullName(), pUI));
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
     // Outliner
     pUI = new Outliner;
     pUI->SetName("Outliner");
-    m_mapUI.insert(make_pair(pUI->GetFullName(), pUI));
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    // ListUI
+    pUI = new ListUI;
+    pUI->SetName("List");
+    pUI->SetActive(false);
+    pUI->SetModal(true);
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    // Inspector
+    pUI = new Inspector;
+    pUI->SetName("Inspector");
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 }
 
 

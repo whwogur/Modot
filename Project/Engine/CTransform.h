@@ -19,6 +19,7 @@ public:
     void SetRelativeRotation(Vec3 _Rot) { m_RelativeRotation = _Rot; }
     void SetWorldMatrix(const Matrix& matWorld) { m_matWorld = matWorld; }
     void SetIndependentScale(bool _Set) { m_IndependentScale = _Set; }
+    bool IsIndependentScale() { return m_IndependentScale; }
 
     void SetRelativePos(float x, float y, float z) { m_RelativePos = Vec3(x, y, z); }
     void SetRelativeScale(float x, float y, float z) { m_RelativeScale = Vec3(x, y, z); }

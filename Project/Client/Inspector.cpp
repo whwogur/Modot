@@ -10,6 +10,10 @@
 #include "TransformUI.h"
 #include "Collider2DUI.h"
 #include "CameraUI.h"
+#include "MeshRenderUI.h"
+#include "Animator2DUI.h"
+#include "TileMapUI.h"
+#include "ParticleSystemUI.h"
 Inspector::Inspector()
 	: m_TargetObject(nullptr)
 	, m_arrComUI{}
@@ -26,8 +30,28 @@ Inspector::Inspector()
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA] = new CameraUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]->SetName("CameraUI");
-	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]->SetChildSize(ImVec2(0.f, 150.f));
+	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]->SetChildSize(ImVec2(0.f, 200.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D] = new Animator2DUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]->SetName("Animator2DUI");
+	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]->SetChildSize(ImVec2(0.f, 100.f));
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER] = new MeshRenderUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER]->SetName("MeshRenderUI");
+	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER]->SetChildSize(ImVec2(0.f, 100.f));
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP] = new TileMapUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP]->SetName("TileMapUI");
+	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP]->SetChildSize(ImVec2(0.f, 100.f));
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLE_SYSTEM] = new ParticleSystemUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLE_SYSTEM]->SetName("ParticleSystemUI");
+	m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLE_SYSTEM]->SetChildSize(ImVec2(0.f, 100.f));
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLE_SYSTEM]);
 }
 
 Inspector::~Inspector()
@@ -51,7 +75,9 @@ void Inspector::Update()
 {
 	if (nullptr == m_TargetObject)
 	{
-		SetTargetObject(CLevelMgr::GetInst()->FindObjectByName(L"MainCamera"));
+		//SetTargetObject(CLevelMgr::GetInst()->FindObjectByName(L"MainCamera"));
+		//SetTargetObject(CLevelMgr::GetInst()->FindObjectByName(L"Player"));
+		SetTargetObject(CLevelMgr::GetInst()->FindObjectByName(L"PointLight 1"));
 		return;
 	}
 

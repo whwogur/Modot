@@ -46,6 +46,12 @@ public:
     void SetFar(float _Far) { m_Far = _Far; }
     float GetFar() { return m_Far; }
 
+    void SetFOV(float _FOV) { m_FOV = _FOV; }
+    float GetFOV() { return m_FOV; }
+
+    void SetScale(float _Scale) { m_ProjectionScale = _Scale; }
+    float GetScale() { return m_ProjectionScale; }
+
 public:
     virtual void Begin() override;
     virtual void FinalTick() override;
@@ -63,6 +69,7 @@ private:
     float                   m_AspectRatio;
     float                   m_Far;
     float                   m_FOV;
+    float                   m_ProjectionScale;
 
     vector<CGameObject*>    m_vecOpaque;        // 불투명
     vector<CGameObject*>    m_vecMasked;        // 불투명, 투명

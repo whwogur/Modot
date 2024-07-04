@@ -52,9 +52,9 @@ void CEditorMgr::ShortCut()
         EditorUI* pUI = FindEditorUI("Inspector");
 
         if (pUI->IsActive())
-            pUI->Deactivate();
+			pUI->SetActive(false);
         else
-            pUI->Activate();
+			pUI->SetActive(true);
     }
 }
 
@@ -145,7 +145,7 @@ void CEditorMgr::ImGuiTick()
 
 			if (ImGui::MenuItem(u8"´Ý±â"))
 			{
-
+				PostQuitMessage(0);
 			}
 
 			ImGui::EndMenu();
@@ -154,13 +154,12 @@ void CEditorMgr::ImGuiTick()
 		ImGui::EndMenuBar();
 	}
 
-	m_HierarchyPanel.ImGuiTick();
-
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 	
 	ImGui::Begin("Viewport");
 	// Resize
 	ImVec2 temp = ImGui::GetContentRegionAvail();
+	//MD_ENGINE_TRACE("({0} , {1})", temp.x, temp.y);
 	CRenderMgr::GetInst()->ResizeViewportTex({temp.x, temp.y});
 
 	ID3D11ShaderResourceView* ViewportTexSRV = CRenderMgr::GetInst()->GetViewportSRV();
@@ -172,10 +171,10 @@ void CEditorMgr::ImGuiTick()
 
 	ImGui::End();
 
-    /*for (const auto& pair : m_mapUI)
+    for (const auto& pair : m_mapUI)
     {
         pair.second->Tick();
-    }*/
+    }
 }
 
 void CEditorMgr::SetDarkThemeColors()

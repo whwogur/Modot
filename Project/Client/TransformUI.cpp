@@ -17,14 +17,12 @@ void TransformUI::Update()
 {
 	Title();
 
-	// =========
-	// Transform
-	// =========
 	CTransform* pTrans = GetTargetObject()->Transform();
 
 	Vec3 vPos = pTrans->GetRelativePos();
 	Vec3 vScale = pTrans->GetRelativeScale();
 	Vec3 vRot = pTrans->GetRelativeRoatation();
+	vRot = (vRot / XM_PI) * 180.f;
 
 	ImGui::Text("Position");
 	ImGui::SameLine(100);
@@ -36,10 +34,11 @@ void TransformUI::Update()
 
 	ImGui::Text("Rotation");
 	ImGui::SameLine(100);
-	ImGui::DragFloat3("##Rot", vRot, 0.01f);
+	ImGui::DragFloat3("##Rot", vRot, 0.1f);
 
 	pTrans->SetRelativePos(vPos);
 	pTrans->SetRelativeScale(vScale);
+	vRot = (vRot / 180.f) * XM_PI;
 	pTrans->SetRelativeRotation(vRot);
 
 	// Independent Scale
