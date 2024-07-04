@@ -32,6 +32,9 @@ void Content::Update()
 
 void Content::RenewContent()
 {
+	// 트리의 내용을 전부 제거
+	m_Tree->Clear();
+
 	// 부모노드를 지정하지 않음 == 루트노드 입력
 	TreeNode* pRoot = m_Tree->AddNode(nullptr, "Root");
 
@@ -60,4 +63,5 @@ void Content::AssetClicked(DWORD_PTR _Param)
 
 	Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
 	pInspector->SetTargetAsset(pAsset);
+	ImGui::SetWindowFocus(nullptr);
 }
