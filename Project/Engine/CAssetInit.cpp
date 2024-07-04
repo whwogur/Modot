@@ -111,7 +111,7 @@ void CAssetMgr::CreateEngineTexture()
 
 void CAssetMgr::CreateEngineSprite()
 {
-	/*Ptr<CTexture> pAtlasTex = Load<CTexture>(L"CathAtlas", L"texture\\Cath.bmp");
+	/*Ptr<CTexture> pAtlasTex = Load<CTexture>(L"CathAtlas", L"texture\\Cath.png");
 
 	Ptr<CSprite> pSprite = nullptr;
 

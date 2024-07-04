@@ -23,7 +23,7 @@ void TreeNode::Update()
 {
 	UINT Flag = ImGuiTreeNodeFlags_OpenOnDoubleClick
 		| ImGuiTreeNodeFlags_OpenOnArrow
-		| ImGuiTreeNodeFlags_SpanAvailWidth;
+		| ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_FramePadding;
 
 	if (m_Frame)
 		Flag |= ImGuiTreeNodeFlags_Framed;
