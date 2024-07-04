@@ -5,6 +5,7 @@
 
 #include <d3d11.h>
 #include <dxgi.h>
+#pragma comment(lib, "dxgi.lib")
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 #include <DirectXPackedVector.h>

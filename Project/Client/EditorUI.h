@@ -31,9 +31,12 @@ public:
 	bool IsModal() { return m_Modal; }
 
 public:
+	virtual void Init() {}
 	virtual void Tick();
 	virtual void Update() = 0;
 
+protected:
+	void DrawVec3Control(const string& label, Vec3& values, float resetValue = 0.0f, float columnWidth = 100.0f);
 private:
 	virtual void Activate() {}
 	virtual void Deactivate() {}

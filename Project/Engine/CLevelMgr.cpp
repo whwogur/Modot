@@ -130,8 +130,11 @@ void CLevelMgr::Init()
 	// 충돌 지정
 	CCollisionMgr::GetInst()->CollisionCheck(3, 4); // Player | Monster
 	CCollisionMgr::GetInst()->CollisionCheck(5, 4); // Player Projectile | Monster
+
+	pMtrl->Save(L"material\\std2d.mtrl");
+	
 	// 레벨 시작
-	m_CurLevel->Begin();
+	//m_CurLevel->Begin();
 }
 
 void CLevelMgr::Run()

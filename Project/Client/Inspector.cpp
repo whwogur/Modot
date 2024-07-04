@@ -7,51 +7,13 @@
 #include <Engine/CGameObject.h>
 #include <Engine/components.h>
 
-#include "TransformUI.h"
-#include "Collider2DUI.h"
-#include "CameraUI.h"
-#include "MeshRenderUI.h"
-#include "Animator2DUI.h"
-#include "TileMapUI.h"
-#include "ParticleSystemUI.h"
+#include "ComponentUI.h"
+#include "AssetUI.h"
 Inspector::Inspector()
 	: m_TargetObject(nullptr)
 	, m_arrComUI{}
+	, m_arrAssetUI{}
 {
-	m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM] = new TransformUI;
-	m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM]->SetName("TransformUI");
-	m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM]->SetChildSize(ImVec2(0.f, 130.f));
-	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM]);
-
-	m_arrComUI[(UINT)COMPONENT_TYPE::COLLIDER2D] = new Collider2DUI;
-	m_arrComUI[(UINT)COMPONENT_TYPE::COLLIDER2D]->SetName("Collider2DUI");
-	m_arrComUI[(UINT)COMPONENT_TYPE::COLLIDER2D]->SetChildSize(ImVec2(0.f, 100.f));
-	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::COLLIDER2D]);
-
-	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA] = new CameraUI;
-	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]->SetName("CameraUI");
-	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]->SetChildSize(ImVec2(0.f, 200.f));
-	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]);
-
-	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D] = new Animator2DUI;
-	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]->SetName("Animator2DUI");
-	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]->SetChildSize(ImVec2(0.f, 100.f));
-	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]);
-
-	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER] = new MeshRenderUI;
-	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER]->SetName("MeshRenderUI");
-	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER]->SetChildSize(ImVec2(0.f, 100.f));
-	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER]);
-
-	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP] = new TileMapUI;
-	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP]->SetName("TileMapUI");
-	m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP]->SetChildSize(ImVec2(0.f, 100.f));
-	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::TILEMAP]);
-
-	m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLE_SYSTEM] = new ParticleSystemUI;
-	m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLE_SYSTEM]->SetName("ParticleSystemUI");
-	m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLE_SYSTEM]->SetChildSize(ImVec2(0.f, 100.f));
-	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLE_SYSTEM]);
 }
 
 Inspector::~Inspector()
@@ -69,17 +31,33 @@ void Inspector::SetTargetObject(CGameObject* _Object)
 
 		m_arrComUI[i]->SetTargetObject(_Object);
 	}
+
+	m_TargetAsset = nullptr;
+	for (UINT i = 0; i < (UINT)ASSET_TYPE::END; ++i)
+	{
+		m_arrAssetUI[i]->SetAsset(nullptr);
+	}
+}
+
+void Inspector::SetTargetAsset(Ptr<CAsset> _Asset)
+{
+	if (nullptr == _Asset)
+		return;
+
+	SetTargetObject(nullptr);
+
+	m_TargetAsset = _Asset;
+
+	for (UINT i = 0; i < (UINT)ASSET_TYPE::END; ++i)
+	{
+		m_arrAssetUI[i]->SetAsset(m_TargetAsset);
+	}
 }
 
 void Inspector::Update()
 {
 	if (nullptr == m_TargetObject)
-	{
-		//SetTargetObject(CLevelMgr::GetInst()->FindObjectByName(L"MainCamera"));
-		//SetTargetObject(CLevelMgr::GetInst()->FindObjectByName(L"Player"));
-		SetTargetObject(CLevelMgr::GetInst()->FindObjectByName(L"PointLight 1"));
 		return;
-	}
 
 	// ===========
 	// Object Name

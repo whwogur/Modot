@@ -7,11 +7,20 @@
     <Filter Include="ImGui">
       <UniqueIdentifier>{25fe6411-e6de-4b8a-93aa-b9af87587a74}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EditorUI">
+    <Filter Include="Editor">
+      <UniqueIdentifier>{63348e22-ff48-40df-b216-214c41a362c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI">
       <UniqueIdentifier>{2d24d02b-b97e-4156-a45a-259763995f7d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EditorUI\ComponentUI">
+    <Filter Include="Editor\EditorUI\ComponentUI">
       <UniqueIdentifier>{b58fc115-27c6-4e30-9b14-eb628cd25971}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\TreeUI">
+      <UniqueIdentifier>{cdc961bd-cf76-4a7d-aac2-851ca6529aa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\AssetUI">
+      <UniqueIdentifier>{953a50ae-db84-469f-b387-0355ff7c45fe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -27,75 +36,117 @@
     <ClInclude Include="targetver.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="CEditorCameraScript.h" />
-    <ClInclude Include="CEditorMgr.h" />
-    <ClInclude Include="CGameObjectEx.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="..\..\vendor\ImGui\imconfig.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\vendor\ImGui\imgui.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\vendor\ImGui\imgui_impl_dx11.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\vendor\ImGui\imgui_impl_win32.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\vendor\ImGui\imgui_internal.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\vendor\ImGui\imstb_rectpack.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\vendor\ImGui\imstb_textedit.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\vendor\ImGui\imstb_truetype.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
     <ClInclude Include="EditorUI.h">
-      <Filter>EditorUI</Filter>
+      <Filter>Editor\EditorUI</Filter>
     </ClInclude>
     <ClInclude Include="Inspector.h">
-      <Filter>EditorUI</Filter>
+      <Filter>Editor\EditorUI</Filter>
     </ClInclude>
     <ClInclude Include="Content.h">
-      <Filter>EditorUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider2DUI.h">
-      <Filter>EditorUI</Filter>
+      <Filter>Editor\EditorUI</Filter>
     </ClInclude>
     <ClInclude Include="Outliner.h">
-      <Filter>EditorUI</Filter>
+      <Filter>Editor\EditorUI</Filter>
     </ClInclude>
     <ClInclude Include="ListUI.h">
-      <Filter>EditorUI</Filter>
+      <Filter>Editor\EditorUI</Filter>
     </ClInclude>
     <ClInclude Include="ComponentUI.h">
-      <Filter>EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
     <ClInclude Include="ParticleSystemUI.h">
-      <Filter>EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
     <ClInclude Include="TransformUI.h">
-      <Filter>EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
     <ClInclude Include="MeshRenderUI.h">
-      <Filter>EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
     <ClInclude Include="CameraUI.h">
-      <Filter>EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
     <ClInclude Include="Animator2DUI.h">
-      <Filter>EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
     <ClInclude Include="TilemapUI.h">
-      <Filter>EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
     <ClInclude Include="Light2DUI.h">
-      <Filter>EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeUI.h">
+      <Filter>Editor\EditorUI\TreeUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetUI.h">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ComputeShaderUI.h">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationUI.h">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider2DUI.h">
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialUI.h">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicShaderUI.h">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshDataUI.h">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshUI.h">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClInclude>
+    <ClInclude Include="PrefabUI.h">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundUI.h">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteUI.h">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureUI.h">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CEditorMgr.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="CEditorCameraScript.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameObjectEx.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imconfig.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_dx11.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_win32.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_rectpack.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_textedit.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_truetype.h">
+      <Filter>ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -108,74 +159,123 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="CEditorCameraScript.cpp" />
-    <ClCompile Include="CEditorMgr.cpp" />
-    <ClCompile Include="CGameObjectEx.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="..\..\vendor\ImGui\imgui.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\vendor\ImGui\imgui_demo.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\vendor\ImGui\imgui_draw.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\vendor\ImGui\imgui_impl_dx11.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\vendor\ImGui\imgui_impl_win32.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\vendor\ImGui\imgui_tables.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\vendor\ImGui\imgui_widgets.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="CEditorMgr_EditorObject.cpp" />
-    <ClCompile Include="CEditorMgr_EditorUI.cpp" />
     <ClCompile Include="EditorUI.cpp">
-      <Filter>EditorUI</Filter>
+      <Filter>Editor\EditorUI</Filter>
     </ClCompile>
     <ClCompile Include="Content.cpp">
-      <Filter>EditorUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider2DUI.cpp">
-      <Filter>EditorUI</Filter>
+      <Filter>Editor\EditorUI</Filter>
     </ClCompile>
     <ClCompile Include="Outliner.cpp">
-      <Filter>EditorUI</Filter>
+      <Filter>Editor\EditorUI</Filter>
     </ClCompile>
     <ClCompile Include="Inspector.cpp">
-      <Filter>EditorUI</Filter>
+      <Filter>Editor\EditorUI</Filter>
     </ClCompile>
     <ClCompile Include="ListUI.cpp">
-      <Filter>EditorUI</Filter>
+      <Filter>Editor\EditorUI</Filter>
     </ClCompile>
     <ClCompile Include="ComponentUI.cpp">
-      <Filter>EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
     <ClCompile Include="ParticleSystemUI.cpp">
-      <Filter>EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
     <ClCompile Include="TransformUI.cpp">
-      <Filter>EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
     <ClCompile Include="MeshRenderUI.cpp">
-      <Filter>EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
     <ClCompile Include="CameraUI.cpp">
-      <Filter>EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
     <ClCompile Include="Animator2DUI.cpp">
-      <Filter>EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
     <ClCompile Include="TilemapUI.cpp">
-      <Filter>EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
     <ClCompile Include="Light2DUI.cpp">
-      <Filter>EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeUI.cpp">
+      <Filter>Editor\EditorUI\TreeUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ComputeShaderUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Inspector_Init.cpp">
+      <Filter>Editor\EditorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider2DUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicShaderUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshDataUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClCompile>
+    <ClCompile Include="PrefabUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CEditorMgr_EditorUI.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="CEditorMgr_EditorObject.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="CEditorMgr.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="CEditorCameraScript.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameObjectEx.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_demo.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_draw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_dx11.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_win32.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_tables.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_widgets.cpp">
+      <Filter>ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,7 +284,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\vendor\ImGui\LICENSE.txt">
+    <Text Include="ImGui\LICENSE.txt">
       <Filter>ImGui</Filter>
     </Text>
   </ItemGroup>

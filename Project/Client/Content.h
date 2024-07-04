@@ -10,4 +10,11 @@ public:
 public:
     virtual void Update() override;
 
+private:
+    void RenewContent();
+
+    void AssetClicked(DWORD_PTR _Param);
+
+private:
+    class TreeUI* m_Tree;
 };

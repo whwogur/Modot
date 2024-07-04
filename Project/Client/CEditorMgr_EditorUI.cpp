@@ -11,6 +11,7 @@
 #include "Outliner.h"
 #include "CAssetMgr.h"
 #include "ListUI.h"
+
 void CEditorMgr::InitImGui()
 {
     // Setup Dear ImGui context
@@ -75,6 +76,7 @@ void CEditorMgr::CreateEditorUI()
 
     // Inspector
     pUI = new Inspector;
+    pUI->Init();
     pUI->SetName("Inspector");
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 }

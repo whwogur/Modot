@@ -10,6 +10,11 @@ CPlayerScript::~CPlayerScript()
 {
 }
 
+void CPlayerScript::Begin()
+{
+	GetRenderComponent()->GetDynamicMaterial();
+}
+
 void CPlayerScript::Tick()
 {
 	Vec3 vPos = Transform()->GetRelativePos();
