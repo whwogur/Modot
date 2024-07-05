@@ -9,6 +9,9 @@ public:
     ~TreeNode();
 
 public:
+    void Update();
+
+public:
     void SetName(const string& _Name) { m_Name = _Name; }
     const string& GetName() { return m_Name; }
 
@@ -18,10 +21,8 @@ public:
     DWORD_PTR GetData() { return m_Data; }
 
     void AddChildNode(TreeNode* _Node) { m_vecChildNode.push_back(_Node); }
-
-public:
-    void Update();
-
+    void DragCheck();
+    void DropCheck();
 
 
 private:
@@ -58,9 +59,16 @@ public:
     void EnableDrag(bool _Drag) { m_UseDrag = _Drag; }
     void EnableDrop(bool _Drop) { m_UseDrop = _Drop; }
 
-    bool IsDrag() { return m_UseDrag; }
-    bool IsDrop() { return m_UseDrop; }
+    bool IsDragEnabled() { return m_UseDrag; }
+    bool IsDropEnabled() { return m_UseDrop; }
+
+    void SetDropPayLoadName(const string& _Name) { m_DropPayLoadName = _Name; }
+    const string GetDropPayLoadName() { return m_DropPayLoadName; }
+
+    void AddDragDropDelegate(EditorUI* _Inst, DELEGATE_2 _Func) { m_SelfDragDropInst = _Inst; m_SelfDragDropFunc = _Func; }
+    void AddDropDelegate(EditorUI* _Inst, DELEGATE_2 _Func) { m_DropInst = _Inst; m_DropFunc = _Func; }
     void AddClickedDelegate(EditorUI* _Inst, DELEGATE_1 _Func) { m_ClickedInst = _Inst; m_ClickedFunc = _Func; }
+
     void Clear();
 public:
     virtual void Update() override;
@@ -78,4 +86,11 @@ private:
 
     EditorUI*   m_ClickedInst;
     DELEGATE_1  m_ClickedFunc;
+
+    EditorUI* m_SelfDragDropInst;
+    DELEGATE_2  m_SelfDragDropFunc;
+
+    EditorUI* m_DropInst;
+    DELEGATE_2  m_DropFunc;
+    string      m_DropPayLoadName;
 };

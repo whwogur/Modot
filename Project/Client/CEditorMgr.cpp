@@ -126,6 +126,13 @@ void CEditorMgr::ImGuiTick()
 		Ptr<CTexture> LogoTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Logo");
 		ImGui::Image(LogoTex->GetSRV().Get(), {25 ,25});
 
+		UINT FPS = CTimeMgr::GetInst()->GetFPSRecord();
+		float eDT = CTimeMgr::GetInst()->GetEngineDeltaTime();
+		char buffer[255];
+		sprintf_s(buffer, "DT : %.5f FPS : %d", eDT, FPS);
+		
+		ImGui::BeginMenu(buffer, false);
+
 		if (ImGui::BeginMenu(u8"ÆÄÀÏ"))
 		{
 			// Disabling fullscreen would allow the window to be moved to the front of other windows, 

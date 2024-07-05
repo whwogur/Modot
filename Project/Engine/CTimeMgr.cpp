@@ -59,11 +59,12 @@ void CTimeMgr::Tick()
 	
 	if (1.f < AccTime)
 	{
-		wchar_t szBuff[255] = {};
-		swprintf_s(szBuff, L"DeltaTime : %f, FPS : %d ", m_E_DeltaTime, m_FPS);
+		//wchar_t szBuff[255] = {};
+		//swprintf_s(szBuff, L"DeltaTime : %f, FPS : %d ", m_E_DeltaTime, m_FPS);
 		//TextOut(CEngine::GetInst()->GetMainDC(), 10, 10, szBuff, wcslen(szBuff));
-		SetWindowText(CEngine::GetInst()->GetMainWnd(), szBuff);
+		//SetWindowText(CEngine::GetInst()->GetMainWnd(), szBuff);
 		AccTime = 0.f;
+		m_FPSRecord = m_FPS;
 		m_FPS = 0;
 	}
 
