@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "FileBrowser.h"
 #include "CAssetMgr.h"
-#include "CTimeMgr.h"
 
 FileBrowser::FileBrowser()
 {
@@ -13,20 +12,6 @@ void FileBrowser::Init()
 	m_DirectoryIcon = CAssetMgr::GetInst()->Load<CTexture>(L"DirectoryIcon", L"texture\\DirectoryIcon.png");
 	m_FileIcon = CAssetMgr::GetInst()->Load<CTexture>(L"FileIcon", L"texture\\FileIcon.png");
 }
-
-
-void FileBrowser::Tick()
-{
-	EditorUI::Tick();
-	m_Acc += EngineDT;
-
-	if (m_Acc > m_RefreshPeriod)
-	{
-		m_Acc = 0.0f;
-		Update();
-	}
-}
-
 
 void FileBrowser::Update()
 {

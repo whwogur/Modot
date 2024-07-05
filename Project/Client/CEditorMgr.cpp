@@ -140,6 +140,11 @@ void CEditorMgr::ImGuiTick()
 			{
 			}
 
+			if (ImGui::MenuItem(u8"ÆÄÀÏ Å½»ö±â", "Ctrl + Shift + S"))
+			{
+				FindEditorUI("FileBrowser")->Toggle();
+			}
+
 			if (ImGui::MenuItem(u8"´Ý±â"))
 			{
 				PostQuitMessage(0);
