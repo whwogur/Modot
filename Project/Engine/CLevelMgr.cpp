@@ -94,23 +94,23 @@ void CLevelMgr::Init()
 	m_CurLevel->AddObject(0, pObject);
 
 	// 플레이어 오브젝트
-	pObject = new CGameObject;
-	pObject->SetName(L"Player");
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CMeshRender);
-	pObject->AddComponent(new CCollider2D);
-	pObject->AddComponent(new CAnimator2D);
-	pObject->AddComponent(new CPlayerScript);
-	pObject->Transform()->SetRelativePos(0.f, 0.f, 100.f);
-	pObject->Transform()->SetRelativeScale(200.f, 200.f, 1.f);
-	pObject->Collider2D()->SetIndependentScale(true);
-	pObject->Collider2D()->SetOffset(Vec3(0.f, 0.f, 0.f));
-	pObject->Collider2D()->SetScale(Vec3(200.f, 200.f, 1.f));
-	pObject->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	pObject->MeshRender()->SetMaterial(pMtrl);
-	pObject->Animator2D()->AddAnimation(5, CAssetMgr::GetInst()->FindAsset<CAnimation>(L"Cath_Idle"));
-	pObject->Animator2D()->Play(5, 10, true);
-	m_CurLevel->AddObject(3, pObject);
+	CGameObject* pPlayer = new CGameObject;
+	pPlayer->SetName(L"Player");
+	pPlayer->AddComponent(new CTransform);
+	pPlayer->AddComponent(new CMeshRender);
+	pPlayer->AddComponent(new CCollider2D);
+	pPlayer->AddComponent(new CAnimator2D);
+	pPlayer->AddComponent(new CPlayerScript);
+	pPlayer->Transform()->SetRelativePos(0.f, 0.f, 100.f);
+	pPlayer->Transform()->SetRelativeScale(200.f, 200.f, 1.f);
+	pPlayer->Collider2D()->SetIndependentScale(true);
+	pPlayer->Collider2D()->SetOffset(Vec3(0.f, 0.f, 0.f));
+	pPlayer->Collider2D()->SetScale(Vec3(200.f, 200.f, 1.f));
+	pPlayer->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	pPlayer->MeshRender()->SetMaterial(pMtrl);
+	pPlayer->Animator2D()->AddAnimation(5, CAssetMgr::GetInst()->FindAsset<CAnimation>(L"Cath_Idle"));
+	pPlayer->Animator2D()->Play(5, 10, true);
+	m_CurLevel->AddObject(3, pPlayer);
 
 	// TileMap Object
 	CGameObject* pTileMapObj = new CGameObject;

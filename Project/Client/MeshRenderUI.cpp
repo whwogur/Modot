@@ -7,6 +7,7 @@
 #include "Engine/CMaterial.h"
 #include "CEditorMgr.h"
 #include "ListUI.h"
+#include "TreeUI.h"
 
 MeshRenderUI::MeshRenderUI()
 	: ComponentUI(COMPONENT_TYPE::MESHRENDER)
@@ -31,6 +32,25 @@ void MeshRenderUI::Update()
 	ImGui::SameLine(100);
 	ImGui::SetNextItemWidth(150.f);
 	ImGui::InputText("##MeshKey", (char*)MeshName.c_str(), ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
+	
+	if (ImGui::BeginDragDropTarget())
+	{
+		const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
+		if (payload)
+		{
+			TreeNode** ppNode = (TreeNode**)payload->Data;
+			TreeNode* pNode = *ppNode;
+
+			Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
+			if (ASSET_TYPE::MESH == pAsset->GetAssetType())
+			{
+				pMeshRender->SetMesh((CMesh*)pAsset.Get());
+			}
+		}
+
+		ImGui::EndDragDropTarget();
+	}
+
 	ImGui::SameLine();
 	if (ImGui::Button("##MeshBtn", ImVec2(18.f, 18.f)))
 	{
@@ -50,6 +70,24 @@ void MeshRenderUI::Update()
 	ImGui::SameLine(100);
 	ImGui::SetNextItemWidth(150.f);
 	ImGui::InputText("##MaterialKey", (char*)MtrlName.c_str(), ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
+		if (payload)
+		{
+			TreeNode** ppNode = (TreeNode**)payload->Data;
+			TreeNode* pNode = *ppNode;
+
+			Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
+			if (ASSET_TYPE::MATERIAL == pAsset->GetAssetType())
+			{
+				pMeshRender->SetMaterial((CMaterial*)pAsset.Get());
+			}
+		}
+
+		ImGui::EndDragDropTarget();
+	}
 
 	ImGui::SameLine();
 	if (ImGui::Button("##MtrlBtn", ImVec2(18.f, 18.f)))

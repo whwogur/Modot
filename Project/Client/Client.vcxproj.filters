@@ -46,7 +46,7 @@
     <ClInclude Include="Content.h">
       <Filter>Editor\EditorUI</Filter>
     </ClInclude>
-    <ClInclude Include="Outliner.h">
+    <ClInclude Include="HierarchyView.h">
       <Filter>Editor\EditorUI</Filter>
     </ClInclude>
     <ClInclude Include="ListUI.h">
@@ -166,7 +166,7 @@
     <ClCompile Include="Content.cpp">
       <Filter>Editor\EditorUI</Filter>
     </ClCompile>
-    <ClCompile Include="Outliner.cpp">
+    <ClCompile Include="HierarchyView.cpp">
       <Filter>Editor\EditorUI</Filter>
     </ClCompile>
     <ClCompile Include="Inspector.cpp">

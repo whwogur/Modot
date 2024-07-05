@@ -15,6 +15,7 @@ Content::Content()
 
 	// 트리 옵션 세팅
 	m_Tree->ShowRoot(false); // 루트 보이지 않기
+	m_Tree->EnableDrag(true);
 	m_Tree->AddClickedDelegate(this, (DELEGATE_1)&Content::AssetClicked);
 
 	// Asset 상태를 Content 의 TreeUI 에 반영
@@ -32,6 +33,9 @@ void Content::Update()
 
 void Content::RenewContent()
 {
+	// 트리의 내용을 전부 제거
+	m_Tree->Clear();
+
 	// 부모노드를 지정하지 않음 == 루트노드 입력
 	TreeNode* pRoot = m_Tree->AddNode(nullptr, "Root");
 
@@ -60,4 +64,5 @@ void Content::AssetClicked(DWORD_PTR _Param)
 
 	Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
 	pInspector->SetTargetAsset(pAsset);
+	ImGui::SetWindowFocus(nullptr);
 }

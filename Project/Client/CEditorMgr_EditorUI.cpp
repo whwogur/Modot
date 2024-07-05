@@ -8,7 +8,7 @@
 
 #include "Inspector.h"
 #include "Content.h"
-#include "Outliner.h"
+#include "HierarchyView.h"
 #include "CAssetMgr.h"
 #include "ListUI.h"
 
@@ -62,9 +62,9 @@ void CEditorMgr::CreateEditorUI()
     pUI->SetName("Content");
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
-    // Outliner
-    pUI = new Outliner;
-    pUI->SetName("Outliner");
+    // HierarchyView
+    pUI = new HierarchyView;
+    pUI->SetName("HierarchyView");
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
     // ListUI
