@@ -166,6 +166,7 @@
     <ClInclude Include="Content.h" />
     <ClInclude Include="Animator2DUI.h" />
     <ClInclude Include="AnimationUI.h" />
+    <ClInclude Include="FileBrowser.h" />
     <ClInclude Include="GraphicShaderUI.h" />
     <ClInclude Include="Light2DUI.h" />
     <ClInclude Include="ListUI.h" />
@@ -210,6 +211,7 @@
     <ClCompile Include="Content.cpp" />
     <ClCompile Include="Animator2DUI.cpp" />
     <ClCompile Include="AnimationUI.cpp" />
+    <ClCompile Include="FileBrowser.cpp" />
     <ClCompile Include="GraphicShaderUI.cpp" />
     <ClCompile Include="Inspector_Init.cpp" />
     <ClCompile Include="Light2DUI.cpp" />

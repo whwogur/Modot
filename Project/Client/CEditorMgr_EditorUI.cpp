@@ -11,7 +11,7 @@
 #include "HierarchyView.h"
 #include "CAssetMgr.h"
 #include "ListUI.h"
-
+#include "FileBrowser.h"
 void CEditorMgr::InitImGui()
 {
     // Setup Dear ImGui context
@@ -78,6 +78,12 @@ void CEditorMgr::CreateEditorUI()
     pUI = new Inspector;
     pUI->Init();
     pUI->SetName("Inspector");
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    // Inspector
+    pUI = new FileBrowser;
+    pUI->Init();
+    pUI->SetName("FileBrowser");
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 }
 
