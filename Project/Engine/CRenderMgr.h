@@ -22,6 +22,8 @@ public:
     ID3D11RenderTargetView* GetViewportRTV() { return m_ViewportRTV; }
     ID3D11DepthStencilView* GetViewportDSV() { return m_ViewportDSV; }
     const Vec2 GetViewportTexSize() { return m_ViewportTexSize; }
+
+    CCamera* GetEditorCamera() { return m_EditorCamera; }
 public:
     void Init();
     void Tick();

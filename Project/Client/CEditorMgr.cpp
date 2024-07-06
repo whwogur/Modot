@@ -16,6 +16,8 @@
 #include "ImGui/imgui_impl_dx11.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "EditorUI.h"
+//#include "ImGui/ImGuizmo.h"
+//#include "Inspector.h"
 CEditorMgr::CEditorMgr()
 {
 }
@@ -167,11 +169,58 @@ void CEditorMgr::ImGuiTick()
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 	
 	ImGui::Begin("Viewport");
-	// Resize
+
 	ImVec2 temp = ImGui::GetContentRegionAvail();
 	ID3D11ShaderResourceView* ViewportTexSRV = CRenderMgr::GetInst()->GetViewportSRV();
-	
 	ImGui::Image((void*)(ViewportTexSRV), temp);
+	
+	//// Gizmo
+	//Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+	//CGameObject* pObject = pInspector->GetTargetObject();
+	//if (pObject != nullptr)
+	//{
+	//	ImGuizmo::SetOrthographic(false);
+	//	ImGuizmo::SetDrawlist();
+	//	float windowWidth = (float)ImGui::GetWindowWidth();
+	//	float windowHeight = (float)ImGui::GetWindowHeight();
+	//	ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+
+	//	CCamera* editorCamera = CRenderMgr::GetInst()->GetEditorCamera();
+	//	const Matrix& tempView = editorCamera->GetcamViewRef();
+	//	const Matrix& tempProj = editorCamera->GetcamProjRef();
+
+	//	XMFLOAT4X4 cameraView, cameraProj, localMat;
+	//	XMStoreFloat4x4(&cameraView, XMMatrixInverse(nullptr, tempView));
+	//	XMStoreFloat4x4(&cameraProj, tempProj);
+	//	auto tc = pObject->Transform();
+	//	XMStoreFloat4x4(&localMat, tc->GetWorldMat());
+	//	auto& Translation = tc->GetWorldMat();
+
+	//	ImGuizmo::Manipulate(*cameraView.m, *cameraProj.m, ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, *localMat.m, nullptr, nullptr);
+	//	if (ImGuizmo::IsUsing())
+	//	{
+	//		DirectX::XMMATRIX test = DirectX::XMLoadFloat4x4(&localMat);
+	//		XMVECTOR translation, rotation, scale;
+	//		XMMatrixDecompose(&scale, &rotation, &translation, test);
+
+	//		float F2translation[3] = { 0.0f, 0.0f, 0.0f };
+	//		float F2rotation[3] = { 0.0f, 0.0f, 0.0f };
+	//		float F2scale[3] = { 0.0f, 0.0f, 0.0f };
+	//		ImGuizmo::DecomposeMatrixToComponents(*localMat.m, F2translation, F2rotation, F2scale);
+
+	//		XMFLOAT3 xmfTranslation = XMFLOAT3(F2translation);
+	//		XMFLOAT3 xmfScale = DirectX::XMFLOAT3(F2scale);
+	//		XMFLOAT3 xmfRotation = DirectX::XMFLOAT3(F2rotation);
+
+	//		XMMATRIX translationMatrix = XMMatrixTranslationFromVector(translation);
+	//		XMMATRIX rotationMatrix = XMMatrixRotationRollPitchYawFromVector(rotation);
+	//		XMMATRIX scaleMatrix = XMMatrixScalingFromVector(scale);
+
+	//		XMMATRIX worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
+
+	//		tc->SetWorldMatrix(worldMatrix);
+	//	}
+	//}
 
 	ImGui::End();
 	ImGui::PopStyleVar();

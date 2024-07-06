@@ -27,10 +27,10 @@ public:
 
 private:
     friend class TreeUI;
-    class TreeUI* m_Owner;
+    class TreeUI*       m_Owner;
 
     string              m_Name;
-    TreeNode* m_ParentNode;
+    TreeNode*           m_ParentNode;
     vector<TreeNode*>   m_vecChildNode;
     const UINT          m_ID;
     DWORD_PTR           m_Data;

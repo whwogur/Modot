@@ -78,7 +78,7 @@ void TreeNode::DragCheck()
 		{
 			TreeNode* pThis = this;
 
-			ImGui::SetDragDropPayload(m_Owner->GetName().c_str(), &pThis, sizeof(TreeNode*));
+			ImGui::SetDragDropPayload(m_Owner->GetName().c_str(), &pThis, sizeof(TreeNode*), ImGuiCond_Once);
 			ImGui::Text(m_Name.c_str());
 			ImGui::EndDragDropSource();
 

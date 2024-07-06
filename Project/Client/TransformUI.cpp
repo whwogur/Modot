@@ -27,9 +27,9 @@ void TransformUI::Update()
 		pTrans->SetIndependentScale(IS);
 	}
 
-	Vec3& vPos = pTrans->GetRelativePos();
-	Vec3& vScale = pTrans->GetRelativeScale();
-	Vec3& vRot = pTrans->GetRelativeRoatation();
+	Vec3& vPos = pTrans->GetRelativePosRef();
+	Vec3& vScale = pTrans->GetRelativeScaleRef();
+	Vec3& vRot = pTrans->GetRelativeRoatationRef();
 	vRot = (vRot / XM_PI) * 180.f;
 
 	DrawVec3Control("Position", vPos, 0.0f, 80.0f);

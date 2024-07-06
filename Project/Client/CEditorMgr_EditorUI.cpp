@@ -12,6 +12,7 @@
 #include "CAssetMgr.h"
 #include "ListUI.h"
 #include "FileBrowser.h"
+//#include "ImGui/ImGuizmo.h"
 void CEditorMgr::InitImGui()
 {
     // Setup Dear ImGui context
@@ -95,7 +96,7 @@ void CEditorMgr::ImGuiRun()
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
-
+    //ImGuizmo::BeginFrame();
     // ImGui Tick
     ImGuiTick();
 

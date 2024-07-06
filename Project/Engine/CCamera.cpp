@@ -25,7 +25,7 @@ CCamera::CCamera()
 	, m_Height(0)
 	, m_Far(10000.f)
 	, m_FOV(XM_PI / 2.f)
-	, m_ProjectionScale(1.f)
+	, m_ProjectionScale(1.0f)
 {
 	Vec2 vResolution = CDevice::GetInst()->GetResolution();
 	m_Width = vResolution.x;

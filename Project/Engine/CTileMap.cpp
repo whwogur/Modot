@@ -34,7 +34,6 @@ void CTileMap::Render()
 	m_Buffer->Bind(15);
 
 	GetMaterial()->SetTexParam(TEX_0, m_TileAtlas);
-
 	GetMaterial()->SetScalarParam(INT_1, m_AtlasMaxRow);
 	GetMaterial()->SetScalarParam(INT_2, m_AtlasMaxCol);
 	GetMaterial()->SetScalarParam(VEC2_1, Vec2(m_Col, m_Row));
@@ -43,7 +42,6 @@ void CTileMap::Render()
 	Transform()->Bind();
 	GetMesh()->Render();
 }
-
 
 void CTileMap::SetRowCol(UINT _Row, UINT _Col)
 {

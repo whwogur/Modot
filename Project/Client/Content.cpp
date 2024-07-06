@@ -42,7 +42,6 @@ void Content::RenewContent()
 	for (UINT i = 0; i < (UINT)ASSET_TYPE::END; ++i)
 	{
 		TreeNode* pNode = m_Tree->AddNode(pRoot, ToString((ASSET_TYPE)i));
-		pNode->SetFrame(true);
 
 		const map<wstring, Ptr<CAsset>>& mapAsset = CAssetMgr::GetInst()->GetAssets((ASSET_TYPE)i);
 

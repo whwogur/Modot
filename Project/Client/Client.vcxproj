@@ -168,6 +168,7 @@
     <ClInclude Include="AnimationUI.h" />
     <ClInclude Include="FileBrowser.h" />
     <ClInclude Include="GraphicShaderUI.h" />
+    <ClInclude Include="ImGui\ImGuizmo.h" />
     <ClInclude Include="Light2DUI.h" />
     <ClInclude Include="ListUI.h" />
     <ClInclude Include="MaterialUI.h" />
@@ -213,6 +214,10 @@
     <ClCompile Include="AnimationUI.cpp" />
     <ClCompile Include="FileBrowser.cpp" />
     <ClCompile Include="GraphicShaderUI.cpp" />
+    <ClCompile Include="ImGui\ImGuizmo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Inspector_Init.cpp" />
     <ClCompile Include="Light2DUI.cpp" />
     <ClCompile Include="ListUI.cpp" />

@@ -151,6 +151,9 @@
     <ClInclude Include="FileBrowser.h">
       <Filter>Editor\EditorUI</Filter>
     </ClInclude>
+    <ClInclude Include="ImGui\ImGuizmo.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -282,6 +285,9 @@
     </ClCompile>
     <ClCompile Include="FileBrowser.cpp">
       <Filter>Editor\EditorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\ImGuizmo.cpp">
+      <Filter>ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
