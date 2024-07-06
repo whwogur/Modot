@@ -52,6 +52,9 @@ public:
     void ShowRoot(bool _Show) { m_ShowRoot = _Show; }
     bool IsRootNodeVisible() { return m_ShowRoot; }
 
+    void ShowNameOnly(bool _NameOnly) { m_ShowNameOnly = _NameOnly; }
+    bool IsShowNameOnly() { return m_ShowNameOnly; }
+
     void SetSelectedNode(TreeNode* _Node);
     void SetDraggedNode(TreeNode* _Node);
     void SetDroppedNode(TreeNode* _Node);
@@ -81,6 +84,7 @@ private:
 
     UINT        m_NodeID;
     bool        m_ShowRoot;
+    bool        m_ShowNameOnly;
     bool        m_UseDrag;
     bool        m_UseDrop;
 

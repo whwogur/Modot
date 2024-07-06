@@ -46,9 +46,16 @@ void TreeNode::Update()
 		sprintf_s(Name, 255, "%s##%d", m_Name.c_str(), m_ID);
 	}
 
+	string strName = Name;
 
+	// NameOnly
+	if (m_Owner->IsShowNameOnly())
+	{
+		path Path = Name;
+		strName = Path.stem().string();
+	}
 
-	if (ImGui::TreeNodeEx(Name, Flag))
+	if (ImGui::TreeNodeEx(strName.c_str(), Flag))
 	{
 		if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
 		{
@@ -113,6 +120,7 @@ TreeUI::TreeUI()
 	, m_DroppedNode(nullptr)
 	, m_NodeID(0)
 	, m_ShowRoot(false)
+	, m_ShowNameOnly(false)
 	, m_UseDrag(false)
 	, m_UseDrop(false)
 	, m_ClickedInst(nullptr)

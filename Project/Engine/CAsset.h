@@ -20,9 +20,11 @@ public:
     virtual int Load(const wstring& _FilePath) = 0;
     virtual int Save(const wstring& _RelativePath) = 0;
 
-private:
+protected:
     void SetKey(const wstring& _Key) { m_Key = _Key; }
     void SetRelativePath(const wstring& _path) { m_RelativePath = _path; }
+
+private:
     void AddRef() { ++m_RefCount; }
     void Release()
     {

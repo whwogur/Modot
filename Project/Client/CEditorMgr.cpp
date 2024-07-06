@@ -123,48 +123,6 @@ void CEditorMgr::ImGuiTick()
 
 	style.WindowMinSize.x = minWinSizeX;
 
-	if (ImGui::BeginMenuBar())
-	{
-		Ptr<CTexture> LogoTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Logo");
-		ImGui::Image(LogoTex->GetSRV().Get(), {28 ,28});
-
-		if (ImGui::BeginMenu(u8"파일"))
-		{
-			if (ImGui::MenuItem(u8"새 파일", "Ctrl + N"))
-			{
-			}
-
-			if (ImGui::MenuItem(u8"열기", "Ctrl + O"))
-			{
-			}
-
-			if (ImGui::MenuItem(u8"다른 이름으로 저장", "Ctrl + Shift + S"))
-			{
-			}
-
-			if (ImGui::MenuItem(u8"파일 탐색기", "Ctrl + Shift + S"))
-			{
-				FindEditorUI("FileBrowser")->Toggle();
-			}
-
-			if (ImGui::MenuItem(u8"닫기"))
-			{
-				PostQuitMessage(0);
-			}
-
-			ImGui::EndMenu();
-		}
-		 
-		ImVec2 contentRegionAvailable = ImGui::GetContentRegionAvail();
-
-		UINT FPS = CTimeMgr::GetInst()->GetFPSRecord();
-		char buffer[255];
-		sprintf_s(buffer, " FPS : %d", FPS);
-		ImGui::SameLine(contentRegionAvailable.x);
-		ImGui::Button(buffer);
-
-		ImGui::EndMenuBar();
-	}
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 	
@@ -179,46 +137,37 @@ void CEditorMgr::ImGuiTick()
 	//CGameObject* pObject = pInspector->GetTargetObject();
 	//if (pObject != nullptr)
 	//{
-	//	ImGuizmo::SetOrthographic(false);
+	//	ImGuizmo::SetOrthographic(true);
+	//	float rw = (float)ImGui::GetWindowWidth();
+	//	float rh = (float)ImGui::GetWindowHeight();
+
 	//	ImGuizmo::SetDrawlist();
-	//	float windowWidth = (float)ImGui::GetWindowWidth();
-	//	float windowHeight = (float)ImGui::GetWindowHeight();
-	//	ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+	//	ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, rw, rh);
 
 	//	CCamera* editorCamera = CRenderMgr::GetInst()->GetEditorCamera();
 	//	const Matrix& tempView = editorCamera->GetcamViewRef();
 	//	const Matrix& tempProj = editorCamera->GetcamProjRef();
 
-	//	XMFLOAT4X4 cameraView, cameraProj, localMat;
-	//	XMStoreFloat4x4(&cameraView, XMMatrixInverse(nullptr, tempView));
+	//	XMFLOAT4X4 cameraView, cameraProj, mTransform;
+	//	XMStoreFloat4x4(&cameraView, tempView);
 	//	XMStoreFloat4x4(&cameraProj, tempProj);
-	//	auto tc = pObject->Transform();
-	//	XMStoreFloat4x4(&localMat, tc->GetWorldMat());
-	//	auto& Translation = tc->GetWorldMat();
+	//	CTransform* tc = pObject->Transform();
+	//	XMStoreFloat4x4(&mTransform, tc->GetWorldMat());
 
-	//	ImGuizmo::Manipulate(*cameraView.m, *cameraProj.m, ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, *localMat.m, nullptr, nullptr);
+	//	ImGuizmo::Manipulate(*cameraView.m, *cameraProj.m, ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, *mTransform.m);
 	//	if (ImGuizmo::IsUsing())
 	//	{
-	//		DirectX::XMMATRIX test = DirectX::XMLoadFloat4x4(&localMat);
-	//		XMVECTOR translation, rotation, scale;
-	//		XMMatrixDecompose(&scale, &rotation, &translation, test);
+	//		//MD_ENGINE_TRACE(L"x {0} y {1} z {2}", mTransform._41, mTransform._42, mTransform._43);
+	//		MD_ENGINE_TRACE(L"x {0} y {1} z {2}", tc->GetWorldMat()._41, tc->GetWorldMat()._42, tc->GetWorldMat()._43);
 
-	//		float F2translation[3] = { 0.0f, 0.0f, 0.0f };
-	//		float F2rotation[3] = { 0.0f, 0.0f, 0.0f };
-	//		float F2scale[3] = { 0.0f, 0.0f, 0.0f };
-	//		ImGuizmo::DecomposeMatrixToComponents(*localMat.m, F2translation, F2rotation, F2scale);
+	//		float Ftranslation[3] = { 0.0f, 0.0f, 0.0f };
+	//		float Frotation[3] = { 0.0f, 0.0f, 0.0f };
+	//		float Fscale[3] = { 0.0f, 0.0f, 0.0f };
+	//		ImGuizmo::DecomposeMatrixToComponents(*mTransform.m, Ftranslation, Frotation, Fscale);
 
-	//		XMFLOAT3 xmfTranslation = XMFLOAT3(F2translation);
-	//		XMFLOAT3 xmfScale = DirectX::XMFLOAT3(F2scale);
-	//		XMFLOAT3 xmfRotation = DirectX::XMFLOAT3(F2rotation);
-
-	//		XMMATRIX translationMatrix = XMMatrixTranslationFromVector(translation);
-	//		XMMATRIX rotationMatrix = XMMatrixRotationRollPitchYawFromVector(rotation);
-	//		XMMATRIX scaleMatrix = XMMatrixScalingFromVector(scale);
-
-	//		XMMATRIX worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
-
-	//		tc->SetWorldMatrix(worldMatrix);
+	//		tc->SetWorldMatrix(DirectX::XMMatrixInverse(nullptr, tc->GetWorldMat()) * DirectX::XMMatrixIdentity() * DirectX::XMMatrixScaling(Fscale[0], Fscale[1], Fscale[2])
+	//			* (DirectX::XMMatrixRotationQuaternion(DirectX::XMQuaternionRotationRollPitchYaw(DirectX::XMConvertToRadians(Frotation[0]), DirectX::XMConvertToRadians(Frotation[1]), DirectX::XMConvertToRadians(Frotation[2]))))
+	//			* DirectX::XMMatrixTranslation(Ftranslation[0], Ftranslation[1], Ftranslation[2]));
 	//	}
 	//}
 
