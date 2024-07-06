@@ -16,6 +16,7 @@ Content::Content()
 	// 트리 옵션 세팅
 	m_Tree->ShowRoot(false); // 루트 보이지 않기
 	m_Tree->EnableDrag(true);
+	m_Tree->ShowNameOnly(true);
 	m_Tree->AddClickedDelegate(this, (DELEGATE_1)&Content::AssetClicked);
 
 	// Asset 상태를 Content 의 TreeUI 에 반영
@@ -28,7 +29,10 @@ Content::~Content()
 
 void Content::Update()
 {
-	
+	if (CAssetMgr::GetInst()->IsDirty())
+	{
+		RenewContent();
+	}
 }
 
 void Content::RenewContent()
@@ -42,7 +46,6 @@ void Content::RenewContent()
 	for (UINT i = 0; i < (UINT)ASSET_TYPE::END; ++i)
 	{
 		TreeNode* pNode = m_Tree->AddNode(pRoot, ToString((ASSET_TYPE)i));
-		pNode->SetFrame(true);
 
 		const map<wstring, Ptr<CAsset>>& mapAsset = CAssetMgr::GetInst()->GetAssets((ASSET_TYPE)i);
 

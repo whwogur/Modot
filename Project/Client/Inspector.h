@@ -12,6 +12,8 @@ public:
 public:
     void SetTargetObject(CGameObject* _Object);
     void SetTargetAsset(Ptr<CAsset> _Asset);
+
+    CGameObject* GetTargetObject() { return m_TargetObject; }
 public:
     virtual void Init() override;
     virtual void Update() override;

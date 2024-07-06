@@ -11,7 +11,9 @@
 #include "HierarchyView.h"
 #include "CAssetMgr.h"
 #include "ListUI.h"
-
+#include "FileBrowser.h"
+#include "MenuUI.h"
+//#include "ImGui/ImGuizmo.h"
 void CEditorMgr::InitImGui()
 {
     // Setup Dear ImGui context
@@ -79,6 +81,19 @@ void CEditorMgr::CreateEditorUI()
     pUI->Init();
     pUI->SetName("Inspector");
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    // Menu
+    pUI = new MenuUI;
+    pUI->Init();
+    pUI->SetName("MainMenu");
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    // Inspector
+    pUI = new FileBrowser;
+    pUI->Init();
+    pUI->SetName("FileBrowser");
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+    pUI->SetActive(false);
 }
 
 
@@ -88,7 +103,7 @@ void CEditorMgr::ImGuiRun()
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
-
+    //ImGuizmo::BeginFrame();
     // ImGui Tick
     ImGuiTick();
 

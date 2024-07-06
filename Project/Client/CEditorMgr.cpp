@@ -16,6 +16,8 @@
 #include "ImGui/imgui_impl_dx11.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "EditorUI.h"
+//#include "ImGui/ImGuizmo.h"
+//#include "Inspector.h"
 CEditorMgr::CEditorMgr()
 {
 }
@@ -112,7 +114,7 @@ void CEditorMgr::ImGuiTick()
 	ImGuiIO& io = ImGui::GetIO();
 	ImGuiStyle& style = ImGui::GetStyle();
 	float minWinSizeX = style.WindowMinSize.x;
-	style.WindowMinSize.x = 370.0f;
+	style.WindowMinSize.x = 350.0f;
 	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 	{
 		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
@@ -121,57 +123,53 @@ void CEditorMgr::ImGuiTick()
 
 	style.WindowMinSize.x = minWinSizeX;
 
-	if (ImGui::BeginMenuBar())
-	{
-		Ptr<CTexture> LogoTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Logo");
-		ImGui::Image(LogoTex->GetSRV().Get(), {25 ,25});
-
-		UINT FPS = CTimeMgr::GetInst()->GetFPSRecord();
-		float eDT = CTimeMgr::GetInst()->GetEngineDeltaTime();
-		char buffer[255];
-		sprintf_s(buffer, "DT : %.5f FPS : %d", eDT, FPS);
-		
-		ImGui::BeginMenu(buffer, false);
-
-		if (ImGui::BeginMenu(u8"파일"))
-		{
-			// Disabling fullscreen would allow the window to be moved to the front of other windows, 
-			// which we can't undo at the moment without finer window depth/z control.
-			//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
-			if (ImGui::MenuItem(u8"새 파일", "Ctrl + N"))
-			{
-			}
-
-			if (ImGui::MenuItem(u8"열기", "Ctrl + O"))
-			{
-			}
-
-			if (ImGui::MenuItem(u8"다른 이름으로 저장", "Ctrl + Shift + S"))
-			{
-			}
-
-			if (ImGui::MenuItem(u8"닫기"))
-			{
-				PostQuitMessage(0);
-			}
-
-			ImGui::EndMenu();
-		}
-		 
-		ImGui::EndMenuBar();
-	}
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 	
 	ImGui::Begin("Viewport");
-	// Resize
-	ImVec2 temp = ImGui::GetContentRegionAvail();
-	//MD_ENGINE_TRACE("({0} , {1})", temp.x, temp.y);
-	CRenderMgr::GetInst()->ResizeViewportTex({temp.x, temp.y});
 
+	ImVec2 temp = ImGui::GetContentRegionAvail();
 	ID3D11ShaderResourceView* ViewportTexSRV = CRenderMgr::GetInst()->GetViewportSRV();
-	
 	ImGui::Image((void*)(ViewportTexSRV), temp);
+	
+	//// Gizmo
+	//Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+	//CGameObject* pObject = pInspector->GetTargetObject();
+	//if (pObject != nullptr)
+	//{
+	//	ImGuizmo::SetOrthographic(true);
+	//	float rw = (float)ImGui::GetWindowWidth();
+	//	float rh = (float)ImGui::GetWindowHeight();
+
+	//	ImGuizmo::SetDrawlist();
+	//	ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, rw, rh);
+
+	//	CCamera* editorCamera = CRenderMgr::GetInst()->GetEditorCamera();
+	//	const Matrix& tempView = editorCamera->GetcamViewRef();
+	//	const Matrix& tempProj = editorCamera->GetcamProjRef();
+
+	//	XMFLOAT4X4 cameraView, cameraProj, mTransform;
+	//	XMStoreFloat4x4(&cameraView, tempView);
+	//	XMStoreFloat4x4(&cameraProj, tempProj);
+	//	CTransform* tc = pObject->Transform();
+	//	XMStoreFloat4x4(&mTransform, tc->GetWorldMat());
+
+	//	ImGuizmo::Manipulate(*cameraView.m, *cameraProj.m, ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, *mTransform.m);
+	//	if (ImGuizmo::IsUsing())
+	//	{
+	//		//MD_ENGINE_TRACE(L"x {0} y {1} z {2}", mTransform._41, mTransform._42, mTransform._43);
+	//		MD_ENGINE_TRACE(L"x {0} y {1} z {2}", tc->GetWorldMat()._41, tc->GetWorldMat()._42, tc->GetWorldMat()._43);
+
+	//		float Ftranslation[3] = { 0.0f, 0.0f, 0.0f };
+	//		float Frotation[3] = { 0.0f, 0.0f, 0.0f };
+	//		float Fscale[3] = { 0.0f, 0.0f, 0.0f };
+	//		ImGuizmo::DecomposeMatrixToComponents(*mTransform.m, Ftranslation, Frotation, Fscale);
+
+	//		tc->SetWorldMatrix(DirectX::XMMatrixInverse(nullptr, tc->GetWorldMat()) * DirectX::XMMatrixIdentity() * DirectX::XMMatrixScaling(Fscale[0], Fscale[1], Fscale[2])
+	//			* (DirectX::XMMatrixRotationQuaternion(DirectX::XMQuaternionRotationRollPitchYaw(DirectX::XMConvertToRadians(Frotation[0]), DirectX::XMConvertToRadians(Frotation[1]), DirectX::XMConvertToRadians(Frotation[2]))))
+	//			* DirectX::XMMatrixTranslation(Ftranslation[0], Ftranslation[1], Ftranslation[2]));
+	//	}
+	//}
 
 	ImGui::End();
 	ImGui::PopStyleVar();
@@ -200,6 +198,13 @@ void CEditorMgr::SetDarkThemeColors()
 	style->GrabMinSize = 5.0f;
 	style->GrabRounding = 3.0f;
 
+	// Tabs
+	style->Colors[ImGuiCol_Tab] = ImVec4{ 0.0f, 0.0f, 0.0f, 1.0f };
+	style->Colors[ImGuiCol_TabHovered] = ImVec4{ 0.098f, 0.102f, 0.111f, 1.0f };
+	style->Colors[ImGuiCol_TabActive] = ImVec4{ 0.18f, 0.1805f, 0.581f, 1.0f };
+	style->Colors[ImGuiCol_TabUnfocused] = ImVec4{ 0.0f, 0.0f, 0.0f, 1.0f };
+	style->Colors[ImGuiCol_TabUnfocusedActive] = ImVec4{ 0.0f, 0.0f, 0.0f, 1.0f };
+
 	style->Colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
 	style->Colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
 	style->Colors[ImGuiCol_WindowBg] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
@@ -221,7 +226,7 @@ void CEditorMgr::SetDarkThemeColors()
 	style->Colors[ImGuiCol_SliderGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
 	style->Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
 	style->Colors[ImGuiCol_Button] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-	style->Colors[ImGuiCol_ButtonHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
+	style->Colors[ImGuiCol_ButtonHovered] = ImVec4(0.14f, 0.13f, 0.19f, 1.00f);
 	style->Colors[ImGuiCol_ButtonActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
 	style->Colors[ImGuiCol_Header] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
 	style->Colors[ImGuiCol_HeaderHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);

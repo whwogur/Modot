@@ -26,6 +26,7 @@ public:
 	void SetChildBorder(bool _Set) { m_ChildBorder = _Set; }
 	void SetChildSize(ImVec2 _Size) { m_ChildSize = _Size; }
 	void SetActive(bool _Active);
+	void Toggle() { m_Active = !m_Active; }
 
 	void SetModal(bool _Modal) { m_Modal = _Modal; }
 	bool IsModal() { return m_Modal; }

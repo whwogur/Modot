@@ -52,6 +52,8 @@ public:
     void SetScale(float _Scale) { m_ProjectionScale = _Scale; }
     float GetScale() { return m_ProjectionScale; }
 
+    const Matrix& GetcamViewRef() { return m_matView; }
+    const Matrix& GetcamProjRef() { return m_matProj; }
 public:
     virtual void Begin() override;
     virtual void FinalTick() override;

@@ -27,10 +27,10 @@ public:
 
 private:
     friend class TreeUI;
-    class TreeUI* m_Owner;
+    class TreeUI*       m_Owner;
 
     string              m_Name;
-    TreeNode* m_ParentNode;
+    TreeNode*           m_ParentNode;
     vector<TreeNode*>   m_vecChildNode;
     const UINT          m_ID;
     DWORD_PTR           m_Data;
@@ -51,6 +51,9 @@ public:
     TreeNode* AddNode(TreeNode* _Parent, const string& _Name, DWORD_PTR _Data = 0);
     void ShowRoot(bool _Show) { m_ShowRoot = _Show; }
     bool IsRootNodeVisible() { return m_ShowRoot; }
+
+    void ShowNameOnly(bool _NameOnly) { m_ShowNameOnly = _NameOnly; }
+    bool IsShowNameOnly() { return m_ShowNameOnly; }
 
     void SetSelectedNode(TreeNode* _Node);
     void SetDraggedNode(TreeNode* _Node);
@@ -81,6 +84,7 @@ private:
 
     UINT        m_NodeID;
     bool        m_ShowRoot;
+    bool        m_ShowNameOnly;
     bool        m_UseDrag;
     bool        m_UseDrop;
 

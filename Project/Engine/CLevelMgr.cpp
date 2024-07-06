@@ -75,7 +75,8 @@ void CLevelMgr::Init()
 	pObject->SetName(L"PointLight 1");
 	pObject->AddComponent(new CTransform);
 	pObject->AddComponent(new CLight2D);
-	pObject->Light2D()->SetRadius(500.f);
+	pObject->Light2D()->SetRadius(1500.f);
+	pObject->Light2D()->SetLightAmbient({ 1.0f, 1.0f, 1.0f });
 	pObject->Transform()->SetRelativePos(Vec3(-300.f, 0.f, 100.f));
 
 
@@ -87,9 +88,9 @@ void CLevelMgr::Init()
 	pObject->AddComponent(new CLight2D);
 
 	pObject->Light2D()->SetLightType(LIGHT_TYPE::POINT);
-	pObject->Light2D()->SetLightColor(Vec3(0.2f, 0.2f, 0.8f));
+	pObject->Light2D()->SetLightColor(Vec3(1.0f, 1.0f, 1.0f));
 	pObject->Light2D()->SetRadius(500.f);
-	pObject->Transform()->SetRelativePos(Vec3(300.f, 0.f, 100.f));
+	pObject->Transform()->SetRelativePos(Vec3(0.f, 0.f, 100.f));
 
 	m_CurLevel->AddObject(0, pObject);
 
@@ -118,20 +119,18 @@ void CLevelMgr::Init()
 	pTileMapObj->AddComponent(new CTransform);
 	pTileMapObj->AddComponent(new CTileMap);
 
-	pTileMapObj->Transform()->SetRelativePos(Vec3(-500.f, 250.f, 500.f));
-	pTileMapObj->TileMap()->SetRowCol(4, 4);
+	pTileMapObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.f));
+	pTileMapObj->TileMap()->SetRowCol(2, 2);
 	pTileMapObj->TileMap()->SetTileSize(Vec2(64.f, 64.f));
 
-	Ptr<CTexture> pTileAtlas = CAssetMgr::GetInst()->Load<CTexture>(L"TileAtlasTex", L"texture\\Tilesheet.bmp");
+	Ptr<CTexture> pTileAtlas = CAssetMgr::GetInst()->Load<CTexture>(L"Tilesheet", L"texture\\Tilesheet.png");
 	pTileMapObj->TileMap()->SetAtlasTexture(pTileAtlas);
-	pTileMapObj->TileMap()->SetAtlasTileSize(Vec2(64.f, 64.f));
+	pTileMapObj->TileMap()->SetAtlasTileSize(Vec2(64.0f, 64.0f));
 	m_CurLevel->AddObject(2, pTileMapObj);
 
 	// 충돌 지정
 	CCollisionMgr::GetInst()->CollisionCheck(3, 4); // Player | Monster
-	CCollisionMgr::GetInst()->CollisionCheck(5, 4); // Player Projectile | Monster
-
-	pMtrl->Save(L"material\\std2d.mtrl");
+	
 	
 	// 레벨 시작
 	//m_CurLevel->Begin();

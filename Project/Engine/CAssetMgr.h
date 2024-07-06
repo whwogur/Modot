@@ -1,6 +1,6 @@
 #pragma once
 #include "CPathMgr.h"
-
+#include "CTaskMgr.h"
 class CAsset;
 
 class CAssetMgr
@@ -10,6 +10,7 @@ class CAssetMgr
 
 public:
 	void Init();
+	void Tick();
 	Ptr<CAsset> FindAsset(ASSET_TYPE _Type, const wstring& _Key);
 	
 	template<typename T>
@@ -28,7 +29,7 @@ public:
 public:
 	void GetAssetNames(ASSET_TYPE _Type, vector<string>& _vecOut);
 	const map<wstring, Ptr<CAsset>>& GetAssets(ASSET_TYPE _Type) { return m_mapAsset[(UINT)_Type]; }
-
+	bool IsDirty() { return m_Dirty; }
 private:
 	void CreateEngineMesh();
 	void CreateEngineMaterial();
@@ -38,7 +39,9 @@ private:
 	void CreateEngineComputeShader();
 
 private:
+	friend class CTaskMgr;
 	map<wstring, Ptr<CAsset>> m_mapAsset[(UINT)ASSET_TYPE::END];
+	bool m_Dirty;
 };
 
 template<typename T>
@@ -68,6 +71,8 @@ Ptr<T> CAssetMgr::Load(const wstring& _Key, const wstring& _RelativePath)
 	ASSET_TYPE type = GetAssetType<T>();
 	m_mapAsset[(UINT)type].insert(make_pair(_Key, Asset.Get()));
 
+	CTaskMgr::GetInst()->AddTask(tTask{ ASSET_SETDIRTY }); // Set Dirty
+
 	return Asset;
 }
 
@@ -96,6 +101,8 @@ void CAssetMgr::AddAsset(const wstring& _Key, Ptr<T> _Asset)
 
 	_Asset->SetKey(_Key);
 	m_mapAsset[(UINT)Type].insert(make_pair(_Key, _Asset.Get()));
+
+	CTaskMgr::GetInst()->AddTask(tTask{ ASSET_SETDIRTY }); // Set Dirty
 }
 
 // File 에 Asset 참조정보 저장 불러오기

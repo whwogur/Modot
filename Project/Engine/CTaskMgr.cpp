@@ -5,7 +5,7 @@
 #include "CLevel.h"
 #include "CLayer.h"
 #include "CGameObject.h"
-
+#include "CAssetMgr.h"
 
 CTaskMgr::CTaskMgr()
 {}
@@ -65,11 +65,16 @@ void CTaskMgr::ExecuteTask()
 			pCurLevel->ChangeState(NextState);
 		}
 		break;
+		case TASK_TYPE::ASSET_SETDIRTY:
+		{
+			CAssetMgr::GetInst()->m_Dirty = true;
+		}
+		break;
 		case TASK_TYPE::CHANGE_LEVEL:
 		{
 			
 		}
-			break;
+		break;
 		}
 	}
 

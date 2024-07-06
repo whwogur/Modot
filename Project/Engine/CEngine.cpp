@@ -48,7 +48,7 @@ void CEngine::Run()
 	// Manager
 	CKeyMgr::GetInst()->Tick();
 	CTimeMgr::GetInst()->Tick();
-
+	CAssetMgr::GetInst()->Tick();
 	CLevelMgr::GetInst()->Run();
 	CCollisionMgr::GetInst()->Tick();
 	// Render

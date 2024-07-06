@@ -16,22 +16,8 @@ TransformUI::~TransformUI()
 void TransformUI::Update()
 {
 	Title();
-
-	CTransform* pTrans = GetTargetObject()->Transform();
-
-	Vec3& vPos = pTrans->GetRelativePos();
-	Vec3& vScale = pTrans->GetRelativeScale();
-	Vec3& vRot = pTrans->GetRelativeRoatation();
-	vRot = (vRot / XM_PI) * 180.f;
-
-	DrawVec3Control("Position", vPos);
-	DrawVec3Control("Scale", vScale);
-	DrawVec3Control("Rotation", vRot);
-
-	vRot = (vRot / 180.f) * XM_PI;
-
-	ImGui::NewLine();
 	// Independent Scale
+	CTransform* pTrans = GetTargetObject()->Transform();
 	bool IS = pTrans->IsIndependentScale();
 
 	ImGui::Text("Ignore Parent");
@@ -40,4 +26,16 @@ void TransformUI::Update()
 	{
 		pTrans->SetIndependentScale(IS);
 	}
+
+	Vec3& vPos = pTrans->GetRelativePosRef();
+	Vec3& vScale = pTrans->GetRelativeScaleRef();
+	Vec3& vRot = pTrans->GetRelativeRoatationRef();
+	vRot = (vRot / XM_PI) * 180.f;
+
+	DrawVec3Control("Position", vPos, 0.0f, 80.0f);
+	DrawVec3Control("Scale", vScale, 0.0f, 80.0f);
+	DrawVec3Control("Rotation", vRot, 0.0f, 80.0f);
+
+	vRot = (vRot / 180.f) * XM_PI;
+
 }
