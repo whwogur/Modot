@@ -28,6 +28,8 @@ private:
 	int CreateDepthStencilState();
 	int CreateBlendState();
 	int CreateSamplerState();
+	void LogAdapterInfo();
+
 private:
 	HWND m_hWnd;
 	Vec2 m_vResolution;
@@ -45,7 +47,6 @@ private:
 
 	Ptr<CTexture>								m_RTTex;
 	Ptr<CTexture>								m_DSTex;
-
 	CConstBuffer* m_arrCB[(UINT)CB_TYPE::END];
 };
 

@@ -50,25 +50,15 @@ int CDevice::Init(HWND _hWnd, UINT _Width, UINT _Height)
     DXGI_ADAPTER_DESC adapterDesc;
     pAdapter->GetDesc(&adapterDesc);
 
-    MD_ENGINE_INFO(L"************* IDXGI 정보 *************");
-    MD_ENGINE_INFO(L"   GPU: {0}   ", adapterDesc.Description);
-    MD_ENGINE_INFO(L"   DeviceID: {0}   ", adapterDesc.DeviceId);
-    MD_ENGINE_INFO(L"   VendorID: {0}   ", adapterDesc.VendorId);
-    float DedicatedVideoMemoryGB = static_cast<float>(adapterDesc.DedicatedVideoMemory) / (1024 * 1024 * 1024);
-    MD_ENGINE_INFO(L"   Dedicated Video Memory: {:8.2f}G", DedicatedVideoMemoryGB);
-    float sharedSystemMemoryGB = static_cast<float>(adapterDesc.SharedSystemMemory) / (1024 * 1024 * 1024);
-    MD_ENGINE_INFO(L"   Shared System Memory: {:10.2f}G", sharedSystemMemoryGB);
-    MD_ENGINE_INFO(L"**************************************");
+    LogAdapterInfo();
 
     MD_ENGINE_ASSERT(SUCCEEDED(CreateSwapChain()), L"SwapChain 생성 실패", L"장치초기화 실패");
 
     // RenderTargetView, DepthStencilView
     MD_ENGINE_ASSERT(SUCCEEDED(CreateView()), L"장치초기화 실패 - SwapChain 생성 실패");
  
-
     // Output Merge State
     m_Context->OMSetRenderTargets(1, m_RTTex->GetRTV().GetAddressOf(), m_DSTex->GetDSV().Get());
-
     // Viewport
     D3D11_VIEWPORT viewport = {};
 
@@ -281,15 +271,9 @@ int CDevice::CreateView()
     WRL::ComPtr<ID3D11Texture2D> RenderTargetTex;
     m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)RenderTargetTex.GetAddressOf());
     m_RTTex = CAssetMgr::GetInst()->CreateTexture(L"RenderTargetTex", RenderTargetTex);
-
     m_DSTex = CAssetMgr::GetInst()->CreateTexture(L"DepthStencilTex"
         , (UINT)m_vResolution.x, (UINT)m_vResolution.y
         , DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_DEPTH_STENCIL);
-    
-    /////////////////////////////////////////////
-    // RenderTargetView, DepthStencilView 생성
-    /////////////////////////////////////////////
-
     return S_OK;
 }
 
@@ -365,4 +349,46 @@ int CDevice::CreateSamplerState()
     CONTEXT->CSSetSamplers(1, 1, m_Sampler[1].GetAddressOf());
 
     return S_OK;
+}
+
+void CDevice::LogAdapterInfo()
+{
+    IDXGIFactory* factory = nullptr;
+    IDXGIAdapter* adapter = nullptr;
+    DXGI_ADAPTER_DESC adapterDesc;
+
+    CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&factory);
+
+    factory->EnumAdapters(0, &adapter);
+
+    adapter->GetDesc(&adapterDesc);
+
+    char videoCardDescription[128];
+    std::string vendor, major, minor, release, build;
+    LARGE_INTEGER driverVersion;
+
+    wcstombs_s(NULL, videoCardDescription, 128, adapterDesc.Description, 128);
+
+    if (adapterDesc.VendorId == 0x10DE)
+        vendor = "NVIDIA Corporation";
+    else if (adapterDesc.VendorId == 0x1002)
+        vendor = "AMD";
+    else if (adapterDesc.VendorId == 0x8086)
+        vendor = "Intel";
+    else if (adapterDesc.VendorId == 0x1414)
+        vendor = "Microsoft";
+    else
+        vendor = "Unknown vendor!";
+
+    adapter->CheckInterfaceSupport(__uuidof(IDXGIDevice), &driverVersion);
+
+    major = std::to_string(HIWORD(driverVersion.HighPart));
+    minor = std::to_string(LOWORD(driverVersion.HighPart));
+    release = std::to_string(HIWORD(driverVersion.LowPart));
+    build = std::to_string(LOWORD(driverVersion.LowPart));
+
+    MD_ENGINE_INFO("DirectX Information:");
+    MD_ENGINE_INFO("Vendor: {0}", vendor.c_str());
+    MD_ENGINE_INFO("Renderer: {0}", videoCardDescription);
+    MD_ENGINE_INFO("Version: {0}.{1}.{2}.{3}", major.c_str(), minor.c_str(), release.c_str(), build.c_str());
 }

@@ -31,12 +31,6 @@ CRenderMgr::~CRenderMgr()
 		delete m_DebugObject;
 	if (nullptr != m_Light2DBuffer)
 		delete m_Light2DBuffer;
-	if (m_ViewportTex != nullptr)
-		m_ViewportTex->Release();
-	if (m_ViewportSRV != nullptr)
-		m_ViewportSRV->Release();
-	if (m_ViewportRTV != nullptr)
-		m_ViewportRTV->Release();
 }
 
 
@@ -59,20 +53,20 @@ void CRenderMgr::CreateViewportTex(Vec2 _Size)
 	textureDesc.CPUAccessFlags = 0;
 	textureDesc.MiscFlags = 0;
 	
-	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateTexture2D(&textureDesc, NULL, &m_ViewportTex)), L"ViewportTex 생성 실패");
-
+	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateTexture2D(&textureDesc, NULL, m_ViewportTex.GetAddressOf())), L"ViewportTex 생성 실패");
+	
 	renderTargetViewDesc.Format = textureDesc.Format;
 	renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
 	renderTargetViewDesc.Texture2D.MipSlice = 0;
 
-	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateRenderTargetView(m_ViewportTex, &renderTargetViewDesc, &m_ViewportRTV)), L"ViewportTex SRV 생성 실패");
+	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateRenderTargetView(m_ViewportTex.Get(), &renderTargetViewDesc, m_ViewportRTV.GetAddressOf())), L"ViewportTex SRV 생성 실패");
 
 	shaderResourceViewDesc.Format = textureDesc.Format;
 	shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
 	shaderResourceViewDesc.Texture2D.MipLevels = 1;
 
-	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateShaderResourceView(m_ViewportTex, &shaderResourceViewDesc, &m_ViewportSRV)), L"ViewportTex RTV 생성 실패");
+	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateShaderResourceView(m_ViewportTex.Get(), &shaderResourceViewDesc, m_ViewportSRV.GetAddressOf())), L"ViewportTex RTV 생성 실패");
 
 
 	D3D11_TEXTURE2D_DESC depthStencilDesc = {};
@@ -85,15 +79,14 @@ void CRenderMgr::CreateViewportTex(Vec2 _Size)
 	depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
 	depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 
-	WRL::ComPtr<ID3D11Texture2D> DepthStencilTex;
-	DEVICE->CreateTexture2D(&depthStencilDesc, nullptr, &DepthStencilTex);
+	DEVICE->CreateTexture2D(&depthStencilDesc, nullptr, m_ViewportDSTex.GetAddressOf());
 
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc = {};
 	depthStencilViewDesc.Format = depthStencilDesc.Format;
 	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	depthStencilViewDesc.Texture2D.MipSlice = 0;
 
-	DEVICE->CreateDepthStencilView(DepthStencilTex.Get(), &depthStencilViewDesc, &m_ViewportDSV);
+	DEVICE->CreateDepthStencilView(m_ViewportDSTex.Get(), &depthStencilViewDesc, m_ViewportDSV.GetAddressOf());
 
 	MD_ENGINE_TRACE(L"뷰포트 텍스처 새로 생성");
 }
@@ -174,12 +167,12 @@ void CRenderMgr::RegisterCamera(CCamera* _Cam, int _CamPriority)
 void CRenderMgr::RenderStart()
 {
 	// 렌더타겟 지정
-	CONTEXT->OMSetRenderTargets(1, &m_ViewportRTV, m_ViewportDSV);
+	CONTEXT->OMSetRenderTargets(1, m_ViewportRTV.GetAddressOf(), m_ViewportDSV.Get());
 
 	// TargetClear
 	float color[4] = { 0.f, 0.f, 0.f, 1.f };
-	CONTEXT->ClearRenderTargetView(m_ViewportRTV, color);
-	CONTEXT->ClearDepthStencilView(m_ViewportDSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+	CONTEXT->ClearRenderTargetView(m_ViewportRTV.Get(), color);
+	CONTEXT->ClearDepthStencilView(m_ViewportDSV.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 
 	g_GlobalData.g_Resolution = m_ViewportTexSize;
 	g_GlobalData.g_Light2DCount = (int)m_vecLight2D.size();

@@ -18,9 +18,9 @@ public:
     void CreateViewportTex(Vec2 _Size);
     void ResizeViewportTex(Vec2 _Size);
 
-    ID3D11ShaderResourceView* GetViewportSRV() { return m_ViewportSRV; }
-    ID3D11RenderTargetView* GetViewportRTV() { return m_ViewportRTV; }
-    ID3D11DepthStencilView* GetViewportDSV() { return m_ViewportDSV; }
+    WRL::ComPtr<ID3D11ShaderResourceView> GetViewportSRV() { return m_ViewportSRV; }
+    WRL::ComPtr<ID3D11RenderTargetView> GetViewportRTV() { return m_ViewportRTV; }
+    WRL::ComPtr<ID3D11DepthStencilView> GetViewportDSV() { return m_ViewportDSV; }
     const Vec2 GetViewportTexSize() { return m_ViewportTexSize; }
 
     CCamera* GetEditorCamera() { return m_EditorCamera; }
@@ -34,17 +34,19 @@ private:
     void RenderDebugShape();
 
 private:
-    CCamera*                m_EditorCamera;
-    vector<CCamera*>        m_vecCam;
-    list<tDebugShapeInfo>   m_DebugShapeList;
-    CGameObject*            m_DebugObject;
+    CCamera*                    m_EditorCamera;
+    vector<CCamera*>            m_vecCam;
+    list<tDebugShapeInfo>       m_DebugShapeList;
+    CGameObject*                m_DebugObject;
     // Light
-    vector<CLight2D*>       m_vecLight2D;
-    CStructuredBuffer*      m_Light2DBuffer;
+    vector<CLight2D*>           m_vecLight2D;
+    CStructuredBuffer*          m_Light2DBuffer;
 
     Vec2                        m_ViewportTexSize;
-    ID3D11Texture2D*            m_ViewportTex;
-    ID3D11ShaderResourceView*   m_ViewportSRV;
-    ID3D11RenderTargetView*     m_ViewportRTV;
-    ID3D11DepthStencilView*     m_ViewportDSV;
+    WRL::ComPtr<ID3D11Texture2D>            m_ViewportTex;
+    WRL::ComPtr<ID3D11Texture2D>            m_ViewportDSTex;
+
+    WRL::ComPtr<ID3D11ShaderResourceView>   m_ViewportSRV;
+    WRL::ComPtr<ID3D11RenderTargetView>     m_ViewportRTV;
+    WRL::ComPtr<ID3D11DepthStencilView>     m_ViewportDSV;
 };

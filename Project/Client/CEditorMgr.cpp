@@ -129,8 +129,8 @@ void CEditorMgr::ImGuiTick()
 	ImGui::Begin("Viewport");
 
 	ImVec2 temp = ImGui::GetContentRegionAvail();
-	ID3D11ShaderResourceView* ViewportTexSRV = CRenderMgr::GetInst()->GetViewportSRV();
-	ImGui::Image((void*)(ViewportTexSRV), temp);
+	WRL::ComPtr<ID3D11ShaderResourceView> ViewportTexSRV = CRenderMgr::GetInst()->GetViewportSRV();
+	ImGui::Image((void*)(ViewportTexSRV.Get()), temp);
 	
 	//// Gizmo
 	//Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
