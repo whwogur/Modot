@@ -12,6 +12,10 @@ public:
     virtual void Update() override;
 
 private:
+    void Refresh();
+private:
+    vector<std::pair<path, bool>> m_List;
+
     path            m_CurrentDirectory;
     path            m_ContentPath;
 

@@ -39,6 +39,7 @@ void CRenderMgr::CreateViewportTex(Vec2 _Size)
 	D3D11_TEXTURE2D_DESC textureDesc = {};
 	D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc = {};
 	D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc = {};
+	D3D11_TEXTURE2D_DESC depthStencilDesc = {};
 
 	ZeroMemory(&textureDesc, sizeof(textureDesc));
 
@@ -69,7 +70,6 @@ void CRenderMgr::CreateViewportTex(Vec2 _Size)
 	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateShaderResourceView(m_ViewportTex.Get(), &shaderResourceViewDesc, m_ViewportSRV.GetAddressOf())), L"ViewportTex RTV 생성 실패");
 
 
-	D3D11_TEXTURE2D_DESC depthStencilDesc = {};
 	depthStencilDesc.Width = _Size.x;
 	depthStencilDesc.Height = _Size.y;
 	depthStencilDesc.MipLevels = 1;

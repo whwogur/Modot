@@ -51,7 +51,7 @@ void CEditorMgr::ShortCut()
 {
     if (KEY_TAP(KEY::I))
     {
-        EditorUI* pUI = FindEditorUI("Inspector");
+        EditorUI* pUI = FindEditorUI("List");
 
         if (pUI->IsActive())
 			pUI->SetActive(false);

@@ -93,7 +93,6 @@ void CEditorMgr::CreateEditorUI()
     pUI->Init();
     pUI->SetName("FileBrowser");
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
-    pUI->SetActive(false);
 }
 
 

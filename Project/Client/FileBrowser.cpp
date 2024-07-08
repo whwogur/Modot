@@ -11,6 +11,20 @@ void FileBrowser::Init()
 {
 	m_DirectoryIcon = CAssetMgr::GetInst()->Load<CTexture>(L"DirectoryIcon", L"texture\\DirectoryIcon.png");
 	m_FileIcon = CAssetMgr::GetInst()->Load<CTexture>(L"FileIcon", L"texture\\FileIcon.png");
+	Refresh();
+}
+
+void FileBrowser::Refresh()
+{
+	m_List.clear();
+	for (auto& directoryEntry : std::filesystem::directory_iterator(m_CurrentDirectory))
+	{
+		const auto& path = directoryEntry.path();
+		auto relativePath = std::filesystem::relative(path, m_ContentPath);
+
+		bool isDirectory = directoryEntry.is_directory() ? true : false;
+		m_List.push_back(make_pair(relativePath, isDirectory));
+	}
 }
 
 void FileBrowser::Update()
@@ -20,6 +34,7 @@ void FileBrowser::Update()
 		if (ImGui::Button(".."))
 		{
 			m_CurrentDirectory = m_CurrentDirectory.parent_path();
+			Refresh();
 		}
 	}
 
@@ -32,22 +47,24 @@ void FileBrowser::Update()
 	if (columnCount < 1)
 		columnCount = 1;
 
+
 	ImGui::Columns(columnCount, 0, false);
-
-	for (auto& directoryEntry : std::filesystem::directory_iterator(m_CurrentDirectory))
+	for (auto& listNode : m_List)
 	{
-		const auto& path = directoryEntry.path();
-		auto relativePath = std::filesystem::relative(path, m_ContentPath);
-		std::string filenameString = relativePath.filename().string();
+		Ptr<CTexture> icon = listNode.second ? m_DirectoryIcon : m_FileIcon;
 
-		Ptr<CTexture> icon = directoryEntry.is_directory() ? m_DirectoryIcon : m_FileIcon;
-		ImGui::ImageButton((ImTextureID)icon->GetSRV().Get(), {thumbnailSize, thumbnailSize}, {0, 1}, {1, 0});
+		ImGui::ImageButton((ImTextureID)icon->GetSRV().Get(), { thumbnailSize, thumbnailSize }, { 0, 1 }, { 1, 0 });
 		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 		{
-			if (directoryEntry.is_directory())
-				m_CurrentDirectory /= path.filename();
-
+			if (listNode.second)
+			{
+				m_CurrentDirectory /= listNode.first.filename();
+				Refresh();
+				return;
+			}
 		}
+
+		std::string filenameString = listNode.first.filename().string();
 		ImGui::TextWrapped(filenameString.c_str());
 
 		ImGui::NextColumn();
