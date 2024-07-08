@@ -221,7 +221,7 @@ void TreeUI::SetDroppedNode(TreeNode* _Node)
 	// Self Drag Drop 된 상황
 	else
 	{
-		MD_ENGINE_ASSERT(m_DraggedNode->m_Owner == this, L"드래그 드랍 분기 처리 중 이상현상");
+		MD_ENGINE_ASSERT(m_DraggedNode->m_Owner == this, L"드래그 드랍 분기 처리 중 오류");
 
 		const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(GetName().c_str());
 		if (payload)

@@ -39,7 +39,7 @@ void FileBrowser::Update()
 	}
 
 	static float padding = 16.0f;
-	static float thumbnailSize = 128.0f;
+	static float thumbnailSize = 95.0f;
 	float cellSize = thumbnailSize + padding;
 
 	float panelWidth = ImGui::GetContentRegionAvail().x;
@@ -53,7 +53,9 @@ void FileBrowser::Update()
 	{
 		Ptr<CTexture> icon = listNode.second ? m_DirectoryIcon : m_FileIcon;
 
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 		ImGui::ImageButton((ImTextureID)icon->GetSRV().Get(), { thumbnailSize, thumbnailSize }, { 0, 1 }, { 1, 0 });
+		ImGui::PopStyleColor();
 		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 		{
 			if (listNode.second)
@@ -72,8 +74,7 @@ void FileBrowser::Update()
 
 	ImGui::Columns(1);
 
-	ImGui::SliderFloat("Icon Size", &thumbnailSize, 16, 512);
-	ImGui::SliderFloat("Padding", &padding, 0, 32);
-
+	ImGui::SliderFloat(u8"아이콘 사이즈", &thumbnailSize, 16, 512);
+	//ImGui::SliderFloat(u8"패딩", &padding, 0, 32);
 }
 

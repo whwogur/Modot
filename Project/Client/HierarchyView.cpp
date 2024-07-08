@@ -27,7 +27,7 @@ HierarchyView::HierarchyView()
 	m_Tree->AddDragDropDelegate(this, (DELEGATE_2)&HierarchyView::GameObjectAddChild);
 
 	// 외부 드랍 Delegate 등록
-	m_Tree->AddDropDelegate(this, (DELEGATE_2)&HierarchyView::DroppedFromOuter);
+	m_Tree->AddDropDelegate(this, (DELEGATE_2)&HierarchyView::DropExtern);
 	m_Tree->SetDropPayLoadName("ContentTree");
 
 	// Asset 상태를 Content 의 TreeUI 에 반영
@@ -40,7 +40,7 @@ HierarchyView::~HierarchyView()
 
 void HierarchyView::Update()
 {
-
+	
 }
 
 void HierarchyView::RefreshLevel()
@@ -91,12 +91,10 @@ void HierarchyView::GameObjectAddChild(DWORD_PTR _Param1, DWORD_PTR _Param2)
 
 }
 
-void HierarchyView::DroppedFromOuter(DWORD_PTR _OuterData, DWORD_PTR _DropNode)
+void HierarchyView::DropExtern(DWORD_PTR _ExternData, DWORD_PTR _DropNode)
 {
-	TreeNode* ContentNode = *((TreeNode**)_OuterData);
+	TreeNode* ContentNode = *((TreeNode**)_ExternData);
 	TreeNode* DropNode = (TreeNode*)_DropNode;
-
-
 }
 
 void HierarchyView::GameObjectClicked(DWORD_PTR _Param)
