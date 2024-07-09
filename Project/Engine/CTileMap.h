@@ -22,6 +22,7 @@ public:
     void SetTileSize(Vec2 _Size);
     void SetAtlasTexture(Ptr<CTexture> _Atlas);
     void SetAtlasTileSize(Vec2 _TileSize);
+    Ptr<CTexture> GetAtlasTexture() { return m_TileAtlas; }
 public:
     virtual void FinalTick() override;
     virtual void Render() override;

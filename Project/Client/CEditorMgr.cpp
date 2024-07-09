@@ -186,7 +186,7 @@ void CEditorMgr::SetDarkThemeColors()
 {
 	ImGuiStyle* style = &ImGui::GetStyle();
 
-	style->WindowPadding = ImVec2(15, 15);
+	//style->WindowPadding = ImVec2(15, 15);
 	style->WindowRounding = 5.0f;
 	style->FramePadding = ImVec2(5, 5);
 	style->FrameRounding = 4.0f;

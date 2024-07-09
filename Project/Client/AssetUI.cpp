@@ -45,7 +45,6 @@ void AssetUI::OutputAssetName()
 
 	string Name = string(pAsset->GetKey().begin(), pAsset->GetKey().end());
 
-	// żĄźÂ ŔĚ¸§
 	ImGui::Text("Name");
 	ImGui::SameLine(100);
 	ImGui::InputText("##AssetName", (char*)Name.c_str(), Name.length(), ImGuiInputTextFlags_ReadOnly);

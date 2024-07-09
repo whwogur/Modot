@@ -45,7 +45,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UpdateWindow(hWnd);
 
     // CEngine 객체 초기화
-    if (FAILED(CEngine::GetInst()->Init(hWnd, POINT{ 1280, 720 })))
+    if (FAILED(CEngine::GetInst()->Init(hWnd, POINT{ 1920, 1080 })))
     {
         MessageBox(nullptr, L"Engine 초기화 실패", L"엔진 초기화 실패", MB_OK);
         return 0;
