@@ -36,39 +36,9 @@ CRenderMgr::~CRenderMgr()
 
 void CRenderMgr::CreateViewportTex(Vec2 _Size)
 {
-	D3D11_TEXTURE2D_DESC textureDesc = {};
-	D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc = {};
-	D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc = {};
+	CAssetMgr::GetInst()->CreateTexture(L"ViewportTex", _Size.x, _Size.y, DXGI_FORMAT_R8G8B8A8_UNORM,D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
+
 	D3D11_TEXTURE2D_DESC depthStencilDesc = {};
-
-	ZeroMemory(&textureDesc, sizeof(textureDesc));
-
-	textureDesc.Width = _Size.x;
-	textureDesc.Height = _Size.y;
-	textureDesc.MipLevels = 1;
-	textureDesc.ArraySize = 1;
-	textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	textureDesc.SampleDesc.Count = 1;
-	textureDesc.Usage = D3D11_USAGE_DEFAULT;
-	textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-	textureDesc.CPUAccessFlags = 0;
-	textureDesc.MiscFlags = 0;
-	
-	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateTexture2D(&textureDesc, NULL, m_ViewportTex.GetAddressOf())), L"ViewportTex 생성 실패");
-	
-	renderTargetViewDesc.Format = textureDesc.Format;
-	renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-	renderTargetViewDesc.Texture2D.MipSlice = 0;
-
-	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateRenderTargetView(m_ViewportTex.Get(), &renderTargetViewDesc, m_ViewportRTV.GetAddressOf())), L"ViewportTex SRV 생성 실패");
-
-	shaderResourceViewDesc.Format = textureDesc.Format;
-	shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-	shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
-	shaderResourceViewDesc.Texture2D.MipLevels = 1;
-
-	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateShaderResourceView(m_ViewportTex.Get(), &shaderResourceViewDesc, m_ViewportSRV.GetAddressOf())), L"ViewportTex RTV 생성 실패");
-
 
 	depthStencilDesc.Width = _Size.x;
 	depthStencilDesc.Height = _Size.y;
@@ -89,25 +59,6 @@ void CRenderMgr::CreateViewportTex(Vec2 _Size)
 	DEVICE->CreateDepthStencilView(m_ViewportDSTex.Get(), &depthStencilViewDesc, m_ViewportDSV.GetAddressOf());
 
 	MD_ENGINE_TRACE(L"뷰포트 텍스처 새로 생성");
-}
-
-void CRenderMgr::ResizeViewportTex(Vec2 _Size)
-{
-	//MD_ENGINE_TRACE("({0} , {1})", _Size.x, _Size.y);
-	//MD_ENGINE_TRACE("({0} , {1})", m_ViewportTexSize.x, m_ViewportTexSize.y);
-	if (m_ViewportTex != nullptr && (_Size.x != (UINT)m_ViewportTexSize.x || _Size.y != (UINT)m_ViewportTexSize.y))
-	{
-		m_ViewportTexSize = _Size;
-		m_ViewportTex->Release();
-
-		if (m_ViewportSRV != nullptr)
-			m_ViewportSRV->Release();
-		if (m_ViewportRTV != nullptr)
-			m_ViewportRTV->Release();
-		CreateViewportTex(m_ViewportTexSize);
-		m_EditorCamera->Camera()->SetHeight(m_ViewportTexSize.y);
-		m_EditorCamera->Camera()->SetWidth(m_ViewportTexSize.x);
-	}
 }
 
 void CRenderMgr::Init()
@@ -166,12 +117,13 @@ void CRenderMgr::RegisterCamera(CCamera* _Cam, int _CamPriority)
 
 void CRenderMgr::RenderStart()
 {
+	Ptr<CTexture> RTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"ViewportTex");
 	// 렌더타겟 지정
-	CONTEXT->OMSetRenderTargets(1, m_ViewportRTV.GetAddressOf(), m_ViewportDSV.Get());
+	CONTEXT->OMSetRenderTargets(1, RTTex.Get()->GetRTV().GetAddressOf(), m_ViewportDSV.Get());
 
 	// TargetClear
 	float color[4] = { 0.f, 0.f, 0.f, 1.f };
-	CONTEXT->ClearRenderTargetView(m_ViewportRTV.Get(), color);
+	CONTEXT->ClearRenderTargetView(RTTex.Get()->GetRTV().Get(), color);
 	CONTEXT->ClearDepthStencilView(m_ViewportDSV.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 
 	g_GlobalData.g_Resolution = m_ViewportTexSize;

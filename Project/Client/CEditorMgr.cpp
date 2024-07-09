@@ -129,7 +129,7 @@ void CEditorMgr::ImGuiTick()
 	ImGui::Begin("Viewport");
 
 	ImVec2 temp = ImGui::GetContentRegionAvail();
-	WRL::ComPtr<ID3D11ShaderResourceView> ViewportTexSRV = CRenderMgr::GetInst()->GetViewportSRV();
+	WRL::ComPtr<ID3D11ShaderResourceView> ViewportTexSRV = CAssetMgr::GetInst()->FindAsset<CTexture>(L"ViewportTex").Get()->GetSRV();
 	ImGui::Image((void*)(ViewportTexSRV.Get()), temp);
 	
 	//// Gizmo
