@@ -51,7 +51,7 @@ void Light2DUI::Update()
 
 
 	// 광원 색상정보	
-	const tLightInfo& info = pLight->GetLightInfo();
+	const tLightInfo& info = pLight->GetLightInfoCRef();
 
 	ImGui::Text("Light Color");
 	ImGui::SameLine(100);

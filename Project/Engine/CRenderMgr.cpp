@@ -181,7 +181,7 @@ void CRenderMgr::RenderStart()
 	vector<tLightInfo> vecLight2DInfo;
 	for (size_t i = 0; i < m_vecLight2D.size(); ++i)
 	{
-		vecLight2DInfo.push_back(m_vecLight2D[i]->GetLightInfo());
+		vecLight2DInfo.push_back(m_vecLight2D[i]->GetLightInfoCRef());
 	}
 
 	if (m_Light2DBuffer->GetElementCount() < vecLight2DInfo.size())

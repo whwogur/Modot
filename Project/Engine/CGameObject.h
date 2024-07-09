@@ -25,6 +25,7 @@ public:
     const vector<CScript*> GetScripts() { return m_vecScript; }
     bool IsDead() { return m_Dead; }
 
+    bool IsAncestor(CGameObject* _ToBeChecked);
     void DetachFromLayer();
     void DetachChild();
 

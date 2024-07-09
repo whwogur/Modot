@@ -88,7 +88,37 @@ void HierarchyView::GameObjectAddChild(DWORD_PTR _Param1, DWORD_PTR _Param2)
 	TreeNode* pDragNode = (TreeNode*)_Param1;
 	TreeNode* pDropNode = (TreeNode*)_Param2;
 
+	CGameObject* pDragObject = (CGameObject*)pDragNode->GetData();
+	CGameObject* pDropObject = nullptr;
 
+	// Drag 오브젝트를 Drop 오브젝트의 자식으로 넣어준다.
+	if (pDropNode)
+	{
+		pDropObject = (CGameObject*)pDropNode->GetData();
+
+		// 자식으로 들어갈 오브젝트가 부모(조상) 중 하나였다면 무시한다.
+		if (pDropObject->IsAncestor(pDragObject))
+			return;
+
+		pDropObject->AddChild(pDragObject);
+	}
+
+	// Drop 목적지가 없기 때문에, Drag 오브젝트를 최상위 부모로 만들어준다.
+	else
+	{
+		if (!pDragObject->GetParent())
+			return;
+
+		int LayerIdx = pDragObject->GetLayerIdx();
+		// 부모오브젝트랑 연결을 끊고
+		pDragObject->DetachChild();
+
+		// 본인 소속 레이어에 최상위 부모로서 재등록 한다.
+		CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(LayerIdx, pDragObject);
+	}
+
+	// 트리내용 갱신
+	RefreshLevel();
 }
 
 void HierarchyView::DropExtern(DWORD_PTR _ExternData, DWORD_PTR _DropNode)

@@ -149,6 +149,14 @@ void TreeUI::Update()
 
 		if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
 		{
+			if (m_DraggedNode && !m_DroppedNode)
+			{
+				if (m_SelfDragDropInst && m_SelfDragDropFunc)
+				{
+					(m_SelfDragDropInst->*m_SelfDragDropFunc)((DWORD_PTR)m_DraggedNode, 0);
+				}
+			}
+
 			m_DroppedNode = m_DraggedNode = nullptr;
 		}
 	}

@@ -22,7 +22,8 @@ public:
     Vec3 GetLightColor() { return m_Info.light.Color; }
     Vec3 GetLightAmbient() { return m_Info.light.Ambient; }
 
-    const tLightInfo& GetLightInfo() { return m_Info; }
+    const tLightInfo& GetLightInfoCRef() { return m_Info; }
+    tLightInfo& GetLightInfoRef() { return m_Info; }
 
 public:
     virtual void FinalTick() override;

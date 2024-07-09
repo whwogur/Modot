@@ -21,6 +21,7 @@ CGameObject::~CGameObject()
 {
 	Delete_Array(m_arrCom);
 	Delete_Vec(m_vecScript);
+	Delete_Vec(m_vecChildren);
 }
 
 void CGameObject::AddComponent(CComponent* _Component)
@@ -55,7 +56,7 @@ void CGameObject::AddChild(CGameObject* _ChildObject)
 	// 부모 오브젝트는 Level 에 속해있고, AddChild 되는 자식 오브젝트는 레벨에 소속되지 않은 경우
 	if (-1 != m_LayerIdx && -1 == _ChildObject->m_LayerIdx)
 	{
-		assert(nullptr);
+		MD_ENGINE_ASSERT(nullptr, L"Addchild 오류 LayerIdx - {0}, ChildObject->layeridx - {1}", m_LayerIdx, _ChildObject->m_LayerIdx);
 	}
 
 	// 자식으로 들어오는 오브젝트가 이미 부모가 있는 경우
@@ -82,6 +83,21 @@ void CGameObject::AddChild(CGameObject* _ChildObject)
 	_ChildObject->m_Parent = this;
 }
 
+bool CGameObject::IsAncestor(CGameObject* _Object)
+{
+	CGameObject* pObject = m_Parent;
+
+	while (pObject)
+	{
+		if (pObject == _Object)
+			return true;
+		else
+			pObject = pObject->GetParent();
+	}
+
+	return false;
+}
+
 void CGameObject::DetachFromLayer()
 {
 	if (nullptr == m_Parent)
@@ -103,6 +119,7 @@ void CGameObject::DetachChild()
 		if ((*iter) == this)
 		{
 			m_Parent->m_vecChildren.erase(iter);
+			m_LayerIdx = -1;
 			m_Parent = nullptr;
 			return;
 		}
