@@ -25,7 +25,7 @@ CCamera::CCamera()
 	, m_Height(0)
 	, m_Far(10000.f)
 	, m_FOV(XM_PI / 2.f)
-	, m_ProjectionScale(3.0f)
+	, m_ProjectionScale(1.0f)
 {
 	Vec2 vResolution = CDevice::GetInst()->GetResolution();
 	m_Width = vResolution.x;
@@ -118,6 +118,9 @@ void CCamera::SortGameObject()
 			case DOMAIN_PARTICLE:
 				m_vecParticles.push_back(vecObjects[j]);
 				break;
+			case DOMAIN_POSTPROCESS:
+				m_vecPostProcess.push_back(vecObjects[j]);
+				break;
 			}
 		}
 	}
@@ -156,8 +159,16 @@ void CCamera::Render()
 		m_vecParticles[i]->Render();
 	}
 
+	// PostProcess 
+	for (size_t i = 0; i < m_vecPostProcess.size(); ++i)
+	{
+		CRenderMgr::GetInst()->PostProcessCopy();
+		m_vecPostProcess[i]->Render();
+	}
+
 	m_vecOpaque.clear();
 	m_vecMasked.clear();
 	m_vecTransparent.clear();
 	m_vecParticles.clear();
+	m_vecPostProcess.clear();
 }

@@ -36,8 +36,8 @@ int CEngine::Init(HWND _wnd, POINT _ptResolution)
 	CKeyMgr::GetInst()->Init();// MD_ENGINE_TRACE(L"Key Manager 초기화 완료");
 	CTimeMgr::GetInst()->Init();// MD_ENGINE_TRACE(L"Time Manager 초기화 완료");
 	CAssetMgr::GetInst()->Init();// MD_ENGINE_TRACE(L"Asset Manager 초기화 완료");
-	CLevelMgr::GetInst()->Init();// MD_ENGINE_TRACE(L"Level Manager 초기화 완료");
 	CRenderMgr::GetInst()->Init();// MD_ENGINE_TRACE(L"Render Manager 초기화 완료");
+	CLevelMgr::GetInst()->Init();// MD_ENGINE_TRACE(L"Level Manager 초기화 완료");
 
 	return S_OK;
 }

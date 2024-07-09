@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CAssetMgr.h"
+#include "CDevice.h"
 
 void CAssetMgr::Init()
 {
@@ -107,67 +108,15 @@ void CAssetMgr::CreateEngineMesh()
 
 void CAssetMgr::CreateEngineTexture()
 {
+	// PostProcess 용 텍스쳐
+	Vec2 Resolution = CDevice::GetInst()->GetResolution();
+	CreateTexture(L"ViewportTex", (UINT)Resolution.x, (UINT)Resolution.y, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
+	CreateTexture(L"PostProcessTex", (UINT)Resolution.x, (UINT)Resolution.y
+		, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE|D3D11_BIND_RENDER_TARGET);
 }
 
 void CAssetMgr::CreateEngineSprite()
 {
-	/*Ptr<CTexture> pAtlasTex = Load<CTexture>(L"CathAtlas", L"texture\\Cath.png");
-
-	Ptr<CSprite> pSprite = nullptr;
-
-	for (int i = 0; i < 15; ++i)
-	{
-		wchar_t szKey[50] = {};
-		swprintf_s(szKey, 50, L"Cath_Idle_%d", i);
-
-		pSprite = new CSprite;
-		pSprite->Create(pAtlasTex, Vec2((float)i * 144.f, 0.f), Vec2(144.f, 144.f));
-		pSprite->SetBackground(Vec2(144.f, 144.f));
-		AddAsset(szKey, pSprite);
-		pSprite->SetRelativePath(wstring(L"Animation\\") + szKey + L".sprite");
-		pSprite->Save(CPathMgr::GetInst()->GetContentPath() + L"Animation\\" + szKey + L".sprite");
-	}
-
-	Ptr<CAnimation> pAnimation = nullptr;
-
-	pAnimation = new CAnimation;
-
-	for (int i = 0; i < 15; ++i)
-	{
-		wchar_t szKey[50] = {};
-		swprintf_s(szKey, 50, L"Cath_Idle_%d", i);
-		pAnimation->AddSprite(FindAsset<CSprite>(szKey));
-	}
-
-	AddAsset(L"Cath_Idle", pAnimation);
-	pAnimation->Save(CPathMgr::GetInst()->GetContentPath() + L"Animation\\Cath_Idle.anim");*/
-
-	/*wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
-
-	Ptr<CSprite> pSprite = nullptr;
-
-	for (int i = 0; i < 15; ++i)
-	{
-		wchar_t Buffer[50] = {};
-		swprintf_s(Buffer, 50, L"Cath_Idle_%d", i);
-
-		pSprite = Load<CSprite>(Buffer, wstring(L"Animation\\") + Buffer + L".sprite");
-
-		pSprite->SetRelativePath(wstring(L"Animation\\") + Buffer + L".sprite");
-	}
-
-
-	Ptr<CAnimation> pAnimation = new CAnimation;
-
-	for (int i = 0; i < 15; ++i)
-	{
-		wchar_t Buffer[50] = {};
-		swprintf_s(Buffer, 50, L"Cath_Idle_%d", i);
-		pAnimation->AddSprite(FindAsset<CSprite>(Buffer));
-	}
-
-	AddAsset(L"Cath_Idle", pAnimation);*/
-
 	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
 	wstring strSolutionPath = CPathMgr::GetInst()->GetSolutionPath();
 	Ptr<CAnimation> pAnimation = new CAnimation;
@@ -239,6 +188,16 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASKED);
 
 	AddAsset(L"TileMapShader", pShader);
+
+	// GrayFilterShader
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_GrayFilter");
+	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_GrayFilter");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+	AddAsset(L"GrayFilterShader", pShader);
 }
 
 void CAssetMgr::CreateEngineComputeShader()
@@ -269,4 +228,10 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial();
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"TileMapShader"));
 	AddAsset(L"TileMapMtrl", pMtrl);
+
+	// GrayFilterMtrl
+	pMtrl = new CMaterial();
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"GrayFilterShader"));
+	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
+	AddAsset(L"GrayFilterMtrl", pMtrl);
 }

@@ -15,10 +15,7 @@ public:
     void RegisterEditorCamera(CCamera* _Cam) { m_EditorCamera = _Cam; }
     void AddDebugShapeInfo(const tDebugShapeInfo& _Info) { m_DebugShapeList.push_back(_Info); }
     void RegisterLight2D(CLight2D* _Light) { m_vecLight2D.push_back(_Light); }
-    void CreateViewportTex(Vec2 _Size);
-
-    WRL::ComPtr<ID3D11DepthStencilView> GetViewportDSV() { return m_ViewportDSV; }
-    const Vec2 GetViewportTexSize() { return m_ViewportTexSize; }
+    void PostProcessCopy();
 
     CCamera* GetEditorCamera() { return m_EditorCamera; }
 public:
@@ -38,9 +35,5 @@ private:
     // Light
     vector<CLight2D*>           m_vecLight2D;
     CStructuredBuffer*          m_Light2DBuffer;
-
-    Vec2                        m_ViewportTexSize;
-
-    WRL::ComPtr<ID3D11Texture2D>            m_ViewportDSTex;
-    WRL::ComPtr<ID3D11DepthStencilView>     m_ViewportDSV;
+    Ptr<CTexture>               m_PostProcessTex;
 };
