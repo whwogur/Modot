@@ -4,12 +4,14 @@
 #include "Engine/CGameObject.h"
 #include "Engine/CComponent.h"
 #include "ImGui/imgui_internal.h"
+#include "CAssetMgr.h"
 
 ComponentUI::ComponentUI(COMPONENT_TYPE _Type)
 	: m_TargetObject(nullptr)
 	, m_Type(_Type)
 {
 	SetChildBorder(true);
+	m_IconTexture = CAssetMgr::GetInst()->Load<CTexture>(L"ComponentIcons", L"texture\\ComponentIcons.png");
 }
 
 ComponentUI::~ComponentUI()
@@ -35,8 +37,12 @@ void ComponentUI::SetTargetObject(CGameObject* _Object)
 void ComponentUI::Title()
 {
 	const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_FramePadding;
-	ImVec2 contentRegionAvailable = ImGui::GetContentRegionAvail();
 
+	Ptr<CTexture> Logotex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"LogoTex");
+	float vUV_0 = (1 / (float)COMPONENT_TYPE::END) * (UINT)m_Type;
+	float vUV_1 = (1 / (float)COMPONENT_TYPE::END) * ((UINT)m_Type + 1);
+	ImGui::Image((void*)m_IconTexture.Get()->GetSRV().Get(), { 32, 32 }, {vUV_0, 0}, {vUV_1, 1});
+	ImGui::SameLine();
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
 	float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
 	ImGui::TextColored({ 0.4f, 0.7f, 0.8f, 1.0f }, ToString(m_Type));

@@ -18,4 +18,5 @@ protected:
 private:
     class CGameObject*      m_TargetObject;
     const COMPONENT_TYPE    m_Type;
+    Ptr<CTexture>           m_IconTexture;
 };
