@@ -154,8 +154,12 @@
     <ClInclude Include="ImGui\ImGuizmo.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="MenuUI.h">
-      <Filter>Editor</Filter>
+    <ClInclude Include="MenuUI.h" />
+    <ClInclude Include="ImGui\imgui_neo_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_neo_sequencer.h">
+      <Filter>ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -292,8 +296,12 @@
     <ClCompile Include="ImGui\ImGuizmo.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="MenuUI.cpp">
-      <Filter>Editor</Filter>
+    <ClCompile Include="MenuUI.cpp" />
+    <ClCompile Include="ImGui\imgui_neo_internal.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_neo_sequencer.cpp">
+      <Filter>ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

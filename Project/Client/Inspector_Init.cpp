@@ -64,12 +64,12 @@ void Inspector::CreateComponentUI()
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA] = new CameraUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]->SetName("CameraUI");
-	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]->SetChildSize(ImVec2(0.f, 200.f));
+	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]->SetChildSize(ImVec2(0.f, 250.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D] = new Animator2DUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]->SetName("Animator2DUI");
-	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]->SetChildSize(ImVec2(0.f, 100.f));
+	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]->SetChildSize(ImVec2(0.f, 150.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER] = new MeshRenderUI;
@@ -123,7 +123,7 @@ void Inspector::CreateAssetUI()
 	m_arrAssetUI[(UINT)ASSET_TYPE::SPRITE] = UI;
 
 	UI = new AnimationUI;
-	UI->SetName("FlipBookUI");
+	UI->SetName("AnimationUI");
 	AddChild(UI);
 	m_arrAssetUI[(UINT)ASSET_TYPE::ANIMATION] = UI;
 

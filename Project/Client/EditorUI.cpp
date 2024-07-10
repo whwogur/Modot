@@ -123,9 +123,9 @@ void EditorUI::DrawVec3Control(const string& label, Vec3& values, float resetVal
 	float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
 	ImVec2 buttonSize = { lineHeight, lineHeight };
 
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.77f, 0.22f, 0.23f, 1.0f });
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.87f, 0.31f, 0.33f, 1.0f });
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.7f, 0.15f, 0.15f, 1.0f });
 	if (ImGui::Button("X", buttonSize))
 		values.x = resetValue;
 	ImGui::PopStyleColor(3);
@@ -135,9 +135,9 @@ void EditorUI::DrawVec3Control(const string& label, Vec3& values, float resetVal
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
 
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.22f, 0.77f, 0.23f, 1.0f });
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.31f, 0.87f, 0.33f, 1.0f });
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.15f, 0.7f, 0.15f, 1.0f });
 	if (ImGui::Button("Y", buttonSize))
 		values.y = resetValue;
 	ImGui::PopStyleColor(3);
@@ -147,9 +147,9 @@ void EditorUI::DrawVec3Control(const string& label, Vec3& values, float resetVal
 	ImGui::PopItemWidth();
 	ImGui::SameLine();
 
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.22f, 0.23f, 0.77f, 1.0f });
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.35f, 0.87f, 1.0f });
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.15f, 0.2f, 0.7f, 1.0f });
 	if (ImGui::Button("Z", buttonSize))
 		values.z = resetValue;
 	ImGui::PopStyleColor(3);
