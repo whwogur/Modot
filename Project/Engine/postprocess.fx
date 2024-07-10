@@ -94,24 +94,31 @@ float4 PS_Distortion(VS_OUT _in) : SV_Target
     
     //return vColor;
     
-    float2 vScreenUV = _in.vPosition.xy / g_Resolution;
-    
-    float2 rippleCenter = float2(0.5, 0.5);
-    
-    float2 toCenter = vScreenUV - rippleCenter;
-    float distance = length(toCenter);
-    
-    float frequency = 5.0;
-    float amplitude = 0.02;
-    float phaseShift = g_EngineTime * 2.0;
-    
-    float distortion = sin(distance * frequency - phaseShift) * amplitude * exp(-distance * 2.0);
-    
-    float2 distortedTexCoord = vScreenUV + normalize(toCenter) * distortion;
-    
-    float4 vColor = g_tex_0.Sample(g_sam_0, distortedTexCoord);
+    float waveStrength = 0.2;
+    float frequency = 30.0;
+    float waveSpeed = 5.0;
+    float4 sunlightColor = float4(1.0, 0.91, 0.75, 0.0);
+    float sunlightStrength = 5.0;
+    float centerLight = 2.0;
+    float oblique = 0.25;
 
-    return vColor;
+    float2 Point = _in.vPosition / g_Resolution;
+    float2 uv = _in.vUV;
+    float modifiedTime = g_EngineTime * waveSpeed;
+    float aspectRatio = g_Resolution.x / g_Resolution.y;
+    float2 distVec = uv - Point;
+    distVec.x *= aspectRatio;
+    float distance = length(distVec);
+
+    float multiplier = (distance < 1.0) ? pow(distance - 1.0, 2.0) : 0.0;
+    float addend = (sin(frequency * distance - modifiedTime) + centerLight) * waveStrength * multiplier;
+    float2 newTexCoord = uv + addend * oblique;
+
+    float4 colorToAdd = sunlightColor * sunlightStrength * addend;
+
+    float4 fragColor = g_tex_0.Sample(g_sam_0, Point) + colorToAdd;
+
+    return fragColor;
 }
 
 
