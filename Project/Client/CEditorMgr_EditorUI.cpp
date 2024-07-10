@@ -106,12 +106,6 @@ void CEditorMgr::ImGuiRun()
     // ImGui Tick
     ImGuiTick();
 
-    // ImGui Render
-    // ∑ª¥ı≈∏∞Ÿ ¡ˆ¡§
-    Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
-    Ptr<CTexture> pDSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
-    CONTEXT->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(), pDSTex->GetDSV().Get());
-
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 

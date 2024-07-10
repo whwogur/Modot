@@ -87,14 +87,30 @@ VS_OUT VS_Distortion(VS_IN _in)
 
 float4 PS_Distortion(VS_OUT _in) : SV_Target
 {
-    // 1. ·»´õÅ¸°Ù ÇØ»óµµ Á¤º¸ (Àü¿ª »ó¼ö¹öÆÛ)    
-    // 2. ÇÈ¼¿½¦ÀÌ´õÀÇ ÇÈ¼¿ ÁÂÇ¥
-    float2 vScreenUV = _in.vPosition.xy / g_Resolution;
+    //float2 vScreenUV = _in.vPosition.xy / g_Resolution;
         
-    // GrayFilter
-    float4 vColor = g_tex_0.Sample(g_sam_0, vScreenUV);
-    vColor.r *= 2.f;
+    //float4 vColor = g_tex_0.Sample(g_sam_0, vScreenUV);
+    //vColor.r *= 2.f;
     
+    //return vColor;
+    
+    float2 vScreenUV = _in.vPosition.xy / g_Resolution;
+    
+    float2 rippleCenter = float2(0.5, 0.5);
+    
+    float2 toCenter = vScreenUV - rippleCenter;
+    float distance = length(toCenter);
+    
+    float frequency = 5.0;
+    float amplitude = 0.02;
+    float phaseShift = g_EngineTime * 2.0;
+    
+    float distortion = sin(distance * frequency - phaseShift) * amplitude * exp(-distance * 2.0);
+    
+    float2 distortedTexCoord = vScreenUV + normalize(toCenter) * distortion;
+    
+    float4 vColor = g_tex_0.Sample(g_sam_0, distortedTexCoord);
+
     return vColor;
 }
 

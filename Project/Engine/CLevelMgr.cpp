@@ -89,7 +89,7 @@ void CLevelMgr::Init()
 	pPlayer->AddComponent(new CCollider2D);
 	pPlayer->AddComponent(new CAnimator2D);
 	pPlayer->AddComponent(new CPlayerScript);
-	pPlayer->Transform()->SetRelativePos(0.f, 0.f, 100.f);
+	pPlayer->Transform()->SetRelativePos(0.f, 0.f, 0.f);
 	pPlayer->Transform()->SetRelativeScale(200.f, 200.f, 1.f);
 	pPlayer->Collider2D()->SetIndependentScale(true);
 	pPlayer->Collider2D()->SetOffset(Vec3(0.f, 0.f, 0.f));
@@ -106,7 +106,7 @@ void CLevelMgr::Init()
 	pTileMapObj->AddComponent(new CTransform);
 	pTileMapObj->AddComponent(new CTileMap);
 
-	pTileMapObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.f));
+	pTileMapObj->Transform()->SetRelativePos(Vec3(-500.f, 200.f, 100.f));
 	pTileMapObj->TileMap()->SetRowCol(20, 20);
 	pTileMapObj->TileMap()->SetTileSize(Vec2(64.f, 64.f));
 

@@ -104,7 +104,8 @@ void CRenderMgr::RenderStart()
 	CONTEXT->ClearRenderTargetView(RTTex.Get()->GetRTV().Get(), color);
 	CONTEXT->ClearDepthStencilView(DSTex.Get()->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 
-	g_GlobalData.g_Resolution = Vec2(1200, 900);
+	Vec2 vRes = CDevice::GetInst()->GetResolution();
+	g_GlobalData.g_Resolution = vRes;
 	g_GlobalData.g_Light2DCount = (int)m_vecLight2D.size();
 
 	// Light2D 정보 업데이트 및 바인딩
