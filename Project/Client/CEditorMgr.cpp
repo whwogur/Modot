@@ -51,7 +51,7 @@ void CEditorMgr::ShortCut()
 {
     if (KEY_TAP(KEY::I))
     {
-        EditorUI* pUI = FindEditorUI("List");
+        EditorUI* pUI = FindEditorUI("AnimationEditor");
 
         if (pUI->IsActive())
 			pUI->SetActive(false);

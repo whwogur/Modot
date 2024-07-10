@@ -22,6 +22,9 @@
     <Filter Include="Editor\EditorUI\AssetUI">
       <UniqueIdentifier>{953a50ae-db84-469f-b387-0355ff7c45fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\EditorUI\Modal">
+      <UniqueIdentifier>{0a9f70d1-1e8b-4e6d-906a-41aab1809d44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -148,9 +151,6 @@
     <ClInclude Include="ImGui\imstb_truetype.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="FileBrowser.h">
-      <Filter>Editor\EditorUI</Filter>
-    </ClInclude>
     <ClInclude Include="ImGui\ImGuizmo.h">
       <Filter>ImGui</Filter>
     </ClInclude>
@@ -160,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="ImGui\imgui_neo_sequencer.h">
       <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationEditor.h">
+      <Filter>Editor\EditorUI\Modal</Filter>
+    </ClInclude>
+    <ClInclude Include="FileBrowser.h">
+      <Filter>Editor\EditorUI\Modal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -290,9 +296,6 @@
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="FileBrowser.cpp">
-      <Filter>Editor\EditorUI</Filter>
-    </ClCompile>
     <ClCompile Include="ImGui\ImGuizmo.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
@@ -302,6 +305,12 @@
     </ClCompile>
     <ClCompile Include="ImGui\imgui_neo_sequencer.cpp">
       <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationEditor.cpp">
+      <Filter>Editor\EditorUI\Modal</Filter>
+    </ClCompile>
+    <ClCompile Include="FileBrowser.cpp">
+      <Filter>Editor\EditorUI\Modal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

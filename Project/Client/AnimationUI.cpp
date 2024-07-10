@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "AnimationUI.h"
 #include "CAnimation.h"
+#include "CEditorMgr.h"
+#include "AnimationEditor.h"
 
 AnimationUI::AnimationUI()
 	: AssetUI(ASSET_TYPE::ANIMATION)
@@ -14,11 +16,19 @@ AnimationUI::~AnimationUI()
 void AnimationUI::Update()
 {
 	Title();
-	ImGui::SameLine(ImGui::GetContentRegionAvail().x - 100);
-	ImGui::Button(u8"편집", { 80, 25 });
 
 	CAnimation* anim = static_cast<CAnimation*>(GetAsset().Get());
 	MD_ENGINE_ASSERT(anim, L"애니메이션 없이 AnimationUI 활성화됨");
+
+	ImGui::SameLine(ImGui::GetContentRegionAvail().x - 100);
+	if (ImGui::Button(u8"편집", { 80, 25 }))
+	{
+		AnimationEditor* editor = static_cast<AnimationEditor*>(CEditorMgr::GetInst()->FindEditorUI("AnimationEditor"));
+		editor->SetAnimation(anim);
+		editor->Refresh();
+		editor->SetActive(true);
+	}
+
 	const vector<Ptr<CSprite>>& vecSprites = anim->GetSpritesCRef();
 
 	for (const auto& sprite : vecSprites)
