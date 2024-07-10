@@ -110,9 +110,13 @@ void CAssetMgr::CreateEngineTexture()
 {
 	// PostProcess 용 텍스쳐
 	Vec2 Resolution = CDevice::GetInst()->GetResolution();
-	CreateTexture(L"ViewportTex", (UINT)Resolution.x, (UINT)Resolution.y, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
 	CreateTexture(L"PostProcessTex", (UINT)Resolution.x, (UINT)Resolution.y
 		, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE|D3D11_BIND_RENDER_TARGET);
+
+	// Noise Texture
+	Load<CTexture>(L"noise_01", L"texture\\noise\\noise_01.png");
+	Load<CTexture>(L"noise_02", L"texture\\noise\\noise_02.png");
+	Load<CTexture>(L"noise_03", L"texture\\noise\\noise_03.jpg");
 }
 
 void CAssetMgr::CreateEngineSprite()
@@ -198,6 +202,16 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetBSType(BS_TYPE::DEFAULT);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
 	AddAsset(L"GrayFilterShader", pShader);
+
+	// Distortion
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_Distortion");
+	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_Distortion");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+	AddAsset(L"DistortionShader", pShader);
 }
 
 void CAssetMgr::CreateEngineComputeShader()
@@ -233,5 +247,17 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial();
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"GrayFilterShader"));
 	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
+	pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"texture\\noise\\noise_01.png"));
+	pMtrl->SetTexParam(TEX_2, FindAsset<CTexture>(L"texture\\noise\\noise_02.png"));
+	pMtrl->SetTexParam(TEX_3, FindAsset<CTexture>(L"texture\\noise\\noise_03.jpg"));
 	AddAsset(L"GrayFilterMtrl", pMtrl);
+
+	// DistortionMtrl
+	pMtrl = new CMaterial();
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"DistortionShader"));
+	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
+	pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"texture\\noise\\noise_01.png"));
+	pMtrl->SetTexParam(TEX_2, FindAsset<CTexture>(L"texture\\noise\\noise_02.png"));
+	pMtrl->SetTexParam(TEX_3, FindAsset<CTexture>(L"texture\\noise\\noise_03.jpg"));
+	AddAsset(L"DistortionMtrl", pMtrl);
 }

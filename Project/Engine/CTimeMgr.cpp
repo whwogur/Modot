@@ -12,6 +12,8 @@ CTimeMgr::CTimeMgr()
 	, m_FPS(0)
 	, m_DeltaTime(0.f)
 	, m_Time(0.f)
+	, m_E_DeltaTime(0.f)
+	, m_E_Time(0.f)
 {
 
 }

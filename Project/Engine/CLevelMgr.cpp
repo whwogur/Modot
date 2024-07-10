@@ -77,19 +77,6 @@ void CLevelMgr::Init()
 	pObject->AddComponent(new CLight2D);
 	pObject->Light2D()->SetRadius(1500.f);
 	pObject->Light2D()->SetLightAmbient({ 1.0f, 1.0f, 1.0f });
-	pObject->Transform()->SetRelativePos(Vec3(-300.f, 0.f, 100.f));
-
-
-	m_CurLevel->AddObject(0, pObject);
-
-	pObject = new CGameObject;
-	pObject->SetName(L"PointLight 2");
-	pObject->AddComponent(new CTransform);
-	pObject->AddComponent(new CLight2D);
-
-	pObject->Light2D()->SetLightType(LIGHT_TYPE::POINT);
-	pObject->Light2D()->SetLightColor(Vec3(1.0f, 1.0f, 1.0f));
-	pObject->Light2D()->SetRadius(500.f);
 	pObject->Transform()->SetRelativePos(Vec3(0.f, 0.f, 100.f));
 
 	m_CurLevel->AddObject(0, pObject);
@@ -120,7 +107,7 @@ void CLevelMgr::Init()
 	pTileMapObj->AddComponent(new CTileMap);
 
 	pTileMapObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.f));
-	pTileMapObj->TileMap()->SetRowCol(2, 2);
+	pTileMapObj->TileMap()->SetRowCol(20, 20);
 	pTileMapObj->TileMap()->SetTileSize(Vec2(64.f, 64.f));
 
 	Ptr<CTexture> pTileAtlas = CAssetMgr::GetInst()->Load<CTexture>(L"Tilesheet", L"texture\\Tilesheet.png");
@@ -135,7 +122,8 @@ void CLevelMgr::Init()
 	pGrayFilterObj->AddComponent(new CMeshRender);
 
 	pGrayFilterObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	pGrayFilterObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"GrayFilterMtrl"));
+	pGrayFilterObj->Transform()->SetRelativeScale(150.f, 150.f, 1.f);
+	pGrayFilterObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DistortionMtrl"));
 
 	m_CurLevel->AddObject(0, pGrayFilterObj);
 

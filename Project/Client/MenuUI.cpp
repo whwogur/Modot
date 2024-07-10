@@ -31,8 +31,8 @@ void MenuUI::Tick()
 		char buffer[255];
 		sprintf_s(buffer, " FPS : %d", FPS);
 		ImGui::SameLine(contentRegionAvailable.x);
-		ImGui::Button(buffer);
-
+		
+		ImGui::TextColored({ 0.57, 0.95, 0.88, 1.0 }, buffer);
 		ImGui::EndMainMenuBar();
 	}
 

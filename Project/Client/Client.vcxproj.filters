@@ -154,7 +154,9 @@
     <ClInclude Include="ImGui\ImGuizmo.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="MenuUI.h" />
+    <ClInclude Include="MenuUI.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -290,7 +292,9 @@
     <ClCompile Include="ImGui\ImGuizmo.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="MenuUI.cpp" />
+    <ClCompile Include="MenuUI.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">

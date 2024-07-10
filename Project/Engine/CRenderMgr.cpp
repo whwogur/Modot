@@ -88,13 +88,13 @@ void CRenderMgr::RegisterCamera(CCamera* _Cam, int _CamPriority)
 
 void CRenderMgr::PostProcessCopy()
 {
-	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"ViewportTex");
+	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
 	CONTEXT->CopyResource(m_PostProcessTex->GetTex2D().Get(), pRTTex->GetTex2D().Get());
 }
 
 void CRenderMgr::RenderStart()
 {
-	Ptr<CTexture> RTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"ViewportTex");
+	Ptr<CTexture> RTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
 	Ptr<CTexture> DSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
 	// ·»´õÅ¸°Ù ÁöÁ¤
 	CONTEXT->OMSetRenderTargets(1, RTTex.Get()->GetRTV().GetAddressOf(), DSTex.Get()->GetDSV().Get());

@@ -17,6 +17,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_ LPWSTR    lpCmdLine,
     _In_ int       nCmdShow)
 {
+    //int screenX = GetSystemMetrics(SM_CXSCREEN);
+    //int screenY = GetSystemMetrics(SM_CYSCREEN);
+
 #ifdef _DEBUG
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     //_CrtSetBreakAlloc(492);
@@ -45,7 +48,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UpdateWindow(hWnd);
 
     // CEngine 객체 초기화
-    if (FAILED(CEngine::GetInst()->Init(hWnd, POINT{ 1920, 1080 })))
+    if (FAILED(CEngine::GetInst()->Init(hWnd, POINT{ 1280, 720 })))
     {
         MessageBox(nullptr, L"Engine 초기화 실패", L"엔진 초기화 실패", MB_OK);
         return 0;
