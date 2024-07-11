@@ -126,7 +126,7 @@ namespace ImGui {
 
         const auto size = totalSizeX - valuesWidth - imStyle.FramePadding.x;
 
-        auto count = (endFrame + 1) - startFrame;
+        auto count = (endFrame) - startFrame;
 
         return ((size / (float)count) * zoom);
     }
