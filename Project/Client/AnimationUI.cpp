@@ -3,7 +3,7 @@
 #include "CAnimation.h"
 #include "CEditorMgr.h"
 #include "AnimationEditor.h"
-
+#include "CAssetMgr.h"
 AnimationUI::AnimationUI()
 	: AssetUI(ASSET_TYPE::ANIMATION)
 {
@@ -31,18 +31,31 @@ void AnimationUI::Update()
 
 	const vector<Ptr<CSprite>>& vecSprites = anim->GetSpritesCRef();
 
-	for (const auto& sprite : vecSprites)
-	{
-		ImVec2 LeftTopUV = ImVec2(sprite->GetLeftTopUV().x, sprite->GetLeftTopUV().y);
-		ImVec2 RightBottomUV = ImVec2(sprite->GetSliceUV().x + sprite->GetLeftTopUV().x, sprite->GetSliceUV().y + sprite->GetLeftTopUV().y);
-		ImGui::Image(sprite->GetAtlasTexture().Get()->GetSRV().Get(), { 80, 80 }, LeftTopUV, RightBottomUV, { 1,1,1,1 }, { 0.1, 0.8, 0.2, 1.0 });
-		ImGui::SameLine();
-		string name = "name : " + string(sprite->GetKey().begin(), sprite->GetKey().end());
-		
-		ImGui::Text(name.c_str());
-		if (sprite->GetOffsetUV() != Vec2())
-		{
-			ImGui::Text("OffsetUV : %.2f", sprite->GetOffsetUV().x, sprite->GetOffsetUV().y);
-		}
-	}
+	string animName = string(anim->GetKey().begin(), anim->GetKey().end());
+	string animFrameCount = std::to_string(anim->GetMaxFrameCount());
+
+	const wstring& animWRelativePath = anim->GetRelativePath();
+	string animRelativePath = animWRelativePath.length() < 1 ? "Engine Generated" : string(anim->GetRelativePath().begin(), anim->GetRelativePath().end());
+
+	const auto& sprite = vecSprites[1];
+	ImVec2 LeftTopUV = ImVec2(sprite->GetLeftTopUV().x, sprite->GetLeftTopUV().y);
+	ImVec2 RightBottomUV = ImVec2(sprite->GetSliceUV().x + sprite->GetLeftTopUV().x, sprite->GetSliceUV().y + sprite->GetLeftTopUV().y);
+
+	ImGui::Image(sprite->GetAtlasTexture().Get()->GetSRV().Get(), { 144, 144 }, LeftTopUV, RightBottomUV, { 1,1,1,1 }, { 0.1, 0.8, 0.2, 1.0 });
+
+	ImGui::Text(u8"이름");
+	ImGui::SameLine(100);
+	ImGui::SetNextItemWidth(150.f);
+	ImGui::InputText("##AnimKey", (char*)animName.c_str(), ImGuiInputTextFlags_ReadOnly);
+
+	ImGui::Text(u8"프레임수");
+	ImGui::SameLine(100);
+	ImGui::SetNextItemWidth(150.f);
+	ImGui::InputText("##AnimFrameCount", (char*)animFrameCount.c_str(), ImGuiInputTextFlags_ReadOnly);
+
+	ImGui::Text(u8"경로");
+	ImGui::SameLine(100);
+	ImGui::SetNextItemWidth(150.f);
+	ImGui::InputText("##AnimRelativePath", (char*)animRelativePath.c_str(), ImGuiInputTextFlags_ReadOnly);
+
 }

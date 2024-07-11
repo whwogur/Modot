@@ -19,6 +19,7 @@ public:
 
     Vec2 GetBackgroundUV() { return m_BackgroundUV; }
     Vec2 GetOffsetUV() { return m_OffsetUV; }
+    Vec2& GetOffsetUVRef() { return m_OffsetUV; }
 public:
     void Create(Ptr<CTexture> _Atlas, Vec2 _LeftTopPixel, Vec2 _SlicePixel);
     virtual int Load(const wstring& _FilePath) override;

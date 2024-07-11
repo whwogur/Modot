@@ -33,7 +33,7 @@ void Animator2DUI::Update()
 				else
 				{
 					const wstring& animName = vecAnim[i].Get()->GetKey();
-					string sName = string(animName.begin(), animName.end());
+					string sName = "- " + string(animName.begin(), animName.end());
 					if (ImGui::Selectable((char*)sName.c_str()))
 					{
 						// 애니메이션 정보

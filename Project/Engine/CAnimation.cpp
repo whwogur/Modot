@@ -10,11 +10,16 @@ CAnimation::CAnimation()
 void CAnimation::FinalTick()
 {
 }
-
-int CAnimation::Save(const wstring& _FilePath)
+// 애니메이션 세이브
+int CAnimation::Save(const wstring& _RelativePath)
 {
+	SetRelativePath(_RelativePath);
+
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _RelativePath;
+
 	FILE* File = nullptr;
-	_wfopen_s(&File, _FilePath.c_str(), L"wb");
+	_wfopen_s(&File, strFilePath.c_str(), L"wb");
 
 	if (nullptr == File)
 		return E_FAIL;
@@ -31,11 +36,14 @@ int CAnimation::Save(const wstring& _FilePath)
 
 	return S_OK;
 }
-
-int CAnimation::Load(const wstring& _FilePath)
+// 애니메이션 로드
+int CAnimation::Load(const wstring& _RelativePath)
 {
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _RelativePath;
+
 	FILE* File = nullptr;
-	_wfopen_s(&File, _FilePath.c_str(), L"rb");
+	_wfopen_s(&File, strFilePath.c_str(), L"rb");
 	if (nullptr == File)
 		return E_FAIL;
 

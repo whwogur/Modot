@@ -123,17 +123,14 @@ void CAssetMgr::CreateEngineSprite()
 {
 	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
 	wstring strSolutionPath = CPathMgr::GetInst()->GetSolutionPath();
+
 	Ptr<CAnimation> pAnimation = new CAnimation;
-	pAnimation->Load(strContentPath + L"Animation\\Cath_Idle.anim");
+	pAnimation->Load(L"Animation\\Cath_Idle.anim");
 	AddAsset(L"Cath_Idle", pAnimation);
 
 	Ptr<CTexture> LogoTex = new CTexture;
 	LogoTex->Load(strSolutionPath + L"Modot_Logo.png");
 	AddAsset(L"Logo", LogoTex);
-
-	/*Ptr<CTexture> CheckerTex = new CTexture;
-	CheckerTex->Load(strContentPath) + L"Checkerboard.jpg";
-	AddAsset(L"Checkerboard", CheckerTex);*/
 }
 
 void CAssetMgr::CreateEngineGraphicShader()
