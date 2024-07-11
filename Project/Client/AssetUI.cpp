@@ -1,9 +1,11 @@
 ﻿#include "pch.h"
 #include "AssetUI.h"
-
+#include "CAssetMgr.h"
+#include <ImGui/imgui_internal.h>
 AssetUI::AssetUI(ASSET_TYPE _Type)
 	: m_Type(_Type)
 {
+	m_AssetIcons = CAssetMgr::GetInst()->Load<CTexture>(L"AssetIcons", L"texture\\AssetIcons.png");
 }
 
 AssetUI::~AssetUI()
@@ -28,14 +30,15 @@ void AssetUI::SetAsset(Ptr<CAsset> _Asset)
 void AssetUI::Title()
 {
 	ImGui::PushID((int)m_Type);
+	float vUV_0 = (1 / (float)ASSET_TYPE::END) * (UINT)m_Type;
+	float vUV_1 = (1 / (float)ASSET_TYPE::END) * ((UINT)m_Type + 1);
+	ImGui::Image((void*)m_AssetIcons.Get()->GetSRV().Get(), { 32, 32 }, { vUV_0, 0 }, { vUV_1, 1 });
+	ImGui::SameLine();
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
+	float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+	ImGui::TextColored({ 0.4f, 0.7f, 0.8f, 1.0f }, ToString(m_Type));
 
-	ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(38, 98, 241, 255));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_COL32(38, 98, 241, 255));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, IM_COL32(38, 98, 241, 255));
-
-	ImGui::Button(ToString(m_Type));
-
-	ImGui::PopStyleColor(3);
+	ImGui::PopStyleVar();
 	ImGui::PopID();
 }
 

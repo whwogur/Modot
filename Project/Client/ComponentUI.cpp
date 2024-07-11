@@ -38,7 +38,6 @@ void ComponentUI::Title()
 {
 	const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_FramePadding;
 
-	Ptr<CTexture> Logotex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"LogoTex");
 	float vUV_0 = (1 / (float)COMPONENT_TYPE::END) * (UINT)m_Type;
 	float vUV_1 = (1 / (float)COMPONENT_TYPE::END) * ((UINT)m_Type + 1);
 	ImGui::Image((void*)m_IconTexture.Get()->GetSRV().Get(), { 32, 32 }, {vUV_0, 0}, {vUV_1, 1});

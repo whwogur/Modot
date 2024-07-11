@@ -10,7 +10,6 @@ AnimationEditor::AnimationEditor()
 	, m_Animator(nullptr)
     , m_Play(false)
 {
-    m_CheckerTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Checkerboard");
 }
 
 void AnimationEditor::Update()
