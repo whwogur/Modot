@@ -130,6 +130,10 @@ void CAssetMgr::CreateEngineSprite()
 	Ptr<CTexture> LogoTex = new CTexture;
 	LogoTex->Load(strSolutionPath + L"Modot_Logo.png");
 	AddAsset(L"Logo", LogoTex);
+
+	/*Ptr<CTexture> CheckerTex = new CTexture;
+	CheckerTex->Load(strContentPath) + L"Checkerboard.jpg";
+	AddAsset(L"Checkerboard", CheckerTex);*/
 }
 
 void CAssetMgr::CreateEngineGraphicShader()

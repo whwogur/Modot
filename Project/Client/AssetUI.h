@@ -16,5 +16,6 @@ protected:
     void OutputAssetName();
 private:
     Ptr<CAsset>         m_Asset;
+    Ptr<CTexture>       m_AssetIcons;
     const ASSET_TYPE    m_Type;
 };

@@ -13,6 +13,7 @@
 #include "ListUI.h"
 #include "FileBrowser.h"
 #include "MenuUI.h"
+#include "AnimationEditor.h"
 //#include "ImGui/ImGuizmo.h"
 void CEditorMgr::InitImGui()
 {
@@ -88,10 +89,16 @@ void CEditorMgr::CreateEditorUI()
     pUI->SetName("MainMenu");
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
-    // Inspector
+    // FileBrowser
     pUI = new FileBrowser;
     pUI->Init();
     pUI->SetName("FileBrowser");
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    // AnimationEditor
+    pUI = new AnimationEditor;
+    pUI->SetName("AnimationEditor");
+    pUI->SetActive(false);
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 }
 
