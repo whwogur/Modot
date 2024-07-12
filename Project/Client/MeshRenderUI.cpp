@@ -23,6 +23,9 @@ void MeshRenderUI::Update()
 {
 	Title();
 
+	ImFont* iconFont = CEditorMgr::GetInst()->GetIconFont();
+	ImGui::PushFont(iconFont);
+
 	CMeshRender* pMeshRender = GetTargetObject()->MeshRender();
 
 	Ptr<CMesh> pMesh = pMeshRender->GetMesh();
@@ -52,7 +55,7 @@ void MeshRenderUI::Update()
 	}
 
 	ImGui::SameLine();
-	if (ImGui::Button("+##MeshBtn", ImVec2(20.f, 20.f)))
+	if (ImGui::Button(ICON_FA_PLUS "##MeshBtn", ImVec2(20.f, 20.f)))
 	{
 		ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("List");
 		pListUI->SetName("Mesh");
@@ -90,7 +93,7 @@ void MeshRenderUI::Update()
 	}
 
 	ImGui::SameLine();
-	if (ImGui::Button("+##MtrlBtn", ImVec2(20.f, 20.f)))
+	if (ImGui::Button(ICON_FA_PLUS "##MtrlBtn", ImVec2(20.f, 20.f)))
 	{
 		ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("List");
 		pListUI->SetName("Material");
@@ -100,6 +103,8 @@ void MeshRenderUI::Update()
 		pListUI->AddDelegate(this, (DELEGATE_1)&MeshRenderUI::SelectMaterial);
 		pListUI->SetActive(true);
 	}
+
+	ImGui::PopFont();
 }
 
 void MeshRenderUI::SelectMesh(DWORD_PTR _ListUI)

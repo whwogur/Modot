@@ -18,7 +18,10 @@ void TileMapUI::Update()
 	Title();
 	ImVec2 temp = ImGui::GetContentRegionAvail();
 	ImGui::SameLine(temp.x - 30);
-	if (ImGui::Button("+", { 25, 25 }))
+	ImFont* iconFont = CEditorMgr::GetInst()->GetIconFont();
+	ImGui::PushFont(iconFont);
+
+	if (ImGui::Button(ICON_FA_PLUS, { 25, 25 }))
 	{
 		EditorUI* pUI = CEditorMgr::GetInst()->FindEditorUI("List");
 
@@ -27,6 +30,7 @@ void TileMapUI::Update()
 		else
 			pUI->SetActive(true);
 	}
+	ImGui::PopFont();
 
 	Ptr<CTexture> pTexture = GetTargetObject()->TileMap()->GetAtlasTexture();
 

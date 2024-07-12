@@ -75,7 +75,7 @@ void CameraUI::LayerCheck()
 {
     ImGui::Text("Layer Check");
     ImGui::SameLine(100);
-    if (ImGui::Button("Show##LayerCheckBtn", ImVec2(50.f, 18.f)))
+    if (ImGui::Button(ICON_FA_SORT_NUMERIC_ASC "##LayerCheckBtn", ImVec2(50.f, 25.f)))
     {
         m_ShowLayerCheck ? m_ShowLayerCheck = false : m_ShowLayerCheck = true;
     }

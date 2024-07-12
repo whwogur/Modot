@@ -22,6 +22,7 @@ EditorUI::~EditorUI()
 
 void EditorUI::Tick()
 {
+
 	if (!m_Active)
 		return;
 

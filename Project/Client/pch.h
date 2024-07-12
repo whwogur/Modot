@@ -9,6 +9,7 @@
 
 #include <Engine/global.h>
 #include <Engine/CEngine.h>
+#include "ImGui/IconsFontAwesome4.h"
 
 // Scripts
 #ifdef _DEBUG

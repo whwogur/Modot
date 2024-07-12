@@ -175,6 +175,9 @@
     <ClInclude Include="CTestLevel.h">
       <Filter>Editor\TestLevel</Filter>
     </ClInclude>
+    <ClInclude Include="ImGui\IconsFontAwesome4.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

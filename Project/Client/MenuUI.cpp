@@ -29,7 +29,7 @@ void MenuUI::Tick()
 
 		UINT FPS = CTimeMgr::GetInst()->GetFPSRecord();
 		char buffer[255];
-		sprintf_s(buffer, " FPS : %d", FPS);
+		sprintf_s(buffer, ICON_FA_ROCKET " FPS: %d", FPS);
 		ImGui::SameLine(contentRegionAvailable.x);
 		
 		ImGui::TextColored({ 0.57, 0.95, 0.88, 1.0 }, buffer);
@@ -52,7 +52,10 @@ void MenuUI::Update()
 
 void MenuUI::File()
 {
-	if (ImGui::BeginMenu("File"))
+	ImFont* iconFont = CEditorMgr::GetInst()->GetIconFont();
+	ImGui::PushFont(iconFont);
+	
+	if (ImGui::BeginMenu(ICON_FA_FILE " File"))
 	{
 		if (ImGui::MenuItem(u8"»õ ÆÄÀÏ", "Ctrl + N"))
 		{
@@ -77,11 +80,14 @@ void MenuUI::File()
 		}
 		ImGui::EndMenu();
 	}
+	ImGui::PopFont();
 }
 
 void MenuUI::Level()
 {
-	if (ImGui::BeginMenu("Level"))
+	ImFont* iconFont = CEditorMgr::GetInst()->GetIconFont();
+	ImGui::PushFont(iconFont);
+	if (ImGui::BeginMenu(ICON_FA_FILE_VIDEO_O " Level"))
 	{
 		if (ImGui::MenuItem("Play"))
 		{
@@ -101,11 +107,15 @@ void MenuUI::Level()
 
 		ImGui::EndMenu();
 	}
+	ImGui::PopFont();
 }
 
 void MenuUI::GameObject()
 {
-	if (ImGui::BeginMenu("GameObject"))
+	ImFont* iconFont = CEditorMgr::GetInst()->GetIconFont();
+	ImGui::PushFont(iconFont);
+
+	if (ImGui::BeginMenu(ICON_FA_OBJECT_GROUP " GameObject"))
 	{
 		if (ImGui::MenuItem("Create Empty Object"))
 		{
@@ -123,11 +133,12 @@ void MenuUI::GameObject()
 
 		ImGui::EndMenu();
 	}
+	ImGui::PopFont();
 }
 
 void MenuUI::Assets()
 {
-	if (ImGui::BeginMenu("Assets"))
+	if (ImGui::BeginMenu(ICON_FA_PICTURE_O " Assets"))
 	{
 		if (ImGui::MenuItem("Create Empty Material"))
 		{

@@ -74,7 +74,7 @@ void FileBrowser::Update()
 
 	ImGui::Columns(1);
 
-	ImGui::SliderFloat(u8"아이콘 사이즈", &thumbnailSize, 16, 512);
+	ImGui::SliderFloat(ICON_FA_SEARCH, &thumbnailSize, 16, 512);
 	//ImGui::SliderFloat(u8"패딩", &padding, 0, 32);
 }
 

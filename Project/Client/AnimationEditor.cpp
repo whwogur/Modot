@@ -44,12 +44,12 @@ void AnimationEditor::Update()
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.32f, 0.33f, 0.97f, 1.0f });
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.12f, 0.13f, 0.67f, 1.0f });
         ImGui::SameLine(160);
-        if (ImGui::Button("-", { 30, 20 }))
+        if (ImGui::Button(ICON_FA_MINUS, { 30, 20 }))
         {
             offsetUV.x -= deltaUV;
         }
         ImGui::SameLine(200);
-        if (ImGui::Button("+", {30, 20}))
+        if (ImGui::Button(ICON_FA_PLUS, {30, 20}))
         {
             offsetUV.x += deltaUV;
         }
@@ -63,7 +63,7 @@ void AnimationEditor::Update()
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.52f, 0.43f, 0.77f, 1.0f });
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.62f, 0.53f, 0.97f, 1.0f });
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.42f, 0.43f, 0.67f, 1.0f });
-        if (ImGui::Button(m_Play ? "II" : ">", { 50, 30 }))
+        if (ImGui::Button(m_Play ? ICON_FA_PAUSE : ICON_FA_PLAY, { 50, 30 }))
         {
             m_Play = !m_Play;
         }

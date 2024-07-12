@@ -107,6 +107,7 @@
     <ClInclude Include="CTestLevel.h" />
     <ClInclude Include="FileBrowser.h" />
     <ClInclude Include="GraphicShaderUI.h" />
+    <ClInclude Include="ImGui\IconsFontAwesome4.h" />
     <ClInclude Include="ImGui\ImGuizmo.h" />
     <ClInclude Include="ImGui\imgui_neo_internal.h" />
     <ClInclude Include="ImGui\imgui_neo_sequencer.h" />
