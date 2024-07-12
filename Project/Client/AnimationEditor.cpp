@@ -28,11 +28,13 @@ void AnimationEditor::Update()
                 m_CurrentFrame = 0;
         }
 
+        static float deltaUV = 0.1f;
         Ptr<CSprite>& curSprite = m_Animation->GetSpriteRef(m_CurrentFrame);
         Vec2 LeftTop = curSprite->GetLeftTopUV();
         Vec2 Slice = curSprite->GetSliceUV();
         Vec2& offsetUV = curSprite->GetOffsetUVRef();
 
+        ImGui::TextColored({ 0.3f, 0.5f, 0.7f, 1.0f }, "<%f , %f>", offsetUV.x, offsetUV.y);
         ImGui::Image(curSprite->GetAtlasTexture().Get()->GetSRV().Get(), { 150, 150 }, { LeftTop.x, LeftTop.y }, { LeftTop.x + Slice.x, LeftTop.y + Slice.y });
         //ImVec2 p = ImGui::GetCursorScreenPos();
         //ImGui::Image(m_CheckerTex.Get()->GetSRV().Get(), { 150, 150 });
@@ -44,14 +46,19 @@ void AnimationEditor::Update()
         ImGui::SameLine(160);
         if (ImGui::Button("-", { 30, 20 }))
         {
-            offsetUV.x -= 0.1;
+            offsetUV.x -= deltaUV;
         }
         ImGui::SameLine(200);
         if (ImGui::Button("+", {30, 20}))
         {
-            offsetUV.x += 0.1;
+            offsetUV.x += deltaUV;
         }
         ImGui::PopStyleColor(3);
+        ImGui::SameLine(240);
+
+        ImGui::PushItemWidth(50.f);
+        ImGui::DragFloat(u8"UV조절량", &deltaUV, 0.005f, 0.0f, 1.0f, "%.3f");
+        ImGui::PopItemWidth();
 
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.52f, 0.43f, 0.77f, 1.0f });
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.62f, 0.53f, 0.97f, 1.0f });
@@ -63,7 +70,9 @@ void AnimationEditor::Update()
         ImGui::PopStyleColor(3);
 
         ImGui::SameLine(70);
+        ImGui::PushItemWidth(100.f);
         ImGui::DragFloat("FPS", &m_FPS, 1.0f, 0.1f, 60.f, "%.1f", 0);
+        ImGui::PopItemWidth();
 
         if (ImGui::BeginNeoSequencer(u8"애니메이션", &m_CurrentFrame, &m_StartFrame, &m_EndFrame, {0, 0})) {
             
