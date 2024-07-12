@@ -16,5 +16,5 @@ private:
     void AssetClicked(DWORD_PTR _Param);
 
 private:
-    class TreeUI* m_Tree;
+    class TreeUI*   m_Tree;
 };

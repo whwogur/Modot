@@ -19,8 +19,8 @@ void CTestLevel::CreateTestLevel()
 	Ptr<CMaterial> pAlphaBlendMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DAlphaBlendMtrl");
 	Ptr<CMaterial> pDebugShapeMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DebugShapeMtrl");
 
-	Ptr<CTexture> pTexture = CAssetMgr::GetInst()->Load<CTexture>(L"LogoTex", L"texture//Logo.png");
-	pAlphaBlendMtrl->SetTexParam(TEX_0, pTexture);
+	//Ptr<CTexture> pTexture = CAssetMgr::GetInst()->Load<CTexture>(L"LogoTex", L"texture//Logo.png");
+	//pAlphaBlendMtrl->SetTexParam(TEX_0, pTexture);
 	// Level »ý¼º
 	CLevel* pLevel = new CLevel;
 	ChangeLevel(pLevel, LEVEL_STATE::PLAY);

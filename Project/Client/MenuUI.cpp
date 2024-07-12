@@ -20,7 +20,7 @@ void MenuUI::Tick()
 
 	if (ImGui::BeginMainMenuBar())
 	{
-		Ptr<CTexture> LogoTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Logo");
+		Ptr<CTexture> LogoTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Modot_Logo");
 		ImGui::Image(LogoTex->GetSRV().Get(), { 28 ,28 });
 
 		Update();

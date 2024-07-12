@@ -130,7 +130,7 @@ void CAssetMgr::CreateEngineSprite()
 
 	Ptr<CTexture> LogoTex = new CTexture;
 	LogoTex->Load(strSolutionPath + L"Modot_Logo.png");
-	AddAsset(L"Logo", LogoTex);
+	AddAsset(L"Modot_Logo", LogoTex);
 }
 
 void CAssetMgr::CreateEngineGraphicShader()
