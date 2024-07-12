@@ -81,6 +81,8 @@ void CGameObject::AddChild(CGameObject* _ChildObject)
 
 	m_vecChildren.push_back(_ChildObject);
 	_ChildObject->m_Parent = this;
+
+	CLevelMgr::GetInst()->SetLevelDirty();
 }
 
 bool CGameObject::IsAncestor(CGameObject* _Object)
@@ -112,6 +114,7 @@ void CGameObject::DetachFromLayer()
 
 void CGameObject::DetachChild()
 {
+	CLevelMgr::GetInst()->SetLevelDirty();
 	vector<CGameObject*>::iterator iter = m_Parent->m_vecChildren.begin();
 
 	for (; iter != m_Parent->m_vecChildren.end(); ++iter)

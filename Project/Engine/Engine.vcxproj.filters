@@ -101,17 +101,8 @@
     <ClInclude Include="CCamera.h">
       <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayerScript.h">
-      <Filter>Component\Script</Filter>
-    </ClInclude>
     <ClInclude Include="CTexture.h">
       <Filter>06. Asset</Filter>
-    </ClInclude>
-    <ClInclude Include="CCameraMoveScript.h">
-      <Filter>Component\Script</Filter>
-    </ClInclude>
-    <ClInclude Include="CScript.h">
-      <Filter>Component\Script</Filter>
     </ClInclude>
     <ClInclude Include="CRenderMgr.h">
       <Filter>04. Manager</Filter>
@@ -142,6 +133,9 @@
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="CLight2D.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CScript.h">
       <Filter>Component</Filter>
     </ClInclude>
   </ItemGroup>
@@ -214,17 +208,8 @@
       <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="extern.cpp" />
-    <ClCompile Include="CPlayerScript.cpp">
-      <Filter>Component\Script</Filter>
-    </ClCompile>
     <ClCompile Include="CTexture.cpp">
       <Filter>06. Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="CCameraMoveScript.cpp">
-      <Filter>Component\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="CScript.cpp">
-      <Filter>Component\Script</Filter>
     </ClCompile>
     <ClCompile Include="CRenderMgr.cpp">
       <Filter>04. Manager</Filter>
@@ -264,6 +249,9 @@
       <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="CLight2D.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CScript.cpp">
       <Filter>Component</Filter>
     </ClCompile>
   </ItemGroup>
@@ -306,9 +294,6 @@
     </Filter>
     <Filter Include="Component">
       <UniqueIdentifier>{5ebb3e06-804f-4b56-b031-eaecfd721cb8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Script">
-      <UniqueIdentifier>{32f3b632-7af2-46ae-bb15-8ad2f3c3fbed}</UniqueIdentifier>
     </Filter>
     <Filter Include="06. Asset\Material">
       <UniqueIdentifier>{7a1eec37-53aa-4ce5-9f89-9ac5397a0eb7}</UniqueIdentifier>

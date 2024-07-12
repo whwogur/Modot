@@ -40,7 +40,8 @@ HierarchyView::~HierarchyView()
 
 void HierarchyView::Update()
 {
-	
+	if (CLevelMgr::GetInst()->IsDirty())
+		RefreshLevel();
 }
 
 void HierarchyView::RefreshLevel()
@@ -116,9 +117,6 @@ void HierarchyView::GameObjectAddChild(DWORD_PTR _Param1, DWORD_PTR _Param2)
 		// 본인 소속 레이어에 최상위 부모로서 재등록 한다.
 		CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(LayerIdx, pDragObject);
 	}
-
-	// 트리내용 갱신
-	RefreshLevel();
 }
 
 void HierarchyView::DropExtern(DWORD_PTR _ExternData, DWORD_PTR _DropNode)

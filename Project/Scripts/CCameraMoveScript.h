@@ -1,5 +1,6 @@
 #pragma once
-#include "CScript.h"
+#include <Engine/CScript.h>
+
 class CCameraMoveScript :
     public CScript
 {

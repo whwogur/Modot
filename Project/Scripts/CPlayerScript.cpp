@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "spch.h"
 #include "CPlayerScript.h"
 
 CPlayerScript::CPlayerScript()

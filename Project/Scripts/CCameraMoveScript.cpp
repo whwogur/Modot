@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "spch.h"
 #include "CCameraMoveScript.h"
 
 CCameraMoveScript::CCameraMoveScript()

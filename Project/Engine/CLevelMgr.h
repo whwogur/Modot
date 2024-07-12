@@ -11,10 +11,16 @@ public:
 	CLevel* GetCurrentLevel() { return m_CurLevel; }
 	CGameObject* FindObjectByName(const wstring& _Name);
 
+	bool IsDirty() { return m_Dirty; }
 public:
-	void Init();
+	void SetLevelDirty();
 	void Run();
 
 private:
+	bool ChangeLevel(CLevel* _NextLevel);
+
+private:
+	friend class CTaskMgr;
 	CLevel* m_CurLevel;
+	bool	m_Dirty;
 };

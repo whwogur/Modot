@@ -25,6 +25,9 @@
     <Filter Include="Editor\EditorUI\Modal">
       <UniqueIdentifier>{0a9f70d1-1e8b-4e6d-906a-41aab1809d44}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\TestLevel">
+      <UniqueIdentifier>{a9c73831-6426-4d14-8c1b-aec407704a30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -154,7 +157,6 @@
     <ClInclude Include="ImGui\ImGuizmo.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="MenuUI.h" />
     <ClInclude Include="ImGui\imgui_neo_internal.h">
       <Filter>ImGui</Filter>
     </ClInclude>
@@ -166,6 +168,12 @@
     </ClInclude>
     <ClInclude Include="FileBrowser.h">
       <Filter>Editor\EditorUI\Modal</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuUI.h">
+      <Filter>Editor\EditorUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CTestLevel.h">
+      <Filter>Editor\TestLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -299,7 +307,6 @@
     <ClCompile Include="ImGui\ImGuizmo.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="MenuUI.cpp" />
     <ClCompile Include="ImGui\imgui_neo_internal.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
@@ -311,6 +318,12 @@
     </ClCompile>
     <ClCompile Include="FileBrowser.cpp">
       <Filter>Editor\EditorUI\Modal</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuUI.cpp">
+      <Filter>Editor\EditorUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CTestLevel.cpp">
+      <Filter>Editor\TestLevel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
