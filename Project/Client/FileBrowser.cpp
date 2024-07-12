@@ -31,7 +31,7 @@ void FileBrowser::Update()
 {
 	if (m_CurrentDirectory != m_ContentPath)
 	{
-		if (ImGui::Button(".."))
+		if (ImGui::Button(ICON_FA_REPLY))
 		{
 			m_CurrentDirectory = m_CurrentDirectory.parent_path();
 			Refresh();
@@ -74,7 +74,8 @@ void FileBrowser::Update()
 
 	ImGui::Columns(1);
 
-	ImGui::SliderFloat(ICON_FA_SEARCH, &thumbnailSize, 16, 512);
+	ImGui::SetNextItemWidth(50.f);
+	ImGui::SliderFloat(ICON_FA_SEARCH, &thumbnailSize, 50.0f, 70.0f, "%.1f", ImGuiSliderFlags_NoInput);
 	//ImGui::SliderFloat(u8"ÆÐµù", &padding, 0, 32);
 }
 

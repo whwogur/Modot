@@ -21,7 +21,7 @@ void AnimationUI::Update()
 	MD_ENGINE_ASSERT(anim, L"애니메이션 없이 AnimationUI 활성화됨");
 
 	ImGui::SameLine(ImGui::GetContentRegionAvail().x - 100);
-	if (ImGui::Button(u8"편집", { 80, 25 }))
+	if (ImGui::Button(ICON_FA_PENCIL, { 40, 25 }))
 	{
 		AnimationEditor* editor = static_cast<AnimationEditor*>(CEditorMgr::GetInst()->FindEditorUI("AnimationEditor"));
 		editor->SetAnimation(anim);

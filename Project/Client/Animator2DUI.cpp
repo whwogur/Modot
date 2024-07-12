@@ -23,7 +23,7 @@ void Animator2DUI::Update()
 		const vector<Ptr<CAnimation>>& vecAnim = GetTargetObject()->Animator2D()->GetAnimationsCRef();
 		if (!vecAnim.empty())
 		{
-			const string combo_preview_value = "(" + std::to_string(vecAnim.capacity() - 1) + ")";
+			const string combo_preview_value = "(" + std::to_string(vecAnim.capacity()) + ")";
 
 			if (ImGui::BeginCombo("##AnimationListCombo", combo_preview_value.c_str()))
 			{
