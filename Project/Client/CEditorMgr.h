@@ -5,6 +5,7 @@
 class CGameObject;
 class EditorUI;
 class ImFont;
+class Gizmo;
 
 class CEditorMgr :
     public CSingleton<CEditorMgr>
@@ -17,6 +18,7 @@ public:
 public:
     EditorUI* FindEditorUI(const string& Name);
     ImFont* GetIconFont() { return m_IconFont; }
+    void SetTargetObject(CGameObject* Obj);
 private:
     void ShortCut();
 
@@ -33,5 +35,6 @@ private:
     map<string, EditorUI*>      m_mapUI;
     Vec2                        m_ViewportSize;
     ImFont*                     m_IconFont;
+    Gizmo*                      m_Gizmo;
 };
 

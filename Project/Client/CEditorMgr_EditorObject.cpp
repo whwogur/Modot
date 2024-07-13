@@ -6,10 +6,11 @@
 
 #include "CEditorCameraScript.h"
 #include <Engine/CRenderMgr.h>
-
+#include "Gizmo.h"
 
 void CEditorMgr::CreateEditorObject()
 {
+	m_Gizmo = new Gizmo;
 	CGameObject* pEditorCamera = new CGameObjectEx;
 	pEditorCamera->SetName(L"EditorCamera");
 	pEditorCamera->AddComponent(new CTransform);
@@ -23,6 +24,7 @@ void CEditorMgr::CreateEditorObject()
 
 	m_vecEditorObject.push_back(pEditorCamera);
 
-	CRenderMgr::GetInst()->RegisterEditorCamera(pEditorCamera->Camera());
+	CRenderMgr::GetInst()->Init(pEditorCamera->Camera());
+	m_Gizmo->Init(pEditorCamera->Camera());
 }
 

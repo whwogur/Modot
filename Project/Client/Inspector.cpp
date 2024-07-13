@@ -9,6 +9,8 @@
 
 #include "ComponentUI.h"
 #include "AssetUI.h"
+#include "CEditorMgr.h"
+
 Inspector::Inspector()
 	: m_TargetObject(nullptr)
 	, m_arrComUI{}
@@ -23,6 +25,7 @@ Inspector::~Inspector()
 void Inspector::SetTargetObject(CGameObject* _Object)
 {
 	m_TargetObject = _Object;
+	CEditorMgr::GetInst()->SetTargetObject(_Object);
 
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{

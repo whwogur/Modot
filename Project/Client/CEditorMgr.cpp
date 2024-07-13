@@ -16,9 +16,11 @@
 #include "ImGui/imgui_impl_dx11.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "EditorUI.h"
-//#include "ImGui/ImGuizmo.h"
-//#include "Inspector.h"
+#include "ImGui/ImGuizmo.h"
+#include "Gizmo.h"
 CEditorMgr::CEditorMgr()
+	: m_IconFont(nullptr)
+	, m_Gizmo(nullptr)
 {
 }
 
@@ -26,6 +28,7 @@ CEditorMgr::~CEditorMgr()
 {
 	Delete_Vec(m_vecEditorObject);
     Delete_Map(m_mapUI);
+	delete m_Gizmo;
     // ImGui Cleanup
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
@@ -47,17 +50,30 @@ void CEditorMgr::Tick()
     ImGuiRun();
 }
 
+void CEditorMgr::SetTargetObject(CGameObject* Obj)
+{
+	m_Gizmo->SetTargetObject(Obj); //TODO
+	m_Gizmo->SetGizmoType(ImGuizmo::OPERATION::TRANSLATE);
+}
+
 void CEditorMgr::ShortCut()
 {
-    if (KEY_TAP(KEY::I))
+    if (KEY_TAP(KEY::G))
     {
-        EditorUI* pUI = FindEditorUI("AnimationEditor");
-
-        if (pUI->IsActive())
-			pUI->SetActive(false);
-        else
-			pUI->SetActive(true);
+		m_Gizmo->ToggleActive();
     }
+	if (KEY_TAP(KEY::_1))
+	{
+		m_Gizmo->SetGizmoType(ImGuizmo::OPERATION::TRANSLATE);
+	}
+	if (KEY_TAP(KEY::_2))
+	{
+		m_Gizmo->SetGizmoType(ImGuizmo::OPERATION::ROTATE);
+	}
+	if (KEY_TAP(KEY::_3))
+	{
+		m_Gizmo->SetGizmoType(ImGuizmo::OPERATION::SCALE);
+	}
 }
 
 void CEditorMgr::EditorObjectUpdate()
@@ -75,6 +91,7 @@ void CEditorMgr::EditorObjectUpdate()
 
 void CEditorMgr::ImGuiTick()
 {
+	m_Gizmo->Update();
     for (const auto& pair : m_mapUI)
     {
         pair.second->Tick();
