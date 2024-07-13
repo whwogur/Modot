@@ -12,7 +12,7 @@ class CRenderMgr :
     SINGLE(CRenderMgr)
 public:
     void RegisterCamera(CCamera* _Cam, int _CamPriority);
-    void RegisterEditorCamera(CCamera* _Cam) { m_EditorCamera = _Cam; }
+    void Init(CCamera* _Cam) { m_EditorCamera = _Cam; }
     void AddDebugShapeInfo(const tDebugShapeInfo& _Info) { m_DebugShapeList.push_back(_Info); }
     void RegisterLight2D(CLight2D* _Light) { m_vecLight2D.push_back(_Light); }
     void PostProcessCopy();

@@ -106,6 +106,7 @@
     <ClInclude Include="AnimationUI.h" />
     <ClInclude Include="CTestLevel.h" />
     <ClInclude Include="FileBrowser.h" />
+    <ClInclude Include="Gizmo.h" />
     <ClInclude Include="GraphicShaderUI.h" />
     <ClInclude Include="ImGui\IconsFontAwesome4.h" />
     <ClInclude Include="ImGui\ImGuizmo.h" />
@@ -158,6 +159,7 @@
     <ClCompile Include="AnimationUI.cpp" />
     <ClCompile Include="CTestLevel.cpp" />
     <ClCompile Include="FileBrowser.cpp" />
+    <ClCompile Include="Gizmo.cpp" />
     <ClCompile Include="GraphicShaderUI.cpp" />
     <ClCompile Include="ImGui\ImGuizmo.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>

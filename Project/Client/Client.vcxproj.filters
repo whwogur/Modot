@@ -178,6 +178,9 @@
     <ClInclude Include="ImGui\IconsFontAwesome4.h">
       <Filter>ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="Gizmo.h">
+      <Filter>Editor\EditorUI\Modal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -327,6 +330,9 @@
     </ClCompile>
     <ClCompile Include="CTestLevel.cpp">
       <Filter>Editor\TestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Gizmo.cpp">
+      <Filter>Editor\EditorUI\Modal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
