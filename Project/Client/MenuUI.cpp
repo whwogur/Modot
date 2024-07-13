@@ -29,7 +29,7 @@ void MenuUI::Tick()
 
 		UINT FPS = CTimeMgr::GetInst()->GetFPSRecord();
 		char buffer[255];
-		sprintf_s(buffer, ICON_FA_ROCKET " FPS: %d", FPS);
+		sprintf_s(buffer, ICON_FA_BAR_CHART " FPS: %d", FPS);
 		ImGui::SameLine(contentRegionAvailable.x);
 		
 		ImGui::TextColored({ 0.57, 0.95, 0.88, 1.0 }, buffer);
