@@ -4,7 +4,10 @@
 
 FileBrowser::FileBrowser()
 {
-	m_CurrentDirectory = m_ContentPath = CPathMgr::GetInst()->GetContentPath();
+	wstring modifiedPath;
+	m_CurrentDirectory = modifiedPath = CPathMgr::GetInst()->GetContentPath();
+	modifiedPath.erase(modifiedPath.size() - 1, 1); // \ 지우는거..
+	m_ContentPath = modifiedPath; // 컨텐츠 상위폴더로 갈 수 없도록 하기 위해 - 나중에 다시 와서 보자
 }
 
 void FileBrowser::Init()
@@ -24,6 +27,23 @@ void FileBrowser::Refresh()
 
 		bool isDirectory = directoryEntry.is_directory() ? true : false;
 		m_List.push_back(make_pair(relativePath, isDirectory));
+	}
+}
+
+void FileBrowser::Search(const string& _File)
+{
+	for (const auto& entry : std::filesystem::recursive_directory_iterator(m_ContentPath))
+	{
+		if (entry.is_regular_file())
+		{
+			const auto& path = entry.path();
+			if (path.filename().string().find(_File) != std::string::npos)
+			{
+				MD_ENGINE_TRACE(path.c_str());
+				m_CurrentDirectory = path.parent_path();
+				Refresh();
+			}
+		}
 	}
 }
 
@@ -100,7 +120,15 @@ void FileBrowser::Update()
 	ImGui::Columns(1);
 
 	ImGui::SetNextItemWidth(50.f);
-	ImGui::SliderFloat(ICON_FA_SEARCH, &thumbnailSize, 50.0f, 70.0f, "%.1f", ImGuiSliderFlags_NoInput);
-	//ImGui::SliderFloat(u8"패딩", &padding, 0, 32);
+	ImGui::SliderFloat(ICON_FA_EXPAND, &thumbnailSize, 50.0f, 70.0f, "%.1f", ImGuiSliderFlags_NoInput);
+	ImGui::SameLine(100);
+	char searchValue[255] = {};
+
+	ImGui::SetNextItemWidth(100.f);
+	if (ImGui::InputText(ICON_FA_SEARCH, searchValue, 255, ImGuiInputTextFlags_EnterReturnsTrue))
+	{
+		if (strlen(searchValue) != 0)
+			Search(searchValue);
+	}
 }
 
