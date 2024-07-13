@@ -94,7 +94,7 @@ float4 PS_Distortion(VS_OUT _in) : SV_Target
     
     //return vColor;
     
-    float waveStrength = 0.2;
+   /* float waveStrength = 0.2;
     float frequency = 30.0;
     float waveSpeed = 5.0;
     float4 sunlightColor = float4(1.0, 0.91, 0.75, 0.0);
@@ -118,7 +118,24 @@ float4 PS_Distortion(VS_OUT _in) : SV_Target
 
     float4 fragColor = g_tex_0.Sample(g_sam_0, Point) + colorToAdd;
 
-    return fragColor;
+    return fragColor;*/
+
+    float intensity = 0.08;
+
+    // 좌표 정규화
+    float2 p = _in.vPosition.xy / g_Resolution.xy * 2.0 - 1.0;
+
+    // 벡터 길이
+    float cLength = length(p);
+
+    // 물결효과
+    float2 uv = (_in.vPosition.xy / g_Resolution.xy)
+        + (p / cLength) * cos(cLength * 15.0 - g_EngineTime * 4.0) * intensity;
+
+    // 텍스쳐 샘플링
+    float3 col = smoothstep(0.1, 0.91, g_tex_0.Sample(g_sam_0, uv).xyz);
+
+    return float4(col, 1.0);
 }
 
 
