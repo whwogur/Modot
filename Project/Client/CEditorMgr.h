@@ -4,7 +4,7 @@
 
 class CGameObject;
 class EditorUI;
-class ImFont;
+struct ImFont;
 class Gizmo;
 
 class CEditorMgr :

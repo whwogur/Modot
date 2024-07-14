@@ -94,11 +94,11 @@ void Inspector::Update()
 		for (int i = 0; i < MAX_LAYER; ++i)
 		{
 			CLayer* iteratedLayer = pCurLevel->GetLayer(i);
-			string temp = std::to_string(i) + " ";
-			if (iteratedLayer == nullptr)
+			string temp = std::to_string(i) + " :";
+			if (iteratedLayer->GetName().empty())
 			{
-				temp += "Empty Layer";
-				ImGui::Selectable("##LayerNone", false, ImGuiSelectableFlags_Disabled);
+				temp += "< Empty >";
+				ImGui::Selectable((char*)temp.c_str(), false, ImGuiSelectableFlags_Disabled | ImGuiSelectableFlags_DontClosePopups);
 			}
 			else
 			{

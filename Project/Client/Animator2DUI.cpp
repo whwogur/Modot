@@ -31,7 +31,7 @@ void Animator2DUI::Update()
 				{
 					if (vecAnim[i].Get() == nullptr)
 					{
-						if (ImGui::Selectable("Empty"))
+						if (ImGui::Selectable("< Empty >"))
 						{
 							// 애니메이션 추가
 						}

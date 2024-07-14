@@ -5,9 +5,9 @@
 FileBrowser::FileBrowser()
 {
 	wstring modifiedPath;
-	m_CurrentDirectory = modifiedPath = CPathMgr::GetInst()->GetContentPath();
+	modifiedPath = CPathMgr::GetInst()->GetContentPath();
 	modifiedPath.erase(modifiedPath.size() - 1, 1); // \ 지우는거..
-	m_ContentPath = modifiedPath; // 컨텐츠 상위폴더로 갈 수 없도록 하기 위해 - 나중에 다시 와서 보자
+	m_ContentPath = m_CurrentDirectory = modifiedPath; // 컨텐츠 상위폴더로 갈 수 없도록 하기 위해 - 나중에 다시 와서 보자
 }
 
 void FileBrowser::Init()

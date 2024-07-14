@@ -4,7 +4,6 @@
 #include "CTimeMgr.h"
 #include <Engine/CAssetMgr.h>
 #include <Engine/assets.h>
-
 MenuUI::MenuUI()
 {
 }
@@ -25,14 +24,25 @@ void MenuUI::Tick()
 
 		Update();
 
-		ImVec2 contentRegionAvailable = ImGui::GetContentRegionAvail();
+		float contentRegionAvailable = ImGui::GetContentRegionAvail().x + 250.0f;
+
+		ImGui::SameLine(contentRegionAvailable / 2 + 32);
+		if (ImGui::Button(ICON_FA_PLAY, { 32, 25 }))
+		{
+			ChangeLevelState(LEVEL_STATE::PLAY);
+		}
+		ImGui::SameLine(contentRegionAvailable / 2 + 70);
+		if (ImGui::Button(ICON_FA_PAUSE, { 32, 25 }))
+		{
+			ChangeLevelState(LEVEL_STATE::PAUSE);
+		}
 
 		UINT FPS = CTimeMgr::GetInst()->GetFPSRecord();
-		char buffer[255];
+		char buffer[30];
 		sprintf_s(buffer, ICON_FA_BAR_CHART " FPS: %d", FPS);
-		ImGui::SameLine(contentRegionAvailable.x);
 		
-		ImGui::TextColored({ 0.57, 0.95, 0.88, 1.0 }, buffer);
+		ImGui::SameLine(contentRegionAvailable);
+		ImGui::TextColored({ 0.57f, 0.95f, 0.88f, 1.0f }, buffer);
 		ImGui::EndMainMenuBar();
 	}
 
