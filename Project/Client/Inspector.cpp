@@ -68,7 +68,11 @@ void Inspector::Update()
 	string strObjectName = string(m_TargetObject->GetName().begin(), m_TargetObject->GetName().end());
 	ImGui::Text("Object Name");
 	ImGui::SameLine(100);
-	ImGui::InputText("##ObjectName", (char*)strObjectName.c_str(), strObjectName.length(), ImGuiInputTextFlags_ReadOnly);
+	if (ImGui::InputText("##ObjectName", (char*)strObjectName.c_str(), 255, ImGuiInputTextFlags_EnterReturnsTrue))
+	{
+		m_TargetObject->SetName(wstring(strObjectName.begin(), strObjectName.end()));
+		CLevelMgr::GetInst()->SetLevelDirty();
+	}
 
 	// ======
 	// Layer
@@ -85,7 +89,28 @@ void Inspector::Update()
 	else
 		sprintf_s(buffer, 50, "%d : %s", LayerIdx, LayerName.c_str());
 
-	ImGui::Text("Layer");
-	ImGui::SameLine(100);
-	ImGui::InputText("##LayerName", buffer, strlen(buffer), ImGuiInputTextFlags_ReadOnly);
+	if (ImGui::BeginCombo("##LayerCombo", buffer))
+	{
+		for (int i = 0; i < MAX_LAYER; ++i)
+		{
+			CLayer* iteratedLayer = pCurLevel->GetLayer(i);
+			string temp = std::to_string(i) + " ";
+			if (iteratedLayer == nullptr)
+			{
+				temp += "Empty Layer";
+				ImGui::Selectable("##LayerNone", false, ImGuiSelectableFlags_Disabled);
+			}
+			else
+			{
+				temp += string(iteratedLayer->GetName().begin(), iteratedLayer->GetName().end());
+				if (ImGui::Selectable((char*)temp.c_str()))
+				{
+					m_TargetObject->DetachFromLayer();
+					pCurLevel->AddObject(i, m_TargetObject, true);
+					CLevelMgr::GetInst()->SetLevelDirty();
+				}
+			}
+		}
+		ImGui::EndCombo();
+	}
 }

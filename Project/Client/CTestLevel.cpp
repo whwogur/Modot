@@ -100,9 +100,9 @@ void CTestLevel::CreateTestLevel()
 	pGrayFilterObj->AddComponent(new CTransform);
 	pGrayFilterObj->AddComponent(new CMeshRender);
 
-	pGrayFilterObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	pGrayFilterObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"CircleMesh"));
 	pGrayFilterObj->Transform()->SetRelativeScale(150.f, 150.f, 1.f);
-	pGrayFilterObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DistortionMtrl"));
+	pGrayFilterObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"RippleMtrl"));
 
 	pLevel->AddObject(0, pGrayFilterObj);
 

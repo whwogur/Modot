@@ -74,6 +74,26 @@ float4 PS_GrayFilter(VS_OUT _in) : SV_Target
 // g_tex_2  : NoiseTexture 2
 // g_tex_3  : NoiseTexture 3
 // ===========================
+float sinc(float r, float width)
+{
+    width *= 10.0;
+
+    float scale = 1.0;
+    float N = 1.1;
+    float numer = sin(r / width);
+    float denom = (r / width);
+
+    if (abs(denom) <= 0.1)
+        return scale;
+    else
+        return scale * abs(numer / denom);
+}
+
+float expo(float r, float dev)
+{
+    return 1.0 * exp(-r * r / dev);
+}
+
 VS_OUT VS_Distortion(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
@@ -120,6 +140,60 @@ float4 PS_Distortion(VS_OUT _in) : SV_Target
 
     return fragColor;*/
 
+
+    float2 fragCoord = _in.vUV * g_Resolution;
+
+    float2 uv = fragCoord.xy / g_Resolution.xy;
+    float aspect = g_Resolution.x / g_Resolution.y;
+    uv.x *= aspect;
+
+    float2 cdiff = abs(uv - 0.5 * float2(aspect, 1.0));
+
+    float myradius = length(cdiff) * lerp(1.0, g_tex_0.Sample(g_sam_0, uv).r, 0.02);
+
+    float3 wave = g_tex_0.Sample(g_sam_0, float2(myradius, 0.25)).rgb;
+
+    float radius = 1.5 * (g_EngineTime) / 3.0;
+
+    float r = sin((myradius - radius) * 5.0);
+    r = r * r;
+
+    float3 dev = wave * float3(1.0 / 500.0, 1.0 / 500.0, 1.0 / 500.0);
+
+    float rippleEffect = sinc(r, dev.x);
+
+    // 기본 텍스처 색상을 가져오기
+    float3 baseColor = g_tex_0.Sample(g_sam_0, _in.vUV).rgb;
+
+    // ripple 효과를 기본 색상에 추가하기
+    float3 rippleColor = baseColor + (rippleEffect - 1.0) * baseColor;
+
+    return float4(rippleColor, 1.0);
+}
+
+
+// ==========================
+// Ripple Shader
+// Mesh     : RectMesh
+// DSTYPE   : NO_TEST_NO_WRITE
+// g_tex_0  : TargetCopyTex
+// g_tex_1  : NoiseTexture 1
+// g_tex_2  : NoiseTexture 2
+// g_tex_3  : NoiseTexture 3
+// ===========================
+VS_OUT VS_Ripple(VS_IN _in)
+{
+    VS_OUT output = (VS_OUT)0.f;
+
+    output.vPosition = mul(float4(_in.vPos, 1.f), matWVP);
+    output.vUV = _in.vUV;
+
+    return output;
+}
+
+
+float4 PS_Ripple(VS_OUT _in) : SV_Target
+{
     float intensity = 0.08;
 
     // 좌표 정규화
@@ -137,7 +211,4 @@ float4 PS_Distortion(VS_OUT _in) : SV_Target
 
     return float4(col, 1.0);
 }
-
-
-
 #endif
