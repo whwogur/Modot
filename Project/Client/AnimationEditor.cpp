@@ -53,16 +53,13 @@ void AnimationEditor::Update()
         {
             offsetUV.x += deltaUV;
         }
-        ImGui::PopStyleColor(3);
+
         ImGui::SameLine(240);
 
         ImGui::PushItemWidth(50.f);
         ImGui::DragFloat(u8"UV조절량", &deltaUV, 0.005f, 0.0f, 1.0f, "%.3f");
         ImGui::PopItemWidth();
 
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.52f, 0.43f, 0.77f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.62f, 0.53f, 0.97f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.42f, 0.43f, 0.67f, 1.0f });
         if (ImGui::Button(m_Play ? ICON_FA_PAUSE : ICON_FA_PLAY, { 50, 30 }))
         {
             m_Play = !m_Play;
