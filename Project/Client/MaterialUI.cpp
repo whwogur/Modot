@@ -36,7 +36,7 @@ void MaterialUI::Update()
 		Name = string(pShader->GetKey().begin(), pShader->GetKey().end());
 
 	// ½¦ÀÌ´õ ÀÌ¸§
-	ImGui::Text("Name");
+	ImGui::Text("Shader");
 	ImGui::SameLine(100);
 	ImGui::InputText("##ShaderName", (char*)Name.c_str(), Name.length(), ImGuiInputTextFlags_ReadOnly);
 
@@ -100,7 +100,7 @@ void MaterialUI::ShaderParameter()
 		case INT_3:
 		{
 			int data = *((int*)pMtrl->GetScalarParam(vecScalarParam[i].ParamType));
-			if (ParamUI::DragInt(&data, 1, vecScalarParam[i].strDesc))
+			if (ParamUI::InputInt(&data, vecScalarParam[i].strDesc))
 			{
 				pMtrl->SetScalarParam(vecScalarParam[i].ParamType, data);
 			}
@@ -149,7 +149,6 @@ void MaterialUI::ShaderParameter()
 		case MAT_3:
 		{
 			Matrix data = *((Matrix*)pMtrl->GetScalarParam(vecScalarParam[i].ParamType));
-
 		}
 		break;
 		}

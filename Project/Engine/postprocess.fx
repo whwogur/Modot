@@ -194,7 +194,7 @@ VS_OUT VS_Ripple(VS_IN _in)
 
 float4 PS_Ripple(VS_OUT _in) : SV_Target
 {
-    float intensity = 0.08;
+    float intensity = 0.06;
 
     // 좌표 정규화
     float2 p = _in.vPosition.xy / g_Resolution.xy * 2.0 - 1.0;
@@ -208,6 +208,50 @@ float4 PS_Ripple(VS_OUT _in) : SV_Target
 
     // 텍스쳐 샘플링
     float3 col = smoothstep(0.1, 0.91, g_tex_0.Sample(g_sam_0, uv).xyz);
+
+    return float4(col, 1.0);
+}
+
+// ==========================
+// Small Ripple Shader
+// Mesh     : RectMesh
+// DSTYPE   : NO_TEST_NO_WRITE
+// g_tex_0  : TargetCopyTex
+// ===========================
+
+VS_OUT VS_SmallRipple(VS_IN _in)
+{
+    VS_OUT output = (VS_OUT) 0.f;
+
+    output.vPosition = mul(float4(_in.vPos, 1.f), matWVP);
+    output.vUV = _in.vUV;
+
+    return output;
+}
+
+float4 PS_SmallRipple(VS_OUT _in) : SV_Target
+{
+    float shockwaveIntensity = 0.06;
+    float shockwaveSpeed = 2.0;
+    float shockwaveFrequency = 20.0;
+    float shockwaveWidth = 0.2;
+
+    // Normalized coordinates
+    float2 p = _in.vPosition.xy / g_Resolution.xy * 2.0 - 1.0;
+
+    // Distance from the center
+    float distanceFromCenter = length(p);
+
+    // Shockwave effect
+    float currentRadius = g_EngineTime * shockwaveSpeed;
+    float wave = sin(distanceFromCenter * shockwaveFrequency - currentRadius) * shockwaveWidth;
+    wave = wave * smoothstep(0.0, 1.0, 1.0 - distanceFromCenter / currentRadius);
+
+    // Adjust UV coordinates with the wave effect
+    float2 uv = _in.vUV + (p / distanceFromCenter) * wave * shockwaveIntensity;
+
+    // Sample the texture
+    float3 col = g_tex_0.Sample(g_sam_0, uv).xyz;
 
     return float4(col, 1.0);
 }
