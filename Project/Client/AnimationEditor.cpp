@@ -44,12 +44,12 @@ void AnimationEditor::Update()
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.32f, 0.33f, 0.97f, 1.0f });
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.12f, 0.13f, 0.67f, 1.0f });
         ImGui::SameLine(160);
-        if (ImGui::Button(ICON_FA_MINUS, { 30, 20 }))
+        if (ImGui::Button(ICON_FA_ARROW_CIRCLE_LEFT, { 25, 25 }))
         {
             offsetUV.x -= deltaUV;
         }
         ImGui::SameLine(200);
-        if (ImGui::Button(ICON_FA_PLUS, {30, 20}))
+        if (ImGui::Button(ICON_FA_ARROW_CIRCLE_RIGHT, {25, 25}))
         {
             offsetUV.x += deltaUV;
         }
@@ -59,6 +59,13 @@ void AnimationEditor::Update()
         ImGui::PushItemWidth(50.f);
         ImGui::DragFloat(u8"UV조절량", &deltaUV, 0.005f, 0.0f, 1.0f, "%.3f");
         ImGui::PopItemWidth();
+
+        /*ImGui::SameLine(400);
+        if (ImGui::Button(ICON_FA_FLOPPY_O, { 25, 25 }))
+        {
+            const wstring& relPath = m_Animation->GetRelativePath();
+            m_Animation->Save(relPath);
+        }*/
 
         if (ImGui::Button(m_Play ? ICON_FA_PAUSE : ICON_FA_PLAY, { 50, 30 }))
         {
