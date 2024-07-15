@@ -16,6 +16,7 @@ public:
 
 public:
     void AddComponent(CComponent* _Comopnent);
+    void AddComponentViaUI(COMPONENT_TYPE _Type);
     CComponent* GetComponent(COMPONENT_TYPE _Type) { return m_arrCom[(UINT)_Type]; }
     CRenderComponent* GetRenderComponent() { return m_RenderCom; }
     CGameObject* GetParent() { return m_Parent; }

@@ -51,6 +51,73 @@ void CGameObject::AddComponent(CComponent* _Component)
 	}
 }
 
+void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
+{
+	if (m_arrCom[(UINT)_Type] != nullptr)
+	{
+		MD_ENGINE_ERROR(L"이미 있음");
+		return;
+	}
+
+	switch (_Type)
+	{
+	case COMPONENT_TYPE::TRANSFORM:
+	{
+		CTransform* transform = new CTransform;
+		AddComponent(transform);
+		CLevelMgr::GetInst()->SetLevelDirty();
+		return;
+	}
+	case COMPONENT_TYPE::COLLIDER2D:
+	{
+		CCollider2D* collider = new CCollider2D;
+		AddComponent(collider);
+		return;
+	}
+	case COMPONENT_TYPE::COLLIDER3D:
+		break;
+	case COMPONENT_TYPE::LIGHT2D:
+	{
+		CLight2D* light2d = new CLight2D;
+		AddComponent(light2d);
+		return;
+	}
+	case COMPONENT_TYPE::LIGHT3D:
+		break;
+	case COMPONENT_TYPE::ANIMATOR2D:
+	{
+		CAnimator2D* animator2d = new CAnimator2D;
+		AddComponent(animator2d);
+		return;
+	}
+	case COMPONENT_TYPE::ANIMATOR3D:
+		break;
+	case COMPONENT_TYPE::STATE_MACHINE:
+		break;
+	case COMPONENT_TYPE::RIGIDBODY:
+		break;
+	case COMPONENT_TYPE::CAMERA:
+	{
+		CCamera* camera = new CCamera;
+		AddComponent(camera);
+		return;
+	}
+
+	case COMPONENT_TYPE::MESHRENDER:
+		break;
+	case COMPONENT_TYPE::PARTICLE_SYSTEM:
+		break;
+	case COMPONENT_TYPE::DECAl:
+		break;
+	case COMPONENT_TYPE::SKYBOX:
+		break;
+	case COMPONENT_TYPE::LANDSCAPE:
+		break;
+
+	}
+	MD_ENGINE_ASSERT(nullptr, L"add Component via UI 에러");
+}
+
 void CGameObject::AddChild(CGameObject* _ChildObject)
 {
 	// 부모 오브젝트는 Level 에 속해있고, AddChild 되는 자식 오브젝트는 레벨에 소속되지 않은 경우

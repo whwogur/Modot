@@ -38,9 +38,7 @@ void Inspector::Init()
 
 	if (nullptr == m_TargetObject)
 	{
-		SetTargetObject(CLevelMgr::GetInst()->FindObjectByName(L"Player"));
-		//SetTargetObject(CLevelMgr::GetInst()->FindObjectByName(L"MainCamera"));
-		//SetTargetObject(CLevelMgr::GetInst()->FindObjectByName(L"PointLight 1"));
+		SetTargetObject(CLevelMgr::GetInst()->FindObjectByName(L"EditorCamera"));
 		return;
 	}
 }
@@ -69,7 +67,7 @@ void Inspector::CreateComponentUI()
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D] = new Animator2DUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]->SetName("Animator2DUI");
-	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]->SetChildSize(ImVec2(0.f, 200.f));
+	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]->SetChildSize(ImVec2(0.f, 100.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER] = new MeshRenderUI;

@@ -83,7 +83,8 @@ void Inspector::Update()
 	string LayerName = string(pLayer->GetName().begin(), pLayer->GetName().end());
 
 	char buffer[50] = {};
-
+	ImGui::Text("Layer");
+	ImGui::SameLine(100);
 	if (LayerName.empty())
 		sprintf_s(buffer, 50, "%d : %s", LayerIdx, "None");
 	else
@@ -109,6 +110,20 @@ void Inspector::Update()
 					pCurLevel->AddObject(i, m_TargetObject, true);
 					CLevelMgr::GetInst()->SetLevelDirty();
 				}
+			}
+		}
+		ImGui::EndCombo();
+	}
+
+	ImGui::NewLine();
+	if (ImGui::BeginCombo("##ComponentList", u8"컴포넌트 추가"))
+	{
+		for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
+		{
+			if (ImGui::Selectable(ToString((COMPONENT_TYPE)i)))
+			{
+				m_TargetObject->AddComponentViaUI(COMPONENT_TYPE(i));
+				m_arrComUI[i]->SetTargetObject(m_TargetObject);
 			}
 		}
 		ImGui::EndCombo();
