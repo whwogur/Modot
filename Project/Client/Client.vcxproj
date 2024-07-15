@@ -119,6 +119,7 @@
     <ClInclude Include="MeshDataUI.h" />
     <ClInclude Include="MeshRenderUI.h" />
     <ClInclude Include="MeshUI.h" />
+    <ClInclude Include="ParamUI.h" />
     <ClInclude Include="ParticleSystemUI.h" />
     <ClInclude Include="PrefabUI.h" />
     <ClInclude Include="SoundUI.h" />
@@ -181,6 +182,7 @@
     <ClCompile Include="MeshDataUI.cpp" />
     <ClCompile Include="MeshRenderUI.cpp" />
     <ClCompile Include="MeshUI.cpp" />
+    <ClCompile Include="ParamUI.cpp" />
     <ClCompile Include="ParticleSystemUI.cpp" />
     <ClCompile Include="PrefabUI.cpp" />
     <ClCompile Include="SoundUI.cpp" />

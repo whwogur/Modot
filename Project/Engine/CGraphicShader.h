@@ -1,6 +1,18 @@
 #pragma once
 #include "CShader.h"
 
+struct tScalarParam
+{
+    SCALAR_PARAM    ParamType;
+    string          strDesc;
+};
+
+struct tTexParam
+{
+    TEX_PARAM       ParamType;
+    string          strDesc;
+};
+
 class CGraphicShader :
     public CShader
 {
@@ -22,6 +34,12 @@ public:
     DS_TYPE GetDSType() { return m_DSType; }
     BS_TYPE GetBSType() { return m_BSType; }
 
+    void AddScalarParam(SCALAR_PARAM _Type, const string& _Desc) { m_ScalarParam.push_back(tScalarParam{ _Type, _Desc }); }
+    void AddTexParam(TEX_PARAM _Type, const string& _Desc) { m_TexParam.push_back(tTexParam{ _Type, _Desc }); }
+
+    const vector<tScalarParam>& GetScalarParam() { return m_ScalarParam; }
+    const vector<tTexParam>& GetTexParam() { return m_TexParam; }
+
     void Bind();
 
 private:
@@ -39,5 +57,9 @@ private:
     BS_TYPE                             m_BSType;
 
     SHADER_DOMAIN                       m_Domain;
+
+    // Shader Parameter
+    vector<tScalarParam>        m_ScalarParam;
+    vector<tTexParam>           m_TexParam;
 };
 

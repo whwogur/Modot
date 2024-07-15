@@ -23,7 +23,7 @@ void CTestLevel::CreateTestLevel()
 	//pAlphaBlendMtrl->SetTexParam(TEX_0, pTexture);
 	// Level »ý¼º
 	CLevel* pLevel = new CLevel;
-	ChangeLevel(pLevel, LEVEL_STATE::PLAY);
+	ChangeLevel(pLevel, LEVEL_STATE::STOP);
 	pLevel->GetLayer(0)->SetName(L"Default");
 	pLevel->GetLayer(1)->SetName(L"Background");
 	pLevel->GetLayer(2)->SetName(L"Tile");
@@ -102,7 +102,7 @@ void CTestLevel::CreateTestLevel()
 
 	pGrayFilterObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"CircleMesh"));
 	pGrayFilterObj->Transform()->SetRelativeScale(150.f, 150.f, 1.f);
-	pGrayFilterObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"RippleMtrl"));
+	pGrayFilterObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"SmallRippleMtrl"));
 
 	pLevel->AddObject(0, pGrayFilterObj);
 

@@ -15,6 +15,9 @@ public:
     void SetScalarParam(SCALAR_PARAM _Param, const T& _Data);
     void SetTexParam(TEX_PARAM _Param, Ptr<CTexture> _Tex) { m_arrTex[_Param] = _Tex; }
 
+    void* GetScalarParam(SCALAR_PARAM _Param);
+    Ptr<CTexture> GetTexParam(TEX_PARAM _Param) { return m_arrTex[(UINT)_Param]; }
+
 public:
     void SetShader(Ptr<CGraphicShader> _Shader) { m_Shader = _Shader; }
     Ptr<CGraphicShader> GetShader() { return m_Shader; }

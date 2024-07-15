@@ -19,6 +19,7 @@ public:
 
     string GetSelectName() { return m_SelectedName; }
 public:
+    virtual void Activate() override;
     virtual void Deactivate() override;
     virtual void Update() override;
 

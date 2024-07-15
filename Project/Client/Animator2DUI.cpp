@@ -4,6 +4,8 @@
 #include "CAnimator2D.h"
 #include "CEditorMgr.h"
 #include "Inspector.h"
+#include "TreeUI.h"
+
 Animator2DUI::Animator2DUI()
 	: ComponentUI(COMPONENT_TYPE::ANIMATOR2D)
 {
@@ -33,7 +35,7 @@ void Animator2DUI::Update()
 					{
 						if (ImGui::Selectable("< Empty >"))
 						{
-							// 애니메이션 추가
+
 						}
 					}
 					else

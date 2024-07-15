@@ -146,9 +146,9 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetBSType(BS_TYPE::DEFAULT);
 
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASKED);
-
+	pShader->AddTexParam(TEX_0, "OutputTexture");
+	pShader->AddScalarParam(INT_0, "Test Parameter");
 	AddAsset(L"Std2DShader", pShader);
-
 
 	// Std2DAlphaBlend
 	pShader = new CGraphicShader;
@@ -214,7 +214,7 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
 	AddAsset(L"DistortionShader", pShader);
 
-	// Distortion
+	// Ripple
 	pShader = new CGraphicShader;
 	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_Ripple");
 	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_Ripple");
@@ -223,6 +223,16 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetBSType(BS_TYPE::DEFAULT);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
 	AddAsset(L"RippleShader", pShader);
+
+	// SmallRipple
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_SmallRipple");
+	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_SmallRipple");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+	AddAsset(L"SmallRippleShader", pShader);
 }
 
 void CAssetMgr::CreateEngineComputeShader()
@@ -280,4 +290,10 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl->SetTexParam(TEX_2, FindAsset<CTexture>(L"texture\\noise\\noise_02.png"));
 	pMtrl->SetTexParam(TEX_3, FindAsset<CTexture>(L"texture\\noise\\noise_03.jpg"));
 	AddAsset(L"RippleMtrl", pMtrl);
+
+	// SmallRippleMtrl
+	pMtrl = new CMaterial();
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"SmallRippleShader"));
+	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
+	AddAsset(L"SmallRippleMtrl", pMtrl);
 }
