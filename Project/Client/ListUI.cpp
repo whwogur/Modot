@@ -66,6 +66,11 @@ void ListUI::AddList(const vector<string>& _list)
 	m_vecList.insert(m_vecList.end(), _list.begin(), _list.end());
 }
 
+void ListUI::Activate()
+{
+	m_vecList.insert(m_vecList.begin(), 1, "None");
+}
+
 void ListUI::Deactivate()
 {
 	// Clear

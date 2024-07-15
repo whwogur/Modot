@@ -23,7 +23,7 @@ void CTestLevel::CreateTestLevel()
 	//pAlphaBlendMtrl->SetTexParam(TEX_0, pTexture);
 	// Level »ý¼º
 	CLevel* pLevel = new CLevel;
-	ChangeLevel(pLevel, LEVEL_STATE::PLAY);
+	ChangeLevel(pLevel, LEVEL_STATE::STOP);
 	pLevel->GetLayer(0)->SetName(L"Default");
 	pLevel->GetLayer(1)->SetName(L"Background");
 	pLevel->GetLayer(2)->SetName(L"Tile");
