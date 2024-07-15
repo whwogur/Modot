@@ -58,4 +58,28 @@ void AnimationUI::Update()
 	ImGui::SetNextItemWidth(150.f);
 	ImGui::InputText("##AnimRelativePath", (char*)animRelativePath.c_str(), ImGuiInputTextFlags_ReadOnly);
 
+	ImGui::NewLine();
+	if (ImGui::BeginCombo("##SpriteListCombo", u8"스프라이트 목록"))
+	{
+		vector<Ptr<CSprite>>& spriteRef = anim->GetSpritesRef();
+		for (int i = 0; i < spriteRef.size(); ++i)
+		{
+			string key = string(spriteRef[i]->GetKey().begin(), spriteRef[i]->GetKey().end());
+			static bool selected = false;
+			ImGui::Selectable(key.c_str(), &selected, ImGuiSelectableFlags_DontClosePopups);
+
+			if (selected)
+			{
+				if (m_SelectedIdx == -1)
+					m_SelectedIdx = i;
+				else
+				{
+					std::iter_swap(spriteRef.begin() + m_SelectedIdx, spriteRef.begin() + i);
+					m_SelectedIdx = -1;
+				}
+				selected = false;
+			}
+		}
+		ImGui::EndCombo();
+	}
 }

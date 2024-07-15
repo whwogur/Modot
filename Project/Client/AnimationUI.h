@@ -8,5 +8,8 @@ public:
     ~AnimationUI();
 public:
     virtual void Update() override;
+
+private:
+    int         m_SelectedIdx = -1;
 };
 
