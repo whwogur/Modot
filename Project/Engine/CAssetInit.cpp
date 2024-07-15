@@ -147,7 +147,7 @@ void CAssetMgr::CreateEngineGraphicShader()
 
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASKED);
 	pShader->AddTexParam(TEX_0, "OutputTexture");
-
+	pShader->AddScalarParam(INT_0, "Test Parameter");
 	AddAsset(L"Std2DShader", pShader);
 
 	// Std2DAlphaBlend

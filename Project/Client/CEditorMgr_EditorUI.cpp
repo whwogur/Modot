@@ -7,6 +7,7 @@
 #include "ImGui/imgui_impl_win32.h"
 #include <Engine/CDevice.h>
 
+#include "ParamUI.h"
 #include "Inspector.h"
 #include "Content.h"
 #include "HierarchyView.h"
@@ -119,8 +120,9 @@ void CEditorMgr::ImGuiRun()
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
-    //ImGuizmo::BeginFrame();
-    // ImGui Tick
+
+    ParamUI::ResetID();
+
     ImGuiTick();
 
     ImGui::Render();

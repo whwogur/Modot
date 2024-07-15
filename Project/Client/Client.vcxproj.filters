@@ -181,6 +181,9 @@
     <ClInclude Include="Gizmo.h">
       <Filter>Editor\EditorUI\Modal</Filter>
     </ClInclude>
+    <ClInclude Include="ParamUI.h">
+      <Filter>Editor\EditorUI\Modal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -332,6 +335,9 @@
       <Filter>Editor\TestLevel</Filter>
     </ClCompile>
     <ClCompile Include="Gizmo.cpp">
+      <Filter>Editor\EditorUI\Modal</Filter>
+    </ClCompile>
+    <ClCompile Include="ParamUI.cpp">
       <Filter>Editor\EditorUI\Modal</Filter>
     </ClCompile>
   </ItemGroup>
