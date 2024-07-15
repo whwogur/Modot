@@ -231,10 +231,10 @@ VS_OUT VS_SmallRipple(VS_IN _in)
 
 float4 PS_SmallRipple(VS_OUT _in) : SV_Target
 {
-    float shockwaveIntensity = 0.06;
-    float shockwaveSpeed = 2.0;
+    float shockwaveIntensity = 0.05;
+    float shockwaveSpeed = 5.0;
     float shockwaveFrequency = 20.0;
-    float shockwaveWidth = 0.2;
+    float shockwaveWidth = 0.1;
 
     // Normalized coordinates
     float2 p = _in.vPosition.xy / g_Resolution.xy * 2.0 - 1.0;
@@ -248,7 +248,7 @@ float4 PS_SmallRipple(VS_OUT _in) : SV_Target
     wave = wave * smoothstep(0.0, 1.0, 1.0 - distanceFromCenter / currentRadius);
 
     // Adjust UV coordinates with the wave effect
-    float2 uv = _in.vUV + (p / distanceFromCenter) * wave * shockwaveIntensity;
+    float2 uv = (_in.vPosition.xy / g_Resolution.xy) + (p / distanceFromCenter) * wave * shockwaveIntensity;
 
     // Sample the texture
     float3 col = g_tex_0.Sample(g_sam_0, uv).xyz;
