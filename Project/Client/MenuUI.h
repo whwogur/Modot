@@ -18,6 +18,8 @@ private:
     void GameObject();
     void Assets();
 
+private:
+    void AddScript();
     wstring GetAssetKey(ASSET_TYPE _Type, const wstring& _Format);
 
 

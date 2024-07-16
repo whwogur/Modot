@@ -15,12 +15,13 @@
     <ClInclude Include="spch.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="..\Project\Engine\CCameraMoveScript.h">
+    <ClInclude Include="CCameraMoveScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="..\Project\Engine\CPlayerScript.h">
+    <ClInclude Include="CPlayerScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CScriptMgr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -29,11 +30,12 @@
     <ClCompile Include="Scripts.cpp">
       <Filter>Default</Filter>
     </ClCompile>
-    <ClCompile Include="..\Project\Engine\CCameraMoveScript.cpp">
+    <ClCompile Include="CCameraMoveScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="..\Project\Engine\CPlayerScript.cpp">
+    <ClCompile Include="CPlayerScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="CScriptMgr.cpp" />
   </ItemGroup>
 </Project>

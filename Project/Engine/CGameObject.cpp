@@ -76,6 +76,12 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 	}
 	case COMPONENT_TYPE::COLLIDER3D:
 		break;
+	case COMPONENT_TYPE::TILEMAP:
+	{
+		CTileMap* tilemap = new CTileMap;
+		AddComponent(tilemap);
+		return;
+	}
 	case COMPONENT_TYPE::LIGHT2D:
 	{
 		CLight2D* light2d = new CLight2D;

@@ -10,12 +10,12 @@ class CScript :
     public CComponent
 {
 public:
-    CScript();
+    CScript(UINT _Type);
     ~CScript();
 
 public:
     CRenderComponent* GetRenderComponent() { return GetOwner()->GetRenderComponent(); }
-
+    UINT GetScriptType() { return m_ScriptType; }
 public:
     virtual void Tick() = 0;
     virtual void FinalTick() final override {}
@@ -24,4 +24,6 @@ public:
     virtual void Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) {}
     virtual void EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) {}
 
+private:
+    UINT     m_ScriptType;
 };

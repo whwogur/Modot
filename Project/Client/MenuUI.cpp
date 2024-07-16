@@ -4,6 +4,7 @@
 #include "CTimeMgr.h"
 #include <Engine/CAssetMgr.h>
 #include <Engine/assets.h>
+#include <Scripts/CScriptMgr.h>
 MenuUI::MenuUI()
 {
 }
@@ -141,6 +142,8 @@ void MenuUI::GameObject()
 			ImGui::EndMenu();
 		}
 
+		AddScript();
+
 		ImGui::EndMenu();
 	}
 	ImGui::PopFont();
@@ -207,4 +210,28 @@ wstring MenuUI::GetAssetKey(ASSET_TYPE _Type, const wstring& _KeyFormat)
 	}
 
 	return szKey;
+}
+
+void MenuUI::AddScript()
+{
+	if (ImGui::BeginMenu("Add Script"))
+	{
+		vector<wstring> vecScriptsName;
+		CScriptMgr::GetScriptInfo(vecScriptsName);
+
+		for (size_t i = 0; i < vecScriptsName.size(); ++i)
+		{
+			if (ImGui::MenuItem(string(vecScriptsName[i].begin(), vecScriptsName[i].end()).c_str()))
+			{
+				// 인스펙터
+
+				// 타겟 오브젝트 알아냄
+
+				// 오브젝트에, 선택한 스크립트를 추가해줌
+				CScriptMgr::GetScript(vecScriptsName[i]);
+			}
+		}
+
+		ImGui::EndMenu();
+	}
 }

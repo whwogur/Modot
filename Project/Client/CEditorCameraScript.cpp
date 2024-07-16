@@ -2,7 +2,8 @@
 #include "CEditorCameraScript.h"
 
 CEditorCameraScript::CEditorCameraScript()
-	: m_Speed(500.f)
+	: CScript(-1)
+	, m_Speed(500.f)
 {
 
 }
