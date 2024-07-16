@@ -57,22 +57,23 @@ void SpriteEditor::Update()
 
 	if (ImGui::IsMouseDown(ImGuiMouseButton_Right))
 	{
-		if (m_UVStart.x == -1)
+		if (m_UVStart.x < 0)
 		{
+			m_MouseStart = ImGui::GetMousePos();
 			auto [winPosX, winPosY] = ImGui::GetWindowPos();
 			m_UVStart = ImVec2(ImGui::GetMousePos().x - winPosX, ImGui::GetMousePos().y - winPosY);
 		}
-		else
-		{
-			auto [winPosX, winPosY] = ImGui::GetWindowPos();
-			m_UVEnd = ImVec2(ImGui::GetMousePos().x - winPosX, ImGui::GetMousePos().y - winPosY);
-		}
+		ImDrawList* drawList = ImGui::GetWindowDrawList();
+		drawList->AddRect(m_MouseStart, ImGui::GetMousePos(), IM_COL32(0, 255, 0, 255), 0.0f);
 	}
 
 	if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
 	{
-		if (m_UVStart.x != -1 && m_UVEnd.x != -1)
+		if (m_UVStart.x >= 0)
 		{
+			auto [winPosX, winPosY] = ImGui::GetWindowPos();
+			m_UVEnd = ImVec2(ImGui::GetMousePos().x - winPosX, ImGui::GetMousePos().y - winPosY);
+
 			float UVStartX = (m_UVStart.x - m_ImagePos.x) / imgWidth;
 			float UVStartY = (m_UVStart.y - m_ImagePos.y) / imgHeight;
 			float UVEndX = (m_UVEnd.x - m_ImagePos.x) / imgWidth;
@@ -87,12 +88,11 @@ void SpriteEditor::Update()
 		}
 	}
 
-	if (ImGui::IsKeyDown(ImGuiKey::ImGuiKey_Escape))
+	if (ImGui::IsKeyPressed(ImGuiKey::ImGuiKey_Escape))
 	{
 		m_UVStart = m_UVEnd = ImVec2(-1, -1);
 
 		MD_ENGINE_INFO("Reset : start(x: {0}, y: {1}) end(x: {2}, y: {3})",
 			m_UVStart.x, m_UVStart.y, m_UVEnd.x, m_UVEnd.y);
 	}
-	
 }

@@ -17,6 +17,6 @@ private:
     ImVec2                    m_UVStart;
     ImVec2                    m_UVEnd;
     ImVec2                    m_ImagePos;
-
+    ImVec2                      m_MouseStart;
     std::pair<ImVec2, ImVec2>   m_UVpair;
 };
