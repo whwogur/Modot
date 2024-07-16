@@ -49,7 +49,6 @@
     <ClInclude Include="enum.h">
       <Filter>01. Header</Filter>
     </ClInclude>
-    <ClInclude Include="CConstBuffer.h" />
     <ClInclude Include="CShader.h">
       <Filter>06. Asset\Shader</Filter>
     </ClInclude>
@@ -125,7 +124,6 @@
     <ClInclude Include="CMeshRender.h">
       <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="CStructuredBuffer.h" />
     <ClInclude Include="CSprite.h">
       <Filter>06. Asset</Filter>
     </ClInclude>
@@ -137,6 +135,12 @@
     </ClInclude>
     <ClInclude Include="CScript.h">
       <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CConstBuffer.h">
+      <Filter>Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="CStructuredBuffer.h">
+      <Filter>Buffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -167,7 +171,6 @@
     <ClCompile Include="CAsset.cpp">
       <Filter>06. Asset</Filter>
     </ClCompile>
-    <ClCompile Include="CConstBuffer.cpp" />
     <ClCompile Include="CShader.cpp">
       <Filter>06. Asset\Shader</Filter>
     </ClCompile>
@@ -241,7 +244,6 @@
     <ClCompile Include="CMeshRender.cpp">
       <Filter>Component</Filter>
     </ClCompile>
-    <ClCompile Include="CStructuredBuffer.cpp" />
     <ClCompile Include="CSprite.cpp">
       <Filter>06. Asset</Filter>
     </ClCompile>
@@ -253,6 +255,12 @@
     </ClCompile>
     <ClCompile Include="CScript.cpp">
       <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CConstBuffer.cpp">
+      <Filter>Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="CStructuredBuffer.cpp">
+      <Filter>Buffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -297,6 +305,9 @@
     </Filter>
     <Filter Include="06. Asset\Material">
       <UniqueIdentifier>{7a1eec37-53aa-4ce5-9f89-9ac5397a0eb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buffer">
+      <UniqueIdentifier>{c7bd599f-f4ee-452b-a2b1-28f34191b34c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

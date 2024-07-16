@@ -15,12 +15,11 @@ CTileMap::CTileMap()
 {
 	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"TileMapMtrl"));
-	m_Buffer = new CStructuredBuffer;
+	m_Buffer = std::make_shared<CStructuredBuffer>();
 }
 
 CTileMap::~CTileMap()
 {
-	delete m_Buffer;
 }
 
 void CTileMap::FinalTick()

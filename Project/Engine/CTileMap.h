@@ -44,5 +44,5 @@ private:
 
     vector<tTileInfo>       m_vecTileInfo;      // 각각의 타일의 정보
 
-    CStructuredBuffer*      m_Buffer;
+    std::shared_ptr<CStructuredBuffer>      m_Buffer;
 };
