@@ -25,7 +25,7 @@ void Animator2DUI::Update()
 		const vector<Ptr<CAnimation>>& vecAnim = GetTargetObject()->Animator2D()->GetAnimationsCRef();
 		if (!vecAnim.empty())
 		{
-			const string combo_preview_value = "(" + std::to_string(vecAnim.capacity()) + ")";
+			const string combo_preview_value = "(" + std::to_string(vecAnim.capacity()) + ") animations present...";
 
 			if (ImGui::BeginCombo("##AnimationListCombo", combo_preview_value.c_str()))
 			{
@@ -33,15 +33,12 @@ void Animator2DUI::Update()
 				{
 					if (vecAnim[i].Get() == nullptr)
 					{
-						if (ImGui::Selectable("< Empty >"))
-						{
-
-						}
+						ImGui::Selectable("< Empty >", false, ImGuiSelectableFlags_Disabled);
 					}
 					else
 					{
 						const wstring& animName = vecAnim[i].Get()->GetKey();
-						string sName = ICON_FA_VIDEO_CAMERA + string(animName.begin(), animName.end());
+						string sName = ICON_FA_VIDEO_CAMERA " " + string(animName.begin(), animName.end());
 						if (ImGui::Selectable((char*)sName.c_str()))
 						{
 							// 애니메이션 정보

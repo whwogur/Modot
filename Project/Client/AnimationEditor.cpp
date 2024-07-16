@@ -42,16 +42,16 @@ void AnimationEditor::Update()
         //ImGui::Image(m_CheckerTex.Get()->GetSRV().Get(), { 150, 150 });
         //ImGui::GetWindowDrawList()->AddImage(curSprite->GetAtlasTexture().Get()->GetSRV().Get(), p, { 150,150 }, { LeftTop.x, LeftTop.y }, { LeftTop.x + Slice.x, LeftTop.y + Slice.y });
         
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.22f, 0.23f, 0.77f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.32f, 0.33f, 0.97f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.12f, 0.13f, 0.67f, 1.0f });
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.341f, 0.0f, 1.0f, 1.0f });
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.44f, 0.2f, 1.0f, 1.0f });
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.0f, 0.8f, 1.0f });
         ImGui::SameLine(160);
-        if (ImGui::Button(ICON_FA_ARROW_CIRCLE_LEFT, { 25, 25 }))
+        if (ImGui::Button(ICON_FA_ARROW_LEFT, { 25, 25 }))
         {
             offsetUV.x -= deltaUV;
         }
         ImGui::SameLine(200);
-        if (ImGui::Button(ICON_FA_ARROW_CIRCLE_RIGHT, {25, 25}))
+        if (ImGui::Button(ICON_FA_ARROW_RIGHT, {25, 25}))
         {
             offsetUV.x += deltaUV;
         }
@@ -59,7 +59,7 @@ void AnimationEditor::Update()
         ImGui::SameLine(240);
 
         ImGui::PushItemWidth(50.f);
-        ImGui::DragFloat(u8"UV조절량", &deltaUV, 0.005f, 0.0f, 1.0f, "%.3f");
+        ImGui::DragFloat(u8"UV조절량", &deltaUV, 0.001f, 0.0f, 1.0f, "%.3f");
         ImGui::PopItemWidth();
 
         ImGui::SameLine(400);

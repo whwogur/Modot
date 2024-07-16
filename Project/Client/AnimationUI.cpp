@@ -4,6 +4,7 @@
 #include "CEditorMgr.h"
 #include "AnimationEditor.h"
 #include "CAssetMgr.h"
+#include "TreeUI.h"
 AnimationUI::AnimationUI()
 	: AssetUI(ASSET_TYPE::ANIMATION)
 {
@@ -21,6 +22,9 @@ void AnimationUI::Update()
 	MD_ENGINE_ASSERT(anim, L"애니메이션 없이 AnimationUI 활성화됨");
 
 	ImGui::SameLine(ImGui::GetContentRegionAvail().x - 100);
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.341f, 0.0f, 1.0f, 1.0f });
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.44f, 0.2f, 1.0f, 1.0f });
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.0f, 0.8f, 1.0f });
 	if (ImGui::Button(ICON_FA_PENCIL, { 40, 25 }))
 	{
 		AnimationEditor* editor = static_cast<AnimationEditor*>(CEditorMgr::GetInst()->FindEditorUI("AnimationEditor"));
@@ -28,7 +32,7 @@ void AnimationUI::Update()
 		editor->Refresh();
 		editor->SetActive(true);
 	}
-
+	ImGui::PopStyleColor(3);
 	const vector<Ptr<CSprite>>& vecSprites = anim->GetSpritesCRef();
 
 	string animName = string(anim->GetKey().begin(), anim->GetKey().end());
@@ -40,21 +44,30 @@ void AnimationUI::Update()
 	const auto& sprite = vecSprites[1];
 	ImVec2 LeftTopUV = ImVec2(sprite->GetLeftTopUV().x, sprite->GetLeftTopUV().y);
 	ImVec2 RightBottomUV = ImVec2(sprite->GetSliceUV().x + sprite->GetLeftTopUV().x, sprite->GetSliceUV().y + sprite->GetLeftTopUV().y);
-
+	ImVec2 availRegion = ImGui::GetContentRegionAvail();
+	ImGui::NewLine();
+	ImGui::SameLine(availRegion.x / 2 - 72);
 	ImGui::Image(sprite->GetAtlasTexture().Get()->GetSRV().Get(), { 144, 144 }, LeftTopUV, RightBottomUV, { 1,1,1,1 }, { 0.1, 0.8, 0.2, 1.0 });
 
-	ImGui::Text(u8"이름");
-	ImGui::SameLine(100);
+	ImGui::NewLine();
+	ImGui::NewLine();
+	ImGui::SameLine(60);
+	ImGui::TextColored({0.2f, 0.56f, 0.77f, 1.0f}, u8"이름");
+	ImGui::SameLine(125);
 	ImGui::SetNextItemWidth(150.f);
 	ImGui::InputText("##AnimKey", (char*)animName.c_str(), ImGuiInputTextFlags_ReadOnly);
 
-	ImGui::Text(u8"프레임수");
-	ImGui::SameLine(100);
+	ImGui::NewLine();
+	ImGui::SameLine(60);
+	ImGui::TextColored({ 0.2f, 0.56f, 0.77f, 1.0f }, u8"프레임수");
+	ImGui::SameLine(125);
 	ImGui::SetNextItemWidth(150.f);
 	ImGui::InputText("##AnimFrameCount", (char*)animFrameCount.c_str(), ImGuiInputTextFlags_ReadOnly);
 
-	ImGui::Text(u8"경로");
-	ImGui::SameLine(100);
+	ImGui::NewLine();
+	ImGui::SameLine(60);
+	ImGui::TextColored({ 0.2f, 0.56f, 0.77f, 1.0f }, u8"경로");
+	ImGui::SameLine(125);
 	ImGui::SetNextItemWidth(150.f);
 	ImGui::InputText("##AnimRelativePath", (char*)animRelativePath.c_str(), ImGuiInputTextFlags_ReadOnly);
 
@@ -64,6 +77,7 @@ void AnimationUI::Update()
 		vector<Ptr<CSprite>>& spriteRef = anim->GetSpritesRef();
 		for (int i = 0; i < spriteRef.size(); ++i)
 		{
+			ImGui::SetItemTooltip(u8"클릭해서 순서 변경");
 			string key = string(spriteRef[i]->GetKey().begin(), spriteRef[i]->GetKey().end());
 			static bool selected = false;
 			ImGui::Selectable(key.c_str(), &selected, ImGuiSelectableFlags_DontClosePopups);
@@ -71,7 +85,9 @@ void AnimationUI::Update()
 			if (selected)
 			{
 				if (m_SelectedIdx == -1)
+				{
 					m_SelectedIdx = i;
+				}
 				else
 				{
 					std::iter_swap(spriteRef.begin() + m_SelectedIdx, spriteRef.begin() + i);
@@ -81,5 +97,23 @@ void AnimationUI::Update()
 			}
 		}
 		ImGui::EndCombo();
+	}
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
+		if (payload)
+		{
+			TreeNode** ppNode = (TreeNode**)payload->Data;
+			TreeNode* pNode = *ppNode;
+
+			Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
+			if (ASSET_TYPE::SPRITE == pAsset->GetAssetType())
+			{
+				anim->AddSprite((CSprite*)pAsset.Get());
+			}
+		}
+
+		ImGui::EndDragDropTarget();
 	}
 }

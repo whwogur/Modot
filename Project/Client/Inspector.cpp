@@ -16,6 +16,7 @@ Inspector::Inspector()
 	, m_arrComUI{}
 	, m_arrAssetUI{}
 {
+	m_IconTexture = CAssetMgr::GetInst()->Load<CTexture>(L"ComponentIcons", L"texture\\ComponentIcons.png");
 }
 
 Inspector::~Inspector()
@@ -116,10 +117,16 @@ void Inspector::Update()
 	}
 
 	ImGui::NewLine();
-	if (ImGui::BeginCombo("##ComponentList", u8"컴포넌트 추가"))
+	ImGui::NewLine();
+	ImGui::SameLine(80);
+	if (ImGui::BeginCombo("##ComponentList", u8"컴포넌트 추가", ImGuiComboFlags_NoArrowButton))
 	{
 		for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 		{
+			float vUV_0 = (1 / (float)COMPONENT_TYPE::END) * (UINT)i;
+			float vUV_1 = (1 / (float)COMPONENT_TYPE::END) * ((UINT)i + 1);
+			ImGui::Image((void*)m_IconTexture.Get()->GetSRV().Get(), { 15, 15 }, { vUV_0, 0 }, { vUV_1, 1 });
+			ImGui::SameLine(30);
 			if (ImGui::Selectable(ToString((COMPONENT_TYPE)i)))
 			{
 				m_TargetObject->AddComponentViaUI(COMPONENT_TYPE(i));

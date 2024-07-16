@@ -27,5 +27,6 @@ private:
     class ComponentUI* m_arrComUI[(UINT)COMPONENT_TYPE::END];
 
     Ptr<CAsset>         m_TargetAsset;
+    Ptr<CTexture>       m_IconTexture;
     class AssetUI* m_arrAssetUI[(UINT)ASSET_TYPE::END];
 };
