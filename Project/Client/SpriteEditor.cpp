@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "SpriteEditor.h"
+#include "CSprite.h"
+#include "CPathMgr.h"
 
 SpriteEditor::SpriteEditor()
 	: m_AtlasTex(nullptr)
@@ -28,16 +30,33 @@ void SpriteEditor::Update()
 	ImGui::SameLine(140);
 	ImGui::Text(imgTitle.c_str());
 
-	ImGui::TextColored({ 0.4f, 0.77f, 0.95f, 1.0f }, u8"현재 선택된 uv :");
+	ImGui::TextColored({ 0.4f, 0.77f, 0.95f, 1.0f }, u8"선택된 uv :");
 	ImGui::SameLine(140);
-	ImGui::Text("< UVStart(%.4f, %.4f), UVEnd(%.4f, %.4f) >", m_UVpair.first.x, m_UVpair.first.y, m_UVpair.second.x, m_UVpair.second.y);
+	ImGui::Text("< TopL(%.4f, %.4f), BottomR(%.4f, %.4f) >", m_UVpair.first.x, m_UVpair.first.y, m_UVpair.second.x, m_UVpair.second.y);
 	ImGui::SameLine(800);
 	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.22f, 0.23f, 0.77f, 1.0f });
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.32f, 0.33f, 0.97f, 1.0f });
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.12f, 0.13f, 0.67f, 1.0f });
+	static char spriteRelPath[50] = {};
+	ImGui::SetNextItemWidth(150);
+	ImGui::InputText("##SpriteRelPath", spriteRelPath, sizeof(spriteRelPath), ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_AlwaysOverwrite);
+
+	ImGui::SameLine(1000);
 	if (ImGui::Button(ICON_FA_FLOPPY_O, { 40, 40 }))
 	{
+		if (m_UVpair.first.x > 0 && m_UVpair.second.x > 0)
+		{
+			Ptr<CSprite> pSprite = new CSprite;
+			
+			const wstring& contentPath = CPathMgr::GetInst()->GetContentPath();
+			string strRelPath(spriteRelPath);
+			wstring wstrRelPath(strRelPath.begin(), strRelPath.end());
+			Vec2 UVTopLeft(m_UVpair.first.x, m_UVpair.first.y);
+			Vec2 UVBottomRight(m_UVpair.second.x, m_UVpair.second.y);
 
+			pSprite->Create(m_AtlasTex, UVTopLeft, UVBottomRight);
+			pSprite->Save(contentPath + wstrRelPath);
+		}
 	}
 	ImGui::PopStyleColor(3);
 	

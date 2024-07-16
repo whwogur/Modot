@@ -103,7 +103,7 @@ void FileBrowser::Update()
 					CAssetMgr::GetInst()->Load<CAnimation>(relPath.stem(), relPath);
 				}
 
-				else if (extention == L"sprite")
+				else if (extention == L".sprite")
 				{
 					CAssetMgr::GetInst()->Load<CSprite>(relPath.stem(), relPath);
 				}
