@@ -5,6 +5,8 @@
 #include "ImGui/imgui_neo_sequencer.h"
 #include "CTimeMgr.h"
 #include "CAssetMgr.h"
+#include "CEditorMgr.h"
+#include "SpriteEditor.h"
 AnimationEditor::AnimationEditor()
 	: m_Animation(nullptr)
 	, m_Animator(nullptr)
@@ -60,12 +62,13 @@ void AnimationEditor::Update()
         ImGui::DragFloat(u8"UV조절량", &deltaUV, 0.005f, 0.0f, 1.0f, "%.3f");
         ImGui::PopItemWidth();
 
-        /*ImGui::SameLine(400);
-        if (ImGui::Button(ICON_FA_FLOPPY_O, { 25, 25 }))
+        ImGui::SameLine(400);
+        if (ImGui::Button(ICON_FA_PENCIL_SQUARE_O, {30, 30}))
         {
-            const wstring& relPath = m_Animation->GetRelativePath();
-            m_Animation->Save(relPath);
-        }*/
+            SpriteEditor* spriteEditor = static_cast<SpriteEditor*>(CEditorMgr::GetInst()->FindEditorUI("SpriteEditor"));
+            spriteEditor->SetAtlas(curSprite->GetAtlasTexture());
+            spriteEditor->SetActive(true);
+        }
 
         if (ImGui::Button(m_Play ? ICON_FA_PAUSE : ICON_FA_PLAY, { 50, 30 }))
         {

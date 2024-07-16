@@ -125,7 +125,7 @@ void MenuUI::GameObject()
 	ImFont* iconFont = CEditorMgr::GetInst()->GetIconFont();
 	ImGui::PushFont(iconFont);
 
-	if (ImGui::BeginMenu(ICON_FA_OBJECT_GROUP " GameObject"))
+	if (ImGui::BeginMenu(ICON_FA_CUBES " GameObject"))
 	{
 		if (ImGui::MenuItem("Create Empty Object"))
 		{
@@ -148,7 +148,7 @@ void MenuUI::GameObject()
 
 void MenuUI::Assets()
 {
-	if (ImGui::BeginMenu(ICON_FA_PICTURE_O " Assets"))
+	if (ImGui::BeginMenu(ICON_FA_SUITCASE " Assets"))
 	{
 		if (ImGui::MenuItem("Create Empty Material"))
 		{

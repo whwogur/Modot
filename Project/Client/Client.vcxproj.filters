@@ -184,6 +184,9 @@
     <ClInclude Include="ParamUI.h">
       <Filter>Editor\EditorUI\Modal</Filter>
     </ClInclude>
+    <ClInclude Include="SpriteEditor.h">
+      <Filter>Editor\EditorUI\Modal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -338,6 +341,9 @@
       <Filter>Editor\EditorUI\Modal</Filter>
     </ClCompile>
     <ClCompile Include="ParamUI.cpp">
+      <Filter>Editor\EditorUI\Modal</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteEditor.cpp">
       <Filter>Editor\EditorUI\Modal</Filter>
     </ClCompile>
   </ItemGroup>

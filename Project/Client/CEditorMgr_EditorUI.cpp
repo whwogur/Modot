@@ -17,6 +17,7 @@
 #include "MenuUI.h"
 #include "AnimationEditor.h"
 #include "CPathMgr.h"
+#include "SpriteEditor.h"
 
 void CEditorMgr::InitImGui()
 {
@@ -109,6 +110,12 @@ void CEditorMgr::CreateEditorUI()
     // AnimationEditor
     pUI = new AnimationEditor;
     pUI->SetName("AnimationEditor");
+    pUI->SetActive(false);
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    // SpriteEditor
+    pUI = new SpriteEditor;
+    pUI->SetName("SpriteEditor");
     pUI->SetActive(false);
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 }
