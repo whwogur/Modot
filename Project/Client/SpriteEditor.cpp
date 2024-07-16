@@ -63,7 +63,7 @@ void SpriteEditor::Update()
 			auto [winPosX, winPosY] = ImGui::GetWindowPos();
 			m_UVStart = ImVec2(ImGui::GetMousePos().x - winPosX, ImGui::GetMousePos().y - winPosY);
 		}
-		ImDrawList* drawList = ImGui::GetWindowDrawList();
+		ImDrawList* drawList = ImGui::GetWindowDrawList(); // 드래그 - 직사각형 그리기
 		drawList->AddRect(m_MouseStart, ImGui::GetMousePos(), IM_COL32(0, 255, 0, 255), 0.0f);
 	}
 
