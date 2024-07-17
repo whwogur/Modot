@@ -117,6 +117,8 @@ void CAssetMgr::CreateEngineTexture()
 	Load<CTexture>(L"noise_01", L"texture\\noise\\noise_01.png");
 	Load<CTexture>(L"noise_02", L"texture\\noise\\noise_02.png");
 	Load<CTexture>(L"noise_03", L"texture\\noise\\noise_03.jpg");
+	Load<CTexture>(L"ComponentIcons", L"texture\\ComponentIcons.png");
+	Load<CTexture>(L"ScriptIcon", L"texture\\ScriptIcon.png");
 }
 
 void CAssetMgr::CreateEngineSprite()

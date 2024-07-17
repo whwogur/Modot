@@ -1,6 +1,9 @@
 #pragma once
 
 #include "EditorUI.h"
+#define ICON_SIZE 32
+
+class CGameObject;
 
 class ComponentUI :
     public EditorUI
@@ -18,7 +21,7 @@ protected:
     void Title();
 
 private:
-    class CGameObject*      m_TargetObject;
+    CGameObject*            m_TargetObject;
     const COMPONENT_TYPE    m_Type;
     Ptr<CTexture>           m_IconTexture;
 };

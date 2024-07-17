@@ -10,6 +10,7 @@
 #include "ComponentUI.h"
 #include "AssetUI.h"
 #include "CEditorMgr.h"
+#include "ScriptUI.h"
 
 Inspector::Inspector()
 	: m_TargetObject(nullptr)
@@ -34,6 +35,32 @@ void Inspector::SetTargetObject(CGameObject* _Object)
 			continue;
 
 		m_arrComUI[i]->SetTargetObject(_Object);
+	}
+
+	// Object 가 보유하고 있는 Script 마다 ScriptUI 배정
+	if (nullptr == m_TargetObject)
+	{
+		for (auto scriptUI : m_vecScriptUI)
+		{
+			scriptUI->SetTargetScript(nullptr);
+		}
+	}
+	else
+	{
+		const vector<CScript*>& vecScripts = m_TargetObject->GetScripts();
+
+		if (m_vecScriptUI.size() < vecScripts.size())
+		{
+			CreateScriptUI(vecScripts.size() - m_vecScriptUI.size());
+		}
+
+		for (size_t i = 0; i < m_vecScriptUI.size(); ++i)
+		{
+			if (i < vecScripts.size())
+				m_vecScriptUI[i]->SetTargetScript(vecScripts[i]);
+			else
+				m_vecScriptUI[i]->SetTargetScript(nullptr);
+		}
 	}
 
 	m_TargetAsset = nullptr;

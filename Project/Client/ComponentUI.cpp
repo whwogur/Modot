@@ -11,7 +11,7 @@ ComponentUI::ComponentUI(COMPONENT_TYPE _Type)
 	, m_Type(_Type)
 {
 	SetChildBorder(true);
-	m_IconTexture = CAssetMgr::GetInst()->Load<CTexture>(L"ComponentIcons", L"texture\\ComponentIcons.png");
+	m_IconTexture = CAssetMgr::GetInst()->FindAsset<CTexture>(L"ComponentIcons");
 }
 
 ComponentUI::~ComponentUI()
@@ -40,7 +40,7 @@ void ComponentUI::Title()
 
 	float vUV_0 = (1 / (float)COMPONENT_TYPE::END) * (UINT)m_Type;
 	float vUV_1 = (1 / (float)COMPONENT_TYPE::END) * ((UINT)m_Type + 1);
-	ImGui::Image((void*)m_IconTexture.Get()->GetSRV().Get(), { 32, 32 }, {vUV_0, 0}, {vUV_1, 1});
+	ImGui::Image((void*)m_IconTexture.Get()->GetSRV().Get(), { ICON_SIZE, ICON_SIZE }, {vUV_0, 0}, {vUV_1, 1});
 	ImGui::SameLine();
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
 	float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;

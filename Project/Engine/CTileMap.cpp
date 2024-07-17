@@ -18,10 +18,6 @@ CTileMap::CTileMap()
 	m_Buffer = std::make_shared<CStructuredBuffer>();
 }
 
-CTileMap::~CTileMap()
-{
-}
-
 void CTileMap::FinalTick()
 {
 }
