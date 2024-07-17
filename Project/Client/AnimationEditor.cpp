@@ -64,10 +64,6 @@ void AnimationEditor::Update()
         Vec2 LeftTop = curSprite->GetLeftTopUV() - offsetUV;
         Vec2 Slice = curSprite->GetSliceUV() - offsetUV;
         vector<Ptr<CSprite>>& vecSprite = m_Animation->GetSpritesRef();
-
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.341f, 0.0f, 1.0f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.44f, 0.2f, 1.0f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.0f, 0.8f, 1.0f });
         
         if (ImGui::Button("Atlas Texture " ICON_FA_PICTURE_O, { 150, 30 }))
         {
@@ -139,8 +135,6 @@ void AnimationEditor::Update()
         {
             offsetUV.x += deltaUV;
         }
-
-        ImGui::PopStyleColor(3);
 
         if (ImGui::BeginNeoSequencer(u8"애니메이션", &m_CurrentFrame, &m_StartFrame, &m_EndFrame, {0, 0})) {
             

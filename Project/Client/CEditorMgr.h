@@ -27,7 +27,8 @@ private:
     void InitImGui();
     void ImGuiRun();
     void ImGuiTick();
-    void SetDarkThemeColors();
+    void SetThemeUnrealEngine();
+    void SetThemeFutureDark();
     void CreateEditorUI();
 
 private:

@@ -24,9 +24,6 @@ void AnimationUI::Update()
 	strcpy_s(m_AnimationName, sizeof(m_AnimationName), animName.c_str());
 
 	ImGui::SameLine(ImGui::GetContentRegionAvail().x - 100);
-	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.341f, 0.0f, 1.0f, 1.0f });
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.44f, 0.2f, 1.0f, 1.0f });
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.0f, 0.8f, 1.0f });
 	if (ImGui::Button(ICON_FA_PENCIL, { 40, 25 }))
 	{
 		AnimationEditor* editor = static_cast<AnimationEditor*>(CEditorMgr::GetInst()->FindEditorUI("AnimationEditor"));
@@ -34,7 +31,7 @@ void AnimationUI::Update()
 		editor->Refresh();
 		editor->SetActive(true);
 	}
-	ImGui::PopStyleColor(3);
+
 	const vector<Ptr<CSprite>>& vecSprites = anim->GetSpritesCRef();
 
 	string animFrameCount = std::to_string(anim->GetMaxFrameCount());
