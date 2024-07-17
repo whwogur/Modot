@@ -126,8 +126,37 @@ void CAssetMgr::CreateEngineSprite()
 	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
 	wstring strSolutionPath = CPathMgr::GetInst()->GetSolutionPath();
 
+	/*Ptr<CTexture> pAtlasTex = Load<CTexture>(L"CathAtlas", L"texture\\Cath.png");
+
+	Ptr<CSprite> pSprite = nullptr;
+
+	for (int i = 0; i < 15; ++i)
+	{
+		wchar_t szKey[50] = {};
+		swprintf_s(szKey, 50, L"Cath_Idle_%d", i);
+
+		pSprite = new CSprite;
+		pSprite->Create(pAtlasTex, Vec2((float)i * 144.f, 0.f), Vec2(144.f, 144.f));
+		pSprite->SetBackground(Vec2(144.f, 144.f));
+		AddAsset(szKey, pSprite);
+		pSprite->SetRelativePath(wstring(L"sprite\\") + szKey + L".sprite");
+		pSprite->Save(CPathMgr::GetInst()->GetContentPath() + L"sprite\\" + szKey + L".sprite");
+	}
+
 	Ptr<CAnimation> pAnimation = new CAnimation;
-	pAnimation->Load(L"Animation\\Cath_Idle.anim");
+
+	for (int i = 0; i < 15; ++i)
+	{
+		wchar_t Buffer[50] = {};
+		swprintf_s(Buffer, 50, L"Cath_Idle_%d", i);
+		pAnimation->AddSprite(FindAsset<CSprite>(Buffer));
+	}
+
+	AddAsset(L"Cath_Idle", pAnimation);
+	pAnimation->Save(L"animation\\Cath_Idle.anim");*/
+
+	Ptr<CAnimation> pAnimation = new CAnimation;
+	pAnimation->Load(L"animation\\Cath_Idle.anim");
 	AddAsset(L"Cath_Idle", pAnimation);
 
 	Ptr<CTexture> LogoTex = new CTexture;

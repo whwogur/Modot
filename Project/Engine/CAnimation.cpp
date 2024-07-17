@@ -10,7 +10,8 @@ CAnimation::CAnimation()
 void CAnimation::FinalTick()
 {
 }
-// 애니메이션 세이브
+
+// 상대경로 받음
 int CAnimation::Save(const wstring& _RelativePath)
 {
 	SetRelativePath(_RelativePath);
@@ -36,7 +37,8 @@ int CAnimation::Save(const wstring& _RelativePath)
 
 	return S_OK;
 }
-// 애니메이션 로드
+
+// 상대경로 받음
 int CAnimation::Load(const wstring& _RelativePath)
 {
 	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();

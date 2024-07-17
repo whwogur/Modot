@@ -11,6 +11,7 @@
 #include "CEditorMgr.h"
 #include "Inspector.h"
 #include "SpriteEditor.h"
+#include "AnimationEditor.h"
 MenuUI::MenuUI()
 {
 }
@@ -172,6 +173,13 @@ void MenuUI::Assets()
 			SpriteEditor* spriteEditor = static_cast<SpriteEditor*>(CEditorMgr::GetInst()->FindEditorUI("SpriteEditor"));
 			spriteEditor->SetActive(true);
 		}
+
+		if (ImGui::MenuItem("Animation Editor"))
+		{
+			AnimationEditor* animEditor = static_cast<AnimationEditor*>(CEditorMgr::GetInst()->FindEditorUI("AnimationEditor"));
+			animEditor->SetActive(true);
+		}
+
 		ImGui::EndMenu();
 	}
 }

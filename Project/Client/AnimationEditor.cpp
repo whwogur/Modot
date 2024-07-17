@@ -7,16 +7,36 @@
 #include "CAssetMgr.h"
 #include "CEditorMgr.h"
 #include "SpriteEditor.h"
+#include "TreeUI.h"
+
 AnimationEditor::AnimationEditor()
 	: m_Animation(nullptr)
-	, m_Animator(nullptr)
     , m_Play(false)
 {
 }
 
 void AnimationEditor::Update()
 {
-    if (m_Animation.Get())
+    if (ImGui::BeginDragDropTarget())
+    {
+        const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
+        if (payload)
+        {
+            TreeNode** ppNode = (TreeNode**)payload->Data;
+            TreeNode* pNode = *ppNode;
+
+            Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
+            if (ASSET_TYPE::ANIMATION == pAsset->GetAssetType())
+            {
+                m_Animation = (CAnimation*)pAsset.Get();
+                Refresh();
+            }
+        }
+
+        ImGui::EndDragDropTarget();
+    }
+
+    if (m_Animation.Get() != nullptr)
     {
         if (m_Play)
         {
@@ -32,15 +52,12 @@ void AnimationEditor::Update()
 
         static float deltaUV = 0.1f;
         Ptr<CSprite>& curSprite = m_Animation->GetSpriteRef(m_CurrentFrame);
-        Vec2 LeftTop = curSprite->GetLeftTopUV();
-        Vec2 Slice = curSprite->GetSliceUV();
         Vec2& offsetUV = curSprite->GetOffsetUVRef();
+        Vec2 LeftTop = curSprite->GetLeftTopUV() - offsetUV;
+        Vec2 Slice = curSprite->GetSliceUV() - offsetUV;
 
         ImGui::TextColored({ 0.3f, 0.5f, 0.7f, 1.0f }, "<%f , %f>", offsetUV.x, offsetUV.y);
         ImGui::Image(curSprite->GetAtlasTexture().Get()->GetSRV().Get(), { 150, 150 }, { LeftTop.x, LeftTop.y }, { LeftTop.x + Slice.x, LeftTop.y + Slice.y });
-        //ImVec2 p = ImGui::GetCursorScreenPos();
-        //ImGui::Image(m_CheckerTex.Get()->GetSRV().Get(), { 150, 150 });
-        //ImGui::GetWindowDrawList()->AddImage(curSprite->GetAtlasTexture().Get()->GetSRV().Get(), p, { 150,150 }, { LeftTop.x, LeftTop.y }, { LeftTop.x + Slice.x, LeftTop.y + Slice.y });
         
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.341f, 0.0f, 1.0f, 1.0f });
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.44f, 0.2f, 1.0f, 1.0f });
@@ -63,11 +80,19 @@ void AnimationEditor::Update()
         ImGui::PopItemWidth();
 
         ImGui::SameLine(400);
-        if (ImGui::Button(ICON_FA_PENCIL_SQUARE_O, {30, 30}))
+        if (ImGui::Button("Atlas Texture " ICON_FA_PICTURE_O, {30, 30}))
         {
             SpriteEditor* spriteEditor = static_cast<SpriteEditor*>(CEditorMgr::GetInst()->FindEditorUI("SpriteEditor"));
             spriteEditor->SetAtlas(curSprite->GetAtlasTexture());
             spriteEditor->SetActive(true);
+        }
+
+        ImGui::SameLine(440);
+        if (ImGui::Button(ICON_FA_FLOPPY_O, { 30, 30 }))
+        {
+            const wstring& contentPath = CPathMgr::GetInst()->GetContentPath();
+            wstring savePath = contentPath + L"sprite\\" + curSprite->GetKey();
+            curSprite->Save(savePath);
         }
 
         if (ImGui::Button(m_Play ? ICON_FA_PAUSE : ICON_FA_PLAY, { 50, 30 }))
@@ -94,6 +119,31 @@ void AnimationEditor::Update()
         }
 
 	}
+    else
+    {
+        ImGui::SetWindowFontScale(1.18f);
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.222f, 0.222f, 0.222f, 0.7f });
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.222f, 0.222f, 0.222f, 0.7f });
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.222f, 0.222f, 0.222f, 0.7f });
+
+
+        ImGui::SameLine(160);
+        if (ImGui::Button(ICON_FA_ARROW_LEFT, { 25, 25 }))
+        {
+        }
+        ImGui::SameLine(200);
+        if (ImGui::Button(ICON_FA_ARROW_RIGHT, { 25, 25 }))
+        {
+        }
+
+        ImGui::SameLine(400);
+        if (ImGui::Button(ICON_FA_PENCIL_SQUARE_O, { 30, 30 }))
+        {
+        }
+
+        ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, u8"애니메이션을 선택해주세요!!!");
+        ImGui::PopStyleColor(3);
+    }
 }
 
 void AnimationEditor::Refresh()
