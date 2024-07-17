@@ -98,7 +98,7 @@ void CAssetMgr::CreateEngineMesh()
 	vecIdx.clear();
 	for (size_t i = 1; i < vecVtx.size(); ++i)
 	{
-		vecIdx.push_back(i);
+		vecIdx.push_back((UINT)i);
 	}
 
 	pMesh = new CMesh;

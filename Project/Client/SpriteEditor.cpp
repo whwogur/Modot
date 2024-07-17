@@ -21,8 +21,8 @@ void SpriteEditor::Update()
 	MD_ENGINE_ASSERT(m_AtlasTex != nullptr, L"Atlas Texture is Missing");
 	wstring key = m_AtlasTex->GetKey();
 	string imgTitle = string(key.begin(), key.end());
-	float imgWidth = m_AtlasTex->GetDesc().Width;
-	float imgHeight = m_AtlasTex->GetDesc().Height;
+	float imgWidth = (float)m_AtlasTex->GetDesc().Width;
+	float imgHeight = (float)m_AtlasTex->GetDesc().Height;
 	ImVec2 winSize = ImGui::GetWindowSize();
 
 	ImGui::SetWindowFontScale(1.18f);

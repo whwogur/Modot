@@ -17,7 +17,7 @@ void ListUI::Update()
 	for (size_t i = 0; i < m_vecList.size(); ++i)
 	{
 		char szID[255] = {};
-		sprintf_s(szID, 255, "%s##%d", m_vecList[i].c_str(), i);
+		sprintf_s(szID, 255, "%s##%d", m_vecList[i].c_str(), (int)i);
 
 		UINT Flag = ImGuiTreeNodeFlags_Leaf;
 
@@ -33,7 +33,7 @@ void ListUI::Update()
 
 		if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
 		{
-			m_SelectedIdx = i;
+			m_SelectedIdx = (int)i;
 		}
 
 		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))

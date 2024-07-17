@@ -43,8 +43,8 @@ namespace ImGui {
             const auto count = (int32_t)((float)((viewEnd + 1) - viewStart) / zoom);
 
             int32_t counter = 0;
-            uint32_t primaryFrames = pow(10, counter++);
-            uint32_t secondaryFrames = pow(10, counter);
+            uint32_t primaryFrames = uint32_t(pow(10, counter++));
+            uint32_t secondaryFrames = uint32_t(pow(10, counter));
 
             float perFrameWidth = GetPerFrameWidth(size.x, valuesWidth, endFrame, startFrame, zoom);
 
@@ -52,8 +52,8 @@ namespace ImGui {
 
             while (perFrameWidth < maxPixelsPerTick)
             {
-                primaryFrames = pow(10, counter++);
-                secondaryFrames = pow(10, counter);
+                primaryFrames = uint32_t(pow(10, counter++));
+                secondaryFrames = uint32_t(pow(10, counter));
 
                 perFrameWidth *= (float)primaryFrames;
             }

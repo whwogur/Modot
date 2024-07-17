@@ -94,7 +94,7 @@ void Inspector::CreateScriptUI(UINT _Count)
 		ScriptUI* pScriptUI = new ScriptUI;
 
 		char szScriptUIName[255] = {};
-		sprintf_s(szScriptUIName, 255, "ScriptUI##%d", m_vecScriptUI.size());
+		sprintf_s(szScriptUIName, 255, "ScriptUI##%d", (int)m_vecScriptUI.size());
 		pScriptUI->SetName(szScriptUIName);
 
 		AddChild(pScriptUI);

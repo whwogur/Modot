@@ -47,7 +47,7 @@ void AnimationUI::Update()
 	ImVec2 availRegion = ImGui::GetContentRegionAvail();
 	ImGui::NewLine();
 	ImGui::SameLine(availRegion.x / 2 - 72);
-	ImGui::Image(sprite->GetAtlasTexture().Get()->GetSRV().Get(), { 144, 144 }, LeftTopUV, RightBottomUV, { 1,1,1,1 }, { 0.1, 0.8, 0.2, 1.0 });
+	ImGui::Image(sprite->GetAtlasTexture().Get()->GetSRV().Get(), { 144, 144 }, LeftTopUV, RightBottomUV, { 1,1,1,1 }, { 0.1f, 0.8f, 0.2f, 1.0f });
 
 	ImGui::NewLine();
 	ImGui::NewLine();

@@ -51,7 +51,7 @@ void Inspector::SetTargetObject(CGameObject* _Object)
 
 		if (m_vecScriptUI.size() < vecScripts.size())
 		{
-			CreateScriptUI(vecScripts.size() - m_vecScriptUI.size());
+			CreateScriptUI(UINT(vecScripts.size() - m_vecScriptUI.size()));
 		}
 
 		for (size_t i = 0; i < m_vecScriptUI.size(); ++i)

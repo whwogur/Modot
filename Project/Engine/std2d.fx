@@ -33,7 +33,7 @@ VTX_OUT VS_Std2D(VTX_IN _in)
     output.vColor = _in.vColor;
     output.vUV = _in.vUV;
 
-    output.vWorldPos = mul(float4(_in.vPos, 1.f), matWorld);
+    output.vWorldPos = mul(float4(_in.vPos, 1.f), matWorld).xyz;
 
     return output;
 }

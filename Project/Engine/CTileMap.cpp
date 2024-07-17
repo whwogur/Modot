@@ -90,7 +90,7 @@ void CTileMap::SetAtlasTileSize(Vec2 _TileSize)
 	{
 		m_AtlasTileSliceUV = m_AtlasTileSize / m_AtlasResolution;
 
-		m_AtlasMaxCol = m_AtlasResolution.x / m_AtlasTileSize.x;
-		m_AtlasMaxRow = m_AtlasResolution.y / m_AtlasTileSize.y;
+		m_AtlasMaxCol = int(m_AtlasResolution.x / m_AtlasTileSize.x);
+		m_AtlasMaxRow = int(m_AtlasResolution.y / m_AtlasTileSize.y);
 	}
 }

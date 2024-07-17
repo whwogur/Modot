@@ -25,33 +25,31 @@ void* CMaterial::GetScalarParam(SCALAR_PARAM _Param)
 	case INT_2:
 	case INT_3:
 		return  m_Const.iArr + _Param;
-		break;
 	case FLOAT_0:
 	case FLOAT_1:
 	case FLOAT_2:
 	case FLOAT_3:
 		return  m_Const.fArr + (_Param - FLOAT_0);
-		break;
 	case VEC2_0:
 	case VEC2_1:
 	case VEC2_2:
 	case VEC2_3:
 		return  m_Const.v2Arr + (_Param - VEC2_0);
-		break;
 	case VEC4_0:
 	case VEC4_1:
 	case VEC4_2:
 	case VEC4_3:
 		return  m_Const.v4Arr + (_Param - VEC4_0);
-		break;
 
 	case MAT_0:
 	case MAT_1:
 	case MAT_2:
 	case MAT_3:
 		return  m_Const.matArr + (_Param - MAT_0);
-		break;
 	}
+
+	MD_ENGINE_ERROR(L"GetScalarParam 스위치 케이스 예외");
+	return nullptr;
 }
 
 void CMaterial::Bind()
