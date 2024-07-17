@@ -57,6 +57,11 @@ void CAnimator2D::AddAnimation(int _Idx, Ptr<CAnimation> _Animation)
 	m_vecAnimation[_Idx] = _Animation;
 }
 
+void CAnimator2D::PushBackAnimation(Ptr<CAnimation> _Animation)
+{
+	m_vecAnimation.push_back(_Animation);
+}
+
 Ptr<CAnimation> CAnimator2D::FindAnimation(const wstring& _Key)
 {
 	for (size_t i = 0; i < m_vecAnimation.size(); ++i)

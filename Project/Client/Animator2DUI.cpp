@@ -26,7 +26,7 @@ void Animator2DUI::Update()
 		const vector<Ptr<CAnimation>>& vecAnim = GetTargetObject()->Animator2D()->GetAnimationsRef();
 		if (!vecAnim.empty())
 		{
-			const string combo_preview_value = "(" + std::to_string(vecAnim.capacity()) + ") Animations Count...";
+			const string combo_preview_value = "(" + std::to_string(vecAnim.size()) + ") Slots Available";
 
 			if (ImGui::BeginCombo("##AnimationListCombo", combo_preview_value.c_str()))
 			{
@@ -53,5 +53,23 @@ void Animator2DUI::Update()
 			}
 		}
 		ImGui::PopFont();
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
+			if (payload)
+			{
+				TreeNode** ppNode = (TreeNode**)payload->Data;
+				TreeNode* pNode = *ppNode;
+
+				Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
+				if (ASSET_TYPE::ANIMATION == pAsset->GetAssetType())
+				{
+					GetTargetObject()->Animator2D()->PushBackAnimation((CAnimation*)pAsset.Get());
+				}
+			}
+
+			ImGui::EndDragDropTarget();
+		}
 	}
 }

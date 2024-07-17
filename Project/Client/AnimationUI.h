@@ -11,5 +11,6 @@ public:
 
 private:
     int         m_SelectedIdx = -1;
+    char        m_AnimationName[64] = {};
 };
 

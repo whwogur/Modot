@@ -61,6 +61,7 @@ void SpriteEditor::Update()
 		static char spriteRelPath[50] = {};
 		ImGui::SetNextItemWidth(150);
 		ImGui::InputText("##SpriteRelPath", spriteRelPath, sizeof(spriteRelPath), ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_AlwaysOverwrite);
+		ImGui::SetItemTooltip(u8"스프라이트를 저장합니다.\n상대경로를 입력해주세요.");
 
 		ImGui::SameLine(1000);
 		if (ImGui::Button(ICON_FA_FLOPPY_O, { 40, 40 }))

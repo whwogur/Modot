@@ -31,6 +31,14 @@ void AnimationEditor::Update()
                 m_Animation = (CAnimation*)pAsset.Get();
                 Refresh();
             }
+            else if (ASSET_TYPE::SPRITE == pAsset->GetAssetType())
+            {
+                if (m_Animation != nullptr)
+                {
+                    m_Animation->GetSpritesRef().push_back((CSprite*)pAsset.Get());
+                    Refresh();
+                }
+            }
         }
 
         ImGui::EndDragDropTarget();
@@ -55,56 +63,84 @@ void AnimationEditor::Update()
         Vec2& offsetUV = curSprite->GetOffsetUVRef();
         Vec2 LeftTop = curSprite->GetLeftTopUV() - offsetUV;
         Vec2 Slice = curSprite->GetSliceUV() - offsetUV;
+        vector<Ptr<CSprite>>& vecSprite = m_Animation->GetSpritesRef();
 
-        ImGui::TextColored({ 0.3f, 0.5f, 0.7f, 1.0f }, "<%f , %f>", offsetUV.x, offsetUV.y);
-        ImGui::Image(curSprite->GetAtlasTexture().Get()->GetSRV().Get(), { 150, 150 }, { LeftTop.x, LeftTop.y }, { LeftTop.x + Slice.x, LeftTop.y + Slice.y });
-        
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.341f, 0.0f, 1.0f, 1.0f });
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.44f, 0.2f, 1.0f, 1.0f });
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.0f, 0.8f, 1.0f });
-        ImGui::SameLine(160);
-        if (ImGui::Button(ICON_FA_ARROW_LEFT, { 25, 25 }))
-        {
-            offsetUV.x -= deltaUV;
-        }
-        ImGui::SameLine(200);
-        if (ImGui::Button(ICON_FA_ARROW_RIGHT, {25, 25}))
-        {
-            offsetUV.x += deltaUV;
-        }
-
-        ImGui::SameLine(240);
-
-        ImGui::PushItemWidth(50.f);
-        ImGui::DragFloat(u8"UV", &deltaUV, 0.001f, 0.0f, 1.0f, "%.3f");
-        ImGui::PopItemWidth();
-
-        ImGui::SameLine(400);
-        if (ImGui::Button("Atlas Texture " ICON_FA_PICTURE_O, {150, 30}))
+        
+        if (ImGui::Button("Atlas Texture " ICON_FA_PICTURE_O, { 150, 30 }))
         {
             SpriteEditor* spriteEditor = static_cast<SpriteEditor*>(CEditorMgr::GetInst()->FindEditorUI("SpriteEditor"));
             spriteEditor->SetAtlas(curSprite->GetAtlasTexture());
             spriteEditor->SetActive(true);
         }
-
-        ImGui::SameLine(560);
+        ImGui::SameLine(160);
         if (ImGui::Button(ICON_FA_FLOPPY_O, { 30, 30 }))
         {
             const wstring& contentPath = CPathMgr::GetInst()->GetContentPath();
-            wstring savePath = contentPath + L"sprite\\" + curSprite->GetKey();
-            curSprite->Save(savePath);
+            wstring savePath = contentPath + L"animation\\" + m_Animation->GetKey();
+            m_Animation->Save(savePath);
+
+            for (auto sprite : vecSprite)
+            {
+                wstring spriteKey = sprite->GetKey() + L".sprite";
+                sprite->Save(L"sprite\\" + spriteKey);
+            }
+        }
+        ImGui::SetItemTooltip(u8"애니메이션을 저장합니다");
+
+        // 스프라이트 벡터
+        ImGui::NewLine();
+
+        int vecOffset = 10;
+        for (auto sprite : vecSprite)
+        {
+            Vec2 tempLT = sprite->GetLeftTopUV();
+            Vec2 tempRB = sprite->GetSliceUV();
+            ImGui::SameLine(vecOffset);
+            ImGui::Image(sprite->GetAtlasTexture()->GetSRV().Get(), { 40, 50 }, { tempLT.x, tempLT.y }, { tempLT.x + tempRB.x, tempLT.y + tempRB.y}, { 1, 1, 1, 1 }, { 0.0f, 1.0f, 1.0f, 1.0f });
+            vecOffset += 50;
         }
 
+
+        ImGui::NewLine();
+        ImGui::SameLine(700);
+        ImGui::Image(curSprite->GetAtlasTexture().Get()->GetSRV().Get(), { 150, 150 }, { LeftTop.x, LeftTop.y }, { LeftTop.x + Slice.x, LeftTop.y + Slice.y });
+
+        ImGui::NewLine();
+        ImGui::SameLine(700);
+        ImGui::TextColored({ 0.3f, 0.5f, 0.7f, 1.0f }, "<%f , %f>", offsetUV.x, offsetUV.y);
+
+        ImGui::NewLine();
         if (ImGui::Button(m_Play ? ICON_FA_PAUSE : ICON_FA_PLAY, { 50, 30 }))
         {
             m_Play = !m_Play;
         }
-        ImGui::PopStyleColor(3);
-
-        ImGui::SameLine(70);
+        ImGui::SameLine(60);
         ImGui::PushItemWidth(100.f);
         ImGui::DragFloat("FPS", &m_FPS, 1.0f, 0.1f, 60.f, "%.1f", 0);
+        ImGui::SetItemTooltip(u8"애니메이션 재생 속도 조절");
         ImGui::PopItemWidth();
+
+        ImGui::SameLine(620);
+        ImGui::PushItemWidth(100.f);
+        ImGui::DragFloat(u8"UV", &deltaUV, 0.001f, 0.0f, 1.0f, "%.3f");
+        ImGui::SetItemTooltip(u8"얼만큼 조절할건지 정한 후 \n화살표로 Offset을 조절합니다(UV)");
+        ImGui::PopItemWidth();
+        
+        ImGui::SameLine(748);
+        if (ImGui::Button(ICON_FA_ARROW_LEFT, { 25, 25 }))
+        {
+            offsetUV.x -= deltaUV;
+        }
+        ImGui::SameLine(778);
+        if (ImGui::Button(ICON_FA_ARROW_RIGHT, {25, 25}))
+        {
+            offsetUV.x += deltaUV;
+        }
+
+        ImGui::PopStyleColor(3);
 
         if (ImGui::BeginNeoSequencer(u8"애니메이션", &m_CurrentFrame, &m_StartFrame, &m_EndFrame, {0, 0})) {
             

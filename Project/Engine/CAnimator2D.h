@@ -14,6 +14,7 @@ public:
 
 public:
     void AddAnimation(int _Idx, Ptr<CAnimation> _Animation);
+    void PushBackAnimation(Ptr<CAnimation> _Animation);
     Ptr<CAnimation> FindAnimation(const wstring& _Key);
     void Play(int _AnimationIdx, float _FPS, bool _Repeat);
     Ptr<CSprite> GetCurSprite() { return m_CurFrmSprite; }

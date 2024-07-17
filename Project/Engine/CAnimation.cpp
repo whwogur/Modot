@@ -44,6 +44,9 @@ int CAnimation::Load(const wstring& _RelativePath)
 	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
 	strFilePath += _RelativePath;
 
+	if (GetRelativePath().length() < 1)
+		SetRelativePath(_RelativePath);
+
 	FILE* File = nullptr;
 	_wfopen_s(&File, strFilePath.c_str(), L"rb");
 	if (nullptr == File)

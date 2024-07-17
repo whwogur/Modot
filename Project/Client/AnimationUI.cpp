@@ -20,6 +20,8 @@ void AnimationUI::Update()
 
 	CAnimation* anim = static_cast<CAnimation*>(GetAsset().Get());
 	MD_ENGINE_ASSERT(anim, L"애니메이션 없이 AnimationUI 활성화됨");
+	string animName = string(anim->GetKey().begin(), anim->GetKey().end());
+	strcpy_s(m_AnimationName, sizeof(m_AnimationName), animName.c_str());
 
 	ImGui::SameLine(ImGui::GetContentRegionAvail().x - 100);
 	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.341f, 0.0f, 1.0f, 1.0f });
@@ -35,7 +37,6 @@ void AnimationUI::Update()
 	ImGui::PopStyleColor(3);
 	const vector<Ptr<CSprite>>& vecSprites = anim->GetSpritesCRef();
 
-	string animName = string(anim->GetKey().begin(), anim->GetKey().end());
 	string animFrameCount = std::to_string(anim->GetMaxFrameCount());
 
 	const wstring& animWRelativePath = anim->GetRelativePath();
@@ -55,7 +56,14 @@ void AnimationUI::Update()
 	ImGui::TextColored({0.2f, 0.56f, 0.77f, 1.0f}, u8"이름");
 	ImGui::SameLine(125);
 	ImGui::SetNextItemWidth(150.f);
-	ImGui::InputText("##AnimKey", (char*)animName.c_str(), ImGuiInputTextFlags_ReadOnly);
+	if (ImGui::InputText("##AnimKey", m_AnimationName, sizeof(m_AnimationName), ImGuiInputTextFlags_EnterReturnsTrue))
+	{
+		string strKey = m_AnimationName;
+		wstring wstrKey(strKey.begin(), strKey.end());
+		CAssetMgr::GetInst()->AddAsset<CAnimation>(wstrKey, anim);
+		wstrKey += L".anim";
+		anim->Save(L"animation\\" + wstrKey);
+	}
 
 	ImGui::NewLine();
 	ImGui::SameLine(60);
