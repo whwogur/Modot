@@ -41,7 +41,7 @@ void AnimationUI::Update()
 	const wstring& animWRelativePath = anim->GetRelativePath();
 	string animRelativePath = animWRelativePath.length() < 1 ? "Engine Generated" : string(anim->GetRelativePath().begin(), anim->GetRelativePath().end());
 
-	const auto& sprite = vecSprites[1];
+	const auto& sprite = vecSprites[0];
 	ImVec2 LeftTopUV = ImVec2(sprite->GetLeftTopUV().x, sprite->GetLeftTopUV().y);
 	ImVec2 RightBottomUV = ImVec2(sprite->GetSliceUV().x + sprite->GetLeftTopUV().x, sprite->GetSliceUV().y + sprite->GetLeftTopUV().y);
 	ImVec2 availRegion = ImGui::GetContentRegionAvail();

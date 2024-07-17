@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CTexture.h"
 #include "CDevice.h"
-
+#include "CPathMgr.h"
 CTexture::CTexture()
 	: CAsset(ASSET_TYPE::TEXTURE)
 	, m_Desc{}
@@ -31,9 +31,11 @@ void CTexture::Clear(UINT _RegisterNum)
 	CONTEXT->PSSetShaderResources(_RegisterNum, 1, &pSRV);
 }
 
-int CTexture::Load(const wstring& _FilePath)
+int CTexture::Load(const wstring& _RelativePath)
 {
-	path filepath = _FilePath;
+	wstring strPath = CPathMgr::GetInst()->GetContentPath();
+	strPath += _RelativePath;
+	path filepath = strPath;
 	path extention = filepath.extension();
 	
 	HRESULT hr = S_OK;
@@ -41,20 +43,20 @@ int CTexture::Load(const wstring& _FilePath)
 	// *.dds
 	if (extention == L".dds" || extention == L".DDS")
 	{
-		hr = LoadFromDDSFile(_FilePath.c_str(), DDS_FLAGS::DDS_FLAGS_NONE, nullptr, m_Image);
+		hr = LoadFromDDSFile(filepath.c_str(), DDS_FLAGS::DDS_FLAGS_NONE, nullptr, m_Image);
 	}
 
 	// *.tga
 	else if (extention == L".tga" || extention == L".TGA")
 	{
-		hr = LoadFromTGAFile(_FilePath.c_str(), nullptr, m_Image);
+		hr = LoadFromTGAFile(filepath.c_str(), nullptr, m_Image);
 	}
 
 	// Window Image Component (*.bmp, *.png, *.jpg, *.jpeg )
 	else if (extention == L".bmp" || extention == L".png" || extention == L".jpg" || extention == L".jpeg"
 		|| extention == L".BMP" || extention == L".PNG" || extention == L".JPG" || extention == L".JPEG")
 	{
-		hr = LoadFromWICFile(_FilePath.c_str(), WIC_FLAGS::WIC_FLAGS_NONE, nullptr, m_Image);
+		hr = LoadFromWICFile(filepath.c_str(), WIC_FLAGS::WIC_FLAGS_NONE, nullptr, m_Image);
 	}
 
 	// 알 수 없는 포맷인 경우

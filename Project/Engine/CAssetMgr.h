@@ -58,12 +58,10 @@ Ptr<T> CAssetMgr::Load(const wstring& _Key, const wstring& _RelativePath)
 
 	// 동일 키값의 에셋이 없었으면
 	MD_ENGINE_TRACE(L"{0} 생성중...", _Key);
-	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
-	strFilePath += _RelativePath;
 
 	Asset = new T;
 
-	MD_ENGINE_ASSERT(SUCCEEDED(Asset->Load(strFilePath)), L"애셋 로딩 실패 !");
+	MD_ENGINE_ASSERT(SUCCEEDED(Asset->Load(_RelativePath)), L"애셋 로딩 실패 !");
 
 	Asset->m_Key = _Key;
 	Asset->m_RelativePath = _RelativePath;

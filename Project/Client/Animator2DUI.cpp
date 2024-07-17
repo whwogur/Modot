@@ -5,7 +5,8 @@
 #include "CEditorMgr.h"
 #include "Inspector.h"
 #include "TreeUI.h"
-
+#include "CTaskMgr.h"
+#include "CAssetMgr.h"
 Animator2DUI::Animator2DUI()
 	: ComponentUI(COMPONENT_TYPE::ANIMATOR2D)
 {
@@ -22,10 +23,10 @@ void Animator2DUI::Update()
 	{
 		ImFont* iconFont = CEditorMgr::GetInst()->GetIconFont();
 		ImGui::PushFont(iconFont);
-		const vector<Ptr<CAnimation>>& vecAnim = GetTargetObject()->Animator2D()->GetAnimationsCRef();
+		const vector<Ptr<CAnimation>>& vecAnim = GetTargetObject()->Animator2D()->GetAnimationsRef();
 		if (!vecAnim.empty())
 		{
-			const string combo_preview_value = "(" + std::to_string(vecAnim.capacity()) + ") animations present...";
+			const string combo_preview_value = "(" + std::to_string(vecAnim.capacity()) + ") Animations Count...";
 
 			if (ImGui::BeginCombo("##AnimationListCombo", combo_preview_value.c_str()))
 			{
@@ -46,6 +47,7 @@ void Animator2DUI::Update()
 							inspector->SetTargetAsset(vecAnim[i].Get());
 						}
 					}
+
 				}
 				ImGui::EndCombo();
 			}

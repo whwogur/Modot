@@ -17,7 +17,7 @@ public:
     Ptr<CAnimation> FindAnimation(const wstring& _Key);
     void Play(int _AnimationIdx, float _FPS, bool _Repeat);
     Ptr<CSprite> GetCurSprite() { return m_CurFrmSprite; }
-    const vector<Ptr<CAnimation>>& GetAnimationsCRef() { return m_vecAnimation; }
+    vector<Ptr<CAnimation>>& GetAnimationsRef() { return m_vecAnimation; }
 
     void Reset();
     void Bind();

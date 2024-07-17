@@ -76,18 +76,18 @@ void AnimationEditor::Update()
         ImGui::SameLine(240);
 
         ImGui::PushItemWidth(50.f);
-        ImGui::DragFloat(u8"UV조절량", &deltaUV, 0.001f, 0.0f, 1.0f, "%.3f");
+        ImGui::DragFloat(u8"UV", &deltaUV, 0.001f, 0.0f, 1.0f, "%.3f");
         ImGui::PopItemWidth();
 
         ImGui::SameLine(400);
-        if (ImGui::Button("Atlas Texture " ICON_FA_PICTURE_O, {30, 30}))
+        if (ImGui::Button("Atlas Texture " ICON_FA_PICTURE_O, {150, 30}))
         {
             SpriteEditor* spriteEditor = static_cast<SpriteEditor*>(CEditorMgr::GetInst()->FindEditorUI("SpriteEditor"));
             spriteEditor->SetAtlas(curSprite->GetAtlasTexture());
             spriteEditor->SetActive(true);
         }
 
-        ImGui::SameLine(440);
+        ImGui::SameLine(560);
         if (ImGui::Button(ICON_FA_FLOPPY_O, { 30, 30 }))
         {
             const wstring& contentPath = CPathMgr::GetInst()->GetContentPath();

@@ -119,6 +119,7 @@ void CAssetMgr::CreateEngineTexture()
 	Load<CTexture>(L"noise_03", L"texture\\noise\\noise_03.jpg");
 	Load<CTexture>(L"ComponentIcons", L"texture\\ComponentIcons.png");
 	Load<CTexture>(L"ScriptIcon", L"texture\\ScriptIcon.png");
+	Load<CTexture>(L"Modot_Logo", L"texture\\Modot_Logo.png");
 }
 
 void CAssetMgr::CreateEngineSprite()
@@ -159,9 +160,11 @@ void CAssetMgr::CreateEngineSprite()
 	pAnimation->Load(L"animation\\Cath_Idle.anim");
 	AddAsset(L"Cath_Idle", pAnimation);
 
-	Ptr<CTexture> LogoTex = new CTexture;
-	LogoTex->Load(strSolutionPath + L"Modot_Logo.png");
-	AddAsset(L"Modot_Logo", LogoTex);
+
+	Ptr<CTexture> checkerboard = Load<CTexture>(L"Checkerboard", L"texture\\Checkerboard.png");
+	Ptr<CSprite> defaultSprite = new CSprite;
+	defaultSprite->Create(checkerboard, {0, 0}, {checkerboard->GetDesc().Width, checkerboard->GetDesc().Height});
+	AddAsset(L"DefaultSprite", defaultSprite);
 }
 
 void CAssetMgr::CreateEngineGraphicShader()
