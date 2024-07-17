@@ -10,6 +10,7 @@
 
 #include "CEditorMgr.h"
 #include "Inspector.h"
+#include "SpriteEditor.h"
 MenuUI::MenuUI()
 {
 }
@@ -166,6 +167,11 @@ void MenuUI::Assets()
 			pMtrl->Save(Key);
 		}
 
+		if (ImGui::MenuItem("Sprite Editor"))
+		{
+			SpriteEditor* spriteEditor = static_cast<SpriteEditor*>(CEditorMgr::GetInst()->FindEditorUI("SpriteEditor"));
+			spriteEditor->SetActive(true);
+		}
 		ImGui::EndMenu();
 	}
 }
