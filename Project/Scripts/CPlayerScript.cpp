@@ -6,7 +6,6 @@ CPlayerScript::CPlayerScript()
 	, m_Speed(400.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "PlayerSpeed", &m_Speed);
-	AddScriptParam(SCRIPT_PARAM::TEXTURE, "Test", &m_Texture);
 }
 
 CPlayerScript::~CPlayerScript()
@@ -24,16 +23,14 @@ void CPlayerScript::Tick()
 
 	if (KEY_PRESSED(KEY::LEFT))
 	{
-		vPos.x -= DT * m_Speed;
+		RigidBody()->AddForce(Vec2(-3000.f, 0.f));
 	}
 
 	if (KEY_PRESSED(KEY::RIGHT))
 	{
-		vPos.x += DT * m_Speed;
+		RigidBody()->AddForce(Vec2(3000.f, 0.f));
 	}
 
-	if (KEY_PRESSED(KEY::SPACE))
-		DrawDebugCircle(Transform()->GetRelativePos(), Transform()->GetRelativeScale().x / 2, Vec4(0.f, 1.0f, 0.f, 1.f), 1.f, false);
 	if (KEY_PRESSED(KEY::Z))
 	{
 		Vec3 vRot = Transform()->GetRelativeRoatation();
@@ -41,5 +38,34 @@ void CPlayerScript::Tick()
 		Transform()->SetRelativeRotation(vRot);
 	}
 
+	if (RigidBody()->IsGround())
+	{
+		if (KEY_TAP(KEY::SPACE))
+		{
+			RigidBody()->SetGravityAccel(2500.f);
+
+			Vec2 vCurVel = RigidBody()->GetVelocity();
+			Transform()->SetRelativePos(Transform()->GetRelativePos().x, Transform()->GetRelativePos().y - 10.f, Transform()->GetRelativePos().z);
+			RigidBody()->SetVelocity(Vec2(vCurVel.x, 1000.f));
+			RigidBody()->SetGround(false);
+		}
+	}
+
 	Transform()->SetRelativePos(vPos);
+}
+
+void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
+{
+	RigidBody()->SetGround(true);
+	MD_ENGINE_TRACE("Ground");
+}
+
+void CPlayerScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
+{
+}
+
+void CPlayerScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
+{
+	RigidBody()->SetGround(false);
+	MD_ENGINE_TRACE("Airborne");
 }

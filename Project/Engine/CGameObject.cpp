@@ -98,7 +98,9 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 	case COMPONENT_TYPE::COLLIDER2D:
 	{
 		CCollider2D* collider = new CCollider2D;
+		collider->SetScale(Vec3{ 1.0f, 1.0f, 1.0f });
 		AddComponent(collider);
+		CLevelMgr::GetInst()->SetLevelDirty();
 		return;
 	}
 	case COMPONENT_TYPE::COLLIDER3D:
@@ -107,12 +109,14 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 	{
 		CTileMap* tilemap = new CTileMap;
 		AddComponent(tilemap);
+		CLevelMgr::GetInst()->SetLevelDirty();
 		return;
 	}
 	case COMPONENT_TYPE::LIGHT2D:
 	{
 		CLight2D* light2d = new CLight2D;
 		AddComponent(light2d);
+		CLevelMgr::GetInst()->SetLevelDirty();
 		return;
 	}
 	case COMPONENT_TYPE::LIGHT3D:
@@ -121,6 +125,7 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 	{
 		CAnimator2D* animator2d = new CAnimator2D;
 		AddComponent(animator2d);
+		CLevelMgr::GetInst()->SetLevelDirty();
 		return;
 	}
 	case COMPONENT_TYPE::ANIMATOR3D:
@@ -131,12 +136,14 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 	{
 		CRigidBody* rigidBody = new CRigidBody;
 		AddComponent(rigidBody);
+		CLevelMgr::GetInst()->SetLevelDirty();
 		return;
 	}
 	case COMPONENT_TYPE::CAMERA:
 	{
 		CCamera* camera = new CCamera;
 		AddComponent(camera);
+		CLevelMgr::GetInst()->SetLevelDirty();
 		return;
 	}
 

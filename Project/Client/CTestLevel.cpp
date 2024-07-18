@@ -67,6 +67,7 @@ void CTestLevel::CreateTestLevel()
 	pPlayer->AddComponent(new CMeshRender);
 	pPlayer->AddComponent(new CCollider2D);
 	pPlayer->AddComponent(new CAnimator2D);
+	pPlayer->AddComponent(new CRigidBody);
 	pPlayer->AddComponent(new CPlayerScript);
 	pPlayer->Transform()->SetRelativePos(0.f, 0.f, 0.f);
 	pPlayer->Transform()->SetRelativeScale(200.f, 200.f, 1.f);
@@ -106,6 +107,15 @@ void CTestLevel::CreateTestLevel()
 
 	pLevel->AddObject(0, pGrayFilterObj);
 
+	CGameObject* pGroundObj = new CGameObject;
+	pGroundObj->SetName(L"Ground");
+	pGroundObj->AddComponent(new CTransform);
+	pGroundObj->AddComponent(new CCollider2D);
+	pGroundObj->Transform()->SetRelativePos({ 0.0f, -300.0f, 0.0f });
+	pGroundObj->Transform()->SetRelativeScale({ 200.0f, 20.0f, 1.0f });
+	pGroundObj->Collider2D()->SetScale({ 1.0f, 1.0f, 1.0f });
+
+	pLevel->AddObject(4, pGroundObj);
 	// 충돌 지정
 	CCollisionMgr::GetInst()->CollisionCheck(3, 4); // Player | Monster
 

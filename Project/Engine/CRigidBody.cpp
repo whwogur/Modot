@@ -11,7 +11,8 @@ CRigidBody::CRigidBody()
 	, m_MaxGravityVel(800.f)
 	, m_GravityAccel(2500.f)
 	, m_Ground(false)
-	, m_GrndDir{ 1,0 }
+	, m_Force{0, 0}
+	//, m_GrndDir{ 1,0 }
 {
 }
 
@@ -21,28 +22,20 @@ void CRigidBody::FinalTick()
 	Vec2 vAccel = m_Force / m_Mass;		// 더해진 힘과 무게로 가속도를 구한다.
 	m_Velocity += vAccel * DT;				// 가속도를 이용해서 속도를 증가시킴
 
-
+	//MD_ENGINE_TRACE("{0}, {1}", vAccel.x, vAccel.y);
 	// 땅에 있을 때
 	if (m_Ground)
 	{
-		m_Friction = 1.f;
-
-		Vec2 vSlope = m_GrndDir;
-
-
-		if (m_Velocity.x < 0)
-			vSlope *= -1.f;
-
-		m_Velocity = vSlope * (m_Velocity.Length());
+		m_Friction = 2500.f;
 
 		Vec2 vFriction = -m_Velocity;
 		// 마찰 가속도
-		if (vFriction.x != 0.0f && vFriction.y != 0.0f)
+		if (!(vFriction.x == 0.0f && vFriction.y == 0.0f))
 		{
 			vFriction.Normalize();
 			vFriction *= m_Friction * m_FrictionScale * m_Mass * DT;
 		}
-
+		//MD_ENGINE_TRACE("{0:.1f},{1:.1f}", m_Velocity.Length(), vFriction.Length());
 		// 속도 감소량(마찰력에 의한) 이 기존 속도를 넘어 설 경우, 완전 제로로 만든다.
 		if (m_Velocity.Length() <= vFriction.Length())
 		{
@@ -50,7 +43,7 @@ void CRigidBody::FinalTick()
 		}
 		else
 		{
-			// 현재 속도 반대방향으로 마찰의 의한 속도 감소
+			// 현재 속도 반대방향으로 마찰에 의한 속도 감소
 			m_Velocity += vFriction;
 		}
 	}
@@ -96,6 +89,7 @@ void CRigidBody::FinalTick()
 		m_Velocity.y = (m_Velocity.y / fabsf(m_Velocity.y)) * m_MaxGravityVel;
 	}
 
+	//MD_ENGINE_TRACE("{0:.1f},{1:.1f}", m_Velocity.x, m_Velocity.y);
 	Vec3& vTrans = Transform()->GetRelativePosRef();
 	vTrans += {m_Velocity.x * DT, m_Velocity.y * DT, 0.0f};
 

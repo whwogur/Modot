@@ -16,9 +16,7 @@ public:
     void SetMaxGravityVel(float _Vel) { m_MaxGravityVel = _Vel; }
 
     void SetVelocity(Vec2 _Velocity) { m_Velocity = _Velocity; }
-    Vec2 GetVelocity() { return m_Velocity; }
-
-    void SetCurGroundDir(Vec2 _Dir) { m_GrndDir = _Dir; }
+    Vec2 GetVelocity() const { return m_Velocity; }
 
     void AddVelocity(Vec2 _AddV) { m_Velocity += _AddV; }
 
@@ -35,7 +33,7 @@ public:
         }
     }
 
-    bool IsGround() { return m_Ground; }
+    bool IsGround()const { return m_Ground; }
 
 public:
     float& GetMassRef() { return m_Mass; }
@@ -58,7 +56,5 @@ private:
 
     float   m_GravityAccel;    // 중력 가속도 설정
     bool    m_Ground;          // 땅 체크
-
-    Vec2    m_GrndDir;         // 땅에서 라인이동방향
 };
 
