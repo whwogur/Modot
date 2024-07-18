@@ -15,6 +15,30 @@ CAnimator2D::CAnimator2D()
 {
 }
 
+CAnimator2D::CAnimator2D(const CAnimator2D& _Other)
+	: CComponent(_Other)
+	, m_vecAnimation(_Other.m_vecAnimation)
+	, m_CurAnimation(_Other.m_CurAnimation)
+	, m_CurFrmSprite(nullptr)
+	, m_CurFrmIdx(0)
+	, m_FPS(_Other.m_FPS)
+	, m_AccTime(0.0f)
+	, m_Repeat(_Other.m_Repeat)
+	, m_Finish(false)
+{
+	if (m_CurAnimation != nullptr)
+	{
+		UINT AnimIdx = 0;
+		for (; AnimIdx < (int)m_vecAnimation.size(); ++AnimIdx)
+		{
+			if (m_CurAnimation == m_vecAnimation[AnimIdx])
+				break;
+		}
+
+		Play(AnimIdx, m_FPS, m_Repeat);
+	}
+}
+
 void CAnimator2D::FinalTick()
 {
 	if (m_Finish)

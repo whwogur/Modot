@@ -17,6 +17,8 @@ class CTileMap :
 public:
     CTileMap();
     ~CTileMap() = default;
+    CTileMap(const CTileMap& _Other);
+    CLONE(CTileMap);
 public:
     void SetRowCol(UINT _Row, UINT _Col);
     void SetTileSize(Vec2 _Size);

@@ -8,7 +8,7 @@ class CStructuredBuffer :
 public:
     CStructuredBuffer();
     ~CStructuredBuffer();
-
+    CLONE(CStructuredBuffer);
 public:
     UINT GetElementCount() { return m_ElementCount; }
     UINT GetElementSize() { return m_ElementSize; }

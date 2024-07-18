@@ -14,6 +14,16 @@ CCollider2D::~CCollider2D()
 {
 }
 
+CCollider2D::CCollider2D(const CCollider2D& _Other)
+	: CComponent(_Other)
+	, m_Offset(_Other.m_Offset)
+	, m_Scale(_Other.m_Scale)
+	, m_matColWorld{}
+	, m_OverlapCount(0)
+	, m_IndependentScale(_Other.m_IndependentScale)
+{
+}
+
 void CCollider2D::FinalTick()
 {
 	Matrix matTranslation = XMMatrixTranslation(m_Offset.x, m_Offset.y, m_Offset.z);

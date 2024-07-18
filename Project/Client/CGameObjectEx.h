@@ -5,6 +5,8 @@ class CGameObjectEx :
     public CGameObject
 {
 public:
+    CLONE(CGameObjectEx);
+public:
     virtual void FinalTick() override;
 };
 

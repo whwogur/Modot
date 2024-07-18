@@ -20,6 +20,17 @@ CLevel::~CLevel()
 	Delete_Array(m_Layer);
 }
 
+CLevel::CLevel(const CLevel& _Other)
+	: CEntity(_Other)
+	, m_Layer{}
+	, m_State(LEVEL_STATE::STOP)
+{
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		m_Layer[i] = _Other.m_Layer[i]->Clone();
+	}
+}
+
 void CLevel::Begin()
 {
 	for (int i = 0; i < MAX_LAYER; ++i)

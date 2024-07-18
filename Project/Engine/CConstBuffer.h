@@ -7,7 +7,7 @@ class CConstBuffer :
 public:
     CConstBuffer();
     ~CConstBuffer();
-
+    CLONE(CConstBuffer);
 public:
     int Create(CB_TYPE _type, UINT _BufferSize);
 

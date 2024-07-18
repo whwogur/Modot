@@ -24,6 +24,33 @@ CGameObject::~CGameObject()
 	Delete_Vec(m_vecChildren);
 }
 
+CGameObject::CGameObject(const CGameObject& _Other)
+	: CEntity(_Other)
+	, m_arrCom{}
+	, m_RenderCom(nullptr)
+	, m_Parent(nullptr)
+	, m_LayerIdx(_Other.m_LayerIdx)
+	, m_Dead(false)
+{
+	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
+	{
+		if (_Other.m_arrCom[i] == nullptr)
+			continue;
+
+		AddComponent(_Other.m_arrCom[i]->Clone());
+	}
+
+	for (auto script : _Other.m_vecScript)
+	{
+		AddComponent(script->Clone());
+	}
+
+	for (auto child : _Other.m_vecChildren)
+	{
+		AddChild(child->Clone());
+	}
+}
+
 void CGameObject::AddComponent(CComponent* _Component)
 {
 	COMPONENT_TYPE Type = _Component->GetComponentType();

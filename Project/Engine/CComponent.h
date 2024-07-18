@@ -9,8 +9,9 @@ class CComponent :
     friend class CGameObject;
 public:
     CComponent(COMPONENT_TYPE _Type);
+    CComponent(const CComponent& _Other);
     virtual ~CComponent() = default;
-
+    virtual CComponent* Clone() = 0;
 public:
     COMPONENT_TYPE GetComponentType() { return m_Type; }
     CGameObject* GetOwner() { return m_Owner; }

@@ -107,21 +107,11 @@ void MenuUI::Level()
 	ImGui::PushFont(iconFont);
 	if (ImGui::BeginMenu(ICON_FA_FILE_VIDEO_O " Level"))
 	{
-		if (ImGui::MenuItem("Play"))
+		if (ImGui::MenuItem("Tilemap Editor"))
 		{
-
+			
 		}
 
-
-		if (ImGui::MenuItem("Pause"))
-		{
-
-		}
-
-		if (ImGui::MenuItem("Stop"))
-		{
-
-		}
 
 		ImGui::EndMenu();
 	}

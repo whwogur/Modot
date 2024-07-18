@@ -7,11 +7,12 @@ class CPlayerScript :
 public:
     CPlayerScript();
     ~CPlayerScript();
-
+    CLONE(CPlayerScript);
 public:
     virtual void Begin() override;
     virtual void Tick() override;
     // virtual void BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) override;
 private:
-    float   m_Speed;
+    float           m_Speed;
+    Ptr<CTexture>   m_Texture;
 };

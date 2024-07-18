@@ -8,7 +8,7 @@ class CTransform :
 public:
     CTransform();
     ~CTransform();
-
+    CLONE(CTransform);
 public:
     virtual void FinalTick() override;
     void Bind();

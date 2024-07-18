@@ -9,6 +9,25 @@ CRenderComponent::CRenderComponent(COMPONENT_TYPE _Type)
 {
 }
 
+CRenderComponent::CRenderComponent(const CRenderComponent& _Other)
+	: CComponent(_Other)
+	, m_Mesh(_Other.m_Mesh)
+	, m_Mtrl(_Other.m_Mtrl)
+	, m_SharedMtrl(_Other.m_Mtrl)
+{
+	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+	if (pCurLevel != nullptr)
+	{
+		MD_ENGINE_ASSERT(!(pCurLevel->GetState() != LEVEL_STATE::PLAY
+			&& _Other.m_DynamicMtrl.Get() != nullptr), L"렌더 컴포넌트 복사생성자 오류");
+	}
+
+	if (_Other.m_DynamicMtrl.Get() != nullptr)
+	{
+		GetDynamicMaterial();
+	}
+}
+
 CRenderComponent::~CRenderComponent()
 {
 }

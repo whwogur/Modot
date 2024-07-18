@@ -31,6 +31,7 @@ void AnimationUI::Update()
 		editor->Refresh();
 		editor->SetActive(true);
 	}
+	ImGui::SetItemTooltip(u8"애니메이션 에디터를 엽니다");
 
 	const vector<Ptr<CSprite>>& vecSprites = anim->GetSpritesCRef();
 

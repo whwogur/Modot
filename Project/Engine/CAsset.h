@@ -11,7 +11,7 @@ public:
     CAsset(ASSET_TYPE _Type);
     CAsset(const CAsset& _Other);
     virtual ~CAsset() = default;
-
+    CLONE_DISABLE(CAsset);
 public:
     ASSET_TYPE GetAssetType() { return m_Type; }
     const wstring& GetKey() { return m_Key; }

@@ -5,10 +5,10 @@ class CCollider2D :
     public CComponent
 {
 public:
-    CLONE(CCollider2D);
     CCollider2D();
     ~CCollider2D();
-
+    CCollider2D(const CCollider2D& _Other);
+    CLONE(CCollider2D);
 public:
     void SetOffset(Vec3 _Offset) { m_Offset = _Offset; }
     void SetScale(Vec3 _Scale) { m_Scale = _Scale; }

@@ -14,6 +14,7 @@ class CCamera :
 public:
     CCamera();
     ~CCamera();
+    CLONE(CCamera);
 public:
     void SetPriority(int _Priority) { m_Priority = _Priority; }
     void SetLayer(UINT _LayerIdx, bool _bCheck)

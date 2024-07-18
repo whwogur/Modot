@@ -5,6 +5,8 @@ CPlayerScript::CPlayerScript()
 	: CScript(UINT(SCRIPT_TYPE::PLAYERSCRIPT))
 	, m_Speed(400.f)
 {
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "PlayerSpeed", &m_Speed);
+	AddScriptParam(SCRIPT_PARAM::TEXTURE, "Test", &m_Texture);
 }
 
 CPlayerScript::~CPlayerScript()

@@ -7,7 +7,7 @@ class CLight2D :
 public:
     CLight2D();
     ~CLight2D();
-
+    CLONE(CLight2D);
 public:
     void SetLightType(LIGHT_TYPE _Type);
     void SetRadius(float _Radius) { m_Info.Radius = _Radius; }
@@ -22,7 +22,6 @@ public:
     Vec3 GetLightColor() { return m_Info.light.Color; }
     Vec3 GetLightAmbient() { return m_Info.light.Ambient; }
 
-    const tLightInfo& GetLightInfoCRef() { return m_Info; }
     tLightInfo& GetLightInfoRef() { return m_Info; }
 
 public:

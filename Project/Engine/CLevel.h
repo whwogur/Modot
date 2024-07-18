@@ -9,7 +9,8 @@ class CLevel :
 public:
     CLevel();
     ~CLevel();
-
+    CLevel(const CLevel& _Other);
+    CLONE(CLevel);
 public:
     void Begin();
     void Tick();

@@ -18,6 +18,23 @@ CTileMap::CTileMap()
 	m_Buffer = std::make_shared<CStructuredBuffer>();
 }
 
+CTileMap::CTileMap(const CTileMap& _Other)
+	: CRenderComponent(_Other)
+	, m_Row(_Other.m_Row)
+	, m_Col(_Other.m_Col)
+	, m_TileSize(_Other.m_TileSize)
+	, m_TileAtlas(_Other.m_TileAtlas)
+	, m_AtlasResolution(_Other.m_AtlasResolution)
+	, m_AtlasTileSize(_Other.m_AtlasTileSize)
+	, m_AtlasTileSliceUV(_Other.m_AtlasTileSliceUV)
+	, m_AtlasMaxRow(_Other.m_AtlasMaxRow)
+	, m_vecTileInfo(_Other.m_vecTileInfo)
+	, m_Buffer(nullptr)
+{
+	m_Buffer = std::make_shared<CStructuredBuffer>();
+	SetRowCol(m_Row, m_Col);
+}
+
 void CTileMap::FinalTick()
 {
 }

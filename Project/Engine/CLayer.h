@@ -8,7 +8,10 @@ class CLayer :
 {
 public:
     CLayer(int _LayerIdx);
+    CLayer(const CLayer& _Other);
     ~CLayer();
+    CLONE(CLayer);
+public:
     int GetLayerIdx() { return m_LayerIdx; }
 
     void AddObject(CGameObject* _Object, bool _bMoveChildTogether);

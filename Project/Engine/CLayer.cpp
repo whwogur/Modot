@@ -13,6 +13,16 @@ CLayer::~CLayer()
 	Delete_Vec(m_Parents);
 }
 
+CLayer::CLayer(const CLayer& _Other)
+	: CEntity(_Other)
+	, m_LayerIdx(_Other.m_LayerIdx)
+{
+	for (auto parent : _Other.m_Parents)
+	{
+		AddObject(parent->Clone(), false);
+	}
+}
+
 void CLayer::Begin()
 {
 	for (size_t i = 0; i < m_Parents.size(); ++i)

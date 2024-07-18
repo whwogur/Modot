@@ -13,7 +13,8 @@ class CGameObject :
 public:
     CGameObject();
     virtual ~CGameObject();
-
+    CGameObject(const CGameObject& _Other);
+    CLONE(CGameObject);
 public:
     void AddComponent(CComponent* _Comopnent);
     void AddComponentViaUI(COMPONENT_TYPE _Type);

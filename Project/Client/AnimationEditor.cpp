@@ -97,10 +97,13 @@ void AnimationEditor::Update()
             ImGui::SameLine(vecOffset);
             ImGui::Image(sprite->GetAtlasTexture()->GetSRV().Get(), { 40, 50 }, { tempLT.x, tempLT.y }, { tempLT.x + tempRB.x, tempLT.y + tempRB.y}, { 1, 1, 1, 1 }, { 0.0f, 1.0f, 1.0f, 1.0f });
             vecOffset += 50;
+            if (vecOffset > 640)
+            {
+                vecOffset = 10;
+                ImGui::NewLine();
+            }
         }
 
-
-        ImGui::NewLine();
         ImGui::SameLine(700);
         ImGui::Image(curSprite->GetAtlasTexture().Get()->GetSRV().Get(), { 150, 150 }, { LeftTop.x, LeftTop.y }, { LeftTop.x + Slice.x, LeftTop.y + Slice.y });
 
