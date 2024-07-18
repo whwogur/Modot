@@ -77,12 +77,6 @@ void AnimationEditor::Update()
             const wstring& contentPath = CPathMgr::GetInst()->GetContentPath();
             wstring savePath = contentPath + L"animation\\" + m_Animation->GetKey();
             m_Animation->Save(savePath);
-
-            for (auto sprite : vecSprite)
-            {
-                wstring spriteKey = sprite->GetKey() + L".sprite";
-                sprite->Save(L"sprite\\" + spriteKey);
-            }
         }
         ImGui::SetItemTooltip(u8"애니메이션을 저장합니다");
 
@@ -90,12 +84,18 @@ void AnimationEditor::Update()
         ImGui::NewLine();
 
         int vecOffset = 10;
-        for (auto sprite : vecSprite)
+        
+        for (size_t i = 0; i < vecSprite.size(); ++i)
         {
-            Vec2 tempLT = sprite->GetLeftTopUV();
-            Vec2 tempRB = sprite->GetSliceUV();
+            Vec2 tempLT = vecSprite[i]->GetLeftTopUV();
+            Vec2 tempRB = vecSprite[i]->GetSliceUV();
             ImGui::SameLine(vecOffset);
-            ImGui::Image(sprite->GetAtlasTexture()->GetSRV().Get(), { 40, 50 }, { tempLT.x, tempLT.y }, { tempLT.x + tempRB.x, tempLT.y + tempRB.y}, { 1, 1, 1, 1 }, { 0.0f, 1.0f, 1.0f, 1.0f });
+            if (ImGui::ImageButton(vecSprite[i]->GetAtlasTexture()->GetSRV().Get(), {40, 50}, {tempLT.x, tempLT.y}, {tempLT.x + tempRB.x, tempLT.y + tempRB.y}, -1, {0, 0, 0, 0}, {1, 1, 1, 1}))
+            {
+                vecSprite.erase(vecSprite.begin() + i);
+            }
+            ImGui::SetItemTooltip(u8"스프라이트 제거");
+
             vecOffset += 50;
             if (vecOffset > 640)
             {
@@ -173,7 +173,7 @@ void AnimationEditor::Update()
         if (ImGui::Button(ICON_FA_PENCIL_SQUARE_O, { 30, 30 }))
         {
         }
-
+       
         ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, u8"애니메이션을 선택해주세요!!!");
         ImGui::PopStyleColor(3);
     }
