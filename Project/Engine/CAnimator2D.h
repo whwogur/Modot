@@ -20,6 +20,8 @@ public:
     void Play(int _AnimationIdx, float _FPS, bool _Repeat);
     Ptr<CSprite> GetCurSprite() { return m_CurFrmSprite; }
     vector<Ptr<CAnimation>>& GetAnimationsRef() { return m_vecAnimation; }
+    float& GetFPSRef() { return m_FPS; }
+    bool& GetRepeatRef() { return m_Repeat; }
 
     void Reset();
     void Bind();

@@ -8,6 +8,7 @@
 #include <Engine/CLevel.h>
 #include <Engine/CLayer.h>
 #include <Engine/CGameObject.h>
+#include <Engine/CTransform.h>
 HierarchyView::HierarchyView()
 {
 	m_Tree = new TreeUI;
@@ -42,6 +43,23 @@ void HierarchyView::Update()
 {
 	if (CLevelMgr::GetInst()->IsDirty())
 		RefreshLevel();
+
+	if (ImGui::BeginPopupContextWindow(0, 1 | ImGuiPopupFlags_NoOpenOverItems))
+	{
+		if (ImGui::MenuItem(u8"새 오브젝트"))
+		{
+			CGameObject* pGameObject = new CGameObject;
+			pGameObject->SetName(L"NewObject");
+			pGameObject->AddComponent(new CTransform);
+			pGameObject->Transform()->SetRelativePos(0.f, 0.f, 0.f);
+			pGameObject->Transform()->SetRelativeScale(200.f, 200.f, 1.f);
+			CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(0, pGameObject);
+			RefreshLevel();
+		}
+
+		ImGui::EndPopup();
+	}
+
 }
 
 void HierarchyView::RefreshLevel()

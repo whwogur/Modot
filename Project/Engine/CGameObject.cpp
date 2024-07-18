@@ -137,7 +137,12 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 	}
 
 	case COMPONENT_TYPE::MESHRENDER:
-		break;
+	{
+		CMeshRender* meshRender = new CMeshRender;
+		AddComponent(meshRender);
+		CLevelMgr::GetInst()->SetLevelDirty();
+		return;
+	}
 	case COMPONENT_TYPE::PARTICLE_SYSTEM:
 		break;
 	case COMPONENT_TYPE::DECAl:

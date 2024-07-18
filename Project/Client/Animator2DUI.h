@@ -9,5 +9,9 @@ public:
 
 private:
     virtual void Update() override;
+
+private:
+    int     m_AnimIndex = -1;
+    string  m_AnimTitle = {};
 };
 

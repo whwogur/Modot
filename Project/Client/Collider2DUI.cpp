@@ -13,4 +13,5 @@ Collider2DUI::~Collider2DUI()
 
 void Collider2DUI::Update()
 {
+	Title();
 }
