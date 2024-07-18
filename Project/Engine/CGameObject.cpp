@@ -128,7 +128,11 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 	case COMPONENT_TYPE::STATE_MACHINE:
 		break;
 	case COMPONENT_TYPE::RIGIDBODY:
-		break;
+	{
+		CRigidBody* rigidBody = new CRigidBody;
+		AddComponent(rigidBody);
+		return;
+	}
 	case COMPONENT_TYPE::CAMERA:
 	{
 		CCamera* camera = new CCamera;
@@ -153,7 +157,7 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 		break;
 
 	}
-	MD_ENGINE_ASSERT(nullptr, L"add Component via UI 에러");
+	MD_ENGINE_ASSERT(nullptr, L"아직 구현하지 않은 컴포넌트");
 }
 
 void CGameObject::AddChild(CGameObject* _ChildObject)

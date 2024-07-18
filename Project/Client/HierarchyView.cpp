@@ -62,14 +62,12 @@ void HierarchyView::Update()
 
 }
 
+// 트리 초기화 후 루트부터 전부 재구성
 void HierarchyView::RefreshLevel()
 {
-	// 모든 내용 삭제
 	m_Tree->Clear();
 
-	// 루트노드 생성
 	TreeNode* pRootNode = m_Tree->AddNode(nullptr, "Root", 0);
-
 
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurrentLevel();
 	if (nullptr == pLevel)
@@ -102,6 +100,10 @@ void HierarchyView::AddGameObject(TreeNode* pNode, CGameObject* _Object)
 	}
 }
 
+/* 
+ * Drag 오브젝트를 Drop 오브젝트의 자식으로 넣어준다.
+ * 자식으로 들어갈 오브젝트가 부모(조상) 중 하나였다면 무시한다.
+ */
 void HierarchyView::GameObjectAddChild(DWORD_PTR _Param1, DWORD_PTR _Param2)
 {
 	TreeNode* pDragNode = (TreeNode*)_Param1;
@@ -110,12 +112,10 @@ void HierarchyView::GameObjectAddChild(DWORD_PTR _Param1, DWORD_PTR _Param2)
 	CGameObject* pDragObject = (CGameObject*)pDragNode->GetData();
 	CGameObject* pDropObject = nullptr;
 
-	// Drag 오브젝트를 Drop 오브젝트의 자식으로 넣어준다.
 	if (pDropNode)
 	{
 		pDropObject = (CGameObject*)pDropNode->GetData();
 
-		// 자식으로 들어갈 오브젝트가 부모(조상) 중 하나였다면 무시한다.
 		if (pDropObject->IsAncestor(pDragObject))
 			return;
 

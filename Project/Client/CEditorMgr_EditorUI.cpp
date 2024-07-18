@@ -7,16 +7,17 @@
 #include "ImGui/imgui_impl_win32.h"
 #include <Engine/CDevice.h>
 
-#include "ParamUI.h"
+#include "CAssetMgr.h"
+#include "CPathMgr.h"
+
 #include "Inspector.h"
+#include "ParamUI.h"
+#include "MenuUI.h"
+#include "ListUI.h"
 #include "Content.h"
 #include "HierarchyView.h"
-#include "CAssetMgr.h"
-#include "ListUI.h"
 #include "FileBrowser.h"
-#include "MenuUI.h"
 #include "AnimationEditor.h"
-#include "CPathMgr.h"
 #include "SpriteEditor.h"
 
 void CEditorMgr::InitImGui()
@@ -46,7 +47,6 @@ void CEditorMgr::InitImGui()
     //io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleFonts;     // FIXME-DPI: Experimental. THIS CURRENTLY DOESN'T WORK AS EXPECTED. DON'T USE IN USER APP!
     //io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleViewports; // FIXME-DPI: Experimental.
 
-    // Setup Dear ImGui style
     SetThemeUnrealEngine();
     //SetThemeFutureDark();
 

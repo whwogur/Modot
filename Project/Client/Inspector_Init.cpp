@@ -15,6 +15,7 @@
 #include "Animator2DUI.h"
 #include "TileMapUI.h"
 #include "ParticleSystemUI.h"
+#include "RigidBodyUI.h"
 
 #include "MeshUI.h"
 #include "MeshDataUI.h"
@@ -48,7 +49,7 @@ void Inspector::CreateComponentUI()
 {
 	m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM] = new TransformUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM]->SetName("TransformUI");
-	m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM]->SetChildSize(ImVec2(0.f, 165.f));
+	m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM]->SetChildSize(ImVec2(0.f, 145.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::TRANSFORM]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::COLLIDER2D] = new Collider2DUI;
@@ -68,7 +69,7 @@ void Inspector::CreateComponentUI()
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D] = new Animator2DUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]->SetName("Animator2DUI");
-	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]->SetChildSize(ImVec2(0.f, 210.f));
+	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]->SetChildSize(ImVec2(0.f, 190.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR2D]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::MESHRENDER] = new MeshRenderUI;
@@ -85,6 +86,11 @@ void Inspector::CreateComponentUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLE_SYSTEM]->SetName("ParticleSystemUI");
 	m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLE_SYSTEM]->SetChildSize(ImVec2(0.f, 100.f));
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLE_SYSTEM]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY] = new RigidBodyUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]->SetName("RigidBodyUI");
+	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]->SetChildSize(ImVec2(0.f, 170.f));
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]);
 }
 
 void Inspector::CreateScriptUI(UINT _Count)

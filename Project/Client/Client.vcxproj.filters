@@ -190,6 +190,9 @@
     <ClInclude Include="ScriptUI.h">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
+    <ClInclude Include="RigidBodyUI.h">
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -350,6 +353,9 @@
       <Filter>Editor\EditorUI\Modal</Filter>
     </ClCompile>
     <ClCompile Include="ScriptUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBodyUI.cpp">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
   </ItemGroup>
