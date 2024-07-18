@@ -20,6 +20,10 @@ public:
     const Matrix& GetWorldMat() { return m_matColWorld; }
     int GetOverlapCount() { return m_OverlapCount; }
 
+    Vec3& GetOffsetRef() { return m_Offset; }
+    Vec3& GetScaleRef() { return m_Scale; }
+    bool& GetIndependetScaleRef() { return m_IndependentScale; }
+
 public:
     virtual void BeginOverlap(CCollider2D* _Other);
     virtual void Overlap(CCollider2D* _Other);
