@@ -115,6 +115,9 @@ void SpriteEditor::Update()
 				m_MouseStart = curMousePos;
 				auto [winPosX, winPosY] = ImGui::GetWindowPos();
 				m_UVStart = ImVec2(ImGui::GetMousePos().x - winPosX - m_ImagePos.x, ImGui::GetMousePos().y - winPosY - m_ImagePos.y);
+				m_UVStart.x += ImGui::GetScrollX();
+				m_UVStart.y += ImGui::GetScrollY();
+
 				m_UVStart.x = std::round(m_UVStart.x / m_SpriteSize);
 				m_UVStart.y = std::round(m_UVStart.y / m_SpriteSize);
 			}
