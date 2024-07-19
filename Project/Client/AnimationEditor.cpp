@@ -86,6 +86,8 @@ void AnimationEditor::Update()
                 wstring wstrPath(strPath.begin(), strPath.end());
 
                 m_Animation->Save(L"animation\\" + wstrPath);
+                std::filesystem::path fileName = static_cast<std::filesystem::path>(wstrPath).stem();
+                CAssetMgr::GetInst()->Load<CAnimation>(fileName, L"animation\\" + wstrPath);
             }
         }
         ImGui::SetItemTooltip(u8"애니메이션을 저장합니다");
@@ -105,9 +107,8 @@ void AnimationEditor::Update()
             m_Animation = temp;
             Refresh();
         }
-        // 스프라이트 벡터
-        ImGui::NewLine();
 
+        ImGui::NewLine();
         int vecOffset = 10;
         
         for (size_t i = 0; i < vecSprite.size(); ++i)

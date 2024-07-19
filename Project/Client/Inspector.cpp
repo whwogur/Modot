@@ -28,6 +28,13 @@ void Inspector::SetTargetObject(CGameObject* _Object)
 {
 	m_TargetObject = _Object;
 	CEditorMgr::GetInst()->SetTargetObject(_Object);
+	
+	if (_Object != nullptr)
+	{
+		string getName(_Object->GetName().begin(), _Object->GetName().end());
+		strcpy_s<sizeof(m_Namebuffer)>(m_Namebuffer, getName.c_str());
+	}
+	
 
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
@@ -93,12 +100,12 @@ void Inspector::Update()
 	// ===========
 	// Object Name
 	// ===========
-	string strObjectName = string(m_TargetObject->GetName().begin(), m_TargetObject->GetName().end());
 	ImGui::Text("Object Name");
 	ImGui::SameLine(100);
-	if (ImGui::InputText("##ObjectName", (char*)strObjectName.c_str(), 255, ImGuiInputTextFlags_EnterReturnsTrue))
+	if (ImGui::InputText("##ObjectName", m_Namebuffer, 255, ImGuiInputTextFlags_EnterReturnsTrue))
 	{
-		m_TargetObject->SetName(wstring(strObjectName.begin(), strObjectName.end()));
+		string newName(m_Namebuffer);
+		m_TargetObject->SetName(wstring(newName.begin(), newName.end()));
 		CLevelMgr::GetInst()->SetLevelDirty();
 	}
 

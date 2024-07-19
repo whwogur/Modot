@@ -34,4 +34,5 @@ private:
     Ptr<CAsset>                 m_TargetAsset;
     Ptr<CTexture>               m_IconTexture;
     AssetUI*                    m_arrAssetUI[(UINT)ASSET_TYPE::END];
+    char                        m_Namebuffer[255] = {};
 };
