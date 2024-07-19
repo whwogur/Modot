@@ -74,12 +74,25 @@ void AnimationEditor::Update()
         ImGui::SameLine(160);
         if (ImGui::Button(ICON_FA_FLOPPY_O, { 30, 30 }))
         {
-            const wstring& contentPath = CPathMgr::GetInst()->GetContentPath();
-            wstring savePath = contentPath + L"animation\\" + m_Animation->GetKey();
-            m_Animation->Save(savePath);
+            if (strlen(m_AnimName) < 1)
+            {
+                wstring savePath = L"animation\\" + m_Animation->GetKey();
+                m_Animation->Save(savePath);
+            }
+            else
+            {
+                string strPath(m_AnimName);
+                strPath += ".anim";
+                wstring wstrPath(strPath.begin(), strPath.end());
+                m_Animation->Save(L"animation\\" + wstrPath);
+            }
         }
         ImGui::SetItemTooltip(u8"애니메이션을 저장합니다");
 
+        ImGui::SameLine(210);
+        ImGui::SetNextItemWidth(100);
+        ImGui::InputText("##SaveAs", m_AnimName, sizeof(m_AnimName));
+        ImGui::SetItemTooltip(u8"저장할 이름\n다른이름으로 저장할 때만 작성");
         // 스프라이트 벡터
         ImGui::NewLine();
 
@@ -93,6 +106,7 @@ void AnimationEditor::Update()
             if (ImGui::ImageButton(vecSprite[i]->GetAtlasTexture()->GetSRV().Get(), {40, 50}, {tempLT.x, tempLT.y}, {tempLT.x + tempRB.x, tempLT.y + tempRB.y}, -1, {0, 0, 0, 0}, {1, 1, 1, 1}))
             {
                 vecSprite.erase(vecSprite.begin() + i);
+                Refresh();
             }
             ImGui::SetItemTooltip(u8"스프라이트 제거");
 
@@ -112,32 +126,44 @@ void AnimationEditor::Update()
         ImGui::TextColored({ 0.3f, 0.5f, 0.7f, 1.0f }, "<%f , %f>", offsetUV.x, offsetUV.y);
 
         ImGui::NewLine();
+
+        ImGui::SameLine(770);
+        if (ImGui::Button(ICON_FA_ARROW_UP, { 25, 25 }))
+        {
+            offsetUV.y += deltaUV;
+        }
+        ImGui::NewLine();
+        ImGui::SameLine(500);
+        ImGui::SetNextItemWidth(200.f);
+        ImGui::InputFloat("##OffsetDelta", &deltaUV, 0.001f, 0.005f, "%.3f");
+        ImGui::SetItemTooltip(u8"얼만큼 움직일지 정한 후 \n화살표로 Offset을 조절합니다");
+        
+        ImGui::SameLine(740);
+        if (ImGui::Button(ICON_FA_ARROW_LEFT, { 25, 25 }))
+        {
+            offsetUV.x -= deltaUV;
+        }
+        ImGui::SameLine(800);
+        if (ImGui::Button(ICON_FA_ARROW_RIGHT, {25, 25}))
+        {
+            offsetUV.x += deltaUV;
+        }
+        ImGui::NewLine();
+
+        ImGui::SameLine(770);
+        if (ImGui::Button(ICON_FA_ARROW_DOWN, { 25, 25 }))
+        {
+            offsetUV.y -= deltaUV;
+        }
+        ImGui::NewLine();
         if (ImGui::Button(m_Play ? ICON_FA_PAUSE : ICON_FA_PLAY, { 50, 30 }))
         {
             m_Play = !m_Play;
         }
         ImGui::SameLine(60);
-        ImGui::PushItemWidth(100.f);
+        ImGui::SetNextItemWidth(100.f);
         ImGui::DragFloat("FPS", &m_FPS, 1.0f, 0.1f, 60.f, "%.1f", 0);
         ImGui::SetItemTooltip(u8"애니메이션 재생 속도 조절");
-        ImGui::PopItemWidth();
-
-        ImGui::SameLine(620);
-        ImGui::PushItemWidth(100.f);
-        ImGui::DragFloat(u8"UV", &deltaUV, 0.001f, 0.0f, 1.0f, "%.3f");
-        ImGui::SetItemTooltip(u8"얼만큼 조절할건지 정한 후 \n화살표로 Offset을 조절합니다(UV)");
-        ImGui::PopItemWidth();
-        
-        ImGui::SameLine(748);
-        if (ImGui::Button(ICON_FA_ARROW_LEFT, { 25, 25 }))
-        {
-            offsetUV.x -= deltaUV;
-        }
-        ImGui::SameLine(778);
-        if (ImGui::Button(ICON_FA_ARROW_RIGHT, {25, 25}))
-        {
-            offsetUV.x += deltaUV;
-        }
 
         if (ImGui::BeginNeoSequencer(u8"애니메이션", &m_CurrentFrame, &m_StartFrame, &m_EndFrame, {0, 0})) {
             

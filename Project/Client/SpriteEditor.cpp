@@ -4,10 +4,10 @@
 #include "CPathMgr.h"
 #include "TreeUI.h"
 #include "CAssetMgr.h"
+#include "CTimeMgr.h"
 SpriteEditor::SpriteEditor()
 	: m_AtlasTex(nullptr)
 	, m_UVStart{-1, -1}
-	, m_UVEnd{-1, -1}
 	, m_ImagePos{}
 {
 }
@@ -50,43 +50,58 @@ void SpriteEditor::Update()
 		ImGui::SameLine(140);
 		ImGui::Text(imgTitle.c_str());
 
-		ImGui::TextColored({ 0.4f, 0.77f, 0.95f, 1.0f }, u8"선택된 uv :");
+		ImGui::TextColored((m_SpriteSize > 0) ? ImVec4(0.4f, 0.77f, 0.95f, 1.0f) : ImVec4(1.0f, 0.0f, 0.0f, 1.0f), u8"스프라이트 크기 :");
 		ImGui::SameLine(140);
-		ImGui::Text("< (%.4f, %.4f) / (%.4f, %.4f) >", m_UVStart.x, m_UVStart.y, m_UVEnd.x, m_UVEnd.y);
+		ImGui::SetNextItemWidth(200);
+		ImGui::InputInt("##SpriteSize", &m_SpriteSize, 8, 16, ImGuiInputTextFlags_AutoSelectAll);
 		ImGui::SameLine(800);
 		
 		static char spriteRelPath[50] = {};
 		ImGui::SetNextItemWidth(150);
 		ImGui::InputText("##SpriteRelPath", spriteRelPath, sizeof(spriteRelPath), ImGuiInputTextFlags_AutoSelectAll);
-		ImGui::SetItemTooltip(u8"스프라이트를 저장합니다.\n스프라이트 이름을 입력해주세요.");
+		ImGui::SetItemTooltip(u8"스프라이트를 저장합니다.\n이름을 입력해주세요.");
 
 		ImGui::SameLine(1000);
-		if (ImGui::Button(ICON_FA_FLOPPY_O, { 40, 40 }))
+		if (m_SpriteSize > 0)
 		{
-			if (m_UVStart.x > 0 && m_UVEnd.x > 0)
+			if (ImGui::Button(ICON_FA_FLOPPY_O, { 40, 40 }))
 			{
-				Ptr<CSprite> pSprite = new CSprite;
-				pSprite->Create(m_AtlasTex, Vec2(m_UVStart.x, m_UVStart.y), Vec2(m_UVEnd.x - m_UVStart.x, m_UVEnd.y - m_UVStart.y));
+				if (m_UVStart.x >= 0)
+				{
+					Ptr<CSprite> pSprite = new CSprite;
+					pSprite->Create(m_AtlasTex, Vec2(m_UVStart.x * m_SpriteSize, m_UVStart.y * m_SpriteSize), Vec2(m_SpriteSize, m_SpriteSize));
+					pSprite->SetBackground(Vec2(m_SpriteSize, m_SpriteSize));
 
-				string strRelPath(spriteRelPath);
-				wstring wstrRelPath(strRelPath.begin(), strRelPath.end());
-				wstrRelPath += L".sprite";
+					string strRelPath(spriteRelPath);
+					wstring wstrRelPath(strRelPath.begin(), strRelPath.end());
+					wstrRelPath += L".sprite";
 
-				pSprite->Save(L"sprite\\" + wstrRelPath);
-				
-				CAssetMgr::GetInst()->Load<CSprite>(wstring(strRelPath.begin(), strRelPath.end()), L"sprite\\" + wstrRelPath);
-				Refresh();
+					pSprite->Save(L"sprite\\" + wstrRelPath);
+
+					CAssetMgr::GetInst()->Load<CSprite>(wstring(strRelPath.begin(), strRelPath.end()), L"sprite\\" + wstrRelPath);
+					Refresh();
+				}
 			}
 		}
+		else
+		{
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.222f, 0.222f, 0.222f, 0.7f });
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.222f, 0.222f, 0.222f, 0.7f });
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.222f, 0.222f, 0.222f, 0.7f });
+			ImGui::Button(ICON_FA_FLOPPY_O, { 40, 40 });
+			ImGui::PopStyleColor(3);
+			ImGui::SetItemTooltip(u8"스프라이트 크기를 설정해주세요");
+		}
+			
 
 		if (imgWidth > winSize.x)
 		{
-			ImGui::SetScrollX(ImGui::GetScrollX() - ImGui::GetMouseDragDelta(ImGuiMouseButton_Middle).x);
+			ImGui::SetScrollX(ImGui::GetScrollX() - ImGui::GetMouseDragDelta(ImGuiMouseButton_Middle).x * EngineDT);
 		}
 
 		if (imgWidth > winSize.y)
 		{
-			ImGui::SetScrollY(ImGui::GetScrollY() - ImGui::GetMouseDragDelta(ImGuiMouseButton_Middle).y);
+			ImGui::SetScrollY(ImGui::GetScrollY() - ImGui::GetMouseDragDelta(ImGuiMouseButton_Middle).y * EngineDT);
 		}
 
 		m_ImagePos = ImGui::GetCursorPos();
@@ -95,11 +110,13 @@ void SpriteEditor::Update()
 		if (ImGui::IsMouseDown(ImGuiMouseButton_Right))
 		{
 			ImVec2 curMousePos = ImGui::GetMousePos();
-			if (m_UVStart.x < 0)
+			if (m_UVStart.x < 0 && m_SpriteSize > 0)
 			{
 				m_MouseStart = curMousePos;
 				auto [winPosX, winPosY] = ImGui::GetWindowPos();
 				m_UVStart = ImVec2(ImGui::GetMousePos().x - winPosX - m_ImagePos.x, ImGui::GetMousePos().y - winPosY - m_ImagePos.y);
+				m_UVStart.x = std::round(m_UVStart.x / m_SpriteSize);
+				m_UVStart.y = std::round(m_UVStart.y / m_SpriteSize);
 			}
 			ImDrawList* drawList = ImGui::GetWindowDrawList(); // 드래그 - 직사각형 그리기
 			drawList->AddRect(m_MouseStart, ImGui::GetMousePos(), IM_COL32(0, 255, 0, 255), 0.0f);
@@ -110,18 +127,6 @@ void SpriteEditor::Update()
 			string rectY = std::to_string(rectSizeY);
 			string toolTip = rectX + "," + rectY;
 			ImGui::SetTooltip(toolTip.c_str());
-		}
-
-		if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
-		{
-			if (m_UVStart.x >= 0)
-			{
-				auto [winPosX, winPosY] = ImGui::GetWindowPos();
-				m_UVEnd = ImVec2(ImGui::GetMousePos().x - winPosX - m_ImagePos.x, ImGui::GetMousePos().y - winPosY - m_ImagePos.y);
-
-				MD_ENGINE_INFO("PixelPair : start(x: {0}, y: {1}) end(x: {2}, y: {3})",
-					m_UVStart.x, m_UVStart.y, m_UVEnd.x, m_UVEnd.y);
-			}
 		}
 
 		if (ImGui::IsKeyPressed(ImGuiKey::ImGuiKey_Escape))
@@ -136,9 +141,9 @@ void SpriteEditor::Update()
 		ImGui::SameLine(140);
 		ImGui::Text("Not Selected");
 
-		ImGui::TextColored({ 0.4f, 0.77f, 0.95f, 1.0f }, u8"선택된 uv :");
+		ImGui::TextColored({ 0.4f, 0.77f, 0.95f, 1.0f }, u8"스프라이트 크기 :");
 		ImGui::SameLine(140);
-		ImGui::Text("< TopL(%.4f, %.4f), BottomR(%.4f, %.4f) >", m_UVStart.x, m_UVStart.y, m_UVEnd.x, m_UVEnd.y);
+		ImGui::Text("???");
 		ImGui::SameLine(800);
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.222f, 0.222f, 0.222f, 0.7f });
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.222f, 0.222f, 0.222f, 0.7f });
@@ -147,10 +152,7 @@ void SpriteEditor::Update()
 		ImGui::TextColored({1.0f, 0.0f, 0.0f, 1.0f}, u8"아틀라스를 선택해주세요!!");
 
 		ImGui::SameLine(1000);
-		if (ImGui::Button(ICON_FA_FLOPPY_O, { 40, 40 }))
-		{
-			
-		}
+		ImGui::Button(ICON_FA_FLOPPY_O, { 40, 40 });
 		ImGui::PopStyleColor(3);
 	}
 }
@@ -158,7 +160,6 @@ void SpriteEditor::Update()
 void SpriteEditor::Refresh()
 {
 	m_UVStart = {-1, -1};
-	m_UVEnd = {-1, -1};
 	m_ImagePos = {};
 	m_MouseStart = {};
 }

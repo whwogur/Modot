@@ -76,7 +76,7 @@ void CTestLevel::CreateTestLevel()
 	pPlayer->Collider2D()->SetScale(Vec3(200.f, 200.f, 1.f));
 	pPlayer->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pPlayer->MeshRender()->SetMaterial(pMtrl);
-	pPlayer->Animator2D()->AddAnimation(5, CAssetMgr::GetInst()->FindAsset<CAnimation>(L"Cath_Idle"));
+	pPlayer->Animator2D()->AddAnimation(5, CAssetMgr::GetInst()->FindAsset<CAnimation>(L"Momo_Idle"));
 	pPlayer->Animator2D()->Play(5, 10, true);
 	pLevel->AddObject(3, pPlayer);
 
