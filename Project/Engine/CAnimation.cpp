@@ -7,6 +7,15 @@ CAnimation::CAnimation()
 {
 }
 
+CAnimation::CAnimation(const CAnimation& _Other)
+	: CAsset(_Other)
+{
+	for (auto sprite : _Other.m_vecSprite)
+	{
+		m_vecSprite.push_back((CSprite*)sprite->Clone());
+	}
+}
+
 void CAnimation::FinalTick()
 {
 }

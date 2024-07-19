@@ -164,11 +164,15 @@ void CAssetMgr::CreateEngineSprite()
 	pAnimation->Load(L"animation\\Momo_Idle.anim");
 	AddAsset(L"Momo_Idle", pAnimation);
 
-
+	// Engine Default / New Assets
 	Ptr<CTexture> checkerboard = Load<CTexture>(L"Checkerboard", L"texture\\Checkerboard.png");
 	Ptr<CSprite> defaultSprite = new CSprite;
-	defaultSprite->Create(checkerboard, {0, 0}, {checkerboard->GetDesc().Width, checkerboard->GetDesc().Height});
+	defaultSprite->Load(L"sprite\\DefaultSprite.sprite");
 	AddAsset(L"DefaultSprite", defaultSprite);
+
+	Ptr<CAnimation> pNewAnimation = new CAnimation;
+	pNewAnimation->Load(L"animation\\NewAnimation.anim");
+	AddAsset(L"NewAnimation", pNewAnimation);
 }
 
 void CAssetMgr::CreateEngineGraphicShader()

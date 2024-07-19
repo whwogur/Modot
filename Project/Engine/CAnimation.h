@@ -9,6 +9,8 @@ class CAnimation :
 public:
     CAnimation();
     ~CAnimation() = default;
+    CAnimation(const CAnimation& _Other);
+    CLONE(CAnimation);
 public:
     void FinalTick();
 

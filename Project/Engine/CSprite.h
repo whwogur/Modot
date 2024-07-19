@@ -6,7 +6,7 @@ class CSprite :
 public:
     CSprite();
     ~CSprite();
-
+    CLONE(CSprite);
 public:
     Ptr<CTexture> GetAtlasTexture() { return m_Atlas; }
     void SetLeftTop(Vec2 _LeftTop);

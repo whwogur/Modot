@@ -74,7 +74,7 @@ void AnimationEditor::Update()
         ImGui::SameLine(160);
         if (ImGui::Button(ICON_FA_FLOPPY_O, { 30, 30 }))
         {
-            if (strlen(m_AnimName) < 1)
+            if (std::strlen(m_AnimName) < 1)
             {
                 wstring savePath = L"animation\\" + m_Animation->GetKey();
                 m_Animation->Save(savePath);
@@ -84,6 +84,7 @@ void AnimationEditor::Update()
                 string strPath(m_AnimName);
                 strPath += ".anim";
                 wstring wstrPath(strPath.begin(), strPath.end());
+
                 m_Animation->Save(L"animation\\" + wstrPath);
             }
         }
@@ -93,6 +94,17 @@ void AnimationEditor::Update()
         ImGui::SetNextItemWidth(100);
         ImGui::InputText("##SaveAs", m_AnimName, sizeof(m_AnimName));
         ImGui::SetItemTooltip(u8"저장할 이름\n다른이름으로 저장할 때만 작성");
+
+        ImGui::SameLine(800);
+        if (ImGui::Button(ICON_FA_FILE_IMAGE_O "NEW", { 100, 30 }))
+        {
+            Ptr<CAnimation> temp = new CAnimation;
+            Ptr<CSprite> tempSprite = CAssetMgr::GetInst()->FindAsset<CSprite>(L"DefaultSprite");
+            temp->AddSprite(tempSprite);
+
+            m_Animation = temp;
+            Refresh();
+        }
         // 스프라이트 벡터
         ImGui::NewLine();
 
@@ -135,7 +147,7 @@ void AnimationEditor::Update()
         ImGui::NewLine();
         ImGui::SameLine(500);
         ImGui::SetNextItemWidth(200.f);
-        ImGui::InputFloat("##OffsetDelta", &deltaUV, 0.001f, 0.005f, "%.3f");
+        ImGui::InputFloat("##OffsetDelta", &deltaUV, 0.001f, 0.005f, "%.4f");
         ImGui::SetItemTooltip(u8"얼만큼 움직일지 정한 후 \n화살표로 Offset을 조절합니다");
         
         ImGui::SameLine(740);
@@ -202,6 +214,17 @@ void AnimationEditor::Update()
        
         ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, u8"애니메이션을 선택해주세요!!!");
         ImGui::PopStyleColor(3);
+
+        ImGui::SameLine(800);
+        if (ImGui::Button(ICON_FA_FILE_IMAGE_O "NEW", { 100, 30 }))
+        {
+            Ptr<CAnimation> temp = new CAnimation;
+            Ptr<CSprite> tempSprite = CAssetMgr::GetInst()->FindAsset<CSprite>(L"DefaultSprite");
+            temp->AddSprite(tempSprite);
+
+            m_Animation = temp;
+            Refresh();
+        }
     }
 }
 
