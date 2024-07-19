@@ -5,6 +5,7 @@ CCameraMoveScript::CCameraMoveScript()
 	: CScript(UINT(SCRIPT_TYPE::CAMERAMOVESCRIPT))
 	, m_CamSpeed(500.f)
 {
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "Camera Speed", &m_CamSpeed);
 }
 
 CCameraMoveScript::~CCameraMoveScript()

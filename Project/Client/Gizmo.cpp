@@ -32,7 +32,7 @@ void Gizmo::Update()
 
 		ImGuizmo::BeginFrame();
 		ImGuizmo::SetDrawlist(ImGui::GetBackgroundDrawList());
-		ImGuizmo::SetRect(10, 10, m_Resolution.x, m_Resolution.y);
+		ImGuizmo::SetRect(12, 12, m_Resolution.x, m_Resolution.y);
 
 		// Editor Camera
 		DirectX::XMFLOAT4X4 cameraProjection = m_EditorCamera->GetcamProjRef();

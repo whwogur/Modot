@@ -62,7 +62,7 @@ if (UseAnimator2D)
     }
 }
 
-// FlipBook 을 사용하지 않는다.
+// Animation 을 사용하지 않는다.
 else
 {
     if (g_btex_0)

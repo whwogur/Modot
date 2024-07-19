@@ -62,15 +62,15 @@ void CEditorMgr::ShortCut()
     {
 		m_Gizmo->ToggleActive();
     }
-	if (KEY_TAP(KEY::_1))
+	if (KEY_TAP(KEY::Z))
 	{
 		m_Gizmo->SetGizmoType(ImGuizmo::OPERATION::TRANSLATE);
 	}
-	if (KEY_TAP(KEY::_2))
+	if (KEY_TAP(KEY::X))
 	{
 		m_Gizmo->SetGizmoType(ImGuizmo::OPERATION::ROTATE);
 	}
-	if (KEY_TAP(KEY::_3))
+	if (KEY_TAP(KEY::C))
 	{
 		m_Gizmo->SetGizmoType(ImGuizmo::OPERATION::SCALE);
 	}

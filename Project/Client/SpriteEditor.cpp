@@ -50,10 +50,13 @@ void SpriteEditor::Update()
 		ImGui::SameLine(140);
 		ImGui::Text(imgTitle.c_str());
 
-		ImGui::TextColored((m_SpriteSize > 0) ? ImVec4(0.4f, 0.77f, 0.95f, 1.0f) : ImVec4(1.0f, 0.0f, 0.0f, 1.0f), u8"스프라이트 크기 :");
+		ImGui::TextColored((m_SpriteSizeX > 0) ? ImVec4(0.4f, 0.77f, 0.95f, 1.0f) : ImVec4(1.0f, 0.0f, 0.0f, 1.0f), u8"스프라이트 크기 :");
 		ImGui::SameLine(140);
-		ImGui::SetNextItemWidth(200);
-		ImGui::InputInt("##SpriteSize", &m_SpriteSize, 8, 16, ImGuiInputTextFlags_AutoSelectAll);
+		ImGui::SetNextItemWidth(150);
+		ImGui::InputInt("X##SpriteSizeX", &m_SpriteSizeX, 8, 16, ImGuiInputTextFlags_AutoSelectAll);
+		ImGui::SameLine(350);
+		ImGui::SetNextItemWidth(150);
+		ImGui::InputInt("Y##SpriteSizeY", &m_SpriteSizeY, 8, 16, ImGuiInputTextFlags_AutoSelectAll);
 		ImGui::SameLine(800);
 		
 		static char spriteRelPath[50] = {};
@@ -62,15 +65,15 @@ void SpriteEditor::Update()
 		ImGui::SetItemTooltip(u8"스프라이트를 저장합니다.\n이름을 입력해주세요.");
 
 		ImGui::SameLine(1000);
-		if (m_SpriteSize > 0)
+		if (m_SpriteSizeX > 0 && m_SpriteSizeY > 0)
 		{
 			if (ImGui::Button(ICON_FA_FLOPPY_O, { 40, 40 }))
 			{
 				if (m_UVStart.x >= 0)
 				{
 					Ptr<CSprite> pSprite = new CSprite;
-					pSprite->Create(m_AtlasTex, Vec2(m_UVStart.x * m_SpriteSize, m_UVStart.y * m_SpriteSize), Vec2(m_SpriteSize, m_SpriteSize));
-					pSprite->SetBackground(Vec2(m_SpriteSize, m_SpriteSize));
+					pSprite->Create(m_AtlasTex, Vec2(m_UVStart.x * m_SpriteSizeX, m_UVStart.y * m_SpriteSizeY), Vec2(m_SpriteSizeX, m_SpriteSizeY));
+					pSprite->SetBackground(Vec2(m_SpriteSizeX, m_SpriteSizeY));
 
 					string strRelPath(spriteRelPath);
 					wstring wstrRelPath(strRelPath.begin(), strRelPath.end());
@@ -93,6 +96,11 @@ void SpriteEditor::Update()
 			ImGui::SetItemTooltip(u8"스프라이트 크기를 설정해주세요");
 		}
 			
+		if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && ImGui::IsKeyPressed(ImGuiKey_A))
+		{
+			m_SpriteSizeX = m_AtlasTex->GetDesc().Width;
+			m_SpriteSizeY = m_AtlasTex->GetDesc().Height;
+		}
 
 		if (imgWidth > winSize.x)
 		{
@@ -110,7 +118,7 @@ void SpriteEditor::Update()
 		if (ImGui::IsMouseDown(ImGuiMouseButton_Right))
 		{
 			ImVec2 curMousePos = ImGui::GetMousePos();
-			if (m_UVStart.x < 0 && m_SpriteSize > 0)
+			if (m_UVStart.x < 0 && m_SpriteSizeX > 0)
 			{
 				m_MouseStart = curMousePos;
 				auto [winPosX, winPosY] = ImGui::GetWindowPos();
@@ -118,8 +126,8 @@ void SpriteEditor::Update()
 				m_UVStart.x += ImGui::GetScrollX();
 				m_UVStart.y += ImGui::GetScrollY();
 
-				m_UVStart.x = std::round(m_UVStart.x / m_SpriteSize);
-				m_UVStart.y = std::round(m_UVStart.y / m_SpriteSize);
+				m_UVStart.x = std::round(m_UVStart.x / m_SpriteSizeX);
+				m_UVStart.y = std::round(m_UVStart.y / m_SpriteSizeY);
 			}
 			ImDrawList* drawList = ImGui::GetWindowDrawList(); // 드래그 - 직사각형 그리기
 			drawList->AddRect(m_MouseStart, ImGui::GetMousePos(), IM_COL32(0, 255, 0, 255), 0.0f);

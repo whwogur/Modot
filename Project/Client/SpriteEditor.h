@@ -19,5 +19,6 @@ private:
     ImVec2                      m_UVStart;
     ImVec2                      m_ImagePos;
     ImVec2                      m_MouseStart;
-    int                         m_SpriteSize = 0;
+    int m_SpriteSizeX = 0;
+    int m_SpriteSizeY = 0;
 };

@@ -190,7 +190,6 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASKED);
 	pShader->AddTexParam(TEX_0, "OutputTexture");
 	pShader->AddScalarParam(INT_0, "Test Parameter");
-	pShader->AddTexParam(TEX_0, "OutputTexture");
 	AddAsset(L"Std2DShader", pShader);
 
 	// Std2DAlphaBlend
@@ -339,4 +338,10 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"SmallRippleShader"));
 	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
 	AddAsset(L"SmallRippleMtrl", pMtrl);
+
+	// BG
+	pMtrl = new CMaterial();
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"Std2DShader"));
+	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"Checkerboard"));
+	AddAsset(L"BackgroundMtrl", pMtrl);
 }

@@ -63,7 +63,7 @@ void MenuUI::Update()
 
 	Level();
 
-	GameObject();
+	AddScripts();
 
 	Assets();
 }
@@ -118,27 +118,13 @@ void MenuUI::Level()
 	ImGui::PopFont();
 }
 
-void MenuUI::GameObject()
+void MenuUI::AddScripts()
 {
 	ImFont* iconFont = CEditorMgr::GetInst()->GetIconFont();
 	ImGui::PushFont(iconFont);
 
-	if (ImGui::BeginMenu(ICON_FA_CUBES " GameObject"))
+	if (ImGui::BeginMenu(ICON_FA_FILE_TEXT_O " Add Script"))
 	{
-		if (ImGui::MenuItem("Create Empty Object"))
-		{
-
-		}
-
-		if (ImGui::BeginMenu("Add Component"))
-		{
-			ImGui::MenuItem("MeshRender");
-			ImGui::MenuItem("Collider2D");
-			ImGui::MenuItem("Camera");
-
-			ImGui::EndMenu();
-		}
-
 		AddScript();
 
 		ImGui::EndMenu();

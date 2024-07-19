@@ -15,7 +15,7 @@ public:
 private:
     void File();
     void Level();
-    void GameObject();
+    void AddScripts();
     void Assets();
 
 private:
