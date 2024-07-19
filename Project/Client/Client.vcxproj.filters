@@ -193,6 +193,9 @@
     <ClInclude Include="RigidBodyUI.h">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
+    <ClInclude Include="TilemapEditor.h">
+      <Filter>Editor\EditorUI\Modal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -357,6 +360,9 @@
     </ClCompile>
     <ClCompile Include="RigidBodyUI.cpp">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TilemapEditor.cpp">
+      <Filter>Editor\EditorUI\Modal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

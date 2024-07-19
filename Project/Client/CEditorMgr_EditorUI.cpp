@@ -19,7 +19,7 @@
 #include "FileBrowser.h"
 #include "AnimationEditor.h"
 #include "SpriteEditor.h"
-
+#include "TilemapEditor.h"
 void CEditorMgr::InitImGui()
 {
     // Setup Dear ImGui context
@@ -115,6 +115,12 @@ void CEditorMgr::CreateEditorUI()
     // SpriteEditor
     pUI = new SpriteEditor;
     pUI->SetName("SpriteEditor");
+    pUI->SetActive(false);
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    // TilemapEditor
+    pUI = new TilemapEditor;
+    pUI->SetName("TilemapEditor");
     pUI->SetActive(false);
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 }
