@@ -28,7 +28,6 @@ CEditorMgr::~CEditorMgr()
 {
 	Delete_Vec(m_vecEditorObject);
     Delete_Map(m_mapUI);
-	delete m_Gizmo;
     // ImGui Cleanup
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();

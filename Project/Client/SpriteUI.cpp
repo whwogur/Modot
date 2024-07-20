@@ -18,17 +18,26 @@ void SpriteUI::Update()
 	Vec2 LT = pSprite->GetLeftTopUV();
 	Vec2 RB = pSprite->GetSliceUV();
 	const Vec2& OffsetUV = pSprite->GetOffsetUVRef();
-
+	ImGui::NewLine();
+	ImGui::SameLine(95);
 	ImGui::Image(pSprite->GetAtlasTexture()->GetSRV().Get(), { 150, 150 }, { LT.x, LT.y }, { LT.x + RB.x, LT.y + RB.y }, { 1, 1, 1, 1 }, { 1, 1, 1, 1 });
-
+	ImGui::NewLine();
+	ImGui::NewLine();
+	ImGui::TextColored(HEADER_1, u8"스프라이트 정보");
+	
+	ImGui::Text("LeftTopUV");
+	ImGui::SameLine(100);
 	ImGui::SetNextItemWidth(70.0f);
 	ImGui::InputFloat("##LTx", &LT.x, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly);
-	ImGui::SameLine(100);
+	ImGui::SameLine(180);
 	ImGui::SetNextItemWidth(70.0f);
 	ImGui::InputFloat("##LTy", &LT.y, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly);
+
+	ImGui::Text("RightBotUV");
+	ImGui::SameLine(100);
 	ImGui::SetNextItemWidth(70.0f);
 	ImGui::InputFloat("##RBx", &RB.x, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly);
-	ImGui::SameLine(100);
+	ImGui::SameLine(180);
 	ImGui::SetNextItemWidth(70.0f);
 	ImGui::InputFloat("##RBy", &RB.y, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly);
 }

@@ -14,7 +14,8 @@ public:
 
 public:
     void SetTilemap(CTileMap* _Tilemap) { m_Tilemap = _Tilemap; }
-private:
-    CTileMap* m_Tilemap;
-};
 
+private:
+    CTileMap*   m_Tilemap;
+    ImVec2      m_ImagePos = {};
+};

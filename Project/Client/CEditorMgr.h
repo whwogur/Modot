@@ -36,6 +36,6 @@ private:
     map<string, EditorUI*>      m_mapUI;
     Vec2                        m_ViewportSize;
     ImFont*                     m_IconFont;
-    Gizmo*                      m_Gizmo;
+    std::shared_ptr<Gizmo>      m_Gizmo;
 };
 

@@ -10,7 +10,7 @@
 
 void CEditorMgr::CreateEditorObject()
 {
-	m_Gizmo = new Gizmo;
+	m_Gizmo = std::make_shared<Gizmo>();
 	CGameObject* pEditorCamera = new CGameObjectEx;
 	pEditorCamera->SetName(L"EditorCamera");
 	pEditorCamera->AddComponent(new CTransform);

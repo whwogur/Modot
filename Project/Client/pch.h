@@ -17,3 +17,5 @@
 #else
 #pragma comment(lib, "Scripts\\Scripts")
 #endif
+
+#define HEADER_1 { 0.0f, 0.45f, 0.67f, 1.0f }

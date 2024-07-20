@@ -12,6 +12,7 @@
 #include "Inspector.h"
 #include "SpriteEditor.h"
 #include "AnimationEditor.h"
+#include "TilemapEditor.h"
 MenuUI::MenuUI()
 {
 }
@@ -109,9 +110,8 @@ void MenuUI::Level()
 	{
 		if (ImGui::MenuItem("Tilemap Editor"))
 		{
-			
+			CEditorMgr::GetInst()->FindEditorUI("TilemapEditor")->Toggle();
 		}
-
 
 		ImGui::EndMenu();
 	}

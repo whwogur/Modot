@@ -48,7 +48,7 @@ void TileMapUI::Update()
 	// 텍스쳐 이름
 	string Name = string(pTexture->GetKey().begin(), pTexture->GetKey().end());
 
-	ImGui::TextColored({ 0.0f, 0.45f, 0.67f, 1.0f }, u8"아틀라스 정보");
+	ImGui::TextColored(HEADER_1, u8"아틀라스 정보");
 	
 	ImGui::Text(u8"이름");
 	ImGui::SameLine(100);
@@ -74,7 +74,8 @@ void TileMapUI::Update()
 	auto [TileSizeX, TileSizeY] = pTileMap->GetTileSize();
 	auto [Row, Col] = pTileMap->GetRowCol();
 
-	ImGui::TextColored({ 0.0f, 0.45f, 0.67f, 1.0f }, u8"타일맵 정보");
+	ImGui::TextColored(HEADER_1, u8"타일맵 정보");
+	
 	ImGui::Text(u8"타일 크기(A)");
 	ImGui::SameLine(100);
 	ImGui::SetNextItemWidth(100);

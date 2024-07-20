@@ -91,6 +91,7 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 	case COMPONENT_TYPE::TRANSFORM:
 	{
 		CTransform* transform = new CTransform;
+		transform->SetRelativeScale({ 10.f, 10.f, 10.f });
 		AddComponent(transform);
 		CLevelMgr::GetInst()->SetLevelDirty();
 		return;
