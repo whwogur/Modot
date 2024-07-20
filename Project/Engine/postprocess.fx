@@ -74,25 +74,6 @@ float4 PS_GrayFilter(VS_OUT _in) : SV_Target
 // g_tex_2  : NoiseTexture 2
 // g_tex_3  : NoiseTexture 3
 // ===========================
-float sinc(float r, float width)
-{
-    width *= 10.0;
-
-    float scale = 1.0;
-    float N = 1.1;
-    float numer = sin(r / width);
-    float denom = (r / width);
-
-    if (abs(denom) <= 0.1)
-        return scale;
-    else
-        return scale * abs(numer / denom);
-}
-
-float expo(float r, float dev)
-{
-    return 1.0 * exp(-r * r / dev);
-}
 
 VS_OUT VS_Distortion(VS_IN _in)
 {
@@ -107,18 +88,18 @@ VS_OUT VS_Distortion(VS_IN _in)
 
 float4 PS_Distortion(VS_OUT _in) : SV_Target
 {
-    //float2 vScreenUV = _in.vPosition.xy / g_Resolution;
+    /*float2 vScreenUV = _in.vPosition.xy / g_Resolution;
         
-    //float4 vColor = g_tex_0.Sample(g_sam_0, vScreenUV);
-    //vColor.r *= 2.f;
+    float4 vColor = g_tex_0.Sample(g_sam_0, vScreenUV);
+    vColor.r *= 2.f;
     
-    //return vColor;
+    return vColor;*/
     
-   /* float waveStrength = 0.2;
-    float frequency = 30.0;
-    float waveSpeed = 5.0;
-    float4 sunlightColor = float4(1.0, 0.91, 0.75, 0.0);
-    float sunlightStrength = 5.0;
+    float waveStrength = 0.2;
+    float frequency = 10.0;
+    float waveSpeed = 10.0;
+    float4 HitColor = float4(1.0, 0.51, 0.45, 1.0);
+    float sunlightStrength = 2.0;
     float centerLight = 2.0;
     float oblique = 0.25;
 
@@ -134,41 +115,11 @@ float4 PS_Distortion(VS_OUT _in) : SV_Target
     float addend = (sin(frequency * distance - modifiedTime) + centerLight) * waveStrength * multiplier;
     float2 newTexCoord = uv + addend * oblique;
 
-    float4 colorToAdd = sunlightColor * sunlightStrength * addend;
+    float4 colorToAdd = HitColor * sunlightStrength * addend;
 
     float4 fragColor = g_tex_0.Sample(g_sam_0, Point) + colorToAdd;
 
-    return fragColor;*/
-
-
-    float2 fragCoord = _in.vUV * g_Resolution;
-
-    float2 uv = fragCoord.xy / g_Resolution.xy;
-    float aspect = g_Resolution.x / g_Resolution.y;
-    uv.x *= aspect;
-
-    float2 cdiff = abs(uv - 0.5 * float2(aspect, 1.0));
-
-    float myradius = length(cdiff) * lerp(1.0, g_tex_0.Sample(g_sam_0, uv).r, 0.02);
-
-    float3 wave = g_tex_0.Sample(g_sam_0, float2(myradius, 0.25)).rgb;
-
-    float radius = 1.5 * (g_EngineTime) / 3.0;
-
-    float r = sin((myradius - radius) * 5.0);
-    r = r * r;
-
-    float3 dev = wave * float3(1.0 / 500.0, 1.0 / 500.0, 1.0 / 500.0);
-
-    float rippleEffect = sinc(r, dev.x);
-
-    // 기본 텍스처 색상을 가져오기
-    float3 baseColor = g_tex_0.Sample(g_sam_0, _in.vUV).rgb;
-
-    // ripple 효과를 기본 색상에 추가하기
-    float3 rippleColor = baseColor + (rippleEffect - 1.0) * baseColor;
-
-    return float4(rippleColor, 1.0);
+    return fragColor;
 }
 
 
