@@ -49,6 +49,18 @@ void CEditorCameraScript::OrthoGraphicMove()
 	Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
 	Vec3 vPos = Transform()->GetRelativePos();
 
+	if (KEY_PRESSED(KEY::CTRL) && KEY_PRESSED(KEY::O))
+	{
+		float scale = Camera()->GetScale();
+		Camera()->SetScale(scale + 0.005);
+	}
+
+	if (KEY_PRESSED(KEY::CTRL) && KEY_PRESSED(KEY::I))
+	{
+		float scale = Camera()->GetScale();
+		Camera()->SetScale(scale - 0.005);
+	}
+
 	if (KEY_PRESSED(KEY::W))
 	{
 		vPos.y += EngineDT * Speed;
