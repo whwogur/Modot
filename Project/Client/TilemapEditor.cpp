@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "TilemapEditor.h"
 #include "CTileMap.h"
-
+#include "CAssetMgr.h"
 TilemapEditor::TilemapEditor()
 	: m_Tilemap(nullptr)
 {
 }
 
-void TilemapEditor::Update()
+void TilemapEditor::Update()// 정리 필요..;
 {
 	if (m_Tilemap != nullptr)
 	{
@@ -18,52 +18,67 @@ void TilemapEditor::Update()
 		string strKey(atlasName.begin(), atlasName.end());
 		int row = m_Tilemap->GetRowCol().x;
 		int col = m_Tilemap->GetRowCol().y;
-        int maxAtlasRowCol = m_Tilemap->GetMaxAtlasRowCol();
+        int maxAtlasRow = m_Tilemap->GetMaxAtlasRow();
+        int maxAtlasCol = m_Tilemap->GetMaxAtlasCol();
         static int selTileIndex = 0;
 
-		ImGui::NewLine();
-		ImGui::TextColored(HEADER_1, u8"현재 타일맵 아틀라스 : ");
-		ImGui::SameLine();
-		ImGui::Text(strKey.c_str());
-		ImGui::NewLine();
-		ImGui::TextColored(HEADER_1, u8"타일 인덱스 선택 : ");
-		ImGui::SameLine();
-        ImGui::SetNextItemWidth(100);
-        ImGui::InputInt("##SelTileIndex", &selTileIndex, 1, 1, ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue);
-		ImGui::Separator();
+		
+        static bool bOpen = IsActive();
+        static bool enableGrid = false;
+        ImGui::Begin(ICON_FA_HAND_POINTER_O "##TileAtlasSelector", &bOpen, ImGuiWindowFlags_DockNodeHost);
         ImGui::NewLine();
+        ImGui::TextColored(HEADER_1, "Atlas :");
+        ImGui::SameLine();
+        const map<wstring, Ptr<CAsset>>& pTextures = CAssetMgr::GetInst()->GetAssets(ASSET_TYPE::TEXTURE);
+        ImGui::SetNextItemWidth(200);
+        if (ImGui::BeginCombo(ICON_FA_PICTURE_O "##TexturePrevDropbox", strKey.c_str()))
+        {
+            for (const auto& texture : pTextures)
+            {
+                string strTexName(texture.first.begin(), texture.first.end());
+                ImGui::MenuItem(strTexName.c_str());
+            }
+            ImGui::EndCombo();
+        }
+        ImGui::Checkbox("Enable Grid", &enableGrid);
         ImGui::NewLine();
         
-
-
-
-
-        int Idx = 0;
+        m_ImageButtonPos = ImGui::GetCursorPos();
         int ButtonSize = 30;
-        float Padding = 1.0f;
-        m_ImagePos = ImGui::GetCursorPos();
-
-        /*for (int i = 0; i < row; ++i)
+        int atlasWidth = atlasTex->GetDesc().Width;
+        int atlasHeight = atlasTex->GetDesc().Height;
+        Vec2 atlasTileSize = m_Tilemap->GetAtlasTileSize();
+        float uvX = atlasTileSize.x / atlasWidth;
+        float uvY = atlasTileSize.y / atlasHeight;
+        int sIdx = 0;
+        static string strIdx;
+        for (int i = 0; i < maxAtlasRow; ++i)
         {
-            for (int j = 0; j < col; ++j)
+            for (int j = 0; j < maxAtlasCol; ++j)
             {
                 if (j > 0) ImGui::SameLine();
 
-                ImGui::SetCursorPosX(m_ImagePos.x + j * (ButtonSize + Padding));
-                ImGui::SetCursorPosY(m_ImagePos.y + i * (ButtonSize + Padding));
-
-                if (ImGui::ImageButton("##TilemapEditor", atlasTex->GetSRV().Get(),
+                ImGui::SetCursorPosX(m_ImageButtonPos.x + j * (ButtonSize + 7));
+                ImGui::SetCursorPosY(m_ImageButtonPos.y + i * (ButtonSize + 7));
+                strIdx = "##AtlasSelectButton" + std::to_string(sIdx);
+                if (ImGui::ImageButton(strIdx.c_str(), atlasTex->GetSRV().Get(),
                     ImVec2(ButtonSize, ButtonSize),
-                    ImVec2(vecTile[Idx].ImgIdx * sliceUV.x, (vecTile[Idx].ImgIdx / row) * sliceUV.y),
-                    ImVec2((vecTile[Idx].ImgIdx + 1) * sliceUV.x, (vecTile[Idx].ImgIdx / row + 1) * sliceUV.y),
-                    { 0, 0, 0, 0 }, { 1, 1, 1, 1 }))
+                    ImVec2(uvX * j, uvY * i),
+                    ImVec2(uvX * (j + 1), uvY * (i + 1))))
                 {
-                    ++vecTile[Idx].ImgIdx;
+                    selTileIndex = sIdx;
+                    MD_ENGINE_TRACE("{0}", selTileIndex);
                 }
-
-                Idx += 1;
+                ++sIdx;
             }
-        }*/
+        }
+        ImGui::End();
+
+
+        int Idx = 0;
+        int PreviewTileSize = 30;
+        float Padding = 1.0f;
+        m_ImagePos = ImGui::GetCursorPos();
 
         for (int i = 0; i < row; ++i)
         {
@@ -71,14 +86,18 @@ void TilemapEditor::Update()
             {
                 if (j > 0) ImGui::SameLine();
 
-                ImGui::SetCursorPosX(m_ImagePos.x + j * (ButtonSize + Padding));
-                ImGui::SetCursorPosY(m_ImagePos.y + i * (ButtonSize + Padding));
+                ImGui::SetCursorPosX(m_ImagePos.x + j * (PreviewTileSize + Padding));
+                ImGui::SetCursorPosY(m_ImagePos.y + i * (PreviewTileSize + Padding));
+
+                int tileIdx = vecTile[Idx].ImgIdx;
+                int tileX = tileIdx % maxAtlasCol;
+                int tileY = tileIdx / maxAtlasCol;
 
                 ImGui::Image(atlasTex->GetSRV().Get(),
-                    ImVec2(ButtonSize, ButtonSize),
-                    ImVec2(vecTile[Idx].ImgIdx * sliceUV.x, (vecTile[Idx].ImgIdx / row) * sliceUV.y),
-                    ImVec2((vecTile[Idx].ImgIdx + 1) * sliceUV.x, (vecTile[Idx].ImgIdx / row + 1) * sliceUV.y),
-                    ImVec4(1, 1, 1, 1), ImVec4(0, 0, 0, 0));
+                    ImVec2(PreviewTileSize, PreviewTileSize),
+                    ImVec2(tileX * sliceUV.x, tileY * sliceUV.y),
+                    ImVec2((tileX + 1) * sliceUV.x, (tileY + 1) * sliceUV.y),
+                    ImVec4(1, 1, 1, 1), enableGrid ? ImVec4(0.0f, 0.43f, 0.56f, 1.0f) : ImVec4(0, 0, 0, 0));
 
                 Idx += 1;
             }
@@ -98,14 +117,14 @@ void TilemapEditor::Update()
                 float scrollX = ImGui::GetScrollX();
                 float scrollY = ImGui::GetScrollY();
 
-                int iCol = static_cast<int>((pos.x - m_ImagePos.x + scrollX) / (ButtonSize + Padding));
-                int iRow = static_cast<int>((pos.y - m_ImagePos.y + scrollY) / (ButtonSize + Padding));
+                int iCol = static_cast<int>((pos.x - m_ImagePos.x + scrollX) / (PreviewTileSize + Padding));
+                int iRow = static_cast<int>((pos.y - m_ImagePos.y + scrollY) / (PreviewTileSize + Padding));
 
                 //MD_ENGINE_TRACE("Mouse RelativePos {0} {1}", pos.x, pos.y);
                 //MD_ENGINE_TRACE("ImagePos {0} {1}", m_ImagePos.x, m_ImagePos.y);
                 //MD_ENGINE_TRACE("row col {0} {1}", iRow, iCol);
 
-                if (iRow >= 0 && iRow < row && iCol >= 0 && iCol < col && (maxAtlasRowCol >= selTileIndex))
+                if (iRow >= 0 && iRow < row && iCol >= 0 && iCol < col && ((maxAtlasRow * maxAtlasCol) >= selTileIndex))
                 {
                     vecTile[iRow * col + iCol].ImgIdx = selTileIndex;
                 }

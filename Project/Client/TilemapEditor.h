@@ -18,4 +18,5 @@ public:
 private:
     CTileMap*   m_Tilemap;
     ImVec2      m_ImagePos = {};
+    ImVec2      m_ImageButtonPos = {};
 };

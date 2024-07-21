@@ -25,13 +25,14 @@ public:
     void SetAtlasTexture(Ptr<CTexture> _Atlas);
     void SetAtlasTileSize(Vec2 _TileSize);
 
-    Vec2 GetTileSize() { return m_TileSize; }
-    Vec2 GetAtlasTileSize() { return m_AtlasTileSize; }
+    Vec2 GetTileSize() const { return m_TileSize; }
+    Vec2 GetAtlasTileSize() const { return m_AtlasTileSize; }
     Vec2 GetRowCol() { return Vec2(m_Row, m_Col); }
     Vec2 GetTileSliceUV() const { return m_AtlasTileSliceUV; }
     Ptr<CTexture> GetAtlasTexture() { return m_TileAtlas; }
     vector<tTileInfo>& GetTileInfoRef() { return m_vecTileInfo; }
-    int GetMaxAtlasRowCol() { return m_AtlasMaxRow * m_AtlasMaxCol; }
+    int GetMaxAtlasRow() const { return m_AtlasMaxRow; }
+    int GetMaxAtlasCol() const { return m_AtlasMaxCol; }
 public:
     virtual void FinalTick() override;
     virtual void Render() override;
