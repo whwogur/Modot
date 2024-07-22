@@ -43,8 +43,13 @@ void SpriteEditor::Update()
 		string imgTitle = string(key.begin(), key.end());
 		float imgWidth = (float)m_AtlasTex->GetDesc().Width;
 		float imgHeight = (float)m_AtlasTex->GetDesc().Height;
-		ImVec2 winSize = ImGui::GetWindowSize();
 
+		static bool spriteInterfaceOpen = IsActive();
+		ImGui::Begin("##SpriteInterface", &spriteInterfaceOpen);
+		if (!spriteInterfaceOpen)
+		{
+			Toggle();
+		}
 		ImGui::SetWindowFontScale(1.18f);
 		ImGui::TextColored({ 0.4f, 0.77f, 0.95f, 1.0f }, u8"아틀라스 :");
 		ImGui::SameLine(140);
@@ -95,6 +100,7 @@ void SpriteEditor::Update()
 			ImGui::PopStyleColor(3);
 			ImGui::SetItemTooltip(u8"스프라이트 크기를 설정해주세요");
 		}
+		ImGui::End();
 			
 		if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && ImGui::IsKeyPressed(ImGuiKey_A))
 		{
@@ -102,6 +108,7 @@ void SpriteEditor::Update()
 			m_SpriteSizeY = m_AtlasTex->GetDesc().Height;
 		}
 
+		ImVec2 winSize = ImGui::GetWindowSize();
 		if (imgWidth > winSize.x)
 		{
 			ImGui::SetScrollX(ImGui::GetScrollX() - ImGui::GetMouseDragDelta(ImGuiMouseButton_Middle).x * EngineDT);
@@ -111,6 +118,7 @@ void SpriteEditor::Update()
 		{
 			ImGui::SetScrollY(ImGui::GetScrollY() - ImGui::GetMouseDragDelta(ImGuiMouseButton_Middle).y * EngineDT);
 		}
+
 
 		m_ImagePos = ImGui::GetCursorPos();
 		ImGui::Image(m_AtlasTex->GetSRV().Get(), { imgWidth, imgHeight }, { 0, 0 }, { 1, 1 }, { 1, 1, 1, 1 }, { 0.4f, 0.6f, 0.7f, 1.0f });
