@@ -2,6 +2,7 @@
 #include "TilemapEditor.h"
 #include "CTileMap.h"
 #include "CAssetMgr.h"
+#include "TreeUI.h"
 TilemapEditor::TilemapEditor()
 	: m_Tilemap(nullptr)
 {
@@ -131,4 +132,30 @@ void TilemapEditor::Update()// 정리 필요..;
             }
         }
 	}
+    else
+    {
+        ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, u8"선택된 타일맵 없음");
+
+        if (ImGui::BeginDragDropTarget())
+        {
+            const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HierarchyViewTree");
+            if (payload)
+            {
+                TreeNode** ppNode = (TreeNode**)payload->Data;
+                TreeNode* pNode = *ppNode;
+
+                CGameObject* pGameObject = (CGameObject*)pNode->GetData();
+                if (pGameObject != nullptr)
+                {
+                    CTileMap* pTilemap = pGameObject->TileMap();
+                    if (pTilemap != nullptr)
+                    {
+                        m_Tilemap = pTilemap;
+                    }
+                }
+            }
+
+            ImGui::EndDragDropTarget();
+        }
+    }
 }

@@ -2,11 +2,13 @@
 #include "MenuUI.h"
 #include "CEditorMgr.h"
 #include "CTimeMgr.h"
+#include "CLevelMgr.h"
 #include <Engine/CAssetMgr.h>
 #include <Engine/assets.h>
 #include <Scripts/CScriptMgr.h>
 #include <Engine/CGameObject.h>
 #include <Engine/CScript.h>
+#include <Engine/CLevel.h>
 
 #include "CEditorMgr.h"
 #include "Inspector.h"
@@ -34,24 +36,51 @@ void MenuUI::Tick()
 		Update();
 
 		float contentRegionAvailable = ImGui::GetContentRegionAvail().x + 250.0f;
+		LEVEL_STATE state = CLevelMgr::GetInst()->GetCurrentLevel()->GetState();
+		string whichCamera;
 
-		ImGui::SameLine(contentRegionAvailable / 2 + 32);
-		if (ImGui::Button(ICON_FA_PLAY, { 32, 25 }))
+		if (state == LEVEL_STATE::PLAY)
 		{
-			ChangeLevelState(LEVEL_STATE::PLAY);
+			whichCamera = ICON_FA_CAMERA_RETRO "MainCamera";
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.77f, 0.22f, 0.23f, 1.0f });
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.87f, 0.31f, 0.33f, 1.0f });
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.7f, 0.15f, 0.15f, 1.0f });
+			ImGui::SameLine(contentRegionAvailable / 2 + 32);
+			if (ImGui::Button(ICON_FA_PLAY, { 32, 25 }))
+			{
+				ChangeLevelState(LEVEL_STATE::PLAY);
+			}
+			ImGui::SameLine(contentRegionAvailable / 2 + 70);
+			if (ImGui::Button(ICON_FA_PAUSE, { 32, 25 }))
+			{
+				ChangeLevelState(LEVEL_STATE::PAUSE);
+			}
+			ImGui::PopStyleColor(3);
 		}
-		ImGui::SameLine(contentRegionAvailable / 2 + 70);
-		if (ImGui::Button(ICON_FA_PAUSE, { 32, 25 }))
+		else
 		{
-			ChangeLevelState(LEVEL_STATE::PAUSE);
+			whichCamera = ICON_FA_CAMERA " EditorCamera";
+			ImGui::SameLine(contentRegionAvailable / 2 + 32);
+			if (ImGui::Button(ICON_FA_PLAY, { 32, 25 }))
+			{
+				ChangeLevelState(LEVEL_STATE::PLAY);
+			}
+			ImGui::SameLine(contentRegionAvailable / 2 + 70);
+			if (ImGui::Button(ICON_FA_PAUSE, { 32, 25 }))
+			{
+				ChangeLevelState(LEVEL_STATE::PAUSE);
+			}
 		}
+		
 
 		UINT FPS = CTimeMgr::GetInst()->GetFPSRecord();
 		char buffer[30];
 		sprintf_s(buffer, ICON_FA_BAR_CHART " FPS: %d", FPS);
 		
-		ImGui::SameLine(contentRegionAvailable);
-		ImGui::TextColored({ 0.57f, 0.95f, 0.88f, 1.0f }, buffer);
+		ImGui::SameLine(contentRegionAvailable - 150);
+		ImGui::TextColored({ 0.77f, 0.69f, 0.2f, 1.0f }, whichCamera.c_str());
+		ImGui::SameLine();
+		ImGui::TextColored({ 0.77f, 0.69f, 0.2f, 1.0f }, buffer);
 		ImGui::EndMainMenuBar();
 	}
 

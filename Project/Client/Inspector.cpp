@@ -151,8 +151,6 @@ void Inspector::Update()
 	}
 
 	ImGui::NewLine();
-	ImGui::NewLine();
-	ImGui::SameLine(150);
 	if (ImGui::BeginCombo("##ComponentList", u8"컴포넌트 추가", ImGuiComboFlags_NoArrowButton | ImGuiComboFlags_WidthFitPreview))
 	{
 		for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
