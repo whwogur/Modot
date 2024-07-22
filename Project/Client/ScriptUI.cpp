@@ -6,6 +6,7 @@
 #include <Engine/CAssetMgr.h>
 
 #include "ParamUI.h"
+#include "ListUI.h"
 ScriptUI::ScriptUI()
 	: ComponentUI(COMPONENT_TYPE::SCRIPT)
 	, m_Script(nullptr)
@@ -52,6 +53,16 @@ void ScriptUI::Update()
 			Ptr<CTexture>& pTex = *((Ptr<CTexture>*)vecParam[i].pData);
 			ParamUI::InputTexture(pTex, vecParam[i].Desc);
 		}
+		case SCRIPT_PARAM::PREFAB:
+		{
+			Ptr<CPrefab>& pPrefab = *((Ptr<CPrefab>*)vecParam[i].pData);
+
+			if (ParamUI::InputPrefab(pPrefab, vecParam[i].Desc, this, (DELEGATE_1)&ScriptUI::SelectPrefab))
+			{
+				m_SelectedPrefab = &pPrefab;
+			}
+			break;
+		}
 		break;
 		}
 	}
@@ -66,4 +77,24 @@ void ScriptUI::SetTargetScript(CScript* _Script)
 		SetActive(true);
 	else
 		SetActive(false);
+}
+
+
+void ScriptUI::SelectPrefab(DWORD_PTR _ListUI)
+{
+	ListUI* pListUI = (ListUI*)_ListUI;
+	string strName = pListUI->GetSelectName();
+
+	if ("None" == strName)
+	{
+		*m_SelectedPrefab = nullptr;
+		return;
+	}
+
+	wstring strAssetName = wstring(strName.begin(), strName.end());
+	Ptr<CPrefab> pPrefab = CAssetMgr::GetInst()->FindAsset<CPrefab>(strAssetName);
+
+	assert(pPrefab.Get());
+
+	*m_SelectedPrefab = pPrefab;
 }

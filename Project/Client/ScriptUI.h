@@ -17,6 +17,10 @@ public:
     virtual void Update() override;
 
 private:
+    void SelectPrefab(DWORD_PTR _ListUI);
+
+private:
     CScript*            m_Script;
     Ptr<CTexture>       m_IconTexture;
+    Ptr<CPrefab>*       m_SelectedPrefab;
 };
