@@ -41,6 +41,7 @@ void TilemapEditor::Update()// 정리 필요..;
             }
             ImGui::EndCombo();
         }
+        ImGui::SetItemTooltip(u8"타일맵 아틀라스를\n선택해주세요");
         ImGui::Checkbox("Enable Grid", &enableGrid);
         ImGui::NewLine();
         
@@ -98,7 +99,7 @@ void TilemapEditor::Update()// 정리 필요..;
                     ImVec2(previewTileSize, previewTileSize),
                     ImVec2(tileX * sliceUV.x, tileY * sliceUV.y),
                     ImVec2((tileX + 1) * sliceUV.x, (tileY + 1) * sliceUV.y),
-                    ImVec4(1, 1, 1, 1), enableGrid ? ImVec4(0.0f, 0.43f, 0.56f, 1.0f) : ImVec4(0, 0, 0, 0));
+                    ImVec4(1, 1, 1, 1), enableGrid ? ImVec4(1.0f, 0.0f, 1.0f, 1.0f) : ImVec4(0, 0, 0, 0));
 
                 previewIdx += 1;
             }

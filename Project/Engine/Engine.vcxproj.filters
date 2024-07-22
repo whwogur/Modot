@@ -145,7 +145,9 @@
     <ClInclude Include="CRigidBody.h">
       <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="CPrefab.h" />
+    <ClInclude Include="CPrefab.h">
+      <Filter>06. Asset</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -269,7 +271,9 @@
     <ClCompile Include="CRigidBody.cpp">
       <Filter>Component</Filter>
     </ClCompile>
-    <ClCompile Include="CPrefab.cpp" />
+    <ClCompile Include="CPrefab.cpp">
+      <Filter>06. Asset</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">

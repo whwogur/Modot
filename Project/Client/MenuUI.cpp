@@ -38,13 +38,16 @@ void MenuUI::Tick()
 		float contentRegionAvailable = ImGui::GetContentRegionAvail().x + 250.0f;
 		LEVEL_STATE state = CLevelMgr::GetInst()->GetCurrentLevel()->GetState();
 		string whichCamera;
+		UINT FPS = CTimeMgr::GetInst()->GetFPSRecord();
+		char buffer[30];
+		sprintf_s(buffer, ICON_FA_BAR_CHART " FPS: %d", FPS);
 
 		if (state == LEVEL_STATE::PLAY)
 		{
-			whichCamera = ICON_FA_CAMERA_RETRO "MainCamera";
-			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.77f, 0.22f, 0.23f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.87f, 0.31f, 0.33f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.7f, 0.15f, 0.15f, 1.0f });
+			whichCamera = ICON_FA_CAMERA " MainCamera";
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.22f, 0.23f, 0.77f, 1.0f });
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.35f, 0.87f, 1.0f });
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.15f, 0.2f, 0.7f, 1.0f });
 			ImGui::SameLine(contentRegionAvailable / 2 + 32);
 			if (ImGui::Button(ICON_FA_PLAY, { 32, 25 }))
 			{
@@ -56,6 +59,12 @@ void MenuUI::Tick()
 				ChangeLevelState(LEVEL_STATE::PAUSE);
 			}
 			ImGui::PopStyleColor(3);
+
+			ImGui::SameLine(contentRegionAvailable - 150);
+			ImGui::TextColored({ 0.45f, 0.55f, 0.88f, 1.0f }, whichCamera.c_str());
+			ImGui::SameLine();
+			ImGui::TextColored({ 0.45f, 0.55f, 0.88f, 1.0f }, buffer);
+			ImGui::EndMainMenuBar();
 		}
 		else
 		{
@@ -70,18 +79,18 @@ void MenuUI::Tick()
 			{
 				ChangeLevelState(LEVEL_STATE::PAUSE);
 			}
+
+			ImGui::SameLine(contentRegionAvailable - 150);
+			ImGui::Text(whichCamera.c_str());
+			ImGui::SameLine();
+			ImGui::Text(buffer);
+			ImGui::EndMainMenuBar();
 		}
 		
 
-		UINT FPS = CTimeMgr::GetInst()->GetFPSRecord();
-		char buffer[30];
-		sprintf_s(buffer, ICON_FA_BAR_CHART " FPS: %d", FPS);
 		
-		ImGui::SameLine(contentRegionAvailable - 150);
-		ImGui::TextColored({ 0.77f, 0.69f, 0.2f, 1.0f }, whichCamera.c_str());
-		ImGui::SameLine();
-		ImGui::TextColored({ 0.77f, 0.69f, 0.2f, 1.0f }, buffer);
-		ImGui::EndMainMenuBar();
+		
+		
 	}
 
 }
@@ -139,7 +148,9 @@ void MenuUI::Level()
 	{
 		if (ImGui::MenuItem("Tilemap Editor"))
 		{
-			CEditorMgr::GetInst()->FindEditorUI("TilemapEditor")->Toggle();
+			TilemapEditor* editor = static_cast<TilemapEditor*>(CEditorMgr::GetInst()->FindEditorUI("TilemapEditor"));
+			editor->SetTilemap(nullptr);
+			editor->Toggle();
 		}
 
 		ImGui::EndMenu();
