@@ -32,6 +32,11 @@ CTileMap::CTileMap(const CTileMap& _Other)
 	, m_Buffer(nullptr)
 {
 	m_Buffer = std::make_shared<CStructuredBuffer>();
+}
+
+void CTileMap::Init()
+{
+	// 행, 렬 설정해서 구조화버퍼 크기 조정
 	SetRowCol(m_Row, m_Col);
 }
 

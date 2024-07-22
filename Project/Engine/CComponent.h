@@ -26,6 +26,7 @@ public:
     GET_OTHER_COMPONENT(RigidBody);
 
 public:
+    virtual void Init() {}
     virtual void Begin();
     virtual void Tick();
     virtual void FinalTick() = 0;

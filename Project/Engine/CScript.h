@@ -36,6 +36,7 @@ public:
     CRenderComponent* GetRenderComponent() { return GetOwner()->GetRenderComponent(); }
     UINT GetScriptType() { return m_ScriptType; }
 public:
+    virtual void Begin() override {}
     virtual void Tick() = 0;
     virtual void FinalTick() final override {}
 
@@ -50,6 +51,7 @@ protected:
         m_ScriptParam.push_back(tScriptParam{ _Type,_pData, _Desc, _Param0, _Param1 });
     }
 
+    void Instantiate(Ptr<CPrefab> _Pref, int _LayerIdx, Vec3 _WorldPos, const wstring& _Name = L"");
 private:
     UINT                    m_ScriptType;
     vector<tScriptParam>    m_ScriptParam;

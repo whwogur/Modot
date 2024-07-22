@@ -7,3 +7,4 @@
 #include "CMaterial.h"
 #include "CSprite.h"
 #include "CAnimation.h"
+#include "CPrefab.h"

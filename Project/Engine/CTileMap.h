@@ -34,6 +34,7 @@ public:
     int GetMaxAtlasRow() const { return m_AtlasMaxRow; }
     int GetMaxAtlasCol() const { return m_AtlasMaxCol; }
 public:
+    virtual void Init() override;
     virtual void FinalTick() override;
     virtual void Render() override;
 

@@ -75,9 +75,9 @@ void TilemapEditor::Update()// 정리 필요..;
         ImGui::End();
 
 
-        int Idx = 0;
-        int PreviewTileSize = 30;
-        float Padding = 1.0f;
+        int previewIdx = 0;
+        int previewTileSize = 30;
+        float previewPadding = 1.0f;
         m_ImagePos = ImGui::GetCursorPos();
 
         for (int i = 0; i < row; ++i)
@@ -86,20 +86,20 @@ void TilemapEditor::Update()// 정리 필요..;
             {
                 if (j > 0) ImGui::SameLine();
 
-                ImGui::SetCursorPosX(m_ImagePos.x + j * (PreviewTileSize + Padding));
-                ImGui::SetCursorPosY(m_ImagePos.y + i * (PreviewTileSize + Padding));
+                ImGui::SetCursorPosX(m_ImagePos.x + j * (previewTileSize + previewPadding));
+                ImGui::SetCursorPosY(m_ImagePos.y + i * (previewTileSize + previewPadding));
 
-                int tileIdx = vecTile[Idx].ImgIdx;
+                int tileIdx = vecTile[previewIdx].ImgIdx;
                 int tileX = tileIdx % maxAtlasCol;
                 int tileY = tileIdx / maxAtlasCol;
 
                 ImGui::Image(atlasTex->GetSRV().Get(),
-                    ImVec2(PreviewTileSize, PreviewTileSize),
+                    ImVec2(previewTileSize, previewTileSize),
                     ImVec2(tileX * sliceUV.x, tileY * sliceUV.y),
                     ImVec2((tileX + 1) * sliceUV.x, (tileY + 1) * sliceUV.y),
                     ImVec4(1, 1, 1, 1), enableGrid ? ImVec4(0.0f, 0.43f, 0.56f, 1.0f) : ImVec4(0, 0, 0, 0));
 
-                Idx += 1;
+                previewIdx += 1;
             }
         }
 
@@ -117,8 +117,8 @@ void TilemapEditor::Update()// 정리 필요..;
                 float scrollX = ImGui::GetScrollX();
                 float scrollY = ImGui::GetScrollY();
 
-                int iCol = static_cast<int>((pos.x - m_ImagePos.x + scrollX) / (PreviewTileSize + Padding));
-                int iRow = static_cast<int>((pos.y - m_ImagePos.y + scrollY) / (PreviewTileSize + Padding));
+                int iCol = static_cast<int>((pos.x - m_ImagePos.x + scrollX) / (previewTileSize + previewPadding));
+                int iRow = static_cast<int>((pos.y - m_ImagePos.y + scrollY) / (previewTileSize + previewPadding));
 
                 //MD_ENGINE_TRACE("Mouse RelativePos {0} {1}", pos.x, pos.y);
                 //MD_ENGINE_TRACE("ImagePos {0} {1}", m_ImagePos.x, m_ImagePos.y);

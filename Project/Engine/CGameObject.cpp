@@ -29,7 +29,7 @@ CGameObject::CGameObject(const CGameObject& _Other)
 	, m_arrCom{}
 	, m_RenderCom(nullptr)
 	, m_Parent(nullptr)
-	, m_LayerIdx(_Other.m_LayerIdx)
+	, m_LayerIdx(-1)
 	, m_Dead(false)
 {
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
@@ -37,7 +37,11 @@ CGameObject::CGameObject(const CGameObject& _Other)
 		if (_Other.m_arrCom[i] == nullptr)
 			continue;
 
-		AddComponent(_Other.m_arrCom[i]->Clone());
+		CComponent* pClonedCom = _Other.m_arrCom[i]->Clone();
+
+		AddComponent(pClonedCom);
+
+		pClonedCom->Init();
 	}
 
 	for (auto script : _Other.m_vecScript)
