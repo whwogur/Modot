@@ -9,6 +9,7 @@
 #include <Engine/CLayer.h>
 #include <Engine/CGameObject.h>
 #include <Engine/CTransform.h>
+#include <Engine/CPrefab.h>
 HierarchyView::HierarchyView()
 {
 	m_Tree = new TreeUI;
@@ -58,6 +59,30 @@ void HierarchyView::Update()
 		}
 
 		ImGui::EndPopup();
+	}
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
+		if (payload)
+		{
+			TreeNode** ppNode = (TreeNode**)payload->Data;
+			TreeNode* pNode = *ppNode;
+
+			Ptr<CPrefab> pPrefab = (CPrefab*)pNode->GetData();
+			if (pPrefab != nullptr)
+			{
+				CGameObject* pInstantiatedObj = pPrefab->Instantiate();
+				if (pInstantiatedObj != nullptr)
+				{
+					const wstring& objName = pInstantiatedObj->GetName();
+					pInstantiatedObj->SetName(objName);
+					CreateObject(pInstantiatedObj, 0);
+				}
+			}
+		}
+
+		ImGui::EndDragDropTarget();
 	}
 
 }
@@ -141,6 +166,7 @@ void HierarchyView::DropExtern(DWORD_PTR _ExternData, DWORD_PTR _DropNode)
 {
 	TreeNode* ContentNode = *((TreeNode**)_ExternData);
 	TreeNode* DropNode = (TreeNode*)_DropNode;
+
 }
 
 void HierarchyView::GameObjectClicked(DWORD_PTR _Param)

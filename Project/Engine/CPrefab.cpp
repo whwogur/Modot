@@ -8,15 +8,9 @@ CPrefab::CPrefab()
 {
 }
 
-CPrefab::~CPrefab()
-{
-    if (nullptr != m_ProtoObject)
-        delete m_ProtoObject;
-}
-
 CGameObject* CPrefab::Instantiate()
 {
-    return m_ProtoObject->Clone();
+    return m_OriginalObject->Clone();
 }
 
 int CPrefab::Load(const wstring& _FilePath)

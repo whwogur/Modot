@@ -6,7 +6,7 @@ class PrefabUI :
 {
 public:
     PrefabUI();
-    ~PrefabUI();
+    ~PrefabUI() = default;
 public:
     virtual void Update() override;
 };

@@ -62,8 +62,8 @@ public:
     void EnableDrag(bool _Drag) { m_UseDrag = _Drag; }
     void EnableDrop(bool _Drop) { m_UseDrop = _Drop; }
 
-    bool IsDragEnabled() { return m_UseDrag; }
-    bool IsDropEnabled() { return m_UseDrop; }
+    bool IsDragEnabled() const { return m_UseDrag; }
+    bool IsDropEnabled() const { return m_UseDrop; }
 
     void SetDropPayLoadName(const string& _Name) { m_DropPayLoadName = _Name; }
     const string GetDropPayLoadName() { return m_DropPayLoadName; }

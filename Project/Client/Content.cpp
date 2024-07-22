@@ -4,9 +4,9 @@
 #include "TreeUI.h"
 #include "Inspector.h"
 
-#include "Engine/CAssetMgr.h"
-#include "Engine/assets.h"
-
+#include <Engine/CAssetMgr.h>
+#include <Engine/assets.h>
+#include <Engine/CGameObject.h>
 Content::Content()
 {
 	m_Tree = new TreeUI;
@@ -32,6 +32,35 @@ void Content::Update()
 	if (CAssetMgr::GetInst()->IsDirty())
 	{
 		RenewContent();
+	}
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HierarchyViewTree");
+		if (payload)
+		{
+			TreeNode** ppNode = (TreeNode**)payload->Data;
+			TreeNode* pNode = *ppNode;
+
+			CGameObject* pGameObject = (CGameObject*)pNode->GetData();
+			if (pGameObject != nullptr)
+			{
+				const wstring& objName = pGameObject->GetName();
+				if (CAssetMgr::GetInst()->FindAsset<CPrefab>(objName) != nullptr)
+				{
+					MD_ENGINE_WARN(L"이미 있는 프리팹");
+				}
+				else
+				{
+					Ptr<CPrefab> pPrefab = new CPrefab;
+					pPrefab->SetOriginalObject(pGameObject);
+
+					CAssetMgr::GetInst()->AddAsset<CPrefab>(objName, pPrefab);
+				}
+			}
+		}
+
+		ImGui::EndDragDropTarget();
 	}
 }
 

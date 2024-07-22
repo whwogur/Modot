@@ -1,15 +1,17 @@
 #pragma once
 #include "CAsset.h"
+class CGameObject;
 
 class CPrefab :
     public CAsset
 {
 public:
     CPrefab();
-    ~CPrefab();
+    ~CPrefab() = default;
 
 public:
-    void SetProtoObject(CGameObject* _Object) { m_ProtoObject = _Object; }
+    void SetOriginalObject(CGameObject* _Object) { m_OriginalObject = _Object; }
+    CGameObject* GetOriginalObject() { return m_OriginalObject; }
     CGameObject* Instantiate();
 
 private:
@@ -17,5 +19,5 @@ private:
     virtual int Save(const wstring& _FilePath) override;
 
 private:
-    class CGameObject* m_ProtoObject;
+    CGameObject*        m_OriginalObject;
 };
