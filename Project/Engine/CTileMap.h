@@ -6,7 +6,7 @@ class CStructuredBuffer;
 
 struct tTileInfo
 {
-    int ImgIdx = 2;
+    int ImgIdx = 79;
     int padding[3];
 };
 
@@ -24,6 +24,7 @@ public:
     void SetTileSize(Vec2 _Size);
     void SetAtlasTexture(Ptr<CTexture> _Atlas);
     void SetAtlasTileSize(Vec2 _TileSize);
+    void SetTileInfo(const vector<tTileInfo>& _vecTileInfo) { m_vecTileInfo.assign(_vecTileInfo.begin(), _vecTileInfo.end()); }
 
     Vec2 GetTileSize() const { return m_TileSize; }
     Vec2 GetAtlasTileSize() const { return m_AtlasTileSize; }

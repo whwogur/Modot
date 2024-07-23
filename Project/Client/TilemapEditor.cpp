@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "TilemapEditor.h"
-#include "CTileMap.h"
 #include "CAssetMgr.h"
 #include "TreeUI.h"
 TilemapEditor::TilemapEditor()
@@ -12,7 +11,6 @@ void TilemapEditor::Update()// 정리 필요..;
 {
 	if (m_Tilemap != nullptr)
 	{
-		vector<tTileInfo>& vecTile = m_Tilemap->GetTileInfoRef();
 		Ptr<CTexture> atlasTex = m_Tilemap->GetAtlasTexture();
 		Vec2 sliceUV = m_Tilemap->GetTileSliceUV();
 		const wstring& atlasName = atlasTex->GetKey();
@@ -43,6 +41,18 @@ void TilemapEditor::Update()// 정리 필요..;
         }
         ImGui::SetItemTooltip(u8"타일맵 아틀라스를\n선택해주세요");
         ImGui::Checkbox("Enable Grid", &enableGrid);
+        if (!m_EditHistory.empty())
+        {
+            ImGui::SameLine();
+            if (ImGui::Button(ICON_FA_REPLY, { 30, 30 }))
+            {
+                Undo();
+            }
+            //ImGui::SameLine();
+            //std::pair<UINT, UINT> latest = m_EditHistory.back();
+            //string temp = std::to_string(latest.first) + u8"번째 칸 수정";
+            //ImGui::Text(temp.c_str());
+        }
         ImGui::NewLine();
         
         m_ImageButtonPos = ImGui::GetCursorPos();
@@ -74,6 +84,16 @@ void TilemapEditor::Update()// 정리 필요..;
                 ++sIdx;
             }
         }
+        ImGui::NewLine();
+        if (ImGui::Button("Commit", { 70, 30 }))
+        {
+            Commit();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Revert", { 70, 30 }))
+        {
+            Revert();
+        }
         ImGui::End();
 
 
@@ -91,7 +111,7 @@ void TilemapEditor::Update()// 정리 필요..;
                 ImGui::SetCursorPosX(m_ImagePos.x + j * (previewTileSize + previewPadding));
                 ImGui::SetCursorPosY(m_ImagePos.y + i * (previewTileSize + previewPadding));
 
-                int tileIdx = vecTile[previewIdx].ImgIdx;
+                int tileIdx = m_TilemapToBeEdited[previewIdx].ImgIdx;
                 int tileX = tileIdx % maxAtlasCol;
                 int tileY = tileIdx / maxAtlasCol;
 
@@ -99,7 +119,7 @@ void TilemapEditor::Update()// 정리 필요..;
                     ImVec2(previewTileSize, previewTileSize),
                     ImVec2(tileX * sliceUV.x, tileY * sliceUV.y),
                     ImVec2((tileX + 1) * sliceUV.x, (tileY + 1) * sliceUV.y),
-                    ImVec4(1, 1, 1, 1), enableGrid ? ImVec4(1.0f, 0.0f, 1.0f, 1.0f) : ImVec4(0, 0, 0, 0));
+                    ImVec4(1, 1, 1, 1), enableGrid ? ImVec4(0.22f, 0.22f, 0.22f, 0.77f) : ImVec4(0, 0, 0, 0));
 
                 previewIdx += 1;
             }
@@ -128,7 +148,7 @@ void TilemapEditor::Update()// 정리 필요..;
 
                 if (iRow >= 0 && iRow < row && iCol >= 0 && iCol < col && ((maxAtlasRow * maxAtlasCol) >= selTileIndex))
                 {
-                    vecTile[iRow * col + iCol].ImgIdx = selTileIndex;
+                    Edit(iRow * col + iCol, m_TilemapToBeEdited[iRow * col + iCol].ImgIdx, selTileIndex);
                 }
             }
         }
@@ -159,4 +179,37 @@ void TilemapEditor::Update()// 정리 필요..;
             ImGui::EndDragDropTarget();
         }
     }
+}
+
+void TilemapEditor::SetTilemap(CTileMap* _Tilemap)
+{
+    m_Tilemap = _Tilemap;
+    const vector<tTileInfo>& vecRef = m_Tilemap->GetTileInfoRef();
+    m_TilemapToBeEdited.assign(vecRef.begin(), vecRef.end());
+    m_EditHistory.clear();
+}
+
+void TilemapEditor::Edit(UINT vecTileIdx, UINT oldImgIdx, UINT newImgIdx)
+{
+    m_EditHistory.push_back(std::make_pair(vecTileIdx, oldImgIdx));
+
+    m_TilemapToBeEdited[vecTileIdx].ImgIdx = newImgIdx;
+}
+
+void TilemapEditor::Undo()
+{
+    std::pair<UINT, UINT> temp = m_EditHistory.back();
+    m_TilemapToBeEdited[temp.first].ImgIdx = temp.second;
+    m_EditHistory.pop_back();
+}
+
+void TilemapEditor::Revert()
+{
+    SetTilemap(m_Tilemap);
+}
+
+void TilemapEditor::Commit()
+{
+    m_Tilemap->SetTileInfo(m_TilemapToBeEdited);
+    SetTilemap(m_Tilemap);
 }

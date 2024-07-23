@@ -1,5 +1,7 @@
 #pragma once
 #include "EditorUI.h"
+#include "CTileMap.h"
+
 class CTileMap;
 
 class TilemapEditor :
@@ -13,10 +15,16 @@ public:
     virtual void Update() override;
 
 public:
-    void SetTilemap(CTileMap* _Tilemap) { m_Tilemap = _Tilemap; }
-
+    void SetTilemap(CTileMap* _Tilemap);
 private:
-    CTileMap*   m_Tilemap;
-    ImVec2      m_ImagePos = {};
-    ImVec2      m_ImageButtonPos = {};
+    void Edit(UINT vecTileIdx, UINT oldImgIdx, UINT newImgIdx);
+    void Undo();
+    void Revert();
+    void Commit();
+private:
+    CTileMap*                           m_Tilemap;
+    ImVec2                              m_ImagePos = {};
+    ImVec2                              m_ImageButtonPos = {};
+    vector<std::pair<UINT, UINT>>       m_EditHistory;
+    std::vector<tTileInfo>              m_TilemapToBeEdited;
 };
