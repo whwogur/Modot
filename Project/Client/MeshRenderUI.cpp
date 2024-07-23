@@ -58,7 +58,7 @@ void MeshRenderUI::Update()
 	}
 
 	ImGui::SameLine();
-	if (ImGui::Button(ICON_FA_PLUS "##MeshBtn", ImVec2(20.f, 20.f)))
+	if (ImGui::Button(ICON_FA_COG "##MeshBtn", ImVec2(20.f, 20.f)))
 	{
 		ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("List");
 		pListUI->SetName("Mesh");
@@ -98,7 +98,7 @@ void MeshRenderUI::Update()
 	}
 
 	ImGui::SameLine();
-	if (ImGui::Button(ICON_FA_PLUS "##MtrlBtn", ImVec2(20.f, 20.f)))
+	if (ImGui::Button(ICON_FA_COG "##MtrlBtn", ImVec2(20.f, 20.f)))
 	{
 		ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("List");
 		pListUI->SetName("Material");

@@ -5,6 +5,7 @@
 #include "CDevice.h"
 #include "CConstBuffer.h"
 #include "CTimeMgr.h"
+#include "CAssetMgr.h"
 #include "CAnimation.h"
 
 
@@ -69,6 +70,45 @@ void CAnimator2D::FinalTick()
 
 		m_CurFrmSprite = m_CurAnimation->GetSprite(m_CurFrmIdx);
 	}
+}
+
+void CAnimator2D::SaveToFile(FILE* _File)
+{
+	size_t FlipBookCount = m_vecAnimation.size();
+	fwrite(&FlipBookCount, sizeof(size_t), 1, _File);
+	for (auto animation : m_vecAnimation)
+	{
+		SaveAssetRef(animation, _File);
+	}
+
+	// 현재 재생중인 FlipBook 정보
+	SaveAssetRef(m_CurAnimation, _File);
+	SaveAssetRef(m_CurFrmSprite, _File);
+
+	fwrite(&m_CurFrmIdx, sizeof(int), 1, _File);
+	fwrite(&m_FPS, sizeof(float), 1, _File);
+	fwrite(&m_AccTime, sizeof(float), 1, _File);
+	fwrite(&m_Repeat, sizeof(bool), 1, _File);
+}
+
+void CAnimator2D::LoadFromFile(FILE* _File)
+{
+	size_t FlipBookCount = 0;
+	fread(&FlipBookCount, sizeof(size_t), 1, _File);
+	for (size_t i = 0; i < FlipBookCount; ++i)
+	{
+		Ptr<CAnimation> pFlipBook;
+		LoadAssetRef(pFlipBook, _File);
+		m_vecAnimation.push_back(pFlipBook);
+	}
+
+	LoadAssetRef(m_CurAnimation, _File);
+	LoadAssetRef(m_CurFrmSprite, _File);
+
+	fread(&m_CurFrmIdx, sizeof(int), 1, _File);
+	fread(&m_FPS, sizeof(float), 1, _File);
+	fread(&m_AccTime, sizeof(float), 1, _File);
+	fread(&m_Repeat, sizeof(bool), 1, _File);
 }
 
 void CAnimator2D::AddAnimation(int _Idx, Ptr<CAnimation> _Animation)

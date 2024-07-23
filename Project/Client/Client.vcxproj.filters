@@ -196,6 +196,7 @@
     <ClInclude Include="TilemapEditor.h">
       <Filter>Editor\EditorUI\Modal</Filter>
     </ClInclude>
+    <ClInclude Include="CLevelSaveLoad.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -364,6 +365,7 @@
     <ClCompile Include="TilemapEditor.cpp">
       <Filter>Editor\EditorUI\Modal</Filter>
     </ClCompile>
+    <ClCompile Include="CLevelSaveLoad.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">

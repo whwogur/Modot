@@ -14,7 +14,7 @@ public:
     CGameObject* GetOriginalObject() { return m_OriginalObject; }
     CGameObject* Instantiate();
 
-private:
+public:
     virtual int Load(const wstring& _FilePath) override;
     virtual int Save(const wstring& _FilePath) override;
 

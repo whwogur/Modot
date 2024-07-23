@@ -95,3 +95,23 @@ void CRigidBody::FinalTick()
 
 	m_Force = Vec2(0.f, 0.f);
 }
+
+void CRigidBody::SaveToFile(FILE* _File)
+{
+	fwrite(&m_Mass, sizeof(float), 1, _File);
+	fwrite(&m_Friction, sizeof(float), 1, _File);
+	fwrite(&m_FrictionScale, sizeof(float), 1, _File);
+	fwrite(&m_VelocityLimit, sizeof(float), 1, _File);
+	fwrite(&m_MaxGravityVel, sizeof(float), 1, _File);
+	fwrite(&m_GravityAccel, sizeof(float), 1, _File);
+}
+
+void CRigidBody::LoadFromFile(FILE* _File)
+{
+	fread(&m_Mass, sizeof(float), 1, _File);
+	fread(&m_Friction, sizeof(float), 1, _File);
+	fread(&m_FrictionScale, sizeof(float), 1, _File);
+	fread(&m_VelocityLimit, sizeof(float), 1, _File);
+	fread(&m_MaxGravityVel, sizeof(float), 1, _File);
+	fread(&m_GravityAccel, sizeof(float), 1, _File);
+}

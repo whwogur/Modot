@@ -31,7 +31,8 @@ public:
 
 public:
     virtual void FinalTick() override;
-
+    virtual void SaveToFile(FILE* _File) override;
+    virtual void LoadFromFile(FILE* _File) override;
 private:
     Vec3    m_Offset;
     Vec3    m_Scale;        // 배율 or 절대 크기

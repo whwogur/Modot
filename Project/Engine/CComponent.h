@@ -30,7 +30,8 @@ public:
     virtual void Begin();
     virtual void Tick();
     virtual void FinalTick() = 0;
-
+    virtual void SaveToFile(FILE* _File) = 0;
+    virtual void LoadFromFile(FILE* _File) = 0;
 private:
     void SetOwner(CGameObject* _Object) { m_Owner = _Object; }
 

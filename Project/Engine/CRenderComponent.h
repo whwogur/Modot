@@ -22,6 +22,9 @@ public:
     virtual void FinalTick() = 0;
     virtual void Render() = 0;
 
+protected:
+    void SaveDataToFile(FILE* _File);
+    void LoadDataFromFile(FILE* _File);
     
 private:
     Ptr<CMesh>          m_Mesh;

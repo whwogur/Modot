@@ -97,6 +97,7 @@
     <ClInclude Include="CEditorCameraScript.h" />
     <ClInclude Include="CEditorMgr.h" />
     <ClInclude Include="CGameObjectEx.h" />
+    <ClInclude Include="CLevelSaveLoad.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Collider2DUI.h" />
     <ClInclude Include="ComponentUI.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="CEditorMgr.cpp" />
     <ClCompile Include="CEditorMgr_EditorUI.cpp" />
     <ClCompile Include="CGameObjectEx.cpp" />
+    <ClCompile Include="CLevelSaveLoad.cpp" />
     <ClCompile Include="Collider2DUI.cpp" />
     <ClCompile Include="ComponentUI.cpp" />
     <ClCompile Include="ComputeShaderUI.cpp" />

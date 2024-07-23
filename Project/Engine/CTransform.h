@@ -36,6 +36,9 @@ public:
     Vec3& GetRelativeRoatationRef() { return m_RelativeRotation; }
     Vec3 GetRelativeDir(DIR _Type) { return m_RelativeDir[_Type]; }
     Vec3 GetWorldDir(DIR _Type) { return m_WorldDir[_Type]; }
+
+    virtual void SaveToFile(FILE* _File) override;
+    virtual void LoadFromFile(FILE* _File) override;
 private:
     Vec3    m_RelativePos;
     Vec3    m_RelativeScale;

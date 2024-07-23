@@ -46,9 +46,9 @@ float4 PS_GrayFilter(VS_OUT _in) : SV_Target
     //vColor = float4(Average, Average, Average, 1.f); 
         
     // Cos Distortion
-    //float2 vUV = _in.vUV;    
-    //vUV.y += cos( (vUV.x + g_EngineTime * 0.1f) * PI * 12.f) * 0.01;    
-    //float4 vColor = g_tex_0.Sample(g_sam_0, vUV);
+    /*float2 vUV = _in.vUV;    
+    vUV.y += cos( (vUV.x + g_EngineTime * 0.1f) * PI * 12.f) * 0.01;    
+    float4 vColor = g_tex_0.Sample(g_sam_0, vUV);*/
     
     // Noise
     float2 vUV = _in.vUV;
@@ -188,7 +188,7 @@ float4 PS_SmallRipple(VS_OUT _in) : SV_Target
     float shockwaveWidth = 0.1;
 
     // Normalized coordinates
-    float2 p = _in.vPosition.xy / g_Resolution.xy * 2.0 - 1.0;
+    float2 p = _in.vPosition.xy / g_Resolution * 2.0 - 1.0;
 
     // Distance from the center
     float distanceFromCenter = length(p);
@@ -199,7 +199,7 @@ float4 PS_SmallRipple(VS_OUT _in) : SV_Target
     wave = wave * smoothstep(0.0, 1.0, 1.0 - distanceFromCenter / currentRadius);
 
     // Adjust UV coordinates with the wave effect
-    float2 uv = (_in.vPosition.xy / g_Resolution.xy) + (p / distanceFromCenter) * wave * shockwaveIntensity;
+    float2 uv = (_in.vPosition.xy / g_Resolution) + (p / distanceFromCenter) * wave * shockwaveIntensity;
 
     // Sample the texture
     float3 col = g_tex_0.Sample(g_sam_0, uv).xyz;

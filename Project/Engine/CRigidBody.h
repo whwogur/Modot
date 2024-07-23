@@ -10,6 +10,9 @@ public:
 
 public:
     virtual void FinalTick() override;
+    virtual void SaveToFile(FILE* _File) override;
+    virtual void LoadFromFile(FILE* _File) override;
+
 public:
     void AddForce(Vec2 _Force) { m_Force += _Force; }
     void SetVelocityLimit(float _Vel) { m_VelocityLimit = _Vel; }

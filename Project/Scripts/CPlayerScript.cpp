@@ -69,3 +69,13 @@ void CPlayerScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObj
 	RigidBody()->SetGround(false);
 	MD_ENGINE_TRACE("Airborne");
 }
+
+void CPlayerScript::SaveToFile(FILE* _File)
+{
+	fwrite(&m_Speed, sizeof(float), 1, _File);
+}
+
+void CPlayerScript::LoadFromFile(FILE* _File)
+{
+	fread(&m_Speed, sizeof(float), 1, _File);
+}

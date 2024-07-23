@@ -32,3 +32,13 @@ void CMeshRender::Render()
 	GetMaterial()->Bind();
 	GetMesh()->Render();
 }
+
+void CMeshRender::SaveToFile(FILE* _File)
+{
+	SaveDataToFile(_File);
+}
+
+void CMeshRender::LoadFromFile(FILE* _File)
+{
+	LoadDataFromFile(_File);
+}

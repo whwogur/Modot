@@ -15,3 +15,13 @@ void CBackGroundScript::Begin()
 void CBackGroundScript::Tick()
 {
 }
+
+void CBackGroundScript::SaveToFile(FILE* _File)
+{
+	SaveAssetRef(m_Texture, _File);
+}
+
+void CBackGroundScript::LoadFromFile(FILE* _File)
+{
+	LoadAssetRef(m_Texture, _File);
+}
