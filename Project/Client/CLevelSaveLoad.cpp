@@ -9,12 +9,15 @@
 
 #include <Scripts/CScriptMgr.h>
 
-void CLevelSaveLoad::SaveLevel(const wstring& _FilePath, CLevel* _Level)
+void CLevelSaveLoad::SaveLevel(const wstring& _RelativePath, CLevel* _Level)
 {
-	MD_ENGINE_ASSERT(_Level, L"CLevelSaveLoad - 레벨 없음");
+	MD_ENGINE_ASSERT(_Level, L"CLevelSaveLoad - 레벨 nullptr 입력");
+
+	const wstring& contentPath = CPathMgr::GetInst()->GetContentPath();
+	wstring fullPath = contentPath + _RelativePath;
 
 	FILE* File = nullptr;
-	_wfopen_s(&File, _FilePath.c_str(), L"wb");
+	_wfopen_s(&File, fullPath.c_str(), L"wb");
 
 	SaveWString(_Level->GetName(), File);
 
@@ -82,10 +85,13 @@ void CLevelSaveLoad::SaveGameObject(FILE* _File, CGameObject* _Object)
 	}
 }
 
-CLevel* CLevelSaveLoad::LoadLevel(const wstring& _FilePath)
+CLevel* CLevelSaveLoad::LoadLevel(const wstring& _RelativePath)
 {
+	const wstring& contentPath = CPathMgr::GetInst()->GetContentPath();
+	wstring fullPath = contentPath + _RelativePath;
+
 	FILE* File = nullptr;
-	_wfopen_s(&File, _FilePath.c_str(), L"rb");
+	_wfopen_s(&File, fullPath.c_str(), L"rb");
 
 	// Level 생성
 	CLevel* pNewLevel = new CLevel;

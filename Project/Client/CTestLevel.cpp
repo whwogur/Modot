@@ -24,13 +24,11 @@ void CTestLevel::CreateTestLevel()
 	//pAlphaBlendMtrl->SetTexParam(TEX_0, pTexture);
 	
 
-	wstring strLevelPath = CPathMgr::GetInst()->GetContentPath();
-	strLevelPath += L"level\\Temp.lev";
-	CLevel* LoadedLevel = CLevelSaveLoad::LoadLevel(strLevelPath);
+	CLevel* LoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\TestLevel.lv");
 	ChangeLevel(LoadedLevel, LEVEL_STATE::PLAY);
 	CCollisionMgr::GetInst()->CollisionCheck(3, 4); // Player | Monster
-
 	return;
+
 	// Level 생성
 	CLevel* pLevel = new CLevel;
 	ChangeLevel(pLevel, LEVEL_STATE::STOP);
@@ -126,6 +124,12 @@ void CTestLevel::CreateTestLevel()
 	pGroundObj->Collider2D()->SetScale({ 1.0f, 1.0f, 1.0f });
 
 	pLevel->AddObject(4, pGroundObj);
+
+	//CCollisionMgr::GetInst()->CollisionCheck(3, 4); // Player | Monster
+
+	//pLevel->SetName(L"TestLevel");
+	//wstring strLevelPath = L"level\\" + pLevel->GetName() + L".lv";
+	//CLevelSaveLoad::SaveLevel(strLevelPath, pLevel);
 	// 충돌 지정
 	
 }

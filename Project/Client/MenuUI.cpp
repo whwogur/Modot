@@ -15,6 +15,7 @@
 #include "SpriteEditor.h"
 #include "AnimationEditor.h"
 #include "TilemapEditor.h"
+#include "CLevelSaveLoad.h"
 MenuUI::MenuUI()
 {
 }
@@ -87,10 +88,6 @@ void MenuUI::Tick()
 			ImGui::EndMainMenuBar();
 		}
 		
-
-		
-		
-		
 	}
 
 }
@@ -114,24 +111,38 @@ void MenuUI::File()
 	
 	if (ImGui::BeginMenu(ICON_FA_FILE " File"))
 	{
-		if (ImGui::MenuItem(u8"새 파일", "Ctrl + N"))
+		if (ImGui::MenuItem(u8"새 레벨", "Ctrl + N"))
 		{
 		}
 
-		if (ImGui::MenuItem(u8"열기", "Ctrl + O"))
+		if (ImGui::MenuItem(u8"레벨 불러오기", "Ctrl + O"))
 		{
+			LoadLevel();
 		}
+
+		if (ImGui::MenuItem(u8"레벨 저장", "Ctrl + S"))
+		{
+			CLevel* pLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+			const wstring& levelName = pLevel->GetName();
+			if (!levelName.empty())
+			{
+				wstring strLevelPath = L"level\\" + levelName + L".lv";
+				CLevelSaveLoad::SaveLevel(strLevelPath, pLevel);
+			}
+		}
+		ImGui::SetItemTooltip(u8"현재 편집중인\n레벨을 저장합니다");
 
 		if (ImGui::MenuItem(u8"다른 이름으로 저장", "Ctrl + Shift + S"))
 		{
+			SaveLevelAs();
 		}
 
-		if (ImGui::MenuItem(u8"파일 탐색기", "Ctrl + Shift + S"))
+		if (ImGui::MenuItem(u8"파일 탐색기", "Ctrl + E"))
 		{
 			CEditorMgr::GetInst()->FindEditorUI("FileBrowser")->Toggle();
 		}
 
-		if (ImGui::MenuItem(u8"닫기"))
+		if (ImGui::MenuItem(u8"종료"))
 		{
 			PostQuitMessage(0);
 		}
@@ -198,6 +209,72 @@ void MenuUI::Assets()
 
 		ImGui::EndMenu();
 	}
+}
+
+void MenuUI::LoadLevel()
+{
+	// open a file name
+	OPENFILENAME ofn = {};
+
+	wstring strinitPath = CPathMgr::GetInst()->GetContentPath();
+	strinitPath += L"level\\";
+
+	wchar_t szFilePath[256] = {};
+
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFile = szFilePath;
+	ofn.lpstrFile[0] = '\0';
+	ofn.nMaxFile = 256;
+	ofn.lpstrFilter = L"lv\0*.lv\0ALL\0*.*";
+	ofn.nFilterIndex = 1;
+	ofn.lpstrFileTitle = NULL;
+	ofn.nMaxFileTitle = 0;
+	ofn.lpstrInitialDir = strinitPath.c_str();
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+	if (false == GetOpenFileName(&ofn))
+		return;
+
+	path relPath = szFilePath;
+	wstring rel = relPath.filename();
+	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\" + rel);
+	ChangeLevel(pLevel, LEVEL_STATE::PLAY);
+}
+
+void MenuUI::SaveLevelAs()
+{
+	// open a file name
+	OPENFILENAME ofn = {};
+
+	wstring strTileFolderPath = CPathMgr::GetInst()->GetContentPath();
+	strTileFolderPath += L"level\\";
+
+
+	wchar_t szFilePath[256] = {};
+
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFile = szFilePath;
+	ofn.lpstrFile[0] = '\0';
+	ofn.nMaxFile = 256;
+	ofn.lpstrFilter = L"lv\0*.lv\0ALL\0*.*";
+	ofn.nFilterIndex = 1;
+	ofn.lpstrFileTitle = NULL;
+	ofn.nMaxFileTitle = 0;
+	ofn.lpstrInitialDir = strTileFolderPath.c_str();
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+	if (false == GetSaveFileName(&ofn))
+		return;
+
+	CLevel* pLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+	path relPath = szFilePath;
+	wstring rel = relPath.filename();
+	rel += L".lv";
+	CLevelSaveLoad::SaveLevel(L"level\\" + rel, pLevel);
 }
 
 wstring MenuUI::GetAssetKey(ASSET_TYPE _Type, const wstring& _KeyFormat)

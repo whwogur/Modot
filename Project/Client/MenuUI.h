@@ -18,6 +18,8 @@ private:
     void AddScripts();
     void Assets();
 
+    void LoadLevel();
+    void SaveLevelAs();
 private:
     void AddScript();
     wstring GetAssetKey(ASSET_TYPE _Type, const wstring& _Format);
