@@ -11,6 +11,7 @@
 
 #include <Scripts/CPlayerScript.h>
 #include <Scripts/CCameraMoveScript.h>
+#include "CLevelSaveLoad.h"
 
 void CTestLevel::CreateTestLevel()
 {
@@ -21,6 +22,15 @@ void CTestLevel::CreateTestLevel()
 
 	//Ptr<CTexture> pTexture = CAssetMgr::GetInst()->Load<CTexture>(L"LogoTex", L"texture//Logo.png");
 	//pAlphaBlendMtrl->SetTexParam(TEX_0, pTexture);
+	
+
+	wstring strLevelPath = CPathMgr::GetInst()->GetContentPath();
+	strLevelPath += L"level\\Temp.lev";
+	CLevel* LoadedLevel = CLevelSaveLoad::LoadLevel(strLevelPath);
+	ChangeLevel(LoadedLevel, LEVEL_STATE::PLAY);
+	CCollisionMgr::GetInst()->CollisionCheck(3, 4); // Player | Monster
+
+	return;
 	// Level 생성
 	CLevel* pLevel = new CLevel;
 	ChangeLevel(pLevel, LEVEL_STATE::STOP);
@@ -117,9 +127,5 @@ void CTestLevel::CreateTestLevel()
 
 	pLevel->AddObject(4, pGroundObj);
 	// 충돌 지정
-	CCollisionMgr::GetInst()->CollisionCheck(3, 4); // Player | Monster
-
-
-	// 레벨 시작
-	//m_CurLevel->Begin();
+	
 }

@@ -146,6 +146,11 @@ void CTileMap::LoadFromFile(FILE* _File)
 
 	SetRowCol(m_Row, m_Col);
 
+	fread(&m_TileSize, sizeof(Vec2), 1, _File);
+	fread(&m_AtlasTileSize, sizeof(Vec2), 1, _File);
+
+	SetTileSize(m_TileSize);
+
 	for (size_t i = 0; i < m_vecTileInfo.size(); ++i)
 	{
 		fread(&m_vecTileInfo[i], sizeof(tTileInfo), 1, _File);
