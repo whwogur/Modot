@@ -3,15 +3,6 @@
 
 #include "value.fx"
 
-// ==========================
-// GrayFilterShader
-// Mesh     : RectMesh
-// DSTYPE   : NO_TEST_NO_WRITE
-// g_tex_0  : TargetCopyTex
-// g_tex_1  : NoiseTexture 1
-// g_tex_2  : NoiseTexture 2
-// g_tex_3  : NoiseTexture 3
-// ===========================
 struct VS_IN
 {
     float3 vPos : POSITION;
@@ -24,42 +15,54 @@ struct VS_OUT
     float2 vUV : TEXCOORD;
 };
 
-VS_OUT VS_GrayFilter(VS_IN _in)
+VS_OUT VS_Shockwave(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
-    
-    // Proj 행렬을 곱한 결과는 각 xyz 에 자신의 ViewZ 가 곱혀져있는 형태이다.
-    // W 자리에 자신의 ViewZ 가 출력되기 때문에 이것으로 각 xyz 를 나누어야 실제 Proj 좌표가 나온다.
-    // 따라서 Rasterizer State 에 투영행렬을 곱한 결과를 전달하면 각 xyz 를 w 로 나누어서 사용한다.    
-    output.vPosition = float4(_in.vPos.xy * 2.f, 0.f, 1.f);
+  
+    output.vPosition = mul(float4(_in.vPos, 1.f), matWVP);
     output.vUV = _in.vUV;
     
     return output;
 }
 
 
-float4 PS_GrayFilter(VS_OUT _in) : SV_Target
+float4 PS_Shockwave(VS_OUT _in) : SV_Target
 {
-    // GrayFilter
-    //float4 vColor = g_tex_0.Sample(g_sam_0, _in.vUV);    
-    //float Average = (vColor.x + vColor.y + vColor.z) / 3.f;
-    //vColor = float4(Average, Average, Average, 1.f); 
-        
-    // Cos Distortion
-    /*float2 vUV = _in.vUV;    
-    vUV.y += cos( (vUV.x + g_EngineTime * 0.1f) * PI * 12.f) * 0.01;    
-    float4 vColor = g_tex_0.Sample(g_sam_0, vUV);*/
-    
-    // Noise
-    float2 vUV = _in.vUV;
-    vUV.x += g_EngineTime * 0.1;
-    float4 vNoise = g_tex_3.Sample(g_sam_0, vUV);
-    vNoise = (vNoise * 2.f - 1.f) * 0.01f;
-    vUV = _in.vUV + vNoise.xy;
-    float4 vColor = g_tex_0.Sample(g_sam_0, vUV);
-    vColor.b *= 1.5f;
-    
-    return vColor;
+    float offset = (g_EngineTime - floor(g_EngineTime)) / g_EngineTime;
+    float CurrentTime = (g_EngineTime) * (offset);
+
+    float3 WaveParams = float3(10.0, 0.8, 0.1);
+
+    float ratio = 1.0;
+
+    float2 WaveCentre = mul(g_vec4_0, matWV) / g_Resolution;
+
+    float2 texCoord = _in.vPosition.xy / g_Resolution;
+
+    float Dist = distance(texCoord, WaveCentre);
+
+    float4 Color = g_tex_0.Sample(g_sam_0, texCoord);
+
+    // Only distort the pixels within the parameter distance from the centre
+    if ((Dist <= (CurrentTime + WaveParams.z)) && (Dist >= (CurrentTime - WaveParams.z)))
+    {
+        // The pixel offset distance based on the input parameters
+        float Diff = (Dist - CurrentTime);
+        float ScaleDiff = (1.0 - pow(abs(Diff * WaveParams.x), WaveParams.y));
+        float DiffTime = (Diff * ScaleDiff);
+
+        // The direction of the distortion
+        float2 DiffTexCoord = normalize(texCoord - WaveCentre);
+
+        // Perform the distortion and reduce the effect over time
+        texCoord += ((DiffTexCoord * DiffTime) / (CurrentTime * Dist * 40.0));
+        Color = g_tex_0.Sample(g_sam_0, texCoord);
+
+        // Blow out the color and reduce the effect over time
+        Color += (Color * ScaleDiff) / (CurrentTime * Dist * 40.0);
+    }
+
+    return Color;
 }
 
 
@@ -148,7 +151,7 @@ float4 PS_Ripple(VS_OUT _in) : SV_Target
     float intensity = 0.06;
 
     // 좌표 정규화
-    float2 p = _in.vPosition.xy / g_Resolution.xy * 2.0 - 1.0;
+    float2 p = _in.vPosition.xy / g_Resolution;
 
     // 벡터 길이
     float cLength = length(p);

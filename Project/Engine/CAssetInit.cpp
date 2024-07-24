@@ -120,6 +120,7 @@ void CAssetMgr::CreateEngineTexture()
 	Load<CTexture>(L"ComponentIcons", L"texture\\ComponentIcons.png");
 	Load<CTexture>(L"ScriptIcon", L"texture\\ScriptIcon.png");
 	Load<CTexture>(L"Modot_Logo", L"texture\\Modot_Logo.png");
+	Load<CTexture>(L"RedDiscFx", L"texture\\RedDiscFx.png");
 }
 
 void CAssetMgr::CreateEngineSprite()
@@ -189,7 +190,6 @@ void CAssetMgr::CreateEngineGraphicShader()
 
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASKED);
 	pShader->AddTexParam(TEX_0, "OutputTexture");
-	pShader->AddScalarParam(INT_0, "Test Parameter");
 	AddAsset(L"Std2DShader", pShader);
 
 	// Std2DAlphaBlend
@@ -236,15 +236,17 @@ void CAssetMgr::CreateEngineGraphicShader()
 
 	AddAsset(L"TileMapShader", pShader);
 
-	// GrayFilterShader
+	// Shockwave
 	pShader = new CGraphicShader;
-	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_GrayFilter");
-	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_GrayFilter");
+	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_Shockwave");
+	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_Shockwave");
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 	pShader->SetBSType(BS_TYPE::DEFAULT);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
-	AddAsset(L"GrayFilterShader", pShader);
+	pShader->AddScalarParam(SCALAR_PARAM::VEC4_0, "float4");
+	pShader->AddTexParam(TEX_0, u8"¹è°æ");
+	AddAsset(L"ShockwaveShader", pShader);
 
 	// Distortion
 	pShader = new CGraphicShader;
@@ -308,29 +310,25 @@ void CAssetMgr::CreateEngineMaterial()
 
 	// GrayFilterMtrl
 	pMtrl = new CMaterial();
-	pMtrl->SetShader(FindAsset<CGraphicShader>(L"GrayFilterShader"));
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"ShockwaveShader"));
 	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
-	pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"texture\\noise\\noise_01.png"));
-	pMtrl->SetTexParam(TEX_2, FindAsset<CTexture>(L"texture\\noise\\noise_02.png"));
-	pMtrl->SetTexParam(TEX_3, FindAsset<CTexture>(L"texture\\noise\\noise_03.jpg"));
-	AddAsset(L"GrayFilterMtrl", pMtrl);
+	pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"RedDiscFx"));
+	AddAsset(L"ShockwaveMtrl", pMtrl);
 
 	// DistortionMtrl
 	pMtrl = new CMaterial();
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"DistortionShader"));
 	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
-	pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"texture\\noise\\noise_01.png"));
-	pMtrl->SetTexParam(TEX_2, FindAsset<CTexture>(L"texture\\noise\\noise_02.png"));
-	pMtrl->SetTexParam(TEX_3, FindAsset<CTexture>(L"texture\\noise\\noise_03.jpg"));
+	pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"noise_01"));
+	pMtrl->SetTexParam(TEX_2, FindAsset<CTexture>(L"noise_02"));
+	pMtrl->SetTexParam(TEX_3, FindAsset<CTexture>(L"noise_03"));
 	AddAsset(L"DistortionMtrl", pMtrl);
 
 	// RippleMtrl
 	pMtrl = new CMaterial();
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"RippleShader"));
 	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
-	pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"texture\\noise\\noise_01.png"));
-	pMtrl->SetTexParam(TEX_2, FindAsset<CTexture>(L"texture\\noise\\noise_02.png"));
-	pMtrl->SetTexParam(TEX_3, FindAsset<CTexture>(L"texture\\noise\\noise_03.jpg"));
+	pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"RedDiscFx"));
 	AddAsset(L"RippleMtrl", pMtrl);
 
 	// SmallRippleMtrl

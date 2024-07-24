@@ -59,7 +59,7 @@ void MaterialUI::Update()
 	}
 
 	ImGui::SameLine();
-	if (ImGui::Button("##ShaderBtn", ImVec2(18.f, 18.f)))
+	if (ImGui::Button(ICON_FA_COG "##ShaderBtn", ImVec2(22.f, 22.f)))
 	{
 		ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("List");
 		pListUI->SetName("GraphicShader");
@@ -113,7 +113,7 @@ void MaterialUI::ShaderParameter()
 		case FLOAT_3:
 		{
 			float data = *((float*)pMtrl->GetScalarParam(vecScalarParam[i].ParamType));
-			if (ParamUI::DragFloat(&data, 0.1f, vecScalarParam[i].strDesc))
+			if (ParamUI::InputFloat(&data, vecScalarParam[i].strDesc))
 			{
 				pMtrl->SetScalarParam(vecScalarParam[i].ParamType, data);
 			}
@@ -125,7 +125,7 @@ void MaterialUI::ShaderParameter()
 		case VEC2_3:
 		{
 			Vec2 data = *((Vec2*)pMtrl->GetScalarParam(vecScalarParam[i].ParamType));
-			if (ParamUI::DragVec2(&data, 0.1f, vecScalarParam[i].strDesc))
+			if (ParamUI::InputVec2(&data, vecScalarParam[i].strDesc))
 			{
 				pMtrl->SetScalarParam(vecScalarParam[i].ParamType, data);
 			}
@@ -137,7 +137,7 @@ void MaterialUI::ShaderParameter()
 		case VEC4_3:
 		{
 			Vec4 data = *((Vec4*)pMtrl->GetScalarParam(vecScalarParam[i].ParamType));
-			if (ParamUI::DragVec4(&data, 0.1f, vecScalarParam[i].strDesc))
+			if (ParamUI::InputVec4(&data, vecScalarParam[i].strDesc))
 			{
 				pMtrl->SetScalarParam(vecScalarParam[i].ParamType, data);
 			}
