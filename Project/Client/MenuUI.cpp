@@ -16,6 +16,7 @@
 #include "AnimationEditor.h"
 #include "TilemapEditor.h"
 #include "CLevelSaveLoad.h"
+#include "MaterialUI.h"
 MenuUI::MenuUI()
 {
 }
@@ -206,6 +207,18 @@ void MenuUI::Assets()
 			CAssetMgr::GetInst()->AddAsset<CMaterial>(Key, pMtrl);
 			pMtrl->Save(Key);
 		}
+
+		if (ImGui::MenuItem(u8"재질 저장"))
+		{
+			Inspector* pInspector = static_cast<Inspector*>(CEditorMgr::GetInst()->FindEditorUI("Inspector"));
+			Ptr<CMaterial> curMat = dynamic_cast<CMaterial*>(pInspector->GetTargetAsset().Get());
+			if (curMat != nullptr)
+			{
+				const wstring& wstrKey = curMat->GetKey();
+				curMat->Save(L"material\\" + wstrKey + L".mtrl");
+			}
+		}
+
 		if (ImGui::MenuItem(u8"타일맵 에디터"))
 		{
 			TilemapEditor* editor = static_cast<TilemapEditor*>(CEditorMgr::GetInst()->FindEditorUI("TilemapEditor"));

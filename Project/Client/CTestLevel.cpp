@@ -17,11 +17,6 @@ void CTestLevel::CreateTestLevel()
 {
 	// Material
 	Ptr<CMaterial> pMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl");
-	Ptr<CMaterial> pAlphaBlendMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DAlphaBlendMtrl");
-	Ptr<CMaterial> pDebugShapeMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DebugShapeMtrl");
-
-	//Ptr<CTexture> pTexture = CAssetMgr::GetInst()->Load<CTexture>(L"LogoTex", L"texture//Logo.png");
-	//pAlphaBlendMtrl->SetTexParam(TEX_0, pTexture);
 
 	// Level »ý¼º
 	CLevel* pLevel = new CLevel;
@@ -104,9 +99,9 @@ void CTestLevel::CreateTestLevel()
 	pGrayFilterObj->AddComponent(new CTransform);
 	pGrayFilterObj->AddComponent(new CMeshRender);
 
-	pGrayFilterObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"CircleMesh"));
+	pGrayFilterObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pGrayFilterObj->Transform()->SetRelativeScale(150.f, 150.f, 1.f);
-	pGrayFilterObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"SmallRippleMtrl"));
+	pGrayFilterObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"FireMtrl"));
 
 	pLevel->AddObject(0, pGrayFilterObj);
 

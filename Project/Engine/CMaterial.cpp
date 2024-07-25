@@ -80,7 +80,7 @@ void CMaterial::Bind()
 int CMaterial::Save(const wstring& _RelativePath)
 {
 	SetRelativePath(_RelativePath);
-
+	MD_TRACE(_RelativePath + L"¿¡ ÀúÀå µÊ");
 	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
 	strFilePath += _RelativePath;
 
@@ -106,10 +106,13 @@ int CMaterial::Save(const wstring& _RelativePath)
 	return S_OK;
 }
 
-int CMaterial::Load(const wstring& _FilePath)
+int CMaterial::Load(const wstring& _RelativePath)
 {
+	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
+	strFilePath += _RelativePath;
+
 	FILE* File = nullptr;
-	_wfopen_s(&File, _FilePath.c_str(), L"rb");
+	_wfopen_s(&File, strFilePath.c_str(), L"rb");
 
 	if (nullptr == File)
 		return E_FAIL;

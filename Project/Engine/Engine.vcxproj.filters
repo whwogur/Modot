@@ -349,5 +349,8 @@
     <FxCompile Include="postprocess.fx">
       <Filter>Shader</Filter>
     </FxCompile>
+    <FxCompile Include="myFX.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

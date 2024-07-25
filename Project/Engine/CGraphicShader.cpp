@@ -26,10 +26,11 @@ int CGraphicShader::CreateVertexShader(const wstring& _RelativePath, const strin
 								  , _FuncName.c_str(), "vs_5_0", D3DCOMPILE_DEBUG, 0
 								  , m_VSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf());
 
-	MD_ENGINE_ASSERT(SUCCEEDED(hr), L"쉐이더 컴파일 실패");
+	
 
 	if (FAILED(hr))
 	{
+		MD_ENGINE_ERROR(L"쉐이더 컴파일 실패");
 		if (m_ErrBlob != nullptr)
 			MD_ENGINE_TRACE((char*)m_ErrBlob->GetBufferPointer());
 		else
@@ -84,10 +85,9 @@ int CGraphicShader::CreatePixelShader(const wstring& _RelativePath, const string
 		, _FuncName.c_str(), "ps_5_0", D3DCOMPILE_DEBUG, 0
 		, m_PSBlob.GetAddressOf(), m_ErrBlob.GetAddressOf());
 
-	MD_ENGINE_ASSERT(SUCCEEDED(hr), L"쉐이더 컴파일 실패");
-
 	if (FAILED(hr))
 	{
+		MD_ENGINE_ERROR(L"쉐이더 컴파일 실패");
 		if (m_ErrBlob != nullptr)
 			MD_ENGINE_TRACE((char*)m_ErrBlob->GetBufferPointer());
 		else

@@ -6,7 +6,7 @@ class CStructuredBuffer;
 
 struct tTileInfo
 {
-    int ImgIdx = 3;
+    int ImgIdx = 79;
     int padding[3];
 };
 
