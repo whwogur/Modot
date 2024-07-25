@@ -199,7 +199,7 @@ void MenuUI::Assets()
 {
 	if (ImGui::BeginMenu(ICON_FA_SUITCASE " Assets"))
 	{
-		if (ImGui::MenuItem("Create Empty Material"))
+		if (ImGui::MenuItem(u8"재질 생성"))
 		{
 			Ptr<CMaterial> pMtrl = new CMaterial;
 			wstring Key = GetAssetKey(ASSET_TYPE::MATERIAL, L"Default Material");
@@ -233,8 +233,8 @@ void MenuUI::LoadLevel()
 	// open a file name
 	OPENFILENAME ofn = {};
 
-	wstring strinitPath = CPathMgr::GetInst()->GetContentPath();
-	strinitPath += L"level\\";
+	wstring wstrPath = CPathMgr::GetInst()->GetContentPath();
+	wstrPath += L"level\\";
 
 	wchar_t szFilePath[256] = {};
 
@@ -248,7 +248,7 @@ void MenuUI::LoadLevel()
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFileTitle = NULL;
 	ofn.nMaxFileTitle = 0;
-	ofn.lpstrInitialDir = strinitPath.c_str();
+	ofn.lpstrInitialDir = wstrPath.c_str();
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
 	if (false == GetOpenFileName(&ofn))
@@ -257,7 +257,7 @@ void MenuUI::LoadLevel()
 	path relPath = szFilePath;
 	wstring rel = relPath.filename();
 	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\" + rel);
-	ChangeLevel(pLevel, LEVEL_STATE::PLAY);
+	ChangeLevel(pLevel, LEVEL_STATE::STOP);
 }
 
 void MenuUI::SaveLevelAs()
@@ -265,8 +265,8 @@ void MenuUI::SaveLevelAs()
 	// open a file name
 	OPENFILENAME ofn = {};
 
-	wstring strTileFolderPath = CPathMgr::GetInst()->GetContentPath();
-	strTileFolderPath += L"level\\";
+	wstring wstrPath = CPathMgr::GetInst()->GetContentPath();
+	wstrPath += L"level\\";
 
 
 	wchar_t szFilePath[256] = {};
@@ -281,7 +281,7 @@ void MenuUI::SaveLevelAs()
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFileTitle = NULL;
 	ofn.nMaxFileTitle = 0;
-	ofn.lpstrInitialDir = strTileFolderPath.c_str();
+	ofn.lpstrInitialDir = wstrPath.c_str();
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
 	if (false == GetSaveFileName(&ofn))

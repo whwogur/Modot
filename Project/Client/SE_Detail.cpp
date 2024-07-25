@@ -5,7 +5,7 @@
 #include "TreeUI.h"
 
 #include "SE_AtlasView.h"
-
+#include "CAssetMgr.h"
 #include <Engine/CAssetMgr.h>
 
 SE_Detail::SE_Detail()
@@ -37,7 +37,20 @@ void SE_Detail::Atlas()
 	ImGui::Text("Atlas Texture");
 	ImGui::SameLine(120);
 	ImGui::SetNextItemWidth(150.f);
-	ImGui::InputText("##AtlasTex", (char*)TexName.c_str(), ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
+	const map<wstring, Ptr<CAsset>>& mapTex = CAssetMgr::GetInst()->GetAssets(ASSET_TYPE::TEXTURE);
+
+	if (ImGui::BeginCombo(ICON_FA_PICTURE_O "##AtlasTexCombo", TexName.c_str()))
+	{
+		for (const auto& texture : mapTex)
+		{
+			string strName(texture.first.begin(), texture.first.end());
+			if (ImGui::Selectable(strName.c_str()))
+			{
+				SetAtlasTex((CTexture*)texture.second.Get());
+			}
+		}
+		ImGui::EndCombo();
+	}
 
 	if (ImGui::BeginDragDropTarget())
 	{
@@ -56,18 +69,6 @@ void SE_Detail::Atlas()
 
 		ImGui::EndDragDropTarget();
 	}
-
-	ImGui::SameLine();
-	if (ImGui::Button("##AtlasTexBtn", ImVec2(18.f, 18.f)))
-	{
-		ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("List");
-		pListUI->SetName("Texture");
-		vector<string> vecTexNames;
-		CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::TEXTURE, vecTexNames);
-		pListUI->AddList(vecTexNames);
-		pListUI->AddDelegate(this, (DELEGATE_1)&SE_Detail::SelectTexture);
-		pListUI->SetActive(true);
-	}
 }
 
 void SE_Detail::AtlasInfo()
@@ -85,12 +86,12 @@ void SE_Detail::AtlasInfo()
 	sprintf_s(buff, "%d", width);
 
 	ImGui::Text("Width");
-	ImGui::SameLine(100);
+	ImGui::SameLine(130);
 	ImGui::InputText("##TextureWidth", buff, 50, ImGuiInputTextFlags_ReadOnly);
 
 	sprintf_s(buff, "%d", height);
 	ImGui::Text("Height");
-	ImGui::SameLine(100);
+	ImGui::SameLine(130);
 	ImGui::InputText("##TextureHeight", buff, 50, ImGuiInputTextFlags_ReadOnly);
 }
 
@@ -99,8 +100,6 @@ void SE_Detail::SetAtlasTex(Ptr<CTexture> _Tex)
 	m_AtlasTex = _Tex;
 	GetAtlasView()->SetAtlasTex(m_AtlasTex);
 }
-
-
 
 void SE_Detail::SelectTexture(DWORD_PTR _ListUI)
 {
