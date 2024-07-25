@@ -125,11 +125,11 @@ void CTestLevel::CreateTestLevel()
 
 	pLevel->AddObject(4, pGroundObj);
 
-	//CCollisionMgr::GetInst()->CollisionCheck(3, 4); // Player | Monster
+	CCollisionMgr::GetInst()->CollisionCheck(3, 4); // Player | Monster
 
-	//pLevel->SetName(L"TestLevel");
-	//wstring strLevelPath = L"level\\" + pLevel->GetName() + L".lv";
-	//CLevelSaveLoad::SaveLevel(strLevelPath, pLevel);
+	pLevel->SetName(L"TestLevel");
+	wstring strLevelPath = L"level\\" + pLevel->GetName() + L".lv";
+	CLevelSaveLoad::SaveLevel(strLevelPath, pLevel);
 	// 충돌 지정
 	
 }

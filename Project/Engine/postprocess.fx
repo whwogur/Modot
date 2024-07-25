@@ -35,7 +35,7 @@ float4 PS_Shockwave(VS_OUT _in) : SV_Target
 
     float ratio = 1.0;
 
-    float2 WaveCentre = mul(g_vec4_0, matWV) / g_Resolution;
+    float2 WaveCentre = mul(g_vec4_0, matWVP).xy / g_Resolution; // 화면상에서 벨의 위치를 찾아내서 보내주어야 할듯???
 
     float2 texCoord = _in.vPosition.xy / g_Resolution;
 
@@ -106,7 +106,7 @@ float4 PS_Distortion(VS_OUT _in) : SV_Target
     float centerLight = 2.0;
     float oblique = 0.25;
 
-    float2 Point = _in.vPosition / g_Resolution;
+    float2 Point = _in.vPosition.xy / g_Resolution;
     float2 uv = _in.vUV;
     float modifiedTime = g_EngineTime * waveSpeed;
     float aspectRatio = g_Resolution.x / g_Resolution.y;
@@ -148,22 +148,21 @@ VS_OUT VS_Ripple(VS_IN _in)
 
 float4 PS_Ripple(VS_OUT _in) : SV_Target
 {
-    float intensity = 0.06;
+    // Calculate the distance from the center of the texture
+    float2 center = float2(0.5, 0.5);
+    float distance = length(_in.vUV.xy - center);
 
-    // 좌표 정규화
-    float2 p = _in.vPosition.xy / g_Resolution;
+    // Create ripple effect using sine wave based on distance and time
+    float rippleFrequency = 8.0; // Adjust for more or fewer ripples
+    float rippleSpeed = 4.0; // Adjust for faster or slower ripples
+    float ripple = sin(distance * rippleFrequency - g_EngineTime * rippleSpeed) * 0.5 + 0.5;
 
-    // 벡터 길이
-    float cLength = length(p);
+    // Calculate the color based on the ripple effect
+    float intensity = saturate(1.0 - distance) * ripple;
+    //float4 color = lerp(float4(0, 0, 0, 1), float4(1, 0, 0, 1), intensity);
+    float4 color = lerp(float4(g_tex_0.Sample(g_sam_0, _in.vPosition.xy).xyz, 1.0), float4(1, 0, 0, 1), intensity);
 
-    // 물결효과
-    float2 uv = (_in.vPosition.xy / g_Resolution.xy)
-        + (p / cLength) * cos(cLength * 15.0 - g_EngineTime * 4.0) * intensity;
-
-    // 텍스쳐 샘플링
-    float3 col = smoothstep(0.1, 0.91, g_tex_0.Sample(g_sam_0, uv).xyz);
-
-    return float4(col, 1.0);
+    return color;
 }
 
 // ==========================

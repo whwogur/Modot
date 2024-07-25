@@ -28,6 +28,9 @@
     <Filter Include="Editor\TestLevel">
       <UniqueIdentifier>{a9c73831-6426-4d14-8c1b-aec407704a30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\EditorUI\Modal\SpriteEditor">
+      <UniqueIdentifier>{26008389-e181-4a34-b5d8-e0b5bd69acdc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">

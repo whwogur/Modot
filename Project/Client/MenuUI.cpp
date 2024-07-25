@@ -32,7 +32,7 @@ void MenuUI::Tick()
 	if (ImGui::BeginMainMenuBar())
 	{
 		Ptr<CTexture> LogoTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Modot_Logo");
-		ImGui::Image(LogoTex->GetSRV().Get(), { 28 ,28 });
+		ImGui::Image(LogoTex->GetSRV().Get(), { 20 ,20 });
 
 		Update();
 
@@ -50,22 +50,52 @@ void MenuUI::Tick()
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.35f, 0.87f, 1.0f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.15f, 0.2f, 0.7f, 1.0f });
 			ImGui::SameLine(contentRegionAvailable / 2 + 32);
+			if (ImGui::Button(ICON_FA_PAUSE, { 32, 25 }))
+			{
+				ChangeLevelState(LEVEL_STATE::PAUSE);
+			}
+			ImGui::SameLine(contentRegionAvailable / 2 + 70);
+			if (ImGui::Button(ICON_FA_STOP, { 32, 25 }))
+			{
+				CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\TestLevel.lv");
+				ChangeLevel(pLoadedLevel, LEVEL_STATE::STOP);
+
+				// Inspector Clear 하기 (이전 오브젝트 정보를 보여주고 있을 수가 있기 때문에)				
+				Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+				pInspector->SetTargetObject(nullptr);
+				pInspector->SetTargetAsset(nullptr);
+			}
+			ImGui::PopStyleColor(3);
+
+			ImGui::SameLine(contentRegionAvailable - 200);
+			ImGui::TextColored({ 0.45f, 0.55f, 0.88f, 1.0f }, whichCamera.c_str());
+			ImGui::SameLine();
+			ImGui::TextColored({ 0.45f, 0.55f, 0.88f, 1.0f }, buffer);
+		}
+		else if (state == LEVEL_STATE::PAUSE)
+		{
+			whichCamera = ICON_FA_CAMERA " EditorCamera";
+			ImGui::SameLine(contentRegionAvailable / 2 + 32);
 			if (ImGui::Button(ICON_FA_PLAY, { 32, 25 }))
 			{
 				ChangeLevelState(LEVEL_STATE::PLAY);
 			}
 			ImGui::SameLine(contentRegionAvailable / 2 + 70);
-			if (ImGui::Button(ICON_FA_PAUSE, { 32, 25 }))
+			if (ImGui::Button(ICON_FA_STOP, { 32, 25 }))
 			{
-				ChangeLevelState(LEVEL_STATE::PAUSE);
-			}
-			ImGui::PopStyleColor(3);
+				CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\TestLevel.lv");
+				ChangeLevel(pLoadedLevel, LEVEL_STATE::STOP);
 
-			ImGui::SameLine(contentRegionAvailable - 150);
-			ImGui::TextColored({ 0.45f, 0.55f, 0.88f, 1.0f }, whichCamera.c_str());
+				// Inspector Clear 하기 (이전 오브젝트 정보를 보여주고 있을 수가 있기 때문에)				
+				Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+				pInspector->SetTargetObject(nullptr);
+				pInspector->SetTargetAsset(nullptr);
+			}
+
+			ImGui::SameLine(contentRegionAvailable - 200);
+			ImGui::Text(whichCamera.c_str());
 			ImGui::SameLine();
-			ImGui::TextColored({ 0.45f, 0.55f, 0.88f, 1.0f }, buffer);
-			ImGui::EndMainMenuBar();
+			ImGui::Text(buffer);
 		}
 		else
 		{
@@ -75,19 +105,14 @@ void MenuUI::Tick()
 			{
 				ChangeLevelState(LEVEL_STATE::PLAY);
 			}
-			ImGui::SameLine(contentRegionAvailable / 2 + 70);
-			if (ImGui::Button(ICON_FA_PAUSE, { 32, 25 }))
-			{
-				ChangeLevelState(LEVEL_STATE::PAUSE);
-			}
 
-			ImGui::SameLine(contentRegionAvailable - 150);
+			ImGui::SameLine(contentRegionAvailable - 200);
 			ImGui::Text(whichCamera.c_str());
 			ImGui::SameLine();
 			ImGui::Text(buffer);
-			ImGui::EndMainMenuBar();
 		}
-		
+
+		ImGui::EndMainMenuBar();
 	}
 
 }
@@ -106,9 +131,14 @@ void MenuUI::Update()
 
 void MenuUI::File()
 {
+	
+}
+
+void MenuUI::Level()
+{
 	ImFont* iconFont = CEditorMgr::GetInst()->GetIconFont();
 	ImGui::PushFont(iconFont);
-	
+
 	if (ImGui::BeginMenu(ICON_FA_FILE " File"))
 	{
 		if (ImGui::MenuItem(u8"새 레벨", "Ctrl + N"))
@@ -151,24 +181,6 @@ void MenuUI::File()
 	ImGui::PopFont();
 }
 
-void MenuUI::Level()
-{
-	ImFont* iconFont = CEditorMgr::GetInst()->GetIconFont();
-	ImGui::PushFont(iconFont);
-	if (ImGui::BeginMenu(ICON_FA_FILE_VIDEO_O " Level"))
-	{
-		if (ImGui::MenuItem("Tilemap Editor"))
-		{
-			TilemapEditor* editor = static_cast<TilemapEditor*>(CEditorMgr::GetInst()->FindEditorUI("TilemapEditor"));
-			editor->SetTilemap(nullptr);
-			editor->Toggle();
-		}
-
-		ImGui::EndMenu();
-	}
-	ImGui::PopFont();
-}
-
 void MenuUI::AddScripts()
 {
 	ImFont* iconFont = CEditorMgr::GetInst()->GetIconFont();
@@ -194,14 +206,19 @@ void MenuUI::Assets()
 			CAssetMgr::GetInst()->AddAsset<CMaterial>(Key, pMtrl);
 			pMtrl->Save(Key);
 		}
-
-		if (ImGui::MenuItem("Sprite Editor"))
+		if (ImGui::MenuItem(u8"타일맵 에디터"))
+		{
+			TilemapEditor* editor = static_cast<TilemapEditor*>(CEditorMgr::GetInst()->FindEditorUI("TilemapEditor"));
+			editor->SetTilemap(nullptr);
+			editor->Toggle();
+		}
+		if (ImGui::MenuItem(u8"스프라이트 에디터"))
 		{
 			SpriteEditor* spriteEditor = static_cast<SpriteEditor*>(CEditorMgr::GetInst()->FindEditorUI("SpriteEditor"));
 			spriteEditor->SetActive(true);
 		}
 
-		if (ImGui::MenuItem("Animation Editor"))
+		if (ImGui::MenuItem(u8"애니메이션 에디터"))
 		{
 			AnimationEditor* animEditor = static_cast<AnimationEditor*>(CEditorMgr::GetInst()->FindEditorUI("AnimationEditor"));
 			animEditor->SetActive(true);
@@ -326,7 +343,7 @@ wstring MenuUI::GetAssetKey(ASSET_TYPE _Type, const wstring& _KeyFormat)
 
 void MenuUI::AddScript()
 {
-	if (ImGui::BeginMenu("Add Script"))
+	if (ImGui::BeginMenu(u8"스크립트 추가"))
 	{
 		vector<wstring> vecScriptsName;
 		CScriptMgr::GetScriptInfo(vecScriptsName);

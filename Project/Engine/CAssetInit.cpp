@@ -266,6 +266,7 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 	pShader->SetBSType(BS_TYPE::DEFAULT);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+	pShader->AddTexParam(TEX_0, u8"샘플링 텍스처");
 	AddAsset(L"RippleShader", pShader);
 
 	// SmallRipple
@@ -327,8 +328,7 @@ void CAssetMgr::CreateEngineMaterial()
 	// RippleMtrl
 	pMtrl = new CMaterial();
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"RippleShader"));
-	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
-	pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"RedDiscFx"));
+	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"RedDiscFx"));
 	AddAsset(L"RippleMtrl", pMtrl);
 
 	// SmallRippleMtrl
