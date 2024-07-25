@@ -187,9 +187,6 @@
     <ClInclude Include="ParamUI.h">
       <Filter>Editor\EditorUI\Modal</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteEditor.h">
-      <Filter>Editor\EditorUI\Modal</Filter>
-    </ClInclude>
     <ClInclude Include="ScriptUI.h">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
@@ -200,6 +197,18 @@
       <Filter>Editor\EditorUI\Modal</Filter>
     </ClInclude>
     <ClInclude Include="CLevelSaveLoad.h" />
+    <ClInclude Include="SpriteEditor.h">
+      <Filter>Editor\EditorUI\Modal\SpriteEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SE_AtlasView.h">
+      <Filter>Editor\EditorUI\Modal\SpriteEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SE_Detail.h">
+      <Filter>Editor\EditorUI\Modal\SpriteEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="SE_Sub.h">
+      <Filter>Editor\EditorUI\Modal\SpriteEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -356,9 +365,6 @@
     <ClCompile Include="ParamUI.cpp">
       <Filter>Editor\EditorUI\Modal</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteEditor.cpp">
-      <Filter>Editor\EditorUI\Modal</Filter>
-    </ClCompile>
     <ClCompile Include="ScriptUI.cpp">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
@@ -369,6 +375,18 @@
       <Filter>Editor\EditorUI\Modal</Filter>
     </ClCompile>
     <ClCompile Include="CLevelSaveLoad.cpp" />
+    <ClCompile Include="SpriteEditor.cpp">
+      <Filter>Editor\EditorUI\Modal\SpriteEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="SE_AtlasView.cpp">
+      <Filter>Editor\EditorUI\Modal\SpriteEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="SE_Detail.cpp">
+      <Filter>Editor\EditorUI\Modal\SpriteEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="SE_Sub.cpp">
+      <Filter>Editor\EditorUI\Modal\SpriteEditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">

@@ -30,6 +30,8 @@ public:
 
 	void SetModal(bool _Modal) { m_Modal = _Modal; }
 	bool IsModal() { return m_Modal; }
+	void UseMenuBar(bool _Use) { m_UseMenuBar = _Use; }
+	void SetMoveable(bool _Move) { m_Moveable = _Move; }
 
 	void SetFocus();
 public:
@@ -57,7 +59,8 @@ private:
 	ImVec2				m_ChildSize;
 	bool				m_Modal;
 	bool				m_ChildBorder;
-
+	bool				m_UseMenuBar;
+	bool				m_Moveable;
 };
 
 typedef void(EditorUI::* DELEGATE_0)(void);

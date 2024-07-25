@@ -22,15 +22,10 @@ void CTestLevel::CreateTestLevel()
 
 	//Ptr<CTexture> pTexture = CAssetMgr::GetInst()->Load<CTexture>(L"LogoTex", L"texture//Logo.png");
 	//pAlphaBlendMtrl->SetTexParam(TEX_0, pTexture);
-	
-
-	CLevel* LoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\TestLevel.lv");
-	ChangeLevel(LoadedLevel, LEVEL_STATE::PLAY);
-	CCollisionMgr::GetInst()->CollisionCheck(3, 4); // Player | Monster
-	return;
 
 	// Level 생성
 	CLevel* pLevel = new CLevel;
+	pLevel->SetName(L"TestLevel");
 	ChangeLevel(pLevel, LEVEL_STATE::STOP);
 	pLevel->GetLayer(0)->SetName(L"Default");
 	pLevel->GetLayer(1)->SetName(L"Background");
@@ -125,11 +120,8 @@ void CTestLevel::CreateTestLevel()
 
 	pLevel->AddObject(4, pGroundObj);
 
-	CCollisionMgr::GetInst()->CollisionCheck(3, 4); // Player | Monster
 
-	pLevel->SetName(L"TestLevel");
-	wstring strLevelPath = L"level\\" + pLevel->GetName() + L".lv";
-	CLevelSaveLoad::SaveLevel(strLevelPath, pLevel);
 	// 충돌 지정
+	CCollisionMgr::GetInst()->CollisionCheck(3, 4); // Player | Monster
 	
 }

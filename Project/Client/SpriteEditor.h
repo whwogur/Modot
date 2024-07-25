@@ -1,5 +1,9 @@
 #pragma once
 #include "EditorUI.h"
+
+class SE_AtlasView;
+class SE_Detail;
+
 class SpriteEditor :
     public EditorUI
 {
@@ -7,18 +11,14 @@ public:
     SpriteEditor();
     ~SpriteEditor();
 public:
-    void SetAtlas(Ptr<CTexture> _Atlas) { m_AtlasTex = _Atlas; }
-
+    SE_AtlasView* GetAtlasView() { return m_AtlasView; }
+    SE_Detail* GetDetail() { return m_Detail; }
 public:
+    virtual void Init() override;
     virtual void Update() override;
-    
+    virtual void Activate() override;
+    virtual void Deactivate() override;
 private:
-    void Refresh();
-private:
-    Ptr<CTexture>               m_AtlasTex;
-    ImVec2                      m_UVStart;
-    ImVec2                      m_ImagePos;
-    ImVec2                      m_MouseStart;
-    int m_SpriteSizeX = 0;
-    int m_SpriteSizeY = 0;
+    SE_AtlasView*       m_AtlasView;
+    SE_Detail*          m_Detail;
 };

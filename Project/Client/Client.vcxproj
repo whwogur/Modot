@@ -125,6 +125,9 @@
     <ClInclude Include="ParamUI.h" />
     <ClInclude Include="ParticleSystemUI.h" />
     <ClInclude Include="PrefabUI.h" />
+    <ClInclude Include="SE_AtlasView.h" />
+    <ClInclude Include="SE_Detail.h" />
+    <ClInclude Include="SE_Sub.h" />
     <ClInclude Include="SoundUI.h" />
     <ClInclude Include="SpriteEditor.h" />
     <ClInclude Include="SpriteUI.h" />
@@ -193,6 +196,9 @@
     <ClCompile Include="ParamUI.cpp" />
     <ClCompile Include="ParticleSystemUI.cpp" />
     <ClCompile Include="PrefabUI.cpp" />
+    <ClCompile Include="SE_AtlasView.cpp" />
+    <ClCompile Include="SE_Detail.cpp" />
+    <ClCompile Include="SE_Sub.cpp" />
     <ClCompile Include="SoundUI.cpp" />
     <ClCompile Include="SpriteEditor.cpp" />
     <ClCompile Include="SpriteUI.cpp" />

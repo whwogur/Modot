@@ -11,7 +11,7 @@
 
 void CLevelSaveLoad::SaveLevel(const wstring& _RelativePath, CLevel* _Level)
 {
-	MD_ENGINE_ASSERT(_Level, L"CLevelSaveLoad - 레벨 nullptr 입력");
+	MD_ENGINE_ASSERT(_Level && _Level->GetState() == LEVEL_STATE::STOP, L"CLevelSaveLoad");
 
 	const wstring& contentPath = CPathMgr::GetInst()->GetContentPath();
 	wstring fullPath = contentPath + _RelativePath;

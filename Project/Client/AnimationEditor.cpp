@@ -68,7 +68,6 @@ void AnimationEditor::Update()
         if (ImGui::Button("Atlas Texture " ICON_FA_PICTURE_O, { 150, 30 }))
         {
             SpriteEditor* spriteEditor = static_cast<SpriteEditor*>(CEditorMgr::GetInst()->FindEditorUI("SpriteEditor"));
-            spriteEditor->SetAtlas(curSprite->GetAtlasTexture());
             spriteEditor->SetActive(true);
         }
         ImGui::SameLine(160);

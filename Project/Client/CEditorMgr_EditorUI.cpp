@@ -18,6 +18,8 @@
 #include "HierarchyView.h"
 #include "FileBrowser.h"
 #include "AnimationEditor.h"
+#include "SE_AtlasView.h"
+#include "SE_Detail.h"
 #include "SpriteEditor.h"
 #include "TilemapEditor.h"
 void CEditorMgr::InitImGui()
@@ -113,9 +115,22 @@ void CEditorMgr::CreateEditorUI()
     pUI->SetActive(false);
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
+    // SE_AtlasView
+    pUI = new SE_AtlasView;
+    pUI->Init();
+    pUI->SetName("SE_AtlasView");
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    // SE_Detail
+    pUI = new SE_Detail;
+    pUI->Init();
+    pUI->SetName("SE_Detail");
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
     // SpriteEditor
     pUI = new SpriteEditor;
     pUI->SetName("SpriteEditor");
+    pUI->Init();
     pUI->SetActive(false);
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 

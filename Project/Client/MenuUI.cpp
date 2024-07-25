@@ -215,7 +215,7 @@ void MenuUI::Assets()
 		if (ImGui::MenuItem(u8"스프라이트 에디터"))
 		{
 			SpriteEditor* spriteEditor = static_cast<SpriteEditor*>(CEditorMgr::GetInst()->FindEditorUI("SpriteEditor"));
-			spriteEditor->SetActive(true);
+			spriteEditor->Toggle();
 		}
 
 		if (ImGui::MenuItem(u8"애니메이션 에디터"))
