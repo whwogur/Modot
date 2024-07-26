@@ -285,7 +285,6 @@ int CDevice::CreateConstBuffer()
     pCB = new CConstBuffer;
     MD_ENGINE_ASSERT(SUCCEEDED(pCB->Create(CB_TYPE::TRANSFORM, sizeof(tTransform))), L"초기화 실패 - 상수버퍼 생성 실패");
     m_arrCB[(UINT)CB_TYPE::TRANSFORM] = pCB;
-    
 
     pCB = new CConstBuffer;
     MD_ENGINE_ASSERT(SUCCEEDED(pCB->Create(CB_TYPE::MATERIAL, sizeof(tMtrlConst))), L"초기화 실패 - 상수버퍼 생성 실패");
@@ -334,6 +333,25 @@ int CDevice::CreateSamplerState()
         return E_FAIL;
     }
 
+    Desc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+    Desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+    Desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+    Desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    Desc.MipLODBias = 0.0f;
+    Desc.MaxAnisotropy = 1;
+    Desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+    Desc.BorderColor[0] = 0;
+    Desc.BorderColor[1] = 0;
+    Desc.BorderColor[2] = 0;
+    Desc.BorderColor[3] = 0;
+    Desc.MinLOD = 0;
+    Desc.MaxLOD = D3D11_FLOAT32_MAX;
+
+    if (FAILED(DEVICE->CreateSamplerState(&Desc, m_Sampler[2].GetAddressOf())))
+    {
+        return E_FAIL;
+    }
+
     CONTEXT->VSSetSamplers(0, 1, m_Sampler[0].GetAddressOf());
     CONTEXT->HSSetSamplers(0, 1, m_Sampler[0].GetAddressOf());
     CONTEXT->DSSetSamplers(0, 1, m_Sampler[0].GetAddressOf());
@@ -347,6 +365,13 @@ int CDevice::CreateSamplerState()
     CONTEXT->GSSetSamplers(1, 1, m_Sampler[1].GetAddressOf());
     CONTEXT->PSSetSamplers(1, 1, m_Sampler[1].GetAddressOf());
     CONTEXT->CSSetSamplers(1, 1, m_Sampler[1].GetAddressOf());
+
+    CONTEXT->VSSetSamplers(1, 1, m_Sampler[2].GetAddressOf());
+    CONTEXT->HSSetSamplers(1, 1, m_Sampler[2].GetAddressOf());
+    CONTEXT->DSSetSamplers(1, 1, m_Sampler[2].GetAddressOf());
+    CONTEXT->GSSetSamplers(1, 1, m_Sampler[2].GetAddressOf());
+    CONTEXT->PSSetSamplers(1, 1, m_Sampler[2].GetAddressOf());
+    CONTEXT->CSSetSamplers(1, 1, m_Sampler[2].GetAddressOf());
 
     return S_OK;
 }

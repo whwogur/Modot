@@ -96,16 +96,18 @@ float4 PS_Fire(VS_OUT _in) : SV_TARGET
 
     // Sample the color from the fire texture using the perturbed and distorted texture sampling coordinates.
     // Use the clamping sample state instead of the wrap sample state to prevent flames wrapping around.
-    fireColor = g_tex_0.Sample(g_sam_1, noiseCoords.xy);
+    fireColor = g_tex_0.Sample(g_sam_2, noiseCoords.xy);
 
     // Sample the alpha value from the alpha texture using the perturbed and distorted texture sampling coordinates.
     // This will be used for transparency of the fire.
     // Use the clamping sample state instead of the wrap sample state to prevent flames wrapping around.
-    alphaColor = g_tex_2.Sample(g_sam_1, noiseCoords.xy);
+    alphaColor = g_tex_2.Sample(g_sam_2, noiseCoords.xy);
 
     // Set the alpha blending of the fire to the perturbed and distorted alpha texture value.
     fireColor.a = alphaColor.r;
 
     return fireColor;
 }
+
+
 #endif
