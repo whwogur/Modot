@@ -1,5 +1,6 @@
 #pragma once
 #include "SE_Sub.h"
+using std::set;
 
 class SE_AtlasView :
     public SE_Sub
@@ -18,7 +19,8 @@ private:
     void WheelCheck();
     void SelectCheck();
     void DrawSelectRect();
-
+    void CalcSpriteSize(Vec2 _PixelPos);
+    bool IsPixelOk(Vec2 _PixelPos);
 private:
     Ptr<CTexture>   m_AtlasTex;
 
@@ -28,7 +30,7 @@ private:
 
     ImVec2          m_MouseLT;  // 마우스 위치에 해당하는 Texture 의 픽셀 좌표
     ImVec2          m_MouseRB; // 마우스 위치에 해당하는 Texture 의 픽셀 좌표
-
+    set<Vec2>       m_PixelID;
 
 
     float           m_WidthSize;
