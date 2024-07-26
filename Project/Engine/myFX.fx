@@ -18,23 +18,6 @@ struct VS_OUT
     float2 texCoords3 : TEXCOORD3;
 };
 
-//cbuffer NoiseBuffer
-//{
-//    float frameTime;
-//    float3 scrollSpeeds;
-//    float3 scales;
-//    float padding;
-//};
-
-//cbuffer DistortionBuffer
-//{
-//    float2 distortion1;
-//    float2 distortion2;
-//    float2 distortion3;
-//    float distortionScale;
-//    float distortionBias;
-//};
-
 VS_OUT VS_Fire(VS_IN _in)
 {
     VS_OUT output;

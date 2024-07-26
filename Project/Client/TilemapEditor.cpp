@@ -35,7 +35,10 @@ void TilemapEditor::Update()// 정리 필요..;
             for (const auto& texture : pTextures)
             {
                 string strTexName(texture.first.begin(), texture.first.end());
-                ImGui::MenuItem(strTexName.c_str());
+                if (ImGui::MenuItem(strTexName.c_str()))
+                {
+                    m_Tilemap->SetAtlasTexture((CTexture*)texture.second.Get());
+                }
             }
             ImGui::EndCombo();
         }
