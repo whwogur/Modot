@@ -86,12 +86,14 @@ void SE_Detail::AtlasInfo()
 	sprintf_s(buff, "%d", width);
 
 	ImGui::Text("Width");
-	ImGui::SameLine(130);
+	ImGui::SameLine(120);
+	ImGui::SetNextItemWidth(150);
 	ImGui::InputText("##TextureWidth", buff, 50, ImGuiInputTextFlags_ReadOnly);
 
 	sprintf_s(buff, "%d", height);
 	ImGui::Text("Height");
-	ImGui::SameLine(130);
+	ImGui::SameLine(120);
+	ImGui::SetNextItemWidth(150);
 	ImGui::InputText("##TextureHeight", buff, 50, ImGuiInputTextFlags_ReadOnly);
 }
 

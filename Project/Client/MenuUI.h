@@ -22,7 +22,6 @@ private:
     void SaveLevelAs();
 private:
     void AddScript();
-    wstring GetAssetKey(ASSET_TYPE _Type, const wstring& _Format);
 
 
 };

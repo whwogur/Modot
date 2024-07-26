@@ -118,13 +118,13 @@ void CEditorMgr::CreateEditorUI()
     // SE_AtlasView
     pUI = new SE_AtlasView;
     pUI->Init();
-    pUI->SetName("SE_AtlasView");
+    pUI->SetName(ICON_FA_OBJECT_GROUP" AtlasView");
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
     // SE_Detail
     pUI = new SE_Detail;
     pUI->Init();
-    pUI->SetName("SE_Detail");
+    pUI->SetName(ICON_FA_TH_LIST" Detail");
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
     // SpriteEditor

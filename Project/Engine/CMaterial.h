@@ -25,7 +25,7 @@ public:
     void Bind();
     
 public:
-    virtual int Load(const wstring& _FilePath) override;
+    virtual int Load(const wstring& _RelativePath) override;
     virtual int Save(const wstring& _RelativePath) override;
 
 private:

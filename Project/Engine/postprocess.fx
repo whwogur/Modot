@@ -153,8 +153,8 @@ float4 PS_Ripple(VS_OUT _in) : SV_Target
     float distance = length(_in.vUV.xy - center);
 
     // Create ripple effect using sine wave based on distance and time
-    float rippleFrequency = 8.0; // Adjust for more or fewer ripples
-    float rippleSpeed = 4.0; // Adjust for faster or slower ripples
+    float rippleFrequency = 2.0; // Adjust for more or fewer ripples
+    float rippleSpeed = 10.0; // Adjust for faster or slower ripples
     float ripple = sin(distance * rippleFrequency - g_EngineTime * rippleSpeed) * 0.5 + 0.5;
 
     // Calculate the color based on the ripple effect
@@ -162,6 +162,8 @@ float4 PS_Ripple(VS_OUT _in) : SV_Target
     //float4 color = lerp(float4(0, 0, 0, 1), float4(1, 0, 0, 1), intensity);
     float4 color = lerp(float4(g_tex_0.Sample(g_sam_0, _in.vPosition.xy).xyz, 1.0), float4(1, 0, 0, 1), intensity);
 
+    if (color.r < 0.02)
+        discard;
     return color;
 }
 

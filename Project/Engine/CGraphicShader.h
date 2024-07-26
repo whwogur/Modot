@@ -59,7 +59,7 @@ private:
     SHADER_DOMAIN                       m_Domain;
 
     // Shader Parameter
-    vector<tScalarParam>        m_ScalarParam;
-    vector<tTexParam>           m_TexParam;
+    vector<tScalarParam>                m_ScalarParam;
+    vector<tTexParam>                   m_TexParam;
 };
 

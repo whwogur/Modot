@@ -52,13 +52,13 @@ void CEditorCameraScript::OrthoGraphicMove()
 	if (KEY_PRESSED(KEY::CTRL) && KEY_PRESSED(KEY::O))
 	{
 		float scale = Camera()->GetScale();
-		Camera()->SetScale(scale + 0.005);
+		Camera()->SetScale(float(scale + 0.005));
 	}
 
 	if (KEY_PRESSED(KEY::CTRL) && KEY_PRESSED(KEY::I))
 	{
 		float scale = Camera()->GetScale();
-		Camera()->SetScale(scale - 0.005);
+		Camera()->SetScale(float(scale - 0.005));
 	}
 
 	if (KEY_PRESSED(KEY::W))

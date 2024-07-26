@@ -27,8 +27,8 @@ void SE_AtlasView::Update()
 	ImVec2 uv_min = ImVec2(0.0f, 0.0f);
 	ImVec2 uv_max = ImVec2(1.0f, 1.0f);
 
-	ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-	ImVec4 border_col = ImVec4(0.7f, 0.7f, 0.7f, 1.0f);
+	ImVec4 tint_col(1.0f, 1.0f, 1.0f, 1.0f);
+	ImVec4 border_col(0.7f, 0.7f, 0.7f, 1.0f);
 
 	// 실제 해상도 대비 출력 Image 의 비율
 	m_Ratio = (m_WidthSize * m_WheelScale) / m_AtlasTex->Width();

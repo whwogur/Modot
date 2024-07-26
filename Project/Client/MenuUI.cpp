@@ -40,6 +40,7 @@ void MenuUI::Tick()
 		float contentRegionAvailable = ImGui::GetContentRegionAvail().x + 250.0f;
 		LEVEL_STATE state = CLevelMgr::GetInst()->GetCurrentLevel()->GetState();
 		string whichCamera;
+		ImVec4 color;
 		UINT FPS = CTimeMgr::GetInst()->GetFPSRecord();
 		char buffer[30];
 		sprintf_s(buffer, ICON_FA_BAR_CHART " FPS: %d", FPS);
@@ -68,10 +69,7 @@ void MenuUI::Tick()
 			}
 			ImGui::PopStyleColor(3);
 
-			ImGui::SameLine(contentRegionAvailable - 200);
-			ImGui::TextColored({ 0.45f, 0.55f, 0.88f, 1.0f }, whichCamera.c_str());
-			ImGui::SameLine();
-			ImGui::TextColored({ 0.45f, 0.55f, 0.88f, 1.0f }, buffer);
+			color = { 0.45f, 0.55f, 0.88f, 1.0f };
 		}
 		else if (state == LEVEL_STATE::PAUSE)
 		{
@@ -93,10 +91,7 @@ void MenuUI::Tick()
 				pInspector->SetTargetAsset(nullptr);
 			}
 
-			ImGui::SameLine(contentRegionAvailable - 200);
-			ImGui::Text(whichCamera.c_str());
-			ImGui::SameLine();
-			ImGui::Text(buffer);
+			color = { 1, 1, 1, 1 };
 		}
 		else
 		{
@@ -107,11 +102,13 @@ void MenuUI::Tick()
 				ChangeLevelState(LEVEL_STATE::PLAY);
 			}
 
-			ImGui::SameLine(contentRegionAvailable - 200);
-			ImGui::Text(whichCamera.c_str());
-			ImGui::SameLine();
-			ImGui::Text(buffer);
+			color = { 1, 1, 1, 1 };
 		}
+
+		ImGui::SameLine(contentRegionAvailable - 200);
+		ImGui::TextColored(color, whichCamera.c_str());
+		ImGui::SameLine();
+		ImGui::TextColored(color, buffer);
 
 		ImGui::EndMainMenuBar();
 	}
@@ -200,14 +197,6 @@ void MenuUI::Assets()
 {
 	if (ImGui::BeginMenu(ICON_FA_SUITCASE " Assets"))
 	{
-		if (ImGui::MenuItem(u8"재질 생성"))
-		{
-			Ptr<CMaterial> pMtrl = new CMaterial;
-			wstring Key = GetAssetKey(ASSET_TYPE::MATERIAL, L"Default Material");
-			CAssetMgr::GetInst()->AddAsset<CMaterial>(Key, pMtrl);
-			pMtrl->Save(Key);
-		}
-
 		if (ImGui::MenuItem(u8"재질 저장"))
 		{
 			Inspector* pInspector = static_cast<Inspector*>(CEditorMgr::GetInst()->FindEditorUI("Inspector"));
@@ -305,53 +294,6 @@ void MenuUI::SaveLevelAs()
 	wstring rel = relPath.filename();
 	rel += L".lv";
 	CLevelSaveLoad::SaveLevel(L"level\\" + rel, pLevel);
-}
-
-wstring MenuUI::GetAssetKey(ASSET_TYPE _Type, const wstring& _KeyFormat)
-{
-	wstring Key;
-
-	switch (_Type)
-	{
-	case ASSET_TYPE::MATERIAL:
-	{
-		Key = wstring(L"material\\") + _KeyFormat + L"_%d.mtrl";
-	}
-	break;
-	case ASSET_TYPE::PREFAB:
-	{
-		Key = wstring(L"prefab\\") + _KeyFormat + L"_%d.pref";
-	}
-	break;
-	case ASSET_TYPE::SPRITE:
-	{
-		Key = wstring(L"sprite\\") + _KeyFormat + L"_%d.sprite";
-	}
-	break;
-	case ASSET_TYPE::ANIMATION:
-	{
-		Key = wstring(L"animation\\") + _KeyFormat + L"_%d.anim";
-	}
-	break;
-	default:
-		assert(nullptr);
-		break;
-	}
-
-	wchar_t szKey[255] = {};
-	wstring FilePath = CPathMgr::GetInst()->GetContentPath();
-
-	for (UINT i = 0; i < 0xffffffff; ++i)
-	{
-		swprintf_s(szKey, 255, Key.c_str(), i);
-
-		if (false == std::filesystem::exists(FilePath + szKey))
-		{
-			break;
-		}
-	}
-
-	return szKey;
 }
 
 void MenuUI::AddScript()
