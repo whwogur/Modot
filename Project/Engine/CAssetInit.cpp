@@ -111,7 +111,7 @@ void CAssetMgr::CreateEngineTexture()
 	// PostProcess 용 텍스쳐
 	Vec2 Resolution = CDevice::GetInst()->GetResolution();
 	CreateTexture(L"PostProcessTex", (UINT)Resolution.x, (UINT)Resolution.y
-		, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE|D3D11_BIND_RENDER_TARGET);
+		, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
 
 	// Noise Texture
 	Load<CTexture>(L"noise_01", L"texture\\noise\\noise_01.png");
@@ -358,12 +358,6 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"SmallRippleShader"));
 	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
 	AddAsset(L"SmallRippleMtrl", pMtrl);
-
-	// BG
-	pMtrl = new CMaterial();
-	pMtrl->SetShader(FindAsset<CGraphicShader>(L"Std2DShader"));
-	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"Checkerboard"));
-	AddAsset(L"BackgroundMtrl", pMtrl);
 
 	//// Fire
 	//pMtrl = new CMaterial();

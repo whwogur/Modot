@@ -55,7 +55,7 @@ float4 PS_Shockwave(VS_OUT _in) : SV_Target
         float2 DiffTexCoord = normalize(texCoord - WaveCentre);
 
         // Perform the distortion and reduce the effect over time
-        texCoord += ((DiffTexCoord * DiffTime) / (CurrentTime * Dist * 40.0));
+        texCoord += ((DiffTexCoord * DiffTime) / (CurrentTime * Dist * 10.0));
         Color = g_tex_0.Sample(g_sam_0, texCoord);
 
         // Blow out the color and reduce the effect over time

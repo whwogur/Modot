@@ -92,7 +92,7 @@ void SE_AtlasView::SelectCheck()
 	ImGui::InputFloat2("PixelPos", PixelPos);
 
 	// 마우스 왼쪽클릭 체크
-	/*if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 	{
 		m_MouseLT = ImGui::GetMousePos();
 		ImVec2 vDiff = ImVec2(m_MouseLT.x - ImageRectMin.x, m_MouseLT.y - ImageRectMin.y);
@@ -104,7 +104,7 @@ void SE_AtlasView::SelectCheck()
 		m_MouseRB = ImGui::GetMousePos();
 		ImVec2 vDiff = ImVec2(m_MouseRB.x - ImageRectMin.x, m_MouseRB.y - ImageRectMin.y);
 		m_MouseRB = ImVec2(vDiff.x / m_Ratio, vDiff.y / m_Ratio);
-	}*/
+	}
 
 	if (KEY_RELEASED(KEY::LBTN))
 	{
@@ -190,8 +190,10 @@ void SE_AtlasView::CalcSpriteSize(Vec2 _PixelPos)
 		}
 	}
 
-	m_MouseLT = ImVec2(left, top);
+	//m_MouseLT = ImVec2(left, top);
 	m_MouseRB = ImVec2(right, bot);
+	MD_ENGINE_TRACE("{0},{1} {2},{3}", m_MouseLT.x, m_MouseLT.y, m_MouseRB.x, m_MouseRB.y);
+	MD_ENGINE_TRACE(L"크기 : {:.2f},{:.2f}", m_MouseRB.x - m_MouseLT.x, m_MouseRB.y - m_MouseLT.y);
 }
 
 bool SE_AtlasView::IsPixelOk(Vec2 _PixelPos)
