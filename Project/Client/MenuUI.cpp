@@ -204,7 +204,8 @@ void MenuUI::Assets()
 			if (curMat != nullptr)
 			{
 				const wstring& wstrKey = curMat->GetKey();
-				curMat->Save(L"material\\" + wstrKey + L".mtrl");
+				const wstring& wstrPath = CPathMgr::GetInst()->GetContentPath();
+				curMat->Save(wstrPath + wstrKey + L".mtrl");
 			}
 		}
 

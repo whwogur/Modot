@@ -13,7 +13,7 @@ private:
 public:
 	const wstring& GetContentPath() { return m_Content; }
 	const wstring& GetSolutionPath() { return m_Solution; }	
-
+	wstring GetRelativePath(const wstring& _FilePath);
 private:
 	wstring		m_Content;
 	wstring		m_Solution;

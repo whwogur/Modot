@@ -114,17 +114,17 @@ void CAssetMgr::CreateEngineTexture()
 		, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
 
 	// Noise Texture
-	Load<CTexture>(L"noise_01", L"texture\\noise\\noise_01.png");
-	Load<CTexture>(L"noise_02", L"texture\\noise\\noise_02.png");
-	Load<CTexture>(L"noise_03", L"texture\\noise\\noise_03.jpg");
-	Load<CTexture>(L"ComponentIcons", L"texture\\ComponentIcons.png");
-	Load<CTexture>(L"ScriptIcon", L"texture\\ScriptIcon.png");
-	Load<CTexture>(L"Modot_Logo", L"texture\\Modot_Logo.png");
-	Load<CTexture>(L"RedDiscFx", L"texture\\RedDiscFx.png");
-	Load<CTexture>(L"DiscDonut", L"texture\\DiscDonut.png");
-	Load<CTexture>(L"alpha01", L"texture\\alpha01.tga");
-	Load<CTexture>(L"noise01", L"texture\\noise01.tga");
-	Load<CTexture>(L"fire01", L"texture\\fire01.tga");
+	//Load<CTexture>(L"noise_01", L"texture\\noise\\noise_01.png");
+	//Load<CTexture>(L"noise_02", L"texture\\noise\\noise_02.png");
+	//Load<CTexture>(L"noise_03", L"texture\\noise\\noise_03.jpg");
+	//Load<CTexture>(L"ComponentIcons", L"texture\\ComponentIcons.png");
+	//Load<CTexture>(L"ScriptIcon", L"texture\\ScriptIcon.png");
+	//Load<CTexture>(L"Modot_Logo", L"texture\\Modot_Logo.png");
+	//Load<CTexture>(L"RedDiscFx", L"texture\\RedDiscFx.png");
+	//Load<CTexture>(L"DiscDonut", L"texture\\DiscDonut.png");
+	//Load<CTexture>(L"alpha01", L"texture\\alpha01.tga");
+	//Load<CTexture>(L"noise01", L"texture\\noise01.tga");
+	//Load<CTexture>(L"fire01", L"texture\\fire01.tga");
 }
 
 void CAssetMgr::CreateEngineSprite()

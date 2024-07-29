@@ -101,7 +101,10 @@ void CTileMap::ChangeTileMapSize()
 void CTileMap::SetAtlasTexture(Ptr<CTexture> _Atlas)
 {
 	m_TileAtlas = _Atlas;
-	m_AtlasResolution = Vec2((float)_Atlas->Width(), (float)_Atlas->Height());
+	if (nullptr == m_TileAtlas)
+		m_AtlasResolution = Vec2(0.f, 0.f);
+	else
+		m_AtlasResolution = Vec2((float)_Atlas->Width(), (float)_Atlas->Height());
 
 	SetAtlasTileSize(m_AtlasTileSize);
 }

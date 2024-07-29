@@ -16,6 +16,7 @@ public:
     ASSET_TYPE GetAssetType() { return m_Type; }
     const wstring& GetKey() { return m_Key; }
     const wstring& GetRelativePath() { return m_RelativePath; }
+    UINT GetRefCount() { return m_RefCount; }
 public:
     virtual int Load(const wstring& _FilePath) = 0;
     virtual int Save(const wstring& _RelativePath) = 0;

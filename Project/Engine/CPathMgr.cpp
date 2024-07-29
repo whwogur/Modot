@@ -41,3 +41,12 @@ void CPathMgr::GetParentPath(_Inout_ wchar_t* _Buffer)
 		}
 	}
 }
+
+wstring CPathMgr::GetRelativePath(const wstring& _FilePath)
+{
+	size_t FindPos = _FilePath.find(m_Content);
+	if (FindPos == wstring::npos)
+		return L"";
+
+	return _FilePath.substr(FindPos + m_Content.length(), _FilePath.length());
+}
