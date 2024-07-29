@@ -102,11 +102,18 @@ void Inspector::Update()
 	// ===========
 	ImGui::Text("Object Name");
 	ImGui::SameLine(100);
+	ImGui::SetNextItemWidth(200);
 	if (ImGui::InputText("##ObjectName", m_Namebuffer, 255, ImGuiInputTextFlags_EnterReturnsTrue))
 	{
 		string newName(m_Namebuffer);
 		m_TargetObject->SetName(wstring(newName.begin(), newName.end()));
 		CLevelMgr::GetInst()->SetLevelDirty();
+	}
+	ImGui::SameLine();
+	static bool isDeleted = false;
+	if (ImGui::Button(ICON_FA_TRASH_O "##DeleteObject", { 30, 30 }))
+	{
+		isDeleted = true;
 	}
 
 	// ======
@@ -166,5 +173,22 @@ void Inspector::Update()
 			}
 		}
 		ImGui::EndCombo();
+	}
+
+	if (isDeleted)
+	{
+		DeleteObject(m_TargetObject);
+		m_TargetObject = nullptr;
+		for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
+		{
+			if (m_arrComUI[i] != nullptr)
+				m_arrComUI[i]->SetActive(false);
+		}
+		for (auto scriptUI : m_vecScriptUI)
+		{
+			scriptUI->SetActive(false);
+		}
+
+		isDeleted = false;
 	}
 }

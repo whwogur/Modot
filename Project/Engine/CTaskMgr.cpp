@@ -57,7 +57,7 @@ void CTaskMgr::ExecuteTask()
 			{
 				continue;
 			}
-
+			CLevelMgr::GetInst()->m_Dirty = true;
 			// GC ¿¡ ³Ö±â
 			pObject->m_Dead = true;			
 			m_GC.push_back(pObject);

@@ -108,7 +108,8 @@ void HierarchyView::RefreshLevel()
 
 		for (size_t i = 0; i < vecObjects.size(); ++i)
 		{
-			AddGameObject(pRootNode, vecObjects[i]);
+			if (!vecObjects[i]->IsDead())
+				AddGameObject(pRootNode, vecObjects[i]);
 		}
 	}
 }
