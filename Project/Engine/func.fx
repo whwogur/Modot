@@ -46,7 +46,29 @@ void CalculateLight2D(int _LightIdx, float3 _WorldPos, inout tLight _Light)
     // SpotLight 인 경우
     else
     {
+        // SpotLight와 픽셀 간의 벡터
+        float3 toPixel = _WorldPos - Info.WorldPos;
+        float distanceToPixel = length(toPixel);
 
+        // SpotLight 방향과 픽셀 방향의 내적
+        float3 lightDir = normalize(Info.WorldDir);
+        float3 pixelDir = normalize(toPixel);
+
+        float spotEffect = dot(lightDir, pixelDir);
+
+        // InnerCone과 OuterCone 사이에서의 조명 강도 계산
+        float innerCone = cos(Info.Angle); // Inner cone angle
+        float outerCone = 0.5f * innerCone; // Outer cone angle as half of inner cone
+
+        float spotIntensity = saturate((spotEffect - outerCone) / (innerCone - outerCone));
+
+        // 거리 감쇠 계산 (PointLight와 동일)
+        float distanceAttenuation = saturate(1.0f - (distanceToPixel / Info.Radius));
+
+        // 최종 색상 계산
+        float intensity = spotIntensity * distanceAttenuation;
+        _Light.Color.rgb += Info.light.Color.rgb * intensity;
+        _Light.Ambient.rgb += Info.light.Ambient.rgb * intensity;
     }
 }
 
