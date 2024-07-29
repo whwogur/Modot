@@ -113,7 +113,10 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 	case COMPONENT_TYPE::TILEMAP:
 	{
 		CTileMap* tilemap = new CTileMap;
+		tilemap->SetAtlasTexture(CAssetMgr::GetInst()->FindAsset<CTexture>(L"Checkerboard"));
 		AddComponent(tilemap);
+		tilemap->SetRowCol(1, 1);
+		tilemap->SetTileSize({ 1, 1 });
 		CLevelMgr::GetInst()->SetLevelDirty();
 		return;
 	}

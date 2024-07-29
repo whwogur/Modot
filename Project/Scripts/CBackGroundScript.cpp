@@ -4,7 +4,7 @@
 CBackGroundScript::CBackGroundScript()
 	: CScript(SCRIPT_TYPE::BACKGROUNDSCRIPT)
 {
-	AddScriptParam(SCRIPT_PARAM::TEXTURE, "Background Texture", & m_Texture);
+	AddScriptParam(SCRIPT_PARAM::TEXTURE, u8"≈ÿΩ∫√≥", & m_Texture);
 }
 
 void CBackGroundScript::Begin()

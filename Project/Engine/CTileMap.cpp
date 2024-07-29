@@ -12,6 +12,7 @@ CTileMap::CTileMap()
 	, m_AtlasMaxRow(0)
 	, m_AtlasMaxCol(0)
 	, m_Buffer(nullptr)
+	, m_TileAtlas(nullptr)
 {
 	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"TileMapMtrl"));

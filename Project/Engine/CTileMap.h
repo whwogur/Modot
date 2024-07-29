@@ -31,6 +31,10 @@ public:
     Vec2 GetRowCol() { return Vec2(m_Row, m_Col); }
     Vec2 GetTileSliceUV() const { return m_AtlasTileSliceUV; }
     Ptr<CTexture> GetAtlasTexture() { return m_TileAtlas; }
+    Vec2& GetAtlasTileSizeRef() { return m_AtlasTileSize; }
+    Vec2& GetTileSizeRef() { return m_TileSize; }
+    int& GetRowRef() { return m_Row; }
+    int& GetColRef() { return m_Col; }
     vector<tTileInfo>& GetTileInfoRef() { return m_vecTileInfo; }
     int GetMaxAtlasRow() const { return m_AtlasMaxRow; }
     int GetMaxAtlasCol() const { return m_AtlasMaxCol; }
