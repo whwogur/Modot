@@ -115,6 +115,7 @@ void Inspector::Update()
 	{
 		isDeleted = true;
 	}
+	ImGui::SetItemTooltip(u8"오브젝트를 삭제합니다");
 
 	// ======
 	// Layer
@@ -188,7 +189,7 @@ void Inspector::Update()
 		{
 			scriptUI->SetActive(false);
 		}
-
+		CEditorMgr::GetInst()->SetTargetObject(nullptr);
 		isDeleted = false;
 	}
 }
