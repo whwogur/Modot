@@ -30,7 +30,7 @@ void EditorUI::Tick()
 
 	bool bActive = m_Active;
 	// 최상위 부모 UI 인 경우
-	UINT flag = 0;
+	UINT flag = ImGuiWindowFlags_HorizontalScrollbar;
 	if (m_UseMenuBar)
 		flag = ImGuiWindowFlags_MenuBar;
 	if (!m_Moveable)

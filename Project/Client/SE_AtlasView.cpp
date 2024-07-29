@@ -21,8 +21,6 @@ void SE_AtlasView::Update()
 	if (nullptr == m_AtlasTex)
 		return;
 
-	WheelCheck();
-
 	// 이미지	
 	ImVec2 uv_min = ImVec2(0.0f, 0.0f);
 	ImVec2 uv_max = ImVec2(1.0f, 1.0f);
@@ -36,11 +34,12 @@ void SE_AtlasView::Update()
 	ImGui::Image(m_AtlasTex->GetSRV().Get(), ImVec2((m_WidthSize * m_WheelScale), m_AtlasTex->Height() * m_Ratio)
 		, uv_min, uv_max, tint_col, border_col);
 
-	// SelectCheck
-	SelectCheck();
-
-	// 선택한 영역에 사각형 그리기
-	DrawSelectRect();
+	if (ImGui::IsWindowFocused() && ImGui::IsMousePosValid())
+	{
+		WheelCheck();
+		SelectCheck();
+		DrawSelectRect();
+	}
 }
 
 
@@ -74,23 +73,6 @@ void SE_AtlasView::WheelCheck()
 
 void SE_AtlasView::SelectCheck()
 {
-	// Image 위젯 좌상단 좌표
-	ImageRectMin = ImGui::GetItemRectMin();
-	float ArrImageMin[] = { ImageRectMin.x, ImageRectMin.y };
-	ImGui::InputFloat2("ImageMin", ArrImageMin);
-
-	// 현재 마우스 위치
-	m_MousePos = ImGui::GetMousePos();
-	float arrMousePos[] = { m_MousePos.x, m_MousePos.y };
-	ImGui::InputFloat2("MousePos", arrMousePos);
-
-	ImVec2 vDiff = ImVec2(m_MousePos.x - ImageRectMin.x, m_MousePos.y - ImageRectMin.y);
-	vDiff = ImVec2(vDiff.x / m_Ratio, vDiff.y / m_Ratio);
-
-	// 마우스 위치의 아틀라스 픽셀좌표	
-	float PixelPos[] = { vDiff.x, vDiff.y };
-	ImGui::InputFloat2("PixelPos", PixelPos);
-
 	// 마우스 왼쪽클릭 체크
 	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 	{
@@ -104,9 +86,11 @@ void SE_AtlasView::SelectCheck()
 		m_MouseRB = ImGui::GetMousePos();
 		ImVec2 vDiff = ImVec2(m_MouseRB.x - ImageRectMin.x, m_MouseRB.y - ImageRectMin.y);
 		m_MouseRB = ImVec2(vDiff.x / m_Ratio, vDiff.y / m_Ratio);
+		string size = std::to_string(m_MouseRB.x - m_MouseLT.x) + ", " + std::to_string(m_MouseRB.y - m_MouseLT.y);
+		ImGui::SetItemTooltip(size.c_str());
 	}
 
-	if (KEY_RELEASED(KEY::LBTN))
+	if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
 	{
 		Vec2 vPixelPos = Vec2(ImGui::GetMousePos().x, ImGui::GetMousePos().y);
 		ImVec2 vDiff = ImVec2(vPixelPos.x - ImageRectMin.x, vPixelPos.y - ImageRectMin.y);

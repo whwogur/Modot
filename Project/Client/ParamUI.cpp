@@ -13,6 +13,7 @@ bool ParamUI::InputInt(int* _Data, const string& _Desc)
 {
 	ImGui::Text(_Desc.c_str());
 	ImGui::SameLine(120);
+	ImGui::SetNextItemWidth(150);
 
 	char szID[255] = {};
 	sprintf_s(szID, 255, "##Input%d", g_ID++);
@@ -30,6 +31,7 @@ bool ParamUI::DragInt(int* _Data, float _Step, const string& _Desc)
 {
 	ImGui::Text(_Desc.c_str());
 	ImGui::SameLine(120);
+	ImGui::SetNextItemWidth(150);
 
 	char szID[255] = {};
 	sprintf_s(szID, 255, "##Input%d", g_ID++);
@@ -46,6 +48,7 @@ bool ParamUI::InputFloat(float* _Data, const string& _Desc)
 {
 	ImGui::Text(_Desc.c_str());
 	ImGui::SameLine(120);
+	ImGui::SetNextItemWidth(150);
 
 	char szID[255] = {};
 	sprintf_s(szID, 255, "##Input%d", g_ID++);
@@ -62,6 +65,7 @@ bool ParamUI::DragFloat(float* _Data, float _Step, const string& _Desc)
 {
 	ImGui::Text(_Desc.c_str());
 	ImGui::SameLine(120);
+	ImGui::SetNextItemWidth(150);
 
 	char szID[255] = {};
 	sprintf_s(szID, 255, "##Input%d", g_ID++);
