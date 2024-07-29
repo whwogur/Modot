@@ -53,6 +53,7 @@ int CSprite::Save(const wstring& _RelativePath)
 {
 	wstring strPath = CPathMgr::GetInst()->GetContentPath();
 	strPath += _RelativePath;
+	SetRelativePath(_RelativePath);
 
 	FILE* File = nullptr;
 	_wfopen_s(&File, strPath.c_str(), L"wb");

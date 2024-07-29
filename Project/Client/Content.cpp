@@ -113,7 +113,7 @@ void Content::Reload()
 	FindAssetName(ContentPath, L"*.*");
 
 	// 알아낸 에셋 파일들의 경로를 통해서 Asset 들을 AssetMgr 에 로딩한다.
-	for (auto path : m_vecAssetPath)
+	for (const auto& path : m_vecAssetPath)
 	{
 		LoadAsset(path);
 	}

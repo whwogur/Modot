@@ -165,19 +165,21 @@ void CAssetMgr::CreateEngineSprite()
 	AddAsset(L"Momo_Idle", pAnimation);
 	pAnimation->Save(L"animation\\Momo_Idle.anim");*/
 
-	Ptr<CAnimation> pAnimation = new CAnimation;
-	pAnimation->Load(L"animation\\Momo_Idle.anim");
-	AddAsset(L"Momo_Idle", pAnimation);
+	//Ptr<CAnimation> pAnimation = new CAnimation;
+	//pAnimation->Load(L"animation\\Momo_Idle.anim");
+	//AddAsset(L"Momo_Idle", pAnimation);
 
-	// Engine Default / New Assets
-	Ptr<CTexture> checkerboard = Load<CTexture>(L"Checkerboard", L"texture\\Checkerboard.png");
-	Ptr<CSprite> defaultSprite = new CSprite;
-	defaultSprite->Load(L"sprite\\DefaultSprite.sprite");
-	AddAsset(L"DefaultSprite", defaultSprite);
+	//// Engine Default / New Assets
+	//Ptr<CTexture> checkerboard = Load<CTexture>(L"Checkerboard", L"texture\\Checkerboard.png");
+	//Ptr<CSprite> defaultSprite = new CSprite;
+	//defaultSprite->Load(L"sprite\\DefaultSprite.sprite");
+	//AddAsset(L"DefaultSprite", defaultSprite);
+	//defaultSprite->Save(L"sprite\\DefaultSprite.sprite");
 
-	Ptr<CAnimation> pNewAnimation = new CAnimation;
-	pNewAnimation->Load(L"animation\\NewAnimation.anim");
-	AddAsset(L"NewAnimation", pNewAnimation);
+	//Ptr<CAnimation> pNewAnimation = new CAnimation;
+	//pNewAnimation->Load(L"animation\\NewAnimation.anim");
+	//AddAsset(L"NewAnimation", pNewAnimation);
+	//pNewAnimation->Save(L"animation\\NewAnimation.anim");
 }
 
 void CAssetMgr::CreateEngineGraphicShader()
@@ -366,5 +368,5 @@ void CAssetMgr::CreateEngineMaterial()
 	//pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"noise01"));
 	//pMtrl->SetTexParam(TEX_2, FindAsset<CTexture>(L"alpha01"));
 	//AddAsset(L"FireMtrl", pMtrl);
-	Load<CMaterial>(L"FireMtrl", L"material\\FireMtrl.mtrl");
+	//Load<CMaterial>(L"FireMtrl", L"material\\FireMtrl.mtrl");
 }
