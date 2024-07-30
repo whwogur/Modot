@@ -21,6 +21,7 @@ void SpriteEditor::Init()
 	m_AtlasView = (SE_AtlasView*)CEditorMgr::GetInst()->FindEditorUI(ICON_FA_OBJECT_GROUP" AtlasView");
 	m_Detail = (SE_Detail*)CEditorMgr::GetInst()->FindEditorUI(ICON_FA_TH_LIST" Detail");
 	m_AtlasView->SetMoveable(false);
+	m_AtlasView->UseHorizontalScroll(true);
 	m_Detail->SetMoveable(false);
 
 	m_AtlasView->m_Owner = this;

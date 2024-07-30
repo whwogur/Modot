@@ -5,10 +5,13 @@
 
 #include "CAssetMgr.h"
 #include "CPathMgr.h"
-CMaterial::CMaterial()
+CMaterial::CMaterial(bool _IsEngineAsset)
 	: CAsset(ASSET_TYPE::MATERIAL)
 {
-
+	if (_IsEngineAsset)
+	{
+		SetEngineAsset();
+	}
 }
 
 CMaterial::~CMaterial()

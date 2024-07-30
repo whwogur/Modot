@@ -18,10 +18,10 @@ public:
 
 	const string& GetName() { return m_Name; }
 
-	UINT GetID() { return m_ID; }
+	UINT GetID() const { return m_ID; }
 	const string& GetFullName() { return m_FullName; }
 
-	bool IsActive() { return m_Active; }
+	bool IsActive() const { return m_Active; }
 
 	void SetChildBorder(bool _Set) { m_ChildBorder = _Set; }
 	void SetChildSize(ImVec2 _Size) { m_ChildSize = _Size; }
@@ -29,10 +29,10 @@ public:
 	void Toggle() { m_Active = !m_Active; }
 
 	void SetModal(bool _Modal) { m_Modal = _Modal; }
-	bool IsModal() { return m_Modal; }
+	bool IsModal() const { return m_Modal; }
 	void UseMenuBar(bool _Use) { m_UseMenuBar = _Use; }
 	void SetMoveable(bool _Move) { m_Moveable = _Move; }
-
+	void UseHorizontalScroll(bool _b) { m_HorizontalScroll = _b; }
 	void SetFocus();
 public:
 	virtual void Init() {}
@@ -61,6 +61,7 @@ private:
 	bool				m_ChildBorder;
 	bool				m_UseMenuBar;
 	bool				m_Moveable;
+	bool				m_HorizontalScroll;
 };
 
 typedef void(EditorUI::* DELEGATE_0)(void);

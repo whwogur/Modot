@@ -13,10 +13,11 @@ public:
     virtual ~CAsset() = default;
     CLONE_DISABLE(CAsset);
 public:
-    ASSET_TYPE GetAssetType() { return m_Type; }
+    ASSET_TYPE GetAssetType() const { return m_Type; }
     const wstring& GetKey() { return m_Key; }
     const wstring& GetRelativePath() { return m_RelativePath; }
-    UINT GetRefCount() { return m_RefCount; }
+    UINT GetRefCount() const { return m_RefCount; }
+    bool IsEngineAsset() const { return m_EngineAsset; }
 public:
     virtual int Load(const wstring& _FilePath) = 0;
     virtual int Save(const wstring& _RelativePath) = 0;
@@ -24,7 +25,7 @@ public:
 protected:
     void SetKey(const wstring& _Key) { m_Key = _Key; }
     void SetRelativePath(const wstring& _path) { m_RelativePath = _path; }
-
+    void SetEngineAsset() { m_EngineAsset = true; }
 private:
     void AddRef() { ++m_RefCount; }
     void Release()
@@ -41,5 +42,6 @@ private:
     wstring             m_RelativePath;
     const ASSET_TYPE    m_Type;
     int                 m_RefCount;
+    bool                m_EngineAsset;
 };
 

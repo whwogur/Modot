@@ -118,8 +118,6 @@ void Content::Reload()
 		LoadAsset(path);
 	}
 
-	return;
-
 	// 에셋 매니저에는 로딩되어있지만, content 폴더에는 없는 에셋은 AssetMgr 에서 삭제하기
 	// 로딩된 에셋에 해당하는 원본 파일이 Content 폴더에 있는지 Exist 체크
 	const wstring& strContentPath = CPathMgr::GetInst()->GetContentPath();
@@ -127,8 +125,11 @@ void Content::Reload()
 	for (UINT i = 0; i < (UINT)ASSET_TYPE::END; ++i)
 	{
 		const map<wstring, Ptr<CAsset>>& mapAsset = CAssetMgr::GetInst()->GetAssets((ASSET_TYPE)i);
-		for (const auto pair : mapAsset)
+		for (const auto& pair : mapAsset)
 		{
+			// 엔진에서 제작한 에셋은 원래 원본파일이 없기때문에 넘어간다.
+			if (pair.second->IsEngineAsset())
+				continue;
 			wstring strRelativePath = pair.second->GetRelativePath();
 
 			if (false == std::filesystem::exists(strContentPath + strRelativePath))
@@ -136,11 +137,16 @@ void Content::Reload()
 				if (pair.second->GetRefCount() <= 1)
 				{
 					// 에셋 삭제요청
-					CTaskMgr::GetInst()->AddTask(tTask{ TASK_TYPE::DEL_ASSET, (DWORD_PTR)pair.second.Get() });
+					CTaskMgr::GetInst()->AddTask(tTask{ TASK_TYPE::DEL_ASSET, (DWORD_PTR)pair.second.Get(), });
 				}
 				else
 				{
-					MessageBox(nullptr, L"다른 곳에서 참조되고 있을 수 있습니다.", L"에셋 삭제 에러", MB_OK);
+					int ret = MessageBox(nullptr, L"다른 곳에서 참조되고 있을 수 있습니다.\n에셋을 삭제하시겠습니까?", L"에셋 삭제 에러", MB_YESNO);
+					if (ret == IDYES)
+					{
+						// 에셋 삭제요청
+						CTaskMgr::GetInst()->AddTask(tTask{ TASK_TYPE::DEL_ASSET, (DWORD_PTR)pair.second.Get(), });
+					}
 				}
 			}
 		}

@@ -1,17 +1,17 @@
 #include "pch.h"
 #include "CEditorMgr.h"
 
-#include "Engine/CKeyMgr.h"
-#include "Engine/CRenderMgr.h"
+#include <Engine/CKeyMgr.h>
+#include <Engine/CRenderMgr.h>
+#include <Engine/CEngine.h>
+#include <Engine/CDevice.h>
+#include <Engine/CKeyMgr.h>
+#include <Engine/CPathMgr.h>
 
 #include "CGameObjectEx.h"
 #include "Engine/components.h"
 #include "CEditorCameraScript.h"
 
-
-#include "Engine/CEngine.h"
-#include "Engine/CDevice.h"
-#include "Engine/CKeyMgr.h"
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_dx11.h"
 #include "ImGui/imgui_impl_win32.h"
@@ -21,6 +21,7 @@
 CEditorMgr::CEditorMgr()
 	: m_IconFont(nullptr)
 	, m_Gizmo(nullptr)
+	, m_Sentinel(nullptr)
 {
 }
 
@@ -38,6 +39,12 @@ void CEditorMgr::Init()
 {
 	CreateEditorObject();
 	InitImGui();
+
+	// Content 폴더를 감시하는 커널 오브젝트 생성
+	const wstring& ContentPath = CPathMgr::GetInst()->GetContentPath();
+	m_Sentinel = FindFirstChangeNotification(ContentPath.c_str(), true
+		, FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME
+		| FILE_ACTION_ADDED | FILE_ACTION_REMOVED);
 }
 
 void CEditorMgr::Tick()
@@ -47,6 +54,8 @@ void CEditorMgr::Tick()
     EditorObjectUpdate();
 
     ImGuiRun();
+
+	ObserveContents();
 }
 
 void CEditorMgr::SetTargetObject(CGameObject* Obj)

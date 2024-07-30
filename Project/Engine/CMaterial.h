@@ -7,7 +7,7 @@ class CMaterial :
     public CAsset
 {
 public:
-    CMaterial();
+    CMaterial(bool _IsEngineAsset = false);
     ~CMaterial();
     CMaterial* Clone() { return new CMaterial(*this); }
 public:

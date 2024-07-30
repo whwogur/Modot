@@ -142,6 +142,22 @@ void CEditorMgr::CreateEditorUI()
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 }
 
+void CEditorMgr::ObserveContents()
+{
+    // 지정된 상황이 발생했는지 확인
+    DWORD dwStatus = WaitForSingleObject(m_Sentinel, 0);
+
+    if (dwStatus == WAIT_OBJECT_0)
+    {
+        // Content 폴더에 있는 모든 에셋과 메모리에 로딩되어있는 에셋을 동기화
+        Content* pContent = (Content*)FindEditorUI("Content");
+        pContent->Reload();
+
+        // 다시 대기
+        FindNextChangeNotification(m_Sentinel);
+    }
+}
+
 
 void CEditorMgr::ImGuiRun()
 {

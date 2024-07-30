@@ -19,8 +19,6 @@ void CPlayerScript::Begin()
 
 void CPlayerScript::Tick()
 {
-	Vec3 vPos = Transform()->GetRelativePos();
-
 	if (KEY_PRESSED(KEY::LEFT))
 	{
 		RigidBody()->AddForce(Vec2(-3000.f, 0.f));
@@ -29,13 +27,6 @@ void CPlayerScript::Tick()
 	if (KEY_PRESSED(KEY::RIGHT))
 	{
 		RigidBody()->AddForce(Vec2(3000.f, 0.f));
-	}
-
-	if (KEY_PRESSED(KEY::Z))
-	{
-		Vec3 vRot = Transform()->GetRelativeRoatation();
-		vRot.z += DT * XM_PI;
-		Transform()->SetRelativeRotation(vRot);
 	}
 
 	if (RigidBody()->IsGround())
@@ -50,8 +41,6 @@ void CPlayerScript::Tick()
 			RigidBody()->SetGround(false);
 		}
 	}
-
-	Transform()->SetRelativePos(vPos);
 }
 
 void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)

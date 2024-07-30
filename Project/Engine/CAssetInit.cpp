@@ -46,6 +46,7 @@ void CAssetMgr::CreateEngineMesh()
 
 	pMesh = new CMesh;
 	pMesh->Create(arrVtx, 4, arrIdx, 6);
+	pMesh->SetEngineAsset();
 	AddAsset(L"RectMesh", pMesh);
 
 	// RectMesh_Debug
@@ -53,6 +54,7 @@ void CAssetMgr::CreateEngineMesh()
 
 	pMesh = new CMesh;
 	pMesh->Create(arrVtx, 4, arrIdx, 5);
+	pMesh->SetEngineAsset();
 	AddAsset(L"RectMesh_Debug", pMesh);
 
 	// CircleMesh 
@@ -92,6 +94,7 @@ void CAssetMgr::CreateEngineMesh()
 
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	pMesh->SetEngineAsset();
 	AddAsset(L"CircleMesh", pMesh);
 
 	// CircleMesh_Debug
@@ -103,6 +106,7 @@ void CAssetMgr::CreateEngineMesh()
 
 	pMesh = new CMesh;
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+	pMesh->SetEngineAsset();
 	AddAsset(L"CircleMesh_Debug", pMesh);
 }
 
@@ -313,34 +317,34 @@ void CAssetMgr::CreateEngineMaterial()
 	Ptr<CMaterial>	pMtrl = nullptr;
 
 	// Std2DMtrl
-	pMtrl = new CMaterial();
+	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"Std2DShader"));
 	AddAsset(L"Std2DMtrl", pMtrl);
 
 	// Std2DAlphaBlendMtrl
-	pMtrl = new CMaterial();
+	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"Std2DAlphaBlendShader"));
 	AddAsset(L"Std2DAlphaBlendMtrl", pMtrl);
 
 	// DebugShapeMtrl
-	pMtrl = new CMaterial();
+	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"DebugShapeShader"));
 	AddAsset(L"DebugShapeMtrl", pMtrl);
 
 	// TileMapMtrl
-	pMtrl = new CMaterial();
+	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"TileMapShader"));
 	AddAsset(L"TileMapMtrl", pMtrl);
 
 	// GrayFilterMtrl
-	pMtrl = new CMaterial();
+	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"ShockwaveShader"));
 	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
 	pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"RedDiscFx"));
 	AddAsset(L"ShockwaveMtrl", pMtrl);
 
 	// DistortionMtrl
-	pMtrl = new CMaterial();
+	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"DistortionShader"));
 	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
 	pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"noise_01"));
@@ -349,14 +353,14 @@ void CAssetMgr::CreateEngineMaterial()
 	AddAsset(L"DistortionMtrl", pMtrl);
 
 	// RippleMtrl
-	pMtrl = new CMaterial();
+	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"RippleShader"));
 	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"RedDiscFx"));
 	pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"DiscDonut"));
 	AddAsset(L"RippleMtrl", pMtrl);
 
 	// SmallRippleMtrl
-	pMtrl = new CMaterial();
+	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"SmallRippleShader"));
 	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
 	AddAsset(L"SmallRippleMtrl", pMtrl);

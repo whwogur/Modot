@@ -30,12 +30,13 @@ private:
     void SetThemeUnrealEngine();
     void SetThemeFutureDark();
     void CreateEditorUI();
-
+    void ObserveContents();
 private:
     vector<CGameObject*>        m_vecEditorObject;
     map<string, EditorUI*>      m_mapUI;
     Vec2                        m_ViewportSize;
     ImFont*                     m_IconFont;
     std::shared_ptr<Gizmo>      m_Gizmo;
+    HANDLE                      m_Sentinel;
 };
 

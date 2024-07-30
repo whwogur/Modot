@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EditorUI.h"
-#define ICON_SIZE 26
+constexpr UINT ICON_SIZE = 26;
 
 class CGameObject;
 
