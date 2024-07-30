@@ -76,6 +76,22 @@ void FileBrowser::Update()
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 		ImGui::ImageButton((ImTextureID)icon->GetSRV().Get(), { thumbnailSize, thumbnailSize }, { 1, 0 }, { 0, 1 });
 		ImGui::PopStyleColor();
+
+		if (ImGui::BeginPopupContextWindow(listNode.first.string().c_str(), ImGuiPopupFlags_MouseButtonRight))
+		{
+			if (ImGui::MenuItem(u8"»èÁ¦"))
+			{
+				const wstring& wstrPath = CPathMgr::GetInst()->GetContentPath();
+				string toBeErased(wstrPath.begin(), wstrPath.end());
+				toBeErased += listNode.first.string();
+				
+				std::filesystem::remove(toBeErased);
+				Refresh();
+			}
+
+			ImGui::EndPopup();
+		}
+
 		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 		{
 			if (listNode.second)
@@ -91,13 +107,13 @@ void FileBrowser::Update()
 				path extention = listNode.first.extension();
 
 				//MD_ENGINE_TRACE(ext);
-				
+
 				if (extention == L".bmp" || extention == L".png" || extention == L".jpg" || extention == L".jpeg"
 					|| extention == L".BMP" || extention == L".PNG" || extention == L".JPG" || extention == L".JPEG")
 				{
 					CAssetMgr::GetInst()->Load<CTexture>(relPath.stem(), relPath);
 				}
-				
+
 				else if (extention == L".anim")
 				{
 					CAssetMgr::GetInst()->Load<CAnimation>(relPath.stem(), relPath);
