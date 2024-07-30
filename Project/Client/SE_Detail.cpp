@@ -22,9 +22,49 @@ void SE_Detail::Init()
 
 void SE_Detail::Update()
 {
+	ImGui::TextColored(HEADER_1, u8"아틀라스 정보");
 	Atlas();
-
 	AtlasInfo();
+	
+	static char buf[64] = {};
+	static int BGSize[2] = { m_BGSizeX, m_BGSizeY };
+	ImGui::SetNextItemWidth(200);
+	if (ImGui::InputInt2(ICON_FA_OBJECT_GROUP" BGSize", BGSize, ImGuiInputTextFlags_EnterReturnsTrue))
+	{
+		m_BGSizeX = BGSize[0];
+		m_BGSizeY = BGSize[1];
+	}
+
+	if (m_BGSizeX > 0 && m_BGSizeY > 0)
+	{
+		ImGui::NewLine();
+		ImGui::TextColored(HEADER_1, u8"선택 정보");
+		ImGui::InputText("##spriteTInput", buf, sizeof(buf));
+		ImGui::SameLine();
+		if (ImGui::Button(ICON_FA_FLOPPY_O, { 25, 25 }))
+		{
+			Ptr<CSprite> pSprite = new CSprite;
+			pSprite->Create(m_AtlasTex, m_LeftTop, m_Slice);
+			pSprite->SetBackground({ m_BGSizeX, m_BGSizeY });
+
+			string strRelPath(buf);
+			wstring wstrRelPath(strRelPath.begin(), strRelPath.end());
+			wstrRelPath += L".sprite";
+
+			pSprite->Save(L"sprite\\" + wstrRelPath);
+		}
+		ImGui::SetItemTooltip(u8"스프라이트를 저장합니다\n이름을 다시 한번 확인해주세요\n(반드시 이름만작성)");
+
+		float vLT[2] = { m_LeftTop.x, m_LeftTop.y };
+		float vRB[2] = { m_Slice.x, m_Slice.y };
+
+		ImGui::InputFloat2("LT##leftTop", vLT, "%.3f", ImGuiInputTextFlags_ReadOnly);
+		ImGui::InputFloat2("RB##Slice", vRB, "%.3f", ImGuiInputTextFlags_ReadOnly);
+	}
+	else
+	{
+		ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, u8"BG Size 설정 필요");
+	}
 }
 
 void SE_Detail::Atlas()

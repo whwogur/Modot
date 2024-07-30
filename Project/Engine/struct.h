@@ -44,14 +44,6 @@ struct tLightInfo
 	int			padding[3];
 };
 
-struct tPixel
-{
-	BYTE b;
-	BYTE g;
-	BYTE r;
-	BYTE a;
-};
-
 struct tTransform
 {
 	Matrix matWorld;
