@@ -33,6 +33,7 @@ void SE_Detail::Update()
 	{
 		m_BGSizeX = BGSize[0];
 		m_BGSizeY = BGSize[1];
+		GetAtlasView()->SetBGSize(ImVec2(BGSize[0], BGSize[1]));
 	}
 
 	if (m_BGSizeX > 0 && m_BGSizeY > 0)
@@ -44,7 +45,7 @@ void SE_Detail::Update()
 		if (ImGui::Button(ICON_FA_FLOPPY_O, { 25, 25 }))
 		{
 			Ptr<CSprite> pSprite = new CSprite;
-			pSprite->Create(m_AtlasTex, m_LeftTop, m_Slice);
+			pSprite->Create(m_AtlasTex, m_LeftTop, {m_BGSizeX, m_BGSizeY});
 			pSprite->SetBackground({ m_BGSizeX, m_BGSizeY });
 
 			string strRelPath(buf);
@@ -55,11 +56,14 @@ void SE_Detail::Update()
 		}
 		ImGui::SetItemTooltip(u8"스프라이트를 저장합니다\n이름을 다시 한번 확인해주세요\n(반드시 이름만작성)");
 
-		float vLT[2] = { m_LeftTop.x, m_LeftTop.y };
-		float vRB[2] = { m_Slice.x, m_Slice.y };
+		if (m_LeftTop.x >= 0 && m_LeftTop.y >= 0)
+		{
+			float vLT[2] = { m_LeftTop.x, m_LeftTop.y };
+			//float vRB[2] = { m_Slice.x, m_Slice.y };
 
-		ImGui::InputFloat2("LT##leftTop", vLT, "%.3f", ImGuiInputTextFlags_ReadOnly);
-		ImGui::InputFloat2("RB##Slice", vRB, "%.3f", ImGuiInputTextFlags_ReadOnly);
+			ImGui::InputFloat2("LT##leftTop", vLT, "%.3f", ImGuiInputTextFlags_ReadOnly);
+			//ImGui::InputFloat2("RB##Slice", vRB, "%.3f", ImGuiInputTextFlags_ReadOnly);
+		}
 	}
 	else
 	{

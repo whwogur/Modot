@@ -2,6 +2,7 @@
 #include "SE_AtlasView.h"
 #include "SE_Detail.h"
 #include <Engine/CKeyMgr.h>
+#include "TreeUI.h"
 SE_AtlasView::SE_AtlasView()
 	: m_WidthSize(200)
 	, m_WheelScale(1.f)
@@ -18,6 +19,8 @@ void SE_AtlasView::Init()
 
 void SE_AtlasView::Update()
 {
+	ImageRectMin = ImVec2(ImGui::GetScrollX(), ImGui::GetScrollY());
+
 	if (nullptr == m_AtlasTex)
 		return;
 
@@ -33,6 +36,25 @@ void SE_AtlasView::Update()
 
 	ImGui::Image(m_AtlasTex->GetSRV().Get(), ImVec2((m_WidthSize * m_WheelScale), m_AtlasTex->Height() * m_Ratio)
 		, uv_min, uv_max, tint_col, border_col);
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
+		if (payload)
+		{
+			TreeNode** ppNode = (TreeNode**)payload->Data;
+			TreeNode* pNode = *ppNode;
+
+			Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
+			if (ASSET_TYPE::TEXTURE == pAsset->GetAssetType())
+			{
+				m_AtlasTex = (CTexture*)pAsset.Get();
+				GetDetail()->SetAtlasTex(m_AtlasTex);
+			}
+		}
+
+		ImGui::EndDragDropTarget();
+	}
 
 	if (ImGui::IsWindowFocused() && ImGui::IsMousePosValid())
 	{
@@ -100,14 +122,13 @@ void SE_AtlasView::SelectCheck()
 			&& 0.f <= vPixelPos.y && vPixelPos.y < m_AtlasTex->Height())
 		{
 			m_MouseRB = ImVec2(vPixelPos.x, vPixelPos.y);
-			int rbx = std::floor(m_MouseRB.x / 64) * 64;
-			int rby = std::floor(m_MouseRB.y / 64) * 64;
-			int ltx = std::floor(m_MouseLT.x / 64) * 64;
-			int lty = std::floor(m_MouseLT.y / 64) * 64;
+			//int rbx = std::floor(m_MouseRB.x / m_BGSize.x) * m_BGSize.x;
+			//int rby = std::floor(m_MouseRB.y / m_BGSize.y) * m_BGSize.y;
+			int ltx = std::floor(m_MouseLT.x / m_BGSize.x) * m_BGSize.x;
+			int lty = std::floor(m_MouseLT.y / m_BGSize.y) * m_BGSize.y;
 
-			MD_ENGINE_TRACE("{0},{1} / {2},{3}", ltx, lty, rbx, rby);
 			GetDetail()->SetLeftTop({ ltx, lty });
-			GetDetail()->SetSlice({ rbx, rby });
+			//GetDetail()->SetSlice({ rbx, rby });
 		}
 	}
 }
