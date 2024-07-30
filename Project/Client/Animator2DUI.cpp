@@ -19,9 +19,9 @@ Animator2DUI::~Animator2DUI()
 void Animator2DUI::Update()
 {
 	Title();
-	if (GetTargetObject() != nullptr)
+	CGameObject* targetObj = GetTargetObject();
+	if (targetObj != nullptr)
 	{
-		CGameObject* targetObj = GetTargetObject();
 		const vector<Ptr<CAnimation>>& vecAnim = targetObj->Animator2D()->GetAnimationsRef();
 		if (!vecAnim.empty())
 		{
@@ -53,40 +53,18 @@ void Animator2DUI::Update()
 			}
 			ImGui::SetItemTooltip(u8"애니메이션 에디터에서 보기");
 
-			ImGui::Text("Current Animation");
-			if (ImGui::BeginCombo("##AnimationPlayCombo", m_AnimIndex > -1 ? m_AnimTitle.c_str() : combo_preview_value.c_str()))
-			{
-				for (size_t i = 0; i < vecAnim.size(); ++i)
-				{
-					if (vecAnim[i].Get() == nullptr)
-					{
-						ImGui::Selectable("< Empty >", false, ImGuiSelectableFlags_Disabled);
-					}
-					else
-					{
-						const wstring& animName = vecAnim[i].Get()->GetKey();
-						string sName = ICON_FA_VIDEO_CAMERA " " + string(animName.begin(), animName.end());
-						if (ImGui::Selectable((char*)sName.c_str()))
-						{
-							targetObj->Animator2D()->Play((int)i, 8.0f, true);
-							m_AnimIndex = (int)i;
-						}
-					}
-
-				}
-				ImGui::EndCombo();
-			}
-			ImGui::SetItemTooltip(u8"애니메이션 즉시 재생");
-
 			if (m_AnimIndex > -1)
 			{
-				const wstring& animTitle = vecAnim[m_AnimIndex]->GetKey();
-				string strTitle(animTitle.begin(), animTitle.end());
-				m_AnimTitle = strTitle;
-				float& FPS = targetObj->Animator2D()->GetFPSRef();
-				bool& Repeat = targetObj->Animator2D()->GetRepeatRef();
-				ImGui::InputFloat("FPS", &FPS, 0.1f, 0.2f, "%.1f");
-				ImGui::Checkbox("Repeat", &Repeat);
+				if (vecAnim[m_AnimIndex].Get() != nullptr)
+				{
+					const wstring& animTitle = vecAnim[m_AnimIndex]->GetKey();
+					string strTitle(animTitle.begin(), animTitle.end());
+					m_AnimTitle = strTitle;
+					float& FPS = targetObj->Animator2D()->GetFPSRef();
+					bool& Repeat = targetObj->Animator2D()->GetRepeatRef();
+					ImGui::InputFloat("FPS", &FPS, 0.1f, 0.2f, "%.1f");
+					ImGui::Checkbox("Repeat", &Repeat);
+				}
 			}
 		}
 

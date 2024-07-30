@@ -19,7 +19,7 @@ void SE_AtlasView::Init()
 
 void SE_AtlasView::Update()
 {
-	ImageRectMin = ImVec2(ImGui::GetScrollX(), ImGui::GetScrollY());
+	//ImageRectMin = ImVec2(ImGui::GetScrollX(), ImGui::GetScrollY());
 
 	if (nullptr == m_AtlasTex)
 		return;
@@ -36,7 +36,7 @@ void SE_AtlasView::Update()
 
 	ImGui::Image(m_AtlasTex->GetSRV().Get(), ImVec2((m_WidthSize * m_WheelScale), m_AtlasTex->Height() * m_Ratio)
 		, uv_min, uv_max, tint_col, border_col);
-
+	ImageRectMin = ImGui::GetItemRectMin();
 	if (ImGui::BeginDragDropTarget())
 	{
 		const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
