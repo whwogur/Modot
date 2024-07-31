@@ -12,6 +12,7 @@
 #include "CRenderMgr.h"
 #include "CCollisionMgr.h"
 #include "CTaskMgr.h"
+#include "CPrefab.h"
 
 CEngine::CEngine()
 	: m_hWnd(nullptr)
@@ -23,7 +24,7 @@ CEngine::~CEngine()
 {
 }
 
-int CEngine::Init(HWND _wnd, POINT _ptResolution)
+int CEngine::Init(HWND _wnd, POINT _ptResolution, OBJECT_SAVE _SaveFunc, OBJECT_LOAD _Func)
 {
 	Modot::Log::Init();
 	m_hWnd = _wnd;
@@ -37,6 +38,10 @@ int CEngine::Init(HWND _wnd, POINT _ptResolution)
 	CTimeMgr::GetInst()->Init();// MD_ENGINE_TRACE(L"Time Manager 초기화 완료");
 	CAssetMgr::GetInst()->Init();// MD_ENGINE_TRACE(L"Asset Manager 초기화 완료");
 	CRenderMgr::GetInst()->Init();// MD_ENGINE_TRACE(L"Render Manager 초기화 완료");
+
+	// Prefab Function 등록
+	CPrefab::g_ObjectSaveFunc = _SaveFunc;
+	CPrefab::g_ObjectLoadFunc = _Func;
 
 	return S_OK;
 }
