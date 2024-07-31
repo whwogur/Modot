@@ -49,6 +49,31 @@ void Animator2DUI::Update()
 			}
 			ImGui::SetItemTooltip(u8"애니메이션 에디터에서 보기");
 
+			ImGui::Text("Current Animation");
+			if (ImGui::BeginCombo("##AnimationPlayCombo", m_AnimIndex > -1 ? m_AnimTitle.c_str() : combo_preview_value.c_str()))
+			{
+				for (size_t i = 0; i < vecAnim.size(); ++i)
+				{
+					if (vecAnim[i].Get() == nullptr)
+					{
+						ImGui::Selectable("< Empty >", false, ImGuiSelectableFlags_Disabled);
+					}
+					else
+					{
+						const wstring& animName = vecAnim[i].Get()->GetKey();
+						string sName = ICON_FA_VIDEO_CAMERA " " + string(animName.begin(), animName.end());
+						if (ImGui::Selectable((char*)sName.c_str()))
+						{
+							targetObj->Animator2D()->Play((int)i, 8.0f, true);
+							m_AnimIndex = (int)i;
+						}
+					}
+
+				}
+				ImGui::EndCombo();
+			}
+			ImGui::SetItemTooltip(u8"애니메이션 즉시 재생");
+
 			if (m_AnimIndex > -1)
 			{
 				if (vecAnim[m_AnimIndex].Get() != nullptr)
@@ -82,4 +107,14 @@ void Animator2DUI::Update()
 			ImGui::EndDragDropTarget();
 		}
 	}
+}
+
+void Animator2DUI::Activate()
+{
+	m_AnimIndex = -1;
+}
+
+void Animator2DUI::Deactivate()
+{
+	m_AnimIndex = -1;
 }

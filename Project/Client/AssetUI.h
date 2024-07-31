@@ -17,5 +17,6 @@ protected:
 private:
     Ptr<CAsset>         m_Asset;
     Ptr<CTexture>       m_AssetIcons;
+    Ptr<CTexture>       m_LogoTex;
     const ASSET_TYPE    m_Type;
 };

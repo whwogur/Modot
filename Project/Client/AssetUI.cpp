@@ -5,7 +5,8 @@
 AssetUI::AssetUI(ASSET_TYPE _Type)
 	: m_Type(_Type)
 {
-	m_AssetIcons = CAssetMgr::GetInst()->Load<CTexture>(L"AssetIcons", L"texture\\AssetIcons.png");
+	m_AssetIcons = CAssetMgr::GetInst()->FindAsset<CTexture>(L"AssetIcons");
+	m_LogoTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Modot_Logo");
 }
 
 void AssetUI::SetAsset(Ptr<CAsset> _Asset)
@@ -33,7 +34,11 @@ void AssetUI::Title()
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
 	float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
 	ImGui::TextColored({ 0.4f, 0.7f, 0.8f, 1.0f }, ToString(m_Type));
-
+	if (m_Asset->IsEngineAsset())
+	{
+		ImGui::SameLine();
+		ImGui::Image(m_LogoTex->GetSRV().Get(), { 20 ,20 });
+	}
 	ImGui::PopStyleVar();
 	ImGui::PopID();
 }
