@@ -14,10 +14,6 @@ ComponentUI::ComponentUI(COMPONENT_TYPE _Type)
 	m_IconTexture = CAssetMgr::GetInst()->FindAsset<CTexture>(L"ComponentIcons");
 }
 
-ComponentUI::~ComponentUI()
-{
-}
-
 void ComponentUI::SetTargetObject(CGameObject* _Object)
 {
 	m_TargetObject = _Object;

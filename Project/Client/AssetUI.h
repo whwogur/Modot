@@ -6,7 +6,7 @@ class AssetUI :
 {
 public:
     AssetUI(ASSET_TYPE _Type);
-    ~AssetUI();
+    virtual ~AssetUI() = default;
 public:
     void SetAsset(Ptr<CAsset> _Asset);
     Ptr<CAsset> GetAsset() { return m_Asset; }

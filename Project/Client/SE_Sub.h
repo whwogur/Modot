@@ -7,7 +7,7 @@ class SE_Sub :
 {
 public:
     SE_Sub();
-    ~SE_Sub() = default;
+    virtual ~SE_Sub() = default;
 public:
     SpriteEditor* GetOwner() { return m_Owner; }
     class SE_Detail* GetDetail() { return m_Owner->GetDetail(); }

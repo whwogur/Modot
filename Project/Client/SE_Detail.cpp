@@ -54,15 +54,15 @@ void SE_Detail::Update()
 
 			pSprite->Save(L"sprite\\" + wstrRelPath);
 		}
-		ImGui::SetItemTooltip(u8"스프라이트를 저장합니다\n이름을 다시 한번 확인해주세요\n(반드시 이름만작성)");
+		ImGui::SetItemTooltip(u8"스프라이트를 저장합니다\n이름을 다시 한번 확인해주세요\n- 반드시 이름만작성 -");
 
 		if (m_LeftTop.x >= 0 && m_LeftTop.y >= 0)
 		{
 			float vLT[2] = { m_LeftTop.x, m_LeftTop.y };
-			//float vRB[2] = { m_Slice.x, m_Slice.y };
+			float vRB[2] = { m_LeftTop.x + m_BGSizeX, m_LeftTop.y + m_BGSizeY };
 
 			ImGui::InputFloat2("LT##leftTop", vLT, "%.3f", ImGuiInputTextFlags_ReadOnly);
-			//ImGui::InputFloat2("RB##Slice", vRB, "%.3f", ImGuiInputTextFlags_ReadOnly);
+			ImGui::InputFloat2("RB##Slice", vRB, "%.3f", ImGuiInputTextFlags_ReadOnly);
 		}
 	}
 	else

@@ -12,10 +12,6 @@ Animator2DUI::Animator2DUI()
 {
 }
 
-Animator2DUI::~Animator2DUI()
-{
-}
-
 void Animator2DUI::Update()
 {
 	Title();
@@ -27,7 +23,7 @@ void Animator2DUI::Update()
 		{
 			const string combo_preview_value = "(" + std::to_string(vecAnim.size()) + ") Slots Available";
 
-			ImGui::Text("Animation List");
+			ImGui::TextColored(HEADER_1, "Animation List");
 			if (ImGui::BeginCombo("##AnimationListCombo", combo_preview_value.c_str()))
 			{
 				for (size_t i = 0; i < vecAnim.size(); ++i)

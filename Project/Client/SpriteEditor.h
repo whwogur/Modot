@@ -9,7 +9,7 @@ class SpriteEditor :
 {
 public:
     SpriteEditor();
-    ~SpriteEditor();
+    ~SpriteEditor() = default;
 public:
     SE_AtlasView* GetAtlasView() { return m_AtlasView; }
     SE_Detail* GetDetail() { return m_Detail; }

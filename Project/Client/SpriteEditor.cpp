@@ -12,10 +12,6 @@ SpriteEditor::SpriteEditor()
 	UseMenuBar(true);
 }
 
-SpriteEditor::~SpriteEditor()
-{
-}
-
 void SpriteEditor::Init()
 {
 	m_AtlasView = (SE_AtlasView*)CEditorMgr::GetInst()->FindEditorUI(ICON_FA_OBJECT_GROUP" AtlasView");

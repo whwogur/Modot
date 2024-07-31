@@ -10,7 +10,7 @@ class ComponentUI :
 {
 public:
     ComponentUI(COMPONENT_TYPE _Type);
-    ~ComponentUI();
+    virtual ~ComponentUI() = default;
 
 public:
     void SetTargetObject(CGameObject* _Object);

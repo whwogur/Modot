@@ -8,10 +8,6 @@ AssetUI::AssetUI(ASSET_TYPE _Type)
 	m_AssetIcons = CAssetMgr::GetInst()->Load<CTexture>(L"AssetIcons", L"texture\\AssetIcons.png");
 }
 
-AssetUI::~AssetUI()
-{
-}
-
 void AssetUI::SetAsset(Ptr<CAsset> _Asset)
 {
 	m_Asset = nullptr;

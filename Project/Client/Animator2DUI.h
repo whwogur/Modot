@@ -5,7 +5,7 @@ class Animator2DUI :
 {
 public:
     Animator2DUI();
-    ~Animator2DUI();
+    ~Animator2DUI() = default;
 
 private:
     virtual void Update() override;
