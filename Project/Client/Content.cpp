@@ -207,4 +207,6 @@ void Content::LoadAsset(const path& _Path)
 		CAssetMgr::GetInst()->Load<CSprite>(Key, _Path);
 	else if (ext == L".anim")
 		CAssetMgr::GetInst()->Load<CAnimation>(Key, _Path);
+	else if (ext == L".prefab")
+		CAssetMgr::GetInst()->Load<CPrefab>(Key, _Path);
 }
