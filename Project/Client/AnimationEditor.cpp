@@ -70,6 +70,7 @@ void AnimationEditor::Update()
             SpriteEditor* spriteEditor = static_cast<SpriteEditor*>(CEditorMgr::GetInst()->FindEditorUI("SpriteEditor"));
             spriteEditor->SetActive(true);
         }
+        ImGui::SetItemTooltip(u8"현재 애니메이션이 참조하는\n아틀라스 텍스처를\n스프라이트 에디터에서 엽니다");
         ImGui::SameLine(160);
         if (ImGui::Button(ICON_FA_FLOPPY_O, { 30, 30 }))
         {

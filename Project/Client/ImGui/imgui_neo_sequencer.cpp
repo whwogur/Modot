@@ -936,12 +936,12 @@ namespace ImGui
         const float topCut = abs(context.TopLeftCursor.y - cursor.y);
         backgroundSize.y = backgroundSize.y - (topCut);
 
-        RenderNeoSequencerBackground(GetStyleNeoSequencerColorVec4(ImGuiNeoSequencerCol_Bg), context.TopLeftCursor,
+        RenderNeoSequencerBackground(ImVec4(0.03921568766236305f, 0.03921568766236305f, 0.03921568766236305f, 1.0f), context.TopLeftCursor,
                                      backgroundSize,
                                      drawList, style.SequencerRounding);
 
 
-        RenderNeoSequencerTopBarBackground(GetStyleNeoSequencerColorVec4(ImGuiNeoSequencerCol_TopBarBg),
+        RenderNeoSequencerTopBarBackground(ImVec4(0.05882352963089943f, 0.05882352963089943f, 0.05882352963089943f, 0.9399999976158142f),
                                            context.TopBarStartCursor, context.TopBarSize,
                                            drawList, style.SequencerRounding);
 
