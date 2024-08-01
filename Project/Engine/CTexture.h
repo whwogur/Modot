@@ -15,7 +15,9 @@ public:
     int Create(WRL::ComPtr<ID3D11Texture2D> _Tex2D);
 
     void Bind(UINT _RegisterNum);
+    void Bind_CS_UAV(UINT _RegisterNum);
     static void Clear(UINT _RegisterNum);
+    void Clear_CS_UAV();
 public:
     WRL::ComPtr<ID3D11Texture2D>             GetTex2D() { return m_Tex2D; }
     WRL::ComPtr<ID3D11RenderTargetView>      GetRTV() { return m_RTV; }
@@ -24,8 +26,8 @@ public:
     WRL::ComPtr<ID3D11UnorderedAccessView>   GetUAV() { return m_UAV; }
     const D3D11_TEXTURE2D_DESC& GetDesc() { return m_Desc; }
 public:
-    UINT Width() { return m_Desc.Width; }
-    UINT Height() { return m_Desc.Height; }
+    UINT Width() const { return m_Desc.Width; }
+    UINT Height() const { return m_Desc.Height; }
 
 private:
     WRL::ComPtr<ID3D11RenderTargetView>         m_RTV;
@@ -34,6 +36,7 @@ private:
     WRL::ComPtr<ID3D11UnorderedAccessView>      m_UAV;
 
     D3D11_TEXTURE2D_DESC                        m_Desc;
+    UINT                                        m_LastBoundRegNum;
 
     ScratchImage                                m_Image;
     WRL::ComPtr<ID3D11Texture2D>			    m_Tex2D;

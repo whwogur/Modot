@@ -13,6 +13,7 @@ public:
 
     void SetData(void* _pData);
     void Bind();
+    void Bind_CS();
 
 private:
     WRL::ComPtr<ID3D11Buffer>               m_CB;

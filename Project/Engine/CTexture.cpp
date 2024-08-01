@@ -21,6 +21,13 @@ void CTexture::Bind(UINT _RegisterNum)
 	CONTEXT->PSSetShaderResources(_RegisterNum, 1, m_SRV.GetAddressOf());
 }
 
+void CTexture::Bind_CS_UAV(UINT _RegisterNum)
+{
+	UINT i = -1;
+	CONTEXT->CSSetUnorderedAccessViews(_RegisterNum, 1, m_UAV.GetAddressOf(), &i);
+	m_LastBoundRegNum = _RegisterNum;
+}
+
 void CTexture::Clear(UINT _RegisterNum)
 {
 	ID3D11ShaderResourceView* pSRV = nullptr;
@@ -29,6 +36,13 @@ void CTexture::Clear(UINT _RegisterNum)
 	CONTEXT->DSSetShaderResources(_RegisterNum, 1, &pSRV);
 	CONTEXT->GSSetShaderResources(_RegisterNum, 1, &pSRV);
 	CONTEXT->PSSetShaderResources(_RegisterNum, 1, &pSRV);
+}
+
+void CTexture::Clear_CS_UAV()
+{
+	UINT i = -1;
+	ID3D11UnorderedAccessView* pUAV = nullptr;
+	CONTEXT->CSSetUnorderedAccessViews(m_LastBoundRegNum, 1, &pUAV, &i);
 }
 
 int CTexture::Load(const wstring& _RelativePath)

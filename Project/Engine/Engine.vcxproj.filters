@@ -55,9 +55,6 @@
     <ClInclude Include="CMesh.h">
       <Filter>06. Asset\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="CGraphicShader.h">
-      <Filter>06. Asset\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="Log.h">
       <Filter>Default</Filter>
     </ClInclude>
@@ -148,6 +145,18 @@
     <ClInclude Include="CPrefab.h">
       <Filter>06. Asset</Filter>
     </ClInclude>
+    <ClInclude Include="CGraphicShader.h">
+      <Filter>06. Asset\Shader\GraphicShader</Filter>
+    </ClInclude>
+    <ClInclude Include="CComputeShader.h">
+      <Filter>06. Asset\Shader\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="CParticleSystem.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CSetColorCS.h">
+      <Filter>06. Asset\Shader\ComputeShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -182,9 +191,6 @@
     </ClCompile>
     <ClCompile Include="CMesh.cpp">
       <Filter>06. Asset\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="CGraphicShader.cpp">
-      <Filter>06. Asset\Shader</Filter>
     </ClCompile>
     <ClCompile Include="Log.cpp">
       <Filter>Default</Filter>
@@ -274,6 +280,18 @@
     <ClCompile Include="CPrefab.cpp">
       <Filter>06. Asset</Filter>
     </ClCompile>
+    <ClCompile Include="CGraphicShader.cpp">
+      <Filter>06. Asset\Shader\GraphicShader</Filter>
+    </ClCompile>
+    <ClCompile Include="CComputeShader.cpp">
+      <Filter>06. Asset\Shader\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="CParticleSystem.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CSetColorCS.cpp">
+      <Filter>06. Asset\Shader\ComputeShader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -321,6 +339,18 @@
     <Filter Include="Buffer">
       <UniqueIdentifier>{c7bd599f-f4ee-452b-a2b1-28f34191b34c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06. Asset\Shader\ComputeShader">
+      <UniqueIdentifier>{c3321f60-55dd-4560-a293-cf05dcab013e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Asset\Shader\GraphicShader">
+      <UniqueIdentifier>{7884fe33-d4b6-43c5-90ef-d49890f95e5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\ComputeShader">
+      <UniqueIdentifier>{2299563f-7fa6-4171-953c-31985ab0c470}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\GraphicShader">
+      <UniqueIdentifier>{c2c85a06-967e-4e02-b9e3-27fe86af04bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -328,29 +358,32 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="std2d.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
     <FxCompile Include="value.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="func.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="debug.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="tilemap.fx">
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="struct.fx">
       <Filter>Shader</Filter>
     </FxCompile>
+    <FxCompile Include="tilemap.fx">
+      <Filter>Shader\GraphicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="std2d.fx">
+      <Filter>Shader\GraphicShader</Filter>
+    </FxCompile>
     <FxCompile Include="postprocess.fx">
-      <Filter>Shader</Filter>
+      <Filter>Shader\GraphicShader</Filter>
     </FxCompile>
     <FxCompile Include="myFX.fx">
+      <Filter>Shader\GraphicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="debug.fx">
+      <Filter>Shader\GraphicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="func.fx">
       <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="setcolor.fx">
+      <Filter>Shader\ComputeShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
