@@ -51,6 +51,7 @@ void Content::Update()
 			CGameObject* pGameObject = (CGameObject*)pNode->GetData();
 			if (pGameObject != nullptr)
 			{
+				CGameObject* objClone = pGameObject->Clone();
 				const wstring& objName = pGameObject->GetName();
 				if (CAssetMgr::GetInst()->FindAsset<CPrefab>(objName) != nullptr)
 				{
@@ -59,7 +60,7 @@ void Content::Update()
 				else
 				{
 					Ptr<CPrefab> pPrefab = new CPrefab;
-					pPrefab->SetOriginalObject(pGameObject);
+					pPrefab->SetOriginalObject(objClone);
 
 					CAssetMgr::GetInst()->AddAsset<CPrefab>(objName, pPrefab);
 				}
