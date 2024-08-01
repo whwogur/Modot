@@ -9,10 +9,7 @@ public:
 
 private:
     virtual void Update() override;
-    virtual void Activate() override;
-    virtual void Deactivate() override;
 private:
-    int     m_AnimIndex = -1;
     string  m_AnimTitle = {};
 };
 

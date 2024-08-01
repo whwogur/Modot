@@ -9,7 +9,7 @@ class CPrefab :
 {
 public:
     CPrefab();
-    ~CPrefab() = default;
+    ~CPrefab();
 
 public:
     void SetOriginalObject(CGameObject* _Object) { m_OriginalObject = _Object; }

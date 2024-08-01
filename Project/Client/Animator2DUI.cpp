@@ -49,72 +49,25 @@ void Animator2DUI::Update()
 			}
 			ImGui::SetItemTooltip(u8"애니메이션 에디터에서 보기");
 
-			ImGui::Text("Current Animation");
-			if (ImGui::BeginCombo("##AnimationPlayCombo", m_AnimIndex > -1 ? m_AnimTitle.c_str() : combo_preview_value.c_str()))
+
+			if (ImGui::BeginDragDropTarget())
 			{
-				for (size_t i = 0; i < vecAnim.size(); ++i)
+				const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
+				if (payload)
 				{
-					if (vecAnim[i].Get() == nullptr)
+					TreeNode** ppNode = (TreeNode**)payload->Data;
+					TreeNode* pNode = *ppNode;
+
+					Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
+					if (ASSET_TYPE::ANIMATION == pAsset->GetAssetType())
 					{
-						ImGui::Selectable("< Empty >", false, ImGuiSelectableFlags_Disabled);
+						GetTargetObject()->Animator2D()->PushBackAnimation((CAnimation*)pAsset.Get());
 					}
-					else
-					{
-						const wstring& animName = vecAnim[i].Get()->GetKey();
-						string sName = ICON_FA_VIDEO_CAMERA " " + string(animName.begin(), animName.end());
-						if (ImGui::Selectable((char*)sName.c_str()))
-						{
-							targetObj->Animator2D()->Play((int)i, 8.0f, true);
-							m_AnimIndex = (int)i;
-						}
-					}
-
 				}
-				ImGui::EndCombo();
-			}
-			ImGui::SetItemTooltip(u8"애니메이션 즉시 재생");
 
-			if (m_AnimIndex > -1)
-			{
-				if (vecAnim[m_AnimIndex].Get() != nullptr)
-				{
-					const wstring& animTitle = vecAnim[m_AnimIndex]->GetKey();
-					string strTitle(animTitle.begin(), animTitle.end());
-					m_AnimTitle = strTitle;
-					float& FPS = targetObj->Animator2D()->GetFPSRef();
-					bool& Repeat = targetObj->Animator2D()->GetRepeatRef();
-					ImGui::InputFloat("FPS", &FPS, 0.1f, 0.2f, "%.1f");
-					ImGui::Checkbox("Repeat", &Repeat);
-				}
-			}
-		}
-
-		if (ImGui::BeginDragDropTarget())
-		{
-			const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
-			if (payload)
-			{
-				TreeNode** ppNode = (TreeNode**)payload->Data;
-				TreeNode* pNode = *ppNode;
-
-				Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
-				if (ASSET_TYPE::ANIMATION == pAsset->GetAssetType())
-				{
-					GetTargetObject()->Animator2D()->PushBackAnimation((CAnimation*)pAsset.Get());
-				}
+				ImGui::EndDragDropTarget();
 			}
 
-			ImGui::EndDragDropTarget();
 		}
 	}
-}
-
-void Animator2DUI::Activate()
-{
-	m_AnimIndex = -1;
-}
-
-void Animator2DUI::Deactivate()
-{
-	m_AnimIndex = -1;
 }

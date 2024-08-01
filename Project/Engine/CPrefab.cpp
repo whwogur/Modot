@@ -12,6 +12,12 @@ CPrefab::CPrefab()
 {
 }
 
+CPrefab::~CPrefab()
+{
+    if (m_OriginalObject != nullptr)
+        delete m_OriginalObject;
+}
+
 CGameObject* CPrefab::Instantiate()
 {
     return m_OriginalObject->Clone();
