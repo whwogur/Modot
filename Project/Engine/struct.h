@@ -54,6 +54,17 @@ struct tTransform
 	Matrix matWVP;
 };
 
+// Particle
+struct tParticle
+{
+	Vec3	vLocalPos;
+	Vec3	vWorldPos;
+	Vec4	vColor;
+
+	float	Mass;
+	int		Active;
+};
+
 struct tMtrlConst
 {
 	int		iArr[4];

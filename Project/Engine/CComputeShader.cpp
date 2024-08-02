@@ -37,6 +37,8 @@ int CComputeShader::Execute()
 
 	// 리소스 해제
 	Clear();
+
+	return S_OK;
 }
 
 int CComputeShader::CreateComputeShader(const wstring& _RelativePath, const string& _FuncName)

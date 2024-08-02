@@ -24,6 +24,7 @@ public:
     GET_OTHER_COMPONENT(TileMap);
     GET_OTHER_COMPONENT(Light2D);
     GET_OTHER_COMPONENT(RigidBody);
+    GET_OTHER_COMPONENT(ParticleSystem);
 
 public:
     virtual void Init() {}

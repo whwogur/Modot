@@ -2,7 +2,7 @@
 #include "ParticleSystemUI.h"
 
 ParticleSystemUI::ParticleSystemUI()
-	: ComponentUI(COMPONENT_TYPE::PARTICLE_SYSTEM)
+	: ComponentUI(COMPONENT_TYPE::PARTICLESYSTEM)
 {
 }
 

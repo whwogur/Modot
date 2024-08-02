@@ -162,7 +162,7 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 		CLevelMgr::GetInst()->SetLevelDirty();
 		return;
 	}
-	case COMPONENT_TYPE::PARTICLE_SYSTEM:
+	case COMPONENT_TYPE::PARTICLESYSTEM:
 		break;
 	case COMPONENT_TYPE::DECAl:
 		break;

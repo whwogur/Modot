@@ -81,7 +81,7 @@ void CTileMap::SetRowCol(UINT _Row, UINT _Col)
 	// 타일정보를 전달받아서 t 레지스터에 전달시킬 구조화버퍼가 타일 전체 데이터 사이즈보다 작으면 리사이즈
 	if (m_Buffer->GetElementCount() < TileCount)
 	{
-		m_Buffer->Create(sizeof(tTileInfo), TileCount);
+		m_Buffer->Create(sizeof(tTileInfo), TileCount, SB_TYPE::SRV_ONLY, false);
 	}
 }
 

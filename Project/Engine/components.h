@@ -9,3 +9,4 @@
 #include "CRigidBody.h"
 #include "CAnimator2D.h"
 #include "CTileMap.h"
+#include "CParticleSystem.h"
