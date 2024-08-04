@@ -100,36 +100,36 @@ void FileBrowser::Update()
 				Refresh();
 				return;
 			}
-			else
-			{
-				//const string ext = listNode.first.extension().string();
-				path relPath = listNode.first;
-				path extention = listNode.first.extension();
+			//else
+			//{
+			//	////const string ext = listNode.first.extension().string();
+			//	//path relPath = listNode.first;
+			//	//path extention = listNode.first.extension();
 
-				//MD_ENGINE_TRACE(ext);
+			//	////MD_ENGINE_TRACE(ext);
 
-				if (extention == L".bmp" || extention == L".png" || extention == L".jpg" || extention == L".jpeg"
-					|| extention == L".BMP" || extention == L".PNG" || extention == L".JPG" || extention == L".JPEG")
-				{
-					CAssetMgr::GetInst()->Load<CTexture>(relPath.stem(), relPath);
-				}
+			//	//if (extention == L".bmp" || extention == L".png" || extention == L".jpg" || extention == L".jpeg"
+			//	//	|| extention == L".BMP" || extention == L".PNG" || extention == L".JPG" || extention == L".JPEG")
+			//	//{
+			//	//	CAssetMgr::GetInst()->Load<CTexture>(relPath.stem(), relPath);
+			//	//}
 
-				else if (extention == L".anim")
-				{
-					CAssetMgr::GetInst()->Load<CAnimation>(relPath.stem(), relPath);
-				}
+			//	//else if (extention == L".anim")
+			//	//{
+			//	//	CAssetMgr::GetInst()->Load<CAnimation>(relPath.stem(), relPath);
+			//	//}
 
-				else if (extention == L".sprite")
-				{
-					CAssetMgr::GetInst()->Load<CSprite>(relPath.stem(), relPath);
-				}
+			//	//else if (extention == L".sprite")
+			//	//{
+			//	//	CAssetMgr::GetInst()->Load<CSprite>(relPath.stem(), relPath);
+			//	//}
 
-				else
-				{
-					MD_ENGINE_ERROR(extention.string());
-					MD_ENGINE_ERROR(L"지원하지 않는 형식 error");
-				}
-			}
+			//	//else
+			//	//{
+			//	//	MD_ENGINE_ERROR(extention.string());
+			//	//	MD_ENGINE_ERROR(L"지원하지 않는 형식 error");
+			//	//}
+			//}
 		}
 		
 		std::string filenameString = listNode.first.filename().string();
