@@ -155,7 +155,10 @@
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="CSetColorCS.h">
-      <Filter>06. Asset\Shader\ComputeShader</Filter>
+      <Filter>06. Asset\Shader\ComputeShader\SetColor</Filter>
+    </ClInclude>
+    <ClInclude Include="CParticleTickCS.h">
+      <Filter>06. Asset\Shader\ComputeShader\ParticleTick</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -290,7 +293,10 @@
       <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="CSetColorCS.cpp">
-      <Filter>06. Asset\Shader\ComputeShader</Filter>
+      <Filter>06. Asset\Shader\ComputeShader\SetColor</Filter>
+    </ClCompile>
+    <ClCompile Include="CParticleTickCS.cpp">
+      <Filter>06. Asset\Shader\ComputeShader\ParticleTick</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -351,6 +357,12 @@
     <Filter Include="03. Device\Buffer">
       <UniqueIdentifier>{c7bd599f-f4ee-452b-a2b1-28f34191b34c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06. Asset\Shader\ComputeShader\SetColor">
+      <UniqueIdentifier>{592798a0-fa4a-4ce0-b2ce-d7601d8d272a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Asset\Shader\ComputeShader\ParticleTick">
+      <UniqueIdentifier>{30221452-0f10-43c6-bde5-bd2f57e19f0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -386,6 +398,9 @@
       <Filter>Shader\ComputeShader</Filter>
     </FxCompile>
     <FxCompile Include="particle.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="particletick.fx">
       <Filter>Shader\ComputeShader</Filter>
     </FxCompile>
   </ItemGroup>

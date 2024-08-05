@@ -70,6 +70,6 @@ ASSET_TYPE GetAssetType()
 		return ASSET_TYPE::SPRITE;
 	if constexpr (std::is_same_v<T, CAnimation>)
 		return ASSET_TYPE::ANIMATION;
-	//if constexpr(std::is_same_v<T, CComputeShader>)
-		//return ASSET_TYPE::COMPUTE_SHADER;
+	if constexpr(std::is_same_v<T, CComputeShader>)
+		return ASSET_TYPE::COMPUTE_SHADER;
 }

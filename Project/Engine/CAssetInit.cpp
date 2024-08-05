@@ -306,9 +306,14 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_1, u8"À­ÂÊ ¿Ö°î2");
 	AddAsset(L"FireShader", pShader);
 }
-
+#include "CParticleTickCS.h"
 void CAssetMgr::CreateEngineComputeShader()
 {
+	// ParticleTick
+	Ptr<CComputeShader> pCS = nullptr;
+
+	pCS = new CParticleTickCS;
+	AddAsset<CComputeShader>(L"ParticleTickCS", pCS);
 }
 
 

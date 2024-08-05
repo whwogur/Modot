@@ -1,6 +1,6 @@
 #pragma once
 #include "CRenderComponent.h"
-
+#include "CParticleTickCS.h"
 class CStructuredBuffer;
 
 class CParticleSystem :
@@ -18,6 +18,7 @@ public:
 
 private:
     CStructuredBuffer*      m_ParticleBuffer;
+    Ptr<CParticleTickCS>    m_TickCS;
     int                     m_MaxParticeCount;
 };
 

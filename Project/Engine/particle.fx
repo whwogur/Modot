@@ -5,14 +5,13 @@
 #include "struct.fx"
 
 StructuredBuffer<tParticle> ParticleBuffer : register(t20);
-#define PARTICLE_IDX    g_int_0
-
 
 
 struct VS_IN
 {
     float3 vPos : POSITION;
     float2 vUV : TEXCOORD;
+    uint InstID : SV_InstanceID;
 };
 
 
@@ -26,8 +25,10 @@ struct VS_OUT
 VS_OUT VS_Particle(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
+    float3 vWorldPos = _in.vPos * float3(10.f, 10.f, 1.f) + ParticleBuffer[_in.InstID].vWorldPos;
 
-    //ParticleBuffer[PARTICLE_IDX];
+    output.vPosition = mul(mul(float4(vWorldPos, 1.f), matView), matProj);
+    output.vUV = _in.vUV;
 
     return output;
 }
