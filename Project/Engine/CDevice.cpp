@@ -101,6 +101,7 @@ int CDevice::CreateDepthStencilState()
 
     if (FAILED(DEVICE->CreateDepthStencilState(&Desc, m_DSState[(UINT)DS_TYPE::LESS_EQUAL].GetAddressOf())))
     {
+        MD_ENGINE_ERROR(L"Depth Stencil State 생성 실패 ! ");
         return E_FAIL;
     }
 
@@ -112,6 +113,7 @@ int CDevice::CreateDepthStencilState()
 
     if (FAILED(DEVICE->CreateDepthStencilState(&Desc, m_DSState[(UINT)DS_TYPE::GREATER].GetAddressOf())))
     {
+        MD_ENGINE_ERROR(L"Depth Stencil State 생성 실패 ! ");
         return E_FAIL;
     }
 
@@ -123,6 +125,19 @@ int CDevice::CreateDepthStencilState()
 
     if (FAILED(DEVICE->CreateDepthStencilState(&Desc, m_DSState[(UINT)DS_TYPE::NO_TEST].GetAddressOf())))
     {
+        MD_ENGINE_ERROR(L"Depth Stencil State 생성 실패 ! ");
+        return E_FAIL;
+    }
+
+    // NO_WRITE
+    Desc.DepthEnable = true;                            // 깊이판정을 진행
+    Desc.DepthFunc = D3D11_COMPARISON_LESS;             // 깊이 판정 방식
+    Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;   // 깊이판정을 성공시 깊이 기록여부
+    Desc.StencilEnable = false;
+
+    if (FAILED(DEVICE->CreateDepthStencilState(&Desc, m_DSState[(UINT)DS_TYPE::NO_WRITE].GetAddressOf())))
+    {
+        MD_ENGINE_ERROR(L"Depth Stencil State 생성 실패 ! ");
         return E_FAIL;
     }
 
@@ -134,6 +149,7 @@ int CDevice::CreateDepthStencilState()
 
     if (FAILED(DEVICE->CreateDepthStencilState(&Desc, m_DSState[(UINT)DS_TYPE::NO_TEST_NO_WRITE].GetAddressOf())))
     {
+        MD_ENGINE_ERROR(L"Depth Stencil State 생성 실패 ! ");
         return E_FAIL;
     }
 

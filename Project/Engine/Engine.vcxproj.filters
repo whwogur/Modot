@@ -134,10 +134,10 @@
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="CConstBuffer.h">
-      <Filter>Buffer</Filter>
+      <Filter>03. Device\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="CStructuredBuffer.h">
-      <Filter>Buffer</Filter>
+      <Filter>03. Device\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="CRigidBody.h">
       <Filter>Component</Filter>
@@ -269,10 +269,10 @@
       <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="CConstBuffer.cpp">
-      <Filter>Buffer</Filter>
+      <Filter>03. Device\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="CStructuredBuffer.cpp">
-      <Filter>Buffer</Filter>
+      <Filter>03. Device\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="CRigidBody.cpp">
       <Filter>Component</Filter>
@@ -336,9 +336,6 @@
     <Filter Include="06. Asset\Material">
       <UniqueIdentifier>{7a1eec37-53aa-4ce5-9f89-9ac5397a0eb7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Buffer">
-      <UniqueIdentifier>{c7bd599f-f4ee-452b-a2b1-28f34191b34c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="06. Asset\Shader\ComputeShader">
       <UniqueIdentifier>{c3321f60-55dd-4560-a293-cf05dcab013e}</UniqueIdentifier>
     </Filter>
@@ -350,6 +347,9 @@
     </Filter>
     <Filter Include="Shader\GraphicShader">
       <UniqueIdentifier>{c2c85a06-967e-4e02-b9e3-27fe86af04bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Device\Buffer">
+      <UniqueIdentifier>{c7bd599f-f4ee-452b-a2b1-28f34191b34c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -383,6 +383,9 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="setcolor.fx">
+      <Filter>Shader\ComputeShader</Filter>
+    </FxCompile>
+    <FxCompile Include="particle.fx">
       <Filter>Shader\ComputeShader</Filter>
     </FxCompile>
   </ItemGroup>

@@ -66,34 +66,37 @@ int CStructuredBuffer::Create(UINT _ElementSize, UINT _ElementCount, SB_TYPE _Ty
 	// 추가버퍼 생성
 	if (m_SysMemMove)
 	{
-		m_Desc.Usage = D3D11_USAGE_DYNAMIC;
-		m_Desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		D3D11_BUFFER_DESC tRWBufferDesc = m_Desc;
+
+		tRWBufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		tRWBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+		tRWBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 		if (nullptr == _InitData)
 		{
-			hr = DEVICE->CreateBuffer(&m_Desc, nullptr, m_SB_Write.GetAddressOf());
+			hr = DEVICE->CreateBuffer(&tRWBufferDesc, nullptr, m_SB_Write.GetAddressOf());
 		}
 
 		else
 		{
 			D3D11_SUBRESOURCE_DATA sub = {};
 			sub.pSysMem = _InitData;
-			hr = DEVICE->CreateBuffer(&m_Desc, &sub, m_SB_Write.GetAddressOf());
+			hr = DEVICE->CreateBuffer(&tRWBufferDesc, &sub, m_SB_Write.GetAddressOf());
 		}
 
-		m_Desc.Usage = D3D11_USAGE_DEFAULT;
-		m_Desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+		tRWBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+		tRWBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
 
 		if (nullptr == _InitData)
 		{
-			hr = DEVICE->CreateBuffer(&m_Desc, nullptr, m_SB_Read.GetAddressOf());
+			hr = DEVICE->CreateBuffer(&tRWBufferDesc, nullptr, m_SB_Read.GetAddressOf());
 		}
 
 		else
 		{
 			D3D11_SUBRESOURCE_DATA sub = {};
 			sub.pSysMem = _InitData;
-			hr = DEVICE->CreateBuffer(&m_Desc, &sub, m_SB_Read.GetAddressOf());
+			hr = DEVICE->CreateBuffer(&tRWBufferDesc, &sub, m_SB_Read.GetAddressOf());
 		}
 	}
 
