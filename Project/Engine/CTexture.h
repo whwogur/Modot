@@ -15,8 +15,12 @@ public:
     int Create(WRL::ComPtr<ID3D11Texture2D> _Tex2D);
 
     void Bind(UINT _RegisterNum);
-    void Bind_CS_UAV(UINT _RegisterNum);
     static void Clear(UINT _RegisterNum);
+    
+    void Bind_CS_SRV(UINT _RegisterNum);
+    void Clear_CS_SRV();
+
+    void Bind_CS_UAV(UINT _RegisterNum);
     void Clear_CS_UAV();
 public:
     WRL::ComPtr<ID3D11Texture2D>             GetTex2D() { return m_Tex2D; }

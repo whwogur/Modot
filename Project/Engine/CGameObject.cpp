@@ -163,7 +163,12 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 		return;
 	}
 	case COMPONENT_TYPE::PARTICLESYSTEM:
-		break;
+	{
+		CParticleSystem* particleSystem = new CParticleSystem;
+		AddComponent(particleSystem);
+		CLevelMgr::GetInst()->SetLevelDirty();
+		return;
+	}
 	case COMPONENT_TYPE::DECAl:
 		break;
 	case COMPONENT_TYPE::SKYBOX:

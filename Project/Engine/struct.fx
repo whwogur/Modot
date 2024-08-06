@@ -26,7 +26,10 @@ struct tParticle
     float3  vLocalPos;
     float3  vWorldPos;
     float4  vColor;
+    float3  vForce;
+    float3  vVelocity;
     float   Mass;
     int     Active;
+    int2    Padding;
 };
 #endif

@@ -305,6 +305,16 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_0, u8"拉率 恐邦1");
 	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_1, u8"拉率 恐邦2");
 	AddAsset(L"FireShader", pShader);
+
+	// ParticleShader
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\particle.fx", "VS_Particle");
+	pShader->CreatePixelShader(L"shader\\particle.fx", "PS_Particle");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_WRITE);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_PARTICLE);
+	AddAsset(L"ParticleRenderShader", pShader);
 }
 #include "CParticleTickCS.h"
 void CAssetMgr::CreateEngineComputeShader()
@@ -340,6 +350,11 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"TileMapShader"));
 	AddAsset(L"TileMapMtrl", pMtrl);
+
+	// ParticleRenderMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"ParticleRenderShader"));
+	AddAsset(L"ParticleRenderMtrl", pMtrl);
 
 	// GrayFilterMtrl
 	pMtrl = new CMaterial(true);

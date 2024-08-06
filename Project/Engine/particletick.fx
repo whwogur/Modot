@@ -8,6 +8,7 @@
 RWStructuredBuffer<tParticle> ParticleBuffer : register(u0);
 
 #define MAX_COUNT       g_int_0
+#define Particle        ParticleBuffer[_ID.x]
 
 [numthreads(1024, 1, 1)]
 void CS_ParticleTick(int3 _ID : SV_DispatchThreadID)
@@ -15,7 +16,7 @@ void CS_ParticleTick(int3 _ID : SV_DispatchThreadID)
     if (MAX_COUNT <= _ID.x)
         return;
 
-    ParticleBuffer[_ID.x].vWorldPos.y += g_EngineDT * 100.f;
+    Particle.vWorldPos += Particle.vVelocity * g_EngineDT;
 }
 
 

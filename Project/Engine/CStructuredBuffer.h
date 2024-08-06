@@ -22,7 +22,17 @@ public:
 
     void SetData(void* _pData, UINT _DataSize = 0);
     void GetData(void* _pData, UINT _DataSize = 0);
+
     void Bind(UINT _RegisterNum);
+    void Clear(UINT _RegisterNum);
+
+    // ComputeShader - t register
+    void Bind_CS_SRV(UINT _RegisterNum);
+    void Clear_CS_SRV();
+
+    // ComputeShader - u register
+    void Bind_CS_UAV(UINT _RegisterNum);
+    void Clear_CS_UAV();
 
 public:
     int Create(UINT _ElementSize, UINT _ElementCount, SB_TYPE _Type, bool _SysMemMove = false, void* _InitData = nullptr);
@@ -40,5 +50,6 @@ private:
                                                      
     UINT                                             m_ElementCount;
     UINT                                             m_ElementSize;
+    UINT                                             m_LastBoundRegNum;
 };
 
