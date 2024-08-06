@@ -297,13 +297,13 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 	pShader->SetBSType(BS_TYPE::ALPHABLEND);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
-	pShader->AddScalarParam(SCALAR_PARAM::VEC4_0, u8"스크롤속도");
-	pShader->AddScalarParam(SCALAR_PARAM::VEC4_1, u8"노이즈텍스처");
-	pShader->AddScalarParam(SCALAR_PARAM::VEC2_0, u8"디스토션1");
-	pShader->AddScalarParam(SCALAR_PARAM::VEC2_1, u8"디스토션2");
-	pShader->AddScalarParam(SCALAR_PARAM::VEC2_2, u8"디스토션3");
-	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_0, u8"윗쪽 왜곡1");
-	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_1, u8"윗쪽 왜곡2");
+	pShader->AddScalarParam(SCALAR_PARAM::VEC4_0, "Scroll Speed");
+	pShader->AddScalarParam(SCALAR_PARAM::VEC4_1, "Noise Tex");
+	pShader->AddScalarParam(SCALAR_PARAM::VEC2_0, "Distortion 1");
+	pShader->AddScalarParam(SCALAR_PARAM::VEC2_1, "Distortion 2");
+	pShader->AddScalarParam(SCALAR_PARAM::VEC2_2, "Distortion 3");
+	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_0, "UDistortion 1");
+	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_1, "UDistortion 2");
 	AddAsset(L"FireShader", pShader);
 
 	// ParticleShader
@@ -354,6 +354,7 @@ void CAssetMgr::CreateEngineMaterial()
 	// ParticleRenderMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"ParticleRenderShader"));
+	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"DiscDonut"));
 	AddAsset(L"ParticleRenderMtrl", pMtrl);
 
 	// GrayFilterMtrl

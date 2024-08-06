@@ -17,8 +17,6 @@ CParticleSystem::CParticleSystem()
 	// ParticleTick ComputeShader
 	m_TickCS = (CParticleTickCS*)CAssetMgr::GetInst()->FindAsset<CComputeShader>(L"ParticleTickCS").Get();
 
-	m_ParticleTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DiscDonut");
-
 	// 파티클 100개 초기 설정
 	tParticle arrParticle[100] = {};
 	float Angle = XM_2PI / m_MaxParticeCount;
@@ -55,7 +53,6 @@ void CParticleSystem::Render()
 	// 파티클 버퍼 바인딩
 	m_ParticleBuffer->Bind(20);
 	// 재질정보 바인딩
-	GetMaterial()->SetTexParam(TEX_0, m_ParticleTex);
 	GetMaterial()->Bind();
 
 	// 렌더링
