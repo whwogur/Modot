@@ -23,7 +23,7 @@ void SpriteEditor::Init()
 	m_AtlasView->m_Owner = this;
 	m_Detail->m_Owner = this;
 	
-	m_Detail->SetAtlasTex(CAssetMgr::GetInst()->Load<CTexture>(L"Momo_64", L"texture\\Momo_64.png"));
+	m_Detail->SetAtlasTex(CAssetMgr::GetInst()->FindAsset<CTexture>(L"Momo_192"));
 }
 
 void SpriteEditor::Update()
