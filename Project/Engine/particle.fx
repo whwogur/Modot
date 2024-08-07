@@ -41,24 +41,25 @@ struct GS_OUT
 [maxvertexcount(6)]
 void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _OutStream)
 {
+    if (ParticleBuffer[_in[0].InstID].Active == false)
+        return;
+    
     GS_OUT output[4] = { (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f, (GS_OUT) 0.f };
-
     //  0 -- 1
     //  | \  |
     //  3 -- 2
     float3 scale = ParticleBuffer[_in[0].InstID].vWorldScale;
-    float3 vWorldPos = ParticleBuffer[_in[0].InstID].vWorldPos;
-
-    output[0].vPosition.xyz = _in[0].vLocalPos + float3(-scale.x / 2.f, scale.y / 2.f, 0.f) + vWorldPos;
-    output[1].vPosition.xyz = _in[0].vLocalPos + float3(scale.x / 2.f, scale.y / 2.f, 0.f) + vWorldPos;
-    output[2].vPosition.xyz = _in[0].vLocalPos + float3(scale.x / 2.f, -scale.y / 2.f, 0.f) + vWorldPos;
-    output[3].vPosition.xyz = _in[0].vLocalPos + float3(-scale.x / 2.f, -scale.y / 2.f, 0.f) + vWorldPos;
-
+    float3 vViewPos = mul(float4(ParticleBuffer[_in[0].InstID].vWorldPos, 1.f), matView);
+        
+    output[0].vPosition.xyz = vViewPos + float3(-scale.x / 2.f, scale.y / 2.f, 0.f);
+    output[1].vPosition.xyz = vViewPos + float3(scale.x / 2.f, scale.y / 2.f, 0.f);
+    output[2].vPosition.xyz = vViewPos + float3(scale.x / 2.f, -scale.y / 2.f, 0.f);
+    output[3].vPosition.xyz = vViewPos + float3(-scale.x / 2.f, -scale.y / 2.f, 0.f);
 
     for (int i = 0; i < 4; ++i)
     {
         output[i].vPosition.w = 1.f;
-        output[i].vPosition = mul(mul(output[i].vPosition, matView), matProj);
+        output[i].vPosition = mul(output[i].vPosition, matProj);
         output[i].InstID = _in[0].InstID;
     }
 

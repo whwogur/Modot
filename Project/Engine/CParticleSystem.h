@@ -3,13 +3,19 @@
 #include "CParticleTickCS.h"
 class CStructuredBuffer;
 
+struct tSpawnCount
+{
+    UINT    iSpawnCount;
+    UINT    padding[3];
+};
+
 class CParticleSystem :
     public CRenderComponent
 {
 public:
     CLONE(CParticleSystem);
     CParticleSystem();
-    ~CParticleSystem();
+    ~CParticleSystem() = default;
 
 public:
     void SetParticleTexture(Ptr<CTexture> _Texture) { m_ParticleTex = _Texture; }
@@ -24,9 +30,11 @@ public:
     virtual void LoadFromFile(FILE* _File) override;
 
 private:
-    CStructuredBuffer*      m_ParticleBuffer;
-    Ptr<CParticleTickCS>    m_TickCS;
-    Ptr<CTexture>           m_ParticleTex;
-    int                     m_MaxParticleCount;
+    std::shared_ptr<CStructuredBuffer>      m_ParticleBuffer;
+    std::shared_ptr<CStructuredBuffer>      m_SpawnCountBuffer;
+    Ptr<CParticleTickCS>                    m_TickCS;
+    Ptr<CTexture>                           m_ParticleTex;
+    float                                   m_Time;
+    int                                     m_MaxParticleCount;
 };
 

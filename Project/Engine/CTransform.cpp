@@ -12,9 +12,6 @@ CTransform::CTransform()
 {
 }
 
-CTransform::~CTransform()
-{
-}
 
 void CTransform::FinalTick()
 {

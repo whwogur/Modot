@@ -7,7 +7,7 @@ class CTransform :
 {
 public:
     CTransform();
-    ~CTransform();
+    ~CTransform() = default;
     CLONE(CTransform);
 public:
     virtual void FinalTick() override;

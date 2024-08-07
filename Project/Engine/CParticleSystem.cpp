@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CParticleSystem.h"
+#include "CTimeMgr.h"
 #include "CDevice.h"
 #include "CAssetMgr.h"
 #include "CStructuredBuffer.h"
@@ -8,6 +9,8 @@
 CParticleSystem::CParticleSystem()
 	: CRenderComponent(COMPONENT_TYPE::PARTICLESYSTEM)
 	, m_ParticleBuffer(nullptr)
+	, m_SpawnCountBuffer(nullptr)
+	, m_Time(0.f)
 	, m_MaxParticleCount(30)
 {
 	// Mesh / Material 
@@ -30,19 +33,28 @@ CParticleSystem::CParticleSystem()
 		arrParticle[i].vColor = Vec4(0.9f, 0.34f, 0.5f, 1.f);
 		arrParticle[i].vVelocity = Vec3(cosf(Angle * (float)i), sinf(Angle * (float)i), 0.f) * 200.f;
 	}
-	m_ParticleBuffer = new CStructuredBuffer;
-	m_ParticleBuffer->Create(sizeof(tParticle), m_MaxParticleCount, SB_TYPE::SRV_UAV, true, arrParticle);
-}
 
-CParticleSystem::~CParticleSystem()
-{
-	if (nullptr != m_ParticleBuffer)
-		delete m_ParticleBuffer;
+	m_ParticleBuffer = std::make_shared<CStructuredBuffer>();
+	m_ParticleBuffer->Create(sizeof(tParticle), m_MaxParticleCount, SB_TYPE::SRV_UAV, true, arrParticle);
+
+	m_SpawnCountBuffer = std::make_shared<CStructuredBuffer>();
+	m_SpawnCountBuffer->Create(sizeof(tSpawnCount), 1, SB_TYPE::SRV_UAV, true, nullptr);
 }
 
 void CParticleSystem::FinalTick()
 {
+	// SpawnCount
+	m_Time += EngineDT;
+	if (1.f <= m_Time)
+	{
+		tSpawnCount count = {};
+		count.iSpawnCount = 1;
+		m_SpawnCountBuffer->SetData(&count);
+		m_Time = 0.f;
+	}
+
 	m_TickCS->SetParticleBuffer(m_ParticleBuffer);
+	m_TickCS->SetSpawnCount(m_SpawnCountBuffer);
 	m_TickCS->Execute();
 }
 
