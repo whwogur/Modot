@@ -1,6 +1,6 @@
 #include "spch.h"
 #include "CPlayerScript.h"
-
+//#include <Engine/CAnimator2D.h>
 CPlayerScript::CPlayerScript()
 	: CScript(UINT(SCRIPT_TYPE::PLAYERSCRIPT))
 	, m_Speed(400.f)
@@ -22,16 +22,20 @@ void CPlayerScript::Tick()
 	if (KEY_PRESSED(KEY::LEFT))
 	{
 		RigidBody()->AddForce(Vec2(-3000.f, 0.f));
+		Transform()->SetDir(OBJECT_DIR::LEFT);
+		Animator2D()->Play(L"Momo_Run", 10.0f, true);
 	}
 
 	if (KEY_PRESSED(KEY::RIGHT))
 	{
 		RigidBody()->AddForce(Vec2(3000.f, 0.f));
+		Transform()->SetDir(OBJECT_DIR::RIGHT);
+		Animator2D()->Play(L"Momo_Run", 10.0f, true);
 	}
 
-	if (RigidBody()->IsGround())
+	if (KEY_TAP(KEY::SPACE))
 	{
-		if (KEY_TAP(KEY::SPACE))
+		if (RigidBody()->IsGround())
 		{
 			RigidBody()->SetGravityAccel(2500.f);
 
@@ -46,7 +50,7 @@ void CPlayerScript::Tick()
 void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
 	RigidBody()->SetGround(true);
-	MD_ENGINE_TRACE("Ground");
+	//MD_ENGINE_TRACE("Ground");
 }
 
 void CPlayerScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
@@ -56,7 +60,7 @@ void CPlayerScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject
 void CPlayerScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
 	RigidBody()->SetGround(false);
-	MD_ENGINE_TRACE("Airborne");
+	//MD_ENGINE_TRACE("Airborne");
 }
 
 void CPlayerScript::SaveToFile(FILE* _File)

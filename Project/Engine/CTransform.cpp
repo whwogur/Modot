@@ -85,6 +85,23 @@ void CTransform::Bind()
 	pTransformCB->Bind();
 }
 
+void CTransform::SetDir(OBJECT_DIR _Dir)
+{
+	switch (_Dir)
+	{
+	case OBJECT_DIR::LEFT:
+	{
+		m_RelativeScale.x = m_RelativeScale.x > 0 ? m_RelativeScale.x * -1.0f : m_RelativeScale.x;
+	}
+	break;
+	case OBJECT_DIR::RIGHT:
+	{
+		m_RelativeScale.x = m_RelativeScale.x < 0 ? m_RelativeScale.x * -1.0f : m_RelativeScale.x;
+	}
+	break;
+	}
+}
+
 Vec3 CTransform::GetWorldScale()
 {
 	Vec3 vWorldScale = Vec3(1.f, 1.f, 1.f);

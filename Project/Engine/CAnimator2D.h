@@ -20,6 +20,7 @@ public:
     void PushBackAnimation(Ptr<CAnimation> _Animation);
     Ptr<CAnimation> FindAnimation(const wstring& _Key);
     void Play(int _AnimationIdx, float _FPS, bool _Repeat);
+    void Play(const wstring& _AnimName, float _FPS, bool _Repeat);
     Ptr<CSprite> GetCurSprite() { return m_CurFrmSprite; }
     vector<Ptr<CAnimation>>& GetAnimationsRef() { return m_vecAnimation; }
     float& GetFPSRef() { return m_FPS; }

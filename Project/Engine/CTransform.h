@@ -1,6 +1,10 @@
 #pragma once
 #include "CComponent.h"
-
+enum class OBJECT_DIR
+{
+    LEFT,
+    RIGHT,
+};
 
 class CTransform :
     public CComponent
@@ -24,7 +28,7 @@ public:
     void SetRelativePos(float x, float y, float z) { m_RelativePos = Vec3(x, y, z); }
     void SetRelativeScale(float x, float y, float z) { m_RelativeScale = Vec3(x, y, z); }
     void SetRelativeRotation(float x, float y, float z) { m_RelativeRotation = Vec3(x, y, z); }
-
+    void SetDir(OBJECT_DIR _Dir);
     const Matrix& GetWorldMat() { return m_matWorld; }
     Vec3 GetRelativePos() { return m_RelativePos; }
     Vec3& GetRelativePosRef() { return m_RelativePos; }

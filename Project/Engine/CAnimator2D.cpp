@@ -130,7 +130,8 @@ Ptr<CAnimation> CAnimator2D::FindAnimation(const wstring& _Key)
 {
 	for (size_t i = 0; i < m_vecAnimation.size(); ++i)
 	{
-		if (m_vecAnimation[i]->GetKey() == _Key)
+		if (m_vecAnimation[i].Get() != nullptr && 
+			m_vecAnimation[i]->GetKey() == _Key)
 			return m_vecAnimation[i];
 	}
 
@@ -140,6 +141,21 @@ Ptr<CAnimation> CAnimator2D::FindAnimation(const wstring& _Key)
 void CAnimator2D::Play(int _AnimationIdx, float _FPS, bool _Repeat)
 {
 	m_CurAnimation = m_vecAnimation[_AnimationIdx];
+
+	if (nullptr == m_CurAnimation)
+	{
+		return;
+	}
+
+	m_CurFrmIdx = 0;
+	m_AccTime = 0.f;
+	m_FPS = _FPS;
+	m_Repeat = _Repeat;
+}
+
+void CAnimator2D::Play(const wstring& _AnimName, float _FPS, bool _Repeat)
+{
+	m_CurAnimation = FindAnimation(_AnimName);
 
 	if (nullptr == m_CurAnimation)
 	{
