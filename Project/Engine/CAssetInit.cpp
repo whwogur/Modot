@@ -21,6 +21,18 @@ void CAssetMgr::CreateEngineMesh()
 {
 	Ptr<CMesh> pMesh = nullptr;
 
+	Vtx v;
+
+	// PointMesh
+	pMesh = new CMesh;
+	v.vPos = Vec3(0.f, 0.f, 0.f);
+	v.vColor = Vec4(0.f, 0.f, 0.f, 1.f);
+	v.vUV = Vec2(0.f, 0.f);
+
+	UINT i = 0;
+	pMesh->Create(&v, 1, &i, 1);
+	AddAsset(L"PointMesh", pMesh);
+
 	Vtx arrVtx[4] = {};
 
 	arrVtx[0].vPos = Vec3(-0.5f, 0.5f, 0.f);
@@ -60,7 +72,6 @@ void CAssetMgr::CreateEngineMesh()
 	// CircleMesh 
 	vector<Vtx> vecVtx;
 	vector<UINT> vecIdx;
-	Vtx v;
 
 	int Slice = 40;
 	float fTheta = XM_2PI / Slice;
@@ -309,7 +320,9 @@ void CAssetMgr::CreateEngineGraphicShader()
 	// ParticleShader
 	pShader = new CGraphicShader;
 	pShader->CreateVertexShader(L"shader\\particle.fx", "VS_Particle");
+	pShader->CreateGeometryShader(L"shader\\particle.fx", "GS_Particle");
 	pShader->CreatePixelShader(L"shader\\particle.fx", "PS_Particle");
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetDSType(DS_TYPE::NO_WRITE);
 	pShader->SetBSType(BS_TYPE::ALPHABLEND);

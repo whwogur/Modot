@@ -8,10 +8,10 @@
 CParticleSystem::CParticleSystem()
 	: CRenderComponent(COMPONENT_TYPE::PARTICLESYSTEM)
 	, m_ParticleBuffer(nullptr)
-	, m_MaxParticeCount(30)
+	, m_MaxParticleCount(30)
 {
 	// Mesh / Material 
-	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"PointMesh"));
 	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"ParticleRenderMtrl"));
 
 	// ParticleTick ComputeShader
@@ -19,18 +19,19 @@ CParticleSystem::CParticleSystem()
 
 	// 파티클 100개 초기 설정
 	tParticle arrParticle[100] = {};
-	float Angle = XM_2PI / m_MaxParticeCount;
-	for (int i = 0; i < m_MaxParticeCount; ++i)
+	float Angle = XM_2PI / m_MaxParticleCount;
+	for (int i = 0; i < m_MaxParticleCount; ++i)
 	{
 		arrParticle[i].Active = true;
 		arrParticle[i].Mass = 1.f;
 		arrParticle[i].vLocalPos = Vec3(0.f, 0.f, 0.f);
 		arrParticle[i].vWorldPos = Vec3(0.f, 0.f, 0.f);
+		arrParticle[i].vWorldScale = Vec3(20.f, 20.f, 0.f);
 		arrParticle[i].vColor = Vec4(0.9f, 0.34f, 0.5f, 1.f);
 		arrParticle[i].vVelocity = Vec3(cosf(Angle * (float)i), sinf(Angle * (float)i), 0.f) * 200.f;
 	}
 	m_ParticleBuffer = new CStructuredBuffer;
-	m_ParticleBuffer->Create(sizeof(tParticle), m_MaxParticeCount, SB_TYPE::SRV_UAV, true, arrParticle);
+	m_ParticleBuffer->Create(sizeof(tParticle), m_MaxParticleCount, SB_TYPE::SRV_UAV, true, arrParticle);
 }
 
 CParticleSystem::~CParticleSystem()
@@ -56,7 +57,7 @@ void CParticleSystem::Render()
 	GetMaterial()->Bind();
 
 	// 렌더링
-	GetMesh()->Render_Particle(m_MaxParticeCount);
+	GetMesh()->Render_Particle(m_MaxParticleCount);
 
 	m_ParticleBuffer->Clear(20);
 }

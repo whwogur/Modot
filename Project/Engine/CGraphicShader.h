@@ -22,6 +22,7 @@ public:
 public:
     int CreateVertexShader(const wstring& _RelativePath, const string& _FuncName);
     int CreatePixelShader(const wstring& _RelativePath, const string& _FuncName);
+    int CreateGeometryShader(const wstring& _RelativePath, const string& _FuncName);
 
     void SetDomain(SHADER_DOMAIN _Domain) { m_Domain = _Domain; }
     void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology) { m_Topology = _Topology; }
@@ -44,9 +45,11 @@ public:
 
 private:
     WRL::ComPtr<ID3DBlob>			    m_VSBlob;
+    WRL::ComPtr<ID3DBlob>			    m_GSBlob;
     WRL::ComPtr<ID3DBlob>			    m_PSBlob;
 
     WRL::ComPtr<ID3D11VertexShader>     m_VS;
+    WRL::ComPtr<ID3D11GeometryShader>	m_GS;
     WRL::ComPtr<ID3D11PixelShader>	    m_PS;
 
     WRL::ComPtr<ID3D11InputLayout>      m_Layout;
