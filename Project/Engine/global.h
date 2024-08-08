@@ -24,7 +24,7 @@ namespace WRL = Microsoft::WRL;
 #else
 #pragma comment(lib, "DirectxTex//DirectXTex.lib")
 #endif
-#include "Log.h"
+#include "Instrumentor.h"
 #include "SimpleMath.h"
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -58,7 +58,6 @@ using namespace std::filesystem;
 #define MD_ENGINE_ASSERT(...)
 #endif
 
-#include "Instrumentor.h"
 #include "singleton.h"
 #include "define.h"
 #include "enum.h"
