@@ -18,7 +18,8 @@ public:
     ~CParticleSystem() = default;
 
 public:
-    void SetParticleTexture(Ptr<CTexture> _Texture) { m_ParticleTex = _Texture; }
+    void SetParticleTexture(Ptr<CTexture> _Texture);
+    Ptr<CTexture> GetParticleTexture() { return m_ParticleTex; }
 
 public:
     Ptr<CTexture> GetParticleTex() { return m_ParticleTex; }

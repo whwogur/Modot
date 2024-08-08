@@ -6,7 +6,7 @@ class ParticleSystemUI :
 {
 public:
     ParticleSystemUI();
-    ~ParticleSystemUI();
+    ~ParticleSystemUI() = default;
 private:
     virtual void Update() override;
 };

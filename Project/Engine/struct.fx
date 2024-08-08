@@ -36,7 +36,7 @@ struct tParticle
 
 struct tSpawnCount
 {
-    uint iSpawnCont;
-    uint3 padding;
+    uint    iSpawnCount;
+    uint3   padding;
 };
 #endif

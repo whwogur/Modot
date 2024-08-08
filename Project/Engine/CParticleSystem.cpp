@@ -11,12 +11,13 @@ CParticleSystem::CParticleSystem()
 	, m_ParticleBuffer(nullptr)
 	, m_SpawnCountBuffer(nullptr)
 	, m_Time(0.f)
-	, m_MaxParticleCount(30)
+	, m_MaxParticleCount(100)
 {
 	// Mesh / Material 
 	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"PointMesh"));
 	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"ParticleRenderMtrl"));
 
+	m_ParticleTex = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"ParticleRenderMtrl")->GetTexParam(TEX_0);
 	// ParticleTick ComputeShader
 	m_TickCS = (CParticleTickCS*)CAssetMgr::GetInst()->FindAsset<CComputeShader>(L"ParticleTickCS").Get();
 
@@ -39,6 +40,13 @@ CParticleSystem::CParticleSystem()
 
 	m_SpawnCountBuffer = std::make_shared<CStructuredBuffer>();
 	m_SpawnCountBuffer->Create(sizeof(tSpawnCount), 1, SB_TYPE::SRV_UAV, true, nullptr);
+}
+
+void CParticleSystem::SetParticleTexture(Ptr<CTexture> _Tex)
+{
+	m_ParticleTex = _Tex;
+	Ptr<CMaterial> pMat = GetSharedMtrl();
+	pMat->SetTexParam(TEX_0, _Tex);
 }
 
 void CParticleSystem::FinalTick()

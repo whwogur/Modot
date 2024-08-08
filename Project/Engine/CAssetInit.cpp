@@ -327,6 +327,7 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDSType(DS_TYPE::NO_WRITE);
 	pShader->SetBSType(BS_TYPE::ALPHABLEND);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_PARTICLE);
+	pShader->AddTexParam(TEX_PARAM::TEX_0, u8"≈ÿΩ∫√≥");
 	AddAsset(L"ParticleRenderShader", pShader);
 }
 #include "CParticleTickCS.h"

@@ -4,7 +4,6 @@
 #include "value.fx"
 #include "struct.fx"
 
-
 RWStructuredBuffer<tParticle> ParticleBuffer : register(u0);
 RWStructuredBuffer<tSpawnCount> SpawnCountBuffer : register(u1);
 
@@ -14,28 +13,17 @@ RWStructuredBuffer<tSpawnCount> SpawnCountBuffer : register(u1);
 [numthreads(1024, 1, 1)]
 void CS_ParticleTick(int3 _ID : SV_DispatchThreadID)
 {
-    if (MAX_COUNT <= _ID.x)
+    if (_ID.x >= MAX_COUNT)
         return;
 
-    if (Particle.Active == false)
+    if (!Particle.Active)
     {
-        int SpawnCount = SpawnCountBuffer[0].iSpawnCont;
+        int SpawnCount = 0;
+        InterlockedAdd(SpawnCountBuffer[0].iSpawnCount, -1, SpawnCount);
 
-        while (0 < SpawnCount)
+        if (SpawnCount > 0)
         {
-            int Origin = 0;
-            InterlockedCompareExchange(SpawnCountBuffer[0].iSpawnCont
-                                      , SpawnCount
-                                      , SpawnCountBuffer[0].iSpawnCont - 1
-                                      , Origin);
-
-            if (SpawnCount == Origin)
-            {
-                Particle.Active = true;
-                break;
-            }
-
-            SpawnCount = SpawnCountBuffer[0].iSpawnCont;
+            Particle.Active = true;
         }
     }
     else
@@ -43,11 +31,5 @@ void CS_ParticleTick(int3 _ID : SV_DispatchThreadID)
         Particle.vWorldPos += Particle.vVelocity * g_EngineDT;
     }
 }
-
-
-
-
-
-
 
 #endif
