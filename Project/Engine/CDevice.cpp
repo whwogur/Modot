@@ -22,6 +22,7 @@ CDevice::~CDevice()
 
 int CDevice::Init(HWND _hWnd, UINT _Width, UINT _Height)
 {
+    MD_PROFILE_FUNCTION();
     // 윈도우 핸들 및 해상도 값 저장
     m_hWnd = _hWnd;
 

@@ -36,6 +36,7 @@ void CTimeMgr::Init()
 
 void CTimeMgr::Tick()
 {
+	MD_PROFILE_FUNCTION();
 	// 현재 카운트 계산
 	QueryPerformanceCounter(&m_llCurCount);
 

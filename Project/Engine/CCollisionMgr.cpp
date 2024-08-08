@@ -23,6 +23,7 @@ CCollisionMgr::~CCollisionMgr()
 
 void CCollisionMgr::Tick()
 {
+	MD_PROFILE_FUNCTION();
 	for (int Row = 0; Row < MAX_LAYER; ++Row)
 	{
 		for (int Col = Row; Col < MAX_LAYER; ++Col)

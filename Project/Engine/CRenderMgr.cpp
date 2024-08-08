@@ -44,6 +44,7 @@ void CRenderMgr::Init()
 
 void CRenderMgr::Tick()
 {
+	MD_PROFILE_FUNCTION();
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
 	if (nullptr == pCurLevel)
 		return;
@@ -94,6 +95,7 @@ void CRenderMgr::PostProcessCopy()
 
 void CRenderMgr::RenderStart()
 {
+	MD_PROFILE_FUNCTION();
 	Ptr<CTexture> RTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
 	Ptr<CTexture> DSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
 	// ∑ª¥ı≈∏∞Ÿ ¡ˆ¡§

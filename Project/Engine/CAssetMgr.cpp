@@ -13,6 +13,7 @@ CAssetMgr::~CAssetMgr()
 
 void CAssetMgr::Tick()
 {
+	MD_PROFILE_FUNCTION();
 	if (m_Dirty)
 		m_Dirty = false;
 

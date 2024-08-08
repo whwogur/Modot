@@ -153,6 +153,7 @@ call EngineHeaderCopy.bat</Command>
     <ClInclude Include="framework.h" />
     <ClInclude Include="func.h" />
     <ClInclude Include="global.h" />
+    <ClInclude Include="Instrumentor.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Ptr.h" />

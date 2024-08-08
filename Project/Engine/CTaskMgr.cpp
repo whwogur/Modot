@@ -15,6 +15,7 @@ CTaskMgr::~CTaskMgr()
 
 void CTaskMgr::Tick()
 {
+	MD_PROFILE_FUNCTION();
 	ClearGC();
 
 	ExecuteTask();

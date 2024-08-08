@@ -19,9 +19,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_ LPWSTR    lpCmdLine,
     _In_ int       nCmdShow)
 {
+    MD_PROFILE_BEGIN_SESSION("Init", "Profile-Init.json");
     //int screenX = GetSystemMetrics(SM_CXSCREEN);
     //int screenY = GetSystemMetrics(SM_CYSCREEN);
-
 #ifdef _DEBUG
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     //_CrtSetBreakAlloc(6707);
@@ -64,6 +64,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 #ifdef _DEBUG
     CEditorMgr::GetInst()->Init();
 #endif
+    MD_PROFILE_END_SESSION();
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CLIENT));
     MSG msg = {};
@@ -82,11 +83,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
         else
         {
+            MD_PROFILE_BEGIN_SESSION("Runtime", "Profile-Runtime.json");
             CEngine::GetInst()->Run();
 #ifdef _DEBUG
             CEditorMgr::GetInst()->Tick();
 #endif
             CDevice::GetInst()->Present();
+
+            MD_PROFILE_END_SESSION();
         }
     }
 

@@ -26,6 +26,7 @@ CEngine::~CEngine()
 
 int CEngine::Init(HWND _wnd, POINT _ptResolution, OBJECT_SAVE _SaveFunc, OBJECT_LOAD _Func)
 {
+	MD_PROFILE_FUNCTION();
 	Modot::Log::Init();
 	m_hWnd = _wnd;
 	m_ptResolution = _ptResolution;
@@ -49,6 +50,7 @@ int CEngine::Init(HWND _wnd, POINT _ptResolution, OBJECT_SAVE _SaveFunc, OBJECT_
 
 void CEngine::Run()
 {
+	MD_PROFILE_FUNCTION();
 	// Manager
 	CKeyMgr::GetInst()->Tick();
 	CTimeMgr::GetInst()->Tick();

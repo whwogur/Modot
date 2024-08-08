@@ -160,6 +160,9 @@
     <ClInclude Include="CParticleTickCS.h">
       <Filter>06. Asset\Shader\ComputeShader\ParticleTick</Filter>
     </ClInclude>
+    <ClInclude Include="Instrumentor.h">
+      <Filter>Module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">

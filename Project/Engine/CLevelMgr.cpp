@@ -35,6 +35,7 @@ void CLevelMgr::SetLevelDirty()
 
 void CLevelMgr::Run()
 {
+	MD_PROFILE_FUNCTION();
 	m_Dirty = false;
 	if (nullptr == m_CurLevel)
 		return;

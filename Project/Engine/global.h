@@ -58,6 +58,7 @@ using namespace std::filesystem;
 #define MD_ENGINE_ASSERT(...)
 #endif
 
+#include "Instrumentor.h"
 #include "singleton.h"
 #include "define.h"
 #include "enum.h"

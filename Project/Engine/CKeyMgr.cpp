@@ -51,6 +51,7 @@ void CKeyMgr::Init()
 
 void CKeyMgr::Tick()
 {
+	MD_PROFILE_FUNCTION();
 	// MainWindow 가 포커싱 상태이다.
 	if (CEngine::GetInst()->GetMainWnd() == GetFocus())
 	{
