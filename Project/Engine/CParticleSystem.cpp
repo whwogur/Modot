@@ -25,7 +25,7 @@ CParticleSystem::CParticleSystem()
 	float Angle = XM_2PI / m_MaxParticleCount;
 	for (int i = 0; i < m_MaxParticleCount; ++i)
 	{
-		arrParticle[i].Active = true;
+		arrParticle[i].Active = false;
 		arrParticle[i].Mass = 1.f;
 		arrParticle[i].vLocalPos = Vec3(0.f, 0.f, 0.f);
 		arrParticle[i].vWorldPos = Vec3(0.f, 0.f, 0.f);
@@ -45,13 +45,13 @@ void CParticleSystem::FinalTick()
 {
 	// SpawnCount
 	m_Time += EngineDT;
+	tSpawnCount count = {};
 	if (1.f <= m_Time)
 	{
-		tSpawnCount count = {};
-		count.iSpawnCount = 1;
-		m_SpawnCountBuffer->SetData(&count);
+		count.iSpawnCount = 5;
 		m_Time = 0.f;
 	}
+	m_SpawnCountBuffer->SetData(&count);
 
 	m_TickCS->SetParticleBuffer(m_ParticleBuffer);
 	m_TickCS->SetSpawnCount(m_SpawnCountBuffer);

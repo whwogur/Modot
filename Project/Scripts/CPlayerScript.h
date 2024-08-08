@@ -6,7 +6,7 @@ class CPlayerScript :
 {
 public:
     CPlayerScript();
-    ~CPlayerScript();
+    ~CPlayerScript() = default;
     CLONE(CPlayerScript);
 public:
     virtual void Begin() override;

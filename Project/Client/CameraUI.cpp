@@ -66,8 +66,10 @@ void CameraUI::Update()
     float Scale = pCam->GetScale();
     ImGui::Text("Scale");
     ImGui::SameLine(100);
-    ImGui::InputFloat("##Scale", &Scale);
-    pCam->SetScale(Scale);
+    if (ImGui::InputFloat("##Scale", &Scale, 0.5f, 0.5f, "%.1f", ImGuiInputTextFlags_EnterReturnsTrue))
+    {
+        pCam->SetScale(Scale);
+    }
     ImGui::EndDisabled();
 }
 
@@ -77,7 +79,8 @@ void CameraUI::LayerCheck()
     ImGui::SameLine(100);
     if (ImGui::Button(ICON_FA_SORT_NUMERIC_ASC "##LayerCheckBtn", ImVec2(50.f, 25.f)))
     {
-        m_ShowLayerCheck ? m_ShowLayerCheck = false : m_ShowLayerCheck = true;
+        m_ShowLayerCheck ? 
+            m_ShowLayerCheck = false : m_ShowLayerCheck = true;
     }
 
     if (!m_ShowLayerCheck)

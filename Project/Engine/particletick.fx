@@ -6,7 +6,7 @@
 
 
 RWStructuredBuffer<tParticle> ParticleBuffer : register(u0);
-RWStructuredBuffer<tSpawnCount> SpawnCount : register(u1);
+RWStructuredBuffer<tSpawnCount> SpawnCountBuffer : register(u1);
 
 #define MAX_COUNT       g_int_0
 #define Particle        ParticleBuffer[_ID.x]
@@ -19,16 +19,29 @@ void CS_ParticleTick(int3 _ID : SV_DispatchThreadID)
 
     if (Particle.Active == false)
     {
-        if (0 < SpawnCount[0].iSpawnCont)
-        {
-            Particle.Active = true;
-            SpawnCount[0].iSpawnCont = SpawnCount[0].iSpawnCont - 1;
-        }
+        int SpawnCount = SpawnCountBuffer[0].iSpawnCont;
 
-        return;
+        while (0 < SpawnCount)
+        {
+            int Origin = 0;
+            InterlockedCompareExchange(SpawnCountBuffer[0].iSpawnCont
+                                      , SpawnCount
+                                      , SpawnCountBuffer[0].iSpawnCont - 1
+                                      , Origin);
+
+            if (SpawnCount == Origin)
+            {
+                Particle.Active = true;
+                break;
+            }
+
+            SpawnCount = SpawnCountBuffer[0].iSpawnCont;
+        }
     }
-    
-    Particle.vWorldPos += Particle.vVelocity * g_EngineDT;
+    else
+    {
+        Particle.vWorldPos += Particle.vVelocity * g_EngineDT;
+    }
 }
 
 
