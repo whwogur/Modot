@@ -9,10 +9,6 @@ CSprite::CSprite()
 {
 }
 
-CSprite::~CSprite()
-{
-}
-
 void CSprite::SetLeftTop(Vec2 _LeftTop)
 {
 	Vec2 AtlasResolution = Vec2((float)m_Atlas->Width(), (float)m_Atlas->Height());

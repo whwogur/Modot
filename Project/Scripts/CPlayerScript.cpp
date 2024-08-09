@@ -15,18 +15,24 @@ void CPlayerScript::Begin()
 
 void CPlayerScript::Tick()
 {
-	if (KEY_PRESSED(KEY::LEFT))
+	if (KEY_TAP(KEY::LEFT))
 	{
-		RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
 		Transform()->SetDir(OBJECT_DIR::LEFT);
 		Animator2D()->Play(L"Momo_Run", 10.0f, true);
 	}
+	if (KEY_PRESSED(KEY::LEFT))
+	{
+		RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
+	}
 
+	if (KEY_TAP(KEY::RIGHT))
+	{
+		Transform()->SetDir(OBJECT_DIR::RIGHT);
+		Animator2D()->Play(L"Momo_Run", 10.0f, true);
+	}
 	if (KEY_PRESSED(KEY::RIGHT))
 	{
 		RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
-		Transform()->SetDir(OBJECT_DIR::RIGHT);
-		Animator2D()->Play(L"Momo_Run", 10.0f, true);
 	}
 
 	if (KEY_TAP(KEY::SPACE))

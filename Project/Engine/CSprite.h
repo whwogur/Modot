@@ -5,7 +5,7 @@ class CSprite :
 {
 public:
     CSprite();
-    ~CSprite();
+    ~CSprite() = default;
     CLONE(CSprite);
 public:
     Ptr<CTexture> GetAtlasTexture() { return m_Atlas; }

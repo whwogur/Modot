@@ -15,8 +15,8 @@ void TilemapEditor::Update()// 정리 필요..;
 		Vec2 sliceUV = m_Tilemap->GetTileSliceUV();
 		const wstring& atlasName = atlasTex->GetKey();
 		string strKey(atlasName.begin(), atlasName.end());
-		int row = m_Tilemap->GetRowCol().x;
-		int col = m_Tilemap->GetRowCol().y;
+		int row = (int)m_Tilemap->GetRowCol().x;
+		int col = (int)m_Tilemap->GetRowCol().y;
         int maxAtlasRow = m_Tilemap->GetMaxAtlasRow();
         int maxAtlasCol = m_Tilemap->GetMaxAtlasCol();
         static int selTileIndex = 0;
@@ -59,7 +59,7 @@ void TilemapEditor::Update()// 정리 필요..;
         ImGui::NewLine();
         
         m_ImageButtonPos = ImGui::GetCursorPos();
-        int ButtonSize = 30;
+        float ButtonSize = 30.0f;
         int atlasWidth = atlasTex->GetDesc().Width;
         int atlasHeight = atlasTex->GetDesc().Height;
         Vec2 atlasTileSize = m_Tilemap->GetAtlasTileSize();
@@ -101,7 +101,7 @@ void TilemapEditor::Update()// 정리 필요..;
 
 
         int previewIdx = 0;
-        int previewTileSize = 30;
+        float previewTileSize = 30;
         float previewPadding = 1.0f;
         m_ImagePos = ImGui::GetCursorPos();
 
