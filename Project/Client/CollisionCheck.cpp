@@ -14,7 +14,7 @@ void CollisionCheck::Update()
 {
 	for (UINT i = 0; i < EFFECTIVE_LAYER; ++i)
 	{
-		ImGui::Text(m_LayerNames[i].c_str());
+		ImGui::TextColored(HEADER_2, m_LayerNames[i].c_str());
 		ImGui::SameLine(150);
 		for (UINT j = i; j < EFFECTIVE_LAYER; ++j)
 		{

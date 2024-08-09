@@ -33,10 +33,6 @@ CCamera::CCamera()
 	m_AspectRatio = m_Width / m_Height;
 }
 
-CCamera::~CCamera()
-{
-}
-
 void CCamera::Begin()
 {
 	// 카메라를 등록

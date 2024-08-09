@@ -10,7 +10,8 @@
 #define CONTEXT CDevice::GetInst()->GetContext()
 
 constexpr UINT MAX_LAYER = 32;
-
+// 실제로 쓰이고 있는 레이어 수
+constexpr UINT EFFECTIVE_LAYER = 6;
 #define DT CTimeMgr::GetInst()->GetDeltaTime()
 #define EngineDT CTimeMgr::GetInst()->GetEngineDeltaTime()
 #define KEY_CHECK(KEY, STATE) CKeyMgr::GetInst()->GetKeyState(KEY) == STATE

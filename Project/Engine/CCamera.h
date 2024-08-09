@@ -13,7 +13,7 @@ class CCamera :
 {
 public:
     CCamera();
-    ~CCamera();
+    ~CCamera() = default;
     CLONE(CCamera);
 public:
     void SetPriority(int _Priority) { m_Priority = _Priority; }
