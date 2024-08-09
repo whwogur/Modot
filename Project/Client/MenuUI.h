@@ -19,8 +19,5 @@ private:
 
     void LoadLevel();
     void SaveLevelAs();
-private:
     void AddScript();
-
-
 };

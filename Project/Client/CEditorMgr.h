@@ -19,6 +19,7 @@ public:
     EditorUI* FindEditorUI(const string& Name);
     ImFont* GetIconFont() { return m_IconFont; }
     void SetTargetObject(CGameObject* Obj);
+    void SetGizmoMode(int Type);
 private:
     void ShortCut();
 

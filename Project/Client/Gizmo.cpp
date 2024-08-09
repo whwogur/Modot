@@ -40,7 +40,7 @@ void Gizmo::Update()
 
 		CTransform* tc = m_TargetObject->Transform();
 
-		DirectX::XMFLOAT4X4 transform;
+		DirectX::XMFLOAT4X4 transform{};
 		ImGuizmo::RecomposeMatrixFromComponents(&tc->GetRelativePosRef().x, &tc->GetRelativeRoatationRef().x, &tc->GetRelativeScaleRef().x, *transform.m);
 
 		// Snapping

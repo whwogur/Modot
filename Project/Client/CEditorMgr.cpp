@@ -64,6 +64,11 @@ void CEditorMgr::SetTargetObject(CGameObject* Obj)
 	m_Gizmo->SetGizmoType(ImGuizmo::OPERATION::TRANSLATE);
 }
 
+void CEditorMgr::SetGizmoMode(int Type)
+{
+	{ m_Gizmo->SetGizmoType(ImGuizmo::OPERATION(Type)); }
+}
+
 void CEditorMgr::ShortCut()
 {
     if (KEY_TAP(KEY::G))
