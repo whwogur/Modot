@@ -29,7 +29,6 @@ namespace WRL = Microsoft::WRL;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-#include <string>
 using std::string;
 using std::wstring;
 

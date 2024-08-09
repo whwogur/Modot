@@ -17,11 +17,8 @@
 #include "TilemapEditor.h"
 #include "CLevelSaveLoad.h"
 #include "MaterialUI.h"
+#include "CollisionCheck.h"
 MenuUI::MenuUI()
-{
-}
-
-MenuUI::~MenuUI()
 {
 }
 
@@ -105,7 +102,7 @@ void MenuUI::Tick()
 			color = { 1, 1, 1, 1 };
 		}
 
-		ImGui::SameLine(contentRegionAvailable - 200);
+		ImGui::SameLine(contentRegionAvailable - 220);
 		ImGui::TextColored(color, whichCamera.c_str());
 		ImGui::SameLine();
 		ImGui::TextColored(color, buffer);
@@ -120,19 +117,12 @@ void MenuUI::Update()
 {
 	File();
 
-	Level();
-
-	AddScripts();
+	Tools();
 
 	Assets();
 }
 
 void MenuUI::File()
-{
-	
-}
-
-void MenuUI::Level()
 {
 	ImFont* iconFont = CEditorMgr::GetInst()->GetIconFont();
 	ImGui::PushFont(iconFont);
@@ -179,18 +169,36 @@ void MenuUI::Level()
 	ImGui::PopFont();
 }
 
-void MenuUI::AddScripts()
+void MenuUI::Tools()
 {
-	ImFont* iconFont = CEditorMgr::GetInst()->GetIconFont();
-	ImGui::PushFont(iconFont);
-
-	if (ImGui::BeginMenu(ICON_FA_FILE_TEXT_O " Add Script"))
+	if (ImGui::BeginMenu(ICON_FA_WRENCH " Tools"))
 	{
-		AddScript();
+		if (ImGui::MenuItem(u8"타일맵 에디터"))
+		{
+			TilemapEditor* editor = static_cast<TilemapEditor*>(CEditorMgr::GetInst()->FindEditorUI("TilemapEditor"));
+			editor->SetTilemap(nullptr);
+			editor->Toggle();
+		}
+		if (ImGui::MenuItem(u8"스프라이트 에디터"))
+		{
+			SpriteEditor* spriteEditor = static_cast<SpriteEditor*>(CEditorMgr::GetInst()->FindEditorUI("SpriteEditor"));
+			spriteEditor->Toggle();
+		}
+
+		if (ImGui::MenuItem(u8"애니메이션 에디터"))
+		{
+			AnimationEditor* animEditor = static_cast<AnimationEditor*>(CEditorMgr::GetInst()->FindEditorUI("AnimationEditor"));
+			animEditor->SetActive(true);
+		}
+
+		if (ImGui::MenuItem(u8"충돌 매트릭스"))
+		{
+			CollisionCheck* animEditor = static_cast<CollisionCheck*>(CEditorMgr::GetInst()->FindEditorUI("CollisionCheck"));
+			animEditor->SetActive(true);
+		}
 
 		ImGui::EndMenu();
 	}
-	ImGui::PopFont();
 }
 
 void MenuUI::Assets()
@@ -209,23 +217,8 @@ void MenuUI::Assets()
 			}
 		}
 
-		if (ImGui::MenuItem(u8"타일맵 에디터"))
-		{
-			TilemapEditor* editor = static_cast<TilemapEditor*>(CEditorMgr::GetInst()->FindEditorUI("TilemapEditor"));
-			editor->SetTilemap(nullptr);
-			editor->Toggle();
-		}
-		if (ImGui::MenuItem(u8"스프라이트 에디터"))
-		{
-			SpriteEditor* spriteEditor = static_cast<SpriteEditor*>(CEditorMgr::GetInst()->FindEditorUI("SpriteEditor"));
-			spriteEditor->Toggle();
-		}
+		AddScript();
 
-		if (ImGui::MenuItem(u8"애니메이션 에디터"))
-		{
-			AnimationEditor* animEditor = static_cast<AnimationEditor*>(CEditorMgr::GetInst()->FindEditorUI("AnimationEditor"));
-			animEditor->SetActive(true);
-		}
 
 		ImGui::EndMenu();
 	}

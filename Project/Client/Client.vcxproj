@@ -94,6 +94,7 @@
     <ClInclude Include="AnimationEditor.h" />
     <ClInclude Include="AssetUI.h" />
     <ClInclude Include="CameraUI.h" />
+    <ClInclude Include="CollisionCheck.h" />
     <ClInclude Include="CEditorCameraScript.h" />
     <ClInclude Include="CEditorMgr.h" />
     <ClInclude Include="CGameObjectEx.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="AnimationEditor.cpp" />
     <ClCompile Include="AssetUI.cpp" />
     <ClCompile Include="CameraUI.cpp" />
+    <ClCompile Include="CollisionCheck.cpp" />
     <ClCompile Include="CEditorCameraScript.cpp" />
     <ClCompile Include="CEditorMgr.cpp" />
     <ClCompile Include="CEditorMgr_EditorUI.cpp" />

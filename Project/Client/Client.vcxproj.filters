@@ -31,6 +31,9 @@
     <Filter Include="Editor\EditorUI\Modal\SpriteEditor">
       <UniqueIdentifier>{26008389-e181-4a34-b5d8-e0b5bd69acdc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\EditorUI\Modal\Util">
+      <UniqueIdentifier>{11ddf1b5-fe19-43fb-b5db-c73257e41210}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -181,12 +184,6 @@
     <ClInclude Include="ImGui\IconsFontAwesome4.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Gizmo.h">
-      <Filter>Editor\EditorUI\Modal</Filter>
-    </ClInclude>
-    <ClInclude Include="ParamUI.h">
-      <Filter>Editor\EditorUI\Modal</Filter>
-    </ClInclude>
     <ClInclude Include="ScriptUI.h">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
@@ -208,6 +205,15 @@
     </ClInclude>
     <ClInclude Include="SE_Sub.h">
       <Filter>Editor\EditorUI\Modal\SpriteEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="ParamUI.h">
+      <Filter>Editor\EditorUI\Modal\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Gizmo.h">
+      <Filter>Editor\EditorUI\Modal\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionCheck.h">
+      <Filter>Editor\EditorUI\Modal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -359,12 +365,6 @@
     <ClCompile Include="CTestLevel.cpp">
       <Filter>Editor\TestLevel</Filter>
     </ClCompile>
-    <ClCompile Include="Gizmo.cpp">
-      <Filter>Editor\EditorUI\Modal</Filter>
-    </ClCompile>
-    <ClCompile Include="ParamUI.cpp">
-      <Filter>Editor\EditorUI\Modal</Filter>
-    </ClCompile>
     <ClCompile Include="ScriptUI.cpp">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
@@ -386,6 +386,15 @@
     </ClCompile>
     <ClCompile Include="SE_Sub.cpp">
       <Filter>Editor\EditorUI\Modal\SpriteEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="ParamUI.cpp">
+      <Filter>Editor\EditorUI\Modal\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Gizmo.cpp">
+      <Filter>Editor\EditorUI\Modal\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionCheck.cpp">
+      <Filter>Editor\EditorUI\Modal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

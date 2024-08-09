@@ -22,6 +22,7 @@
 #include "SE_Detail.h"
 #include "SpriteEditor.h"
 #include "TilemapEditor.h"
+#include "CollisionCheck.h"
 void CEditorMgr::InitImGui()
 {
     // Setup Dear ImGui context
@@ -138,6 +139,11 @@ void CEditorMgr::CreateEditorUI()
     // TilemapEditor
     pUI = new TilemapEditor;
     pUI->SetName("TilemapEditor");
+    pUI->SetActive(false);
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    pUI = new CollisionCheck;
+    pUI->SetName("CollisionCheck");
     pUI->SetActive(false);
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 }

@@ -6,7 +6,7 @@ class MenuUI :
 {
 public:
     MenuUI();
-    ~MenuUI();
+    ~MenuUI() = default;
 
 public:
     virtual void Tick() override;
@@ -14,8 +14,7 @@ public:
 
 private:
     void File();
-    void Level();
-    void AddScripts();
+    void Tools();
     void Assets();
 
     void LoadLevel();

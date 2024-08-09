@@ -6,7 +6,7 @@
 #include <Engine/CLayer.h>
 #include <Engine/CGameObject.h>
 #include <Engine/components.h>
-
+#include <Engine/CCollisionMgr.h>
 #include <Scripts/CScriptMgr.h>
 
 void CLevelSaveLoad::SaveLevel(const wstring& _RelativePath, CLevel* _Level)
@@ -37,6 +37,12 @@ void CLevelSaveLoad::SaveLevel(const wstring& _RelativePath, CLevel* _Level)
 		{
 			SaveGameObject(File, vecParents[i]);
 		}
+	}
+
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		UINT collInfo = CCollisionMgr::GetInst()->GetCollision(i);
+		fwrite(&collInfo, sizeof(UINT), 1, File);
 	}
 
 	fclose(File);
@@ -121,6 +127,13 @@ CLevel* CLevelSaveLoad::LoadLevel(const wstring& _RelativePath)
 			CGameObject* pLoadedObject = LoadGameObject(File);
 			pLayer->AddObject(pLoadedObject, false);
 		}
+	}
+
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		UINT collInfo = 0;
+		fread(&collInfo, sizeof(UINT), 1, File);
+		CCollisionMgr::GetInst()->CollisionCheck(i, collInfo);
 	}
 
 	fclose(File);

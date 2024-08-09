@@ -16,6 +16,6 @@ public:
 
 
 private:
-    string      m_AnimName;
+    int         m_AnimIndex;
 };
 
