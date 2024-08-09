@@ -102,7 +102,7 @@ void MenuUI::Tick()
 			color = { 1, 1, 1, 1 };
 		}
 
-		ImGui::SameLine(contentRegionAvailable - 220);
+		ImGui::SameLine(contentRegionAvailable - 180);
 		ImGui::TextColored(color, whichCamera.c_str());
 		ImGui::SameLine();
 		ImGui::TextColored(color, buffer);
@@ -120,6 +120,21 @@ void MenuUI::Update()
 	Tools();
 
 	Assets();
+
+	if (ImGui::BeginMenu(ICON_FA_EXTERNAL_LINK " External"))
+	{
+		if (ImGui::MenuItem(ICON_FA_GITHUB " Github"))
+		{
+			ShellExecute(0, 0, L"https://github.com/whwogur", 0, 0, SW_SHOW);
+		}
+
+		if (ImGui::MenuItem(ICON_FA_YOUTUBE " Youtube"))
+		{
+			ShellExecute(0, 0, L"https://www.youtube.com/@user-vy8dx1rr4q", 0, 0, SW_SHOW);
+		}
+
+		ImGui::EndMenu();
+	}
 }
 
 void MenuUI::File()
