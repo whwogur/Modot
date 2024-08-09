@@ -28,9 +28,11 @@ void CS_ParticleTick(int3 _ID : SV_DispatchThreadID)
             // 파티클의 위치를 특정 범위내에서 랜덤한 위치로 잡아준다.                
             float2 vUV = (float2) 0.f;
 
-                // 스레드를 UV 로 맵핑하기위해서 ID 를 0~1 범위로 정규화                
-            vUV.x = ((float) _ID.x / (float) (MAX_COUNT - 1)) + g_EngineTime * 0.5f;
-            vUV.y = sin(vUV.x * 20 * PI) * 0.5f + g_EngineTime * 0.1f;
+            // 스레드를 UV 로 맵핑하기위해서 ID 를 0~1 범위로 정규화                
+            float RandomFactor = frac(sin(dot(_ID.xy, float2(12.9898, 78.233))) * 43758.5453);
+
+            vUV.x = ((float) _ID.x / (float) (MAX_COUNT - 1)) + RandomFactor * g_EngineTime * 0.5f;
+            vUV.y = sin(vUV.x * 20 * PI) * 0.5f + RandomFactor * g_EngineTime * 0.1f;
 
             float3 vNoise = NoiseTex.SampleLevel(g_sam_1, vUV, 0).xyz;
 
