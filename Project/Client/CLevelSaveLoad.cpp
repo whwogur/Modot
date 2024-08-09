@@ -133,7 +133,7 @@ CLevel* CLevelSaveLoad::LoadLevel(const wstring& _RelativePath)
 	{
 		UINT collInfo = 0;
 		fread(&collInfo, sizeof(UINT), 1, File);
-		CCollisionMgr::GetInst()->CollisionCheck(i, collInfo);
+		CCollisionMgr::GetInst()->LoadCollisionInfo(i, collInfo);
 	}
 
 	fclose(File);

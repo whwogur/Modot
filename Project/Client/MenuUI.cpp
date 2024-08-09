@@ -44,7 +44,7 @@ void MenuUI::Tick()
 
 		if (state == LEVEL_STATE::PLAY)
 		{
-			whichCamera = ICON_FA_CAMERA " MainCamera";
+			whichCamera = ICON_FA_CAMERA " MainCam";
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.22f, 0.23f, 0.77f, 1.0f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.35f, 0.87f, 1.0f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.15f, 0.2f, 0.7f, 1.0f });
@@ -70,7 +70,7 @@ void MenuUI::Tick()
 		}
 		else if (state == LEVEL_STATE::PAUSE)
 		{
-			whichCamera = ICON_FA_CAMERA " EditorCamera";
+			whichCamera = ICON_FA_CAMERA " EditorCam";
 			ImGui::SameLine(contentRegionAvailable / 2 + 32);
 			if (ImGui::Button(ICON_FA_PLAY, { 32, 25 }))
 			{
@@ -92,7 +92,7 @@ void MenuUI::Tick()
 		}
 		else
 		{
-			whichCamera = ICON_FA_CAMERA " EditorCamera";
+			whichCamera = ICON_FA_CAMERA " EditorCam";
 			ImGui::SameLine(contentRegionAvailable / 2 + 32);
 			if (ImGui::Button(ICON_FA_PLAY, { 32, 25 }))
 			{
@@ -108,7 +108,7 @@ void MenuUI::Tick()
 			CEditorMgr::GetInst()->SetGizmoMode(7);
 		}
 		ImGui::SameLine();
-		if (ImGui::Button(ICON_FA_ARROWS_ALT))
+		if (ImGui::Button(ICON_FA_EXPAND))
 		{
 			CEditorMgr::GetInst()->SetGizmoMode(896);
 		}
@@ -228,7 +228,7 @@ void MenuUI::Tools()
 
 		if (ImGui::MenuItem(u8"충돌 매트릭스"))
 		{
-			CollisionCheck* animEditor = static_cast<CollisionCheck*>(CEditorMgr::GetInst()->FindEditorUI("CollisionCheck"));
+			CollisionCheck* animEditor = static_cast<CollisionCheck*>(CEditorMgr::GetInst()->FindEditorUI(ICON_FA_CHECK_SQUARE_O" CollisionCheck"));
 			animEditor->SetActive(true);
 		}
 

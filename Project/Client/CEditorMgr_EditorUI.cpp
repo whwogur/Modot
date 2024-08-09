@@ -143,7 +143,7 @@ void CEditorMgr::CreateEditorUI()
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
     pUI = new CollisionCheck;
-    pUI->SetName("CollisionCheck");
+    pUI->SetName(ICON_FA_CHECK_SQUARE_O" CollisionCheck");
     pUI->SetActive(false);
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 }
