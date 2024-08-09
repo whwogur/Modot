@@ -11,7 +11,7 @@ CParticleSystem::CParticleSystem()
 	, m_ParticleBuffer(nullptr)
 	, m_SpawnCountBuffer(nullptr)
 	, m_Time(0.f)
-	, m_MaxParticleCount(100)
+	, m_MaxParticleCount(1000)
 {
 	// Mesh / Material 
 	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"PointMesh"));
@@ -21,18 +21,15 @@ CParticleSystem::CParticleSystem()
 	// ParticleTick ComputeShader
 	m_TickCS = (CParticleTickCS*)CAssetMgr::GetInst()->FindAsset<CComputeShader>(L"ParticleTickCS").Get();
 
-	// 파티클 100개 초기 설정
-	tParticle arrParticle[100] = {};
-	float Angle = XM_2PI / m_MaxParticleCount;
+	tParticle arrParticle[1000] = {};
+
 	for (int i = 0; i < m_MaxParticleCount; ++i)
 	{
 		arrParticle[i].Active = false;
-		arrParticle[i].Mass = 1.f;
 		arrParticle[i].vLocalPos = Vec3(0.f, 0.f, 0.f);
 		arrParticle[i].vWorldPos = Vec3(0.f, 0.f, 0.f);
 		arrParticle[i].vWorldScale = Vec3(20.f, 20.f, 0.f);
-		arrParticle[i].vColor = Vec4(0.9f, 0.34f, 0.5f, 1.f);
-		arrParticle[i].vVelocity = Vec3(cosf(Angle * (float)i), sinf(Angle * (float)i), 0.f) * 200.f;
+		arrParticle[i].vColor = Vec4(0.9f, 0.9f, 0.9f, 1.f);
 	}
 
 	m_ParticleBuffer = std::make_shared<CStructuredBuffer>();
@@ -53,14 +50,18 @@ void CParticleSystem::FinalTick()
 {
 	// SpawnCount
 	m_Time += EngineDT;
+
 	tSpawnCount count = {};
-	if (1.f <= m_Time)
+
+	if (0.02f <= m_Time)
 	{
-		count.iSpawnCount = 5;
+		count.iSpawnCount = 2;
 		m_Time = 0.f;
 	}
+
 	m_SpawnCountBuffer->SetData(&count);
 
+	m_TickCS->SetParticleWorldPos(Transform()->GetWorldPos());
 	m_TickCS->SetParticleBuffer(m_ParticleBuffer);
 	m_TickCS->SetSpawnCount(m_SpawnCountBuffer);
 	m_TickCS->Execute();

@@ -19,7 +19,7 @@ void CTestLevel::CreateTestLevel()
 {
 	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\TestLevel.lv");
 	pLevel->GetLayer(7)->SetName(L"Solid");
-	CCollisionMgr::GetInst()->CollisionCheck(7u, 3u); // Player | Monster
+	CCollisionMgr::GetInst()->CollisionCheck(7u, 3u);
 	ChangeLevel(pLevel, LEVEL_STATE::STOP);
 
 	//Ptr<CTexture> pTestTex = CAssetMgr::GetInst()->CreateTexture(L"ComputeShaderTestTex", 1026, 1026, DXGI_FORMAT_R8G8B8A8_UNORM
