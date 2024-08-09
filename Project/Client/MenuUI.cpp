@@ -121,16 +121,21 @@ void MenuUI::Update()
 
 	Assets();
 
-	if (ImGui::BeginMenu(ICON_FA_EXTERNAL_LINK " External"))
+	if (ImGui::BeginMenu(ICON_FA_GLOBE " External"))
 	{
 		if (ImGui::MenuItem(ICON_FA_GITHUB " Github"))
 		{
 			ShellExecute(0, 0, L"https://github.com/whwogur", 0, 0, SW_SHOW);
 		}
 
-		if (ImGui::MenuItem(ICON_FA_YOUTUBE " Youtube"))
+		if (ImGui::MenuItem(ICON_FA_YOUTUBE_PLAY " Youtube"))
 		{
 			ShellExecute(0, 0, L"https://www.youtube.com/@user-vy8dx1rr4q", 0, 0, SW_SHOW);
+		}
+
+		if (ImGui::MenuItem(ICON_FA_TWITCH " Aesprite"))
+		{
+			
 		}
 
 		ImGui::EndMenu();
