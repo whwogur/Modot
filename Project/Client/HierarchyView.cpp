@@ -18,13 +18,13 @@ HierarchyView::HierarchyView()
 
 	// 飘府 可记 技泼
 	m_Tree->ShowRoot(false);
+	m_Tree->SetHierarchy(true);
 
 	// Drag, Drop On
 	m_Tree->EnableDrag(true);
 	m_Tree->EnableDrop(true);
 
 	m_Tree->AddClickedDelegate(this, (DELEGATE_1)&HierarchyView::GameObjectClicked);
-
 	// Self DragDrop Delegate 殿废
 	m_Tree->AddDragDropDelegate(this, (DELEGATE_2)&HierarchyView::GameObjectAddChild);
 

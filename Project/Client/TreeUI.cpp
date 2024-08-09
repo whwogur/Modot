@@ -23,37 +23,42 @@ void TreeNode::Update()
 {
 	UINT Flag = ImGuiTreeNodeFlags_OpenOnDoubleClick
 		| ImGuiTreeNodeFlags_OpenOnArrow
-		| ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_FramePadding;
+		| ImGuiTreeNodeFlags_SpanAvailWidth
+		| ImGuiTreeNodeFlags_FramePadding;
 
 	if (m_Frame)
+	{
 		Flag |= ImGuiTreeNodeFlags_Framed;
+	}
 
 	if (m_Selected)
+	{
 		Flag |= ImGuiTreeNodeFlags_Selected;
-
-	char Name[255] = {};
+	}
 
 	if (m_vecChildNode.empty())
 	{
 		Flag |= ImGuiTreeNodeFlags_Leaf;
+	}
+
+	string prefix = "";
+	if (m_vecChildNode.empty())
+	{
 		if (m_Frame)
-			sprintf_s(Name, 255, "   %s##%d", m_Name.c_str(), m_ID);
-		else
-			sprintf_s(Name, 255, "%s##%d", m_Name.c_str(), m_ID);
+		{
+			prefix = "  ";
+		}
+		else if (m_Owner->IsHierarchy())
+		{
+			prefix = ICON_FA_USER_O" ";
+		}
 	}
-	else
+	else if (m_Owner->IsHierarchy())
 	{
-		sprintf_s(Name, 255, "%s##%d", m_Name.c_str(), m_ID);
+		prefix = ICON_FA_USERS" ";
 	}
 
-	string strName = Name;
-
-	// NameOnly
-	if (m_Owner->IsShowNameOnly())
-	{
-		path Path = Name;
-		strName = Path.stem().string();
-	}
+	string strName = prefix + m_Name + "##" + std::to_string(m_ID);
 
 	if (ImGui::TreeNodeEx(strName.c_str(), Flag))
 	{
@@ -62,15 +67,15 @@ void TreeNode::Update()
 			m_Owner->SetSelectedNode(this);
 		}
 
-		// Drag üũ	
+		// Drag üũ    
 		DragCheck();
 
 		// Drop üũ
 		DropCheck();
 
-		for (size_t i = 0; i < m_vecChildNode.size(); ++i)
+		for (auto& child : m_vecChildNode)
 		{
-			m_vecChildNode[i]->Update();
+			child->Update();
 		}
 
 		ImGui::TreePop();
@@ -120,7 +125,7 @@ TreeUI::TreeUI()
 	, m_DroppedNode(nullptr)
 	, m_NodeID(0)
 	, m_ShowRoot(false)
-	, m_ShowNameOnly(false)
+	, m_Hierarchy(false)
 	, m_UseDrag(false)
 	, m_UseDrop(false)
 	, m_ClickedInst(nullptr)
