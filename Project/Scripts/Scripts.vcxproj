@@ -103,6 +103,7 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClInclude Include="CBackGroundScript.h" />
     <ClInclude Include="CCameraMoveScript.h" />
+    <ClInclude Include="CNPCScript.h" />
     <ClInclude Include="CPlayerScript.h" />
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="framework.h" />
@@ -111,6 +112,7 @@ call CodeGen.exe</Command>
   <ItemGroup>
     <ClCompile Include="CBackGroundScript.cpp" />
     <ClCompile Include="CCameraMoveScript.cpp" />
+    <ClCompile Include="CNPCScript.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="spch.cpp">

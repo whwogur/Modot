@@ -69,5 +69,25 @@ void Animator2DUI::Update()
 			}
 
 		}
+		else
+		{
+			if (ImGui::BeginDragDropTarget())
+			{
+				const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
+				if (payload)
+				{
+					TreeNode** ppNode = (TreeNode**)payload->Data;
+					TreeNode* pNode = *ppNode;
+
+					Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
+					if (ASSET_TYPE::ANIMATION == pAsset->GetAssetType())
+					{
+						GetTargetObject()->Animator2D()->PushBackAnimation((CAnimation*)pAsset.Get());
+					}
+				}
+
+				ImGui::EndDragDropTarget();
+			}
+		}
 	}
 }

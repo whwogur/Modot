@@ -25,6 +25,9 @@
     <ClInclude Include="CBackGroundScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CNPCScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -41,6 +44,9 @@
     </ClCompile>
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CBackGroundScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CNPCScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
