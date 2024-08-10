@@ -27,4 +27,6 @@ private:
     ImVec2                              m_ImageButtonPos = {};
     vector<std::pair<UINT, UINT>>       m_EditHistory;
     std::vector<tTileInfo>              m_TilemapToBeEdited;
+    bool                                m_Altered;
+    std::pair<int, int>                 m_RowCol;
 };

@@ -93,8 +93,8 @@ void TileMapUI::Update()
 
 		auto& [AtlasTileSizeX, AtlasTileSizeY] = pTileMap->GetAtlasTileSizeRef();
 		auto& [TileSizeX, TileSizeY] = pTileMap->GetTileSizeRef();
-		int& Row = pTileMap->GetRowRef();
-		int& Col = pTileMap->GetColRef();
+		int Row = pTileMap->GetRowCol().first;
+		int Col = pTileMap->GetRowCol().second;
 
 		ImGui::TextColored(HEADER_1, u8"타일맵 정보");
 

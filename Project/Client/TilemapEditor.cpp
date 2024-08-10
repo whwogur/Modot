@@ -4,6 +4,8 @@
 #include "TreeUI.h"
 TilemapEditor::TilemapEditor()
 	: m_Tilemap(nullptr)
+    , m_Altered(false)
+    , m_RowCol{1, 1}
 {
 }
 
@@ -11,12 +13,19 @@ void TilemapEditor::Update()// 정리 필요..;
 {
 	if (m_Tilemap != nullptr)
 	{
+        if (m_Altered)
+        {
+            m_Tilemap->SetRowCol(m_RowCol.first, m_RowCol.second);
+            m_TilemapToBeEdited.resize(m_RowCol.first * m_RowCol.second);
+            m_Altered = false;
+        }
+
 		Ptr<CTexture> atlasTex = m_Tilemap->GetAtlasTexture();
 		Vec2 sliceUV = m_Tilemap->GetTileSliceUV();
 		const wstring& atlasName = atlasTex->GetKey();
 		string strKey(atlasName.begin(), atlasName.end());
-		int row = (int)m_Tilemap->GetRowCol().x;
-		int col = (int)m_Tilemap->GetRowCol().y;
+		int row = m_Tilemap->GetRowCol().first;
+		int col = m_Tilemap->GetRowCol().second;
         int maxAtlasRow = m_Tilemap->GetMaxAtlasRow();
         int maxAtlasCol = m_Tilemap->GetMaxAtlasCol();
         static int selTileIndex = 0;
@@ -96,6 +105,20 @@ void TilemapEditor::Update()// 정리 필요..;
         if (ImGui::Button("Revert", { 70, 30 }))
         {
             Revert();
+        }
+
+        ImGui::Text(u8"타일맵 행/열");
+        ImGui::SameLine(100);
+        ImGui::SetNextItemWidth(50);
+        if (ImGui::InputInt("##TilemapRow", &m_RowCol.first, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue))
+        {
+            m_Altered = true;
+        }
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(50);
+        if (ImGui::InputInt("##TilemapCol", &m_RowCol.second, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue))
+        {
+            m_Altered = true;
         }
         ImGui::End();
 
