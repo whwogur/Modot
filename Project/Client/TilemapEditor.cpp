@@ -120,6 +120,38 @@ void TilemapEditor::Update()// 정리 필요..;
         {
             m_Altered = true;
         }
+
+        auto& [AtlasTileSizeX, AtlasTileSizeY] = m_Tilemap->GetAtlasTileSizeRef();
+        auto& [TileSizeX, TileSizeY] = m_Tilemap->GetTileSizeRef();
+        ImGui::Text(u8"타일 크기(A)");
+        ImGui::SameLine(100);
+        ImGui::SetNextItemWidth(120);
+        if (ImGui::InputFloat("##AtTilesizeX", &AtlasTileSizeX, 0, 0, "%.1f", ImGuiInputTextFlags_EnterReturnsTrue))
+        {
+            m_Tilemap->SetAtlasTileSize(Vec2(AtlasTileSizeX, AtlasTileSizeY));
+        }
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(120);
+        if (ImGui::InputFloat("##AtTilesizeY", &AtlasTileSizeY, 0, 0, "%.1f", ImGuiInputTextFlags_EnterReturnsTrue))
+        {
+            m_Tilemap->SetAtlasTileSize(Vec2(AtlasTileSizeX, AtlasTileSizeY));
+        }
+        ImGui::SetItemTooltip(u8"아틀라스 텍스처에서 타일 크기");
+
+        ImGui::Text(u8"타일 크기");
+        ImGui::SameLine(100);
+        ImGui::SetNextItemWidth(120);
+        if (ImGui::InputFloat("##TileSizeX", &TileSizeX, 0, 0, "%.1f", ImGuiInputTextFlags_EnterReturnsTrue))
+        {
+            m_Tilemap->SetTileSize(Vec2(TileSizeX, TileSizeY));
+        }
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(120);
+        if (ImGui::InputFloat("##TilemapSizeX", &TileSizeY, 0, 0, "%.1f", ImGuiInputTextFlags_EnterReturnsTrue))
+        {
+            m_Tilemap->SetTileSize(Vec2(TileSizeX, TileSizeY));
+        }
+        ImGui::SetItemTooltip(u8"게임 화면 타일 크기");
         ImGui::End();
 
 
