@@ -97,7 +97,7 @@ int CTexture::Load(const wstring& _RelativePath)
 		errno_t ErrNum = GetLastError();
 		wchar_t szBuff[255] = {};
 		wsprintf(szBuff, L"Error Number : %d", ErrNum);
-		MD_ENGINE_ERROR(L"텍스쳐 로딩 실패 {0}", szBuff);
+		//MD_ENGINE_ERROR(L"텍스쳐 로딩 실패 {0}", szBuff);
 
 		return E_FAIL;
 	}
@@ -113,7 +113,7 @@ int CTexture::Load(const wstring& _RelativePath)
 
 	m_Tex2D->GetDesc(&m_Desc);
 	
-	MD_ENGINE_TRACE(L"텍스처\"{0}\"로딩 완료", filepath.filename().wstring());
+	// MD_ENGINE_TRACE(L"텍스처\"{0}\"로딩 완료", filepath.filename().wstring());
 	return S_OK;
 }
 

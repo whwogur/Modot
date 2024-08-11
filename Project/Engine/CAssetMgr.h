@@ -48,20 +48,19 @@ template<typename T>
 Ptr<T> CAssetMgr::Load(const wstring& _Key, const wstring& _RelativePath)
 {
 	// 동일 키값 에셋이 있는지 확인
-	Ptr<T> Asset = FindAsset<T>(_Key); MD_ENGINE_TRACE(L"애셋 {0} 있는지 확인중...", _Key);
+	Ptr<T> Asset = FindAsset<T>(_Key); MD_ENGINE_TRACE(L"Loading {0} ...", _Key);
 
 	if (nullptr != Asset)
 	{
-		MD_ENGINE_TRACE(L"애셋 {0} 찾기 성공", _Key);
 		return Asset;
 	}
 
 	// 동일 키값의 에셋이 없었으면
-	MD_ENGINE_TRACE(L"{0} 생성중...", _Key);
+	MD_ENGINE_TRACE(L"{0} Generating asset...", _Key);
 
 	Asset = new T;
 
-	MD_ENGINE_ASSERT(SUCCEEDED(Asset->Load(_RelativePath)), L"애셋 로딩 실패 !");
+	MD_ENGINE_ASSERT(SUCCEEDED(Asset->Load(_RelativePath)), L"Failed to load asset !");
 
 	Asset->m_Key = _Key;
 	Asset->m_RelativePath = _RelativePath;
@@ -83,7 +82,7 @@ Ptr<T> CAssetMgr::FindAsset(const wstring& _Key)
 
 	if (iter == m_mapAsset[(UINT)Type].end())
 	{
-		MD_ENGINE_ERROR(L"애셋({0}) 못찾음", _Key);
+		MD_ENGINE_ERROR(L"Couldn't find ({0}) !", _Key);
 		return nullptr;
 	}
 

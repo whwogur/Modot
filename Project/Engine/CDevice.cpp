@@ -405,12 +405,12 @@ int CDevice::CreateSamplerState()
     CONTEXT->PSSetSamplers(1, 1, m_Sampler[1].GetAddressOf());
     CONTEXT->CSSetSamplers(1, 1, m_Sampler[1].GetAddressOf());
 
-    CONTEXT->VSSetSamplers(1, 1, m_Sampler[2].GetAddressOf());
-    CONTEXT->HSSetSamplers(1, 1, m_Sampler[2].GetAddressOf());
-    CONTEXT->DSSetSamplers(1, 1, m_Sampler[2].GetAddressOf());
-    CONTEXT->GSSetSamplers(1, 1, m_Sampler[2].GetAddressOf());
-    CONTEXT->PSSetSamplers(1, 1, m_Sampler[2].GetAddressOf());
-    CONTEXT->CSSetSamplers(1, 1, m_Sampler[2].GetAddressOf());
+    CONTEXT->VSSetSamplers(2, 1, m_Sampler[2].GetAddressOf());
+    CONTEXT->HSSetSamplers(2, 1, m_Sampler[2].GetAddressOf());
+    CONTEXT->DSSetSamplers(2, 1, m_Sampler[2].GetAddressOf());
+    CONTEXT->GSSetSamplers(2, 1, m_Sampler[2].GetAddressOf());
+    CONTEXT->PSSetSamplers(2, 1, m_Sampler[2].GetAddressOf());
+    CONTEXT->CSSetSamplers(2, 1, m_Sampler[2].GetAddressOf());
 
     return S_OK;
 }

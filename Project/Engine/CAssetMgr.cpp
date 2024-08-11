@@ -20,11 +20,12 @@ void CAssetMgr::Tick()
 }
 Ptr<CAsset> CAssetMgr::FindAsset(ASSET_TYPE _Type, const wstring& _Key)
 {
+	MD_PROFILE_FUNCTION();
 	map<wstring, Ptr<CAsset>>::iterator iter = m_mapAsset[(UINT)_Type].find(_Key);
 
 	if (iter == m_mapAsset[(UINT)_Type].end())
 	{
-		MD_ENGINE_WARN(L"애셋 {0} 찾기 실패", _Key);
+		MD_ENGINE_ERROR(L"애셋 {0} 찾기 실패", _Key);
 		return nullptr;
 	}
 
@@ -46,7 +47,6 @@ Ptr<CTexture> CAssetMgr::CreateTexture(wstring _strKey, UINT _Width, UINT _Heigh
 	pTexture->SetEngineAsset();
 	m_mapAsset[(UINT)ASSET_TYPE::TEXTURE].insert(make_pair(_strKey, pTexture.Get()));
 
-	MD_ENGINE_TRACE(L"텍스처 {0} 생성", _strKey);
 	return pTexture;
 }
 
@@ -63,7 +63,6 @@ Ptr<CTexture> CAssetMgr::CreateTexture(wstring _strKey, WRL::ComPtr<ID3D11Textur
 	pTexture->SetEngineAsset();
 	m_mapAsset[(UINT)ASSET_TYPE::TEXTURE].insert(make_pair(_strKey, pTexture.Get()));
 
-	MD_ENGINE_TRACE(L"텍스처 {0} 생성", _strKey);
 	return pTexture;
 }
 
