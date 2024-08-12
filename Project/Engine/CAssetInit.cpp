@@ -4,6 +4,7 @@
 
 void CAssetMgr::Init()
 {
+	MD_PROFILE_FUNCTION();
 	CreateEngineMesh();
 
 	CreateEngineTexture();
@@ -19,6 +20,7 @@ void CAssetMgr::Init()
 
 void CAssetMgr::CreateEngineMesh()
 {
+	MD_PROFILE_FUNCTION();
 	Ptr<CMesh> pMesh = nullptr;
 
 	Vtx v;
@@ -123,23 +125,23 @@ void CAssetMgr::CreateEngineMesh()
 
 void CAssetMgr::CreateEngineTexture()
 {
+	MD_PROFILE_FUNCTION();
 	// PostProcess 용 텍스쳐
 	Vec2 Resolution = CDevice::GetInst()->GetResolution();
 	CreateTexture(L"PostProcessTex", (UINT)Resolution.x, (UINT)Resolution.y
 		, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
 
-	// Noise Texture
-	Load<CTexture>(L"noise_01", L"texture\\noise\\noise_01.png");
-	Load<CTexture>(L"noise_02", L"texture\\noise\\noise_02.png");
-	Load<CTexture>(L"noise_03", L"texture\\noise\\noise_03.jpg");
-	Load<CTexture>(L"ComponentIcons", L"texture\\ComponentIcons.png");
-	Load<CTexture>(L"ScriptIcon", L"texture\\ScriptIcon.png");
-	Load<CTexture>(L"Modot_Logo", L"texture\\Modot_Logo.png");
-	Load<CTexture>(L"RedDiscFx", L"texture\\RedDiscFx.png");
-	Load<CTexture>(L"DiscDonut", L"texture\\DiscDonut.png");
-	Load<CTexture>(L"alpha01", L"texture\\alpha01.tga");
-	Load<CTexture>(L"noise01", L"texture\\noise01.tga");
-	Load<CTexture>(L"fire01", L"texture\\fire01.tga");
+	//Load<CTexture>(L"noise_01", L"texture\\noise\\noise_01.png");
+	//Load<CTexture>(L"noise_02", L"texture\\noise\\noise_02.png");
+	//Load<CTexture>(L"noise_03", L"texture\\noise\\noise_03.jpg");
+	//Load<CTexture>(L"ComponentIcons", L"texture\\ComponentIcons.png");
+	//Load<CTexture>(L"ScriptIcon", L"texture\\ScriptIcon.png");
+	//Load<CTexture>(L"Modot_Logo", L"texture\\Modot_Logo.png");
+	//Load<CTexture>(L"RedDiscFx", L"texture\\RedDiscFx.png");
+	//Load<CTexture>(L"DiscDonut", L"texture\\DiscDonut.png");
+	//Load<CTexture>(L"alpha01", L"texture\\alpha01.tga");
+	//Load<CTexture>(L"noise01", L"texture\\noise01.tga");
+	//Load<CTexture>(L"fire01", L"texture\\fire01.tga");
 }
 
 void CAssetMgr::CreateEngineSprite()
@@ -199,6 +201,7 @@ void CAssetMgr::CreateEngineSprite()
 
 void CAssetMgr::CreateEngineGraphicShader()
 {
+	MD_PROFILE_FUNCTION();
 	Ptr<CGraphicShader> pShader = nullptr;
 	// Std2DShader
 	pShader = new CGraphicShader;
@@ -251,7 +254,7 @@ void CAssetMgr::CreateEngineGraphicShader()
 
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetDSType(DS_TYPE::LESS);
-	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND_COVERAGE);
 
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASKED);
 
@@ -344,6 +347,7 @@ void CAssetMgr::CreateEngineComputeShader()
 
 void CAssetMgr::CreateEngineMaterial()
 {
+	MD_PROFILE_FUNCTION();
 	Ptr<CMaterial>	pMtrl = nullptr;
 
 	// Std2DMtrl

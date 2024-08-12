@@ -9,10 +9,6 @@ SE_AtlasView::SE_AtlasView()
 {
 }
 
-SE_AtlasView::~SE_AtlasView()
-{
-}
-
 void SE_AtlasView::Init()
 {
 }

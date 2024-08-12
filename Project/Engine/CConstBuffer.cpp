@@ -8,11 +8,6 @@ CConstBuffer::CConstBuffer()
 {
 }
 
-CConstBuffer::~CConstBuffer()
-{
-}
-
-
 int CConstBuffer::Create(CB_TYPE _type, UINT _BufferSize)
 {
     MD_ENGINE_ASSERT((_BufferSize % 16) == 0, L"버퍼 크기가 16바이트 배수가 아님");

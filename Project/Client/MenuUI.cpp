@@ -194,25 +194,25 @@ void MenuUI::Tools()
 {
 	if (ImGui::BeginMenu(ICON_FA_WRENCH " Tools"))
 	{
-		if (ImGui::MenuItem(u8"타일맵 에디터"))
+		if (ImGui::MenuItem(u8"타일맵 에디터", "Alt + T"))
 		{
 			TilemapEditor* editor = static_cast<TilemapEditor*>(CEditorMgr::GetInst()->FindEditorUI("TilemapEditor"));
 			editor->SetTilemap(nullptr);
 			editor->Toggle();
 		}
-		if (ImGui::MenuItem(u8"스프라이트 에디터"))
+		if (ImGui::MenuItem(u8"스프라이트 에디터", "Alt + S"))
 		{
 			SpriteEditor* spriteEditor = static_cast<SpriteEditor*>(CEditorMgr::GetInst()->FindEditorUI("SpriteEditor"));
 			spriteEditor->Toggle();
 		}
 
-		if (ImGui::MenuItem(u8"애니메이션 에디터"))
+		if (ImGui::MenuItem(u8"애니메이션 에디터", "Alt + A"))
 		{
 			AnimationEditor* animEditor = static_cast<AnimationEditor*>(CEditorMgr::GetInst()->FindEditorUI("AnimationEditor"));
 			animEditor->SetActive(true);
 		}
 
-		if (ImGui::MenuItem(u8"충돌 매트릭스"))
+		if (ImGui::MenuItem(u8"충돌 매트릭스", "Alt + C"))
 		{
 			CollisionCheck* animEditor = static_cast<CollisionCheck*>(CEditorMgr::GetInst()->FindEditorUI(ICON_FA_CHECK_SQUARE_O" CollisionCheck"));
 			animEditor->SetActive(true);

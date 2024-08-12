@@ -34,6 +34,7 @@ CRenderMgr::~CRenderMgr()
 
 void CRenderMgr::Init()
 {
+	MD_PROFILE_FUNCTION();
 	m_PostProcessTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"PostProcessTex");
 
 	m_DebugObject = new CGameObject;

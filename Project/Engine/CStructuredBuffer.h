@@ -13,7 +13,7 @@ class CStructuredBuffer :
 
 public:
     CStructuredBuffer();
-    ~CStructuredBuffer();
+    ~CStructuredBuffer() = default;
     CLONE(CStructuredBuffer);
 public:
     UINT GetElementCount() { return m_ElementCount; }

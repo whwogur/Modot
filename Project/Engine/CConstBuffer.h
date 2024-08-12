@@ -6,7 +6,7 @@ class CConstBuffer :
 {
 public:
     CConstBuffer();
-    ~CConstBuffer();
+    ~CConstBuffer() = default;
     CLONE(CConstBuffer);
 public:
     int Create(CB_TYPE _type, UINT _BufferSize);

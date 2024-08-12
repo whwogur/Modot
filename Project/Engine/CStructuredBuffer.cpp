@@ -11,11 +11,6 @@ CStructuredBuffer::CStructuredBuffer()
 {
 }
 
-CStructuredBuffer::~CStructuredBuffer()
-{
-}
-
-
 int CStructuredBuffer::Create(UINT _ElementSize, UINT _ElementCount, SB_TYPE _Type, bool _SysMemMove, void* _InitData)
 {
 	MD_ENGINE_ASSERT((_ElementSize % 16) == 0, L"버퍼가 16바이트 배수가 아님");

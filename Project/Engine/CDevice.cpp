@@ -88,6 +88,7 @@ int CDevice::Init(HWND _hWnd, UINT _Width, UINT _Height)
 
 int CDevice::CreateDepthStencilState()
 {
+    MD_PROFILE_FUNCTION();
     D3D11_DEPTH_STENCIL_DESC Desc = {};
 
     // Less : 더 작은 깊이가 통과
@@ -160,6 +161,7 @@ int CDevice::CreateDepthStencilState()
 
 int CDevice::CreateBlendState()
 {
+    MD_PROFILE_FUNCTION();
     D3D11_BLEND_DESC Desc = {};
 
     // Default
@@ -237,6 +239,7 @@ int CDevice::CreateBlendState()
 
 int CDevice::CreateRasterizerState()
 {
+    MD_PROFILE_FUNCTION();
     D3D11_RASTERIZER_DESC Desc = {};
 
     // Cull Back
@@ -262,6 +265,7 @@ int CDevice::CreateRasterizerState()
 
 int CDevice::CreateSwapChain()
 {
+    MD_PROFILE_FUNCTION();
     // SwapChain
     DXGI_SWAP_CHAIN_DESC Desc = {};
 
@@ -304,6 +308,7 @@ int CDevice::CreateSwapChain()
 
 int CDevice::CreateView()
 {
+    MD_PROFILE_FUNCTION();
     ///////////////////////////////////////////////////
     // RenderTarget Texture, DepthStencil Texture 생성
     ///////////////////////////////////////////////////
@@ -350,6 +355,7 @@ int CDevice::CreateConstBuffer()
 
 int CDevice::CreateSamplerState()
 {
+    MD_PROFILE_FUNCTION();
     D3D11_SAMPLER_DESC Desc = {};
 
     Desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;

@@ -6,7 +6,7 @@ class SE_AtlasView :
 {
 public:
     SE_AtlasView();
-    ~SE_AtlasView();
+    ~SE_AtlasView() = default;
 
 public:
     void SetAtlasTex(Ptr<CTexture> _Tex);
