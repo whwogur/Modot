@@ -26,6 +26,5 @@ void RigidBodyUI::Update()
 		ImGui::InputFloat("Friction Scale", &fictionScale, 0.5f, 2.f, "%.1f");
 		ImGui::InputFloat("Veloctiy Limit", &velocityLimit, 10.0f, 50.0f, "%.1f");
 		ImGui::InputFloat("Max Gravity Accel", &maxGravityAccel, 10.0f, 50.0f, "%.1f");
-		ImGui::Text(isGround ? "Grounded" : "Airborne");
 	}
 }

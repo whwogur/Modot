@@ -26,8 +26,6 @@ void CRigidBody::FinalTick()
 	// 땅에 있을 때
 	if (m_Ground)
 	{
-		m_Friction = 2500.f;
-
 		Vec2 vFriction = -m_Velocity;
 		// 마찰 가속도
 		if (!(vFriction.x == 0.0f && vFriction.y == 0.0f))
