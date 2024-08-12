@@ -15,7 +15,6 @@ EditorUI::EditorUI()
 	, m_Moveable(true)
 	, m_HorizontalScroll(false)
 {
-
 }
 
 EditorUI::~EditorUI()

@@ -24,6 +24,23 @@ void Gizmo::Update()
 	if (!m_Active)
 		return;
 
+	ImGui::Begin("##GizmoControl", &m_Active, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+	if (ImGui::Button(ICON_FA_ARROWS))
+	{
+		m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button(ICON_FA_EXPAND))
+	{
+		m_GizmoType = ImGuizmo::OPERATION::SCALE;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button(ICON_FA_REFRESH))
+	{
+		m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+	}
+	ImGui::End();
+
 	if (m_TargetObject && m_GizmoType != -1)
 	{
 		MD_ENGINE_ASSERT(m_EditorCamera != nullptr, L"기즈모 업데이트 호출 시점 카메라 없음");

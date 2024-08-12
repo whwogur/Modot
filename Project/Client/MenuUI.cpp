@@ -102,22 +102,8 @@ void MenuUI::Tick()
 			color = { 1, 1, 1, 1 };
 		}
 
-		ImGui::SameLine(940);
-		if (ImGui::Button(ICON_FA_ARROWS))
-		{
-			CEditorMgr::GetInst()->SetGizmoMode(7);
-		}
-		ImGui::SameLine();
-		if (ImGui::Button(ICON_FA_EXPAND))
-		{
-			CEditorMgr::GetInst()->SetGizmoMode(896);
-		}
-		ImGui::SameLine();
-		if (ImGui::Button(ICON_FA_REFRESH))
-		{
-			CEditorMgr::GetInst()->SetGizmoMode(120);
-		}
-		ImGui::SameLine();
+		ImGui::SameLine(1040);
+		
 		ImGui::TextColored(color, whichCamera.c_str());
 		ImGui::SameLine();
 		ImGui::TextColored(color, buffer);
