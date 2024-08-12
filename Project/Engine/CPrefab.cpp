@@ -45,6 +45,7 @@ int CPrefab::Save(const wstring& _RelativePath)
 {
     const wstring& contentPath = CPathMgr::GetInst()->GetContentPath();
     wstring wstrPath(contentPath + _RelativePath);
+    SetRelativePath(_RelativePath);
 
     FILE* File = nullptr;
     _wfopen_s(&File, wstrPath.c_str(), L"wb");

@@ -62,10 +62,10 @@ void CS_ParticleTick(int3 _ID : SV_DispatchThreadID)
                 {
                     // 오르토그래픽 카메라 프러스텀의 코너를 계산
                     float3 frustumCorners[4];
-                    frustumCorners[0] = mul(matView, float4(-1, -1, 0, 1)).xyz; // 좌하단
-                    frustumCorners[1] = mul(matView, float4(1, -1, 0, 1)).xyz; // 우하단
-                    frustumCorners[2] = mul(matView, float4(-1, 1, 0, 1)).xyz; // 좌상단
-                    frustumCorners[3] = mul(matView, float4(1, 1, 0, 1)).xyz; // 우상단
+                        frustumCorners[0] = mul(mul(matProj, matView), float4(-1, -1, 0, 1)).xyz; // 좌하단
+                        frustumCorners[1] = mul(mul(matProj, matView), float4(1, -1, 0, 1)).xyz; // 우하단
+                        frustumCorners[2] = mul(mul(matProj, matView), float4(-1, 1, 0, 1)).xyz; // 좌상단
+                        frustumCorners[3] = mul(mul(matProj, matView), float4(1, 1, 0, 1)).xyz; // 우상단
 
                     // 카메라의 최소 및 최대 값을 계산
                     float2 cameraMin = float2(min(frustumCorners[0].x, frustumCorners[2].x), min(frustumCorners[0].y, frustumCorners[1].y));
@@ -76,7 +76,8 @@ void CS_ParticleTick(int3 _ID : SV_DispatchThreadID)
 
                     // UV 매핑을 위해 ID를 0~1 범위로 정규화
                     float RandomFactor = frac(sin(dot(_ID.xy, float2(12.9898, 78.233))) * 43758.5453);
-
+                    float3 vNoise = NoiseTex.SampleLevel(g_sam_1, vUV, 0).xyz;
+                    
                     vUV.x = ((float) _ID.x / (float) (MAX_COUNT - 1)) + RandomFactor * g_EngineTime * 0.5f;
 
                     // 카메라의 상단에서 랜덤한 x 위치에 파티클 생성
@@ -104,35 +105,6 @@ void CS_ParticleTick(int3 _ID : SV_DispatchThreadID)
     {
         Particle.vWorldPos += Particle.vVelocity * g_EngineDT;
         
-        Particle.Age += g_EngineDT;
-        if (Particle.Life <= Particle.Age)
-        {
-            Particle.Active = false;
-        }
-    }
-}
-
-[numthreads(1024, 1, 1)]
-void CS_FallingLeaves(int3 _ID : SV_DispatchThreadID)
-{
-    if (_ID.x >= MAX_COUNT)
-        return;
-
-    if (!Particle.Active)
-    {
-        int SpawnCount = 0;
-        InterlockedAdd(SpawnCountBuffer[0].iSpawnCount, -1, SpawnCount);
-
-        if (SpawnCount > 0)
-        {
-            
-        }
-    }
-    else
-    {
-        // 파티클의 월드 좌표를 속도에 따라 업데이트
-        Particle.vWorldPos += Particle.vVelocity * g_EngineDT;
-
         Particle.Age += g_EngineDT;
         if (Particle.Life <= Particle.Age)
         {
