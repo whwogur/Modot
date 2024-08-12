@@ -25,7 +25,7 @@ Ptr<CAsset> CAssetMgr::FindAsset(ASSET_TYPE _Type, const wstring& _Key)
 
 	if (iter == m_mapAsset[(UINT)_Type].end())
 	{
-		MD_ENGINE_ERROR(L"애셋 {0} 찾기 실패", _Key);
+		//MD_ENGINE_ERROR(L"Couldn't Find Asset {0}!", _Key);
 		return nullptr;
 	}
 

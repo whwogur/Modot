@@ -21,7 +21,9 @@ public:
     void SetSpawnCount(std::shared_ptr<CStructuredBuffer> _Buffer) { m_SpawnCountBuffer = _Buffer; }
     void SetParticleWorldPos(Vec3 _Pos) { m_ParticleWorldPos = _Pos; }
     void SetNoiseTexture(Ptr<CTexture> _Noise) { m_NoiseTex = _Noise; }
+
     void SetCSType(CSType _Type) { m_CSType = _Type; }
+    CSType GetCSType() { return m_CSType; }
 public:
     virtual int Bind() override;
     virtual void CalcGroupNum() override;

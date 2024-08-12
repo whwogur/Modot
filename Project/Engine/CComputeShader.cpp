@@ -70,6 +70,8 @@ int CComputeShader::CreateComputeShader(const wstring& _RelativePath, const stri
 
 	DEVICE->CreateComputeShader(m_CSBlob->GetBufferPointer()
 		, m_CSBlob->GetBufferSize(), nullptr, m_CS.GetAddressOf());
+	
+	SetEngineAsset();
 
 	return S_OK;
 }

@@ -5,7 +5,7 @@ class ComputeShaderUI :
 {
 public:
     ComputeShaderUI();
-    ~ComputeShaderUI();
+    ~ComputeShaderUI() = default;
 public:
     virtual void Update() override;
 
