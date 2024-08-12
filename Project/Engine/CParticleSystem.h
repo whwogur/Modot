@@ -21,6 +21,8 @@ public:
     void SetParticleTexture(Ptr<CTexture> _Texture);
     Ptr<CTexture> GetParticleTexture() { return m_ParticleTex; }
 
+    void SetTickCS(Ptr<CParticleTickCS> _TickCS) { m_TickCS = _TickCS; }
+    Ptr<CParticleTickCS> GetTickCS() { return m_TickCS; }
 public:
     Ptr<CTexture> GetParticleTex() { return m_ParticleTex; }
     int GetParticleCount() const { return m_MaxParticleCount; }

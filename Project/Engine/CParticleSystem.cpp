@@ -17,10 +17,7 @@ CParticleSystem::CParticleSystem()
 	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"PointMesh"));
 	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"ParticleRenderMtrl"));
 
-	m_ParticleTex = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"ParticleRenderMtrl")->GetTexParam(TEX_0);
-	// ParticleTick ComputeShader
 	m_TickCS = (CParticleTickCS*)CAssetMgr::GetInst()->FindAsset<CComputeShader>(L"ParticleTickCS").Get();
-
 	tParticle arrParticle[1000] = {};
 
 	for (int i = 0; i < m_MaxParticleCount; ++i)
@@ -71,7 +68,6 @@ void CParticleSystem::Render()
 {
 	// 위치정보 바인딩
 	Transform()->Bind();
-
 	// 파티클 버퍼 바인딩
 	m_ParticleBuffer->Bind(20);
 	// 재질정보 바인딩

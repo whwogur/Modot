@@ -6,6 +6,7 @@ CParticleTickCS::CParticleTickCS()
 	: CComputeShader(1024, 1, 1, L"shader\\particletick.fx", "CS_ParticleTick")
 	, m_ParticleBuffer(nullptr)
 	, m_SpawnCountBuffer(nullptr)
+	, m_CSType(CSType::DEFAULT)
 {
 	m_NoiseTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"noise_03");
 }
@@ -20,6 +21,7 @@ int CParticleTickCS::Bind()
 	m_NoiseTex->Bind_CS_SRV(20);
 
 	m_Const.iArr[0] = m_ParticleBuffer->GetElementCount();
+	m_Const.iArr[1] = (int)m_CSType;
 	m_Const.v4Arr[0] = m_ParticleWorldPos;
 
 	return S_OK;

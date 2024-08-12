@@ -1,6 +1,14 @@
 #pragma once
 #include "CComputeShader.h"
 class CStructuredBuffer;
+
+enum class CSType
+{
+    DEFAULT = 0,
+    LEAVES,
+    END,
+};
+
 class CParticleTickCS :
     public CComputeShader
 {
@@ -13,6 +21,7 @@ public:
     void SetSpawnCount(std::shared_ptr<CStructuredBuffer> _Buffer) { m_SpawnCountBuffer = _Buffer; }
     void SetParticleWorldPos(Vec3 _Pos) { m_ParticleWorldPos = _Pos; }
     void SetNoiseTexture(Ptr<CTexture> _Noise) { m_NoiseTex = _Noise; }
+    void SetCSType(CSType _Type) { m_CSType = _Type; }
 public:
     virtual int Bind() override;
     virtual void CalcGroupNum() override;
@@ -23,5 +32,6 @@ private:
     std::shared_ptr<CStructuredBuffer>  m_SpawnCountBuffer;
     Ptr<CTexture>                       m_NoiseTex;
     Vec3                                m_ParticleWorldPos;
+    CSType                              m_CSType;
 };
 
