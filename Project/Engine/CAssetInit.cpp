@@ -9,7 +9,7 @@ void CAssetMgr::Init()
 
 	CreateEngineTexture();
 
-	CreateEngineSprite();
+	//CreateEngineSprite();
 
 	CreateEngineGraphicShader();
 
@@ -146,57 +146,6 @@ void CAssetMgr::CreateEngineTexture()
 
 void CAssetMgr::CreateEngineSprite()
 {
-	wstring strContentPath = CPathMgr::GetInst()->GetContentPath();
-	wstring strSolutionPath = CPathMgr::GetInst()->GetSolutionPath();
-
-	/*Ptr<CTexture> pAtlasTex = Load<CTexture>(L"Momo_192", L"texture\\Momo_192.png");
-
-	Ptr<CSprite> pSprite = nullptr;
-
-	for (int i = 0; i < 7; ++i)
-	{
-		wchar_t szKey[50] = {};
-		swprintf_s(szKey, 50, L"Momo_Idle_%d", i);
-
-		pSprite = new CSprite;
-		pSprite->Create(pAtlasTex, Vec2((float)i * 192.f, 0.f), Vec2(192.f, 192.f));
-		pSprite->SetBackground(Vec2(192.f, 192.f));
-		AddAsset(szKey, pSprite);
-		
-		wstring relPath(L"sprite\\");
-		relPath += szKey;
-		relPath += L".sprite";
-		pSprite->SetRelativePath(relPath);
-		pSprite->Save(relPath);
-	}
-
-	Ptr<CAnimation> pAnimation = new CAnimation;
-
-	for (int i = 0; i < 7; ++i)
-	{
-		wchar_t Buffer[50] = {};
-		swprintf_s(Buffer, 50, L"Momo_Idle_%d", i);
-		pAnimation->AddSprite(FindAsset<CSprite>(Buffer));
-	}
-
-	AddAsset(L"Momo_Idle", pAnimation);
-	pAnimation->Save(L"animation\\Momo_Idle.anim");*/
-
-	//Ptr<CAnimation> pAnimation = new CAnimation;
-	//pAnimation->Load(L"animation\\Momo_Idle.anim");
-	//AddAsset(L"Momo_Idle", pAnimation);
-
-	//// Engine Default / New Assets
-	//Ptr<CTexture> checkerboard = Load<CTexture>(L"Checkerboard", L"texture\\Checkerboard.png");
-	//Ptr<CSprite> defaultSprite = new CSprite;
-	//defaultSprite->Load(L"sprite\\DefaultSprite.sprite");
-	//AddAsset(L"DefaultSprite", defaultSprite);
-	//defaultSprite->Save(L"sprite\\DefaultSprite.sprite");
-
-	//Ptr<CAnimation> pNewAnimation = new CAnimation;
-	//pNewAnimation->Load(L"animation\\NewAnimation.anim");
-	//AddAsset(L"NewAnimation", pNewAnimation);
-	//pNewAnimation->Save(L"animation\\NewAnimation.anim");
 }
 
 void CAssetMgr::CreateEngineGraphicShader()

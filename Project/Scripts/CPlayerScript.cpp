@@ -11,6 +11,7 @@ CPlayerScript::CPlayerScript()
 void CPlayerScript::Begin()
 {
 	GetRenderComponent()->GetDynamicMaterial();
+	Animator2D()->Play(L"Momo_Idle", 7.0f, true);
 }
 
 void CPlayerScript::Tick()

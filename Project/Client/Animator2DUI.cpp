@@ -49,6 +49,23 @@ void Animator2DUI::Update()
 			}
 			ImGui::SetItemTooltip(u8"애니메이션 에디터에서 보기");
 
+			ImGui::TextColored(HEADER_2, "Current Animation");
+			
+			if (ImGui::BeginCombo("##CurAnimCombo", "Select Animation"))
+			{
+				for (const auto& anim : vecAnim)
+				{
+					const wstring& wstrKey = anim->GetKey();
+					const string strKey(wstrKey.begin(), wstrKey.end());
+					if (ImGui::Selectable(strKey.c_str()))
+					{
+						targetObj->Animator2D()->Play(wstrKey, 8.0f, true);
+					}
+				}
+				ImGui::EndCombo();
+			}
+			ImGui::SetItemTooltip(u8"애니메이션 재생");
+
 
 			if (ImGui::BeginDragDropTarget())
 			{
