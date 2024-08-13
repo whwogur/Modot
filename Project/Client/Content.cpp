@@ -54,7 +54,8 @@ void Content::Update()
 				const wstring& objName = pGameObject->GetName();
 				if (CAssetMgr::GetInst()->FindAsset<CPrefab>(objName) != nullptr)
 				{
-					MD_ENGINE_WARN(L"이미 있는 프리팹");
+					MD_ENGINE_WARN(L"\"{0}\"는 이미 있는 프리팹임. 저장안됨", objName);
+					delete objClone;
 				}
 				else
 				{

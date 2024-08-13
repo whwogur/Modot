@@ -5,8 +5,13 @@
 TilemapEditor::TilemapEditor()
 	: m_Tilemap(nullptr)
     , m_Altered(false)
-    , m_RowCol{1, 1}
+    , m_RowCol{64, 64}
 {
+}
+
+void TilemapEditor::Init()
+{
+    UseHorizontalScroll(true);
 }
 
 void TilemapEditor::Update()// 정리 필요..;

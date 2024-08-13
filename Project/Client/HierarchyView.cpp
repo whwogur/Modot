@@ -48,7 +48,7 @@ void HierarchyView::Update()
 	string strLevelName = ICON_FA_FILE_VIDEO_O " " + string(levelName.begin(), levelName.end());
 	ImGui::TextColored(HEADER_1, strLevelName.c_str());
 
-	if (ImGui::BeginPopupContextWindow(0, 1 | ImGuiPopupFlags_NoOpenOverItems))
+	if (ImGui::BeginPopupContextWindow(0, 1))
 	{
 		if (ImGui::MenuItem(u8"새 오브젝트"))
 		{
@@ -181,5 +181,4 @@ void HierarchyView::GameObjectClicked(DWORD_PTR _Param)
 
 	Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
 	pInspector->SetTargetObject(pObject);
-	ImGui::SetWindowFocus(nullptr);
 }

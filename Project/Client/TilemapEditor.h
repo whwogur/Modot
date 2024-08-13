@@ -12,8 +12,8 @@ public:
     ~TilemapEditor() = default;
 
 public:
+    virtual void Init() override;
     virtual void Update() override;
-
 public:
     void SetTilemap(CTileMap* _Tilemap);
 private:

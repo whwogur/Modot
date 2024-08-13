@@ -139,6 +139,7 @@ void CEditorMgr::CreateEditorUI()
     // TilemapEditor
     pUI = new TilemapEditor;
     pUI->SetName("TilemapEditor");
+    pUI->Init();
     pUI->SetActive(false);
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
