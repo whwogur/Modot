@@ -51,6 +51,8 @@ void CEditorMgr::InitImGui()
     //io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleFonts;     // FIXME-DPI: Experimental. THIS CURRENTLY DOESN'T WORK AS EXPECTED. DON'T USE IN USER APP!
     //io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleViewports; // FIXME-DPI: Experimental.
 
+    //SetThemeMicrosoft();
+    //SetThemeMoonlight();
     SetThemeUnrealEngine();
     //SetThemeFutureDark();
 

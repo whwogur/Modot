@@ -30,6 +30,8 @@ private:
     void ImGuiTick();
     void SetThemeUnrealEngine();
     void SetThemeFutureDark();
+    void SetThemeMoonlight();
+    void SetThemeMicrosoft();
     void CreateEditorUI();
     void ObserveContents();
 private:
