@@ -142,6 +142,22 @@ bool ParamUI::DragVec4(Vec4* _Data, float _Step, const string& _Desc)
 	return false;
 }
 
+bool ParamUI::ColorVec4(Vec4* _Data, const string& _Desc)
+{
+	ImGui::Text(_Desc.c_str());
+	ImGui::SameLine(120);
+
+	char szID[255] = {};
+	sprintf_s(szID, 255, "##Input%d", g_ID++);
+
+	if (ImGui::ColorEdit4(szID, *_Data, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_HDR))
+	{
+		return true;
+	}
+
+	return false;
+}
+
 #include "TreeUI.h"
 bool ParamUI::InputTexture(Ptr<CTexture>& _CurTex, const string& _Desc
 	, EditorUI* _Inst, DELEGATE_1 _MemFunc)

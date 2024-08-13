@@ -134,10 +134,18 @@ void MaterialUI::ShaderParameter()
 		case VEC4_0:
 		case VEC4_1:
 		case VEC4_2:
-		case VEC4_3:
 		{
 			Vec4 data = *((Vec4*)pMtrl->GetScalarParam(vecScalarParam[i].ParamType));
 			if (ParamUI::InputVec4(&data, vecScalarParam[i].strDesc))
+			{
+				pMtrl->SetScalarParam(vecScalarParam[i].ParamType, data);
+			}
+		}
+		break;
+		case VEC4_3:
+		{
+			Vec4 data = *((Vec4*)pMtrl->GetScalarParam(vecScalarParam[i].ParamType));
+			if (ParamUI::ColorVec4(&data, vecScalarParam[i].strDesc))
 			{
 				pMtrl->SetScalarParam(vecScalarParam[i].ParamType, data);
 			}

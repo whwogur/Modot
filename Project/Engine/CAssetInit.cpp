@@ -332,6 +332,7 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_PARTICLE);
 	pShader->AddTexParam(TEX_PARAM::TEX_0, u8"텍스처");
 	pShader->AddScalarParam(SCALAR_PARAM::VEC4_1, "UV");
+	pShader->AddScalarParam(SCALAR_PARAM::VEC4_3, u8"틴트");
 	AddAsset(L"ParticleRenderShader", pShader);
 }
 
@@ -376,6 +377,7 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"ParticleRenderShader"));
 	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"DiscDonut"));
 	pMtrl->SetScalarParam(VEC4_1, Vec4(0, 0, 1, 1));
+	pMtrl->SetScalarParam(VEC4_3, Vec4(1, 1, 1, 1));
 	AddAsset(L"ParticleRenderMtrl", pMtrl);
 
 	// GrayFilterMtrl
