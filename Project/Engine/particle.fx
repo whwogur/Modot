@@ -62,11 +62,12 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _OutStream)
         output[i].vPosition = mul(output[i].vPosition, matProj);
         output[i].InstID = _in[0].InstID;
     }
-
-    output[0].vUV = float2(0.f, 0.f);
-    output[1].vUV = float2(1.f, 0.f);
-    output[2].vUV = float2(1.f, 1.f);
-    output[3].vUV = float2(0.f, 1.f);
+    // 0 0 1 1
+    // x y z w
+    output[0].vUV = float2(g_vec4_1.x, g_vec4_1.y); //float2(0.f, 0.f);
+    output[1].vUV = float2(g_vec4_1.w, g_vec4_1.y); //float2(1.f, 0.f);
+    output[2].vUV = float2(g_vec4_1.z, g_vec4_1.w); //float2(1.f, 1.f);
+    output[3].vUV = float2(g_vec4_1.x, g_vec4_1.z); //float2(0.f, 1.f);
 
 
     // Stream Ãâ·Â
