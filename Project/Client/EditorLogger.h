@@ -1,6 +1,6 @@
 #pragma once
 #include "ImGui/imgui.h"
-constexpr const char* LOG_CATEGORY[3] = { "WARN", "ERROR", "TRACE" };
+constexpr const char* LOG_CATEGORY[3] = { "[WARN] %s\n", "[ERROR] %s\n", "[TRACE] %s\n" };
 class EditorLogger
 {
 public:

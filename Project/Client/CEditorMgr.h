@@ -45,3 +45,6 @@ private:
     HANDLE                      m_Sentinel;
 };
 
+#define EDITOR_WARN(...) m_Logger->AddLog(LOG_CATEGORY[0], __VA_ARGS__)
+#define EDITOR_ERROR(...) m_Logger->AddLog(LOG_CATEGORY[1], __VA_ARGS__)
+#define EDITOR_TRACE(...) m_Logger->AddLog(LOG_CATEGORY[2], __VA_ARGS__)

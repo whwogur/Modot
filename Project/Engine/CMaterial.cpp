@@ -83,7 +83,7 @@ void CMaterial::Bind()
 int CMaterial::Save(const wstring& _RelativePath)
 {
 	SetRelativePath(_RelativePath);
-	MD_TRACE(_RelativePath + L"¿¡ ÀúÀå µÊ");
+	MD_ENGINE_TRACE(_RelativePath + L"¿¡ ÀúÀå µÊ");
 	wstring strFilePath = CPathMgr::GetInst()->GetContentPath();
 	strFilePath += _RelativePath;
 

@@ -76,6 +76,7 @@ void CEditorMgr::ShortCut()
     if (KEY_TAP(KEY::G))
     {
 		m_Gizmo->ToggleActive();
+		EDITOR_WARN("test");
     }
 	if (KEY_TAP(KEY::Z))
 	{

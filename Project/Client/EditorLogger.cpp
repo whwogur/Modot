@@ -37,8 +37,48 @@ void EditorLogger::Draw(const char* title, bool* p_open)
 	ImGui::SameLine();
 	bool copy = ImGui::Button(ICON_FA_CLONE);
 	ImGui::SameLine();
-	Filter.Draw(ICON_FA_FILTER, -100.0f);
+	//Filter.Draw(ICON_FA_FILTER, -100.0f);
+	ImGui::SetNextItemWidth(100);
+	if (ImGui::BeginCombo(ICON_FA_FILTER, "Filter", ImGuiComboFlags_NoArrowButton))
+	{
+		if (ImGui::Selectable("INFO"))
+		{
+			Filter.InputBuf[0] = 'I';
+			Filter.InputBuf[1] = 'N';
+			Filter.InputBuf[2] = 'F';
+			Filter.InputBuf[3] = 'O';
+			Filter.Build();
+		}
 
+		if (ImGui::Selectable("WARN"))
+		{
+			Filter.InputBuf[0] = 'W';
+			Filter.InputBuf[1] = 'A';
+			Filter.InputBuf[2] = 'R';
+			Filter.InputBuf[3] = 'N';
+			Filter.Build();
+		}
+
+		if (ImGui::Selectable("ERROR"))
+		{
+			Filter.InputBuf[0] = 'E';
+			Filter.InputBuf[1] = 'R';
+			Filter.InputBuf[2] = 'R';
+			Filter.InputBuf[3] = 'O';
+			Filter.InputBuf[4] = 'R';
+			Filter.Build();
+		}
+		ImGui::EndCombo();
+	}
+	ImGui::SetItemTooltip(u8"필터");
+
+	ImGui::SameLine(); 
+	if (ImGui::Button("Clear"))
+	{
+		Filter.Clear();
+	}
+	ImGui::SetItemTooltip(u8"필터 초기화");
+	
 	ImGui::Separator();
 
 	if (ImGui::BeginChild("scrolling", ImVec2(0, 0), ImGuiChildFlags_None, ImGuiWindowFlags_HorizontalScrollbar))
