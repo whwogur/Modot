@@ -238,9 +238,6 @@
     <ClCompile Include="CMaterial.cpp">
       <Filter>06. Asset\Material</Filter>
     </ClCompile>
-    <ClCompile Include="CAssetInit.cpp">
-      <Filter>06. Asset</Filter>
-    </ClCompile>
     <ClCompile Include="func.cpp">
       <Filter>01. Header</Filter>
     </ClCompile>
@@ -300,6 +297,9 @@
     </ClCompile>
     <ClCompile Include="CParticleTickCS.cpp">
       <Filter>06. Asset\Shader\ComputeShader\ParticleTick</Filter>
+    </ClCompile>
+    <ClCompile Include="CAssetInit.cpp">
+      <Filter>04. Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

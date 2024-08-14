@@ -53,7 +53,7 @@ void ParticleSystemUI::Update()
 			if (pTickCS != nullptr)
 			{
 				CSType type = pTickCS->GetCSType();
-				ImGui::TextColored(HEADER_1, "TickCS"); ImGui::SameLine();
+				ImGui::TextColored(HEADER_1, "CS"); ImGui::SameLine();
 				if (ImGui::BeginCombo("##TickCSSelect", CSTypeToString[(int)type].c_str()))
 				{
 					for (UINT i = 0; i < (UINT)CSType::END; ++i)

@@ -142,6 +142,7 @@ void CAssetMgr::CreateEngineTexture()
 	Load<CTexture>(L"alpha01", L"texture\\alpha01.tga");
 	Load<CTexture>(L"noise01", L"texture\\noise01.tga");
 	Load<CTexture>(L"fire01", L"texture\\fire01.tga");
+	Load<CTexture>(L"Default-Particle", L"texture\\Default-Particle.png");
 }
 
 void CAssetMgr::CreateEngineSprite()
@@ -324,7 +325,7 @@ void CAssetMgr::CreateEngineMaterial()
 	// ParticleRenderMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"ParticleRenderShader"));
-	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"DiscDonut"));
+	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"Default-Particle"));
 	pMtrl->SetScalarParam(VEC4_1, Vec4(0, 0, 1, 1));
 	pMtrl->SetScalarParam(VEC4_3, Vec4(1, 1, 1, 1));
 	AddAsset(L"ParticleRenderMtrl", pMtrl);

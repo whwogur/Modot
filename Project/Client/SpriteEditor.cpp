@@ -22,8 +22,6 @@ void SpriteEditor::Init()
 
 	m_AtlasView->m_Owner = this;
 	m_Detail->m_Owner = this;
-	
-	m_Detail->SetAtlasTex(CAssetMgr::GetInst()->FindAsset<CTexture>(L"Momo_192"));
 }
 
 void SpriteEditor::Update()

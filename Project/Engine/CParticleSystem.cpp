@@ -17,6 +17,7 @@ CParticleSystem::CParticleSystem()
 	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"PointMesh"));
 	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"ParticleRenderMtrl"));
 
+	m_ParticleTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Default-Particle");
 	m_TickCS = (CParticleTickCS*)CAssetMgr::GetInst()->FindAsset<CComputeShader>(L"ParticleTickCS").Get();
 	tParticle arrParticle[1000] = {};
 

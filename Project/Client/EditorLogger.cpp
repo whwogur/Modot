@@ -35,8 +35,10 @@ void EditorLogger::Draw(const char* title, bool* p_open)
 		ImGui::OpenPopup("LogOptions");
 	ImGui::SameLine();
 	bool clear = ImGui::Button(ICON_FA_TRASH);
+	ImGui::SetItemTooltip(u8"로그 삭제");
 	ImGui::SameLine();
 	bool copy = ImGui::Button(ICON_FA_CLONE);
+	ImGui::SetItemTooltip(u8"로그 내용 복사");
 	ImGui::SameLine();
 	if (ComboBox)
 	{
