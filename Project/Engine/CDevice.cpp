@@ -51,8 +51,6 @@ int CDevice::Init(HWND _hWnd, UINT _Width, UINT _Height)
     DXGI_ADAPTER_DESC adapterDesc;
     pAdapter->GetDesc(&adapterDesc);
 
-    LogAdapterInfo();
-
     MD_ENGINE_ASSERT(SUCCEEDED(CreateSwapChain()), L"SwapChain 생성 실패", L"장치초기화 실패");
 
     // RenderTargetView, DepthStencilView
@@ -419,46 +417,4 @@ int CDevice::CreateSamplerState()
     CONTEXT->CSSetSamplers(2, 1, m_Sampler[2].GetAddressOf());
 
     return S_OK;
-}
-
-void CDevice::LogAdapterInfo()
-{
-    IDXGIFactory* factory = nullptr;
-    IDXGIAdapter* adapter = nullptr;
-    DXGI_ADAPTER_DESC adapterDesc;
-
-    CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&factory);
-
-    factory->EnumAdapters(0, &adapter);
-
-    adapter->GetDesc(&adapterDesc);
-
-    char videoCardDescription[128];
-    std::string vendor, major, minor, release, build;
-    LARGE_INTEGER driverVersion;
-
-    wcstombs_s(NULL, videoCardDescription, 128, adapterDesc.Description, 128);
-
-    if (adapterDesc.VendorId == 0x10DE)
-        vendor = "NVIDIA Corporation";
-    else if (adapterDesc.VendorId == 0x1002)
-        vendor = "AMD";
-    else if (adapterDesc.VendorId == 0x8086)
-        vendor = "Intel";
-    else if (adapterDesc.VendorId == 0x1414)
-        vendor = "Microsoft";
-    else
-        vendor = "Unknown vendor!";
-
-    adapter->CheckInterfaceSupport(__uuidof(IDXGIDevice), &driverVersion);
-
-    major = std::to_string(HIWORD(driverVersion.HighPart));
-    minor = std::to_string(LOWORD(driverVersion.HighPart));
-    release = std::to_string(HIWORD(driverVersion.LowPart));
-    build = std::to_string(LOWORD(driverVersion.LowPart));
-
-    MD_ENGINE_INFO("DirectX Information:");
-    MD_ENGINE_INFO("Vendor: {0}", vendor.c_str());
-    MD_ENGINE_INFO("Renderer: {0}", videoCardDescription);
-    MD_ENGINE_INFO("Version: {0}.{1}.{2}.{3}", major.c_str(), minor.c_str(), release.c_str(), build.c_str());
 }

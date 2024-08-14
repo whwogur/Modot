@@ -19,7 +19,6 @@ public:
 public:
 	int Init(HWND _hWnd, UINT _Width, UINT _Height);
 	void Present() { m_SwapChain->Present(0, 0); }
-
 private:
 	int CreateSwapChain();
 	int CreateView();
@@ -28,7 +27,6 @@ private:
 	int CreateDepthStencilState();
 	int CreateBlendState();
 	int CreateSamplerState();
-	void LogAdapterInfo();
 
 private:
 	HWND m_hWnd;

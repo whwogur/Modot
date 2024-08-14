@@ -6,6 +6,7 @@ class CGameObject;
 class EditorUI;
 struct ImFont;
 class Gizmo;
+class EditorLogger;
 
 class CEditorMgr :
     public CSingleton<CEditorMgr>
@@ -40,6 +41,7 @@ private:
     Vec2                        m_ViewportSize;
     ImFont*                     m_IconFont;
     std::shared_ptr<Gizmo>      m_Gizmo;
+    std::unique_ptr<EditorLogger> m_Logger;
     HANDLE                      m_Sentinel;
 };
 

@@ -18,9 +18,11 @@
 #include "EditorUI.h"
 #include "ImGui/ImGuizmo.h"
 #include "Gizmo.h"
+#include "EditorLogger.h"
 CEditorMgr::CEditorMgr()
 	: m_IconFont(nullptr)
 	, m_Gizmo(nullptr)
+	, m_Logger(nullptr)
 	, m_Sentinel(nullptr)
 {
 }
@@ -109,6 +111,29 @@ void CEditorMgr::ImGuiTick()
     {
         pair.second->Tick();
     }
+
+	// For the demo: add a debug button _BEFORE_ the normal log window contents
+	// We take advantage of a rarely used feature: multiple calls to Begin()/End() are appending to the _same_ window.
+	// Most of the contents of the window will be added by the log.Draw() call.
+	//ImGui::SetNextWindowSize(ImVec2(500, 400), ImGuiCond_FirstUseEver);
+	/*ImGui::Begin("Log");
+	if (ImGui::SmallButton("[Debug] Add 5 entries"))
+	{
+		static int counter = 0;
+		const char* words[] = { "Bumfuzzled", "Cattywampus", "Snickersnee", "Abibliophobia", "Absquatulate", "Nincompoop", "Pauciloquent" };
+		for (int n = 0; n < 5; n++)
+		{
+			const char* category = LOG_CATEGORY[counter % IM_ARRAYSIZE(LOG_CATEGORY)];
+			const char* word = words[counter % IM_ARRAYSIZE(words)];
+			m_Logger->AddLog("[%05d] [%s] Hello, current time is %.1f, here's a word: '%s'\n",
+				ImGui::GetFrameCount(), category, ImGui::GetTime(), word);
+			counter++;
+		}
+	}
+	ImGui::End();*/
+
+	// Actually call in the regular Log helper (which will Begin() into the same window as we just did)
+	m_Logger->Draw("Log");
 }
 
 void CEditorMgr::SetThemeUnrealEngine()
