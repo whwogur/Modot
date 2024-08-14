@@ -25,7 +25,8 @@ void EditorLogger::Draw(const char* title, bool* p_open)
 	// Options menu
 	if (ImGui::BeginPopup("LogOptions"))
 	{
-		ImGui::Checkbox("Auto-scroll", &AutoScroll);
+		ImGui::Checkbox("Auto scroll", &AutoScroll);
+		ImGui::Checkbox("Combo Filter", &ComboBox);
 		ImGui::EndPopup();
 	}
 
@@ -37,40 +38,56 @@ void EditorLogger::Draw(const char* title, bool* p_open)
 	ImGui::SameLine();
 	bool copy = ImGui::Button(ICON_FA_CLONE);
 	ImGui::SameLine();
-	//Filter.Draw(ICON_FA_FILTER, -100.0f);
-	ImGui::SetNextItemWidth(100);
-	if (ImGui::BeginCombo(ICON_FA_FILTER, "Filter", ImGuiComboFlags_NoArrowButton))
+	if (ComboBox)
 	{
-		if (ImGui::Selectable("INFO"))
+		ImGui::SetNextItemWidth(100);
+		if (ImGui::BeginCombo(ICON_FA_FILTER, "Filter", ImGuiComboFlags_NoArrowButton))
 		{
-			Filter.InputBuf[0] = 'I';
-			Filter.InputBuf[1] = 'N';
-			Filter.InputBuf[2] = 'F';
-			Filter.InputBuf[3] = 'O';
-			Filter.Build();
-		}
+			if (ImGui::Selectable("INFO"))
+			{
+				Filter.InputBuf[0] = 'I';
+				Filter.InputBuf[1] = 'N';
+				Filter.InputBuf[2] = 'F';
+				Filter.InputBuf[3] = 'O';
+				Filter.Build();
+			}
 
-		if (ImGui::Selectable("WARN"))
-		{
-			Filter.InputBuf[0] = 'W';
-			Filter.InputBuf[1] = 'A';
-			Filter.InputBuf[2] = 'R';
-			Filter.InputBuf[3] = 'N';
-			Filter.Build();
-		}
+			if (ImGui::Selectable("TRACE"))
+			{
+				Filter.InputBuf[0] = 'T';
+				Filter.InputBuf[1] = 'R';
+				Filter.InputBuf[2] = 'A';
+				Filter.InputBuf[3] = 'C';
+				Filter.InputBuf[4] = 'E';
+				Filter.Build();
+			}
 
-		if (ImGui::Selectable("ERROR"))
-		{
-			Filter.InputBuf[0] = 'E';
-			Filter.InputBuf[1] = 'R';
-			Filter.InputBuf[2] = 'R';
-			Filter.InputBuf[3] = 'O';
-			Filter.InputBuf[4] = 'R';
-			Filter.Build();
+			if (ImGui::Selectable("WARN"))
+			{
+				Filter.InputBuf[0] = 'W';
+				Filter.InputBuf[1] = 'A';
+				Filter.InputBuf[2] = 'R';
+				Filter.InputBuf[3] = 'N';
+				Filter.Build();
+			}
+
+			if (ImGui::Selectable("ERROR"))
+			{
+				Filter.InputBuf[0] = 'E';
+				Filter.InputBuf[1] = 'R';
+				Filter.InputBuf[2] = 'R';
+				Filter.InputBuf[3] = 'O';
+				Filter.InputBuf[4] = 'R';
+				Filter.Build();
+			}
+			ImGui::EndCombo();
 		}
-		ImGui::EndCombo();
+		ImGui::SetItemTooltip(u8"필터");
 	}
-	ImGui::SetItemTooltip(u8"필터");
+	else
+	{
+		Filter.Draw(ICON_FA_FILTER, -100.0f);
+	}
 
 	ImGui::SameLine(); 
 	if (ImGui::Button("Clear"))
