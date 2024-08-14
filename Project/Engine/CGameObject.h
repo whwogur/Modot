@@ -25,7 +25,18 @@ public:
     void AddChild(CGameObject* _ChildObject);
     const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
     const vector<CScript*> GetScripts() { return m_vecScript; }
-    bool IsDead() { return m_Dead; }
+    bool IsDead() const { return m_Dead; }
+
+    bool IsDisabled() const { return m_Disabled; }
+    void SetDisabled(bool _b) { m_Disabled = _b; }
+    void ToggleDisabled()
+    {
+        for (const auto& children : m_vecChildren)
+        {
+            children->SetDisabled(!m_Disabled);
+        }
+        m_Disabled = !m_Disabled;
+    }
 
     bool IsAncestor(CGameObject* _ToBeChecked);
     void DetachFromLayer();
@@ -56,6 +67,7 @@ private:
     vector<CScript*>            m_vecScript;
     vector<CGameObject*>        m_vecChildren;
     bool                        m_Dead;
+    bool                        m_Disabled;
     friend class CLevel;
     friend class CLayer;
     friend class CTaskMgr;

@@ -8,7 +8,7 @@ class CRenderComponent :
 public:
     CRenderComponent(COMPONENT_TYPE _Type);
     CRenderComponent(const CRenderComponent& _Other);
-    virtual ~CRenderComponent();
+    virtual ~CRenderComponent() = default;
 public:
     void SetMesh(Ptr<CMesh> _Mesh) { m_Mesh = _Mesh; }
     void SetMaterial(Ptr<CMaterial> _Mtrl);

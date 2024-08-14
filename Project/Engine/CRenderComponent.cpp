@@ -29,10 +29,6 @@ CRenderComponent::CRenderComponent(const CRenderComponent& _Other)
 	}
 }
 
-CRenderComponent::~CRenderComponent()
-{
-}
-
 void CRenderComponent::SetMaterial(Ptr<CMaterial> _Mtrl)
 {
 	m_Mtrl = m_SharedMtrl = _Mtrl;

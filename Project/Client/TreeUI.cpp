@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "TreeUI.h"
-
+#include <Engine/CGameObject.h>
 // ========
 // TreeNode
 // ========
@@ -46,16 +46,18 @@ void TreeNode::Update()
 	{
 		if (m_Frame)
 		{
-			prefix = "  ";
+			prefix = " ";
 		}
 		else if (m_Owner->IsHierarchy())
 		{
-			prefix = ICON_FA_USER_O" ";
+			CGameObject* targetObj = reinterpret_cast<CGameObject*>(m_Data);
+			prefix = targetObj->IsDisabled() ? ICON_FA_EYE_SLASH" " : prefix = ICON_FA_EYE" ";
 		}
 	}
 	else if (m_Owner->IsHierarchy())
 	{
-		prefix = ICON_FA_USERS" ";
+		CGameObject* targetObj = reinterpret_cast<CGameObject*>(m_Data);
+		prefix = targetObj->IsDisabled()? ICON_FA_EYE_SLASH" " : prefix = ICON_FA_EYE" ";
 	}
 
 	string strName = prefix + m_Name + "##" + std::to_string(m_ID);
@@ -69,6 +71,21 @@ void TreeNode::Update()
 
 		// Drag 체크    
 		DragCheck();
+
+		if (ImGui::BeginPopupContextItem())
+		{
+			if (m_Owner->IsHierarchy())
+			{
+				if (ImGui::MenuItem(u8"활성화/비활성화"))
+				{
+					CGameObject* targetObj = reinterpret_cast<CGameObject*>(m_Data);
+					targetObj->ToggleDisabled();
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
+			ImGui::EndPopup();
+		}
 
 		// Drop 체크
 		DropCheck();

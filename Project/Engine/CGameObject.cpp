@@ -14,6 +14,7 @@ CGameObject::CGameObject()
 	, m_Parent(nullptr)
 	, m_LayerIdx(-1)
 	, m_Dead(false)
+	, m_Disabled(false)
 {
 }
 
@@ -31,6 +32,7 @@ CGameObject::CGameObject(const CGameObject& _Other)
 	, m_Parent(nullptr)
 	, m_LayerIdx(-1)
 	, m_Dead(false)
+	, m_Disabled(false)
 {
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
@@ -177,7 +179,7 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 		break;
 
 	}
-	MD_ENGINE_ASSERT(nullptr, L"아직 구현하지 않은 컴포넌트");
+	MD_ENGINE_ERROR(L"아직 구현하지 않은 컴포넌트");
 }
 
 void CGameObject::AddChild(CGameObject* _ChildObject)
@@ -303,17 +305,17 @@ void CGameObject::Tick()
 
 void CGameObject::FinalTick()
 {
+	MD_ENGINE_ASSERT(m_LayerIdx != -1, L"레이어에 속하지 않은 오브젝트에 Finaltick 호출됨");
+
+	CLevel* pLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+	CLayer* pLayer = pLevel->GetLayer(m_LayerIdx);
+	pLayer->RegisterGameObject(this);
+
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
 		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->FinalTick();
 	}
-
-	MD_ENGINE_ASSERT(m_LayerIdx != -1, L"레이어에 속하지 않은 오브젝트에 Finaltick 호출됨");
-	
-	CLevel* pLevel = CLevelMgr::GetInst()->GetCurrentLevel();
-	CLayer* pLayer = pLevel->GetLayer(m_LayerIdx);
-	pLayer->RegisterGameObject(this);
 
 	vector<CGameObject*>::iterator iter = m_vecChildren.begin();
 	for (; iter != m_vecChildren.end(); )
@@ -329,6 +331,6 @@ void CGameObject::FinalTick()
 
 void CGameObject::Render()
 {
-	if (m_RenderCom)
+	if (!m_Disabled && m_RenderCom)
 		m_RenderCom->Render();
 }
