@@ -53,7 +53,7 @@ void CS_ParticleTick(int3 _ID : SV_DispatchThreadID)
                     Particle.vLocalPos = vRandomPos;
                     Particle.vWorldPos = Particle.vLocalPos + ParticleObjectPos;
                     Particle.Age = 0.f;
-                    Particle.Life = 2.f;
+                    Particle.Life = 10.f;
                     Particle.NormalizedAge = 0.f;
                     Particle.vVelocity = float3(0.0f, 0.0f, 0.0f);
                     break;

@@ -11,7 +11,7 @@ CParticleSystem::CParticleSystem()
 	, m_ParticleBuffer(nullptr)
 	, m_SpawnCountBuffer(nullptr)
 	, m_Time(0.f)
-	, m_MaxParticleCount(1000)
+	, m_MaxParticleCount(50)
 {
 	// Mesh / Material 
 	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"PointMesh"));
@@ -19,7 +19,7 @@ CParticleSystem::CParticleSystem()
 
 	m_ParticleTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Default-Particle");
 	m_TickCS = (CParticleTickCS*)CAssetMgr::GetInst()->FindAsset<CComputeShader>(L"ParticleTickCS").Get();
-	tParticle arrParticle[1000] = {};
+	tParticle arrParticle[50] = {};
 
 	for (int i = 0; i < m_MaxParticleCount; ++i)
 	{
@@ -42,6 +42,12 @@ void CParticleSystem::SetParticleTexture(Ptr<CTexture> _Tex)
 	m_ParticleTex = _Tex;
 	Ptr<CMaterial> pMat = GetSharedMtrl();
 	pMat->SetTexParam(TEX_0, _Tex);
+}
+
+void CParticleSystem::SetParticleUV(Vec4 _Vec)
+{
+	Ptr<CMaterial> pMat = GetSharedMtrl();
+	pMat->SetScalarParam(SCALAR_PARAM::VEC4_1, _Vec);
 }
 
 void CParticleSystem::FinalTick()

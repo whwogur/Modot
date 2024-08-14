@@ -40,9 +40,18 @@ void ParticleSystemUI::Update()
 
 					Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
 					Ptr<CTexture> pTex = dynamic_cast<CTexture*>(pAsset.Get());
+					Ptr<CSprite> pSprite = dynamic_cast<CSprite*>(pAsset.Get());
 					if (pTex != nullptr)
 					{
 						curParticleSys->SetParticleTexture(pTex);
+					}
+					else if (pSprite != nullptr)
+					{
+						Vec2 leftTop = pSprite->GetLeftTopUV();
+						Vec2 rightBottom = pSprite->GetSliceUV();
+
+						curParticleSys->SetParticleTexture(pSprite->GetAtlasTexture());
+						curParticleSys->SetParticleUV(Vec4(leftTop.x, leftTop.y, leftTop.x + rightBottom.x, leftTop.y + rightBottom.y));
 					}
 				}
 				ImGui::EndDragDropTarget();

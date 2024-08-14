@@ -65,9 +65,9 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _OutStream)
     // 0 0 1 1
     // x y z w
     output[0].vUV = float2(g_vec4_1.x, g_vec4_1.y); //float2(0.f, 0.f);
-    output[1].vUV = float2(g_vec4_1.w, g_vec4_1.y); //float2(1.f, 0.f);
+    output[1].vUV = float2(g_vec4_1.z, g_vec4_1.y); //float2(1.f, 0.f);
     output[2].vUV = float2(g_vec4_1.z, g_vec4_1.w); //float2(1.f, 1.f);
-    output[3].vUV = float2(g_vec4_1.x, g_vec4_1.z); //float2(0.f, 1.f);
+    output[3].vUV = float2(g_vec4_1.x, g_vec4_1.w); //float2(0.f, 1.f);
 
 
     // Stream Ãâ·Â
@@ -89,7 +89,7 @@ float4 PS_Particle(GS_OUT _in) : SV_Target
 
     if (g_btex_0)
     {
-        vParticleColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+        vParticleColor = g_tex_0.Sample(g_sam_2, _in.vUV);
         vParticleColor *= ParticleBuffer[_in.InstID].vColor;
         vParticleColor *= g_vec4_3;
     }

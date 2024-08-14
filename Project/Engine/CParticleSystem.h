@@ -20,6 +20,7 @@ public:
 public:
     void SetParticleTexture(Ptr<CTexture> _Texture);
     Ptr<CTexture> GetParticleTexture() { return m_ParticleTex; }
+    void SetParticleUV(Vec4 _Vec);
 
     void SetTickCS(Ptr<CParticleTickCS> _TickCS) { m_TickCS = _TickCS; }
     Ptr<CParticleTickCS> GetTickCS() { return m_TickCS; }

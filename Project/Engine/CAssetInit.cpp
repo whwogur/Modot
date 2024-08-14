@@ -326,7 +326,7 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"ParticleRenderShader"));
 	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"Default-Particle"));
-	pMtrl->SetScalarParam(VEC4_1, Vec4(0, 0, 1, 1));
+	pMtrl->SetScalarParam(VEC4_1, Vec4(0.f, 0.f, 1.f, 1.f));
 	pMtrl->SetScalarParam(VEC4_3, Vec4(1, 1, 1, 1));
 	AddAsset(L"ParticleRenderMtrl", pMtrl);
 
