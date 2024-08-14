@@ -71,6 +71,21 @@ void CEditorMgr::SetGizmoMode(int Type)
 	{ m_Gizmo->SetGizmoType(ImGuizmo::OPERATION(Type)); }
 }
 
+void CEditorMgr::EditorWarn(const string& _Log)
+{
+	m_Logger->AddLog(LOG_CATEGORY[0], _Log.c_str());
+}
+
+void CEditorMgr::EditorError(const string& _Log)
+{
+	m_Logger->AddLog(LOG_CATEGORY[1], _Log.c_str());
+}
+
+void CEditorMgr::EditorTrace(const string& _Log)
+{
+	m_Logger->AddLog(LOG_CATEGORY[2], _Log.c_str());
+}
+
 void CEditorMgr::ShortCut()
 {
     if (KEY_TAP(KEY::G))

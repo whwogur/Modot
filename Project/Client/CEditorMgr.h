@@ -21,6 +21,9 @@ public:
     ImFont* GetIconFont() { return m_IconFont; }
     void SetTargetObject(CGameObject* Obj);
     void SetGizmoMode(int Type);
+    void EditorWarn(const string& _Log);
+    void EditorError(const string& _Log);
+    void EditorTrace(const string& _Log);
 private:
     void ShortCut();
 
@@ -46,9 +49,9 @@ private:
 };
 
 #ifdef _DEBUG
-#define EDITOR_WARN(...) m_Logger->AddLog(LOG_CATEGORY[0], __VA_ARGS__)
-#define EDITOR_ERROR(...) m_Logger->AddLog(LOG_CATEGORY[1], __VA_ARGS__)
-#define EDITOR_TRACE(...) m_Logger->AddLog(LOG_CATEGORY[2], __VA_ARGS__)
+#define EDITOR_WARN(...) CEditorMgr::GetInst()->EditorWarn(__VA_ARGS__)
+#define EDITOR_ERROR(...) CEditorMgr::GetInst()->EditorError(__VA_ARGS__)
+#define EDITOR_TRACE(...) CEditorMgr::GetInst()->EditorTrace(__VA_ARGS__)
 #else
 #define EDITOR_WARN(...)
 #define EDITOR_ERROR(...)

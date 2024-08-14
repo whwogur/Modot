@@ -52,6 +52,7 @@ void MenuUI::Tick()
 			if (ImGui::Button(ICON_FA_PAUSE, { 32, 25 }))
 			{
 				ChangeLevelState(LEVEL_STATE::PAUSE);
+				EDITOR_TRACE("Paused");
 			}
 			ImGui::SameLine(contentRegionAvailable / 2 + 70);
 			if (ImGui::Button(ICON_FA_STOP, { 32, 25 }))
@@ -64,6 +65,7 @@ void MenuUI::Tick()
 				Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
 				pInspector->SetTargetObject(nullptr);
 				pInspector->SetTargetAsset(nullptr);
+				EDITOR_TRACE("Stopped");
 			}
 			ImGui::PopStyleColor(3);
 
@@ -76,17 +78,20 @@ void MenuUI::Tick()
 			if (ImGui::Button(ICON_FA_PLAY, { 32, 25 }))
 			{
 				ChangeLevelState(LEVEL_STATE::PLAY);
+				EDITOR_TRACE("Play");
 			}
 			ImGui::SameLine(contentRegionAvailable / 2 + 70);
 			if (ImGui::Button(ICON_FA_STOP, { 32, 25 }))
 			{
-				CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\TestLevel.lv");
+				const wstring& lvName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
+				CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\" + lvName + L".lv");
 				ChangeLevel(pLoadedLevel, LEVEL_STATE::STOP);
 
 				// Inspector Clear 하기 (이전 오브젝트 정보를 보여주고 있을 수가 있기 때문에)				
 				Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
 				pInspector->SetTargetObject(nullptr);
 				pInspector->SetTargetAsset(nullptr);
+				EDITOR_TRACE("Stopped");
 			}
 
 			color = { 1, 1, 1, 1 };
@@ -98,6 +103,7 @@ void MenuUI::Tick()
 			if (ImGui::Button(ICON_FA_PLAY, { 32, 25 }))
 			{
 				ChangeLevelState(LEVEL_STATE::PLAY);
+				EDITOR_TRACE("Play");
 			}
 
 			color = { 1, 1, 1, 1 };
