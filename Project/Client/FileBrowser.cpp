@@ -115,7 +115,7 @@ void FileBrowser::Update()
 					//MD_ENGINE_TRACE(relPath.c_str());
 					//MD_ENGINE_TRACE(extention.c_str());
 					CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(relPath.wstring());
-					ChangeLevel(pLoadedLevel, LEVEL_STATE::STOP);		
+					ChangeLevel(pLoadedLevel, LEVEL_STATE::PLAY);		
 					Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
 					pInspector->SetTargetObject(nullptr);
 					pInspector->SetTargetAsset(nullptr);

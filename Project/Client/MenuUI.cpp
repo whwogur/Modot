@@ -56,7 +56,8 @@ void MenuUI::Tick()
 			ImGui::SameLine(contentRegionAvailable / 2 + 70);
 			if (ImGui::Button(ICON_FA_STOP, { 32, 25 }))
 			{
-				CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\TestLevel.lv");
+				const wstring& lvName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
+				CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\" + lvName + L".lv");
 				ChangeLevel(pLoadedLevel, LEVEL_STATE::STOP);
 
 				// Inspector Clear 하기 (이전 오브젝트 정보를 보여주고 있을 수가 있기 때문에)				
