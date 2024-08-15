@@ -75,6 +75,30 @@ void MaterialUI::Update()
 	ImGui::NewLine();
 	ImGui::TextColored({ 0.0f, 0.43f, 0.25f, 1.0f }, "Shader Parameter");
 	ShaderParameter();
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
+		if (payload)
+		{
+			TreeNode** ppNode = (TreeNode**)payload->Data;
+			TreeNode* pNode = *ppNode;
+
+			Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
+			Ptr<CSprite> pSprite = dynamic_cast<CSprite*>(pAsset.Get());
+
+			if (pSprite != nullptr)
+			{
+				pMtrl->SetTexParam(TEX_0, pSprite->GetAtlasTexture());
+				pMtrl->SetScalarParam(VEC2_0, pSprite->GetLeftTopUV());
+				pMtrl->SetScalarParam(VEC2_1, pSprite->GetSliceUV());
+				pMtrl->SetScalarParam(VEC2_2, pSprite->GetBackgroundUV());
+				pMtrl->SetScalarParam(VEC2_3, pSprite->GetOffsetUV());
+			}
+		}
+
+		ImGui::EndDragDropTarget();
+	}
 }
 
 void MaterialUI::ShaderParameter()

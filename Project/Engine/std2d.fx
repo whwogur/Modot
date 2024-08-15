@@ -112,4 +112,41 @@ float4 PS_Std2D_Alphablend(VTX_OUT _in) : SV_Target
     return vColor;
 }
 
+float4 PS_Std2DSprite(VTX_OUT _in) : SV_Target
+{
+    float4 vColor = float4(0.f, 0.f, 0.f, 1.f);
+
+    // _in.vUV : 스프라이를 참조할 위치를 비율로 환산한 값                
+    float2 BackGroundLeftTop = g_vec2_0 - (g_vec2_2 - g_vec2_1) / 2.f;
+    float2 vSpriteUV = BackGroundLeftTop + (_in.vUV * g_vec2_2);
+    vSpriteUV -= g_vec2_3;
+
+    if (g_vec2_0.x <= vSpriteUV.x && vSpriteUV.x <= g_vec2_0.x + g_vec2_1.x
+        && g_vec2_0.y <= vSpriteUV.y && vSpriteUV.y <= g_vec2_0.y + g_vec2_1.y)
+    {
+        vColor = g_tex_0.Sample(g_sam_1, vSpriteUV);
+    }
+    else
+    {
+        discard;
+    }
+
+    if (vColor.a == 0.f)
+    {
+        discard;
+    }
+    
+    // 광원 적용      
+    tLight Light = (tLight) 0.f;
+
+    for (int i = 0; i < g_Light2DCount; ++i)
+    {
+        CalculateLight2D(i, _in.vWorldPos, Light);
+    }
+
+    vColor.rgb = vColor.rgb * Light.Color.rgb
+           + vColor.rgb * Light.Ambient.rgb;
+
+    return vColor;
+}
 #endif

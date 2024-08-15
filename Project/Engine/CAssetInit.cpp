@@ -210,6 +210,23 @@ void CAssetMgr::CreateEngineGraphicShader()
 
 	AddAsset(L"TileMapShader", pShader);
 
+	// Std2DShader
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
+	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2DSprite");
+
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASKED);
+	pShader->AddTexParam(TEX_0, "OutputTexture");
+	pShader->AddScalarParam(VEC2_0, "LeftTopUV");
+	pShader->AddScalarParam(VEC2_1, "SliceUV");
+	pShader->AddScalarParam(VEC2_2, "BackgroundUV");
+	pShader->AddScalarParam(VEC2_3, "OffsetUV");
+	AddAsset(L"Std2DSpriteShader", pShader);
+
 	// Shockwave
 	pShader = new CGraphicShader;
 	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_Shockwave");
@@ -329,6 +346,16 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl->SetScalarParam(VEC4_1, Vec4(0.f, 0.f, 1.f, 1.f));
 	pMtrl->SetScalarParam(VEC4_3, Vec4(1, 1, 1, 1));
 	AddAsset(L"ParticleRenderMtrl", pMtrl);
+
+	// SpriteRenderMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"Std2DSpriteShader"));
+	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"Checkerboard"));
+	pMtrl->SetScalarParam(VEC2_0, Vec2(0, 0)); // lefttop
+	pMtrl->SetScalarParam(VEC2_1, Vec2(1, 1)); // slice
+	pMtrl->SetScalarParam(VEC2_2, Vec2(1, 1)); // background
+	pMtrl->SetScalarParam(VEC2_3, Vec2(0, 0)); // offset
+	AddAsset(L"SpriteRenderMtrl", pMtrl);
 
 	// GrayFilterMtrl
 	pMtrl = new CMaterial(true);
