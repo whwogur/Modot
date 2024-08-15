@@ -8,6 +8,7 @@
 SpriteEditor::SpriteEditor()
 	: m_AtlasView(nullptr)
 	, m_Detail(nullptr)
+	, m_Precise(false)
 {
 	UseMenuBar(true);
 }
@@ -26,13 +27,12 @@ void SpriteEditor::Init()
 
 void SpriteEditor::Update()
 {
+	static bool AtlasView = m_AtlasView->IsActive();
+	static bool Detail = m_Detail->IsActive();
 	if (ImGui::BeginMenuBar())
 	{
 		if (ImGui::BeginMenu("Window"))
 		{
-			bool AtlasView = m_AtlasView->IsActive();
-			bool Detail = m_Detail->IsActive();
-
 			if (ImGui::MenuItem("AtlasView", nullptr, &AtlasView))
 			{
 				m_AtlasView->SetActive(AtlasView);

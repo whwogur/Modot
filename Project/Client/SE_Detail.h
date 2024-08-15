@@ -5,12 +5,12 @@ class SE_Detail :
 {
 public:
     SE_Detail();
-    ~SE_Detail();
+    ~SE_Detail() = default;
 
 public:
     void SetAtlasTex(Ptr<CTexture> _Tex);
     void SetLeftTop(Vec2 _LT) { m_LeftTop = _LT; }
-    //void SetSlice(Vec2 _Slice) { m_Slice = _Slice; }
+    void SetSlice(Vec2 _Slice) { m_Slice = _Slice; }
 
 public:
     virtual void Init() override;
@@ -26,5 +26,5 @@ private:
     int             m_BGSizeY = 0;
 
     Vec2            m_LeftTop = {};
-    //Vec2            m_Slice = {};
+    Vec2            m_Slice = {};
 };

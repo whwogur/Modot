@@ -12,41 +12,36 @@ SE_Detail::SE_Detail()
 {
 }
 
-SE_Detail::~SE_Detail()
-{
-}
-
 void SE_Detail::Init()
 {
 }
 
 void SE_Detail::Update()
 {
-	ImGui::TextColored(HEADER_1, u8"아틀라스 정보");
+	ImGui::TextColored(HEADER_1, ICON_FA_PICTURE_O" Atlas Info");
 	Atlas();
 	AtlasInfo();
 	
 	static char buf[64] = {};
 	static int BGSize[2] = { m_BGSizeX, m_BGSizeY };
-	ImGui::SetNextItemWidth(200);
-	if (ImGui::InputInt2(ICON_FA_OBJECT_GROUP" BGSize", BGSize, ImGuiInputTextFlags_EnterReturnsTrue))
+	bool& PrecisionMode = GetOwner()->GetPrecisionRef();
+	ImGui::Text("Precision Mode");
+	ImGui::SameLine();
+	ImGui::Checkbox("##PrecisionMode", &PrecisionMode);
+	ImGui::SameLine();
+	ImGui::TextColored({ 0.3f, 0.3f, 0.3f, 1.0f }, " (?)");
+	ImGui::SetItemTooltip(u8"백그라운드 사용하지 않고\n정확하게 uv값 측정");
+	ImGui::NewLine();
+	if (PrecisionMode)
 	{
-		m_BGSizeX = BGSize[0];
-		m_BGSizeY = BGSize[1];
-		GetAtlasView()->SetBGSize(ImVec2(BGSize[0], BGSize[1]));
-	}
-
-	if (m_BGSizeX > 0 && m_BGSizeY > 0)
-	{
-		ImGui::NewLine();
 		ImGui::TextColored(HEADER_1, u8"선택 정보");
 		ImGui::InputText("##spriteTInput", buf, sizeof(buf));
 		ImGui::SameLine();
 		if (ImGui::Button(ICON_FA_FLOPPY_O, { 25, 25 }))
 		{
 			Ptr<CSprite> pSprite = new CSprite;
-			pSprite->Create(m_AtlasTex, m_LeftTop, {m_BGSizeX, m_BGSizeY});
-			pSprite->SetBackground({ m_BGSizeX, m_BGSizeY });
+			pSprite->Create(m_AtlasTex, m_LeftTop, { m_Slice.x, m_Slice.y });
+			pSprite->SetBackground({ m_Slice.x, m_Slice.y });
 
 			string strRelPath(buf);
 			wstring wstrRelPath(strRelPath.begin(), strRelPath.end());
@@ -56,10 +51,10 @@ void SE_Detail::Update()
 		}
 		ImGui::SetItemTooltip(u8"스프라이트를 저장합니다\n이름을 다시 한번 확인해주세요\n- 반드시 이름만작성 -");
 
-		if (m_LeftTop.x >= 0 && m_LeftTop.y >= 0)
+		if (m_LeftTop.x >= 0 && m_Slice.x >= 0)
 		{
 			float vLT[2] = { m_LeftTop.x, m_LeftTop.y };
-			float vRB[2] = { m_LeftTop.x + m_BGSizeX, m_LeftTop.y + m_BGSizeY };
+			float vRB[2] = { m_LeftTop.x + m_Slice.x, m_LeftTop.y + m_Slice.y };
 
 			ImGui::InputFloat2("LT##leftTop", vLT, "%.3f", ImGuiInputTextFlags_ReadOnly);
 			ImGui::InputFloat2("RB##Slice", vRB, "%.3f", ImGuiInputTextFlags_ReadOnly);
@@ -67,7 +62,48 @@ void SE_Detail::Update()
 	}
 	else
 	{
-		ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, u8"BG Size 설정 필요");
+		ImGui::SetNextItemWidth(200);
+		ImGui::Text("BGSize"); ImGui::SameLine();
+		if (ImGui::InputInt2("##BGSize", BGSize, ImGuiInputTextFlags_EnterReturnsTrue))
+		{
+			m_BGSizeX = BGSize[0];
+			m_BGSizeY = BGSize[1];
+			GetAtlasView()->SetBGSize(ImVec2(BGSize[0], BGSize[1]));
+		}
+
+		if (m_BGSizeX > 0 && m_BGSizeY > 0)
+		{
+			ImGui::NewLine();
+			ImGui::TextColored(HEADER_1, u8"선택 정보");
+			ImGui::InputText("##spriteTInput", buf, sizeof(buf));
+			ImGui::SameLine();
+			if (ImGui::Button(ICON_FA_FLOPPY_O, { 25, 25 }))
+			{
+				Ptr<CSprite> pSprite = new CSprite;
+				pSprite->Create(m_AtlasTex, m_LeftTop, { m_BGSizeX, m_BGSizeY });
+				pSprite->SetBackground({ m_BGSizeX, m_BGSizeY });
+
+				string strRelPath(buf);
+				wstring wstrRelPath(strRelPath.begin(), strRelPath.end());
+				wstrRelPath += L".sprite";
+
+				pSprite->Save(L"sprite\\" + wstrRelPath);
+			}
+			ImGui::SetItemTooltip(u8"스프라이트를 저장합니다\n이름을 다시 한번 확인해주세요\n- 반드시 이름만작성 -");
+
+			if (m_LeftTop.x >= 0 && m_LeftTop.y >= 0)
+			{
+				float vLT[2] = { m_LeftTop.x, m_LeftTop.y };
+				float vRB[2] = { m_LeftTop.x + m_BGSizeX, m_LeftTop.y + m_BGSizeY };
+
+				ImGui::InputFloat2("LT##leftTop", vLT, "%.3f", ImGuiInputTextFlags_ReadOnly);
+				ImGui::InputFloat2("RB##Slice", vRB, "%.3f", ImGuiInputTextFlags_ReadOnly);
+			}
+		}
+		else
+		{
+			ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, u8"BG Size 설정 필요");
+		}
 	}
 }
 
@@ -83,7 +119,7 @@ void SE_Detail::Atlas()
 	ImGui::SetNextItemWidth(150.f);
 	const map<wstring, Ptr<CAsset>>& mapTex = CAssetMgr::GetInst()->GetAssets(ASSET_TYPE::TEXTURE);
 
-	if (ImGui::BeginCombo(ICON_FA_PICTURE_O "##AtlasTexCombo", TexName.c_str()))
+	if (ImGui::BeginCombo("##AtlasTexCombo", TexName.c_str()))
 	{
 		for (const auto& texture : mapTex)
 		{

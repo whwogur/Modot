@@ -13,8 +13,7 @@ public:
     class SE_Detail* GetDetail() { return m_Owner->GetDetail(); }
     class SE_AtlasView* GetAtlasView() { return m_Owner->GetAtlasView(); }
 
-
 private:
-    SpriteEditor*   m_Owner;
     friend class    SpriteEditor;
+    SpriteEditor*   m_Owner;
 };
