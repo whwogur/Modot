@@ -352,8 +352,8 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"Std2DSpriteShader"));
 	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"Checkerboard"));
 	pMtrl->SetScalarParam(VEC2_0, Vec2(0, 0)); // lefttop
-	pMtrl->SetScalarParam(VEC2_1, Vec2(1, 1)); // slice
-	pMtrl->SetScalarParam(VEC2_2, Vec2(1, 1)); // background
+	pMtrl->SetScalarParam(VEC2_1, Vec2(0.9f, 0.9f)); // slice
+	pMtrl->SetScalarParam(VEC2_2, Vec2(0.88f, 0.9f)); // background
 	pMtrl->SetScalarParam(VEC2_3, Vec2(0, 0)); // offset
 	AddAsset(L"SpriteRenderMtrl", pMtrl);
 

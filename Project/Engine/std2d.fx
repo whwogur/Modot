@@ -115,8 +115,7 @@ float4 PS_Std2D_Alphablend(VTX_OUT _in) : SV_Target
 float4 PS_Std2DSprite(VTX_OUT _in) : SV_Target
 {
     float4 vColor = float4(0.f, 0.f, 0.f, 1.f);
-
-    // _in.vUV : 스프라이를 참조할 위치를 비율로 환산한 값                
+            
     float2 BackGroundLeftTop = g_vec2_0 - (g_vec2_2 - g_vec2_1) / 2.f;
     float2 vSpriteUV = BackGroundLeftTop + (_in.vUV * g_vec2_2);
     vSpriteUV -= g_vec2_3;

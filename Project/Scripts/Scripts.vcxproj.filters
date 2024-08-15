@@ -28,6 +28,9 @@
     <ClInclude Include="CNPCScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CSpriteRenderScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -47,6 +50,9 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CNPCScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CSpriteRenderScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>

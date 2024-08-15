@@ -52,6 +52,7 @@ void ScriptUI::Update()
 		{
 			Ptr<CTexture>& pTex = *((Ptr<CTexture>*)vecParam[i].pData);
 			ParamUI::InputTexture(pTex, vecParam[i].Desc);
+			break;
 		}
 		case SCRIPT_PARAM::PREFAB:
 		{
@@ -63,7 +64,12 @@ void ScriptUI::Update()
 			}
 			break;
 		}
-		break;
+		case SCRIPT_PARAM::SPRITE:
+		{
+			Ptr<CSprite>& pSprite = *((Ptr<CSprite>*)vecParam[i].pData);
+			ParamUI::InputSprite(pSprite, vecParam[i].Desc);
+			break;
+		}
 		}
 	}
 

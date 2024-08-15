@@ -6,6 +6,7 @@
 
 #include "CEditorMgr.h"
 #include "ListUI.h"
+#include <Engine/CSprite.h>
 
 UINT ParamUI::g_ID = 0;
 
@@ -218,6 +219,75 @@ bool ParamUI::InputTexture(Ptr<CTexture>& _CurTex, const string& _Desc
 		pListUI->SetName("Texture");
 		vector<string> vecTexNames;
 		CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::TEXTURE, vecTexNames);
+		pListUI->AddList(vecTexNames);
+		pListUI->AddDelegate(_Inst, (DELEGATE_1)_MemFunc);
+		pListUI->SetActive(true);
+
+		return true;
+	}
+
+	return false;
+}
+
+bool ParamUI::InputSprite(Ptr<CSprite>& _CurSprite, const string& _Desc, EditorUI* _Inst, DELEGATE_1 _MemFunc)
+{
+	Ptr<CSprite> CurSprite = _CurSprite;
+	Ptr<CTexture> atlasTex = CurSprite->GetAtlasTexture();
+
+	ImGui::TextColored(HEADER_1, _Desc.c_str());
+	ImGui::SameLine(120);
+
+	Vec2 ltUV = CurSprite->GetLeftTopUV();
+	Vec2 rbUV = CurSprite->GetLeftTopUV() + CurSprite->GetBackgroundUV();
+
+	ImVec2 uv_min = ImVec2(ltUV.x, ltUV.y);
+	ImVec2 uv_max = ImVec2(rbUV.x, rbUV.y);
+
+	ImTextureID TexID = nullptr;
+	if (nullptr != atlasTex)
+		TexID = atlasTex->GetSRV().Get();
+
+	ImGui::Image(TexID, ImVec2(150, 150), uv_min, uv_max);
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
+		if (payload)
+		{
+			TreeNode** ppNode = (TreeNode**)payload->Data;
+			TreeNode* pNode = *ppNode;
+
+			Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
+			if (ASSET_TYPE::SPRITE == pAsset->GetAssetType())
+			{
+				_CurSprite = ((CSprite*)pAsset.Get());
+			}
+		}
+
+		ImGui::EndDragDropTarget();
+	}
+
+	// DragDrop 으로 원본 텍스쳐가 바뀐경우
+	if (CurSprite != _CurSprite)
+		return true;
+
+
+	// List Button
+	if (nullptr == _Inst && nullptr == _MemFunc)
+	{
+		return false;
+	}
+
+	char szID[255] = {};
+	sprintf_s(szID, 255, ICON_FA_PENCIL_SQUARE_O "##InputBtn%d", g_ID++);
+
+	ImGui::SameLine();
+	if (ImGui::Button(szID, ImVec2(27, 27)))
+	{
+		ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("List");
+		pListUI->SetName("Sprites");
+		vector<string> vecTexNames;
+		CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::SPRITE, vecTexNames);
 		pListUI->AddList(vecTexNames);
 		pListUI->AddDelegate(_Inst, (DELEGATE_1)_MemFunc);
 		pListUI->SetActive(true);
