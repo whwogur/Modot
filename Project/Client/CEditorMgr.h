@@ -21,9 +21,15 @@ public:
     ImFont* GetIconFont() { return m_IconFont; }
     void SetTargetObject(CGameObject* Obj);
     void SetGizmoMode(int Type);
+
     void EditorWarn(const string& _Log);
     void EditorError(const string& _Log);
     void EditorTrace(const string& _Log);
+
+    void SetThemeMoonlight();
+    void SetThemeMicrosoft();
+    void SetThemeUnrealEngine();
+    void SetThemeFutureDark();
 private:
     void ShortCut();
 
@@ -31,11 +37,7 @@ private:
     void EditorObjectUpdate();
     void InitImGui();
     void ImGuiRun();
-    void ImGuiTick();
-    void SetThemeUnrealEngine();
-    void SetThemeFutureDark();
-    void SetThemeMoonlight();
-    void SetThemeMicrosoft();
+    void ImGuiTick(); 
     void CreateEditorUI();
     void ObserveContents();
 private:

@@ -24,6 +24,7 @@ MenuUI::MenuUI()
 
 void MenuUI::Tick()
 {
+	static bool ModeToggle = false;
 	if (!IsActive())
 		return;
 
@@ -109,15 +110,24 @@ void MenuUI::Tick()
 			color = { 1, 1, 1, 1 };
 		}
 
-		ImGui::SameLine(1040);
+		ImGui::SameLine(1000);
 		
 		ImGui::TextColored(color, whichCamera.c_str());
 		ImGui::SameLine();
 		ImGui::TextColored(color, buffer);
 
+		ImGui::SameLine(1180);
+		ToggleButton("##ModeToggle", &ModeToggle);
+		if (ModeToggle != m_Mode)
+		{
+			m_Mode = ModeToggle;
+			if (m_Mode == false)
+				CEditorMgr::GetInst()->SetThemeMoonlight();
+			else
+				CEditorMgr::GetInst()->SetThemeFutureDark();
+		}
 		ImGui::EndMainMenuBar();
 	}
-
 }
 
 

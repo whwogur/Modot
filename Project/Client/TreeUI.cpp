@@ -10,7 +10,6 @@ TreeNode::TreeNode(UINT _ID)
 	, m_ParentNode(nullptr)
 	, m_ID(_ID)
 	, m_Data(0)
-	, m_Frame(false)
 	, m_Selected(false)
 {
 }
@@ -27,11 +26,6 @@ void TreeNode::Update()
 		| ImGuiTreeNodeFlags_SpanAvailWidth
 		| ImGuiTreeNodeFlags_FramePadding;
 
-	if (m_Frame)
-	{
-		Flag |= ImGuiTreeNodeFlags_Framed;
-	}
-
 	if (m_Selected)
 	{
 		Flag |= ImGuiTreeNodeFlags_Selected;
@@ -42,17 +36,17 @@ void TreeNode::Update()
 		Flag |= ImGuiTreeNodeFlags_Leaf;
 	}
 
-	string prefix = "";
+	string prefix = ICON_FA_FOLDER" ";
 	if (m_vecChildNode.empty())
 	{
-		if (m_Frame)
-		{
-			prefix = " ";
-		}
-		else if (m_Owner->IsHierarchy())
+		if (m_Owner->IsHierarchy())
 		{
 			CGameObject* targetObj = reinterpret_cast<CGameObject*>(m_Data);
 			prefix = targetObj->IsDisabled() ? ICON_FA_EYE_SLASH"  " : prefix = ICON_FA_EYE"  ";
+		}
+		else
+		{
+			prefix = ICON_FA_FILE_IMAGE_O" ";
 		}
 	}
 	else if (m_Owner->IsHierarchy())
@@ -60,7 +54,7 @@ void TreeNode::Update()
 		CGameObject* targetObj = reinterpret_cast<CGameObject*>(m_Data);
 		prefix = targetObj->IsDisabled()? ICON_FA_EYE_SLASH"  " : prefix = ICON_FA_EYE"  ";
 	}
-
+	
 	string strName = prefix + m_Name + "##" + std::to_string(m_ID);
 
 	if (ImGui::TreeNodeEx(strName.c_str(), Flag))

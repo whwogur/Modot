@@ -92,9 +92,6 @@ void Content::AssetClicked(DWORD_PTR _Param)
 {
 	TreeNode* pNode = (TreeNode*)_Param;
 
-	if (pNode->IsFrame())
-		return;
-
 	Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
 
 	Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");

@@ -6,16 +6,16 @@ tGlobalData g_GlobalData = {};
 
 const char* ASSET_TYPE_STRING[] =
 {
-	"MESH",
-	"MESH_DATA",
-	"MATERIAL",
-	"PREFAB",
-	"TEXTURE",
-	"SOUND",
-	"GRAPHIC_SHADER",
-	"COMPUTE_SHADER",
-	"SPRITE",
-	"ANIMATION",
+	"Mesh",
+	"Mesh Data",
+	"Material",
+	"Prefab",
+	"Texture",
+	"Sound",
+	"Graphic Shader",
+	"Compute Shader",
+	"Sprite",
+	"Animation",
 };
 
 const char* ToString(ASSET_TYPE _Type) { return ASSET_TYPE_STRING[(UINT)_Type]; }
@@ -23,22 +23,22 @@ const char* ToString(ASSET_TYPE _Type) { return ASSET_TYPE_STRING[(UINT)_Type]; 
 
 const char* COMPONENT_TYPE_STRING[] =
 {
-	"TRANSFORM",
-	"COLLIDER2D",
-	"COLLIDER3D",
-	"LIGHT2D",
-	"LIGHT3D",
-	"ANIMATOR2D",
-	"ANIMATOR3D",
-	"STATE_MACHINE",
-	"RIGIDBODY",
-	"CAMERA",
-	"MESHRENDER",
-	"TILEMAP",
-	"PARTICLE_SYSTEM",
-	"DECAl",
-	"SKYBOX",
-	"LANDSCAPE"
+	"Transform",
+	"Collider2D",
+	"Collider3D",
+	"Light2D",
+	"Light3D",
+	"Animator2D",
+	"Animator3D",
+	"State Machine",
+	"RigidBody",
+	"Camera",
+	"Mesh Render",
+	"Tilemap",
+	"Particle System",
+	"Decal",
+	"Skybox",
+	"Landscape"
 };
 
 const char* ToString(COMPONENT_TYPE _Type) { return COMPONENT_TYPE_STRING[(UINT)_Type]; }

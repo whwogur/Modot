@@ -12,6 +12,7 @@ SE_AtlasView::SE_AtlasView()
 
 void SE_AtlasView::Init()
 {
+	m_AtlasTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Checkerboard");
 }
 
 void SE_AtlasView::Update()

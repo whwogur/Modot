@@ -14,6 +14,7 @@ SE_Detail::SE_Detail()
 
 void SE_Detail::Init()
 {
+	m_AtlasTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Checkerboard");
 }
 
 void SE_Detail::Update()
@@ -28,7 +29,7 @@ void SE_Detail::Update()
 
 	ImGui::Text("Precision Mode");
 	ImGui::SameLine();
-	ImGui::Checkbox("##PrecisionMode", &PrecisionMode);
+	ToggleButton("##PrecisionMode", &PrecisionMode);
 	ImGui::SameLine();
 	ImGui::TextColored({ 0.3f, 0.3f, 0.3f, 1.0f }, " (?)");
 	ImGui::SetItemTooltip(u8"백그라운드 사용하지 않고\n정확하게 uv값 측정");

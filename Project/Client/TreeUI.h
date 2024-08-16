@@ -15,9 +15,6 @@ public:
     void SetName(const string& _Name) { m_Name = _Name; }
     const string& GetName() { return m_Name; }
 
-    void SetFrame(bool _Frame) { m_Frame = _Frame; }
-    bool IsFrame() { return m_Frame; }
-
     DWORD_PTR GetData() { return m_Data; }
 
     void AddChildNode(TreeNode* _Node) { m_vecChildNode.push_back(_Node); }
@@ -35,7 +32,6 @@ private:
     const UINT          m_ID;
     DWORD_PTR           m_Data;
 
-    bool                m_Frame;
     bool                m_Selected;
 };
 
