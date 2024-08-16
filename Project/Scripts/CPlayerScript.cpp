@@ -1,5 +1,6 @@
 #include "spch.h"
 #include "CPlayerScript.h"
+#include "../Client/CEditorMgr.h" // ·Î±×¿ë
 
 CPlayerScript::CPlayerScript()
 	: CScript(UINT(SCRIPT_TYPE::PLAYERSCRIPT))
@@ -47,6 +48,12 @@ void CPlayerScript::Tick()
 			RigidBody()->SetVelocity(Vec2(vCurVel.x, 1000.f));
 			RigidBody()->SetGround(false);
 		}
+		else
+		{
+			Vec2 vCurVel = RigidBody()->GetVelocity();
+			RigidBody()->SetVelocity(Vec2(vCurVel.x, 1500.f));
+			Animator2D()->Play(L"Momo_DoubleJump", 10.0f, true);
+		}
 	}
 }
 
@@ -54,7 +61,7 @@ void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 {
 	RigidBody()->SetGround(true);
 	Animator2D()->Play(L"Momo_Idle", 6.0f, true);
-	//MD_ENGINE_TRACE("Ground");
+	EDITOR_TRACE("Ground");
 }
 
 void CPlayerScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
@@ -65,7 +72,7 @@ void CPlayerScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObj
 {
 	RigidBody()->SetGround(false);
 	Animator2D()->Play(L"Momo_Jump", 6.0f, false);
-	//MD_ENGINE_TRACE("Airborne");
+	EDITOR_TRACE("Airborne");
 }
 
 void CPlayerScript::SaveToFile(FILE* _File)

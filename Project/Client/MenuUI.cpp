@@ -157,16 +157,16 @@ void MenuUI::File()
 
 	if (ImGui::BeginMenu(ICON_FA_FILE " File"))
 	{
-		if (ImGui::MenuItem(u8"새 레벨", "Ctrl + N"))
+		if (ImGui::MenuItem(u8"새 레벨", " Ctrl + N"))
 		{
 		}
 
-		if (ImGui::MenuItem(u8"레벨 불러오기", "Ctrl + O"))
+		if (ImGui::MenuItem(u8"레벨 불러오기", " Ctrl + O"))
 		{
 			LoadLevel();
 		}
 
-		if (ImGui::MenuItem(u8"레벨 저장", "Ctrl + S"))
+		if (ImGui::MenuItem(u8"레벨 저장", " Ctrl + S"))
 		{
 			CLevel* pLevel = CLevelMgr::GetInst()->GetCurrentLevel();
 			const wstring& levelName = pLevel->GetName();
@@ -178,7 +178,7 @@ void MenuUI::File()
 		}
 		ImGui::SetItemTooltip(u8"현재 편집중인\n레벨을 저장합니다");
 
-		if (ImGui::MenuItem(u8"다른 이름으로 저장", "Ctrl + Shift + S"))
+		if (ImGui::MenuItem(u8"다른 이름으로 저장", " Ctrl + Shift + S"))
 		{
 			SaveLevelAs();
 		}
@@ -201,25 +201,25 @@ void MenuUI::Tools()
 {
 	if (ImGui::BeginMenu(ICON_FA_WRENCH " Tools"))
 	{
-		if (ImGui::MenuItem(u8"타일맵 에디터", "Alt + T"))
+		if (ImGui::MenuItem(u8"타일맵 에디터", " Alt + T"))
 		{
 			TilemapEditor* editor = static_cast<TilemapEditor*>(CEditorMgr::GetInst()->FindEditorUI("TilemapEditor"));
 			editor->SetTilemap(nullptr);
 			editor->Toggle();
 		}
-		if (ImGui::MenuItem(u8"스프라이트 에디터", "Alt + S"))
+		if (ImGui::MenuItem(u8"스프라이트 에디터", " Alt + S"))
 		{
 			SpriteEditor* spriteEditor = static_cast<SpriteEditor*>(CEditorMgr::GetInst()->FindEditorUI("SpriteEditor"));
 			spriteEditor->Toggle();
 		}
 
-		if (ImGui::MenuItem(u8"애니메이션 에디터", "Alt + A"))
+		if (ImGui::MenuItem(u8"애니메이션 에디터", " Alt + A"))
 		{
 			AnimationEditor* animEditor = static_cast<AnimationEditor*>(CEditorMgr::GetInst()->FindEditorUI("AnimationEditor"));
 			animEditor->SetActive(true);
 		}
 
-		if (ImGui::MenuItem(u8"충돌 매트릭스", "Alt + C"))
+		if (ImGui::MenuItem(u8"충돌 매트릭스", " Alt + C"))
 		{
 			CollisionCheck* animEditor = static_cast<CollisionCheck*>(CEditorMgr::GetInst()->FindEditorUI(ICON_FA_CHECK_SQUARE_O" CollisionCheck"));
 			animEditor->SetActive(true);
