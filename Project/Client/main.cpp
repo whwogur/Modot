@@ -33,7 +33,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     SetConsoleOutputCP(CP_UTF8);
     
     HWND consoleWindow = GetConsoleWindow();
-    SetWindowPos(consoleWindow, nullptr, 1280, 0, 600, 600, SWP_NOZORDER);
+    SetWindowPos(consoleWindow, nullptr, 0, 768, 600, 300, SWP_NOZORDER);
 #endif
     g_hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 

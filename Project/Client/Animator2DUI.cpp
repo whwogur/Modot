@@ -23,7 +23,7 @@ void Animator2DUI::Update()
 		{
 			const string combo_preview_value = "(" + std::to_string(vecAnim.size()) + ") Slots Available";
 
-			ImGui::TextColored(HEADER_1, "Animation List");
+			ImGui::Text("Animation List");
 			if (ImGui::BeginCombo("##AnimationListCombo", combo_preview_value.c_str()))
 			{
 				for (size_t i = 0; i < vecAnim.size(); ++i)
@@ -49,7 +49,7 @@ void Animator2DUI::Update()
 			}
 			ImGui::SetItemTooltip(u8"애니메이션 에디터에서 보기");
 
-			ImGui::TextColored(HEADER_2, "Current Animation");
+			ImGui::Text("Current Animation");
 			
 			if (ImGui::BeginCombo("##CurAnimCombo", "Select Animation"))
 			{

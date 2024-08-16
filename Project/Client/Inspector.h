@@ -26,6 +26,7 @@ private:
     void CreateComponentUI();
     void CreateAssetUI();
     void CreateScriptUI(UINT _Count);
+    void Purge();
 
 private:
     CGameObject*                m_TargetObject;

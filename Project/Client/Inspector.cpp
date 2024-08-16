@@ -178,18 +178,23 @@ void Inspector::Update()
 
 	if (isDeleted)
 	{
-		DeleteObject(m_TargetObject);
-		m_TargetObject = nullptr;
-		for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
-		{
-			if (m_arrComUI[i] != nullptr)
-				m_arrComUI[i]->SetActive(false);
-		}
-		for (auto scriptUI : m_vecScriptUI)
-		{
-			scriptUI->SetActive(false);
-		}
-		CEditorMgr::GetInst()->SetTargetObject(nullptr);
+		Purge();
 		isDeleted = false;
 	}
+}
+
+void Inspector::Purge()
+{
+	DeleteObject(m_TargetObject);
+	m_TargetObject = nullptr;
+	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
+	{
+		if (m_arrComUI[i] != nullptr)
+			m_arrComUI[i]->SetActive(false);
+	}
+	for (const auto& scriptUI : m_vecScriptUI)
+	{
+		scriptUI->SetActive(false);
+	}
+	CEditorMgr::GetInst()->SetTargetObject(nullptr);
 }

@@ -58,7 +58,6 @@ void HierarchyView::Update()
 			pGameObject->Transform()->SetRelativePos(0.f, 0.f, 0.f);
 			pGameObject->Transform()->SetRelativeScale(200.f, 200.f, 1.f);
 			CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(0, pGameObject);
-			RefreshLevel();
 		}
 
 		ImGui::EndPopup();
@@ -87,7 +86,16 @@ void HierarchyView::Update()
 
 		ImGui::EndDragDropTarget();
 	}
+}
 
+void HierarchyView::CopyGameObject(CGameObject* _Obj)
+{
+	const wstring& orName = _Obj->GetName();
+	int idx = _Obj->GetLayerIdx();
+	CGameObject* clonedObject = _Obj->Clone();
+
+	clonedObject->SetName(orName + L" Copy");
+	CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(idx, clonedObject, true);
 }
 
 // 트리 초기화 후 루트부터 전부 재구성

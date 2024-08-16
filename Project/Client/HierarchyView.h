@@ -9,6 +9,8 @@ public:
     ~HierarchyView();
 public:
     virtual void Update() override;
+public:
+    void CopyGameObject(CGameObject* _Obj);
 private:
     void RefreshLevel();
     void GameObjectClicked(DWORD_PTR _Param);
