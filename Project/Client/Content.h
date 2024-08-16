@@ -5,7 +5,7 @@ class Content :
 {
 public:
     Content();
-    ~Content();
+    ~Content() = default;
 
 public:
     // Content 폴더에 있는 리소스(에셋) 들을 확인 및 로딩

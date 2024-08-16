@@ -6,7 +6,7 @@ CSpriteRenderScript::CSpriteRenderScript()
 	: CScript(UINT(SCRIPT_TYPE::SPRITERENDERSCRIPT))
 {
 	m_Sprite = CAssetMgr::GetInst()->FindAsset<CSprite>(L"DefaultSprite");
-	AddScriptParam(SCRIPT_PARAM::SPRITE, "Atlas", &m_Sprite);
+	AddScriptParam(SCRIPT_PARAM::SPRITE, "Sprite", &m_Sprite);
 }
 
 void CSpriteRenderScript::Begin()

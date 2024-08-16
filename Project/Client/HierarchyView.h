@@ -6,7 +6,7 @@ class HierarchyView :
 {
 public:
     HierarchyView();
-    ~HierarchyView();
+    ~HierarchyView() = default;
 public:
     virtual void Update() override;
 public:

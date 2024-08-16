@@ -29,7 +29,7 @@ void ParticleSystemUI::Update()
 			ImGui::TextColored(HEADER_1, u8"텍스처");
 			ImGui::SameLine(80);
 			ImGui::Image(curTex.Get()->GetSRV().Get(), { 150, 150 }, { m_UVStart.x, m_UVStart.y }, {m_UVEnd.x, m_UVEnd.y});
-
+			ImGui::SetItemTooltip(u8"텍스처\n 스프라이트");
 			if (ImGui::BeginDragDropTarget())
 			{
 				const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
@@ -39,16 +39,16 @@ void ParticleSystemUI::Update()
 					TreeNode* pNode = *ppNode;
 
 					Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
-					Ptr<CTexture> pTex = dynamic_cast<CTexture*>(pAsset.Get());
-					Ptr<CSprite> pSprite = dynamic_cast<CSprite*>(pAsset.Get());
-					if (pTex != nullptr)
+					if (pAsset->GetAssetType() == ASSET_TYPE::TEXTURE)
 					{
+						Ptr<CTexture> pTex = reinterpret_cast<CTexture*>(pAsset.Get());
 						curParticleSys->SetParticleTexture(pTex);
 						m_UVStart = Vec2(0, 0);
 						m_UVEnd = Vec2(1, 1);
 					}
-					else if (pSprite != nullptr)
+					else if (pAsset->GetAssetType() == ASSET_TYPE::SPRITE)
 					{
+						Ptr<CSprite> pSprite = reinterpret_cast<CSprite*>(pAsset.Get());
 						Vec2 leftTop = pSprite->GetLeftTopUV();
 						Vec2 rightBottom = pSprite->GetSliceUV();
 

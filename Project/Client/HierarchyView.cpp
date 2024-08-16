@@ -36,10 +36,6 @@ HierarchyView::HierarchyView()
 	RefreshLevel();
 }
 
-HierarchyView::~HierarchyView()
-{
-}
-
 void HierarchyView::Update()
 {
 	if (CLevelMgr::GetInst()->IsDirty())

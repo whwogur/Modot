@@ -23,10 +23,6 @@ Content::Content()
 	RenewContent();
 }
 
-Content::~Content()
-{
-}
-
 void Content::Init()
 {
 	Reload();
