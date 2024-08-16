@@ -31,13 +31,13 @@ void CEditorMgr::InitImGui()
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     wstring wcontentPath = CPathMgr::GetInst()->GetContentPath();
     string iconContentPath = string(wcontentPath.begin(), wcontentPath.end()) + "font\\fontawesome-webfont.ttf";
-    string defaultContentPath = string(wcontentPath.begin(), wcontentPath.end()) + "font\\Galmuri9.ttf";
+    string defaultContentPath = string(wcontentPath.begin(), wcontentPath.end()) + "font\\goorm-sans-regular.ttf";
     io.Fonts->AddFontFromFileTTF(defaultContentPath.c_str(), 14.0f, NULL, io.Fonts->GetGlyphRangesKorean());
     
     ImFontConfig config;
     config.MergeMode = true;
     static const ImWchar icon_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
-    m_IconFont = io.Fonts->AddFontFromFileTTF(iconContentPath.c_str(), 16.0f, &config, icon_ranges);
+    m_IconFont = io.Fonts->AddFontFromFileTTF(iconContentPath.c_str(), 10.0f, &config, icon_ranges);
     
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
@@ -52,8 +52,8 @@ void CEditorMgr::InitImGui()
     //io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleViewports; // FIXME-DPI: Experimental.
 
     //SetThemeMicrosoft();
-    //SetThemeMoonlight();
-    SetThemeUnrealEngine();
+    SetThemeMoonlight();
+    //SetThemeUnrealEngine();
     //SetThemeFutureDark();
 
     // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.

@@ -325,7 +325,7 @@ void CEditorMgr::SetThemeMoonlight()
 	style.ChildBorderSize = 1.0f;
 	style.PopupRounding = 0.0f;
 	style.PopupBorderSize = 1.0f;
-	style.FramePadding = ImVec2(20.0f, 3.400000095367432f);
+	style.FramePadding = ImVec2(4.0f, 3.400000095367432f);
 	style.FrameRounding = 11.89999961853027f;
 	style.FrameBorderSize = 0.0f;
 	style.ItemSpacing = ImVec2(4.300000190734863f, 5.5f);

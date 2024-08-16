@@ -28,7 +28,7 @@ void ParticleSystemUI::Update()
 			
 			ImGui::TextColored(HEADER_1, u8"ÅØ½ºÃ³");
 			ImGui::SameLine(80);
-			ImGui::Image(curTex.Get()->GetSRV().Get(), {150, 150});
+			ImGui::Image(curTex.Get()->GetSRV().Get(), { 150, 150 }, { m_UVStart.x, m_UVStart.y }, {m_UVEnd.x, m_UVEnd.y});
 
 			if (ImGui::BeginDragDropTarget())
 			{
@@ -44,6 +44,8 @@ void ParticleSystemUI::Update()
 					if (pTex != nullptr)
 					{
 						curParticleSys->SetParticleTexture(pTex);
+						m_UVStart = Vec2(0, 0);
+						m_UVEnd = Vec2(1, 1);
 					}
 					else if (pSprite != nullptr)
 					{
@@ -52,6 +54,9 @@ void ParticleSystemUI::Update()
 
 						curParticleSys->SetParticleTexture(pSprite->GetAtlasTexture());
 						curParticleSys->SetParticleUV(Vec4(leftTop.x, leftTop.y, leftTop.x + rightBottom.x, leftTop.y + rightBottom.y));
+
+						m_UVStart = Vec2(leftTop.x, leftTop.y);
+						m_UVEnd = Vec2(leftTop.x + rightBottom.x, leftTop.y + rightBottom.y);
 					}
 				}
 				ImGui::EndDragDropTarget();

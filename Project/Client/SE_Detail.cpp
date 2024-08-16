@@ -78,8 +78,17 @@ void SE_Detail::Update()
 		float vRB[2] = { m_LeftTop.x + (PrecisionMode ? m_Slice.x : m_BGSizeX),
 						 m_LeftTop.y + (PrecisionMode ? m_Slice.y : m_BGSizeY) };
 
+		float width = m_AtlasTex->GetDesc().Width;
+		float height = m_AtlasTex->GetDesc().Height;
+
 		ImGui::InputFloat2("LT##leftTop", vLT, "%.3f", ImGuiInputTextFlags_ReadOnly);
 		ImGui::InputFloat2("RB##Slice", vRB, "%.3f", ImGuiInputTextFlags_ReadOnly);
+
+		ImGui::NewLine();
+		ImGui::NewLine();
+		ImGui::NewLine();
+		ImGui::SameLine(50);
+		ImGui::Image(m_AtlasTex.Get()->GetSRV().Get(), {220, 220}, {vLT[0] / width, vLT[1] / height}, {vRB[0] / width, vRB[1] / height}, {1, 1, 1, 1}, {0, 1, 0, 1});
 	}
 }
 

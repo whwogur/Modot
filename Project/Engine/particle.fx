@@ -89,7 +89,7 @@ float4 PS_Particle(GS_OUT _in) : SV_Target
 
     if (g_btex_0)
     {
-        vParticleColor = g_tex_0.Sample(g_sam_2, _in.vUV);
+        vParticleColor = g_tex_0.Sample(g_sam_0, _in.vUV);
         vParticleColor *= ParticleBuffer[_in.InstID].vColor;
         vParticleColor *= g_vec4_3;
     }

@@ -49,13 +49,13 @@ void MenuUI::Tick()
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.35f, 0.87f, 1.0f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.15f, 0.2f, 0.7f, 1.0f });
 			ImGui::SameLine(contentRegionAvailable / 2 + 32);
-			if (ImGui::Button(ICON_FA_PAUSE, { 32, 25 }))
+			if (ImGui::Button(ICON_FA_PAUSE, { 22, 22 }))
 			{
 				ChangeLevelState(LEVEL_STATE::PAUSE);
 				EDITOR_TRACE("Paused");
 			}
 			ImGui::SameLine(contentRegionAvailable / 2 + 70);
-			if (ImGui::Button(ICON_FA_STOP, { 32, 25 }))
+			if (ImGui::Button(ICON_FA_STOP, { 22, 22 }))
 			{
 				const wstring& lvName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
 				CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\" + lvName + L".lv");
@@ -75,13 +75,13 @@ void MenuUI::Tick()
 		{
 			whichCamera = ICON_FA_CAMERA " EditorCam";
 			ImGui::SameLine(contentRegionAvailable / 2 + 32);
-			if (ImGui::Button(ICON_FA_PLAY, { 32, 25 }))
+			if (ImGui::Button(ICON_FA_PLAY, { 22, 22 }))
 			{
 				ChangeLevelState(LEVEL_STATE::PLAY);
 				EDITOR_TRACE("Play");
 			}
 			ImGui::SameLine(contentRegionAvailable / 2 + 70);
-			if (ImGui::Button(ICON_FA_STOP, { 32, 25 }))
+			if (ImGui::Button(ICON_FA_STOP, { 22, 22 }))
 			{
 				const wstring& lvName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
 				CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\" + lvName + L".lv");
@@ -100,7 +100,7 @@ void MenuUI::Tick()
 		{
 			whichCamera = ICON_FA_CAMERA " EditorCam";
 			ImGui::SameLine(contentRegionAvailable / 2 + 32);
-			if (ImGui::Button(ICON_FA_PLAY, { 32, 25 }))
+			if (ImGui::Button(ICON_FA_PLAY, { 22, 22 }))
 			{
 				ChangeLevelState(LEVEL_STATE::PLAY);
 				EDITOR_TRACE("Play");
