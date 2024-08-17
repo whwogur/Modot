@@ -129,6 +129,7 @@ CLevel* CLevelSaveLoad::LoadLevel(const wstring& _RelativePath)
 		}
 	}
 
+	CCollisionMgr::GetInst()->CollisionCheckClear();
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
 		UINT collInfo = 0;
