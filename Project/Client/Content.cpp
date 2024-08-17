@@ -77,13 +77,20 @@ void Content::RenewContent()
 
 	for (UINT i = 0; i < (UINT)ASSET_TYPE::END; ++i)
 	{
-		TreeNode* pNode = m_Tree->AddNode(pRoot, ToString((ASSET_TYPE)i));
+		TreeNode* pNode = m_Tree->AddNode(pRoot, ToString((ASSET_TYPE)i), 0, NodeDataType::FOLDER);
 
 		const map<wstring, Ptr<CAsset>>& mapAsset = CAssetMgr::GetInst()->GetAssets((ASSET_TYPE)i);
 
 		for (const auto& pair : mapAsset)
 		{
-			m_Tree->AddNode(pNode, string(pair.first.begin(), pair.first.end()), (DWORD_PTR)pair.second.Get());
+			NodeDataType temp = NodeDataType::TEXTURE;
+			if (i == 6 || i == 7)
+				temp = NodeDataType::CODE;
+			else if (i == 3)
+				temp = NodeDataType::PREFAB;
+			else if (i == 5)
+				temp = NodeDataType::SOUND;
+			m_Tree->AddNode(pNode, string(pair.first.begin(), pair.first.end()), (DWORD_PTR)pair.second.Get(), temp);
 		}
 	}
 }

@@ -11,6 +11,7 @@ TreeNode::TreeNode(UINT _ID)
 	, m_ID(_ID)
 	, m_Data(0)
 	, m_Selected(false)
+	, m_DataType(NodeDataType::END)
 {
 }
 
@@ -36,23 +37,62 @@ void TreeNode::Update()
 		Flag |= ImGuiTreeNodeFlags_Leaf;
 	}
 
-	string prefix = ICON_FA_FOLDER" ";
+	string prefix;
 	if (m_vecChildNode.empty())
 	{
 		if (m_Owner->IsHierarchy())
 		{
-			CGameObject* targetObj = reinterpret_cast<CGameObject*>(m_Data);
-			prefix = targetObj->IsDisabled() ? ICON_FA_EYE_SLASH"  " : prefix = ICON_FA_EYE"  ";
+			
 		}
 		else
 		{
 			prefix = ICON_FA_FILE_IMAGE_O" ";
 		}
 	}
-	else if (m_Owner->IsHierarchy())
+
+	if (m_Owner->IsHierarchy())
 	{
-		CGameObject* targetObj = reinterpret_cast<CGameObject*>(m_Data);
-		prefix = targetObj->IsDisabled()? ICON_FA_EYE_SLASH"  " : prefix = ICON_FA_EYE"  ";
+		if (m_vecChildNode.empty())
+		{
+			CGameObject* targetObj = reinterpret_cast<CGameObject*>(m_Data);
+			prefix = targetObj->IsDisabled() ? ICON_FA_EYE_SLASH"  " : prefix = ICON_FA_EYE"  ";
+		}
+		else
+		{
+			CGameObject* targetObj = reinterpret_cast<CGameObject*>(m_Data);
+			prefix = targetObj->IsDisabled() ? ICON_FA_EYE_SLASH"  " : prefix = ICON_FA_EYE"  ";
+		}
+	}
+	else
+	{
+		switch (m_DataType)
+		{
+		case NodeDataType::FOLDER:
+		{
+			prefix = ICON_FA_FOLDER" ";
+			break;
+		}
+		case NodeDataType::SOUND:
+		{
+			prefix = ICON_FA_VOLUME_UP" ";
+			break;
+		}
+		case NodeDataType::TEXTURE:
+		{
+			prefix = ICON_FA_PICTURE_O" ";
+			break;
+		}
+		case NodeDataType::CODE:
+		{
+			prefix = ICON_FA_CODE" ";
+			break;
+		}
+		case NodeDataType::PREFAB:
+		{
+			prefix = ICON_FA_OBJECT_GROUP" ";
+			break;
+		}
+		}
 	}
 	
 	string strName = prefix + m_Name + "##" + std::to_string(m_ID);
@@ -187,13 +227,14 @@ void TreeUI::Update()
 	}
 }
 
-TreeNode* TreeUI::AddNode(TreeNode* _Parent, const string& _Name, DWORD_PTR _Data)
+TreeNode* TreeUI::AddNode(TreeNode* _Parent, const string& _Name, DWORD_PTR _Data, NodeDataType _NodeType)
 {
 	// 노드 생성 및 이름, ID 세팅
 	TreeNode* pNode = new TreeNode(m_NodeID++);
 	pNode->m_Owner = this;
 	pNode->SetName(_Name);
 	pNode->m_Data = _Data;
+	pNode->m_DataType = _NodeType;
 
 	// 부모가 지정되지 않으면 노드를 루트로 삼겠다.
 	if (nullptr == _Parent)

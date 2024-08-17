@@ -41,7 +41,6 @@ void ComponentUI::Title()
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
 	float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
 	ImGui::TextColored({ 0.4f, 0.7f, 0.8f, 1.0f }, ToString(m_Type));
-	//ImGui::SeparatorText(ToString(m_Type));
-	
+
 	ImGui::PopStyleVar();
 }

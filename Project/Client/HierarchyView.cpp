@@ -99,7 +99,7 @@ void HierarchyView::RefreshLevel()
 {
 	m_Tree->Clear();
 
-	TreeNode* pRootNode = m_Tree->AddNode(nullptr, "Root", 0);
+	TreeNode* pRootNode = m_Tree->AddNode(nullptr, "Root");
 
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurrentLevel();
 	if (nullptr == pLevel)
@@ -121,7 +121,7 @@ void HierarchyView::RefreshLevel()
 
 void HierarchyView::AddGameObject(TreeNode* pNode, CGameObject* _Object)
 {
-	string ObjectName = string(_Object->GetName().begin(), _Object->GetName().end());
+	string ObjectName(_Object->GetName().begin(), _Object->GetName().end());
 
 	TreeNode* pObjectNode = m_Tree->AddNode(pNode, ObjectName.c_str(), (DWORD_PTR)_Object);
 

@@ -1,6 +1,15 @@
 #pragma once
 #include "EditorUI.h"
 
+enum class NodeDataType
+{
+    FOLDER,
+    TEXTURE,
+    SOUND,
+    CODE,
+    PREFAB,
+    END,
+};
 
 class TreeNode
 {
@@ -33,6 +42,7 @@ private:
     DWORD_PTR           m_Data;
 
     bool                m_Selected;
+    NodeDataType        m_DataType;
 };
 
 
@@ -44,7 +54,7 @@ public:
     ~TreeUI();
 
 public:
-    TreeNode* AddNode(TreeNode* _Parent, const string& _Name, DWORD_PTR _Data = 0);
+    TreeNode* AddNode(TreeNode* _Parent, const string& _Name, DWORD_PTR _Data = 0, NodeDataType = NodeDataType::FOLDER);
     void ShowRoot(bool _Show) { m_ShowRoot = _Show; }
     bool IsRootNodeVisible() { return m_ShowRoot; }
 
