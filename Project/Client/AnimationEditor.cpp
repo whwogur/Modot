@@ -145,17 +145,23 @@ void AnimationEditor::Update()
 
         ImGui::NewLine();
 
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.0f, 0.222f, 0.555f, 1.0f });
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.222f, 0.555f, 0.777f, 1.0f });
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.0f, 0.333f, 0.555f, 1.0f });
         ImGui::SameLine(770);
         if (ImGui::Button(ICON_FA_ARROW_UP, { 25, 25 }))
         {
             offsetUV.y += deltaUV;
         }
+        ImGui::PopStyleColor(3);
         ImGui::NewLine();
         ImGui::SameLine(500);
         ImGui::SetNextItemWidth(200.f);
         ImGui::InputFloat("##OffsetDelta", &deltaUV, 0.001f, 0.005f, "%.4f");
         ImGui::SetItemTooltip(u8"얼만큼 움직일지 정한 후 \n화살표로 Offset을 조절합니다");
-        
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.0f, 0.222f, 0.555f, 1.0f });
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.222f, 0.555f, 0.777f, 1.0f });
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.0f, 0.333f, 0.555f, 1.0f });
         ImGui::SameLine(740);
         if (ImGui::Button(ICON_FA_ARROW_LEFT, { 25, 25 }))
         {
@@ -167,13 +173,13 @@ void AnimationEditor::Update()
             offsetUV.y -= deltaUV;
         }
         ImGui::SameLine();
-        if (ImGui::Button(ICON_FA_ARROW_RIGHT, {25, 25}))
+        if (ImGui::Button(ICON_FA_ARROW_RIGHT, { 25, 25 }))
         {
             offsetUV.x += deltaUV;
         }
-        
-        ImGui::NewLine();
-        if (ImGui::Button(m_Play ? ICON_FA_PAUSE : ICON_FA_PLAY, { 50, 30 }))
+        ImGui::PopStyleColor(3);
+
+        if (ImGui::Button(m_Play ? ICON_FA_PAUSE_CIRCLE : ICON_FA_PLAY_CIRCLE , { 25, 25 }))
         {
             m_Play = !m_Play;
         }
@@ -181,13 +187,13 @@ void AnimationEditor::Update()
         ImGui::SetNextItemWidth(100.f);
         ImGui::DragFloat("FPS", &m_FPS, 1.0f, 0.1f, 60.f, "%.1f", 0);
         ImGui::SetItemTooltip(u8"애니메이션 재생 속도 조절");
-
+        ImGui::NewLine();
         if (ImGui::BeginNeoSequencer(u8"애니메이션", &m_CurrentFrame, &m_StartFrame, &m_EndFrame, {0, 0})) {
             
                 std::vector<ImGui::FrameIndexType> keys(m_EndFrame);
                 std::iota(keys.begin(), keys.end(), 0);
 
-                if (ImGui::BeginNeoTimeline(u8"키프레임", keys)) {
+                if (ImGui::BeginNeoTimeline(u8"KeyFrames", keys)) {
                     ImGui::EndNeoTimeLine();
             }
 
@@ -209,28 +215,7 @@ void AnimationEditor::Update()
     else
     {
         ImGui::SetWindowFontScale(1.18f);
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.222f, 0.222f, 0.222f, 0.7f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.222f, 0.222f, 0.222f, 0.7f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.222f, 0.222f, 0.222f, 0.7f });
-
-
-        ImGui::SameLine(160);
-        if (ImGui::Button(ICON_FA_ARROW_LEFT, { 25, 25 }))
-        {
-        }
-        ImGui::SameLine(200);
-        if (ImGui::Button(ICON_FA_ARROW_RIGHT, { 25, 25 }))
-        {
-        }
-
-        ImGui::SameLine(400);
-        if (ImGui::Button(ICON_FA_PENCIL_SQUARE_O, { 30, 30 }))
-        {
-        }
-       
         ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, u8"애니메이션을 선택해주세요!!!");
-        ImGui::PopStyleColor(3);
-
         ImGui::SameLine(800);
         if (ImGui::Button(ICON_FA_FILE_IMAGE_O "NEW", { 100, 30 }))
         {

@@ -197,6 +197,13 @@ void CAssetMgr::CreateEngineGraphicShader()
 	AddAsset(L"DebugShapeShader", pShader);
 
 	// TileMapShader
+//AtlasTex            g_tex_0
+//IsAtlasBind         g_btex_0
+//
+//AtlasMaxRow         g_int_1
+//AtlasMaxCol         g_int_2
+//TileSliceUV         g_vec2_0
+//TileColRow          g_vec2_1
 	pShader = new CGraphicShader;
 
 	pShader->CreateVertexShader(L"shader\\tilemap.fx", "VS_TileMap");
@@ -205,8 +212,12 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetDSType(DS_TYPE::LESS);
 	pShader->SetBSType(BS_TYPE::ALPHABLEND_COVERAGE);
-
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASKED);
+	pShader->AddTexParam(TEX_0, "Atlas");
+	pShader->AddScalarParam(INT_1, "AtlasMaxRow");
+	pShader->AddScalarParam(INT_2, "AtlasMaxCol");
+	pShader->AddScalarParam(VEC2_0, "TileSliceUV");
+	pShader->AddScalarParam(VEC2_1, "Tile Col*Row");
 
 	AddAsset(L"TileMapShader", pShader);
 
@@ -257,7 +268,7 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 	pShader->SetBSType(BS_TYPE::ALPHABLEND);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
-	pShader->AddTexParam(TEX_0, u8"샘플링 텍스처");
+	pShader->AddTexParam(TEX_0, u8"텍스처");
 	AddAsset(L"RippleShader", pShader);
 
 	// SmallRipple
