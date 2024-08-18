@@ -89,7 +89,7 @@ void SE_Detail::Update()
 		ImGui::NewLine();
 		ImGui::NewLine();
 		ImGui::SameLine(50);
-		ImGui::Image(m_AtlasTex.Get()->GetSRV().Get(), {220, 220}, {vLT[0] / width, vLT[1] / height}, {vRB[0] / width, vRB[1] / height}, {1, 1, 1, 1}, {0, 1, 0, 1});
+		ImGui::Image(m_AtlasTex.Get()->GetSRV().Get(), {250, 250}, {vLT[0] / width, vLT[1] / height}, {vRB[0] / width, vRB[1] / height}, {1, 1, 1, 1}, HEADER_2);
 	}
 }
 

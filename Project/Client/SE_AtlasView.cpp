@@ -96,19 +96,19 @@ void SE_AtlasView::SelectCheck()
 	// Image 위젯 좌상단 좌표
 	ImageRectMin = ImGui::GetItemRectMin();
 	float ArrImageMin[] = { ImageRectMin.x, ImageRectMin.y };
-	ImGui::InputFloat2("ImageMin", ArrImageMin);
+	//ImGui::InputFloat2("ImageMin", ArrImageMin);
 
 	// 현재 마우스 위치
 	m_MousePos = ImGui::GetMousePos();
 	float arrMousePos[] = { m_MousePos.x, m_MousePos.y };
-	ImGui::InputFloat2("MousePos", arrMousePos);
+	//ImGui::InputFloat2("MousePos", arrMousePos);
 
 	ImVec2 vDiff = ImVec2(m_MousePos.x - ImageRectMin.x, m_MousePos.y - ImageRectMin.y);
 	vDiff = ImVec2(vDiff.x / m_Ratio, vDiff.y / m_Ratio);
 
 	// 마우스 위치의 아틀라스 픽셀좌표	
 	float PixelPos[] = { vDiff.x, vDiff.y };
-	ImGui::InputFloat2("PixelPos", PixelPos);
+	//ImGui::InputFloat2("PixelPos", PixelPos);
 
 	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 	{
@@ -130,11 +130,9 @@ void SE_AtlasView::SelectCheck()
 		ImVec2 vDiff = ImVec2(m_MouseRB.x - ImageRectMin.x, m_MouseRB.y - ImageRectMin.y);
 		m_MouseRB = ImVec2(vDiff.x / m_Ratio, vDiff.y / m_Ratio);
 
-		if (!PrecisionMode)
-		{
-			string size = std::to_string(m_MouseRB.x - m_MouseLT.x) + ", " + std::to_string(m_MouseRB.y - m_MouseLT.y);
-			ImGui::SetItemTooltip(size.c_str());
-		}
+		string size = std::to_string((int)m_MouseRB.x - (int)m_MouseLT.x) + " x " + std::to_string((int)m_MouseRB.y - (int)m_MouseLT.y);
+
+		ImGui::SetItemTooltip(size.c_str());
 	}
 
 	if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
@@ -171,5 +169,5 @@ void SE_AtlasView::DrawSelectRect()
 	ImVec2 MouseRBPos = ImVec2(m_MouseRB.x * m_Ratio + ImageRectMin.x, m_MouseRB.y * m_Ratio + ImageRectMin.y);
 
 	ImGui::GetWindowDrawList()->AddRect(MouseLTPos, MouseRBPos
-		, ImGui::GetColorU32(ImVec4(1.f, 1.f, 0.f, 1.f)), 0.f, 0.f, 1.f);
+		, ImGui::GetColorU32(HEADER_2), 0.1f, 0, 1.f);
 }

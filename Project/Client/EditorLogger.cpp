@@ -26,7 +26,8 @@ void EditorLogger::Draw(const char* title, bool* p_open)
 	if (ImGui::BeginPopup("LogOptions"))
 	{
 		ImGui::Checkbox("Auto scroll", &AutoScroll);
-		ImGui::Checkbox("Combo Filter", &ComboBox);
+		if (ImGui::Checkbox("Combo Filter", &ComboBox))
+			Filter.Clear();
 		ImGui::EndPopup();
 	}
 
@@ -51,6 +52,7 @@ void EditorLogger::Draw(const char* title, bool* p_open)
 				Filter.InputBuf[1] = 'N';
 				Filter.InputBuf[2] = 'F';
 				Filter.InputBuf[3] = 'O';
+				Filter.InputBuf[4] = ']';
 				Filter.Build();
 			}
 
@@ -70,6 +72,7 @@ void EditorLogger::Draw(const char* title, bool* p_open)
 				Filter.InputBuf[1] = 'A';
 				Filter.InputBuf[2] = 'R';
 				Filter.InputBuf[3] = 'N';
+				Filter.InputBuf[4] = ']';
 				Filter.Build();
 			}
 
@@ -92,7 +95,7 @@ void EditorLogger::Draw(const char* title, bool* p_open)
 	}
 
 	ImGui::SameLine(); 
-	if (ImGui::Button("Clear"))
+	if (!ComboBox && ImGui::Button("Clear"))
 	{
 		Filter.Clear();
 	}
