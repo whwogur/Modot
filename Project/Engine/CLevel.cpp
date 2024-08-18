@@ -4,7 +4,7 @@
 #include "CLevelMgr.h"
 #include "CLayer.h"
 #include "CGameObject.h"
-
+#include <queue>
 CLevel::CLevel()
 	: m_Layer{}
 	, m_State(LEVEL_STATE::STOP)
@@ -98,23 +98,25 @@ CGameObject* CLevel::FindObjectByName(const wstring& _Name)
 	{
 		const vector<CGameObject*>& vecParent = m_Layer[i]->GetParentObjects();
 
-		static list<CGameObject*> list;
-		for (size_t i = 0; i < vecParent.size(); ++i)
+		// 큐를 사용하여 BFS 탐색
+		std::queue<CGameObject*> objQueue;
+		for (size_t j = 0; j < vecParent.size(); ++j)
 		{
-			list.clear();
-			list.push_back(vecParent[i]);
+			objQueue.push(vecParent[j]);
 
-			while (!list.empty())
+			while (!objQueue.empty())
 			{
-				CGameObject* pObject = list.front();
-				list.pop_front();
+				CGameObject* pObject = objQueue.front();
+				objQueue.pop();
 
+				// 자식 객체들을 큐에 추가
 				const vector<CGameObject*>& vecChild = pObject->GetChildren();
-				for (size_t i = 0; i < vecChild.size(); ++i)
+				for (size_t k = 0; k < vecChild.size(); ++k)
 				{
-					list.push_back(vecChild[i]);
+					objQueue.push(vecChild[k]);
 				}
 
+				// 이름이 일치하는 객체를 찾으면 반환
 				if (_Name == pObject->GetName())
 				{
 					return pObject;
@@ -123,5 +125,6 @@ CGameObject* CLevel::FindObjectByName(const wstring& _Name)
 		}
 	}
 
+	// 찾지 못한 경우 nullptr 반환
 	return nullptr;
 }

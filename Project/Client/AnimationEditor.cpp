@@ -17,6 +17,7 @@ AnimationEditor::AnimationEditor()
 
 void AnimationEditor::Update()
 {
+    static bool newAnimSaved = false;
     if (ImGui::BeginDragDropTarget())
     {
         const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
@@ -71,8 +72,15 @@ void AnimationEditor::Update()
             spriteEditor->SetActive(true);
         }
         ImGui::SetItemTooltip(u8"현재 애니메이션이 참조하는\n아틀라스 텍스처를\n스프라이트 에디터에서 엽니다");
-        ImGui::SameLine(160);
-        if (ImGui::Button(ICON_FA_FLOPPY_O, { 30, 30 }))
+        ImGui::SameLine(180);
+       
+        ImGui::SetNextItemWidth(100);
+        ImGui::InputText("##SaveAs", m_AnimName, sizeof(m_AnimName));
+        ImGui::SetItemTooltip(u8"저장할 이름\n다른이름으로 저장할 때만 작성");
+
+
+        ImGui::SameLine(290);
+        if (ImGui::Button(ICON_FA_FLOPPY_O, { 25, 25 }))
         {
             if (std::strlen(m_AnimName) < 1)
             {
@@ -89,13 +97,10 @@ void AnimationEditor::Update()
                 std::filesystem::path fileName = static_cast<std::filesystem::path>(wstrPath).stem();
                 CAssetMgr::GetInst()->Load<CAnimation>(fileName, L"animation\\" + wstrPath);
             }
+
+            newAnimSaved = true;
         }
         ImGui::SetItemTooltip(u8"애니메이션을 저장합니다");
-
-        ImGui::SameLine(210);
-        ImGui::SetNextItemWidth(100);
-        ImGui::InputText("##SaveAs", m_AnimName, sizeof(m_AnimName));
-        ImGui::SetItemTooltip(u8"저장할 이름\n다른이름으로 저장할 때만 작성");
 
         ImGui::SameLine(800);
         if (ImGui::Button(ICON_FA_FILE_IMAGE_O "NEW", { 100, 30 }))
@@ -156,18 +161,17 @@ void AnimationEditor::Update()
         {
             offsetUV.x -= deltaUV;
         }
-        ImGui::SameLine(800);
-        if (ImGui::Button(ICON_FA_ARROW_RIGHT, {25, 25}))
-        {
-            offsetUV.x += deltaUV;
-        }
-        ImGui::NewLine();
-
-        ImGui::SameLine(770);
+        ImGui::SameLine();
         if (ImGui::Button(ICON_FA_ARROW_DOWN, { 25, 25 }))
         {
             offsetUV.y -= deltaUV;
         }
+        ImGui::SameLine();
+        if (ImGui::Button(ICON_FA_ARROW_RIGHT, {25, 25}))
+        {
+            offsetUV.x += deltaUV;
+        }
+        
         ImGui::NewLine();
         if (ImGui::Button(m_Play ? ICON_FA_PAUSE : ICON_FA_PLAY, { 50, 30 }))
         {
@@ -190,6 +194,17 @@ void AnimationEditor::Update()
             ImGui::EndNeoSequencer();
         }
 
+
+        if (newAnimSaved)
+        {
+            Ptr<CAnimation> temp = new CAnimation;
+            Ptr<CSprite> tempSprite = CAssetMgr::GetInst()->FindAsset<CSprite>(L"DefaultSprite");
+            temp->AddSprite(tempSprite);
+
+            m_Animation = temp;
+            Refresh();
+            newAnimSaved = false;
+        }
 	}
     else
     {
