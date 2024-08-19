@@ -3,114 +3,206 @@
 
 #include "value.fx"
 #include "struct.fx"
+#include "func.fx"
+
 
 RWStructuredBuffer<tParticle> ParticleBuffer : register(u0);
 RWStructuredBuffer<tSpawnCount> SpawnCountBuffer : register(u1);
 Texture2D NoiseTex : register(t20);
+StructuredBuffer<tParticleModule> Module : register(t21);
 
 #define ParticleObjectPos   g_vec4_0.xyz
 #define MAX_COUNT           g_int_0
-#define CSType              g_int_1
 #define Particle            ParticleBuffer[_ID.x]
+
+
+// Module Check
+#define SpawnModule         Module[0].Module[0]
+#define SpawnBurstModule    Module[0].Module[1]
+#define SpawnShapeType      Module[0].SpawnShape
+#define AddVelocityModule   Module[0].Module[2]
+#define ScaleModule         Module[0].Module[3]
+#define DragModule          Module[0].Module[4]
+#define NoiseForce          Module[0].Module[5]
+#define Render              Module[0].Module[6]
+
 
 [numthreads(1024, 1, 1)]
 void CS_ParticleTick(int3 _ID : SV_DispatchThreadID)
 {
-    if (_ID.x >= MAX_COUNT)
+    if (MAX_COUNT <= _ID.x)
         return;
-
-    if (!Particle.Active)
+    
+    if (false == Particle.Active)
     {
-        int SpawnCount = 0;
-        InterlockedAdd(SpawnCountBuffer[0].iSpawnCount, -1, SpawnCount);
-
-        if (SpawnCount > 0)
+        int SpawnCount = SpawnCountBuffer[0].iSpawnCount;
+                
+        while (0 < SpawnCount)
         {
-            switch (CSType)
+            int Origin = 0;
+            
+            InterlockedCompareExchange(SpawnCountBuffer[0].iSpawnCount
+                                      , SpawnCount
+                                      , SpawnCountBuffer[0].iSpawnCount - 1
+                                      , Origin);
+
+            if (SpawnCount == Origin)
             {
-                case 0:
+                // 파티클의 위치를 특정 범위내에서 랜덤한 위치로 잡아준다.                
+                float2 vUV = (float2) 0.f;
+                
+                // 스레드를 UV 로 맵핑하기위해서 ID 를 0~1 범위로 정규화     
+                float3 vRandom0 = GetRandom(NoiseTex, _ID.x, MAX_COUNT);
+                float3 vRandom1 = GetRandom(NoiseTex, _ID.x + 1, MAX_COUNT);
+                float3 vRandom2 = GetRandom(NoiseTex, _ID.x + 2, MAX_COUNT);
+                                
+                float3 vSpawnPos = (float3) 0.f;
+                
+                // 0 : Box,  1 : Sphere
+                if (0 == SpawnShapeType)
                 {
-                    // 파티클의 위치를 특정 범위내에서 랜덤한 위치로 잡아준다.                
-                        float2 vUV = (float2) 0.f;
-
-                    // 스레드를 UV 로 맵핑하기위해서 ID 를 0~1 범위로 정규화                
-                    float RandomFactor = frac(sin(dot(_ID.xy, float2(12.9898, 78.233))) * 43758.5453);
-
-                    vUV.x = ((float) _ID.x / (float) (MAX_COUNT - 1)) + RandomFactor * g_EngineTime * 0.5f;
-                    vUV.y = sin(vUV.x * 20 * PI) * 0.5f + RandomFactor * g_EngineTime * 0.1f;
-
-                    float3 vNoise = NoiseTex.SampleLevel(g_sam_1, vUV, 0).xyz;
-
-                    float BoxScale = 300.f;
-
-                    float3 vRandomPos = (float3) 0.f;
-
-                    vRandomPos.x = vNoise.x * BoxScale - (BoxScale / 2.f);
-                    vRandomPos.y = vNoise.y * BoxScale - (BoxScale / 2.f);
-                    vRandomPos.z = vNoise.z * BoxScale - (BoxScale / 2.f);
-
-                    Particle.Active = true;
-                    Particle.vLocalPos = vRandomPos;
-                    Particle.vWorldPos = Particle.vLocalPos + ParticleObjectPos;
-                    Particle.Age = 0.f;
-                    Particle.Life = 10.f;
-                    Particle.NormalizedAge = 0.f;
-                    Particle.vVelocity = float3(0.0f, 0.0f, 0.0f);
-                    break;
+                    vSpawnPos.x = vRandom0.x * Module[0].SpawnShapeScale.x - (Module[0].SpawnShapeScale.x / 2.f);
+                    vSpawnPos.y = vRandom0.y * Module[0].SpawnShapeScale.y - (Module[0].SpawnShapeScale.y / 2.f);
+                    vSpawnPos.z = vRandom0.z * Module[0].SpawnShapeScale.z - (Module[0].SpawnShapeScale.z / 2.f);
                 }
-                case 1:
+                else if (1 == SpawnShapeType)
                 {
-                    // 오르토그래픽 카메라 프러스텀의 코너를 계산
-                    float3 frustumCorners[4];
-                        frustumCorners[0] = mul(mul(matProj, matView), float4(-1, -1, 0, 1)).xyz; // 좌하단
-                        frustumCorners[1] = mul(mul(matProj, matView), float4(1, -1, 0, 1)).xyz; // 우하단
-                        frustumCorners[2] = mul(mul(matProj, matView), float4(-1, 1, 0, 1)).xyz; // 좌상단
-                        frustumCorners[3] = mul(mul(matProj, matView), float4(1, 1, 0, 1)).xyz; // 우상단
-
-                    // 카메라의 최소 및 최대 값을 계산
-                    float2 cameraMin = float2(min(frustumCorners[0].x, frustumCorners[2].x), min(frustumCorners[0].y, frustumCorners[1].y));
-                    float2 cameraMax = float2(max(frustumCorners[1].x, frustumCorners[3].x), max(frustumCorners[2].y, frustumCorners[3].y));
-
-                    // 파티클의 위치를 특정 범위 내에서 랜덤한 위치로 설정
-                    float2 vUV = (float2) 0.f;
-
-                    // UV 매핑을 위해 ID를 0~1 범위로 정규화
-                    float RandomFactor = frac(sin(dot(_ID.xy, float2(12.9898, 78.233))) * 43758.5453);
-                    float3 vNoise = NoiseTex.SampleLevel(g_sam_1, vUV, 0).xyz;
+                    float fRadius = Module[0].SpawnShapeScale.x;
+                    float fBlockRadius = Module[0].BlockSpawnShapeScale.x;
+                    float fDifferRadius = fRadius - fBlockRadius;
+                        
+                    vSpawnPos = normalize(vRandom1 - 0.5f) * fDifferRadius * vRandom2.x 
+                                    + normalize(vRandom1 - 0.5f) * fBlockRadius;
+                }
+                                                        
+                // Add Velocity Module
+                Particle.vVelocity = (float3) 0.f;
+                
+                if (AddVelocityModule)
+                {
+                    float fSpeed = Module[0].AddMinSpeed + (Module[0].AddMaxSpeed - Module[0].AddMinSpeed) * vRandom2.x;
+                        
+                    // Random
+                    if (0 == Module[0].AddVelocityType)                        
+                        Particle.vVelocity = normalize(vRandom2 - 0.5f) * fSpeed;
+                    // FromCenter
+                    else if (1 == Module[0].AddVelocityType)                        
+                        Particle.vVelocity = normalize(vSpawnPos) * fSpeed;
+                    // ToCenter
+                    else if (2 == Module[0].AddVelocityType)
+                        Particle.vVelocity = -normalize(vSpawnPos) * fSpeed;
+                    // Fixed
+                    else
+                        Particle.vVelocity = normalize(Module[0].AddVelocityFixedDir) * fSpeed;
+                }
                     
-                    vUV.x = ((float) _ID.x / (float) (MAX_COUNT - 1)) + RandomFactor * g_EngineTime * 0.5f;
-
-                    // 카메라의 상단에서 랜덤한 x 위치에 파티클 생성
-                    float3 vRandomPos = (float3) 0.f;
-                    vRandomPos.x = lerp(cameraMin.x, cameraMax.x, vUV.x);
-                    vRandomPos.y = cameraMax.y; // 화면 상단에서 시작
-                    vRandomPos.z = 0.0f; // z축은 사용하지 않음
-
-                    Particle.Active = true;
-                    Particle.vLocalPos = vRandomPos;
-                    Particle.vWorldPos = Particle.vLocalPos + ParticleObjectPos;
-                    Particle.Age = 0.f;
-                    Particle.Life = 2.f;
-                    Particle.NormalizedAge = 0.f;
-
-                    // 파티클의 초기 속도 설정 (아래로 떨어지도록)
-                    Particle.vVelocity = float3(0.0f, -50.0f, 0.0f); // y축 방향으로 내려가는 속도 설정
-                    break;
-                }
+                    
+                Particle.vLocalPos = vSpawnPos;
+                Particle.vWorldPos = Particle.vLocalPos + ParticleObjectPos.xyz;
+                Particle.vWorldInitScale = (Module[0].vSpawnMaxScale - Module[0].vSpawnMinScale) * vRandom0.x + Module[0].vSpawnMinScale;
+                                    
+                Particle.vColor = Module[0].vSpawnColor;
+                Particle.Mass = 1.f;
+                
+                Particle.Age = 0.f;
+                Particle.NormalizedAge = 0;
+                Particle.Life = (Module[0].MaxLife - Module[0].MinLife) * vRandom1.y + Module[0].MinLife;
+                Particle.Active = 1;
+                
+                break;
             }
             
+            SpawnCount = SpawnCountBuffer[0].iSpawnCount;
         }
     }
+     
+    // 스레드가 담당하는 파티클이 활성화 상태면 Tick 을 수행한다.
     else
     {
-        Particle.vWorldPos += Particle.vVelocity * g_EngineDT;
+        Particle.vForce = float3(0.f, 0.f, 0.f);
+        
+        // Noise Force Module
+        if (NoiseForce)
+        {
+            // 일정 시간마다 Noise Force 의 방향을 랜덤하게 구함
+            if (Module[0].NoiseForceTerm <= Particle.NoiseForceAccTime)
+            {
+                Particle.NoiseForceAccTime -= Module[0].NoiseForceTerm;
+                
+                float3 vRandom = GetRandom(NoiseTex, _ID.x, MAX_COUNT);
+                float3 vNoiseForce = normalize(vRandom.xyz - 0.5f);
+
+                Particle.NoiseForceDir = vNoiseForce;
+            }
+                        
+            Particle.vForce += Particle.NoiseForceDir * Module[0].NoiseForceScale;
+            Particle.NoiseForceAccTime += g_EngineDT;
+        }
+        
+        // Particle 에 주어진 힘에 따른 가속도 계산
+        float3 vAccel = Particle.vForce / Particle.Mass;
+        
+        // 가속도에 따른 속도의 변화
+        Particle.vVelocity += vAccel * g_EngineDT;
+                        
+        // Velocity 에 따른 이동 구현        
+        if (0 == Module[0].SpaceType)
+        {
+            // Space 가 Local 이라면
+            Particle.vLocalPos += Particle.vVelocity * g_EngineDT;
+            Particle.vWorldPos = Particle.vLocalPos + ParticleObjectPos.xyz;
+        }
+        else
+        {
+            Particle.vLocalPos += Particle.vVelocity * g_EngineDT;
+            Particle.vWorldPos += Particle.vVelocity * g_EngineDT;
+        }
+        
+        // Scale 모듈에 따른 현재 크기 계산
+        Particle.vWorldCurrentScale = Particle.vWorldInitScale;
+        if (ScaleModule)
+            Particle.vWorldCurrentScale = ((Module[0].EndScale - Module[0].StartScale) * Particle.NormalizedAge + Module[0].StartScale) * Particle.vWorldInitScale;
+        
+        
+        if (DragModule)
+        {
+            if (Particle.NormalizedAge < Module[0].DestNormalizedAge)
+            {
+                // 기울기
+                // (목적 속력 - 현재 속력) / (목적 NA - 현재 NA)
+                float Gradient = (Module[0].LimitSpeed - length(Particle.vVelocity)) / (Module[0].DestNormalizedAge - Particle.NormalizedAge);
+                float NADT = g_EngineDT / Particle.Life;
+            
+                float NewSpeed = length(Particle.vVelocity) + (Gradient * NADT);
+                Particle.vVelocity = normalize(Particle.vVelocity) * NewSpeed;
+            }
+            else
+            {
+                //if (Module[0].LimitSpeed < length(Particle.vVelocity))
+                //{
+                //    Particle.vVelocity = normalize(Particle.vVelocity) * Module[0].LimitSpeed;
+                //}
+            }
+        }
+        
+        if (Render)
+        {
+            Particle.vColor.rgb = (Module[0].EndColor - Module[0].vSpawnColor.rgb) * Particle.NormalizedAge + Module[0].vSpawnColor.rgb;
+
+            if (Module[0].FadeOut)
+            {
+                float fRatio = saturate(1.f - (Particle.NormalizedAge - Module[0].StartRatio) / (1.f - Module[0].StartRatio));
+                Particle.vColor.a = fRatio;
+            }
+        }
+        
         
         Particle.Age += g_EngineDT;
+        Particle.NormalizedAge = Particle.Age / Particle.Life;
         if (Particle.Life <= Particle.Age)
         {
-            Particle.Active = false;
+            Particle.Active = 0;
         }
     }
 }
-
 #endif

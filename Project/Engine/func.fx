@@ -72,4 +72,13 @@ void CalculateLight2D(int _LightIdx, float3 _WorldPos, inout tLight _Light)
     }
 }
 
+float3 GetRandom(in Texture2D _NoiseTexture, uint _ID, uint _maxId)
+{
+    float2 vUV = (float2) 0.f;
+    vUV.x = ((float) _ID / (float) (_maxId - 1)) + g_EngineTime * 0.5f;
+    vUV.y = sin(vUV.x * 20 * PI) * 0.5f + g_EngineTime * 0.1f;
+    float3 vRandom = _NoiseTexture.SampleLevel(g_sam_1, vUV, 0).xyz;
+
+    return vRandom;
+}
 #endif

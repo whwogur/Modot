@@ -9,12 +9,7 @@ CParticleTexScript::CParticleTexScript()
 
 void CParticleTexScript::Begin()
 {
-	if (m_Texture.Get() != nullptr)
-	{
-		ParticleSystem()->GetDynamicMaterial()->SetTexParam(TEX_PARAM::TEX_0, m_Texture);
-		ParticleSystem()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_1, Vec4(0, 0, 1, 1));
-		ParticleSystem()->GetTickCS()->SetCSType(CSType::LEAVES); // TickCS는 결국 분기처리로 안되고 따로 만들어야겠다... 좀 더 생각해봐야겠음
-	}
+	
 }
 
 void CParticleTexScript::Tick()

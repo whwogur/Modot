@@ -28,7 +28,7 @@ void ParticleSystemUI::Update()
 			
 			ImGui::TextColored(HEADER_1, u8"텍스처");
 			ImGui::SameLine(80);
-			ImGui::Image(curTex.Get()->GetSRV().Get(), { 150, 150 }, { m_UVStart.x, m_UVStart.y }, {m_UVEnd.x, m_UVEnd.y});
+			ImGui::Image(curTex.Get()->GetSRV().Get(), { 150, 150 });
 			ImGui::SetItemTooltip(u8"텍스처\n 스프라이트");
 			if (ImGui::BeginDragDropTarget())
 			{
@@ -43,20 +43,6 @@ void ParticleSystemUI::Update()
 					{
 						Ptr<CTexture> pTex = reinterpret_cast<CTexture*>(pAsset.Get());
 						curParticleSys->SetParticleTexture(pTex);
-						m_UVStart = Vec2(0, 0);
-						m_UVEnd = Vec2(1, 1);
-					}
-					else if (pAsset->GetAssetType() == ASSET_TYPE::SPRITE)
-					{
-						Ptr<CSprite> pSprite = reinterpret_cast<CSprite*>(pAsset.Get());
-						Vec2 leftTop = pSprite->GetLeftTopUV();
-						Vec2 rightBottom = pSprite->GetSliceUV();
-
-						curParticleSys->SetParticleTexture(pSprite->GetAtlasTexture());
-						curParticleSys->SetParticleUV(Vec4(leftTop.x, leftTop.y, leftTop.x + rightBottom.x, leftTop.y + rightBottom.y));
-
-						m_UVStart = Vec2(leftTop.x, leftTop.y);
-						m_UVEnd = Vec2(leftTop.x + rightBottom.x, leftTop.y + rightBottom.y);
 					}
 				}
 				ImGui::EndDragDropTarget();
@@ -66,19 +52,7 @@ void ParticleSystemUI::Update()
 			
 			if (pTickCS != nullptr)
 			{
-				CSType type = pTickCS->GetCSType();
-				ImGui::TextColored(HEADER_1, "CS"); ImGui::SameLine();
-				if (ImGui::BeginCombo("##TickCSSelect", CSTypeToString[(int)type].c_str()))
-				{
-					for (UINT i = 0; i < (UINT)CSType::END; ++i)
-					{
-						if (ImGui::Selectable(CSTypeToString[i].c_str()))
-						{
-							pTickCS->SetCSType((CSType)i);
-						}
-					}
-					ImGui::EndCombo();
-				}
+				
 			}
 			else
 			{

@@ -196,14 +196,6 @@ void CAssetMgr::CreateEngineGraphicShader()
 
 	AddAsset(L"DebugShapeShader", pShader);
 
-	// TileMapShader
-//AtlasTex            g_tex_0
-//IsAtlasBind         g_btex_0
-//
-//AtlasMaxRow         g_int_1
-//AtlasMaxCol         g_int_2
-//TileSliceUV         g_vec2_0
-//TileColRow          g_vec2_1
 	pShader = new CGraphicShader;
 
 	pShader->CreateVertexShader(L"shader\\tilemap.fx", "VS_TileMap");
@@ -308,9 +300,6 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDSType(DS_TYPE::NO_WRITE);
 	pShader->SetBSType(BS_TYPE::ALPHABLEND);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_PARTICLE);
-	pShader->AddTexParam(TEX_PARAM::TEX_0, u8"텍스처");
-	pShader->AddScalarParam(SCALAR_PARAM::VEC4_1, "UV");
-	pShader->AddScalarParam(SCALAR_PARAM::VEC4_3, u8"틴트");
 	AddAsset(L"ParticleRenderShader", pShader);
 }
 
@@ -353,9 +342,6 @@ void CAssetMgr::CreateEngineMaterial()
 	// ParticleRenderMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"ParticleRenderShader"));
-	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"Default-Particle"));
-	pMtrl->SetScalarParam(VEC4_1, Vec4(0.f, 0.f, 1.f, 1.f));
-	pMtrl->SetScalarParam(VEC4_3, Vec4(1, 1, 1, 1));
 	AddAsset(L"ParticleRenderMtrl", pMtrl);
 
 	// SpriteRenderMtrl

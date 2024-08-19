@@ -57,17 +57,27 @@ struct tTransform
 // Particle
 struct tParticle
 {
+	Vec4	vColor;
 	Vec3	vLocalPos;
 	Vec3	vWorldPos;
-	Vec3	vWorldScale;
-	Vec4	vColor;
+	Vec3	vWorldInitScale;
+	Vec3	vWorldCurrentScale;
+	Vec3	vWorldRotation;
+
+	Vec3	vForce;
 
 	Vec3	vVelocity;
 
-	float   Age;
-	float   Life;
-	float   NormalizedAge;
-	int     Active;
+	float	NoiseForceAccTime;	// Noise Force 텀에 도달하는 누적 시간
+	Vec3	NoiseForceDir;		// Noise Force 의 방향
+
+	float	Mass;
+	float	Life;
+	float	Age;
+	float	NormalizedAge;
+	int		Active;
+
+	Vec2	Padding;
 };
 
 struct tMtrlConst
@@ -108,3 +118,57 @@ struct tGlobalData
 	int     g_Light3DCount;
 };
 extern tGlobalData g_GlobalData;
+
+// Particle Module
+struct tParticleModule
+{
+	// Spawn
+	UINT	SpawnRate;				// 초당 파티클 생성개수 (Spawn Per Second)
+	Vec4	vSpawnColor;			// 생성 시점 색상
+	Vec4	vSpawnMinScale;			// 생성 시 최소 크기
+	Vec4	vSpawnMaxScale;			// 생성 시 최대 크기
+
+	float	MinLife;				// 최소 수명
+	float	MaxLife;				// 최대 수명
+
+	UINT	SpawnShape;				// 0 : Box,  1: Sphere
+	Vec3	SpawnShapeScale;		// SpawnShapeScale.x == Radius
+
+	UINT	BlockSpawnShape;		// 0 : Box,  1: Sphere
+	Vec3	BlockSpawnShapeScale;	// SpawnShapeScale.x == Radius
+
+	UINT	SpaceType;				// 0 : LocalSpace, 1 : WorldSpace
+
+	// Spawn Burst
+	UINT	SpawnBurstCount;		// 한번에 발생시키는 Particle 수
+	UINT	SpawnBurstRepeat;
+	float	SpawnBurstRepeatTime;
+
+	// Add Velocity
+	UINT	AddVelocityType;		// 0 : Random, 1 : FromCenter, 2 : ToCenter, 4 : Fixed 
+	Vec3	AddVelocityFixedDir;
+	float	AddMinSpeed;
+	float	AddMaxSpeed;
+
+	// Scale Module
+	float	StartScale;
+	float	EndScale;
+
+	// Drag Module
+	float	DestNormalizedAge;
+	float	LimitSpeed;
+
+	// Noise Force Module
+	float	NoiseForceTerm;		// Noise Force 적용시키는 텀
+	float	NoiseForceScale;	// Noise Force 크기
+
+	// Render Module
+	Vec3	EndColor;			// 최종 색상
+	UINT	FadeOut;			// 0 : Off, 1 : Normalized Age
+	float	FadeOutStartRatio;	// FadeOut 효과가 시작되는 Normalized Age 지점
+	UINT	VelocityAlignment;	// 속도 정렬 0 : Off, 1 : On
+
+
+	// Module On / Off
+	int		Module[(UINT)PARTICLE_MODULE::END];
+};
