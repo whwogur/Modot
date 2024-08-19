@@ -100,9 +100,8 @@ CParticleScript::CParticleScript()
 
 void CParticleScript::Begin()
 {
-	ParticleSystem()->GetDynamicMaterial()->SetTexParam(TEX_0, m_Texture);
-	tParticleModule& thisModule = ParticleSystem()->GetParticleModule();
-	thisModule = m_Module;
+	ParticleSystem()->SetParticleTexture(m_Texture);
+	ParticleSystem()->SetParticleModule(m_Module);
 }
 
 void CParticleScript::Tick()

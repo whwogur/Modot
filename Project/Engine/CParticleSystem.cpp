@@ -109,6 +109,12 @@ void CParticleSystem::SetParticleTexture(Ptr<CTexture> _Tex)
 	pMat->SetTexParam(TEX_0, _Tex);
 }
 
+void CParticleSystem::SetParticleModule(const tParticleModule& _Mod)
+{
+	m_Module = _Mod;
+	m_ModuleBuffer->Create(sizeof(tParticleModule), 1, SB_TYPE::SRV_UAV, true, &m_Module);
+}
+
 void CParticleSystem::FinalTick()
 {
 	// SpawnCount °è»ê
