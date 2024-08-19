@@ -29,6 +29,7 @@ struct tScriptParam
     string       Desc;
     DWORD_PTR    Param_0;
     DWORD_PTR    Param_1;
+    string       Tooltip;
 };
 
 class CScript :
@@ -53,9 +54,9 @@ public:
     const vector<tScriptParam>& GetScriptParam() { return   m_ScriptParam; }
 
 protected:
-    void AddScriptParam(SCRIPT_PARAM _Type, const string& _Desc, void* _pData, DWORD_PTR _Param0 = 0, DWORD_PTR _Param1 = 0)
+    void AddScriptParam(SCRIPT_PARAM _Type, const string& _Desc, void* _pData, DWORD_PTR _Param0 = 0, DWORD_PTR _Param1 = 0, const string& _Tooltip = "")
     {
-        m_ScriptParam.push_back(tScriptParam{ _Type,_pData, _Desc, _Param0, _Param1 });
+        m_ScriptParam.push_back(tScriptParam{ _Type,_pData, _Desc, _Param0, _Param1, _Tooltip});
     }
 
     void Instantiate(Ptr<CPrefab> _Pref, int _LayerIdx, Vec3 _WorldPos, const wstring& _Name = L"");
