@@ -14,18 +14,18 @@ CParticleScript::CParticleScript()
 	//m_Module.vSpawnMinScale = Vec3(50.f, 5.f, 1.f);
 	//m_Module.vSpawnMaxScale = Vec3(500.f, 50.f, 1.f);
 	AddScriptParam(SCRIPT_PARAM::BOOLEAN_TOGGLE, "Spawn", &m_Module.Module[(UINT)PARTICLE_MODULE::SPAWN]);  // 불리언
-	AddScriptParam(SCRIPT_PARAM::INT, "SpawnRate", &m_Module.SpawnRate);
-	AddScriptParam(SCRIPT_PARAM::COLOR, "SpawnColor", &m_Module.vSpawnColor, 0, 0, u8"틴트"); // 컬러
-	AddScriptParam(SCRIPT_PARAM::FLOAT, "MinLife", &m_Module.MinLife);
-	AddScriptParam(SCRIPT_PARAM::FLOAT, "MaxLife", &m_Module.MaxLife);
-	AddScriptParam(SCRIPT_PARAM::VEC3, "SpawnMinScale", &m_Module.vSpawnMinScale);
-	AddScriptParam(SCRIPT_PARAM::VEC3, "SpawnMaxScale", &m_Module.vSpawnMaxScale);
+	AddScriptParam(SCRIPT_PARAM::INT, "SpawnRate", &m_Module.SpawnRate, 0, 0, u8"초당 파티클 개수");
+	AddScriptParam(SCRIPT_PARAM::COLOR, "SpawnColor", &m_Module.vSpawnColor, 0, 0, u8"생성시점 틴트"); // 컬러
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "MinLife", &m_Module.MinLife, 0, 0, u8"최소 수명");
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "MaxLife", &m_Module.MaxLife, 0, 0, u8"최대 수명");
+	AddScriptParam(SCRIPT_PARAM::VEC3, "SpawnMinScale", &m_Module.vSpawnMinScale, 0, 0, u8"생성시 최소크기");
+	AddScriptParam(SCRIPT_PARAM::VEC3, "SpawnMaxScale", &m_Module.vSpawnMaxScale, 0, 0, u8"생성시 최대크기");
 	
 
 	//m_Module.SpawnShape = 1;
 	//m_Module.SpawnShapeScale.x = 500.f;
 	AddScriptParam(SCRIPT_PARAM::INT, "SpawnShape", &m_Module.SpawnShape, 0, 0, u8"0: 박스 / 1: 구"); // 0 박스 1 구
-	AddScriptParam(SCRIPT_PARAM::FLOAT, "SpawnShapeScale", &m_Module.SpawnShapeScale, 0, 0, u8"범위, 모양 주의");
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "SpawnShapeScale", &m_Module.SpawnShapeScale, 0, 0, u8"범위, 모양 주의(반지름)");
 
 
 	//m_Module.BlockSpawnShape = 1;
@@ -62,7 +62,7 @@ CParticleScript::CParticleScript()
 	//m_Module.AddMinSpeed = 100.f;
 	//m_Module.AddMaxSpeed = 500.f;
 	AddScriptParam(SCRIPT_PARAM::BOOLEAN_TOGGLE, "VelocityModule", &m_Module.Module[(UINT)PARTICLE_MODULE::ADD_VELOCITY]); // 불리언
-	AddScriptParam(SCRIPT_PARAM::INT, "Type", &m_Module.AddVelocityType);
+	AddScriptParam(SCRIPT_PARAM::INT, "Type", &m_Module.AddVelocityType, 0, 0, "0 : Random\n1: FromCenter\n2: ToCenter\n4: Fixed");
 	AddScriptParam(SCRIPT_PARAM::VEC3, "FixedDir", &m_Module.AddVelocityFixedDir);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "MinSpeed", &m_Module.AddMinSpeed);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "MaxSpeed", &m_Module.AddMaxSpeed);
@@ -92,9 +92,9 @@ CParticleScript::CParticleScript()
 	//m_Module.VelocityAlignment = true;
 	AddScriptParam(SCRIPT_PARAM::BOOLEAN_TOGGLE, "RenderModule", &m_Module.Module[(UINT)PARTICLE_MODULE::RENDER]); // 불리언
 	AddScriptParam(SCRIPT_PARAM::COLOR, "EndColor", &m_Module.EndColor); // 컬러
-	AddScriptParam(SCRIPT_PARAM::BOOLEAN_CHECKBOX, "FadeOut", &m_Module.FadeOut); // 불리언
+	AddScriptParam(SCRIPT_PARAM::BOOLEAN_CHECKBOX, "FadeOut", &m_Module.FadeOut, 0, 0, "0: Off\n1: Normalized Age"); // 불리언
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "FadeStartRatio", &m_Module.FadeOutStartRatio);
-	AddScriptParam(SCRIPT_PARAM::BOOLEAN_CHECKBOX, "VelocityAlignment", &m_Module.VelocityAlignment); // 불리언
+	AddScriptParam(SCRIPT_PARAM::BOOLEAN_CHECKBOX, "VelocityAlignment", &m_Module.VelocityAlignment, 0, 0, u8"속도정렬\n0: Off\n1: On"); // 불리언
 
 }
 
