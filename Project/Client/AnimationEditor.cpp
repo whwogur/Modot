@@ -121,7 +121,7 @@ void AnimationEditor::Update()
             Vec2 tempLT = vecSprite[i]->GetLeftTopUV();
             Vec2 tempRB = vecSprite[i]->GetSliceUV();
             ImGui::SameLine(vecOffset);
-            if (ImGui::ImageButton(vecSprite[i]->GetAtlasTexture()->GetSRV().Get(), {40, 50}, {tempLT.x, tempLT.y}, {tempLT.x + tempRB.x, tempLT.y + tempRB.y}, -1, {0, 0, 0, 0}, {1, 1, 1, 1}))
+            if (ImGui::ImageButton(vecSprite[i]->GetAtlasTexture()->GetSRV().Get(), { 40, 50 }, { tempLT.x, tempLT.y }, { tempLT.x + tempRB.x, tempLT.y + tempRB.y }, -1, m_CurrentFrame == i ? ImVec4(1, 1, 1, 1) : ImVec4(0, 0, 0, 0), { 1, 1, 1, 1 }))
             {
                 vecSprite.erase(vecSprite.begin() + i);
                 Refresh();
