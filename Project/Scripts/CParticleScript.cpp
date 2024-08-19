@@ -111,9 +111,11 @@ void CParticleScript::Tick()
 void CParticleScript::SaveToFile(FILE* _File)
 {
 	SaveAssetRef(m_Texture, _File);
+	fwrite(&m_Module, sizeof(tParticleModule), 1, _File);
 }
 
 void CParticleScript::LoadFromFile(FILE* _File)
 {
 	LoadAssetRef(m_Texture, _File);
+	fread(&m_Module, sizeof(tParticleModule), 1, _File);
 }
