@@ -218,9 +218,9 @@ void MenuUI::Tools()
 	{
 		if (ImGui::MenuItem(u8"타일맵 에디터", " Alt + T"))
 		{
-			TilemapEditor* editor = static_cast<TilemapEditor*>(CEditorMgr::GetInst()->FindEditorUI("TilemapEditor"));
+			/*TilemapEditor* editor = static_cast<TilemapEditor*>(CEditorMgr::GetInst()->FindEditorUI("TilemapEditor"));
 			editor->SetTilemap(nullptr);
-			editor->Toggle();
+			editor->Toggle();*/
 		}
 		if (ImGui::MenuItem(u8"스프라이트 에디터", " Alt + S"))
 		{

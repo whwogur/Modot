@@ -26,7 +26,6 @@ void SE_Detail::Update()
 	static char buf[64] = {};
 	static int BGSize[2] = { m_BGSizeX, m_BGSizeY };
 	bool& PrecisionMode = GetOwner()->GetPrecisionRef();
-
 	ImGui::Text("Precision Mode");
 	ImGui::SameLine();
 	ToggleButton("##PrecisionMode", &PrecisionMode);
@@ -34,12 +33,47 @@ void SE_Detail::Update()
 	ImGui::TextColored({ 0.3f, 0.3f, 0.3f, 1.0f }, " (?)");
 	ImGui::SetItemTooltip(u8"백그라운드 사용하지 않고\n정확하게 uv값 측정");
 	ImGui::NewLine();
+	if (PrecisionMode)
+	{
+		ImGui::TextColored(HEADER_1, u8"선택 정보");
+		ImGui::InputText("##spriteTInput", buf, sizeof(buf));
+		ImGui::SameLine();
+		if (ImGui::Button(ICON_FA_FLOPPY_O, { 25, 25 }))
+		{
+			Ptr<CSprite> pSprite = new CSprite;
+			pSprite->Create(m_AtlasTex, m_LeftTop, { m_Slice.x, m_Slice.y });
+			pSprite->SetBackground({ m_Slice.x, m_Slice.y });
 
-	if (!PrecisionMode)
+			string strRelPath(buf);
+			wstring wstrRelPath(strRelPath.begin(), strRelPath.end());
+			wstrRelPath += L".sprite";
+
+			pSprite->Save(L"sprite\\" + wstrRelPath);
+		}
+		ImGui::SetItemTooltip(u8"스프라이트를 저장합니다\n이름을 다시 한번 확인해주세요\n- 반드시 이름만작성 -");
+
+		if (m_LeftTop.x >= 0 && m_Slice.x >= 0)
+		{
+			float vLT[2] = { m_LeftTop.x, m_LeftTop.y };
+			float vRB[2] = { m_LeftTop.x + m_Slice.x, m_LeftTop.y + m_Slice.y };
+
+			float width = m_AtlasTex->GetDesc().Width;
+			float height = m_AtlasTex->GetDesc().Height;
+
+			ImGui::InputFloat2("LT##leftTop", vLT, "%.3f", ImGuiInputTextFlags_ReadOnly);
+			ImGui::InputFloat2("RB##Slice", vRB, "%.3f", ImGuiInputTextFlags_ReadOnly);
+
+			ImGui::NewLine();
+			ImGui::NewLine();
+			ImGui::NewLine();
+			ImGui::SameLine(50);
+			ImGui::Image(m_AtlasTex.Get()->GetSRV().Get(), { 250, 250 }, { vLT[0] / width, vLT[1] / height }, { vRB[0] / width, vRB[1] / height }, { 1, 1, 1, 1 }, HEADER_2);
+		}
+	}
+	else
 	{
 		ImGui::SetNextItemWidth(200);
-		ImGui::Text("BGSize");
-		ImGui::SameLine();
+		ImGui::Text("BGSize"); ImGui::SameLine();
 		if (ImGui::InputInt2("##BGSize", BGSize, ImGuiInputTextFlags_EnterReturnsTrue))
 		{
 			m_BGSizeX = BGSize[0];
@@ -47,49 +81,47 @@ void SE_Detail::Update()
 			GetAtlasView()->SetBGSize(ImVec2(BGSize[0], BGSize[1]));
 		}
 
-		if (m_BGSizeX <= 0 || m_BGSizeY <= 0)
+		if (m_BGSizeX > 0 && m_BGSizeY > 0)
+		{
+			ImGui::NewLine();
+			ImGui::TextColored(HEADER_1, u8"선택 정보");
+			ImGui::InputText("##spriteTInput", buf, sizeof(buf));
+			ImGui::SameLine();
+			if (ImGui::Button(ICON_FA_FLOPPY_O, { 25, 25 }))
+			{
+				Ptr<CSprite> pSprite = new CSprite;
+				pSprite->Create(m_AtlasTex, m_LeftTop, { m_BGSizeX, m_BGSizeY });
+				pSprite->SetBackground({ m_BGSizeX, m_BGSizeY });
+
+				string strRelPath(buf);
+				wstring wstrRelPath(strRelPath.begin(), strRelPath.end());
+				wstrRelPath += L".sprite";
+
+				pSprite->Save(L"sprite\\" + wstrRelPath);
+			}
+			ImGui::SetItemTooltip(u8"스프라이트를 저장합니다\n이름을 다시 한번 확인해주세요\n- 반드시 이름만작성 -");
+
+			if (m_LeftTop.x >= 0 && m_LeftTop.y >= 0)
+			{
+				float vLT[2] = { m_LeftTop.x, m_LeftTop.y };
+				float vRB[2] = { m_LeftTop.x + m_BGSizeX, m_LeftTop.y + m_BGSizeY };
+				float width = m_AtlasTex->GetDesc().Width;
+				float height = m_AtlasTex->GetDesc().Height;
+
+				ImGui::InputFloat2("LT##leftTop", vLT, "%.3f", ImGuiInputTextFlags_ReadOnly);
+				ImGui::InputFloat2("RB##Slice", vRB, "%.3f", ImGuiInputTextFlags_ReadOnly);
+
+				ImGui::NewLine();
+				ImGui::NewLine();
+				ImGui::NewLine();
+				ImGui::SameLine(50);
+				ImGui::Image(m_AtlasTex.Get()->GetSRV().Get(), { 250, 250 }, { vLT[0] / width, vLT[1] / height }, { vRB[0] / width, vRB[1] / height }, { 1, 1, 1, 1 }, HEADER_2);
+			}
+		}
+		else
 		{
 			ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, u8"BG Size 설정 필요");
-			return;
 		}
-	}
-
-	ImGui::TextColored(HEADER_1, u8"선택 정보");
-	ImGui::InputText("##spriteTInput", buf, sizeof(buf));
-	ImGui::SameLine();
-
-	if (ImGui::Button(ICON_FA_FLOPPY_O, { 25, 25 }))
-	{
-		Ptr<CSprite> pSprite = new CSprite;
-		pSprite->Create(m_AtlasTex, m_LeftTop,
-			PrecisionMode ? Vec2(m_Slice.x, m_Slice.y) : Vec2(m_BGSizeX, m_BGSizeY));
-		pSprite->SetBackground({ m_Slice.x, m_Slice.y });
-
-		string strRelPath(buf);
-		wstring wstrRelPath(strRelPath.begin(), strRelPath.end());
-		wstrRelPath += L".sprite";
-
-		pSprite->Save(L"sprite\\" + wstrRelPath);
-	}
-	ImGui::SetItemTooltip(u8"스프라이트를 저장합니다\n이름을 다시 한번 확인해주세요\n- 반드시 이름만작성 -");
-
-	if (m_LeftTop.x >= 0 && m_LeftTop.y >= 0)
-	{
-		float vLT[2] = { m_LeftTop.x, m_LeftTop.y };
-		float vRB[2] = { m_LeftTop.x + (PrecisionMode ? m_Slice.x : m_BGSizeX),
-						 m_LeftTop.y + (PrecisionMode ? m_Slice.y : m_BGSizeY) };
-
-		float width = m_AtlasTex->GetDesc().Width;
-		float height = m_AtlasTex->GetDesc().Height;
-
-		ImGui::InputFloat2("LT##leftTop", vLT, "%.3f", ImGuiInputTextFlags_ReadOnly);
-		ImGui::InputFloat2("RB##Slice", vRB, "%.3f", ImGuiInputTextFlags_ReadOnly);
-
-		ImGui::NewLine();
-		ImGui::NewLine();
-		ImGui::NewLine();
-		ImGui::SameLine(50);
-		ImGui::Image(m_AtlasTex.Get()->GetSRV().Get(), {250, 250}, {vLT[0] / width, vLT[1] / height}, {vRB[0] / width, vRB[1] / height}, {1, 1, 1, 1}, HEADER_2);
 	}
 }
 

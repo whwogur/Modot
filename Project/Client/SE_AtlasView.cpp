@@ -92,66 +92,78 @@ void SE_AtlasView::WheelCheck()
 void SE_AtlasView::SelectCheck()
 {
 	const bool& PrecisionMode = GetOwner()->GetPrecisionRef();
-
-	// Image 위젯 좌상단 좌표
-	ImageRectMin = ImGui::GetItemRectMin();
-	float ArrImageMin[] = { ImageRectMin.x, ImageRectMin.y };
-	//ImGui::InputFloat2("ImageMin", ArrImageMin);
-
-	// 현재 마우스 위치
-	m_MousePos = ImGui::GetMousePos();
-	float arrMousePos[] = { m_MousePos.x, m_MousePos.y };
-	//ImGui::InputFloat2("MousePos", arrMousePos);
-
-	ImVec2 vDiff = ImVec2(m_MousePos.x - ImageRectMin.x, m_MousePos.y - ImageRectMin.y);
-	vDiff = ImVec2(vDiff.x / m_Ratio, vDiff.y / m_Ratio);
-
-	// 마우스 위치의 아틀라스 픽셀좌표	
-	float PixelPos[] = { vDiff.x, vDiff.y };
-	//ImGui::InputFloat2("PixelPos", PixelPos);
-
-	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+	if (PrecisionMode)
 	{
-		m_MouseLT = ImGui::GetMousePos();
-		ImVec2 vDiff = ImVec2(m_MouseLT.x - ImageRectMin.x, m_MouseLT.y - ImageRectMin.y);
-		m_MouseLT = ImVec2(vDiff.x / m_Ratio, vDiff.y / m_Ratio);
+		// Image 위젯 좌상단 좌표
+		ImageRectMin = ImGui::GetItemRectMin();
+		float ArrImageMin[] = { ImageRectMin.x, ImageRectMin.y };
+		ImGui::InputFloat2("ImageMin", ArrImageMin);
 
-		if (PrecisionMode)
+		// 현재 마우스 위치
+		m_MousePos = ImGui::GetMousePos();
+		float arrMousePos[] = { m_MousePos.x, m_MousePos.y };
+		ImGui::InputFloat2("MousePos", arrMousePos);
+
+		ImVec2 vDiff = ImVec2(m_MousePos.x - ImageRectMin.x, m_MousePos.y - ImageRectMin.y);
+		vDiff = ImVec2(vDiff.x / m_Ratio, vDiff.y / m_Ratio);
+
+		// 마우스 위치의 아틀라스 픽셀좌표	
+		float PixelPos[] = { vDiff.x, vDiff.y };
+		ImGui::InputFloat2("PixelPos", PixelPos);
+
+		// 마우스 왼쪽 Tap 체크
+		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 		{
+			m_MouseLT = ImGui::GetMousePos();
+			ImVec2 vDiff = ImVec2(m_MouseLT.x - ImageRectMin.x, m_MouseLT.y - ImageRectMin.y);
+			m_MouseLT = ImVec2(vDiff.x / m_Ratio, vDiff.y / m_Ratio);
 			string log = std::to_string(m_MouseLT.x) + " " + std::to_string(m_MouseLT.y);
 			EDITOR_TRACE(log.c_str());
 			GetDetail()->SetLeftTop({ m_MouseLT.x, m_MouseLT.y });
 		}
-	}
 
-	if (ImGui::IsMouseDown(ImGuiMouseButton_Left))
-	{
-		m_MouseRB = ImGui::GetMousePos();
-		ImVec2 vDiff = ImVec2(m_MouseRB.x - ImageRectMin.x, m_MouseRB.y - ImageRectMin.y);
-		m_MouseRB = ImVec2(vDiff.x / m_Ratio, vDiff.y / m_Ratio);
-
-		string size = std::to_string((int)m_MouseRB.x - (int)m_MouseLT.x) + " x " + std::to_string((int)m_MouseRB.y - (int)m_MouseLT.y);
-
-		ImGui::SetItemTooltip(size.c_str());
-	}
-
-	if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
-	{
-		ImVec2 vDiff = ImVec2(m_MouseRB.x - m_MouseLT.x, m_MouseRB.y - m_MouseLT.y);
-
-		if (PrecisionMode)
+		if (ImGui::IsMouseDown(ImGuiMouseButton_Left))
 		{
-			string log = std::to_string(vDiff.x) + " " + std::to_string(vDiff.y);
-			EDITOR_TRACE(log.c_str());
-			GetDetail()->SetSlice({ vDiff.x, vDiff.y });
+			m_MouseRB = ImGui::GetMousePos();
+			ImVec2 vDiff = ImVec2(m_MouseRB.x - ImageRectMin.x, m_MouseRB.y - ImageRectMin.y);
+			m_MouseRB = ImVec2(vDiff.x / m_Ratio, vDiff.y / m_Ratio);
 		}
-		else
+
+		if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
 		{
-			Vec2 vPixelPos = Vec2(m_MouseRB.x, m_MouseRB.y);
-			vDiff = ImVec2(vPixelPos.x - ImageRectMin.x, vPixelPos.y - ImageRectMin.y);
+			string log = std::to_string(m_MouseRB.x - m_MouseLT.x) + " " + std::to_string(m_MouseRB.y - m_MouseLT.y);
+			EDITOR_TRACE(log.c_str());
+
+			GetDetail()->SetSlice({ m_MouseRB.x - m_MouseLT.x, m_MouseRB.y - m_MouseLT.y });
+		}
+	}
+	else
+	{
+		// 마우스 왼쪽클릭 체크
+		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+		{
+			m_MouseLT = ImGui::GetMousePos();
+			ImVec2 vDiff = ImVec2(m_MouseLT.x - ImageRectMin.x, m_MouseLT.y - ImageRectMin.y);
+			m_MouseLT = ImVec2(vDiff.x / m_Ratio, vDiff.y / m_Ratio);
+		}
+
+		if (ImGui::IsMouseDown(ImGuiMouseButton_Left))
+		{
+			m_MouseRB = ImGui::GetMousePos();
+			ImVec2 vDiff = ImVec2(m_MouseRB.x - ImageRectMin.x, m_MouseRB.y - ImageRectMin.y);
+			m_MouseRB = ImVec2(vDiff.x / m_Ratio, vDiff.y / m_Ratio);
+			string size = std::to_string(m_MouseRB.x - m_MouseLT.x) + ", " + std::to_string(m_MouseRB.y - m_MouseLT.y);
+			ImGui::SetItemTooltip(size.c_str());
+		}
+
+		if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+		{
+			Vec2 vPixelPos = Vec2(ImGui::GetMousePos().x, ImGui::GetMousePos().y);
+			ImVec2 vDiff = ImVec2(vPixelPos.x - ImageRectMin.x, vPixelPos.y - ImageRectMin.y);
 			vPixelPos = Vec2(vDiff.x / m_Ratio, vDiff.y / m_Ratio);
 
-			if (0.f <= vPixelPos.x && vPixelPos.x < m_AtlasTex->Width() && 0.f <= vPixelPos.y && vPixelPos.y < m_AtlasTex->Height())
+			if (0.f <= vPixelPos.x && vPixelPos.x < m_AtlasTex->Width()
+				&& 0.f <= vPixelPos.y && vPixelPos.y < m_AtlasTex->Height())
 			{
 				m_MouseRB = ImVec2(vPixelPos.x, vPixelPos.y);
 				int ltx = std::floor(m_MouseLT.x / m_BGSize.x) * m_BGSize.x;

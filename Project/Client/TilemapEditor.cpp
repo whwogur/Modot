@@ -245,7 +245,7 @@ void TilemapEditor::Update()// 정리 필요..;
 }
 
 void TilemapEditor::SetTilemap(CTileMap* _Tilemap)
-{
+{//TODO
     m_Tilemap = _Tilemap;
     const vector<tTileInfo>& vecRef = m_Tilemap->GetTileInfoRef();
     m_TilemapToBeEdited.assign(vecRef.begin(), vecRef.end());
