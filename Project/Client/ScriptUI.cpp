@@ -34,19 +34,19 @@ void ScriptUI::Update()
 		switch (vecParam[i].Type)
 		{
 		case SCRIPT_PARAM::INT:
-			ParamUI::InputInt((int*)vecParam[i].pData, vecParam[i].Desc);
+			ParamUI::InputInt((int*)vecParam[i].pData, vecParam[i].Desc, vecParam[i].ToolTip);
 			break;
 		case SCRIPT_PARAM::FLOAT:
-			ParamUI::InputFloat((float*)vecParam[i].pData, vecParam[i].Desc);
+			ParamUI::InputFloat((float*)vecParam[i].pData, vecParam[i].Desc, vecParam[i].ToolTip);
 			break;
 		case SCRIPT_PARAM::VEC2:
-			ParamUI::InputFloat((float*)vecParam[i].pData, vecParam[i].Desc);
+			ParamUI::InputFloat((float*)vecParam[i].pData, vecParam[i].Desc, vecParam[i].ToolTip);
 			break;
 		case SCRIPT_PARAM::VEC3:
 
 			break;
 		case SCRIPT_PARAM::VEC4:
-			ParamUI::InputVec4((Vec4*)vecParam[i].pData, vecParam[i].Desc);
+			ParamUI::InputVec4((Vec4*)vecParam[i].pData, vecParam[i].Desc, vecParam[i].ToolTip);
 			break;
 		case SCRIPT_PARAM::TEXTURE:
 		{
@@ -68,6 +68,23 @@ void ScriptUI::Update()
 		{
 			Ptr<CSprite>& pSprite = *((Ptr<CSprite>*)vecParam[i].pData);
 			ParamUI::InputSprite(pSprite, vecParam[i].Desc);
+			break;
+		}
+
+		case SCRIPT_PARAM::BOOLEAN_TOGGLE:
+		{
+			ParamUI::ToggleBool((bool*)vecParam[i].pData, vecParam[i].Desc, vecParam[i].ToolTip);
+			break;
+		}
+
+		case SCRIPT_PARAM::BOOLEAN_CHECKBOX:
+		{
+			ParamUI::CheckboxBool((bool*)vecParam[i].pData, vecParam[i].Desc, vecParam[i].ToolTip);
+			break;
+		}
+		case SCRIPT_PARAM::COLOR:
+		{
+			ParamUI::ColorVec4((Vec4*)vecParam[i].pData, vecParam[i].Desc, vecParam[i].ToolTip);
 			break;
 		}
 		}

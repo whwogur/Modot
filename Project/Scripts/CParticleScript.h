@@ -1,13 +1,13 @@
 #pragma once
 #include <Engine/CScript.h>
 
-class CParticleTexScript :
+class CParticleScript :
     public CScript
 {
 public:
-    CParticleTexScript();
-    ~CParticleTexScript() = default;
-    CLONE(CParticleTexScript);
+    CParticleScript();
+    ~CParticleScript() = default;
+    CLONE(CParticleScript);
 public:
     virtual void Begin() override;
     virtual void Tick() override;
@@ -17,5 +17,6 @@ public:
 
 private:
     Ptr<CTexture>           m_Texture;
+    tParticleModule         m_Module;
 };
 

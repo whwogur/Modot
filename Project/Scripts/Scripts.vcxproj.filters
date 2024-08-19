@@ -31,7 +31,7 @@
     <ClInclude Include="CSpriteRenderScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="CParticleTexScript.h">
+    <ClInclude Include="CParticleScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
   </ItemGroup>
@@ -58,7 +58,7 @@
     <ClCompile Include="CSpriteRenderScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="CParticleTexScript.cpp">
+    <ClCompile Include="CParticleScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
