@@ -16,22 +16,22 @@ CParticleScript::CParticleScript()
 	AddScriptParam(SCRIPT_PARAM::BOOLEAN_TOGGLE, "Spawn", &m_Module.Module[(UINT)PARTICLE_MODULE::SPAWN]);  // 불리언
 	AddScriptParam(SCRIPT_PARAM::INT, "SpawnRate", &m_Module.SpawnRate, 0, 0, u8"초당 파티클 개수");
 	AddScriptParam(SCRIPT_PARAM::COLOR, "SpawnColor", &m_Module.vSpawnColor, 0, 0, u8"생성시점 틴트"); // 컬러
-	AddScriptParam(SCRIPT_PARAM::FLOAT, "MinLife", &m_Module.MinLife, 0, 0, u8"최소 수명");
-	AddScriptParam(SCRIPT_PARAM::FLOAT, "MaxLife", &m_Module.MaxLife, 0, 0, u8"최대 수명");
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "MinLife", &m_Module.MinLife, 0, 0, u8"최소 수명(초)");
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "MaxLife", &m_Module.MaxLife, 0, 0, u8"최대 수명(초)");
 	AddScriptParam(SCRIPT_PARAM::VEC3, "SpawnMinScale", &m_Module.vSpawnMinScale, 0, 0, u8"생성시 최소크기");
 	AddScriptParam(SCRIPT_PARAM::VEC3, "SpawnMaxScale", &m_Module.vSpawnMaxScale, 0, 0, u8"생성시 최대크기");
 	
 
 	//m_Module.SpawnShape = 1;
 	//m_Module.SpawnShapeScale.x = 500.f;
-	AddScriptParam(SCRIPT_PARAM::INT, "SpawnShape", &m_Module.SpawnShape, 0, 0, u8"0: 박스 / 1: 구"); // 0 박스 1 구
-	AddScriptParam(SCRIPT_PARAM::FLOAT, "SpawnShapeScale", &m_Module.SpawnShapeScale, 0, 0, u8"범위, 모양 주의(반지름)");
+	AddScriptParam(SCRIPT_PARAM::INT, "SpawnShape", &m_Module.SpawnShape, 0, 0, "0: Box / 1: Sphere"); // 0 박스 1 구
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "SpawnShapeScale", &m_Module.SpawnShapeScale.x, 0, 0, u8"범위, 모양 주의(반지름)");
 
 
 	//m_Module.BlockSpawnShape = 1;
 	//m_Module.BlockSpawnShapeScale.x = 0.f;
-	AddScriptParam(SCRIPT_PARAM::INT, "BlockSpawnShape", &m_Module.BlockSpawnShape, 0, 0, u8"0: 박스 / 1: 구"); // 0 박스 1 구
-	AddScriptParam(SCRIPT_PARAM::FLOAT, "BlockSpawnShapeScale", &m_Module.BlockSpawnShapeScale, 0, 0, u8"범위 벗어나지 않게 하기 위함");
+	AddScriptParam(SCRIPT_PARAM::INT, "BlockSpawnShape", &m_Module.BlockSpawnShape, 0, 0, "0: Box / 1: Sphere"); // 0 박스 1 구
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "BlockSpawnShapeScale", &m_Module.BlockSpawnShapeScale.x, 0, 0, u8"범위 벗어나지 않게 하기 위함");
 
 	//m_Module.SpaceType = 1; // Local Space 
 	AddScriptParam(SCRIPT_PARAM::INT, "SpaceType", &m_Module.SpaceType, 0, 0, u8"0: 박스 / 1: 구 (로컬스페이스)"); // 0 박스 1 구
@@ -63,7 +63,7 @@ CParticleScript::CParticleScript()
 	//m_Module.AddMaxSpeed = 500.f;
 	AddScriptParam(SCRIPT_PARAM::BOOLEAN_TOGGLE, "VelocityModule", &m_Module.Module[(UINT)PARTICLE_MODULE::ADD_VELOCITY]); // 불리언
 	AddScriptParam(SCRIPT_PARAM::INT, "Type", &m_Module.AddVelocityType, 0, 0, "0 : Random\n1: FromCenter\n2: ToCenter\n4: Fixed");
-	AddScriptParam(SCRIPT_PARAM::VEC3, "FixedDir", &m_Module.AddVelocityFixedDir);
+	AddScriptParam(SCRIPT_PARAM::VEC3, "FixedDir", &m_Module.AddVelocityFixedDir, 0, 0, "0, 1, 0");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "MinSpeed", &m_Module.AddMinSpeed);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "MaxSpeed", &m_Module.AddMaxSpeed);
 

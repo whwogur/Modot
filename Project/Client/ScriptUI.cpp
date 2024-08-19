@@ -43,8 +43,6 @@ void ScriptUI::Update()
 			ParamUI::InputFloat((float*)vecParam[i].pData, vecParam[i].Desc, vecParam[i].Tooltip);
 			break;
 		case SCRIPT_PARAM::VEC3:
-
-			break;
 		case SCRIPT_PARAM::VEC4:
 			ParamUI::InputVec4((Vec4*)vecParam[i].pData, vecParam[i].Desc, vecParam[i].Tooltip);
 			break;

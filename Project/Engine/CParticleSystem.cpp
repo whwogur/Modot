@@ -198,10 +198,8 @@ void CParticleSystem::CaculateSpawnCount()
 
 void CParticleSystem::SaveToFile(FILE* _File)
 {
-
 }
 
 void CParticleSystem::LoadFromFile(FILE* _File)
 {
-
 }

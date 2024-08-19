@@ -232,7 +232,6 @@ CComponent* CLevelSaveLoad::GetComponent(COMPONENT_TYPE _Type)
 
 	case COMPONENT_TYPE::RIGIDBODY:
 		return new CRigidBody;
-		break;
 
 	case COMPONENT_TYPE::CAMERA:
 		return  new CCamera;
@@ -244,6 +243,7 @@ CComponent* CLevelSaveLoad::GetComponent(COMPONENT_TYPE _Type)
 		return  new CTileMap;
 
 	case COMPONENT_TYPE::PARTICLESYSTEM:
+		return new CParticleSystem;
 		break;
 
 	case COMPONENT_TYPE::DECAl:
