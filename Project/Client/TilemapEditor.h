@@ -14,6 +14,7 @@ public:
 public:
     virtual void Init() override;
     virtual void Update() override;
+    virtual void Activate() override;
 public:
     void SetTilemap(CTileMap* _Tilemap);
 private:

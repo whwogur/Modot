@@ -5,7 +5,7 @@
 TilemapEditor::TilemapEditor()
 	: m_Tilemap(nullptr)
     , m_Altered(false)
-    , m_RowCol{64, 64}
+    , m_RowCol{1, 1}
 {
 }
 
@@ -242,6 +242,11 @@ void TilemapEditor::Update()// 정리 필요..;
             ImGui::EndDragDropTarget();
         }
     }
+}
+
+void TilemapEditor::Activate()
+{
+    m_RowCol = m_Tilemap->GetRowCol();
 }
 
 void TilemapEditor::SetTilemap(CTileMap* _Tilemap)
