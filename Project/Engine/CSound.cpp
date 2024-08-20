@@ -100,6 +100,7 @@ int CSound::Load(const wstring& _RelativePath)
 		assert(nullptr);
 	}
 
+	m_Sound->getLength(&m_SoundLength, FMOD_TIMEUNIT_MS);
 	return S_OK;
 }
 

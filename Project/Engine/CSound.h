@@ -15,7 +15,8 @@ public:
 
     // 0 ~ 1
     void SetVolume(float _f, int _iChannelIdx);
-
+    // MS
+    UINT GetSoundLength() const { return m_SoundLength; }
 public:
     virtual int Load(const wstring& _RelativePath) override;
     virtual int Save(const wstring& _RelativePath) override;
@@ -24,5 +25,6 @@ public:
 private:
     FMOD::Sound*                    m_Sound;        // Sound 버퍼
     list<FMOD::Channel*>	        m_listChannel;  // Sound 가 재생되고 있는 채널 리스트
+    UINT                            m_SoundLength;
 };
 
