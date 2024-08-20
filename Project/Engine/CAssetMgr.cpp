@@ -9,6 +9,11 @@ CAssetMgr::CAssetMgr()
 
 CAssetMgr::~CAssetMgr()
 {
+	if (nullptr != m_FMODSystem)
+	{
+		m_FMODSystem->release();
+		m_FMODSystem = nullptr;
+	}
 }
 
 void CAssetMgr::Tick()
@@ -16,6 +21,7 @@ void CAssetMgr::Tick()
 	MD_PROFILE_FUNCTION();
 	if (m_Dirty)
 		m_Dirty = false;
+	m_FMODSystem->update();
 
 }
 Ptr<CAsset> CAssetMgr::FindAsset(ASSET_TYPE _Type, const wstring& _Key)

@@ -57,6 +57,17 @@ using namespace std::filesystem;
 #define MD_ENGINE_ASSERT(...)
 #endif
 
+// FMOD
+#include <FMOD/fmod.h>
+#include <FMOD/fmod.hpp>
+#include <FMOD/fmod_codec.h>
+
+#ifdef _DEBUG
+#pragma comment(lib, "FMOD/fmodL64_vc.lib")
+#else
+#pragma comment(lib, "FMOD/fmod64_vc.lib")
+#endif
+
 #include "singleton.h"
 #include "define.h"
 #include "enum.h"

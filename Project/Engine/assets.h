@@ -9,3 +9,4 @@
 #include "CAnimation.h"
 #include "CComputeShader.h"
 #include "CPrefab.h"
+#include "CSound.h"
