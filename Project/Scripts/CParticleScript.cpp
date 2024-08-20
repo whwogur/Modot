@@ -41,7 +41,7 @@ CParticleScript::CParticleScript()
 	//m_Module.SpawnBurstRepeat = true;
 	//m_Module.SpawnBurstCount = 100;
 	//m_Module.SpawnBurstRepeatTime = 3.f;
-	AddScriptParam(SCRIPT_PARAM::BOOLEAN_TOGGLE, "Burst Module", &m_Module.Module[(UINT)PARTICLE_MODULE::SPAWN_BURST], 0, 0, u8"스폰모듈과 같이 쓸 수 없음"); // 불리언
+	AddScriptParam(SCRIPT_PARAM::BOOLEAN_TOGGLE, "Burst Module", &m_Module.Module[(UINT)PARTICLE_MODULE::SPAWN_BURST]); // 불리언
 	AddScriptParam(SCRIPT_PARAM::BOOLEAN_CHECKBOX, "BurstRepeat", &m_Module.SpawnBurstRepeat); // 불리언
 	AddScriptParam(SCRIPT_PARAM::INT, "BurstCount", &m_Module.SpawnBurstCount, 0, 0, u8"반복 횟수");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "BurstRepeatTime", &m_Module.SpawnBurstRepeatTime, 0, 0, u8"반복시간(초)");
@@ -64,8 +64,8 @@ CParticleScript::CParticleScript()
 	AddScriptParam(SCRIPT_PARAM::BOOLEAN_TOGGLE, "Velocity Module", &m_Module.Module[(UINT)PARTICLE_MODULE::ADD_VELOCITY]); // 불리언
 	AddScriptParam(SCRIPT_PARAM::INT, "Type", &m_Module.AddVelocityType, 0, 0, "0 : Random\n1: FromCenter\n2: ToCenter\n4: Fixed");
 	AddScriptParam(SCRIPT_PARAM::VEC3, "FixedDir", &m_Module.AddVelocityFixedDir, 0, 0, "0, 1, 0");
-	AddScriptParam(SCRIPT_PARAM::FLOAT, "MinSpeed", &m_Module.AddMinSpeed);
-	AddScriptParam(SCRIPT_PARAM::FLOAT, "MaxSpeed", &m_Module.AddMaxSpeed);
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "MinSpeed", &m_Module.AddMinSpeed, 0, 0, u8"초당 이동 픽셀");
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "MaxSpeed", &m_Module.AddMaxSpeed, 0, 0, u8"초당 이동 픽셀");
 
 
 	//// Drag Module (감속)
