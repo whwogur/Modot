@@ -11,14 +11,16 @@ public:
     SpriteEditor();
     ~SpriteEditor() = default;
 public:
-    SE_AtlasView* GetAtlasView() { return m_AtlasView; }
-    SE_Detail* GetDetail() { return m_Detail; }
-    bool& GetPrecisionRef() { return m_Precise; }
-public:
     virtual void Init() override;
     virtual void Update() override;
     virtual void Activate() override;
     virtual void Deactivate() override;
+
+public:
+    SE_AtlasView* GetAtlasView() { return m_AtlasView; }
+    SE_Detail* GetDetail() { return m_Detail; }
+    bool& GetPrecisionRef() { return m_Precise; }
+    void SetAtlasTex(Ptr<CTexture> _Atlas);
 private:
     SE_AtlasView*       m_AtlasView;
     SE_Detail*          m_Detail;

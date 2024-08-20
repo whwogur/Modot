@@ -61,3 +61,10 @@ void SpriteEditor::Deactivate()
 	m_AtlasView->SetActive(false);
 	m_Detail->SetActive(false);
 }
+
+
+void SpriteEditor::SetAtlasTex(Ptr<CTexture> _Atlas)
+{
+	m_AtlasView->SetAtlasTex(_Atlas);
+	m_Detail->SetAtlasTex(_Atlas);
+}
