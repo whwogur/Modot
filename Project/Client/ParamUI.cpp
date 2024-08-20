@@ -51,8 +51,9 @@ bool ParamUI::DragInt(int* _Data, float _Step, const string& _Desc, const string
 
 void ParamUI::ToggleBool(bool* _Data, const string& _Desc, const string& _Tooltip)
 {
-	ImGui::Text(_Desc.c_str());
-	ImGui::SameLine(120);
+	ImGui::SeparatorText(_Desc.c_str());
+	ImGui::NewLine();
+	ImGui::SameLine(300);
 	ImGui::SetNextItemWidth(150);
 
 	char szID[255] = {};
@@ -73,9 +74,9 @@ void ParamUI::ToggleBool(bool* _Data, const string& _Desc, const string& _Toolti
 	if (gg.LastActiveId == gg.CurrentWindow->GetID(szID))// && g.LastActiveIdTimer < ANIM_SPEED)
 		float t_anim = ImSaturate(gg.LastActiveIdTimer / ANIM_SPEED);
 	if (ImGui::IsItemHovered())
-		draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), ImGui::GetColorU32(*_Data ? colors[ImGuiCol_ButtonActive] : ImVec4(0.78f, 0.78f, 0.78f, 1.0f)), height * 0.5f);
+		draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), ImGui::GetColorU32(*_Data ? ImVec4(0.f, 0.77f, 0.23f, 1.0f) : ImVec4(0.78f, 0.78f, 0.78f, 1.0f)), height * 0.5f);
 	else
-		draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), ImGui::GetColorU32(*_Data ? colors[ImGuiCol_Button] : ImVec4(0.85f, 0.85f, 0.85f, 1.0f)), height * 0.50f);
+		draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), ImGui::GetColorU32(*_Data ? ImVec4(0.f, 0.88f, 0.35f, 1.0f) : ImVec4(0.85f, 0.85f, 0.85f, 1.0f)), height * 0.50f);
 	draw_list->AddCircleFilled(ImVec2(p.x + radius + (*_Data ? 1 : 0) * (width - radius * 2.0f), p.y + radius), radius - 1.5f, IM_COL32(255, 255, 255, 255));
 	if (!_Tooltip.empty())
 		ImGui::SetItemTooltip(_Tooltip.c_str());
@@ -206,7 +207,7 @@ bool ParamUI::ColorVec4(Vec4* _Data, const string& _Desc, const string& _Tooltip
 	char szID[255] = {};
 	sprintf_s(szID, 255, "##Input%d", g_ID++);
 
-	if (ImGui::ColorEdit4(szID, *_Data, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_HDR))
+	if (ImGui::ColorEdit4(szID, *_Data, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_HDR | ImGuiColorEditFlags_PickerHueWheel))
 	{
 		return true;
 	}
