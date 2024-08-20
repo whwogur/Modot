@@ -36,13 +36,19 @@ void TextureUI::Update()
 	char buff[50] = {};
 	sprintf_s(buff, "%d", width);
 
-	ImGui::Text("Width");
+	ImGui::NewLine();
+	ImGui::SameLine(60);
+	ImGui::TextColored(HEADER_1, u8"너비");
 	ImGui::SameLine(100);
+	ImGui::SetNextItemWidth(150.f);
 	ImGui::InputText("##TextureWidth", buff, 50, ImGuiInputTextFlags_ReadOnly);
 
+	ImGui::NewLine();
+	ImGui::SameLine(60);
 	sprintf_s(buff, "%d", height);
-	ImGui::Text("Height");
+	ImGui::TextColored(HEADER_1, u8"높이");
 	ImGui::SameLine(100);
+	ImGui::SetNextItemWidth(150.f);
 	ImGui::InputText("##TextureHeight", buff, 50, ImGuiInputTextFlags_ReadOnly);
 
 	// 배열 사이즈

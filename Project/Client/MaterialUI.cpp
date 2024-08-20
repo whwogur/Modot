@@ -36,8 +36,11 @@ void MaterialUI::Update()
 		Name = string(pShader->GetKey().begin(), pShader->GetKey().end());
 
 	// Ω¶¿Ã¥ı ¿Ã∏ß
-	ImGui::Text("Shader");
+	ImGui::NewLine();
+	ImGui::SameLine(60);
+	ImGui::TextColored(HEADER_1, u8"ºŒ¿Ã¥ı");
 	ImGui::SameLine(100);
+	ImGui::SetNextItemWidth(150.f);
 	ImGui::InputText("##ShaderName", (char*)Name.c_str(), Name.length(), ImGuiInputTextFlags_ReadOnly);
 
 	if (ImGui::BeginDragDropTarget())
@@ -73,7 +76,7 @@ void MaterialUI::Update()
 	// Shader Parameter
 	ImGui::NewLine();
 	ImGui::NewLine();
-	ImGui::TextColored(HEADER_2, "(Shared) Shader Parameter");
+	ImGui::SeparatorText(u8"ºŒ¿Ã¥ı ∆ƒ∂ÛπÃ≈Õ");
 	ImGui::NewLine();
 	ShaderParameter();
 }

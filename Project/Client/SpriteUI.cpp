@@ -14,6 +14,11 @@ SpriteUI::~SpriteUI()
 void SpriteUI::Update()
 {
 	Title();
+
+	ImGui::NewLine();
+	ImGui::SeparatorText(u8"정보");
+	ImGui::NewLine();
+
 	Ptr<CSprite> pSprite = (CSprite*)GetAsset().Get();
 	Vec2 LT = pSprite->GetLeftTopUV();
 	Vec2 RB = pSprite->GetSliceUV();
@@ -23,21 +28,22 @@ void SpriteUI::Update()
 	ImGui::Image(pSprite->GetAtlasTexture()->GetSRV().Get(), { 150, 150 }, { LT.x, LT.y }, { LT.x + RB.x, LT.y + RB.y }, { 1, 1, 1, 1 }, { 1, 1, 1, 1 });
 	ImGui::NewLine();
 	ImGui::NewLine();
-	ImGui::TextColored(HEADER_1, u8"스프라이트 정보");
 	
-	ImGui::Text("LeftTopUV");
+	ImGui::SameLine(60);
+	ImGui::TextColored(HEADER_1, "LT");
 	ImGui::SameLine(100);
 	ImGui::SetNextItemWidth(70.0f);
 	ImGui::InputFloat("##LTx", &LT.x, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly);
-	ImGui::SameLine(180);
+	ImGui::SameLine(200);
 	ImGui::SetNextItemWidth(70.0f);
 	ImGui::InputFloat("##LTy", &LT.y, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly);
 
-	ImGui::Text("RightBotUV");
+	ImGui::NewLine(); ImGui::SameLine(60);
+	ImGui::TextColored(HEADER_1, "RB");
 	ImGui::SameLine(100);
 	ImGui::SetNextItemWidth(70.0f);
 	ImGui::InputFloat("##RBx", &RB.x, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly);
-	ImGui::SameLine(180);
+	ImGui::SameLine(200);
 	ImGui::SetNextItemWidth(70.0f);
 	ImGui::InputFloat("##RBy", &RB.y, 0.0f, 0.0f, "%.3f", ImGuiInputTextFlags_ReadOnly);
 }

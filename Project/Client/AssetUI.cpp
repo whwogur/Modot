@@ -49,7 +49,13 @@ void AssetUI::OutputAssetName()
 
 	string Name = string(pAsset->GetKey().begin(), pAsset->GetKey().end());
 
-	ImGui::Text("Name");
+	ImGui::NewLine();
+	ImGui::SeparatorText(u8"정보");
+	ImGui::NewLine();
+	ImGui::SameLine(60);
+
+	ImGui::TextColored(HEADER_1, u8"이름");
 	ImGui::SameLine(100);
+	ImGui::SetNextItemWidth(150.f);
 	ImGui::InputText("##AssetName", (char*)Name.c_str(), Name.length(), ImGuiInputTextFlags_ReadOnly);
 }

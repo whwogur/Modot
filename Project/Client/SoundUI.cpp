@@ -30,9 +30,9 @@ void SoundUI::Update()
 		ImGui::NewLine();
 		ImGui::SeparatorText(u8"정보");
 		ImGui::NewLine();
-		ImGui::SameLine(58);
+		ImGui::SameLine(60);
 		ImGui::TextColored(HEADER_1, u8"이름");
-		ImGui::SameLine(125);
+		ImGui::SameLine(120);
 		ImGui::SetNextItemWidth(150.f);
 		ImGui::InputText("##SoundKey", m_SoundKey, sizeof(m_SoundKey), ImGuiInputTextFlags_ReadOnly);
 
