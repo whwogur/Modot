@@ -35,6 +35,7 @@ public:
 	void UseHorizontalScroll(bool _b) { m_HorizontalScroll = _b; }
 	void SetFocus();
 	void ToggleButton(const char* str_id, bool* v);
+	void ToggleButton(const char* str_id, int* v);
 public:
 	virtual void Init() {}
 	virtual void Tick();

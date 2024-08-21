@@ -156,7 +156,7 @@ void MenuUI::Update()
 			
 		}
 
-		if (ImGui::MenuItem(ICON_FA_WINDOW_MAXIMIZE" CMD"))
+		if (ImGui::MenuItem(ICON_FA_TERMINAL" CMD"))
 		{
 			ShellExecute(NULL, L"open", L"cmd.exe", NULL, NULL, SW_SHOWNORMAL);
 		}

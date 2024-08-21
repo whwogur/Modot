@@ -27,6 +27,7 @@ public:
     Ptr<CTexture> GetParticleTex() { return m_ParticleTex; }
     int GetParticleCount() const { return m_MaxParticleCount; }
     void SetParticleModule(const tParticleModule& _Mod);
+    tParticleModule& GetParticleModuleRef() { return m_Module; }
 public:
     virtual void FinalTick() override;
     virtual void Render() override;
