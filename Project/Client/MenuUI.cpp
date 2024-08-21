@@ -177,10 +177,16 @@ void MenuUI::File()
 			Inspector* inspector = reinterpret_cast<Inspector*>(CEditorMgr::GetInst()->FindEditorUI("Inspector"));
 			inspector->SetTargetObject(nullptr);
 			inspector->SetTargetAsset(nullptr);
+
+			CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\NewLevel.lv");
+			ChangeLevel(pLevel, LEVEL_STATE::STOP);
 		}
 
 		if (ImGui::MenuItem(u8"레벨 불러오기", " Ctrl + O"))
 		{
+			Inspector* inspector = reinterpret_cast<Inspector*>(CEditorMgr::GetInst()->FindEditorUI("Inspector"));
+			inspector->SetTargetObject(nullptr);
+			inspector->SetTargetAsset(nullptr);
 			LoadLevel();
 		}
 
@@ -190,8 +196,15 @@ void MenuUI::File()
 			const wstring& levelName = pLevel->GetName();
 			if (!levelName.empty())
 			{
-				wstring strLevelPath = L"level\\" + levelName + L".lv";
-				CLevelSaveLoad::SaveLevel(strLevelPath, pLevel);
+				if (levelName == L"NewLevel")
+				{
+					SaveLevelAs();
+				}
+				else
+				{
+					wstring strLevelPath = L"level\\" + levelName + L".lv";
+					CLevelSaveLoad::SaveLevel(strLevelPath, pLevel);
+				}
 			}
 		}
 		ImGui::SetItemTooltip(u8"현재 편집중인\n레벨을 저장합니다");
@@ -332,6 +345,7 @@ void MenuUI::SaveLevelAs()
 	CLevel* pLevel = CLevelMgr::GetInst()->GetCurrentLevel();
 	path relPath = szFilePath;
 	wstring rel = relPath.filename();
+	pLevel->SetName(rel);
 	rel += L".lv";
 	CLevelSaveLoad::SaveLevel(L"level\\" + rel, pLevel);
 }
