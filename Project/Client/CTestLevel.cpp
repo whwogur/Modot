@@ -17,7 +17,7 @@
 
 void CTestLevel::CreateTestLevel()
 {
-	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\TestLevel.lv");
+	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\ParticleFactory.lv");
 	/*pLevel->GetLayer(7)->SetName(L"Solid");
 	CCollisionMgr::GetInst()->CollisionCheck(7u, 3u);*/
 	ChangeLevel(pLevel, LEVEL_STATE::STOP);
