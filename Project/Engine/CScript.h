@@ -20,12 +20,13 @@ enum class SCRIPT_PARAM
     TEXTURE,
     PREFAB,
     SPRITE,
+    BUTTON,// Á¶½É
 };
 
 struct tScriptParam
 {
     SCRIPT_PARAM Type;
-    void* pData;
+    void*        pData;
     string       Desc;
     DWORD_PTR    Param_0;
     DWORD_PTR    Param_1;

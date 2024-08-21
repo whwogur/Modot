@@ -15,6 +15,8 @@ public:
     virtual void SaveToFile(FILE* _File) override;
     virtual void LoadFromFile(FILE* _File) override;
 
+public:
+    void FetchCurrentSharedModule();
 private:
     Ptr<CTexture>           m_Texture;
     tParticleModule         m_Module;

@@ -1,6 +1,6 @@
 #pragma once
 #include "EditorUI.h"
-
+#include <Engine/CScript.h>
 class ParamUI
 {
 private:

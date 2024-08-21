@@ -4,7 +4,7 @@
 #include <Scripts/CScriptMgr.h>
 #include <Engine/CScript.h>
 #include <Engine/CAssetMgr.h>
-
+#include <Scripts/CParticleScript.h>
 #include "ParamUI.h"
 #include "ListUI.h"
 ScriptUI::ScriptUI()
@@ -13,11 +13,6 @@ ScriptUI::ScriptUI()
 {
 	m_IconTexture = CAssetMgr::GetInst()->FindAsset<CTexture>(L"ScriptIcon");
 }
-
-ScriptUI::~ScriptUI()
-{
-}
-
 
 void ScriptUI::Update()
 {
@@ -83,6 +78,21 @@ void ScriptUI::Update()
 		case SCRIPT_PARAM::COLOR:
 		{
 			ParamUI::ColorVec4((Vec4*)vecParam[i].pData, vecParam[i].Desc, vecParam[i].Tooltip);
+			break;
+		}
+		case SCRIPT_PARAM::BUTTON:
+		{
+			ImGui::NewLine();
+			ImGui::SameLine(290);
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.00f, 0.55f, 0.42f, 1.0f });
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.00f, 0.66f, 0.55f, 1.0f });
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.00f, 0.44f, 0.36f, 1.0f });
+			if (ImGui::Button(vecParam[i].Desc.c_str()))
+			{
+				((CParticleScript*)vecParam[i].Param_0->* (void(CParticleScript::*)(void)) & CParticleScript::FetchCurrentSharedModule)();
+			}
+			ImGui::SetItemTooltip(vecParam[i].Tooltip.c_str());
+			ImGui::PopStyleColor(3);
 			break;
 		}
 		}

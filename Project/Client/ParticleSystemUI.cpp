@@ -50,10 +50,10 @@ void ParticleSystemUI::Update()
 			tParticleModule& mod = curParticleSys->GetParticleModuleRef();
 
 			ImGui::TextColored(HEADER_1, u8" 모듈 정보");
-			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.55f, 0.55f, 0.42f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.66f, 0.66f, 0.55f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.44f, 0.44f, 0.36f, 1.0f });
-			ImGui::SameLine(270); if (ImGui::Button(ICON_FA_PRINT" Build")) curParticleSys->SetParticleModule(mod);
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.00f, 0.55f, 0.42f, 1.0f });
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.00f, 0.66f, 0.55f, 1.0f });
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.00f, 0.44f, 0.36f, 1.0f });
+			ImGui::SameLine(290); if (ImGui::Button(ICON_FA_PRINT" Build")) curParticleSys->SetParticleModule(mod);
 			ImGui::PopStyleColor(3);
 
 			ImGui::SeparatorText(u8"Spawn 모듈");

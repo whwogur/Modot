@@ -7,7 +7,7 @@ class ScriptUI :
 {
 public:
     ScriptUI();
-    ~ScriptUI();
+    ~ScriptUI() = default;
 
 public:
     void SetTargetScript(CScript* _Script);

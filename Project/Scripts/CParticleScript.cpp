@@ -4,6 +4,7 @@
 CParticleScript::CParticleScript()
 	: CScript(UINT(SCRIPT_TYPE::PARTICLESCRIPT))
 {
+	AddScriptParam(SCRIPT_PARAM::BUTTON, u8" Fetch ", nullptr, (DWORD_PTR)this, 0, u8"공용 파티클\n설정을 복사해옵니다");
 	AddScriptParam(SCRIPT_PARAM::TEXTURE, "Texture", &m_Texture);
 	//m_Module.Module[(UINT)PARTICLE_MODULE::SPAWN] = true;
 	//m_Module.SpawnRate = 20;
@@ -118,4 +119,13 @@ void CParticleScript::LoadFromFile(FILE* _File)
 {
 	LoadAssetRef(m_Texture, _File);
 	fread(&m_Module, sizeof(tParticleModule), 1, _File);
+}
+
+void CParticleScript::FetchCurrentSharedModule()
+{
+	CParticleSystem* pParsys = ParticleSystem();
+	if (pParsys != nullptr)
+	{
+		m_Module = ParticleSystem()->GetParticleModuleRef();
+	}
 }
