@@ -30,7 +30,7 @@ public:
 	void GetAssetNames(ASSET_TYPE _Type, vector<string>& _vecOut);
 	const map<wstring, Ptr<CAsset>>& GetAssets(ASSET_TYPE _Type) { return m_mapAsset[(UINT)_Type]; }
 	bool IsDirty() const { return m_Dirty; }
-	FMOD::System* GetFMODSystem() { return m_FMODSystem; }
+	
 private:
 	void CreateEngineMesh();
 	void CreateEngineMaterial();
@@ -43,7 +43,6 @@ private:
 	friend class CTaskMgr;
 	map<wstring, Ptr<CAsset>> m_mapAsset[(UINT)ASSET_TYPE::END];
 	bool m_Dirty;
-	FMOD::System*	m_FMODSystem;
 };
 
 template<typename T>

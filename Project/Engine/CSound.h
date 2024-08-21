@@ -5,7 +5,7 @@ class CSound :
 {
 public:
     CSound();
-    ~CSound() = default;
+    ~CSound();
 
 public:
     // _LoopCount : 0 (무한반복),  _Volume : 0 ~ 1(Volume), _Overlap : 소리 중첩 가능여부

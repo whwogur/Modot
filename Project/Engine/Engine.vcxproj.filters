@@ -166,6 +166,9 @@
     <ClInclude Include="CTexture.h">
       <Filter>06. Asset\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="CFontMgr.h">
+      <Filter>04. Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -306,6 +309,9 @@
     </ClCompile>
     <ClCompile Include="CTexture.cpp">
       <Filter>06. Asset\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="CFontMgr.cpp">
+      <Filter>04. Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

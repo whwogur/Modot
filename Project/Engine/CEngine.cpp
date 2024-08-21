@@ -12,7 +12,7 @@
 #include "CRenderMgr.h"
 #include "CCollisionMgr.h"
 #include "CTaskMgr.h"
-#include "CPrefab.h"
+#include "CFontMgr.h"
 
 CEngine::CEngine()
 	: m_hWnd(nullptr)
@@ -22,24 +22,37 @@ CEngine::CEngine()
 
 CEngine::~CEngine()
 {
+	if (nullptr != m_FMODSystem)
+	{
+		m_FMODSystem->release();
+		m_FMODSystem = nullptr;
+	}
 }
 
 int CEngine::Init(HWND _wnd, POINT _ptResolution, OBJECT_SAVE _SaveFunc, OBJECT_LOAD _Func)
 {
 	MD_PROFILE_FUNCTION();
 	Modot::Log::Init();
+
+	// FMOD 초기화
+	FMOD::System_Create(&m_FMODSystem);
+	assert(m_FMODSystem);
+
+	// 32개 채널 생성
+	m_FMODSystem->init(32, FMOD_DEFAULT, nullptr);
+
 	m_hWnd = _wnd;
 	m_ptResolution = _ptResolution;
 	ChangeWindowScale(_ptResolution.x, _ptResolution.y);
 
 	MD_ENGINE_ASSERT(SUCCEEDED(CDevice::GetInst()->Init(m_hWnd, m_ptResolution.x, m_ptResolution.y)), L"Device 초기화 실패");
 
-	CPathMgr::GetInst()->Init();// MD_ENGINE_TRACE(L"Path Manager 초기화 완료");
-	CKeyMgr::GetInst()->Init();// MD_ENGINE_TRACE(L"Key Manager 초기화 완료");
-	CTimeMgr::GetInst()->Init();// MD_ENGINE_TRACE(L"Time Manager 초기화 완료");
-	CAssetMgr::GetInst()->Init();// MD_ENGINE_TRACE(L"Asset Manager 초기화 완료");
-	CRenderMgr::GetInst()->Init();// MD_ENGINE_TRACE(L"Render Manager 초기화 완료");
-
+	CPathMgr::GetInst()->Init();
+	CKeyMgr::GetInst()->Init();
+	CTimeMgr::GetInst()->Init();
+	CAssetMgr::GetInst()->Init();
+	CRenderMgr::GetInst()->Init();
+	CFontMgr::GetInst()->Init();
 	// Prefab Function 등록
 	CPrefab::g_ObjectSaveFunc = _SaveFunc;
 	CPrefab::g_ObjectLoadFunc = _Func;
@@ -51,6 +64,7 @@ int CEngine::Init(HWND _wnd, POINT _ptResolution, OBJECT_SAVE _SaveFunc, OBJECT_
 void CEngine::Run()
 {
 	MD_PROFILE_FUNCTION();
+	m_FMODSystem->update();
 	// Manager
 	CKeyMgr::GetInst()->Tick();
 	CTimeMgr::GetInst()->Tick();

@@ -11,6 +11,15 @@ CSound::CSound()
 {
 }
 
+CSound::~CSound()
+{
+	if (nullptr != m_Sound)
+	{
+		FMOD_RESULT result = m_Sound->release();
+		m_Sound = nullptr;
+	}
+}
+
 int CSound::Play(int _LoopCount, float _Volume, bool _AllowOverlap)
 {
 	if (_LoopCount <= -1)
@@ -27,7 +36,7 @@ int CSound::Play(int _LoopCount, float _Volume, bool _AllowOverlap)
 	_LoopCount -= 1;
 
 	FMOD::Channel* pChannel = nullptr;
-	CAssetMgr::GetInst()->GetFMODSystem()->playSound(m_Sound, nullptr, false, &pChannel);
+	CEngine::GetInst()->GetFMODSystem()->playSound(m_Sound, nullptr, false, &pChannel);
 
 	// 재생 실패
 	if (nullptr == pChannel)
@@ -95,7 +104,7 @@ int CSound::Load(const wstring& _RelativePath)
 	wstring fullpath = contPath + _RelativePath;
 	string path(fullpath.begin(), fullpath.end());
 
-	if (FMOD_OK != CAssetMgr::GetInst()->GetFMODSystem()->createSound(path.c_str(), FMOD_DEFAULT, nullptr, &m_Sound))
+	if (FMOD_OK != CEngine::GetInst()->GetFMODSystem()->createSound(path.c_str(), FMOD_DEFAULT, nullptr, &m_Sound))
 	{
 		assert(nullptr);
 	}

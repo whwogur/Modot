@@ -33,6 +33,8 @@ void CEditorCameraScript::Tick()
 		else
 			Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
 	}
+
+	DrawDebugRect(Vec3(0, 0, 0), Vec3(1664, 936, 1), Vec3(0, 0, 0), Vec4(1, 1, 1, 1), 0.f, false);
 }
 
 
