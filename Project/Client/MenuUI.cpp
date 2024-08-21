@@ -174,6 +174,9 @@ void MenuUI::File()
 	{
 		if (ImGui::MenuItem(u8"새 레벨", " Ctrl + N"))
 		{
+			Inspector* inspector = reinterpret_cast<Inspector*>(CEditorMgr::GetInst()->FindEditorUI("Inspector"));
+			inspector->SetTargetObject(nullptr);
+			inspector->SetTargetAsset(nullptr);
 		}
 
 		if (ImGui::MenuItem(u8"레벨 불러오기", " Ctrl + O"))
