@@ -108,7 +108,7 @@ void ParticleSystemUI::Update()
 			}
 			ImGui::InputFloat("Burst Interval", &mod.SpawnBurstRepeatTime);
 
-			ImGui::TextColored(HEADER_1, "Scale Module"); ImGui::SameLine();
+			ImGui::SeparatorText(u8"Scale 모듈");
 			ToggleButton("##sharedScaleModule", &mod.Module[(UINT)PARTICLE_MODULE::SCALE]);
 			ImGui::InputFloat("Start Scale", &mod.StartScale);
 			ImGui::InputFloat("End Scale", &mod.EndScale);
@@ -116,6 +116,7 @@ void ParticleSystemUI::Update()
 			ImGui::SeparatorText(u8"Velocity 모듈");
 			ToggleButton("##sharedVelocityModule", &mod.Module[(UINT)PARTICLE_MODULE::ADD_VELOCITY]);
 			static int velType = static_cast<int>(mod.AddVelocityType);
+			static bool velAlign = mod.VelocityAlignment == 0 ? false : true;
 			if (ImGui::InputInt("Velocity Type", &velType, 0))
 			{
 				mod.AddVelocityType = static_cast<UINT>(velType);
@@ -123,7 +124,11 @@ void ParticleSystemUI::Update()
 			ImGui::InputFloat3("Dir", mod.AddVelocityFixedDir);
 			ImGui::InputFloat("Min Speed", &mod.AddMinSpeed);
 			ImGui::InputFloat("Max Speed", &mod.AddMaxSpeed);
-			
+			if (ImGui::Checkbox("Velocity Align", &velAlign))
+			{
+				velAlign ? mod.VelocityAlignment = 1 : mod.VelocityAlignment = 0;
+			}
+
 			ImGui::SeparatorText(u8"Drag 모듈");
 			ToggleButton("##sharedDragModule", &mod.Module[(UINT)PARTICLE_MODULE::DRAG]);
 			ImGui::InputFloat("Dest Norm. Age", &mod.DestNormalizedAge);
@@ -139,16 +144,18 @@ void ParticleSystemUI::Update()
 			ToggleButton("##sharedRenderModule", &mod.Module[(UINT)PARTICLE_MODULE::RENDER]);
 			ImGui::ColorEdit4("End Color", mod.EndColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_HDR | ImGuiColorEditFlags_PickerHueWheel);
 			static int fadeOut = static_cast<int>(mod.FadeOut);
-			static int velAlign = static_cast<int>(mod.VelocityAlignment);
 			if (ImGui::InputInt("Fadeout", &fadeOut, 0))
 			{
 				mod.FadeOut = static_cast<UINT>(fadeOut);
 			}
 			ImGui::InputFloat("Fade Start Ratio", &mod.FadeOutStartRatio);
-			if (ImGui::InputInt("Align with Vel", &velAlign, 0))
-			{
-				mod.VelocityAlignment = static_cast<UINT>(velAlign);
-			}
+			
+			ImGui::SeparatorText(u8"Orbit 모듈");
+			ToggleButton("##sharedRotModule", &mod.Module[(UINT)PARTICLE_MODULE::ORBIT]);
+			ImGui::InputFloat("Max Rotation", &mod.MaxRotationSpeed);
+			ImGui::SeparatorText(u8"Gyrate");
+			ToggleButton("##sharedGyrate", &mod.Gyrate);
+			ImGui::InputFloat("Gyrate Speed", &mod.GyrateSpeed);
 		}
 	}
 }

@@ -88,7 +88,7 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _OutStream)
             output_cross[i].vPosition.xyz = mul(output_cross[i].vPosition.xyz, vRot);
         }
     }
-        
+    
     for (int i = 0; i < 4; ++i)
     {
         output[i].vPosition.xyz += vViewPos;
@@ -97,6 +97,29 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _OutStream)
         output[i].InstID = _in[0].InstID;
     }
     
+    if (Module.Gyrate)
+    {
+        // z축 회전을 위한 각도 (라디안 단위)
+        float angle = g_EngineDT * Module.GyrateSpeed; // GyrateSpeed는 z축 회전 속도
+
+        // z축 회전 변환 행렬
+        float cosAngle = cos(angle);
+        float sinAngle = sin(angle);
+
+        float3x3 zRotationMatrix =
+        {
+            cosAngle, -sinAngle, 0.f,
+            sinAngle, cosAngle, 0.f,
+            0.f, 0.f, 1.f
+        };
+
+        // Gyrate 모드일 때 z축 회전 적용
+        for (int i = 0; i < 4; ++i)
+        {
+            // z축 회전 행렬을 적용하여 파티클 회전
+            output[i].vPosition.xyz = mul(output[i].vPosition.xyz, zRotationMatrix);
+        }
+    }
     
     // 생성시킨 정점의 UV 세팅
     output[0].vUV = float2(0.f, 0.f);

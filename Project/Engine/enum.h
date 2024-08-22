@@ -184,6 +184,7 @@ enum class PARTICLE_MODULE
 	DRAG,
 	NOISE_FORCE,
 	RENDER,
+	ORBIT,
 
 	END,
 };

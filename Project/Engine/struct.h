@@ -77,7 +77,8 @@ struct tParticle
 	float	NormalizedAge;
 	int		Active;
 
-	Vec2	Padding;
+	float	Rotation;
+	float	RotationSpeed;
 };
 
 struct tMtrlConst
@@ -168,7 +169,9 @@ struct tParticleModule
 	float	FadeOutStartRatio;	// FadeOut 효과가 시작되는 Normalized Age 지점
 	UINT	VelocityAlignment;	// 속도 정렬 0 : Off, 1 : On
 
-
+	float	MaxRotationSpeed;
+	int		Gyrate;
+	float	GyrateSpeed;
 	// Module On / Off
 	int		Module[(UINT)PARTICLE_MODULE::END];
 };

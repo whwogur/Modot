@@ -33,8 +33,8 @@ CParticleSystem::CParticleSystem()
 	m_Module.vSpawnColor = Vec4(0.24f, 0.67f, 0.87f, 1.f);
 	m_Module.MinLife = 1.f;
 	m_Module.MaxLife = 5.f;
-	m_Module.vSpawnMinScale = Vec3(50.f, 5.f, 1.f);
-	m_Module.vSpawnMaxScale = Vec3(500.f, 50.f, 1.f);
+	m_Module.vSpawnMinScale = Vec3(100.f, 100.f, 1.f);
+	m_Module.vSpawnMaxScale = Vec3(100.f, 100.f, 1.f);
 
 	m_Module.SpawnShape = 1;
 	m_Module.SpawnShapeScale.x = 500.f;
@@ -45,22 +45,23 @@ CParticleSystem::CParticleSystem()
 	m_Module.SpaceType = 1; // Local Space 
 
 	// Spawn Burst Module
-	m_Module.Module[(UINT)PARTICLE_MODULE::SPAWN_BURST] = true;
+	m_Module.Module[(UINT)PARTICLE_MODULE::SPAWN_BURST] = false;
 	m_Module.SpawnBurstRepeat = true;
 	m_Module.SpawnBurstCount = 100;
 	m_Module.SpawnBurstRepeatTime = 3.f;
 
 	// Scale Module
-	m_Module.Module[(UINT)PARTICLE_MODULE::SCALE] = true;
+	m_Module.Module[(UINT)PARTICLE_MODULE::SCALE] = false;
 	m_Module.StartScale = 1.f;
 	m_Module.EndScale = 1.f;
 
 	// AddVelocity Module
-	m_Module.Module[(UINT)PARTICLE_MODULE::ADD_VELOCITY] = true;
+	m_Module.Module[(UINT)PARTICLE_MODULE::ADD_VELOCITY] = false;
 	m_Module.AddVelocityType = 1;
 	m_Module.AddVelocityFixedDir = Vec3(0.f, 1.f, 0.f);
 	m_Module.AddMinSpeed = 100.f;
 	m_Module.AddMaxSpeed = 500.f;
+	m_Module.VelocityAlignment = false;
 
 	// Drag Module (°¨¼Ó)
 	m_Module.Module[(UINT)PARTICLE_MODULE::DRAG] = false;
@@ -74,10 +75,15 @@ CParticleSystem::CParticleSystem()
 
 	// Render Module
 	m_Module.Module[(UINT)PARTICLE_MODULE::RENDER] = true;
-	m_Module.EndColor = Vec3(1.f, 0.f, 0.f);
+	m_Module.EndColor = Vec3(1.f, 1.f, 1.f);
 	m_Module.FadeOut = true;
 	m_Module.FadeOutStartRatio = 0.9f;
-	m_Module.VelocityAlignment = true;
+
+	m_Module.Module[(UINT)PARTICLE_MODULE::ORBIT] = true;
+	m_Module.MaxRotationSpeed = 100.f;
+
+	m_Module.GyrateSpeed = 3.f;
+	m_Module.Gyrate = 1;
 
 	m_ModuleBuffer = std::make_shared<CStructuredBuffer>();
 	m_ModuleBuffer->Create(sizeof(tParticleModule), 1, SB_TYPE::SRV_UAV, true, &m_Module);

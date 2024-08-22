@@ -25,7 +25,7 @@ StructuredBuffer<tParticleModule> Module : register(t21);
 #define DragModule          Module[0].Module[4]
 #define NoiseForce          Module[0].Module[5]
 #define Render              Module[0].Module[6]
-
+#define OrbitModule         Module[0].Module[7]
 
 [numthreads(1024, 1, 1)]
 void CS_ParticleTick(int3 _ID : SV_DispatchThreadID)
@@ -95,7 +95,13 @@ void CS_ParticleTick(int3 _ID : SV_DispatchThreadID)
                     else
                         Particle.vVelocity = normalize(Module[0].AddVelocityFixedDir) * fSpeed;
                 }
-                    
+                   
+                if (OrbitModule)
+                {
+                    // 회전 속성을 랜덤하게 초기화
+                    Particle.Rotation = vRandom0.x * 360.0f; // 초기 회전 각도 (0~360도)
+                    Particle.RotationSpeed = (vRandom1.x - 0.5f) * Module[0].MaxRotationSpeed; // 회전 속도
+                }
                     
                 Particle.vLocalPos = vSpawnPos;
                 Particle.vWorldPos = Particle.vLocalPos + ParticleObjectPos.xyz;
@@ -196,6 +202,21 @@ void CS_ParticleTick(int3 _ID : SV_DispatchThreadID)
             }
         }
         
+        if (OrbitModule)
+        {
+             // 회전 업데이트
+            Particle.Rotation += Particle.RotationSpeed * g_EngineDT;
+    
+            // z축 회전에 따른 변환 적용
+            float3 rotatedPos = Particle.vLocalPos;
+            float cosAngle = cos(radians(Particle.Rotation));
+            float sinAngle = sin(radians(Particle.Rotation));
+
+            rotatedPos.x = Particle.vLocalPos.x * cosAngle - Particle.vLocalPos.y * sinAngle;
+            rotatedPos.y = Particle.vLocalPos.x * sinAngle + Particle.vLocalPos.y * cosAngle;
+
+            Particle.vWorldPos = rotatedPos + ParticleObjectPos.xyz;
+        }
         
         Particle.Age += g_EngineDT;
         Particle.NormalizedAge = Particle.Age / Particle.Life;

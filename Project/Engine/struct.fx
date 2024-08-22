@@ -42,7 +42,8 @@ struct tParticle
     float   NormalizedAge;
     int     Active;
     
-    float2 padding;
+    float   Rotation;
+    float   RotationSpeed;
 };
 
 struct tSpawnCount
@@ -99,7 +100,10 @@ struct tParticleModule
     float StartRatio; // FadeOut 효과가 시작되는 Normalized Age 지점
     uint VelocityAlignment; // 속도 정렬 0 : Off, 1 : On
 
+    float MaxRotationSpeed;
+    int     Gyrate;
+    float GyrateSpeed;
 	// Module On / Off
-    int Module[7];
+    int Module[8];
 };
 #endif

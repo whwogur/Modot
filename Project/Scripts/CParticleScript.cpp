@@ -67,6 +67,7 @@ CParticleScript::CParticleScript()
 	AddScriptParam(SCRIPT_PARAM::VEC3, "FixedDir", &m_Module.AddVelocityFixedDir, 0, 0, "0, 1, 0");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "MinSpeed", &m_Module.AddMinSpeed, 0, 0, u8"초당 이동 픽셀");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "MaxSpeed", &m_Module.AddMaxSpeed, 0, 0, u8"초당 이동 픽셀");
+	AddScriptParam(SCRIPT_PARAM::BOOLEAN_CHECKBOX, "VelocityAlignment", &m_Module.VelocityAlignment, 0, 0, u8"속도정렬\n0: Off\n1: On"); // 불리언
 
 
 	//// Drag Module (감속)
@@ -95,8 +96,10 @@ CParticleScript::CParticleScript()
 	AddScriptParam(SCRIPT_PARAM::COLOR, "EndColor", &m_Module.EndColor); // 컬러
 	AddScriptParam(SCRIPT_PARAM::BOOLEAN_CHECKBOX, "FadeOut", &m_Module.FadeOut, 0, 0, "0: Off\n1: Normalized Age"); // 불리언
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "FadeStartRatio", &m_Module.FadeOutStartRatio);
-	AddScriptParam(SCRIPT_PARAM::BOOLEAN_CHECKBOX, "VelocityAlignment", &m_Module.VelocityAlignment, 0, 0, u8"속도정렬\n0: Off\n1: On"); // 불리언
 
+	AddScriptParam(SCRIPT_PARAM::BOOLEAN_TOGGLE, "Render Module", &m_Module.Module[(UINT)PARTICLE_MODULE::ORBIT]); // 불리언
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "MaxOrbitSpeed", &m_Module.MaxRotationSpeed);
+	AddScriptParam(SCRIPT_PARAM::BOOLEAN_TOGGLE, "Gyrate", &m_Module.Gyrate);
 }
 
 void CParticleScript::Begin()
