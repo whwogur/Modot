@@ -25,6 +25,7 @@ public:
     vector<Ptr<CAnimation>>& GetAnimationsRef() { return m_vecAnimation; }
     float& GetFPSRef() { return m_FPS; }
     bool& GetRepeatRef() { return m_Repeat; }
+    bool IsFinished() const { return m_Finish; }
 
     void Reset();
     void Bind();
