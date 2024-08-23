@@ -40,6 +40,11 @@ void CPlayerScript::Tick()
 		{
 			ChangeState(PlayerState::SHOOT);
 		}
+		else if (KEY_PRESSED(KEY::Q))
+		{
+			if (RigidBody()->IsGround())
+				ChangeState(PlayerState::ROLL);
+		}
 		break;
 	}
 	case PlayerState::IDLE2:
@@ -114,6 +119,16 @@ void CPlayerScript::Tick()
 		{
 			ChangeState(PlayerState::JUMP);
 		}
+		else if (KEY_PRESSED(KEY::Q))
+		{
+			ChangeState(PlayerState::ROLL);
+		}
+		break;
+	}
+	case PlayerState::ROLL:
+	{
+		if (Animator2D()->IsFinished())
+			ChangeState(PlayerState::IDLE);
 		break;
 	}
 	case PlayerState::DAMAGED:
@@ -143,14 +158,49 @@ void CPlayerScript::Tick()
 	}
 	case PlayerState::ATTACK1:
 	{
+		if (KEY_TAP(KEY::S) || KEY_PRESSED(KEY::S))
+		{
+			EDITOR_TRACE("AttackReserved-1");
+			m_AttackReserved = true;
+		}
+
+		if (Animator2D()->IsFinished())
+		{
+			if (m_AttackReserved)
+				ChangeState(PlayerState::ATTACK2);
+			else
+				ChangeState(PlayerState::IDLE);
+
+			m_AttackReserved = false;
+		}
 		break;
 	}
 	case PlayerState::ATTACK2:
 	{
+		if (KEY_TAP(KEY::S) || KEY_PRESSED(KEY::S))
+		{
+			EDITOR_TRACE("AttackReserved-2");
+			m_AttackReserved = true;
+		}
+
+		if (Animator2D()->IsFinished())
+		{
+			if (m_AttackReserved)
+				ChangeState(PlayerState::ATTACK3);
+			else
+				ChangeState(PlayerState::IDLE);
+
+			m_AttackReserved = false;
+		}
 		break;
 	}
 	case PlayerState::ATTACK3:
 	{
+		if (Animator2D()->IsFinished())
+		{
+			EDITOR_TRACE("Idle3");
+			ChangeState(PlayerState::IDLE);
+		}
 		break;
 	}
 	case PlayerState::SHOOT:
@@ -210,7 +260,7 @@ void CPlayerScript::BeginState()
 	{
 	case PlayerState::IDLE:
 	{
-		Animator2D()->Play(L"Momo_Idle", 7.0f, true);
+		Animator2D()->Play(L"Momo_Idle", 12.0f, true);
 		break;
 	}
 	case PlayerState::IDLE2:
@@ -222,7 +272,7 @@ void CPlayerScript::BeginState()
 	{
 		if (RigidBody()->IsGround())
 		{
-			Animator2D()->Play(L"Momo_Jump", 8.0f, false);
+			Animator2D()->Play(L"Momo_Jump", 12.0f, false);
 			RigidBody()->SetGravityAccel(2000.f);
 
 			Vec2 vCurVel = RigidBody()->GetVelocity();
@@ -241,12 +291,19 @@ void CPlayerScript::BeginState()
 	}
 	case PlayerState::LAND:
 	{
-		Animator2D()->Play(L"Momo_Land", 7.0f, false);
+		Animator2D()->Play(L"Momo_Land", 10.0f, false);
 		break;
 	}
 	case PlayerState::RUN:
 	{
-		Animator2D()->Play(L"Momo_Run", 10.0f, true);
+		Animator2D()->Play(L"Momo_Run", 12.0f, true);
+		break;
+	}
+	case PlayerState::ROLL:
+	{
+		float xvel = Transform()->GetRelativeScale().x;
+		RigidBody()->SetVelocity(Vec2(xvel * 20.f, 0.f));
+		Animator2D()->Play(L"Momo_Roll", 12.0f, true);
 		break;
 	}
 	case PlayerState::DAMAGED:
@@ -255,30 +312,33 @@ void CPlayerScript::BeginState()
 	}
 	case PlayerState::DEAD:
 	{
-		Animator2D()->Play(L"Momo_Die", 10.0f, false);
+		Animator2D()->Play(L"Momo_Die", 14.0f, false);
 		break;
 	}
 	case PlayerState::SPRINT:
 	{
 		Animator2D()->Play(L"Momo_Sprint", 14.0f, true);
-		m_Speed = 500.0f;
+		m_Speed = 1000.0f;
 		break;
 	}
 	case PlayerState::ATTACK1:
 	{
+		Animator2D()->Play(L"Momo_Attack1", 14.0f, false);
 		break;
 	}
 	case PlayerState::ATTACK2:
 	{
+		Animator2D()->Play(L"Momo_Attack2", 14.0f, false);
 		break;
 	}
 	case PlayerState::ATTACK3:
 	{
+		Animator2D()->Play(L"Momo_Attack3", 14.0f, false);
 		break;
 	}
 	case PlayerState::SHOOT:
 	{
-		Animator2D()->Play(L"Momo_Shoot", 12.0f, false);
+		Animator2D()->Play(L"Momo_Shoot", 13.0f, false);
 		break;
 	}
 	case PlayerState::INTERACTION:
@@ -344,10 +404,12 @@ void CPlayerScript::EndState()
 	}
 	case PlayerState::ATTACK1:
 	{
+		
 		break;
 	}
 	case PlayerState::ATTACK2:
 	{
+		
 		break;
 	}
 	case PlayerState::ATTACK3:

@@ -5,7 +5,7 @@ enum class PlayerState
 {
     IDLE, IDLE2,
     JUMP, DOUBLEJUMP, LAND,
-    RUN,
+    RUN, ROLL,
     DAMAGED,
     DEAD,
     SPRINT,
@@ -42,6 +42,5 @@ private:
     float           m_Speed;
     PlayerState     m_State;
 
-    float           m_Acc = 0.f;
-    float           m_Time = 0.f;
+    bool            m_AttackReserved = false;
 };
