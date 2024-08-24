@@ -96,9 +96,13 @@ void CPlayerScript::Tick()
 		{
 			ChangeState(PlayerState::SPRINT);
 		}
-		if (KEY_TAP(KEY::S))
+		else if (KEY_TAP(KEY::D))
 		{
 			ChangeState(PlayerState::SHOOT);
+		}
+		else if (KEY_TAP(KEY::S))
+		{
+			ChangeState(PlayerState::ATTACK1);
 		}
 
 		if (KEY_PRESSED(KEY::RIGHT))
@@ -254,13 +258,13 @@ void CPlayerScript::LoadFromFile(FILE* _File)
 	fread(&m_Speed, sizeof(float), 1, _File);
 }
 
-void CPlayerScript::BeginState()
+void CPlayerScript::BeginState(PlayerState _State)
 {
-	switch (m_State)
+	switch (_State)
 	{
 	case PlayerState::IDLE:
 	{
-		Animator2D()->Play(L"Momo_Idle", 12.0f, true);
+		Animator2D()->Play(L"Momo_Idle", 8.0f, true);
 		break;
 	}
 	case PlayerState::IDLE2:
@@ -364,9 +368,9 @@ void CPlayerScript::DirectionCheck()
 	}
 }
 
-void CPlayerScript::EndState()
+void CPlayerScript::EndState(PlayerState _State)
 {
-	switch (m_State)
+	switch (_State)
 	{
 	case PlayerState::IDLE:
 	{
@@ -433,7 +437,7 @@ void CPlayerScript::EndState()
 
 void CPlayerScript::ChangeState(PlayerState _NextState)
 {
-	EndState();
+	EndState(m_State);
 	m_State = _NextState;
-	BeginState();
+	BeginState(_NextState);
 }

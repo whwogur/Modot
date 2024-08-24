@@ -34,9 +34,9 @@ public:
     virtual void LoadFromFile(FILE* _File) override;
 
 private:
-    void BeginState();
+    void BeginState(PlayerState _State);
     void DirectionCheck();
-    void EndState();
+    void EndState(PlayerState _State);
     void ChangeState(PlayerState _NextState);
 private:
     float           m_Speed;
