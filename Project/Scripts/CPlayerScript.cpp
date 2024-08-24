@@ -34,7 +34,22 @@ void CPlayerScript::Tick()
 		}
 		else if (KEY_TAP(KEY::S) || KEY_PRESSED(KEY::S))
 		{
-			ChangeState(PlayerState::ATTACK1);
+			if (!m_Attack1 && !m_Attack2 && !m_Attack3)
+			{
+				ChangeState(PlayerState::ATTACK1);
+			}
+			else 
+			{
+				if (m_Attack1 && !m_Attack2 && !m_Attack3)
+				{
+					ChangeState(PlayerState::ATTACK2);
+
+				}
+				else if (!m_Attack1 && m_Attack2 && !m_Attack3)
+				{
+					ChangeState(PlayerState::ATTACK3);
+				}
+			}
 		}
 		else if (KEY_PRESSED(KEY::D))
 		{
@@ -162,39 +177,18 @@ void CPlayerScript::Tick()
 	}
 	case PlayerState::ATTACK1:
 	{
-		if (KEY_TAP(KEY::S) || KEY_PRESSED(KEY::S))
-		{
-			EDITOR_TRACE("AttackReserved-1");
-			m_AttackReserved = true;
-		}
-
 		if (Animator2D()->IsFinished())
 		{
-			if (m_AttackReserved)
-				ChangeState(PlayerState::ATTACK2);
-			else
-				ChangeState(PlayerState::IDLE);
-
-			m_AttackReserved = false;
+			ChangeState(PlayerState::IDLE);
 		}
 		break;
 	}
 	case PlayerState::ATTACK2:
 	{
-		if (KEY_TAP(KEY::S) || KEY_PRESSED(KEY::S))
-		{
-			EDITOR_TRACE("AttackReserved-2");
-			m_AttackReserved = true;
-		}
-
 		if (Animator2D()->IsFinished())
 		{
-			if (m_AttackReserved)
-				ChangeState(PlayerState::ATTACK3);
-			else
-				ChangeState(PlayerState::IDLE);
-
-			m_AttackReserved = false;
+			ChangeState(PlayerState::IDLE);
+			EDITOR_TRACE("Attack2End");
 		}
 		break;
 	}
@@ -202,8 +196,8 @@ void CPlayerScript::Tick()
 	{
 		if (Animator2D()->IsFinished())
 		{
-			EDITOR_TRACE("Idle3");
 			ChangeState(PlayerState::IDLE);
+			EDITOR_TRACE("Attack3End");
 		}
 		break;
 	}
@@ -327,16 +321,21 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	case PlayerState::ATTACK1:
 	{
+		m_Attack1 = true;
 		Animator2D()->Play(L"Momo_Attack1", 14.0f, false);
 		break;
 	}
 	case PlayerState::ATTACK2:
 	{
+		m_Attack2 = true;
+		m_Attack1 = false;
 		Animator2D()->Play(L"Momo_Attack2", 14.0f, false);
 		break;
 	}
 	case PlayerState::ATTACK3:
 	{
+		m_Attack3 = true;
+		m_Attack2 = false;
 		Animator2D()->Play(L"Momo_Attack3", 14.0f, false);
 		break;
 	}
@@ -408,16 +407,17 @@ void CPlayerScript::EndState(PlayerState _State)
 	}
 	case PlayerState::ATTACK1:
 	{
-		
 		break;
 	}
 	case PlayerState::ATTACK2:
 	{
-		
 		break;
 	}
 	case PlayerState::ATTACK3:
 	{
+		m_Attack1 = false;
+		m_Attack2 = false;
+		m_Attack3 = false;
 		break;
 	}
 	case PlayerState::SHOOT:

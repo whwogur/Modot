@@ -42,5 +42,7 @@ private:
     float           m_Speed;
     PlayerState     m_State;
 
-    bool            m_AttackReserved = false;
+    bool            m_Attack1 = false;
+    bool            m_Attack2 = false;
+    bool            m_Attack3 = false;
 };

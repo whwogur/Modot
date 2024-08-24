@@ -17,7 +17,7 @@
 
 void CTestLevel::CreateTestLevel()
 {
-	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\Koho.lv");
+	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\TestLevel.lv");
 	//pLevel->SetName(L"ParticleFactory");
 	ChangeLevel(pLevel, LEVEL_STATE::STOP);
 }
