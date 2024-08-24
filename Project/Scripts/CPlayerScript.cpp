@@ -69,19 +69,24 @@ void CPlayerScript::Tick()
 	}
 	case PlayerState::JUMP:
 	{
-		if (KEY_TAP(KEY::SPACE))
+		m_Acc += DT;
+		if (m_Acc < m_Timer)
 		{
-			ChangeState(PlayerState::DOUBLEJUMP);
+			if (KEY_TAP(KEY::SPACE))
+			{
+				if (!RigidBody()->IsGround())
+					ChangeState(PlayerState::DOUBLEJUMP);
+			}
+			if (KEY_PRESSED(KEY::RIGHT))
+			{
+				RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
+			}
+			if (KEY_PRESSED(KEY::LEFT))
+			{
+				RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
+			}
 		}
-
-		if (KEY_PRESSED(KEY::RIGHT))
-		{
-			RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
-		}
-		if (KEY_PRESSED(KEY::LEFT))
-		{
-			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
-		}
+		
 		break;
 	}
 	case PlayerState::DOUBLEJUMP:
@@ -268,16 +273,16 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	case PlayerState::JUMP:
 	{
-		if (RigidBody()->IsGround())
-		{
-			Animator2D()->Play(L"Momo_Jump", 12.0f, false);
-			RigidBody()->SetGravityAccel(2000.f);
+		m_Acc = 0.f;
+		m_Timer = 2.f;
 
-			Vec2 vCurVel = RigidBody()->GetVelocity();
-			Transform()->SetRelativePos(Transform()->GetRelativePos().x, Transform()->GetRelativePos().y - 10.f, Transform()->GetRelativePos().z);
-			RigidBody()->SetVelocity(Vec2(vCurVel.x, 1000.f));
-			RigidBody()->SetGround(false);
-		}
+		Animator2D()->Play(L"Momo_Jump", 6.0f, false);
+		RigidBody()->SetGravityAccel(2000.f);
+
+		Vec2 vCurVel = RigidBody()->GetVelocity();
+		Transform()->SetRelativePos(Transform()->GetRelativePos().x, Transform()->GetRelativePos().y - 10.f, Transform()->GetRelativePos().z);
+		RigidBody()->SetVelocity(Vec2(vCurVel.x, 1000.f));
+		RigidBody()->SetGround(false);
 		break;
 	}
 	case PlayerState::DOUBLEJUMP:
@@ -382,6 +387,12 @@ void CPlayerScript::EndState(PlayerState _State)
 	}
 	case PlayerState::JUMP:
 	{
+		EDITOR_TRACE("End Jump");
+		break;
+	}
+	case PlayerState::DOUBLEJUMP:
+	{
+		EDITOR_TRACE("End DoubleJump");
 		break;
 	}
 	case PlayerState::LAND:

@@ -42,6 +42,9 @@ private:
     float           m_Speed;
     PlayerState     m_State;
 
+    float           m_Acc = 0.f;
+    float           m_Timer = 0.f;
+
     bool            m_Attack1 = false;
     bool            m_Attack2 = false;
     bool            m_Attack3 = false;
