@@ -1,5 +1,6 @@
 #include "spch.h"
 #include "CCameraMoveScript.h"
+#include <Engine/CLevelMgr.h>
 
 CCameraMoveScript::CCameraMoveScript()
 	: CScript(UINT(SCRIPT_TYPE::CAMERAMOVESCRIPT))
@@ -10,6 +11,11 @@ CCameraMoveScript::CCameraMoveScript()
 
 CCameraMoveScript::~CCameraMoveScript()
 {
+}
+
+void CCameraMoveScript::Begin()
+{
+	m_Target = CLevelMgr::GetInst()->FindObjectByName(L"Player");
 }
 
 void CCameraMoveScript::Tick()
@@ -81,6 +87,12 @@ void CCameraMoveScript::OrthoGraphicMove()
 		}
 
 		Transform()->SetRelativePos(vPos);
+	}
+
+	if (m_Target != nullptr)
+	{
+		const Vec3 objPos = m_Target->Transform()->GetRelativePos();
+		Transform()->SetRelativePos(objPos + Vec3(0.f, 400.f, 0.f));
 	}
 }
 
