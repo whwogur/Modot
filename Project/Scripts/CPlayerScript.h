@@ -38,6 +38,8 @@ private:
     void DirectionCheck();
     void EndState(PlayerState _State);
     void ChangeState(PlayerState _NextState);
+
+    void Jump();
 private:
     float           m_Speed;
     PlayerState     m_State;

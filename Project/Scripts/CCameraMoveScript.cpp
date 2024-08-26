@@ -92,7 +92,7 @@ void CCameraMoveScript::OrthoGraphicMove()
 	if (m_Target != nullptr)
 	{
 		const Vec3 objPos = m_Target->Transform()->GetRelativePos();
-		Transform()->SetRelativePos(objPos + Vec3(0.f, 400.f, 0.f));
+		Transform()->SetRelativePos(objPos + Vec3(0.f, 340.f, 0.f));
 	}
 }
 
@@ -144,8 +144,8 @@ void CCameraMoveScript::PerspectiveMove()
 			Vec2 vDir = CKeyMgr::GetInst()->GetDragDir();
 
 			Vec3 vRot = Transform()->GetRelativeRoatation();
-			vRot.y += vDir.x * XM_PI * DT * 10.f;
-			vRot.x += vDir.y * XM_PI * DT * 10.f;
+			vRot.y += vDir.x * XM_PI * DT * 5.f;
+			vRot.x += vDir.y * XM_PI * DT * 5.f;
 			Transform()->SetRelativeRotation(vRot);
 		}
 		else if (KEY_RELEASED(KEY::RBTN))

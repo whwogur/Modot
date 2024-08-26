@@ -23,6 +23,8 @@ void CPlayerScript::Tick()
 	{
 	case PlayerState::IDLE:
 	{
+		Jump();
+
 		if (KEY_TAP(KEY::LEFT) || KEY_TAP(KEY::RIGHT) || KEY_PRESSED(KEY::LEFT) || KEY_PRESSED(KEY::RIGHT))
 		{
 			ChangeState(PlayerState::RUN);
@@ -69,14 +71,10 @@ void CPlayerScript::Tick()
 	}
 	case PlayerState::JUMP:
 	{
+		Jump();
 		m_Acc += DT;
 		if (m_Acc < m_Timer)
 		{
-			if (KEY_TAP(KEY::SPACE))
-			{
-				if (!RigidBody()->IsGround())
-					ChangeState(PlayerState::DOUBLEJUMP);
-			}
 			if (KEY_PRESSED(KEY::RIGHT))
 			{
 				RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
@@ -109,6 +107,8 @@ void CPlayerScript::Tick()
 	}
 	case PlayerState::RUN:
 	{
+		Jump();
+
 		if (KEY_PRESSED(KEY::RIGHT) && KEY_PRESSED(KEY::LEFT))
 			break;
 
@@ -139,10 +139,6 @@ void CPlayerScript::Tick()
 			ChangeState(PlayerState::IDLE);
 		}
 
-		if (KEY_PRESSED(KEY::SPACE))
-		{
-			ChangeState(PlayerState::JUMP);
-		}
 		else if (KEY_PRESSED(KEY::Q))
 		{
 			ChangeState(PlayerState::ROLL);
@@ -165,6 +161,7 @@ void CPlayerScript::Tick()
 	}
 	case PlayerState::SPRINT:
 	{
+		Jump();
 		if (KEY_PRESSED(KEY::RIGHT))
 		{
 			RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
@@ -178,6 +175,9 @@ void CPlayerScript::Tick()
 		{
 			ChangeState(PlayerState::RUN);
 		}
+
+		if (!RigidBody()->IsGround())
+			ChangeState(PlayerState::JUMP);
 		break;
 	}
 	case PlayerState::ATTACK1:
@@ -229,11 +229,8 @@ void CPlayerScript::Tick()
 
 void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	if (m_State == PlayerState::JUMP || m_State == PlayerState::DOUBLEJUMP)
-	{
-		RigidBody()->SetGround(true);
-		ChangeState(PlayerState::LAND);
-	}
+	RigidBody()->SetGround(true);
+	ChangeState(PlayerState::IDLE);
 	EDITOR_TRACE("Ground");
 }
 
@@ -277,12 +274,6 @@ void CPlayerScript::BeginState(PlayerState _State)
 		m_Timer = 2.f;
 
 		Animator2D()->Play(L"Momo_Jump", 6.0f, false);
-		RigidBody()->SetGravityAccel(2000.f);
-
-		Vec2 vCurVel = RigidBody()->GetVelocity();
-		Transform()->SetRelativePos(Transform()->GetRelativePos().x, Transform()->GetRelativePos().y - 10.f, Transform()->GetRelativePos().z);
-		RigidBody()->SetVelocity(Vec2(vCurVel.x, 1000.f));
-		RigidBody()->SetGround(false);
 		break;
 	}
 	case PlayerState::DOUBLEJUMP:
@@ -451,4 +442,32 @@ void CPlayerScript::ChangeState(PlayerState _NextState)
 	EndState(m_State);
 	m_State = _NextState;
 	BeginState(_NextState);
+}
+
+void CPlayerScript::Jump()
+{
+	if (RigidBody()->IsGround())
+	{
+		if (KEY_TAP(KEY::A))
+		{
+			RigidBody()->SetGravityAccel(2500.f);
+
+			Vec2 vCurVel = RigidBody()->GetVelocity();
+			RigidBody()->SetVelocity(Vec2(vCurVel.x, 1500.f));
+			RigidBody()->SetGround(false);
+
+			ChangeState(PlayerState::JUMP);
+		}
+	}
+
+	else if (m_State == PlayerState::JUMP)
+	{
+		if (KEY_TAP(KEY::A))
+		{
+			RigidBody()->SetGravityAccel(2500.f);
+			RigidBody()->SetVelocity(Vec2(RigidBody()->GetVelocity().x, 1500.f));
+
+			ChangeState(PlayerState::DOUBLEJUMP);
+		}
+	}
 }

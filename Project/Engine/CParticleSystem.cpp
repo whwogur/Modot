@@ -204,8 +204,16 @@ void CParticleSystem::CaculateSpawnCount()
 
 void CParticleSystem::SaveToFile(FILE* _File)
 {
+	fwrite(&m_Time, sizeof(float), 1, _File);
+	fwrite(&m_BurstTime, sizeof(float), 1, _File);
+	fwrite(&m_MaxParticleCount, sizeof(int), 1, _File);
+	fwrite(&m_Module, sizeof(tParticleModule), 1, _File);
 }
 
 void CParticleSystem::LoadFromFile(FILE* _File)
 {
+	fread(&m_Time, sizeof(float), 1, _File);
+	fread(&m_BurstTime, sizeof(float), 1, _File);
+	fread(&m_MaxParticleCount, sizeof(int), 1, _File);
+	fread(&m_Module, sizeof(tParticleModule), 1, _File);
 }

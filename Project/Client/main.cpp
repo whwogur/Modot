@@ -19,7 +19,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_ LPWSTR    lpCmdLine,
     _In_ int       nCmdShow)
 {
-    MD_PROFILE_BEGIN_SESSION("Init", "Profile-Init.json");
+    MD_PROFILE_BEGIN_SESSION("Init", "Profile-Initialization.json");
     //int screenX = GetSystemMetrics(SM_CXSCREEN);
     //int screenY = GetSystemMetrics(SM_CYSCREEN);
 #ifdef _DEBUG

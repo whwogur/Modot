@@ -62,12 +62,9 @@ float4 PS_TileMap(VS_OUT _in) : SV_Target
 
     if (IsAtlasBind)
     {
-        // 픽셀쉐이더에서 본인의 타일이 몇번째 타일인지 알아내야한다.
         float2 CurColRow = floor(_in.vUV);
         int Idx = TileColRow.x * CurColRow.y + CurColRow.x;
-
-        // 그 정보로 g_Buffer 에 전달된 각 타일정보중 본인의 정보에 접근해서 ImgIdx 를 알아낸다.
-        // 알아낸 ImgIdx 로 LeftTopUV 값을 계산한다.        
+        
         int row = g_Buffer[Idx].ImgIdx / AtlasMaxCol;
         int col = g_Buffer[Idx].ImgIdx % AtlasMaxCol;
         float2 vLeftTopUV = float2(col, row) * TileSliceUV;

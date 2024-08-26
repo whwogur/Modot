@@ -7,7 +7,7 @@ CParticleTickCS::CParticleTickCS()
 	, m_ParticleBuffer(nullptr)
 	, m_SpawnCountBuffer(nullptr)
 {
-	m_NoiseTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"noise_02");
+	m_NoiseTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"noise_03");
 }
 
 int CParticleTickCS::Bind()
