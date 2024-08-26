@@ -260,6 +260,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 	{
 	case PlayerState::IDLE:
 	{
+		RigidBody()->SetGravityAccel(2500.f);
 		Animator2D()->Play(L"Momo_Idle", 8.0f, true);
 		break;
 	}
@@ -296,7 +297,8 @@ void CPlayerScript::BeginState(PlayerState _State)
 	case PlayerState::ROLL:
 	{
 		float xvel = Transform()->GetRelativeScale().x;
-		RigidBody()->SetVelocity(Vec2(xvel * 20.f, 0.f));
+		RigidBody()->SetFrictionScale(0.1f);
+		RigidBody()->SetVelocity(Vec2(xvel * 40.f, 0.f));
 		Animator2D()->Play(L"Momo_Roll", 12.0f, true);
 		break;
 	}
@@ -378,11 +380,13 @@ void CPlayerScript::EndState(PlayerState _State)
 	}
 	case PlayerState::JUMP:
 	{
+		RigidBody()->SetFrictionScale(0.5f);
 		EDITOR_TRACE("End Jump");
 		break;
 	}
 	case PlayerState::DOUBLEJUMP:
 	{
+		RigidBody()->SetFrictionScale(0.5f);
 		EDITOR_TRACE("End DoubleJump");
 		break;
 	}
@@ -392,6 +396,11 @@ void CPlayerScript::EndState(PlayerState _State)
 	}
 	case PlayerState::RUN:
 	{
+		break;
+	}
+	case PlayerState::ROLL:
+	{
+		RigidBody()->SetFrictionScale(0.5f);
 		break;
 	}
 	case PlayerState::DAMAGED:
