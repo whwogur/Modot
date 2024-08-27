@@ -240,8 +240,11 @@ void CPlayerScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject
 
 void CPlayerScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	RigidBody()->SetGround(false);
-	EDITOR_TRACE("Airborne");
+	if (Collider2D()->GetOverlapCount() <= 0)
+	{
+		RigidBody()->SetGround(false);
+		EDITOR_TRACE("Airborne");
+	}
 }
 
 void CPlayerScript::SaveToFile(FILE* _File)
