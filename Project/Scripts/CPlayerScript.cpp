@@ -125,13 +125,23 @@ void CPlayerScript::Tick()
 			ChangeState(PlayerState::ATTACK1);
 		}
 
-		if (KEY_PRESSED(KEY::RIGHT))
+		// 플레이어 이동 방향 처리
+		if (KEY_PRESSED(KEY::RIGHT) || KEY_PRESSED(KEY::LEFT))
 		{
-			RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
-		}
-		else if (KEY_PRESSED(KEY::LEFT))
-		{
-			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
+			// 플랫폼의 회전 각도를 얻어옴
+			const float platformRotationZ = RigidBody()->GetGroundRotation();
+
+			Vec2 moveDir;
+			if (KEY_PRESSED(KEY::RIGHT))
+			{
+				moveDir = Vec2(cos(platformRotationZ), sin(platformRotationZ)); // 오른쪽 이동
+			}
+			else if (KEY_PRESSED(KEY::LEFT))
+			{
+				moveDir = Vec2(-cos(platformRotationZ), -sin(platformRotationZ)); // 왼쪽 이동
+			}
+
+			RigidBody()->AddForce(moveDir * (m_Speed * 10.0f));
 		}
 
 		if (KEY_RELEASED(KEY::LEFT) || KEY_RELEASED(KEY::RIGHT))
@@ -231,7 +241,9 @@ void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 {
 	RigidBody()->SetGround(true);
 	ChangeState(PlayerState::IDLE);
-	//EDITOR_TRACE("Ground");
+
+	const float platformRotationZ = RigidBody()->GetGroundRotation();
+	EDITOR_TRACE(std::to_string(platformRotationZ));
 }
 
 void CPlayerScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)

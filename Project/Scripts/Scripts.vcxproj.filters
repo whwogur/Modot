@@ -37,6 +37,9 @@
     <ClInclude Include="CTintedBGScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CPlatformScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -65,6 +68,9 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CTintedBGScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlatformScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>

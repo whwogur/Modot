@@ -5,6 +5,7 @@
 #include "CCameraMoveScript.h"
 #include "CNPCScript.h"
 #include "CParticleScript.h"
+#include "CPlatformScript.h"
 #include "CPlayerScript.h"
 #include "CSpriteRenderScript.h"
 #include "CTintedBGScript.h"
@@ -15,6 +16,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CNPCScript");
 	_vec.push_back(L"CParticleScript");
+	_vec.push_back(L"CPlatformScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CSpriteRenderScript");
 	_vec.push_back(L"CTintedBGScript");
@@ -30,6 +32,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CNPCScript;
 	if (L"CParticleScript" == _strScriptName)
 		return new CParticleScript;
+	if (L"CPlatformScript" == _strScriptName)
+		return new CPlatformScript;
 	if (L"CPlayerScript" == _strScriptName)
 		return new CPlayerScript;
 	if (L"CSpriteRenderScript" == _strScriptName)
@@ -54,6 +58,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::PARTICLESCRIPT:
 		return new CParticleScript;
+		break;
+	case (UINT)SCRIPT_TYPE::PLATFORMSCRIPT:
+		return new CPlatformScript;
 		break;
 	case (UINT)SCRIPT_TYPE::PLAYERSCRIPT:
 		return new CPlayerScript;
@@ -86,6 +93,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::PARTICLESCRIPT:
 		return L"CParticleScript";
+		break;
+
+	case SCRIPT_TYPE::PLATFORMSCRIPT:
+		return L"CPlatformScript";
 		break;
 
 	case SCRIPT_TYPE::PLAYERSCRIPT:

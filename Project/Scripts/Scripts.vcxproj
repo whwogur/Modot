@@ -105,6 +105,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CCameraMoveScript.h" />
     <ClInclude Include="CNPCScript.h" />
     <ClInclude Include="CParticleScript.h" />
+    <ClInclude Include="CPlatformScript.h" />
     <ClInclude Include="CPlayerScript.h" />
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CSpriteRenderScript.h" />
@@ -117,6 +118,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CCameraMoveScript.cpp" />
     <ClCompile Include="CNPCScript.cpp" />
     <ClCompile Include="CParticleScript.cpp" />
+    <ClCompile Include="CPlatformScript.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CSpriteRenderScript.cpp" />

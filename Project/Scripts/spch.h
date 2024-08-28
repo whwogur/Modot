@@ -13,4 +13,6 @@
 #include <Engine/global.h>
 #include <Engine/CEngine.h>
 #include "CScriptMgr.h"
+
+constexpr float PI = 3.14159265359;
 #endif //PCH_H
