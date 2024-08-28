@@ -20,13 +20,13 @@ void CBackGroundScript::Tick()
 		if (KEY_PRESSED(KEY::LEFT))
 		{
 			const Vec3& relPos = Transform()->GetRelativePosRef();
-			Transform()->SetRelativePos(Vec3(relPos.x + relPos.z * DT, relPos.y, relPos.z));
+			Transform()->SetRelativePos(Vec3(relPos.x + relPos.z * 3 * DT, relPos.y, relPos.z));
 		}
 
 		if (KEY_PRESSED(KEY::RIGHT))
 		{
 			const Vec3& relPos = Transform()->GetRelativePosRef();
-			Transform()->SetRelativePos(Vec3(relPos.x - relPos.z * DT, relPos.y, relPos.z));
+			Transform()->SetRelativePos(Vec3(relPos.x - relPos.z * 3 * DT, relPos.y, relPos.z));
 		}
 	}
 }
