@@ -231,6 +231,20 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->AddScalarParam(VEC2_3, "OffsetUV");
 	AddAsset(L"Std2DSpriteShader", pShader);
 
+	// TintShader
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
+	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2DTint");
+
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
+
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASKED);
+	pShader->AddTexParam(TEX_0, "OutputTexture");
+	pShader->AddScalarParam(VEC4_0, "Tint");
+	AddAsset(L"Std2DTintShader", pShader);
+
 	// Shockwave
 	pShader = new CGraphicShader;
 	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_Shockwave");
@@ -334,6 +348,13 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"DebugShapeShader"));
 	AddAsset(L"DebugShapeMtrl", pMtrl);
+
+	// DebugShapeMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"Std2DTintShader"));
+	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"Checkerboard"));
+	pMtrl->SetScalarParam(VEC4_0, Vec4(1, 1, 1, 1));
+	AddAsset(L"Std2DTintMtrl", pMtrl);
 
 	// TileMapMtrl
 	pMtrl = new CMaterial(true);

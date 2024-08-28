@@ -38,7 +38,7 @@ void TilemapEditor::Update()// 정리 필요..;
 		
         static bool bOpen = IsActive();
         static bool enableGrid = false;
-        ImGui::Begin(ICON_FA_HAND_POINTER_O "##TileAtlasSelector", &bOpen, ImGuiWindowFlags_DockNodeHost);
+        ImGui::Begin(ICON_FA_HAND_POINTER_O "##TileAtlasSelector", &bOpen);
         ImGui::NewLine();
         ImGui::TextColored(HEADER_1, "Atlas :");
         ImGui::SameLine();

@@ -7,6 +7,7 @@
 #include "CParticleScript.h"
 #include "CPlayerScript.h"
 #include "CSpriteRenderScript.h"
+#include "CTintedBGScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
@@ -16,6 +17,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CParticleScript");
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CSpriteRenderScript");
+	_vec.push_back(L"CTintedBGScript");
 }
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
@@ -32,6 +34,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CPlayerScript;
 	if (L"CSpriteRenderScript" == _strScriptName)
 		return new CSpriteRenderScript;
+	if (L"CTintedBGScript" == _strScriptName)
+		return new CTintedBGScript;
 	return nullptr;
 }
 
@@ -56,6 +60,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::SPRITERENDERSCRIPT:
 		return new CSpriteRenderScript;
+		break;
+	case (UINT)SCRIPT_TYPE::TINTEDBGSCRIPT:
+		return new CTintedBGScript;
 		break;
 	}
 	return nullptr;
@@ -87,6 +94,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::SPRITERENDERSCRIPT:
 		return L"CSpriteRenderScript";
+		break;
+
+	case SCRIPT_TYPE::TINTEDBGSCRIPT:
+		return L"CTintedBGScript";
 		break;
 
 	}

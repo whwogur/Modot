@@ -34,6 +34,9 @@
     <ClInclude Include="CParticleScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CTintedBGScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -59,6 +62,9 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CParticleScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CTintedBGScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
