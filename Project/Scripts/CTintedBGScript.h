@@ -14,6 +14,7 @@ public:
     virtual void LoadFromFile(FILE* _File) override;
 private:
     Ptr<CTexture>     m_Texture;
-    Vec4            m_Tint;
+    Vec4                m_Tint;
+    bool                m_Mobile;
 };
 
