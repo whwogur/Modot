@@ -17,7 +17,11 @@
 
 void CTestLevel::CreateTestLevel()
 {
-	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\ParticleFactory.lv");
+	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\NewLevel.lv");
+	/*pLevel->GetLayer(5)->SetName(L"PlayerAttack");
+	pLevel->GetLayer(6)->SetName(L"MonsterAttack");
+	pLevel->GetLayer(8)->SetName(L"NPC");*/
+
 	//pLevel->SetName(L"ParticleFactory");
 	ChangeLevel(pLevel, LEVEL_STATE::STOP);
 }

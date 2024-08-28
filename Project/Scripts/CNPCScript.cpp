@@ -1,5 +1,6 @@
 #include "spch.h"
 #include "CNPCScript.h"
+#include "../Client/CEditorMgr.h"
 
 CNPCScript::CNPCScript()
 	: CScript(UINT(SCRIPT_TYPE::NPCSCRIPT))
@@ -25,4 +26,9 @@ void CNPCScript::SaveToFile(FILE* _File)
 void CNPCScript::LoadFromFile(FILE* _File)
 {
 	fread(&m_AnimIndex, sizeof(int), 1, _File);
+}
+
+void CNPCScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
+{
+	EDITOR_TRACE("NPC");
 }

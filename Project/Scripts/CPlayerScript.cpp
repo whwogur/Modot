@@ -231,7 +231,7 @@ void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 {
 	RigidBody()->SetGround(true);
 	ChangeState(PlayerState::IDLE);
-	EDITOR_TRACE("Ground");
+	//EDITOR_TRACE("Ground");
 }
 
 void CPlayerScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
@@ -243,7 +243,7 @@ void CPlayerScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObj
 	if (Collider2D()->GetOverlapCount() <= 0)
 	{
 		RigidBody()->SetGround(false);
-		EDITOR_TRACE("Airborne");
+		//EDITOR_TRACE("Airborne");
 	}
 }
 
