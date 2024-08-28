@@ -108,10 +108,8 @@ void CPlayerScript::Tick()
 	case PlayerState::RUN:
 	{
 		Jump();
-
 		if (KEY_PRESSED(KEY::RIGHT) && KEY_PRESSED(KEY::LEFT))
 			break;
-
 		if (KEY_PRESSED(KEY::LSHIFT))
 		{
 			ChangeState(PlayerState::SPRINT);
@@ -124,31 +122,18 @@ void CPlayerScript::Tick()
 		{
 			ChangeState(PlayerState::ATTACK1);
 		}
-
-		// 플레이어 이동 방향 처리
-		if (KEY_PRESSED(KEY::RIGHT) || KEY_PRESSED(KEY::LEFT))
+		if (KEY_PRESSED(KEY::RIGHT))
 		{
-			// 플랫폼의 회전 각도를 얻어옴
-			const float platformRotationZ = RigidBody()->GetGroundRotation();
-
-			Vec2 moveDir;
-			if (KEY_PRESSED(KEY::RIGHT))
-			{
-				moveDir = Vec2(cos(platformRotationZ), sin(platformRotationZ)); // 오른쪽 이동
-			}
-			else if (KEY_PRESSED(KEY::LEFT))
-			{
-				moveDir = Vec2(-cos(platformRotationZ), -sin(platformRotationZ)); // 왼쪽 이동
-			}
-
-			RigidBody()->AddForce(moveDir * (m_Speed * 10.0f));
+			RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
 		}
-
+		else if (KEY_PRESSED(KEY::LEFT))
+		{
+			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
+		}
 		if (KEY_RELEASED(KEY::LEFT) || KEY_RELEASED(KEY::RIGHT))
 		{
 			ChangeState(PlayerState::IDLE);
 		}
-
 		else if (KEY_PRESSED(KEY::Q))
 		{
 			ChangeState(PlayerState::ROLL);
@@ -395,13 +380,11 @@ void CPlayerScript::EndState(PlayerState _State)
 	}
 	case PlayerState::JUMP:
 	{
-		RigidBody()->SetFrictionScale(0.5f);
 		EDITOR_TRACE("End Jump");
 		break;
 	}
 	case PlayerState::DOUBLEJUMP:
 	{
-		RigidBody()->SetFrictionScale(0.5f);
 		EDITOR_TRACE("End DoubleJump");
 		break;
 	}

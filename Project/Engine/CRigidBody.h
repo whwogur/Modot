@@ -33,6 +33,7 @@ public:
         if (m_Ground)
         {
             m_Velocity.y = 0.f;
+            m_FrictionScale = 0.5f;
         }
     }
 
