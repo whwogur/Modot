@@ -143,10 +143,10 @@ void ParticleSystemUI::Update()
 			ImGui::SeparatorText(u8"Render ¸ðµâ");
 			ToggleButton("##sharedRenderModule", &mod.Module[(UINT)PARTICLE_MODULE::RENDER]);
 			ImGui::ColorEdit4("End Color", mod.EndColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_HDR | ImGuiColorEditFlags_PickerHueWheel);
-			static int fadeOut = static_cast<int>(mod.FadeOut);
-			if (ImGui::InputInt("Fadeout", &fadeOut, 0))
+			static bool fadeOut = mod.FadeOut == 0 ? false : true;
+			if (ImGui::Checkbox("Fadeout", &fadeOut))
 			{
-				mod.FadeOut = static_cast<UINT>(fadeOut);
+				mod.FadeOut = fadeOut ? 1 : 0;
 			}
 			ImGui::InputFloat("Fade Start Ratio", &mod.FadeOutStartRatio);
 			
