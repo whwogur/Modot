@@ -16,6 +16,7 @@ void CPlayerScript::Begin()
 	m_State = PlayerState::JUMP;
 }
 
+#pragma region __UPDATE__STATE__
 void CPlayerScript::Tick()
 {
 	DirectionCheck();
@@ -132,7 +133,7 @@ void CPlayerScript::Tick()
 		}
 		if (KEY_RELEASED(KEY::LEFT) || KEY_RELEASED(KEY::RIGHT))
 		{
-			ChangeState(PlayerState::IDLE);
+			ChangeState(PlayerState::BRAKE);
 		}
 		else if (KEY_PRESSED(KEY::Q))
 		{
@@ -141,6 +142,12 @@ void CPlayerScript::Tick()
 		break;
 	}
 	case PlayerState::ROLL:
+	{
+		if (Animator2D()->IsFinished())
+			ChangeState(PlayerState::IDLE);
+		break;
+	}
+	case PlayerState::BRAKE:
 	{
 		if (Animator2D()->IsFinished())
 			ChangeState(PlayerState::IDLE);
@@ -166,9 +173,14 @@ void CPlayerScript::Tick()
 			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
 		}
 
-		if (KEY_RELEASED(KEY::LSHIFT))
+		if (KEY_RELEASED(KEY::LSHIFT) && (KEY_PRESSED(KEY::LEFT) || KEY_PRESSED(KEY::RIGHT)))
 		{
 			ChangeState(PlayerState::RUN);
+		}
+
+		if (KEY_RELEASED(KEY::LSHIFT) && (KEY_RELEASED(KEY::LEFT) && KEY_RELEASED(KEY::RIGHT)))
+		{
+			ChangeState(PlayerState::BRAKE);
 		}
 
 		if (!RigidBody()->IsGround())
@@ -221,6 +233,7 @@ void CPlayerScript::Tick()
 	}
 	}
 }
+#pragma endregion **** UPDATE STATE ****
 
 void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
@@ -254,6 +267,7 @@ void CPlayerScript::LoadFromFile(FILE* _File)
 	fread(&m_Speed, sizeof(float), 1, _File);
 }
 
+#pragma region __BEGIN__STATE__
 void CPlayerScript::BeginState(PlayerState _State)
 {
 	switch (_State)
@@ -300,6 +314,11 @@ void CPlayerScript::BeginState(PlayerState _State)
 		RigidBody()->SetFrictionScale(0.1f);
 		RigidBody()->SetVelocity(Vec2(xvel * 40.f, 0.f));
 		Animator2D()->Play(L"Momo_Roll", 12.0f, true);
+		break;
+	}
+	case PlayerState::BRAKE:
+	{
+		Animator2D()->Play(L"Momo_Stop", 14.0f, true);
 		break;
 	}
 	case PlayerState::DAMAGED:
@@ -352,6 +371,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	}
 }
+#pragma endregion **** BEGIN STATE ****
 
 void CPlayerScript::DirectionCheck()
 {
@@ -365,6 +385,7 @@ void CPlayerScript::DirectionCheck()
 	}
 }
 
+#pragma region __END__STATE__
 void CPlayerScript::EndState(PlayerState _State)
 {
 	switch (_State)
@@ -399,6 +420,10 @@ void CPlayerScript::EndState(PlayerState _State)
 	case PlayerState::ROLL:
 	{
 		RigidBody()->SetFrictionScale(0.5f);
+		break;
+	}
+	case PlayerState::BRAKE:
+	{
 		break;
 	}
 	case PlayerState::DAMAGED:
@@ -443,6 +468,7 @@ void CPlayerScript::EndState(PlayerState _State)
 	}
 	}
 }
+#pragma endregion **** ENDSTATE ****
 
 void CPlayerScript::ChangeState(PlayerState _NextState)
 {

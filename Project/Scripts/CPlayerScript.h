@@ -5,7 +5,7 @@ enum class PlayerState
 {
     IDLE, IDLE2,
     JUMP, DOUBLEJUMP, LAND,
-    RUN, ROLL,
+    RUN, ROLL, BRAKE,
     DAMAGED,
     DEAD,
     SPRINT,
