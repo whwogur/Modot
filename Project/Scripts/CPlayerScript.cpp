@@ -73,19 +73,17 @@ void CPlayerScript::Tick()
 	case PlayerState::JUMP:
 	{
 		Jump();
-		m_Acc += DT;
-		if (m_Acc < m_Timer)
+		if (KEY_PRESSED(KEY::RIGHT))
 		{
-			if (KEY_PRESSED(KEY::RIGHT))
-			{
-				RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
-			}
-			if (KEY_PRESSED(KEY::LEFT))
-			{
-				RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
-			}
+			RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
+		}
+		if (KEY_PRESSED(KEY::LEFT))
+		{
+			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
 		}
 		
+		if (RigidBody()->GetVelocity().y < 0)
+			ChangeState(PlayerState::FALL);
 		break;
 	}
 	case PlayerState::DOUBLEJUMP:
@@ -98,6 +96,9 @@ void CPlayerScript::Tick()
 		{
 			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
 		}
+
+		if (RigidBody()->GetVelocity().y < 0)
+			ChangeState(PlayerState::FALL);
 		break;
 	}
 	case PlayerState::LAND:
@@ -131,6 +132,7 @@ void CPlayerScript::Tick()
 		{
 			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
 		}
+
 		if (KEY_RELEASED(KEY::LEFT) || KEY_RELEASED(KEY::RIGHT))
 		{
 			ChangeState(PlayerState::BRAKE);
@@ -151,6 +153,18 @@ void CPlayerScript::Tick()
 	{
 		if (Animator2D()->IsFinished())
 			ChangeState(PlayerState::IDLE);
+		break;
+	}
+	case PlayerState::FALL:
+	{
+		if (KEY_PRESSED(KEY::RIGHT))
+		{
+			RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
+		}
+		else if (KEY_PRESSED(KEY::LEFT))
+		{
+			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
+		}
 		break;
 	}
 	case PlayerState::DAMAGED:
@@ -238,7 +252,11 @@ void CPlayerScript::Tick()
 void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
 	RigidBody()->SetGround(true);
-	ChangeState(PlayerState::IDLE);
+
+	if (m_State == PlayerState::FALL)
+		ChangeState(PlayerState::LAND);
+	else
+		ChangeState(PlayerState::IDLE);
 
 	const float platformRotationZ = RigidBody()->GetGroundRotation();
 	EDITOR_TRACE(std::to_string(platformRotationZ));
@@ -285,9 +303,6 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	case PlayerState::JUMP:
 	{
-		m_Acc = 0.f;
-		m_Timer = 2.f;
-
 		Animator2D()->Play(L"Momo_Jump", 6.0f, false);
 		break;
 	}
@@ -300,6 +315,8 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	case PlayerState::LAND:
 	{
+		m_Acc = 0.f;
+		m_Timer = 0.5f;
 		Animator2D()->Play(L"Momo_Land", 10.0f, false);
 		break;
 	}
@@ -318,7 +335,12 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	case PlayerState::BRAKE:
 	{
-		Animator2D()->Play(L"Momo_Stop", 14.0f, true);
+		Animator2D()->Play(L"Momo_Stop", 14.0f, false);
+		break;
+	}
+	case PlayerState::FALL:
+	{
+		Animator2D()->Play(L"Momo_Fall", 14.0f, false);
 		break;
 	}
 	case PlayerState::DAMAGED:
@@ -426,6 +448,10 @@ void CPlayerScript::EndState(PlayerState _State)
 	{
 		break;
 	}
+	case PlayerState::FALL:
+	{
+		break;
+	}
 	case PlayerState::DAMAGED:
 	{
 		break;
@@ -493,7 +519,7 @@ void CPlayerScript::Jump()
 		}
 	}
 
-	else if (m_State == PlayerState::JUMP)
+	else
 	{
 		if (KEY_TAP(KEY::A))
 		{
