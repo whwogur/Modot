@@ -258,8 +258,8 @@ void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 	else
 		ChangeState(PlayerState::IDLE);
 
-	const float platformRotationZ = RigidBody()->GetGroundRotation();
-	EDITOR_TRACE(std::to_string(platformRotationZ));
+	/*const float platformRotationZ = RigidBody()->GetGroundRotation();
+	EDITOR_TRACE(std::to_string(platformRotationZ));*/
 }
 
 void CPlayerScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
@@ -512,7 +512,7 @@ void CPlayerScript::Jump()
 			RigidBody()->SetGravityAccel(2500.f);
 
 			Vec2 vCurVel = RigidBody()->GetVelocity();
-			RigidBody()->SetVelocity(Vec2(vCurVel.x, 1500.f));
+			RigidBody()->SetVelocity(Vec2(vCurVel.x, 3000.f));
 			RigidBody()->SetGround(false);
 
 			ChangeState(PlayerState::JUMP);
@@ -524,7 +524,7 @@ void CPlayerScript::Jump()
 		if (KEY_TAP(KEY::A))
 		{
 			RigidBody()->SetGravityAccel(2500.f);
-			RigidBody()->SetVelocity(Vec2(RigidBody()->GetVelocity().x, 1500.f));
+			RigidBody()->SetVelocity(Vec2(RigidBody()->GetVelocity().x, 3000.f));
 
 			ChangeState(PlayerState::DOUBLEJUMP);
 		}

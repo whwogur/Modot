@@ -41,6 +41,7 @@ public:
     bool IsAncestor(CGameObject* _ToBeChecked);
     void DetachFromLayer();
     void DetachChild();
+    CGameObject* GetChildObject(const wstring& _Name);
 
     GET_COMPONENT(Transform, TRANSFORM);
     GET_COMPONENT(MeshRender, MESHRENDER);

@@ -262,6 +262,17 @@ void CGameObject::DetachChild()
 	MD_ENGINE_ASSERT(false, L"Detach Child 실패");
 }
 
+CGameObject* CGameObject::GetChildObject(const wstring& _Name)
+{
+	for (const auto& child : m_vecChildren)
+	{
+		if (child->GetName() == _Name)
+			return child;
+	}
+
+	return nullptr;
+}
+
 void CGameObject::Begin()
 {
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
@@ -272,15 +283,14 @@ void CGameObject::Begin()
 		m_arrCom[i]->Begin();
 	}
 
-	for (size_t i = 0; i < m_vecScript.size(); ++i)
+	for (auto script : m_vecScript)
 	{
-		m_vecScript[i]->Begin();
+		script->Begin();
 	}
 
-	// 자식 오브젝트
-	for (size_t i = 0; i < m_vecChildren.size(); ++i)
+	for (auto child : m_vecChildren)
 	{
-		m_vecChildren[i]->Begin();
+		child->Begin();
 	}
 }
 
@@ -292,14 +302,14 @@ void CGameObject::Tick()
 			m_arrCom[i]->Tick();
 	}
 
-	for (size_t i = 0; i < m_vecScript.size(); ++i)
+	for (auto script : m_vecScript)
 	{
-		m_vecScript[i]->Tick();
+		script->Tick();
 	}
 
-	for (size_t i = 0; i < m_vecChildren.size(); ++i)
+	for (auto child : m_vecChildren)
 	{
-		m_vecChildren[i]->Tick();
+		child->Tick();
 	}
 }
 

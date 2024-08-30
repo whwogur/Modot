@@ -5,7 +5,7 @@
 CRigidBody::CRigidBody()
 	: CComponent(COMPONENT_TYPE::RIGIDBODY)
 	, m_Mass(1.f)
-	, m_Friction(2000.f)
+	, m_Friction(1500.f)
 	, m_FrictionScale(0.5f)
 	, m_VelocityLimit(300.f)
 	, m_MaxGravityVel(800.f)
