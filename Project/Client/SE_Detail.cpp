@@ -57,8 +57,8 @@ void SE_Detail::Update()
 			float vLT[2] = { m_LeftTop.x, m_LeftTop.y };
 			float vRB[2] = { m_LeftTop.x + m_Slice.x, m_LeftTop.y + m_Slice.y };
 
-			float width = m_AtlasTex->GetDesc().Width;
-			float height = m_AtlasTex->GetDesc().Height;
+			float width = (float)m_AtlasTex->GetDesc().Width;
+			float height = (float)m_AtlasTex->GetDesc().Height;
 
 			ImGui::InputFloat2("LT##leftTop", vLT, "%.3f", ImGuiInputTextFlags_ReadOnly);
 			ImGui::InputFloat2("RB##Slice", vRB, "%.3f", ImGuiInputTextFlags_ReadOnly);

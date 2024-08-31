@@ -166,8 +166,8 @@ void SE_AtlasView::SelectCheck()
 				&& 0.f <= vPixelPos.y && vPixelPos.y < m_AtlasTex->Height())
 			{
 				m_MouseRB = ImVec2(vPixelPos.x, vPixelPos.y);
-				int ltx = std::floor(m_MouseLT.x / m_BGSize.x) * m_BGSize.x;
-				int lty = std::floor(m_MouseLT.y / m_BGSize.y) * m_BGSize.y;
+				int ltx = (int)std::floor(m_MouseLT.x / m_BGSize.x) * m_BGSize.x;
+				int lty = (int)std::floor(m_MouseLT.y / m_BGSize.y) * m_BGSize.y;
 
 				GetDetail()->SetLeftTop({ ltx, lty });
 			}

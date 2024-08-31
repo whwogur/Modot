@@ -24,6 +24,7 @@ void CPlayerScript::Tick()
 	{
 	case PlayerState::IDLE:
 	{
+		m_Acc += DT;
 		Jump();
 
 		if (KEY_TAP(KEY::LEFT) || KEY_TAP(KEY::RIGHT) || KEY_PRESSED(KEY::LEFT) || KEY_PRESSED(KEY::RIGHT))
@@ -63,11 +64,15 @@ void CPlayerScript::Tick()
 			if (RigidBody()->IsGround())
 				ChangeState(PlayerState::ROLL);
 		}
+
+		if (m_Acc > m_Timer)
+			ChangeState(PlayerState::IDLE2);
 		break;
 	}
 	case PlayerState::IDLE2:
 	{
-		
+		if (Animator2D()->IsFinished())
+			ChangeState(PlayerState::IDLE);
 		break;
 	}
 	case PlayerState::JUMP:
@@ -103,8 +108,13 @@ void CPlayerScript::Tick()
 	}
 	case PlayerState::LAND:
 	{
-		if (Animator2D()->IsFinished())
-			ChangeState(PlayerState::IDLE);
+		m_Acc += DT;
+		if (m_Acc > m_Timer)
+		{
+			if (Animator2D()->IsFinished())
+				ChangeState(PlayerState::IDLE);
+		}
+		
 		break;
 	}
 	case PlayerState::RUN:
@@ -251,12 +261,12 @@ void CPlayerScript::Tick()
 
 void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	RigidBody()->SetGround(true);
-
-	if (m_State == PlayerState::FALL)
+	if (_OwnCollider->GetOverlapCount() == 1)
+	{
+		RigidBody()->SetGround(true);
 		ChangeState(PlayerState::LAND);
-	else
-		ChangeState(PlayerState::IDLE);
+	}
+
 
 	/*const float platformRotationZ = RigidBody()->GetGroundRotation();
 	EDITOR_TRACE(std::to_string(platformRotationZ));*/
@@ -292,13 +302,16 @@ void CPlayerScript::BeginState(PlayerState _State)
 	{
 	case PlayerState::IDLE:
 	{
+		m_Acc = 0.f;
+		m_Timer = 4.f;
 		RigidBody()->SetGravityAccel(2500.f);
 		Animator2D()->Play(L"Momo_Idle", 8.0f, true);
+		EDITOR_TRACE("Idle");
 		break;
 	}
 	case PlayerState::IDLE2:
 	{
-		Animator2D()->Play(L"Momo_Idle2", 11.0f, true);
+		Animator2D()->Play(L"Momo_Idle2", 11.0f, false);
 		break;
 	}
 	case PlayerState::JUMP:
@@ -308,16 +321,15 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	case PlayerState::DOUBLEJUMP:
 	{
-		Vec2 vCurVel = RigidBody()->GetVelocity();
-		RigidBody()->SetVelocity(Vec2(vCurVel.x, 1500.f));
 		Animator2D()->Play(L"Momo_DoubleJump", 10.0f, false);
 		break;
 	}
 	case PlayerState::LAND:
 	{
 		m_Acc = 0.f;
-		m_Timer = 0.5f;
+		m_Timer = 0.1f;
 		Animator2D()->Play(L"Momo_Land", 10.0f, false);
+		EDITOR_TRACE("Landing");
 		break;
 	}
 	case PlayerState::RUN:
@@ -327,9 +339,16 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	case PlayerState::ROLL:
 	{
+		CGameObject* fx = GetOwner()->GetChildObject(L"RollEffect");
+		if (fx != nullptr)
+		{
+			fx->Transform()->SetRelativePos(Transform()->GetRelativePos());
+			fx->Animator2D()->Play(0, 14.f, false);
+		}
+
 		float xvel = Transform()->GetRelativeScale().x;
 		RigidBody()->SetFrictionScale(0.1f);
-		RigidBody()->SetVelocity(Vec2(xvel * 40.f, 0.f));
+		RigidBody()->SetVelocity(Vec2(xvel * 100.f, 0.f));
 		Animator2D()->Play(L"Momo_Roll", 12.0f, true);
 		break;
 	}
@@ -340,6 +359,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	case PlayerState::FALL:
 	{
+		Jump();
 		Animator2D()->Play(L"Momo_Fall", 14.0f, false);
 		break;
 	}
@@ -414,6 +434,8 @@ void CPlayerScript::EndState(PlayerState _State)
 	{
 	case PlayerState::IDLE:
 	{
+		m_Acc = 0.f;
+		m_Timer = 0.f;
 		break;
 	}
 	case PlayerState::IDLE2:
@@ -524,7 +546,9 @@ void CPlayerScript::Jump()
 		if (KEY_TAP(KEY::A))
 		{
 			RigidBody()->SetGravityAccel(2500.f);
-			RigidBody()->SetVelocity(Vec2(RigidBody()->GetVelocity().x, 3000.f));
+
+			Vec2 vCurVel = RigidBody()->GetVelocity();
+			RigidBody()->SetVelocity(Vec2(vCurVel.x, 3000.f));
 
 			ChangeState(PlayerState::DOUBLEJUMP);
 		}

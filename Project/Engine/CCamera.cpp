@@ -79,10 +79,8 @@ void CCamera::SortGameObject()
 
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
-		if (false == (m_LayerCheck & (1 << i)))
-		{
+		if ((m_LayerCheck & (1 << i)) == false)
 			continue;
-		}
 
 		CLayer* pLayer = pLevel->GetLayer(i);
 
@@ -135,41 +133,31 @@ void CCamera::Render()
 	g_Trans.matProj = m_matProj;
 
 	// Opaque
-	for (size_t i = 0; i < m_vecOpaque.size(); ++i)
-	{
-		m_vecOpaque[i]->Render();
-	}
+	for (const auto& opObj : m_vecOpaque)
+		opObj->Render();
 
 	// Masked
-	for (size_t i = 0; i < m_vecMasked.size(); ++i)
-	{
-		m_vecMasked[i]->Render();
-	}
+	for (const auto& maskedObj : m_vecMasked)
+		maskedObj->Render();
 
 	// Transparent
-	for (size_t i = 0; i < m_vecTransparent.size(); ++i)
-	{
-		m_vecTransparent[i]->Render();
-	}
+	for (const auto& transpObj : m_vecTransparent)
+		transpObj->Render();
 
 	// Particles
-	for (size_t i = 0; i < m_vecParticles.size(); ++i)
-	{
-		m_vecParticles[i]->Render();
-	}
+	for (const auto& particleObj : m_vecParticles)
+		particleObj->Render();
 
 	// PostProcess 
-	for (size_t i = 0; i < m_vecPostProcess.size(); ++i)
+	for (const auto& postprocObj : m_vecPostProcess)
 	{
 		CRenderMgr::GetInst()->PostProcessCopy();
-		m_vecPostProcess[i]->Render();
+		postprocObj->Render();
 	}
 
 	// UI
-	for (size_t i = 0; i < m_vecUI.size(); ++i)
-	{
-		m_vecUI[i]->Render();
-	}
+	for (const auto& uiObj : m_vecUI)
+		uiObj->Render();
 
 	m_vecOpaque.clear();
 	m_vecMasked.clear();
