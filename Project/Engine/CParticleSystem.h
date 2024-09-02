@@ -28,6 +28,10 @@ public:
     int GetParticleCount() const { return m_MaxParticleCount; }
     void SetParticleModule(const tParticleModule& _Mod);
     tParticleModule& GetParticleModuleRef() { return m_Module; }
+
+    // Burst On off
+    void SetBurst(bool _b) { m_Module.Module[(UINT)PARTICLE_MODULE::SPAWN_BURST] = _b; }
+    void Jerk() { m_BurstTime = m_Module.SpawnBurstRepeatTime; }
 public:
     virtual void FinalTick() override;
     virtual void Render() override;

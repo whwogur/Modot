@@ -16,19 +16,9 @@ void PrefabUI::Update()
 	{
 		Ptr<CPrefab> pPrefab = (CPrefab*)GetAsset().Get();
 
-		CGameObject* originalObj = pPrefab->GetOriginalObject();
-		const wstring& originalObjName = originalObj->GetName();
-		string strName(originalObjName.begin(), originalObjName.end());
 		ImGui::NewLine();
-		ImGui::SeparatorText(u8"정보");
+		ImGui::SeparatorText(u8"프리팹 정보");
 		ImGui::NewLine();
-		ImGui::SameLine(60);
-
-		
-		ImGui::TextColored(HEADER_1, u8"원본 :");
-		ImGui::NewLine(); ImGui::SameLine(100);
-		ImGui::SetNextItemWidth(100);
-		ImGui::InputText("##OriginalObjName", (char*)strName.c_str(), strName.length(), ImGuiInputTextFlags_ReadOnly);
 
 		ImGui::SameLine(60);
 		ImGui::TextColored(HEADER_1, u8"경로 :");

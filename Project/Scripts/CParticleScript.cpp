@@ -44,7 +44,7 @@ CParticleScript::CParticleScript()
 	//m_Module.SpawnBurstRepeatTime = 3.f;
 	AddScriptParam(SCRIPT_PARAM::BOOLEAN_TOGGLE, "Burst Module", &m_Module.Module[(UINT)PARTICLE_MODULE::SPAWN_BURST]); // 불리언
 	AddScriptParam(SCRIPT_PARAM::BOOLEAN_CHECKBOX, "BurstRepeat", &m_Module.SpawnBurstRepeat); // 불리언
-	AddScriptParam(SCRIPT_PARAM::INT, "BurstCount", &m_Module.SpawnBurstCount, 0, 0, u8"반복 횟수");
+	AddScriptParam(SCRIPT_PARAM::INT, "BurstCount", &m_Module.SpawnBurstCount, 0, 0, u8"개수");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "BurstRepeatTime", &m_Module.SpawnBurstRepeatTime, 0, 0, u8"반복시간(초)");
 
 

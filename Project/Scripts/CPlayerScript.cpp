@@ -197,9 +197,13 @@ void CPlayerScript::Tick()
 			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
 		}
 
-		if (KEY_RELEASED(KEY::LSHIFT) && (KEY_PRESSED(KEY::LEFT) || KEY_PRESSED(KEY::RIGHT)))
+		if (KEY_RELEASED(KEY::LSHIFT))
 		{
-			ChangeState(PlayerState::RUN);
+			if ((KEY_RELEASED(KEY::LSHIFT) && KEY_PRESSED(KEY::LEFT)) ||
+				(KEY_RELEASED(KEY::LSHIFT) && KEY_PRESSED(KEY::RIGHT)))
+				ChangeState(PlayerState::RUN);
+			else
+				ChangeState(PlayerState::IDLE);
 		}
 
 		if (KEY_RELEASED(KEY::LSHIFT) && (KEY_RELEASED(KEY::LEFT) && KEY_RELEASED(KEY::RIGHT)))
@@ -387,6 +391,14 @@ void CPlayerScript::BeginState(PlayerState _State)
 			fx->Animator2D()->Reset();
 			fx->Animator2D()->Play(0, 14.f, false);
 		}
+
+		fx = GetOwner()->GetChildObject(L"SprintParticle");
+		if (fx != nullptr)
+		{
+			fx->Transform()->SetRelativePos(Vec3(-0.3f, -0.1f, 1.f));
+			fx->ParticleSystem()->Jerk();
+			fx->ParticleSystem()->SetBurst(true);
+		}
 		break;
 	}
 	case PlayerState::ATTACK1:
@@ -495,6 +507,11 @@ void CPlayerScript::EndState(PlayerState _State)
 	}
 	case PlayerState::SPRINT:
 	{
+		CGameObject* fx = GetOwner()->GetChildObject(L"SprintParticle");
+		if (fx != nullptr)
+		{
+			fx->ParticleSystem()->SetBurst(false);
+		}
 		m_Speed = 300.0f;
 		break;
 	}
