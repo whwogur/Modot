@@ -101,6 +101,7 @@ call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAttackScript.h" />
     <ClInclude Include="CBackGroundScript.h" />
     <ClInclude Include="CCameraMoveScript.h" />
     <ClInclude Include="CNPCScript.h" />
@@ -114,6 +115,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="spch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAttackScript.cpp" />
     <ClCompile Include="CBackGroundScript.cpp" />
     <ClCompile Include="CCameraMoveScript.cpp" />
     <ClCompile Include="CNPCScript.cpp" />

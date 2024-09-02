@@ -283,12 +283,12 @@ void CGameObject::Begin()
 		m_arrCom[i]->Begin();
 	}
 
-	for (auto script : m_vecScript)
+	for (const auto& script : m_vecScript)
 	{
 		script->Begin();
 	}
 
-	for (auto child : m_vecChildren)
+	for (const auto& child : m_vecChildren)
 	{
 		child->Begin();
 	}
@@ -302,12 +302,12 @@ void CGameObject::Tick()
 			m_arrCom[i]->Tick();
 	}
 
-	for (auto script : m_vecScript)
+	for (const auto& script : m_vecScript)
 	{
 		script->Tick();
 	}
 
-	for (auto child : m_vecChildren)
+	for (const auto& child : m_vecChildren)
 	{
 		child->Tick();
 	}

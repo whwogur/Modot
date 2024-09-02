@@ -1,6 +1,7 @@
 #include "spch.h"
 #include "CScriptMgr.h"
 
+#include "CAttackScript.h"
 #include "CBackGroundScript.h"
 #include "CCameraMoveScript.h"
 #include "CNPCScript.h"
@@ -12,6 +13,7 @@
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
+	_vec.push_back(L"CAttackScript");
 	_vec.push_back(L"CBackGroundScript");
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CNPCScript");
@@ -24,6 +26,8 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
+	if (L"CAttackScript" == _strScriptName)
+		return new CAttackScript;
 	if (L"CBackGroundScript" == _strScriptName)
 		return new CBackGroundScript;
 	if (L"CCameraMoveScript" == _strScriptName)
@@ -47,6 +51,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 {
 	switch (_iScriptType)
 	{
+	case (UINT)SCRIPT_TYPE::ATTACKSCRIPT:
+		return new CAttackScript;
+		break;
 	case (UINT)SCRIPT_TYPE::BACKGROUNDSCRIPT:
 		return new CBackGroundScript;
 		break;
@@ -79,6 +86,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 {
 	switch ((SCRIPT_TYPE)_pScript->GetScriptType())
 	{
+	case SCRIPT_TYPE::ATTACKSCRIPT:
+		return L"CAttackScript";
+		break;
+
 	case SCRIPT_TYPE::BACKGROUNDSCRIPT:
 		return L"CBackGroundScript";
 		break;

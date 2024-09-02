@@ -343,6 +343,16 @@ void CPlayerScript::BeginState(PlayerState _State)
 		RigidBody()->SetFrictionScale(0.1f);
 		RigidBody()->SetVelocity(Vec2(xvel * 100.f, 0.f));
 		Animator2D()->Play(L"Momo_Roll", 12.0f, true);
+
+		CGameObject* fx = GetOwner()->GetChildObject(L"DodgeEffect");
+		if (fx != nullptr)
+		{
+			fx->Transform()->SetRelativePos(Vec3(-0.3f, -0.1f, 1.f));
+			fx->Transform()->SetDir(xvel > 0 ? OBJECT_DIR::RIGHT : OBJECT_DIR::LEFT);
+
+			fx->Animator2D()->Reset();
+			fx->Animator2D()->Play(0, 14.f, false);
+		}
 		break;
 	}
 	case PlayerState::BRAKE:
