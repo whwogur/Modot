@@ -100,7 +100,7 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _OutStream)
     if (Module.Gyrate)
     {
         // z축 회전을 위한 각도 (라디안 단위)
-        float angle = g_EngineDT * Module.GyrateSpeed; // GyrateSpeed는 z축 회전 속도
+        float angle = g_EngineTime * Module.GyrateSpeed; // GyrateSpeed는 z축 회전 속도
 
         // z축 회전 변환 행렬
         float cosAngle = cos(angle);
