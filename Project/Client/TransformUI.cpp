@@ -33,7 +33,7 @@ void TransformUI::Update()
 	vRot = (vRot / XM_PI) * 180.f;
 
 	DrawVec3Control("Position", vPos, 0.0f, 80.0f);
-	DrawVec3Control("Scale", vScale, 0.0f, 80.0f);
+	DrawVec3Control("Scale", vScale, 1.0f, 80.0f);
 	DrawVec3Control("Rotation", vRot, 0.0f, 80.0f);
 
 	vRot = (vRot / 180.f) * XM_PI;

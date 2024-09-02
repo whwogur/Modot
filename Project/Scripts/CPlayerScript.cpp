@@ -344,11 +344,10 @@ void CPlayerScript::BeginState(PlayerState _State)
 		RigidBody()->SetVelocity(Vec2(xvel * 100.f, 0.f));
 		Animator2D()->Play(L"Momo_Roll", 12.0f, true);
 
-		CGameObject* fx = GetOwner()->GetChildObject(L"DodgeEffect");
+		CGameObject* fx = GetOwner()->GetChildObject(L"RollEffect");
 		if (fx != nullptr)
 		{
 			fx->Transform()->SetRelativePos(Vec3(-0.3f, -0.1f, 1.f));
-			fx->Transform()->SetDir(xvel > 0 ? OBJECT_DIR::RIGHT : OBJECT_DIR::LEFT);
 
 			fx->Animator2D()->Reset();
 			fx->Animator2D()->Play(0, 14.f, false);
@@ -378,7 +377,16 @@ void CPlayerScript::BeginState(PlayerState _State)
 	case PlayerState::SPRINT:
 	{
 		Animator2D()->Play(L"Momo_Sprint", 14.0f, true);
-		m_Speed = 1000.0f;
+		m_Speed = 2000.0f;
+
+		CGameObject* fx = GetOwner()->GetChildObject(L"SprintStart");
+		if (fx != nullptr)
+		{
+			fx->Transform()->SetRelativePos(Vec3(-0.3f, -0.1f, 1.f));
+
+			fx->Animator2D()->Reset();
+			fx->Animator2D()->Play(0, 14.f, false);
+		}
 		break;
 	}
 	case PlayerState::ATTACK1:
