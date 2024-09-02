@@ -85,6 +85,10 @@ void Animator2DUI::Update()
 				ImGui::EndDragDropTarget();
 			}
 
+			ImGui::Text("Repeat Animation");
+			ImGui::SameLine(100);
+			bool& repeatRef = targetObj->Animator2D()->GetRepeatRef();
+			ToggleButton("Repeat", &repeatRef);
 		}
 		else
 		{

@@ -339,13 +339,6 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	case PlayerState::ROLL:
 	{
-		CGameObject* fx = GetOwner()->GetChildObject(L"RollEffect");
-		if (fx != nullptr)
-		{
-			fx->Transform()->SetRelativePos(Transform()->GetRelativePos());
-			fx->Animator2D()->Play(0, 14.f, false);
-		}
-
 		float xvel = Transform()->GetRelativeScale().x;
 		RigidBody()->SetFrictionScale(0.1f);
 		RigidBody()->SetVelocity(Vec2(xvel * 100.f, 0.f));
