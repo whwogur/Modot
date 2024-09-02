@@ -35,7 +35,7 @@ CParticleScript::CParticleScript()
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "BlockShapeScale", &m_Module.BlockSpawnShapeScale.x, 0, 0, u8"범위 벗어나지 않게 하기 위함");
 
 	//m_Module.SpaceType = 1; // Local Space 
-	AddScriptParam(SCRIPT_PARAM::INT, "SpaceType", &m_Module.SpaceType, 0, 0, u8"0: 박스 / 1: 구 (로컬스페이스)"); // 0 박스 1 구
+	AddScriptParam(SCRIPT_PARAM::INT, "SpaceType", &m_Module.SpaceType, 0, 0, u8"0: World / 1: Local");
 
 	//// Spawn Burst Module
 	//m_Module.Module[(UINT)PARTICLE_MODULE::SPAWN_BURST] = true;

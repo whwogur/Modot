@@ -28,7 +28,7 @@ CParticleSystem::CParticleSystem()
 
 	// 파티클 기능(모듈) 정보 세팅
 	// Spawn Module
-	m_Module.Module[(UINT)PARTICLE_MODULE::SPAWN] = true;
+	m_Module.Module[(UINT)PARTICLE_MODULE::SPAWN] = false;
 	m_Module.SpawnRate = 20;
 	m_Module.vSpawnColor = Vec4(0.24f, 0.67f, 0.87f, 1.f);
 	m_Module.MinLife = 1.f;
@@ -79,7 +79,7 @@ CParticleSystem::CParticleSystem()
 	m_Module.FadeOut = true;
 	m_Module.FadeOutStartRatio = 0.9f;
 
-	m_Module.Module[(UINT)PARTICLE_MODULE::ORBIT] = true;
+	m_Module.Module[(UINT)PARTICLE_MODULE::ORBIT] = false;
 	m_Module.MaxRotationSpeed = 100.f;
 
 	m_Module.GyrateSpeed = 3.f;

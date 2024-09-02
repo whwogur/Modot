@@ -91,7 +91,7 @@ void ParticleSystemUI::Update()
 			{
 				mod.SpaceType = static_cast<UINT>(spaceType);
 			}
-			ImGui::SetItemTooltip(u8"0:박스 1:구(로컬스페이스)");
+			ImGui::SetItemTooltip(u8"0: World 1: Local");
 			
 
 			ImGui::SeparatorText(u8"Burst 모듈");

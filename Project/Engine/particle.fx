@@ -89,14 +89,6 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _OutStream)
         }
     }
     
-    for (int i = 0; i < 4; ++i)
-    {
-        output[i].vPosition.xyz += vViewPos;
-        output[i].vPosition.w = 1.f;
-        output[i].vPosition = mul(output[i].vPosition, matProj);
-        output[i].InstID = _in[0].InstID;
-    }
-    
     if (Module.Gyrate)
     {
         // z축 회전을 위한 각도 (라디안 단위)
@@ -119,6 +111,14 @@ void GS_Particle(point VS_OUT _in[1], inout TriangleStream<GS_OUT> _OutStream)
             // z축 회전 행렬을 적용하여 파티클 회전
             output[i].vPosition.xyz = mul(output[i].vPosition.xyz, zRotationMatrix);
         }
+    }
+    
+    for (int i = 0; i < 4; ++i)
+    {
+        output[i].vPosition.xyz += vViewPos;
+        output[i].vPosition.w = 1.f;
+        output[i].vPosition = mul(output[i].vPosition, matProj);
+        output[i].InstID = _in[0].InstID;
     }
     
     // 생성시킨 정점의 UV 세팅
