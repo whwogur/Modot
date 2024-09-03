@@ -28,4 +28,5 @@ private:
 
     float           m_Ceiling = 0.f;
     float           m_Floor = 0.f;
+    float           m_Offset = 0.f;
 };

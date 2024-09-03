@@ -9,6 +9,7 @@ CCameraMoveScript::CCameraMoveScript()
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Camera Speed", &m_CamSpeed);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Ceiling", &m_Ceiling);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Floor", &m_Floor);
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "Offset", &m_Offset);
 }
 
 CCameraMoveScript::~CCameraMoveScript()
@@ -28,7 +29,7 @@ void CCameraMoveScript::Tick()
 		const Vec3& targetPos = m_Target->Transform()->GetRelativePos();
 		Vec3& camPos = Transform()->GetRelativePosRef();
 		
-		Vec2 AtTargetDir(targetPos.x - camPos.x, targetPos.y - camPos.y + 400.f);
+		Vec2 AtTargetDir(targetPos.x - camPos.x, targetPos.y - camPos.y + m_Offset);
 
 		// fdist: AtTargetDir의 길이를 구함
 		float fdist = AtTargetDir.Length();
@@ -61,6 +62,7 @@ void CCameraMoveScript::SaveToFile(FILE* _File)
 	fwrite(&m_CamSpeed, sizeof(float), 1, _File);
 	fwrite(&m_Ceiling, sizeof(float), 1, _File);
 	fwrite(&m_Floor, sizeof(float), 1, _File);
+	fwrite(&m_Offset, sizeof(float), 1, _File);
 }
 
 void CCameraMoveScript::LoadFromFile(FILE* _File)
@@ -68,6 +70,7 @@ void CCameraMoveScript::LoadFromFile(FILE* _File)
 	fread(&m_CamSpeed, sizeof(float), 1, _File);
 	fread(&m_Ceiling, sizeof(float), 1, _File);
 	fread(&m_Floor, sizeof(float), 1, _File);
+	fread(&m_Offset, sizeof(float), 1, _File);
 }
 
 void CCameraMoveScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)

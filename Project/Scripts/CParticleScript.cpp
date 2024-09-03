@@ -100,6 +100,7 @@ CParticleScript::CParticleScript()
 	AddScriptParam(SCRIPT_PARAM::BOOLEAN_TOGGLE, "Render Module", &m_Module.Module[(UINT)PARTICLE_MODULE::ORBIT]); // ºÒ¸®¾ð
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "MaxOrbitSpeed", &m_Module.MaxRotationSpeed);
 	AddScriptParam(SCRIPT_PARAM::BOOLEAN_TOGGLE, "Gyrate", &m_Module.Gyrate);
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "Gyrate Speed", &m_Module.GyrateSpeed);
 }
 
 void CParticleScript::Begin()
