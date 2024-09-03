@@ -17,5 +17,19 @@ public:
 
     virtual void SaveToFile(FILE* _File) override;
     virtual void LoadFromFile(FILE* _File) override;
+
+public:
+    void Activate(float _Time);
+    void Deactivate()
+    { 
+        m_Active = false;
+        m_Acc = 0.f; 
+        m_Time = 0.f; 
+    }
+private:
+    bool            m_Active = false;
+
+    float           m_Acc = 0.f;
+    float           m_Time = 0.f;
 };
 

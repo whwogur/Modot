@@ -25,6 +25,9 @@ public:
     void AddChild(CGameObject* _ChildObject);
     const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
     const vector<CScript*> GetScripts() { return m_vecScript; }
+    vector<CScript*>& GetScriptsRef() { return m_vecScript; }
+
+    CScript* FindScript(UINT _uintType);
     bool IsDead() const { return m_Dead; }
 
     bool IsDisabled() const { return m_Disabled; }

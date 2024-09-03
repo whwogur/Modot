@@ -1,5 +1,6 @@
 #include "spch.h"
 #include "CPlayerScript.h"
+#include "CAttackScript.h"
 #include "../Client/CEditorMgr.h" // ·Î±×¿ë
 
 CPlayerScript::CPlayerScript()
@@ -14,6 +15,19 @@ void CPlayerScript::Begin()
 {
 	GetRenderComponent()->GetDynamicMaterial();
 	m_State = PlayerState::JUMP;
+	Ptr<CSound> bgm = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage");
+	bgm->Play(0, 50, false);
+	/*CGameObject* fx = GetOwner()->GetChildObject(L"LeafThrowL");
+	if (fx != nullptr)
+		fx->ParticleSystem()->SetBurst(false);
+	fx = GetOwner()->GetChildObject(L"LeafThrowR");
+	if (fx != nullptr)
+		fx->ParticleSystem()->SetBurst(false);
+	fx = GetOwner()->GetChildObject(L"SprintParticle");
+	if (fx != nullptr)
+		fx->ParticleSystem()->SetBurst(false);*/
+
+
 }
 
 #pragma region __UPDATE__STATE__
@@ -419,6 +433,45 @@ void CPlayerScript::BeginState(PlayerState _State)
 		m_Attack3 = true;
 		m_Attack2 = false;
 		Animator2D()->Play(L"Momo_Attack3", 14.0f, false);
+
+		OBJECT_DIR objDir = Transform()->GetObjectDir();
+		
+		if (objDir == OBJECT_DIR::RIGHT)
+		{
+			CGameObject* fx = GetOwner()->GetChildObject(L"LeafThrowR");
+			if (fx != nullptr)
+			{
+				fx->Transform()->SetRelativePos(Vec3(0.1f, 0.f, 1.f));
+
+				fx->ParticleSystem()->Jerk();
+				fx->ParticleSystem()->SetBurst(true);
+
+				CAttackScript* atkScript = (CAttackScript*)fx->FindScript((UINT)SCRIPT_TYPE::ATTACKSCRIPT);
+				if (atkScript != nullptr)
+				{
+					atkScript->Activate(2.f);
+				}
+			}
+		}
+		else
+		{
+			CGameObject* fx = GetOwner()->GetChildObject(L"LeafThrowL");
+			if (fx != nullptr)
+			{
+				fx->Transform()->SetRelativePos(Vec3(0.1f, 0.f, 1.f));
+
+				fx->ParticleSystem()->Jerk();
+				fx->ParticleSystem()->SetBurst(true);
+
+				CAttackScript* atkScript = (CAttackScript*)fx->FindScript((UINT)SCRIPT_TYPE::ATTACKSCRIPT);
+				
+				if (atkScript != nullptr)
+				{
+					atkScript->Activate(2.f);
+				}
+			}
+		}
+
 		break;
 	}
 	case PlayerState::SHOOT:
@@ -525,6 +578,23 @@ void CPlayerScript::EndState(PlayerState _State)
 	}
 	case PlayerState::ATTACK3:
 	{
+		OBJECT_DIR objDir = Transform()->GetObjectDir();
+		if (objDir == OBJECT_DIR::RIGHT)
+		{
+			CGameObject* fx = GetOwner()->GetChildObject(L"LeafThrowR");
+			if (fx != nullptr)
+			{
+				fx->ParticleSystem()->SetBurst(false);
+			}
+		}
+		else
+		{
+			CGameObject* fx = GetOwner()->GetChildObject(L"LeafThrowL");
+			if (fx != nullptr)
+			{
+				fx->ParticleSystem()->SetBurst(false);
+			}
+		}
 		m_Attack1 = false;
 		m_Attack2 = false;
 		m_Attack3 = false;

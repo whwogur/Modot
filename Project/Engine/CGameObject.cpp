@@ -216,6 +216,17 @@ void CGameObject::AddChild(CGameObject* _ChildObject)
 	CLevelMgr::GetInst()->SetLevelDirty();
 }
 
+CScript* CGameObject::FindScript(UINT _uintType)
+{
+	for (const auto& script : m_vecScript)
+	{
+		if (script->GetScriptType() == _uintType)
+			return script;
+	}
+
+	return nullptr;
+}
+
 bool CGameObject::IsAncestor(CGameObject* _Object)
 {
 	CGameObject* pObject = m_Parent;
