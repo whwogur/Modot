@@ -334,7 +334,7 @@ void CGameObject::FinalTick()
 
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
-		if (!m_Disabled && nullptr != m_arrCom[i])
+		if (nullptr != m_arrCom[i])
 			m_arrCom[i]->FinalTick();
 	}
 

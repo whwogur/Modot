@@ -18,10 +18,10 @@ public:
 public:
     void AddComponent(CComponent* _Comopnent);
     void AddComponentViaUI(COMPONENT_TYPE _Type);
-    CComponent* GetComponent(COMPONENT_TYPE _Type) { return m_arrCom[(UINT)_Type]; }
+    CComponent* GetComponent(COMPONENT_TYPE _Type) const { return m_arrCom[(UINT)_Type]; }
     CRenderComponent* GetRenderComponent() { return m_RenderCom; }
     CGameObject* GetParent() { return m_Parent; }
-    int GetLayerIdx() { return m_LayerIdx; }
+    int GetLayerIdx() const { return m_LayerIdx; }
     void AddChild(CGameObject* _ChildObject);
     const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
     const vector<CScript*> GetScripts() { return m_vecScript; }

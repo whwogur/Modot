@@ -15,8 +15,8 @@ void CPlayerScript::Begin()
 {
 	GetRenderComponent()->GetDynamicMaterial();
 	m_State = PlayerState::JUMP;
-	Ptr<CSound> bgm = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage");
-	bgm->Play(0, 50, false);
+	Ptr<CSound> bgm = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage"); // юс╫ц
+	bgm->Play(0, 10, false);
 	/*CGameObject* fx = GetOwner()->GetChildObject(L"LeafThrowL");
 	if (fx != nullptr)
 		fx->ParticleSystem()->SetBurst(false);
@@ -99,6 +99,11 @@ void CPlayerScript::Tick()
 		if (KEY_PRESSED(KEY::LEFT))
 		{
 			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
+		}
+
+		if (KEY_TAP(KEY::S))
+		{
+			ChangeState(PlayerState::ATTACK1);
 		}
 		
 		if (RigidBody()->GetVelocity().y < 0)
@@ -188,6 +193,11 @@ void CPlayerScript::Tick()
 		else if (KEY_PRESSED(KEY::LEFT))
 		{
 			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
+		}
+
+		if (KEY_TAP(KEY::S))
+		{
+			ChangeState(PlayerState::ATTACK1);
 		}
 		break;
 	}
@@ -345,7 +355,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 	case PlayerState::LAND:
 	{
 		m_Acc = 0.f;
-		m_Timer = 0.1f;
+		m_Timer = 0.15f;
 		Animator2D()->Play(L"Momo_Land", 10.0f, false);
 		EDITOR_TRACE("Landing");
 		break;
@@ -418,14 +428,29 @@ void CPlayerScript::BeginState(PlayerState _State)
 	case PlayerState::ATTACK1:
 	{
 		m_Attack1 = true;
-		Animator2D()->Play(L"Momo_Attack1", 14.0f, false);
+		if (RigidBody()->IsGround())
+			Animator2D()->Play(L"Momo_Attack1", 14.0f, false);
+		else
+			Animator2D()->Play(L"Momo_AirAttack", 16.0f, false);
+
+		CGameObject* fx = GetOwner()->GetChildObject(L"AttackBox");
+		if (fx != nullptr)
+		{
+			fx->SetDisabled(false);
+		}
 		break;
 	}
 	case PlayerState::ATTACK2:
 	{
 		m_Attack2 = true;
 		m_Attack1 = false;
-		Animator2D()->Play(L"Momo_Attack2", 14.0f, false);
+		Animator2D()->Play(L"Momo_Attack2", 16.0f, false);
+
+		CGameObject* fx = GetOwner()->GetChildObject(L"AttackBox");
+		if (fx != nullptr)
+		{
+			fx->SetDisabled(false);
+		}
 		break;
 	}
 	case PlayerState::ATTACK3:
@@ -445,12 +470,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 
 				fx->ParticleSystem()->Jerk();
 				fx->ParticleSystem()->SetBurst(true);
-
-				CAttackScript* atkScript = (CAttackScript*)fx->FindScript((UINT)SCRIPT_TYPE::ATTACKSCRIPT);
-				if (atkScript != nullptr)
-				{
-					atkScript->Activate(2.f);
-				}
+				fx->SetDisabled(false);
 			}
 		}
 		else
@@ -462,13 +482,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 
 				fx->ParticleSystem()->Jerk();
 				fx->ParticleSystem()->SetBurst(true);
-
-				CAttackScript* atkScript = (CAttackScript*)fx->FindScript((UINT)SCRIPT_TYPE::ATTACKSCRIPT);
-				
-				if (atkScript != nullptr)
-				{
-					atkScript->Activate(2.f);
-				}
+				fx->SetDisabled(false);
 			}
 		}
 
@@ -570,31 +584,38 @@ void CPlayerScript::EndState(PlayerState _State)
 	}
 	case PlayerState::ATTACK1:
 	{
+		CGameObject* fx = GetOwner()->GetChildObject(L"AttackBox");
+		if (fx != nullptr)
+		{
+			fx->SetDisabled(true);
+		}
 		break;
 	}
 	case PlayerState::ATTACK2:
 	{
+		CGameObject* fx = GetOwner()->GetChildObject(L"AttackBox");
+		if (fx != nullptr)
+		{
+			fx->SetDisabled(true);
+		}
 		break;
 	}
 	case PlayerState::ATTACK3:
 	{
-		OBJECT_DIR objDir = Transform()->GetObjectDir();
-		if (objDir == OBJECT_DIR::RIGHT)
+		CGameObject* fx = GetOwner()->GetChildObject(L"LeafThrowR");
+		if (fx != nullptr)
 		{
-			CGameObject* fx = GetOwner()->GetChildObject(L"LeafThrowR");
-			if (fx != nullptr)
-			{
-				fx->ParticleSystem()->SetBurst(false);
-			}
+			fx->SetDisabled(true);
+			fx->ParticleSystem()->SetBurst(false);
 		}
-		else
+
+		fx = GetOwner()->GetChildObject(L"LeafThrowL");
+		if (fx != nullptr)
 		{
-			CGameObject* fx = GetOwner()->GetChildObject(L"LeafThrowL");
-			if (fx != nullptr)
-			{
-				fx->ParticleSystem()->SetBurst(false);
-			}
+			fx->SetDisabled(true);
+			fx->ParticleSystem()->SetBurst(false);
 		}
+
 		m_Attack1 = false;
 		m_Attack2 = false;
 		m_Attack3 = false;
