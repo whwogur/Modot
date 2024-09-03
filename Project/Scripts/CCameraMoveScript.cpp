@@ -7,6 +7,8 @@ CCameraMoveScript::CCameraMoveScript()
 	, m_CamSpeed(500.f)
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Camera Speed", &m_CamSpeed);
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "Ceiling", &m_Ceiling);
+	AddScriptParam(SCRIPT_PARAM::FLOAT, "Floor", &m_Floor);
 }
 
 CCameraMoveScript::~CCameraMoveScript()
@@ -20,137 +22,78 @@ void CCameraMoveScript::Begin()
 
 void CCameraMoveScript::Tick()
 {
-	if (PROJ_TYPE::ORTHOGRAPHIC == Camera()->GetProjType())
+	if (m_Target != nullptr)
 	{
-		OrthoGraphicMove();
-	}
+		// AtTargetDir: 타겟의 상대 위치와 카메라 위치의 차이 계산
+		const Vec3& targetPos = m_Target->Transform()->GetRelativePos();
+		Vec3& camPos = Transform()->GetRelativePosRef();
+		
+		Vec2 AtTargetDir(targetPos.x - camPos.x, targetPos.y - camPos.y + 400.f);
 
-	else if (PROJ_TYPE::PERSPECTIVE == Camera()->GetProjType())
-	{
-		PerspectiveMove();
-	}
+		// fdist: AtTargetDir의 길이를 구함
+		float fdist = AtTargetDir.Length();
 
+		if (fdist > 50.f)
+		{
+			// AtTargetDir 벡터를 정규화
+			AtTargetDir.Normalize();
 
-	if (KEY_TAP(KEY::P))
-	{
-		if (PROJ_TYPE::ORTHOGRAPHIC == Camera()->GetProjType())
-			Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
-		else
-			Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+			if (right && AtTargetDir.x > 0)
+				AtTargetDir.x = 0;
+			if (left && AtTargetDir.x < 0)
+				AtTargetDir.x = 0;
+
+			Vec2 vAccel(AtTargetDir.x * m_CamSpeed * DT, AtTargetDir.y * m_CamSpeed * DT);
+
+			camPos.x += vAccel.x;
+
+			const Vec3& camSize = Transform()->GetRelativeScaleRef();
+
+			if ((vAccel.y + camPos.y + camSize.y / 2) < m_Ceiling
+				&& (vAccel.y + camPos.y - camSize.y / 2) > m_Floor)
+				camPos.y += vAccel.y;
+		}
 	}
 }
-
-
 
 void CCameraMoveScript::SaveToFile(FILE* _File)
 {
 	fwrite(&m_CamSpeed, sizeof(float), 1, _File);
+	fwrite(&m_Ceiling, sizeof(float), 1, _File);
+	fwrite(&m_Floor, sizeof(float), 1, _File);
 }
 
 void CCameraMoveScript::LoadFromFile(FILE* _File)
 {
 	fread(&m_CamSpeed, sizeof(float), 1, _File);
+	fread(&m_Ceiling, sizeof(float), 1, _File);
+	fread(&m_Floor, sizeof(float), 1, _File);
 }
 
-void CCameraMoveScript::OrthoGraphicMove()
+void CCameraMoveScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	if (KEY_PRESSED(KEY::CTRL))
-	{
-		float Speed = m_CamSpeed;
+	const Vec3& wallPos = _OtherObject->Transform()->GetRelativePos();
+	const Vec3& collSize = Transform()->GetRelativeScaleRef();
+	const Vec3& curPos = Transform()->GetRelativePosRef();
 
-		if (KEY_PRESSED(KEY::LSHIFT))
-		{
-			Speed *= 3.f;
-		}
-
-		Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
-		Vec3 vPos = Transform()->GetRelativePos();
-
-		if (KEY_PRESSED(KEY::W))
-		{
-			vPos.y += DT * Speed;
-		}
-
-		if (KEY_PRESSED(KEY::S))
-		{
-			vPos.y -= DT * Speed;
-		}
-
-		if (KEY_PRESSED(KEY::A))
-		{
-			vPos.x -= DT * Speed;
-		}
-
-		if (KEY_PRESSED(KEY::D))
-		{
-			vPos.x += DT * Speed;
-		}
-
-		Transform()->SetRelativePos(vPos);
-	}
-
-	if (m_Target != nullptr)
-	{
-		const Vec3 objPos = m_Target->Transform()->GetRelativePos();
-		Transform()->SetRelativePos(objPos + Vec3(0.f, 340.f, 0.f));
-	}
+	if (wallPos.x < curPos.x - collSize.x / 2)
+		left = true;
+	else if (wallPos.x > curPos.x + collSize.x / 2)
+		right = true;
 }
 
-void CCameraMoveScript::PerspectiveMove()
+void CCameraMoveScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	if (KEY_PRESSED(KEY::CTRL))
-	{
-		float Speed = m_CamSpeed;
+}
 
-		if (KEY_PRESSED(KEY::LSHIFT))
-		{
-			Speed *= 3.f;
-		}
+void CCameraMoveScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
+{
+	const Vec3& wallPos = _OtherObject->Transform()->GetRelativePos();
+	const Vec3& collSize = Transform()->GetRelativeScaleRef();
+	const Vec3& curPos = Transform()->GetRelativePosRef();
 
-		Vec3 vFront = Transform()->GetWorldDir(DIR::FRONT);
-		Vec3 vRight = Transform()->GetWorldDir(DIR::RIGHT);
-
-		Vec3 vPos = Transform()->GetRelativePos();
-
-		if (KEY_PRESSED(KEY::W))
-		{
-			vPos += vFront * DT * Speed;
-		}
-
-		if (KEY_PRESSED(KEY::S))
-		{
-			vPos -= vFront * DT * Speed;
-		}
-
-		if (KEY_PRESSED(KEY::A))
-		{
-			vPos -= vRight * DT * Speed;
-		}
-
-		if (KEY_PRESSED(KEY::D))
-		{
-			vPos += vRight * DT * Speed;
-		}
-
-		Transform()->SetRelativePos(vPos);
-
-		if (KEY_PRESSED(KEY::RBTN))
-		{
-			CKeyMgr::GetInst()->MouseCapture(true);
-
-			// 마우스가 이동하는 방향
-			//vDir.x; ==> y축 회전;
-			//vDir.y; ==> x축 회전
-			Vec2 vDir = CKeyMgr::GetInst()->GetDragDir();
-
-			Vec3 vRot = Transform()->GetRelativeRoatation();
-			vRot.y += vDir.x * XM_PI * DT * 5.f;
-			vRot.x += vDir.y * XM_PI * DT * 5.f;
-			Transform()->SetRelativeRotation(vRot);
-		}
-		else if (KEY_RELEASED(KEY::RBTN))
-		{
-			CKeyMgr::GetInst()->MouseCapture(false);
-		}
-	}
+	if (wallPos.x < curPos.x - collSize.x / 2)
+		left = false;
+	if (wallPos.x > curPos.x + collSize.x / 2)
+		right = false;
 }
