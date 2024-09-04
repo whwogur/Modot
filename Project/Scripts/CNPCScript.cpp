@@ -33,5 +33,4 @@ void CNPCScript::LoadFromFile(FILE* _File)
 
 void CNPCScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	EDITOR_TRACE("NPC");
 }

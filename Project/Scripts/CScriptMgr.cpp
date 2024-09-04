@@ -3,6 +3,7 @@
 
 #include "CAttackScript.h"
 #include "CBackGroundScript.h"
+#include "CBellScript.h"
 #include "CCameraMoveScript.h"
 #include "CNPCScript.h"
 #include "CParticleScript.h"
@@ -15,6 +16,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
 	_vec.push_back(L"CAttackScript");
 	_vec.push_back(L"CBackGroundScript");
+	_vec.push_back(L"CBellScript");
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CNPCScript");
 	_vec.push_back(L"CParticleScript");
@@ -30,6 +32,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CAttackScript;
 	if (L"CBackGroundScript" == _strScriptName)
 		return new CBackGroundScript;
+	if (L"CBellScript" == _strScriptName)
+		return new CBellScript;
 	if (L"CCameraMoveScript" == _strScriptName)
 		return new CCameraMoveScript;
 	if (L"CNPCScript" == _strScriptName)
@@ -56,6 +60,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::BACKGROUNDSCRIPT:
 		return new CBackGroundScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BELLSCRIPT:
+		return new CBellScript;
 		break;
 	case (UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT:
 		return new CCameraMoveScript;
@@ -92,6 +99,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::BACKGROUNDSCRIPT:
 		return L"CBackGroundScript";
+		break;
+
+	case SCRIPT_TYPE::BELLSCRIPT:
+		return L"CBellScript";
 		break;
 
 	case SCRIPT_TYPE::CAMERAMOVESCRIPT:

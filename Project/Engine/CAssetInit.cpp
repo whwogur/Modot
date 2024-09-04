@@ -254,39 +254,9 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetBSType(BS_TYPE::DEFAULT);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
 	pShader->AddScalarParam(SCALAR_PARAM::VEC4_0, "float4");
-	pShader->AddTexParam(TEX_0, u8"배경");
+	pShader->AddScalarParam(SCALAR_PARAM::VEC4_1, "Params");
+	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_3, "Time");
 	AddAsset(L"ShockwaveShader", pShader);
-
-	// Distortion
-	pShader = new CGraphicShader;
-	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_Distortion");
-	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_Distortion");
-	pShader->SetRSType(RS_TYPE::CULL_NONE);
-	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
-	pShader->SetBSType(BS_TYPE::DEFAULT);
-	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
-	AddAsset(L"DistortionShader", pShader);
-
-	// Ripple
-	pShader = new CGraphicShader;
-	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_Ripple");
-	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_Ripple");
-	pShader->SetRSType(RS_TYPE::CULL_NONE);
-	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
-	pShader->SetBSType(BS_TYPE::ALPHABLEND);
-	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
-	pShader->AddTexParam(TEX_0, u8"텍스처");
-	AddAsset(L"RippleShader", pShader);
-
-	// SmallRipple
-	pShader = new CGraphicShader;
-	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_SmallRipple");
-	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_SmallRipple");
-	pShader->SetRSType(RS_TYPE::CULL_NONE);
-	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
-	pShader->SetBSType(BS_TYPE::DEFAULT);
-	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
-	AddAsset(L"SmallRippleShader", pShader);
 
 	// Fire
 	pShader = new CGraphicShader;
@@ -382,28 +352,6 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
 	pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"RedDiscFx"));
 	AddAsset(L"ShockwaveMtrl", pMtrl);
-
-	// DistortionMtrl
-	pMtrl = new CMaterial(true);
-	pMtrl->SetShader(FindAsset<CGraphicShader>(L"DistortionShader"));
-	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
-	pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"noise_01"));
-	pMtrl->SetTexParam(TEX_2, FindAsset<CTexture>(L"noise_02"));
-	pMtrl->SetTexParam(TEX_3, FindAsset<CTexture>(L"noise_03"));
-	AddAsset(L"DistortionMtrl", pMtrl);
-
-	// RippleMtrl
-	pMtrl = new CMaterial(true);
-	pMtrl->SetShader(FindAsset<CGraphicShader>(L"RippleShader"));
-	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"RedDiscFx"));
-	pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"DiscDonut"));
-	AddAsset(L"RippleMtrl", pMtrl);
-
-	// SmallRippleMtrl
-	pMtrl = new CMaterial(true);
-	pMtrl->SetShader(FindAsset<CGraphicShader>(L"SmallRippleShader"));
-	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
-	AddAsset(L"SmallRippleMtrl", pMtrl);
 
 	//// Fire
 	//pMtrl = new CMaterial();

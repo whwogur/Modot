@@ -27,6 +27,8 @@ public:
     bool& GetRepeatRef() { return m_Repeat; }
     bool IsFinished() const { return m_Finish; }
 
+    void StopAfterThis() { m_Repeat = false; }
+
     void Reset();
     void Bind();
     static void Clear();

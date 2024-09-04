@@ -43,6 +43,9 @@
     <ClInclude Include="CAttackScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CBellScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -77,6 +80,9 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CAttackScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CBellScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
