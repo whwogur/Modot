@@ -20,9 +20,14 @@ void CBellScript::Tick()
 	if (m_Activated)
 	{
 		m_Acc += DT;
+		CGameObject* shockwave = GetOwner()->GetChildObject(L"Shockwave");
+		if (shockwave != nullptr)
+		{
+			shockwave->MeshRender()->GetSharedMtrl()->SetScalarParam(SCALAR_PARAM::FLOAT_3, m_Acc);
+		}
+
 		if (m_Acc > m_Timer)
 		{
-			CGameObject* shockwave = GetOwner()->GetChildObject(L"Shockwave");
 			if (shockwave != nullptr)
 			{
 				shockwave->MeshRender()->SetMaterial(nullptr);
