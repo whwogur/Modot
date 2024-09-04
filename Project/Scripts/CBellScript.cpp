@@ -8,6 +8,7 @@ CBellScript::CBellScript()
 
 void CBellScript::Begin()
 {
+	m_BellSound = CAssetMgr::GetInst()->FindAsset<CSound>(L"SaveBell");
 	CGameObject* shockwave = GetOwner()->GetChildObject(L"Shockwave");
 	if (shockwave != nullptr)
 	{
@@ -48,16 +49,20 @@ void CBellScript::LoadFromFile(FILE* _File)
 
 void CBellScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {	
+	if (m_Activated)
+		return;
+
 	CGameObject* shockwave = GetOwner()->GetChildObject(L"Shockwave");
 	if (shockwave != nullptr)
 	{
-		Animator2D()->Play(0, 12.f, true);
+		Animator2D()->Play(0, 12.f, false);
 
 		Ptr<CMaterial> mtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"ShockwaveMtrl");
 		shockwave->MeshRender()->SetMaterial(mtrl);
 
 		m_Activated = true;
 
+		m_BellSound->Play(1, 10.f, true);
 		m_Acc = 0.f;
 		m_Timer = 3.0f;
 	}

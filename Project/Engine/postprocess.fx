@@ -28,11 +28,11 @@ VS_OUT VS_Shockwave(VS_IN _in)
 
 float4 PS_Shockwave(VS_OUT _in) : SV_Target
 {
-    float adjustedTime = g_float_3 * 0.25;  //g_EngineTime * 0.25; // TODO (하드코디드)
+    float adjustedTime = g_float_3 * 0.25;  // TODO (하드코디드)
     float offset = (adjustedTime - floor(adjustedTime)) / adjustedTime;
     float CurrentTime = (adjustedTime) * (offset);
 
-    float3 WaveParams = float3(20, 0.4, 0.05); // TODO (하드코디드)
+    float3 WaveParams = float3(17, 0.3, 0.03); // TODO (하드코디드)
 
     float ratio = 1.0;
 

@@ -18,8 +18,9 @@ public:
     virtual void BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) override;
 
 private:
-    bool        m_Activated = false;
-    float       m_Acc = 0.f;
-    float       m_Timer = 0.f;
+    bool            m_Activated = false;
+    float           m_Acc = 0.f;
+    float           m_Timer = 0.f;
+    Ptr<CSound>     m_BellSound;
 };
 
