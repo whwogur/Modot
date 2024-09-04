@@ -120,6 +120,10 @@ void FileBrowser::Update()
 					pInspector->SetTargetObject(nullptr);
 					pInspector->SetTargetAsset(nullptr);
 				}
+				else if (extention == L".wav") // TODO
+				{
+					CAssetMgr::GetInst()->Load<CSound>(relPath.stem(), relPath);
+				}
 
 				else
 				{

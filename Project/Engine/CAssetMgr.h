@@ -39,6 +39,7 @@ private:
 	void CreateEngineGraphicShader();
 	void CreateEngineComputeShader();
 	void DeleteAsset(ASSET_TYPE _Type, const wstring& _Key);
+	void LoadSound();
 private:
 	friend class CTaskMgr;
 	map<wstring, Ptr<CAsset>> m_mapAsset[(UINT)ASSET_TYPE::END];

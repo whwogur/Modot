@@ -132,7 +132,7 @@ void Content::Reload()
 			// 엔진에서 제작한 에셋은 원래 원본파일이 없기때문에 넘어간다.
 			if (pair.second->IsEngineAsset())
 				continue;
-			wstring strRelativePath = pair.second->GetRelativePath();
+			const wstring& strRelativePath = pair.second->GetRelativePath();
 
 			if (false == std::filesystem::exists(strContentPath + strRelativePath))
 			{

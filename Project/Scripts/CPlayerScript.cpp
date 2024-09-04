@@ -17,7 +17,8 @@ void CPlayerScript::Begin()
 	m_State = PlayerState::JUMP;
 	Ptr<CSound> bgm = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage"); // юс╫ц
 	bgm->Play(0, 10, false);
-	/*CGameObject* fx = GetOwner()->GetChildObject(L"LeafThrowL");
+
+	CGameObject* fx = GetOwner()->GetChildObject(L"LeafThrowL");
 	if (fx != nullptr)
 		fx->ParticleSystem()->SetBurst(false);
 	fx = GetOwner()->GetChildObject(L"LeafThrowR");
@@ -25,9 +26,10 @@ void CPlayerScript::Begin()
 		fx->ParticleSystem()->SetBurst(false);
 	fx = GetOwner()->GetChildObject(L"SprintParticle");
 	if (fx != nullptr)
-		fx->ParticleSystem()->SetBurst(false);*/
-
-
+		fx->ParticleSystem()->SetBurst(false);
+	fx = GetOwner()->GetChildObject(L"AttackBox");
+	if (fx != nullptr)
+		fx->SetDisabled(true);
 }
 
 #pragma region __UPDATE__STATE__
@@ -291,13 +293,8 @@ void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 {
 	if (_OwnCollider->GetOverlapCount() == 1)
 	{
-		RigidBody()->SetGround(true);
 		ChangeState(PlayerState::LAND);
 	}
-
-
-	/*const float platformRotationZ = RigidBody()->GetGroundRotation();
-	EDITOR_TRACE(std::to_string(platformRotationZ));*/
 }
 
 void CPlayerScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
@@ -306,11 +303,6 @@ void CPlayerScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject
 
 void CPlayerScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	if (Collider2D()->GetOverlapCount() <= 0)
-	{
-		RigidBody()->SetGround(false);
-		//EDITOR_TRACE("Airborne");
-	}
 }
 
 void CPlayerScript::SaveToFile(FILE* _File)

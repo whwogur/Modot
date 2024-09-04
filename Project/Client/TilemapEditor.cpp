@@ -96,7 +96,6 @@ void TilemapEditor::Update()// 정리 필요..;
                     ImVec2(uvX * (j + 1), uvY * (i + 1))))
                 {
                     selTileIndex = sIdx;
-                    MD_ENGINE_TRACE("{0}", selTileIndex);
                 }
                 ++sIdx;
             }
