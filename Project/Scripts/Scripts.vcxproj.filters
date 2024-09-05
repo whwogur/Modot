@@ -49,6 +49,12 @@
     <ClInclude Include="CWaterScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CDemonScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="CNPCUIScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -89,6 +95,12 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CWaterScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CDemonScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CNPCUIScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,7 +1,8 @@
 #include "spch.h"
 #include "CNPCScript.h"
 #include "../Client/CEditorMgr.h"
-
+#include <Engine/CLevelMgr.h>
+#include "CNPCUIScript.h"
 CNPCScript::CNPCScript()
 	: CScript(UINT(SCRIPT_TYPE::NPCSCRIPT))
 	, m_AnimIndex(0)
@@ -33,4 +34,34 @@ void CNPCScript::LoadFromFile(FILE* _File)
 
 void CNPCScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
+	if (_OtherObject->GetName() == L"Player")
+	{
+		CGameObject* gameObj = CLevelMgr::GetInst()->FindObjectByName(L"StartCon");
+		if (gameObj != nullptr)
+		{
+			CNPCUIScript* scrpt = (CNPCUIScript*)gameObj->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT);
+			if (scrpt != nullptr)
+			{
+				const Vec3& npcPos = Transform()->GetRelativePosRef();
+				scrpt->Transform()->SetRelativePos(npcPos + Vec3(0.f, 150.f, 0.f));
+				scrpt->Activate();
+			}
+		}
+
+	}
+}
+
+void CNPCScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
+{
+	if (_OtherObject->GetName() == L"Player")
+	{
+		CGameObject* gameObj = CLevelMgr::GetInst()->FindObjectByName(L"StartCon");
+		if (gameObj != nullptr)
+		{
+			CNPCUIScript* scrpt = (CNPCUIScript*)gameObj->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT);
+			if (scrpt != nullptr)
+				scrpt->Deactivate();
+		}
+
+	}
 }
