@@ -35,18 +35,26 @@ void FileBrowser::Refresh()
 
 void FileBrowser::Search(const string& _File)
 {
-	for (const auto& entry : std::filesystem::recursive_directory_iterator(m_ContentPath))
+	try
 	{
-		if (entry.is_regular_file())
+		for (const auto& entry : std::filesystem::recursive_directory_iterator(m_ContentPath))
 		{
-			const auto& path = entry.path();
-			if (path.filename().string().find(_File) != std::string::npos)
+			if (entry.is_regular_file())
 			{
-				MD_ENGINE_TRACE(path.c_str());
-				m_CurrentDirectory = path.parent_path();
-				Refresh();
+				const auto& path = entry.path();
+				if (path.filename().string().find(_File) != std::string::npos)
+				{
+					EDITOR_TRACE(path.string());
+					m_CurrentDirectory = path.parent_path();
+					Refresh();
+					break;
+				}
 			}
 		}
+	}
+	catch (const std::filesystem::filesystem_error& e)
+	{
+		MD_ENGINE_ERROR("File search error: {}", e.what());
 	}
 }
 
@@ -129,8 +137,9 @@ void FileBrowser::Update()
 
 				else
 				{
-					MD_ENGINE_ERROR(extention.string());
-					MD_ENGINE_ERROR(L"지원하지 않는 형식 error");
+					EDITOR_WARN(extention.string());
+					EDITOR_WARN("extension not supported !");
+					EDITOR_WARN("Features not supported besides loading lv & .wav files (for now)");
 				}
 			}
 		}
@@ -144,9 +153,11 @@ void FileBrowser::Update()
 	ImGui::Columns(1);
 
 	ImGui::SetNextItemWidth(50.f);
-	ImGui::SliderFloat(ICON_FA_EXPAND, &thumbnailSize, 50.0f, 70.0f, "%.1f", ImGuiSliderFlags_NoInput);
+	ImGui::SliderFloat(ICON_FA_EXPAND, &thumbnailSize, 50.0f, 70.0f, "%.1f", ImGuiSliderFlags_NoInput );
+	ImGui::SetItemTooltip(u8"아이콘 크기 조절");
 	ImGui::SameLine(100);
-	char searchValue[255] = {};
+
+	static char searchValue[255] = {};
 
 	ImGui::SetNextItemWidth(100.f);
 	if (ImGui::InputText(ICON_FA_SEARCH, searchValue, 255, ImGuiInputTextFlags_EnterReturnsTrue))
@@ -154,5 +165,7 @@ void FileBrowser::Update()
 		if (strlen(searchValue) != 0)
 			Search(searchValue);
 	}
+
+	ImGui::SetItemTooltip(u8"파일 검색");
 }
 
