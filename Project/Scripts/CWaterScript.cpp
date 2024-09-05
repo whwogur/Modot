@@ -33,7 +33,7 @@ void CWaterScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherOb
 		if (splash != nullptr)
 		{
 			const Vec3& playerPos = _OtherObject->Transform()->GetRelativePos();
-			splash->Transform()->SetRelativePos(playerPos);
+			splash->Transform()->SetRelativePos(playerPos - Vec3(0.f, 30.f, 0.f));
 			splash->Animator2D()->Play(0, 12.f, false);
 			splash->Animator2D()->Reset();
 		}
@@ -51,7 +51,7 @@ void CWaterScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObje
 		if (splash != nullptr)
 		{
 			const Vec3& playerPos = _OtherObject->Transform()->GetRelativePos();
-			splash->Transform()->SetRelativePos(playerPos);
+			splash->Transform()->SetRelativePos(playerPos - Vec3(0.f, 30.f, 0.f));
 			splash->Animator2D()->Play(1, 14.f, false);
 			splash->Animator2D()->Reset();
 		}

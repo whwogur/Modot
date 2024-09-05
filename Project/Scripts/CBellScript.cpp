@@ -56,6 +56,7 @@ void CBellScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObj
 	if (shockwave != nullptr)
 	{
 		Animator2D()->Play(0, 12.f, false);
+		Animator2D()->Reset();
 
 		Ptr<CMaterial> mtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"ShockwaveMtrl");
 		shockwave->MeshRender()->SetMaterial(mtrl);

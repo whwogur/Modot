@@ -369,8 +369,8 @@ void CPlayerScript::BeginState(PlayerState _State)
 		{
 			fx->Transform()->SetRelativePos(Vec3(-0.3f, -0.1f, 1.f));
 
-			fx->Animator2D()->Reset();
 			fx->Animator2D()->Play(0, 14.f, false);
+			fx->Animator2D()->Reset();
 		}
 		break;
 	}
@@ -404,8 +404,8 @@ void CPlayerScript::BeginState(PlayerState _State)
 		{
 			fx->Transform()->SetRelativePos(Vec3(-0.3f, -0.1f, 1.f));
 
-			fx->Animator2D()->Reset();
 			fx->Animator2D()->Play(0, 14.f, false);
+			fx->Animator2D()->Reset();
 		}
 
 		fx = GetOwner()->GetChildObject(L"SprintParticle");

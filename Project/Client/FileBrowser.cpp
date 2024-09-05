@@ -74,7 +74,9 @@ void FileBrowser::Update()
 	ImGui::Columns(columnCount, 0, false);
 	for (auto& listNode : m_List)
 	{
-		Ptr<CTexture> icon = listNode.second ? m_DirectoryIcon : m_FileIcon;
+		Ptr<CTexture> icon = listNode.second ? m_DirectoryIcon : 
+			listNode.first.extension() == ".png" || listNode.first.extension() == ".tga" ?
+			CAssetMgr::GetInst()->FindAsset<CTexture>(listNode.first.stem()) : m_FileIcon;
 
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 		ImGui::ImageButton((ImTextureID)icon->GetSRV().Get(), { thumbnailSize, thumbnailSize }, { 1, 0 }, { 0, 1 });
