@@ -60,14 +60,25 @@ void CDemonScript::Tick()
 					m_Fire = false;
 					break;
 				case 1:
-					ChangeState(DemonState::BREATHEFIRE);
-					m_Fire = true;
+					ChangeState(DemonState::MELEE);
 					break;
 				}
 			}
 			else
 			{
-				ChangeState(DemonState::ATTACK);
+				int randNum = std::rand() % 2;
+
+				switch (randNum)
+				{
+				case 0:
+					ChangeState(DemonState::JUMPATTACK);
+					break;
+				case 1:
+					ChangeState(DemonState::BREATHEFIRE);
+					m_Fire = true;
+					break;
+				}
+				
 			}
 		}
 		break;
@@ -80,7 +91,15 @@ void CDemonScript::Tick()
 		}
 		break;
 	}
-	case DemonState::ATTACK:
+	case DemonState::JUMPATTACK:
+	{
+		if (m_Acc > m_Timer)
+		{
+			ChangeState(DemonState::IDLE);
+		}
+		break;
+	}
+	case DemonState::MELEE:
 	{
 		if (m_Acc > m_Timer)
 		{
@@ -221,9 +240,14 @@ void CDemonScript::BeginState(DemonState _State)
 		m_Acc = 0.f;
 		m_Timer = 0.8f;
 		Animator2D()->Play(L"Demon_Roar", 8.f, false);
+		CGameObject* FireR = GetOwner()->GetChildObject(L"RedAccum");
+		if (FireR != nullptr)
+		{
+			FireR->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = true;
+		}
 		break;
 	}
-	case DemonState::ATTACK:
+	case DemonState::JUMPATTACK:
 	{
 		m_Acc = 0.f;
 		m_Timer = 1.6f;
@@ -232,7 +256,15 @@ void CDemonScript::BeginState(DemonState _State)
 		const Vec3& targetPos = m_Target->Transform()->GetRelativePosRef();
 		const Vec3& demonPos = Transform()->GetRelativePosRef();
 
+		RigidBody()->SetGravityAccel(2000.f);
 		RigidBody()->SetVelocity(Vec2((targetPos.x - demonPos.x) * PI, 6666.f));
+		break;
+	}
+	case DemonState::MELEE:
+	{
+		m_Acc = 0.f;
+		m_Timer = 1.6f;
+		Animator2D()->Play(L"Demon_Attack", 10.f, false);
 		break;
 	}
 	case DemonState::ROAR:
@@ -240,7 +272,11 @@ void CDemonScript::BeginState(DemonState _State)
 		m_Acc = 0.f;
 		m_Timer = 0.8f;
 		Animator2D()->Play(L"Demon_Roar", 8.f, false);
-		// -800, -600, -400, 300, 500, 700 (x값) 으로 배치되어있는 불들 중 현재 보스랑 가장 가까운 두개를 상수버퍼 조작으로 흩날릴거
+		CGameObject* FireR = GetOwner()->GetChildObject(L"WhiteAccum");
+		if (FireR != nullptr)
+		{
+			FireR->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = true;
+		}
 		break;
 	}
 	case DemonState::SPITTING:
@@ -297,15 +333,29 @@ void CDemonScript::EndState(DemonState _State)
 	}
 	case DemonState::BREATHEFIRE:
 	{
+		CGameObject* FireR = GetOwner()->GetChildObject(L"RedAccum");
+		if (FireR != nullptr)
+		{
+			FireR->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = false;
+		}
 		break;
 	}
-	case DemonState::ATTACK:
+	case DemonState::JUMPATTACK:
+	{
+		RigidBody()->SetGravityAccel(800.f);
+		break;
+	}
+	case DemonState::MELEE:
 	{
 		break;
 	}
 	case DemonState::ROAR:
 	{
-		
+		CGameObject* FireR = GetOwner()->GetChildObject(L"WhiteAccum");
+		if (FireR != nullptr)
+		{
+			FireR->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = false;
+		}
 		break;
 	}
 	case DemonState::SPITTING:

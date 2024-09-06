@@ -2,7 +2,7 @@
 #include "C:\Users\cuteg\Desktop\Modot\External\Include\Engine\CScript.h"
 enum class DemonState
 {
-    ATTACK, IDLE, ROAR, BREATHEFIRE, SPITTING
+    JUMPATTACK, MELEE, IDLE, ROAR, BREATHEFIRE, SPITTING,
 };
 
 class CDemonScript :
