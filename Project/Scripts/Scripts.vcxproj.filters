@@ -61,6 +61,9 @@
     <ClInclude Include="CLinethScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CManagerScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -113,6 +116,9 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CLinethScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CManagerScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>

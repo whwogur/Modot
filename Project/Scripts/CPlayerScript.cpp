@@ -15,8 +15,6 @@ void CPlayerScript::Begin()
 {
 	GetRenderComponent()->GetDynamicMaterial();
 	m_State = PlayerState::JUMP;
-	Ptr<CSound> bgm = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage"); // юс╫ц
-	bgm->Play(0, 10, false);
 
 	CGameObject* fx = GetOwner()->GetChildObject(L"LeafThrowL");
 	if (fx != nullptr)

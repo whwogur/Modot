@@ -8,6 +8,7 @@
 #include "CDemonScript.h"
 #include "CHellfireScript.h"
 #include "CLinethScript.h"
+#include "CManagerScript.h"
 #include "CNPCScript.h"
 #include "CNPCUIScript.h"
 #include "CParticleScript.h"
@@ -26,6 +27,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CDemonScript");
 	_vec.push_back(L"CHellfireScript");
 	_vec.push_back(L"CLinethScript");
+	_vec.push_back(L"CManagerScript");
 	_vec.push_back(L"CNPCScript");
 	_vec.push_back(L"CNPCUIScript");
 	_vec.push_back(L"CParticleScript");
@@ -52,6 +54,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CHellfireScript;
 	if (L"CLinethScript" == _strScriptName)
 		return new CLinethScript;
+	if (L"CManagerScript" == _strScriptName)
+		return new CManagerScript;
 	if (L"CNPCScript" == _strScriptName)
 		return new CNPCScript;
 	if (L"CNPCUIScript" == _strScriptName)
@@ -95,6 +99,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::LINETHSCRIPT:
 		return new CLinethScript;
+		break;
+	case (UINT)SCRIPT_TYPE::MANAGERSCRIPT:
+		return new CManagerScript;
 		break;
 	case (UINT)SCRIPT_TYPE::NPCSCRIPT:
 		return new CNPCScript;
@@ -154,6 +161,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::LINETHSCRIPT:
 		return L"CLinethScript";
+		break;
+
+	case SCRIPT_TYPE::MANAGERSCRIPT:
+		return L"CManagerScript";
 		break;
 
 	case SCRIPT_TYPE::NPCSCRIPT:

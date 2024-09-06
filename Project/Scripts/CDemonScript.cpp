@@ -123,7 +123,14 @@ void CDemonScript::Tick()
 			{
 				if (demonPos.x > -600)
 				{
-					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire1");
+					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire0");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire1");
 					if (Fire != nullptr)
 					{
 						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
@@ -174,8 +181,15 @@ void CDemonScript::Tick()
 						if (script != nullptr)
 							script->Flicker();
 					}
+					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire5");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
 				}
-				else
+				else if (demonPos.x > 300)
 				{
 					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire4");
 					if (Fire != nullptr)
@@ -185,6 +199,23 @@ void CDemonScript::Tick()
 							script->Flicker();
 					}
 					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire5");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+				}
+				else
+				{
+					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire2");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire3");
 					if (Fire != nullptr)
 					{
 						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
