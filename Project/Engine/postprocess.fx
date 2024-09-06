@@ -28,13 +28,13 @@ VS_OUT VS_Shockwave(VS_IN _in)
 
 float4 PS_Shockwave(VS_OUT _in) : SV_Target
 {
-    float adjustedTime = g_float_3 * 0.3;  // TODO (하드코디드)
+    float adjustedTime = g_float_3 * 0.3;
     float offset = (adjustedTime - floor(adjustedTime)) / adjustedTime;
     float CurrentTime = (adjustedTime) * (offset);
 
     float3 WaveParams = float3(17, 1.7, 0.07); // TODO (하드코디드)
 
-    float2 WaveCentre = mul(float4(52.f, 190.f, 0.f, 0.f), matWVP).xy / g_Resolution; // TODO (하드코디드)
+    float2 WaveCentre = mul(g_vec4_3, matWVP).xy / g_Resolution; // TODO (하드코디드)
 
     float2 texCoord = _in.vPosition.xy / g_Resolution;
 

@@ -25,6 +25,7 @@ void CBellScript::Tick()
 		if (shockwave != nullptr)
 		{
 			shockwave->MeshRender()->GetSharedMtrl()->SetScalarParam(SCALAR_PARAM::FLOAT_3, m_Acc);
+			shockwave->MeshRender()->GetSharedMtrl()->SetScalarParam(SCALAR_PARAM::VEC4_3, Vec4(52.f, 190.f, 0.f, 0.f));
 		}
 
 		if (m_Acc > m_Timer)

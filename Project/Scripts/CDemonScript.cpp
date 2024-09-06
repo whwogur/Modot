@@ -13,6 +13,24 @@ void CDemonScript::Begin()
 	m_Target = CLevelMgr::GetInst()->FindObjectByName(L"Player");
 	MD_ENGINE_ASSERT(m_Target != nullptr, L"플레이어 못찾음");
 
+	CGameObject* Fire = GetOwner()->GetChildObject(L"BreatheFireR");
+	if (Fire != nullptr)
+	{
+		Fire->ParticleSystem()->SetBurst(false);
+	}
+
+	Fire = GetOwner()->GetChildObject(L"BreatheFireL");
+	if (Fire != nullptr)
+	{
+		Fire->ParticleSystem()->SetBurst(false);
+	}
+	
+	CGameObject* shockwave = GetOwner()->GetChildObject(L"Demon_Roar");
+	if (shockwave != nullptr)
+	{
+		shockwave->ParticleSystem()->SetBurst(false);
+	}
+
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 }
 
@@ -38,9 +56,11 @@ void CDemonScript::Tick()
 				{
 				case 0:
 					ChangeState(DemonState::ROAR);
+					m_Fire = false;
 					break;
 				case 1:
 					ChangeState(DemonState::BREATHEFIRE);
+					m_Fire = true;
 					break;
 				}
 			}
@@ -55,7 +75,7 @@ void CDemonScript::Tick()
 	{
 		if (m_Acc > m_Timer)
 		{
-			ChangeState(DemonState::IDLE);
+			ChangeState(DemonState::SPITTING);
 		}
 		break;
 	}
@@ -68,6 +88,14 @@ void CDemonScript::Tick()
 		break;
 	}
 	case DemonState::ROAR:
+	{	
+		if (m_Acc > m_Timer)
+		{
+			ChangeState(DemonState::SPITTING);
+		}
+		break;
+	}
+	case DemonState::SPITTING:
 	{
 		if (m_Acc > m_Timer)
 		{
@@ -112,8 +140,8 @@ void CDemonScript::BeginState(DemonState _State)
 	case DemonState::BREATHEFIRE:
 	{
 		m_Acc = 0.f;
-		m_Timer = 3.f;
-		Animator2D()->Play(L"Demon_Roar", 8.f, true);
+		m_Timer = 0.8f;
+		Animator2D()->Play(L"Demon_Roar", 8.f, false);
 		break;
 	}
 	case DemonState::ATTACK:
@@ -125,14 +153,55 @@ void CDemonScript::BeginState(DemonState _State)
 		const Vec3& targetPos = m_Target->Transform()->GetRelativePosRef();
 		const Vec3& demonPos = Transform()->GetRelativePosRef();
 
-		RigidBody()->SetVelocity(Vec2((targetPos.x - demonPos.x) * PI, 6000.f));
+		RigidBody()->SetVelocity(Vec2((targetPos.x - demonPos.x) * PI, 6666.f));
 		break;
 	}
 	case DemonState::ROAR:
 	{
 		m_Acc = 0.f;
-		m_Timer = 3.f;
-		Animator2D()->Play(L"Demon_Roar", 8.f, true);
+		m_Timer = 0.8f;
+		Animator2D()->Play(L"Demon_Roar", 8.f, false);
+		break;
+	}
+	case DemonState::SPITTING:
+	{
+		m_Acc = 0.f;
+		m_Timer = 1.6f;
+
+		if (m_Fire)
+		{
+			const Vec3& demonPos = Transform()->GetRelativePosRef();
+			const Vec3& playerPos = m_Target->Transform()->GetRelativePosRef();
+
+			if (demonPos.x - playerPos.x > 0)
+			{
+				CGameObject* FireL = GetOwner()->GetChildObject(L"BreatheFireL");
+				if (FireL != nullptr)
+				{
+					FireL->ParticleSystem()->Jerk();
+					FireL->ParticleSystem()->SetBurst(true);
+				}
+
+			}
+			else
+			{
+				CGameObject* FireR = GetOwner()->GetChildObject(L"BreatheFireR");
+				if (FireR != nullptr)
+				{
+					FireR->ParticleSystem()->Jerk();
+					FireR->ParticleSystem()->SetBurst(true);
+				}
+			}
+		}
+		else
+		{
+			CGameObject* shockwave = GetOwner()->GetChildObject(L"Demon_Roar");
+			if (shockwave != nullptr)
+			{
+				shockwave->ParticleSystem()->Jerk();
+				shockwave->ParticleSystem()->SetBurst(true);
+			}
+		}
 		break;
 	}
 	}
@@ -156,6 +225,33 @@ void CDemonScript::EndState(DemonState _State)
 	}
 	case DemonState::ROAR:
 	{
+		
+		break;
+	}
+	case DemonState::SPITTING:
+	{
+		if (m_Fire)
+		{
+			CGameObject* Fire = GetOwner()->GetChildObject(L"BreatheFireR");
+			if (Fire != nullptr)
+			{
+				Fire->ParticleSystem()->SetBurst(false);
+			}
+
+			Fire = GetOwner()->GetChildObject(L"BreatheFireL");
+			if (Fire != nullptr)
+			{
+				Fire->ParticleSystem()->SetBurst(false);
+			}
+		}
+		else
+		{
+			CGameObject* shockwave = GetOwner()->GetChildObject(L"Demon_Roar");
+			if (shockwave != nullptr)
+			{
+				shockwave->ParticleSystem()->SetBurst(false);
+			}
+		}
 		break;
 	}
 	}

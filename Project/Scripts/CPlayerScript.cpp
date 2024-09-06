@@ -527,12 +527,13 @@ void CPlayerScript::EndState(PlayerState _State)
 	}
 	case PlayerState::JUMP:
 	{
-		EDITOR_TRACE("End Jump");
+		if (m_Attack1)
+			m_Attack1 = false;
 		break;
 	}
 	case PlayerState::DOUBLEJUMP:
 	{
-		EDITOR_TRACE("End DoubleJump");
+		
 		break;
 	}
 	case PlayerState::LAND:
