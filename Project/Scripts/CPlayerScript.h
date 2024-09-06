@@ -40,6 +40,7 @@ private:
     void ChangeState(PlayerState _NextState);
 
     void Jump();
+    void IdleRoutine();
 private:
     float           m_Speed;
     PlayerState     m_State;

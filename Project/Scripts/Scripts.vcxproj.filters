@@ -55,6 +55,12 @@
     <ClInclude Include="CNPCUIScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CHellfireScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="CLinethScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -101,6 +107,12 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CNPCUIScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CHellfireScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CLinethScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>

@@ -42,51 +42,15 @@ void CPlayerScript::Tick()
 	{
 		m_Acc += DT;
 		Jump();
-
-		if (KEY_TAP(KEY::LEFT) || KEY_TAP(KEY::RIGHT) || KEY_PRESSED(KEY::LEFT) || KEY_PRESSED(KEY::RIGHT))
-		{
-			ChangeState(PlayerState::RUN);
-		}
-		else if (KEY_TAP(KEY::SPACE) || KEY_PRESSED(KEY::SPACE))
-		{
-			if (RigidBody()->IsGround())
-				ChangeState(PlayerState::JUMP);
-		}
-		else if (KEY_TAP(KEY::S) || KEY_PRESSED(KEY::S))
-		{
-			if (!m_Attack1 && !m_Attack2 && !m_Attack3)
-			{
-				ChangeState(PlayerState::ATTACK1);
-			}
-			else 
-			{
-				if (m_Attack1 && !m_Attack2 && !m_Attack3)
-				{
-					ChangeState(PlayerState::ATTACK2);
-
-				}
-				else if (!m_Attack1 && m_Attack2 && !m_Attack3)
-				{
-					ChangeState(PlayerState::ATTACK3);
-				}
-			}
-		}
-		else if (KEY_PRESSED(KEY::D))
-		{
-			ChangeState(PlayerState::SHOOT);
-		}
-		else if (KEY_PRESSED(KEY::Q))
-		{
-			if (RigidBody()->IsGround())
-				ChangeState(PlayerState::ROLL);
-		}
-
+		IdleRoutine();
+		
 		if (m_Acc > m_Timer)
 			ChangeState(PlayerState::IDLE2);
 		break;
 	}
 	case PlayerState::IDLE2:
 	{
+		IdleRoutine();
 		if (Animator2D()->IsFinished())
 			ChangeState(PlayerState::IDLE);
 		break;
@@ -518,6 +482,9 @@ void CPlayerScript::EndState(PlayerState _State)
 	{
 		m_Acc = 0.f;
 		m_Timer = 0.f;
+		m_Attack1 = false;
+		m_Attack2 = false;
+		m_Attack3 = false;
 		break;
 	}
 	case PlayerState::IDLE2:
@@ -538,6 +505,8 @@ void CPlayerScript::EndState(PlayerState _State)
 	}
 	case PlayerState::LAND:
 	{
+		m_Acc = 0.f;
+		m_Timer = 0.f;
 		break;
 	}
 	case PlayerState::RUN:
@@ -664,5 +633,41 @@ void CPlayerScript::Jump()
 
 			ChangeState(PlayerState::DOUBLEJUMP);
 		}
+	}
+}
+
+void CPlayerScript::IdleRoutine()
+{
+	if (KEY_TAP(KEY::LEFT) || KEY_TAP(KEY::RIGHT) || KEY_PRESSED(KEY::LEFT) || KEY_PRESSED(KEY::RIGHT))
+	{
+		ChangeState(PlayerState::RUN);
+	}
+	else if (KEY_TAP(KEY::S) || KEY_PRESSED(KEY::S))
+	{
+		if (!m_Attack1 && !m_Attack2 && !m_Attack3)
+		{
+			ChangeState(PlayerState::ATTACK1);
+		}
+		else
+		{
+			if (m_Attack1 && !m_Attack2 && !m_Attack3)
+			{
+				ChangeState(PlayerState::ATTACK2);
+
+			}
+			else if (!m_Attack1 && m_Attack2 && !m_Attack3)
+			{
+				ChangeState(PlayerState::ATTACK3);
+			}
+		}
+	}
+	else if (KEY_PRESSED(KEY::D))
+	{
+		ChangeState(PlayerState::SHOOT);
+	}
+	else if (KEY_PRESSED(KEY::Q))
+	{
+		if (RigidBody()->IsGround())
+			ChangeState(PlayerState::ROLL);
 	}
 }

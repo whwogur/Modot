@@ -1,6 +1,7 @@
 #include "spch.h"
 #include "CDemonScript.h"
 #include <Engine/CLevelMgr.h>
+#include "CHellfireScript.h"
 CDemonScript::CDemonScript()
 	: CScript(SCRIPT_TYPE::DEMONSCRIPT)
 {
@@ -88,8 +89,7 @@ void CDemonScript::Tick()
 		break;
 	}
 	case DemonState::ROAR:
-	{	
-		if (m_Acc > m_Timer)
+	{	if (m_Acc > m_Timer)
 		{
 			ChangeState(DemonState::SPITTING);
 		}
@@ -97,6 +97,85 @@ void CDemonScript::Tick()
 	}
 	case DemonState::SPITTING:
 	{
+		if (!m_Fire)
+		{// -800 -600 -400				300 500 700
+			const Vec3& demonPos = Transform()->GetRelativePosRef();
+			if (demonPos.x < -400)
+			{
+				if (demonPos.x > -600)
+				{
+					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire1");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire2");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+				}
+				else
+				{
+					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire0");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire1");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+				}
+			}
+			else
+			{
+				if (demonPos.x < 500)
+				{
+					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire3");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire4");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+				}
+				else
+				{
+					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire4");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire5");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+				}
+			}
+		}
+
 		if (m_Acc > m_Timer)
 		{
 			ChangeState(DemonState::IDLE);
@@ -161,6 +240,7 @@ void CDemonScript::BeginState(DemonState _State)
 		m_Acc = 0.f;
 		m_Timer = 0.8f;
 		Animator2D()->Play(L"Demon_Roar", 8.f, false);
+		// -800, -600, -400, 300, 500, 700 (x값) 으로 배치되어있는 불들 중 현재 보스랑 가장 가까운 두개를 상수버퍼 조작으로 흩날릴거
 		break;
 	}
 	case DemonState::SPITTING:
