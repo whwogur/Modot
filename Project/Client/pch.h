@@ -20,3 +20,4 @@
 
 #define HEADER_1 { 0.0f, 0.45f, 0.67f, 1.0f }
 #define HEADER_2 { 0.0f, 0.67f, 0.45f, 1.0f }
+#define HEADER_3 { 1.0f, 1.0f, 0.33f, 1.0f }

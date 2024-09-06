@@ -20,6 +20,4 @@ private:
     void LoadLevel();
     void SaveLevelAs();
     void AddScript();
-private:
-    bool        m_Mode = false; // false = dark true = light
 };

@@ -20,7 +20,7 @@ void ScriptUI::Update()
 	ImGui::SameLine(ICON_SIZE + 3);
 	wstring strScriptName = CScriptMgr::GetScriptName(m_Script);
 
-	ImGui::TextColored({ 0.0f, 0.33f, 0.77f, 1.0f }, string(strScriptName.begin(), strScriptName.end()).c_str());
+	ImGui::TextColored(HEADER_3, string(strScriptName.begin(), strScriptName.end()).c_str());
 	// Script 에서 노출시킬 데이터를 보여준다.
 	const vector<tScriptParam>& vecParam = m_Script->GetScriptParam();
 

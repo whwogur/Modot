@@ -42,7 +42,7 @@ void HierarchyView::Update()
 		RefreshLevel();
 	const wstring& levelName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
 	string strLevelName = ICON_FA_FILE_VIDEO_O " " + string(levelName.begin(), levelName.end());
-	ImGui::TextColored({0.87f, 0.87f, 0.45f, 1.0f}, strLevelName.c_str());
+	ImGui::TextColored(HEADER_3, strLevelName.c_str());
 
 	if (ImGui::BeginPopupContextWindow(0, 1))
 	{

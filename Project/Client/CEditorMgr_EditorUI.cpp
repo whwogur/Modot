@@ -52,9 +52,9 @@ void CEditorMgr::InitImGui()
     //io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleViewports; // FIXME-DPI: Experimental.
 
     //SetThemeMicrosoft();
-    SetThemeMoonlight();
+    //SetThemeMoonlight();
     //SetThemeUnrealEngine();
-    //SetThemeFutureDark();
+    SetThemeFutureDark();
 
     // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
     ImGuiStyle& style = ImGui::GetStyle();

@@ -119,16 +119,6 @@ void MenuUI::Tick()
 		ImGui::SameLine();
 		ImGui::TextColored(color, buffer);
 
-		ImGui::SameLine(1180);
-		ToggleButton("##ModeToggle", &ModeToggle);
-		if (ModeToggle != m_Mode)
-		{
-			m_Mode = ModeToggle;
-			if (m_Mode == false)
-				CEditorMgr::GetInst()->SetThemeMoonlight();
-			else
-				CEditorMgr::GetInst()->SetThemeFutureDark();
-		}
 		ImGui::EndMainMenuBar();
 	}
 }

@@ -24,7 +24,7 @@ public:
 	bool IsActive() const { return m_Active; }
 
 	void SetChildBorder(bool _Set) { m_ChildBorder = _Set; }
-	void SetChildSize(ImVec2 _Size) { m_ChildSize = _Size; }
+	
 	void SetActive(bool _Active);
 	void Toggle() { m_Active = !m_Active; }
 
@@ -58,7 +58,6 @@ private:
 	EditorUI* m_Parent;
 	vector<EditorUI*>	m_vecChildUI;
 
-	ImVec2				m_ChildSize;
 	bool				m_Modal;
 	bool				m_ChildBorder;
 	bool				m_UseMenuBar;
