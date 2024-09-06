@@ -41,7 +41,10 @@ void MenuUI::Tick()
 		ImVec4 color;
 		UINT FPS = CTimeMgr::GetInst()->GetFPSRecord();
 		char buffer[30];
-		sprintf_s(buffer, ICON_FA_BAR_CHART " FPS: %d", FPS);
+		const char* iconFun = FPS > 500 ? ICON_FA_FIGHTER_JET :
+			(FPS > 100 ? ICON_FA_BICYCLE : ICON_FA_WHEELCHAIR);
+
+		sprintf_s(buffer, "%s FPS: %d", iconFun, FPS);
 
 		if (state == LEVEL_STATE::PLAY)
 		{
