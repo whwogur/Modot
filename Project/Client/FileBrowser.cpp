@@ -9,8 +9,8 @@ FileBrowser::FileBrowser()
 {
 	wstring modifiedPath;
 	modifiedPath = CPathMgr::GetInst()->GetContentPath();
-	modifiedPath.erase(modifiedPath.size() - 1, 1); // \ 지우는거..
-	m_ContentPath = m_CurrentDirectory = modifiedPath; // 컨텐츠 상위폴더로 갈 수 없도록 하기 위해 - 나중에 다시 와서 보자
+	modifiedPath.erase(modifiedPath.size() - 1, 1);
+	m_ContentPath = m_CurrentDirectory = modifiedPath;
 }
 
 void FileBrowser::Init()
@@ -67,6 +67,8 @@ void FileBrowser::Update()
 			m_CurrentDirectory = m_CurrentDirectory.parent_path();
 			Refresh();
 		}
+
+		ImGui::SameLine();
 	}
 
 	static float padding = 10.0f;
@@ -78,6 +80,21 @@ void FileBrowser::Update()
 	if (columnCount < 1)
 		columnCount = 1;
 
+	ImGui::SetNextItemWidth(50.f);
+	ImGui::SliderFloat(ICON_FA_SEARCH_PLUS, &thumbnailSize, 50.0f, 70.0f, "%.1f", ImGuiSliderFlags_NoInput);
+	ImGui::SetItemTooltip(u8"아이콘 크기 조절");
+	ImGui::SameLine(100);
+
+	static char searchValue[255] = {};
+
+	ImGui::SetNextItemWidth(100.f);
+	if (ImGui::InputText(ICON_FA_STACK_OVERFLOW, searchValue, 255, ImGuiInputTextFlags_EnterReturnsTrue))
+	{
+		if (strlen(searchValue) != 0)
+			Search(searchValue);
+	}
+
+	ImGui::SetItemTooltip(u8"파일 검색");
 
 	ImGui::Columns(columnCount, 0, false);
 	for (auto& listNode : m_List)
@@ -151,21 +168,5 @@ void FileBrowser::Update()
 	}
 
 	ImGui::Columns(1);
-
-	ImGui::SetNextItemWidth(50.f);
-	ImGui::SliderFloat(ICON_FA_EXPAND, &thumbnailSize, 50.0f, 70.0f, "%.1f", ImGuiSliderFlags_NoInput );
-	ImGui::SetItemTooltip(u8"아이콘 크기 조절");
-	ImGui::SameLine(100);
-
-	static char searchValue[255] = {};
-
-	ImGui::SetNextItemWidth(100.f);
-	if (ImGui::InputText(ICON_FA_SEARCH, searchValue, 255, ImGuiInputTextFlags_EnterReturnsTrue))
-	{
-		if (strlen(searchValue) != 0)
-			Search(searchValue);
-	}
-
-	ImGui::SetItemTooltip(u8"파일 검색");
 }
 

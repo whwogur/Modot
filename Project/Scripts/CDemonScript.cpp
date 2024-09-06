@@ -119,8 +119,13 @@ void CDemonScript::BeginState(DemonState _State)
 	case DemonState::ATTACK:
 	{
 		m_Acc = 0.f;
-		m_Timer = 2.f;
-		Animator2D()->Play(L"Demon_Attack", 8.f, true);
+		m_Timer = 1.6f;
+		Animator2D()->Play(L"Demon_Attack", 10.f, false);
+
+		const Vec3& targetPos = m_Target->Transform()->GetRelativePosRef();
+		const Vec3& demonPos = Transform()->GetRelativePosRef();
+
+		RigidBody()->SetVelocity(Vec2((targetPos.x - demonPos.x) * PI, 6000.f));
 		break;
 	}
 	case DemonState::ROAR:

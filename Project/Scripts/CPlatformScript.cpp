@@ -22,7 +22,7 @@ void CPlatformScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _Othe
 		rb->SetGroundRotation(Transform()->GetRelativeRoatation().z);
 		rb->SetGravityAccel(100.f);
 	}*/
-    if (_OtherObject->GetName() == L"Player")
+    if (_OtherObject->RigidBody() != nullptr)
     {
         _OtherObject->RigidBody()->SetGround(true);
     }
@@ -95,7 +95,7 @@ void CPlatformScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObje
 
 void CPlatformScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-    if (_OtherObject->GetName() == L"Player")
+    if (_OtherObject->RigidBody() != nullptr)
     {
         _OtherObject->RigidBody()->SetGround(false);
     }

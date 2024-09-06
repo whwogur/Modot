@@ -37,8 +37,12 @@ void CNPCUIScript::Tick()
 
 void CNPCUIScript::SaveToFile(FILE* _File)
 {
+	SaveAssetRef(m_Texture, _File);
+	fwrite(&m_Speed, sizeof(float), 1, _File);
 }
 
 void CNPCUIScript::LoadFromFile(FILE* _File)
 {
+	LoadAssetRef(m_Texture, _File);
+	fread(&m_Speed, sizeof(float), 1, _File);
 }

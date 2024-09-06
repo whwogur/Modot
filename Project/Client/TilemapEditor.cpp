@@ -61,7 +61,7 @@ void TilemapEditor::Update()// 정리 필요..;
         if (!m_EditHistory.empty())
         {
             ImGui::SameLine();
-            if (ImGui::Button(ICON_FA_REPLY, { 30, 30 }))
+            if (ImGui::Button(ICON_FA_UNDO, { 30, 30 }))
             {
                 Undo();
             }
