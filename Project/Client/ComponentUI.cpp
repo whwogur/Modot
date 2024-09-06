@@ -32,15 +32,18 @@ void ComponentUI::SetTargetObject(CGameObject* _Object)
 
 void ComponentUI::Title()
 {
-	const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_FramePadding;
-
 	float vUV_0 = (1 / (float)COMPONENT_TYPE::END) * (UINT)m_Type;
 	float vUV_1 = (1 / (float)COMPONENT_TYPE::END) * ((UINT)m_Type + 1);
 	ImGui::Image((void*)m_IconTexture.Get()->GetSRV().Get(), { ICON_SIZE, ICON_SIZE }, {vUV_0, 0}, {vUV_1, 1});
 	ImGui::SameLine();
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
 	float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
-	ImGui::TextColored({ 0.4f, 0.7f, 0.8f, 1.0f }, ToString(m_Type));
+	ImGui::TextColored(HEADER_2, ToString(m_Type));
 
 	ImGui::PopStyleVar();
+	ImGui::SameLine(ImGui::GetContentRegionAvail().x - 40.f);
+	if (ImGui::Button(m_Show ? ICON_FA_MINUS : ICON_FA_PLUS, ImVec2(25, 25)))
+	{
+		m_Show = !m_Show;
+	}
 }

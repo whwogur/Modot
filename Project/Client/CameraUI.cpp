@@ -22,55 +22,59 @@ void CameraUI::Update()
 {
 	Title();
 
-    CCamera* pCam = GetTargetObject()->Camera();
-    
-    LayerCheck();
-
-    Projection();
-
-    float Width = pCam->GetWidth();
-    ImGui::Text("Width");
-    ImGui::SameLine(100);
-    ImGui::InputFloat("##Width", &Width);
-    pCam->SetWidth(Width);
-
-    float Height = pCam->GetHeight();
-    ImGui::Text("Height");
-    ImGui::SameLine(100);
-    ImGui::InputFloat("##Height", &Height);
-    pCam->SetHeight(Height);
-
-    float AR = pCam->GetAspectRatio();
-    ImGui::Text("AspectRatio");
-    ImGui::SameLine(100);
-    ImGui::InputFloat("##AspectRatio", &AR, ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
-
-    float Far = pCam->GetFar();
-    ImGui::Text("Far");
-    ImGui::SameLine(100);
-    ImGui::InputFloat("##Far", &Far);
-    pCam->SetFar(Far);
-
-    // Perspective 전용
-    float FOV = pCam->GetFOV();
-    FOV = (FOV / XM_PI) * 180.f;
-
-    bool IsPerspective = pCam->GetProjType() == PROJ_TYPE::PERSPECTIVE;
-    ImGui::BeginDisabled(!IsPerspective);
-    ImGui::Text("FOV");
-    ImGui::SameLine(100);
-    ImGui::InputFloat("##FOV", &FOV);
-    ImGui::EndDisabled();
-
-    ImGui::BeginDisabled(IsPerspective);
-    float Scale = pCam->GetScale();
-    ImGui::Text("Scale");
-    ImGui::SameLine(100);
-    if (ImGui::InputFloat("##Scale", &Scale, 0.5f, 0.5f, "%.1f", ImGuiInputTextFlags_EnterReturnsTrue))
+    if (!Collapsed())
     {
-        pCam->SetScale(Scale);
+        CCamera* pCam = GetTargetObject()->Camera();
+
+        LayerCheck();
+
+        Projection();
+
+        float Width = pCam->GetWidth();
+        ImGui::Text("Width");
+        ImGui::SameLine(100);
+        ImGui::InputFloat("##Width", &Width);
+        pCam->SetWidth(Width);
+
+        float Height = pCam->GetHeight();
+        ImGui::Text("Height");
+        ImGui::SameLine(100);
+        ImGui::InputFloat("##Height", &Height);
+        pCam->SetHeight(Height);
+
+        float AR = pCam->GetAspectRatio();
+        ImGui::Text("AspectRatio");
+        ImGui::SameLine(100);
+        ImGui::InputFloat("##AspectRatio", &AR, ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
+
+        float Far = pCam->GetFar();
+        ImGui::Text("Far");
+        ImGui::SameLine(100);
+        ImGui::InputFloat("##Far", &Far);
+        pCam->SetFar(Far);
+
+        // Perspective 전용
+        float FOV = pCam->GetFOV();
+        FOV = (FOV / XM_PI) * 180.f;
+
+        bool IsPerspective = pCam->GetProjType() == PROJ_TYPE::PERSPECTIVE;
+        ImGui::BeginDisabled(!IsPerspective);
+        ImGui::Text("FOV");
+        ImGui::SameLine(100);
+        ImGui::InputFloat("##FOV", &FOV);
+        ImGui::EndDisabled();
+
+        ImGui::BeginDisabled(IsPerspective);
+        float Scale = pCam->GetScale();
+        ImGui::Text("Scale");
+        ImGui::SameLine(100);
+        if (ImGui::InputFloat("##Scale", &Scale, 0.5f, 0.5f, "%.1f", ImGuiInputTextFlags_EnterReturnsTrue))
+        {
+            pCam->SetScale(Scale);
+        }
+        ImGui::EndDisabled();
     }
-    ImGui::EndDisabled();
+    
 }
 
 void CameraUI::LayerCheck()

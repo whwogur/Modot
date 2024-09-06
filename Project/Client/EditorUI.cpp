@@ -100,7 +100,7 @@ void EditorUI::Tick()
 			ImGui::Separator();
 		}
 
-		ImGui::BeginChild(m_FullName.c_str(), m_ChildSize);
+		ImGui::BeginChild(m_FullName.c_str(), {0, 0}, ImGuiChildFlags_AutoResizeY);
 
 		Update();
 

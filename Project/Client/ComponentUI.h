@@ -19,9 +19,10 @@ public:
     COMPONENT_TYPE GetComponentUIType() { return m_Type; }
 protected:
     void Title();
-
+    bool Collapsed() const { return !m_Show; }
 private:
     CGameObject*            m_TargetObject;
     const COMPONENT_TYPE    m_Type;
     Ptr<CTexture>           m_IconTexture;
+    bool                    m_Show;
 };

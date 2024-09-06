@@ -14,16 +14,18 @@ Collider2DUI::~Collider2DUI()
 void Collider2DUI::Update()
 {
 	Title();
-
-	CCollider2D* pCollider = GetTargetObject()->Collider2D();
-	if (pCollider != nullptr)
+	if (!Collapsed())
 	{
-		Vec3& vOffset = pCollider->GetOffsetRef();
-		Vec3& vScale = pCollider->GetScaleRef();
-		bool& bIndependent = pCollider->GetIndependetScaleRef();
+		CCollider2D* pCollider = GetTargetObject()->Collider2D();
+		if (pCollider != nullptr)
+		{
+			Vec3& vOffset = pCollider->GetOffsetRef();
+			Vec3& vScale = pCollider->GetScaleRef();
+			bool& bIndependent = pCollider->GetIndependetScaleRef();
 
-		DrawVec3Control("Offset", vOffset, 0.0f, 80.0f);
-		DrawVec3Control("Scale",vScale, 0.0f, 80.0f);
-		ImGui::Checkbox("Independent Scale", &bIndependent);
+			DrawVec3Control("Offset", vOffset, 0.0f, 80.0f);
+			DrawVec3Control("Scale", vScale, 0.0f, 80.0f);
+			ImGui::Checkbox("Independent Scale", &bIndependent);
+		}
 	}
 }
