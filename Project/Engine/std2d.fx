@@ -181,4 +181,27 @@ float4 PS_Std2DTint(VTX_OUT _in) : SV_Target
 
     return vColor;
 }
+
+float4 PS_StdUI(VTX_OUT _in) : SV_Target
+{
+    float4 vColor;
+    
+    if (g_btex_0)
+    {
+        vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
+    }
+    else
+    {
+        vColor = float4(1.f, 1.f, 0.f, 1.f);
+    }
+    
+    vColor *= g_vec4_0;
+
+    if (vColor.a == 0.f)
+    {
+        discard;
+    }
+
+    return vColor;
+}
 #endif

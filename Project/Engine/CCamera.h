@@ -16,6 +16,7 @@ public:
     ~CCamera() = default;
     CLONE(CCamera);
 public:
+    int GetPriority() const { return m_Priority; }
     void SetPriority(int _Priority) { m_Priority = _Priority; }
     void SetLayer(UINT _LayerIdx, bool _bCheck)
     {

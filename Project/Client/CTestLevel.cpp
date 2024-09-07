@@ -17,12 +17,13 @@
 
 void CTestLevel::CreateTestLevel()
 {
-	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\DemonBossTEST.lv");
+	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\KohoShrineTEST.lv");
 	/*pLevel->GetLayer(5)->SetName(L"PlayerAttack");
 	pLevel->GetLayer(6)->SetName(L"MonsterAttack");
 	pLevel->GetLayer(8)->SetName(L"NPC");
 	pLevel->GetLayer(9)->SetName(L"Camera");
 	pLevel->GetLayer(10)->SetName(L"LevelBounds");*/
+	//pLevel->GetLayer(11)->SetName(L"UI");
 
 	//pLevel->SetName(L"ParticleFactory");
 	ChangeLevel(pLevel, LEVEL_STATE::STOP);

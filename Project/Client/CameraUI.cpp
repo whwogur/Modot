@@ -73,6 +73,14 @@ void CameraUI::Update()
             pCam->SetScale(Scale);
         }
         ImGui::EndDisabled();
+
+        static int prior = pCam->GetPriority();
+        ImGui::Text("Priority");
+        ImGui::SameLine(100);
+        if (ImGui::InputInt("##Priority", &prior, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue))
+        {
+            pCam->SetPriority(prior);
+        }
     }
     
 }

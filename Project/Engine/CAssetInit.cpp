@@ -286,6 +286,20 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetBSType(BS_TYPE::ALPHABLEND);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_PARTICLE);
 	AddAsset(L"ParticleRenderShader", pShader);
+
+	// UI
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
+	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_StdUI");
+
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
+
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_UI);
+	pShader->AddTexParam(TEX_0, "UI Tex");
+	pShader->AddScalarParam(VEC4_0, "Tint");
+	AddAsset(L"UIShader", pShader);
 }
 
 #include "CParticleTickCS.h"
@@ -319,12 +333,19 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"DebugShapeShader"));
 	AddAsset(L"DebugShapeMtrl", pMtrl);
 
-	// DebugShapeMtrl
+	// TintMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"Std2DTintShader"));
 	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"Checkerboard"));
 	pMtrl->SetScalarParam(VEC4_0, Vec4(1, 1, 1, 1));
 	AddAsset(L"Std2DTintMtrl", pMtrl);
+
+	// UIMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"UIShader"));
+	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"Checkerboard"));
+	pMtrl->SetScalarParam(VEC4_0, Vec4(1, 1, 1, 1));
+	AddAsset(L"UIMtrl", pMtrl);
 
 	// TileMapMtrl
 	pMtrl = new CMaterial(true);
