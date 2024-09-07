@@ -127,10 +127,6 @@ void CAssetMgr::CreateEngineMesh()
 void CAssetMgr::CreateEngineTexture()
 {
 	MD_PROFILE_FUNCTION();
-	// PostProcess 용 텍스쳐
-	Vec2 Resolution = CDevice::GetInst()->GetResolution();
-	CreateTexture(L"PostProcessTex", (UINT)Resolution.x, (UINT)Resolution.y
-		, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
 
 	Load<CTexture>(L"noise_01", L"texture\\noise\\noise_01.png");
 	Load<CTexture>(L"noise_02", L"texture\\noise\\noise_02.png");

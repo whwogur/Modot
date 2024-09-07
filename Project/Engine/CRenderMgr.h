@@ -18,6 +18,8 @@ public:
     void PostProcessCopy();
 
     CCamera* GetEditorCamera() { return m_EditorCamera; }
+    Vec2& GetViewportSizeRef() { return m_ViewportSize; }
+    void ResizeViewportTex(const Vec2& _Size);
 public:
     void Init();
     void Tick();
@@ -36,4 +38,9 @@ private:
     vector<CLight2D*>           m_vecLight2D;
     CStructuredBuffer*          m_Light2DBuffer;
     Ptr<CTexture>               m_PostProcessTex;
+    
+    Vec2                        m_ViewportSize = Vec2(1260, 768);
+
+    Ptr<CTexture>               m_ViewportRT;
+    Ptr<CTexture>               m_ViewportDS;
 };

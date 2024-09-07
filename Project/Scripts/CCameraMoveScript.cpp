@@ -1,6 +1,7 @@
 #include "spch.h"
 #include "CCameraMoveScript.h"
 #include <Engine/CLevelMgr.h>
+#include <Engine/CRenderMgr.h>
 
 CCameraMoveScript::CCameraMoveScript()
 	: CScript(UINT(SCRIPT_TYPE::CAMERAMOVESCRIPT))
@@ -19,6 +20,9 @@ CCameraMoveScript::~CCameraMoveScript()
 void CCameraMoveScript::Begin()
 {
 	m_Target = CLevelMgr::GetInst()->FindObjectByName(L"Player");
+	const Vec2& viewportSize = CRenderMgr::GetInst()->GetViewportSizeRef();
+	Camera()->SetHeight(viewportSize.y);
+	Camera()->SetWidth(viewportSize.x);
 }
 
 void CCameraMoveScript::Tick()

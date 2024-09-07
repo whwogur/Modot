@@ -218,6 +218,7 @@
     <ClInclude Include="EditorLogger.h">
       <Filter>Editor\EditorUI\Modal\Util</Filter>
     </ClInclude>
+    <ClInclude Include="MDViewport.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -402,6 +403,7 @@
     <ClCompile Include="EditorLogger.cpp">
       <Filter>Editor\EditorUI\Modal\Util</Filter>
     </ClCompile>
+    <ClCompile Include="MDViewport.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">

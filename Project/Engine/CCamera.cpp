@@ -11,7 +11,6 @@
 #include "CGameObject.h"
 #include "CRenderComponent.h"
 
-
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
 #include "CTransform.h"
@@ -27,7 +26,7 @@ CCamera::CCamera()
 	, m_FOV(XM_PI / 2.f)
 	, m_ProjectionScale(1.5f)
 {
-	Vec2 vResolution = CDevice::GetInst()->GetResolution();
+	const Vec2& vResolution = CRenderMgr::GetInst()->GetViewportSizeRef();
 	m_Width = vResolution.x;
 	m_Height = vResolution.y;
 	m_AspectRatio = m_Width / m_Height;

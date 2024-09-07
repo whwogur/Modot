@@ -177,6 +177,9 @@ void CEditorMgr::ImGuiRun()
 
     ParamUI::ResetID();
 
+    Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
+    Ptr<CTexture> pDSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
+    CONTEXT->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(), pDSTex->GetDSV().Get());
     ImGuiTick();
 
     ImGui::Render();

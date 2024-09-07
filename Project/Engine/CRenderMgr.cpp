@@ -32,10 +32,25 @@ CRenderMgr::~CRenderMgr()
 		delete m_Light2DBuffer;
 }
 
+void CRenderMgr::ResizeViewportTex(const Vec2& _Size)
+{
+	m_ViewportSize = _Size;
+	m_ViewportRT->Create(_Size.x, _Size.y, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
+	m_PostProcessTex->Create(_Size.x, _Size.y, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
+	m_ViewportDS->Create(_Size.x, _Size.y, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_DEPTH_STENCIL);
+	m_EditorCamera->SetWidth(_Size.x);
+	m_EditorCamera->SetHeight(_Size.y);
+}
+
 void CRenderMgr::Init()
 {
 	MD_PROFILE_FUNCTION();
-	m_PostProcessTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"PostProcessTex");
+	m_PostProcessTex = CAssetMgr::GetInst()->CreateTexture(L"PostProcessTex", (UINT)m_ViewportSize.x, (UINT)m_ViewportSize.y
+		, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
+
+
+	m_ViewportRT = CAssetMgr::GetInst()->CreateTexture(L"ViewportRT", m_ViewportSize.x, m_ViewportSize.y, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
+	m_ViewportDS = CAssetMgr::GetInst()->CreateTexture(L"ViewportDS", m_ViewportSize.x, m_ViewportSize.y, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_DEPTH_STENCIL);
 
 	m_DebugObject = new CGameObject;
 	m_DebugObject->AddComponent(new CTransform);
@@ -90,25 +105,22 @@ void CRenderMgr::RegisterCamera(CCamera* _Cam, int _CamPriority)
 
 void CRenderMgr::PostProcessCopy()
 {
-	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
+	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"ViewportRT");
 	CONTEXT->CopyResource(m_PostProcessTex->GetTex2D().Get(), pRTTex->GetTex2D().Get());
 }
 
 void CRenderMgr::RenderStart()
 {
 	MD_PROFILE_FUNCTION();
-	Ptr<CTexture> RTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
-	Ptr<CTexture> DSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
 	// 렌더타겟 지정
-	CONTEXT->OMSetRenderTargets(1, RTTex.Get()->GetRTV().GetAddressOf(), DSTex.Get()->GetDSV().Get());
+	CONTEXT->OMSetRenderTargets(1, m_ViewportRT.Get()->GetRTV().GetAddressOf(), m_ViewportDS.Get()->GetDSV().Get());
 
 	// TargetClear
 	float color[4] = { 0.f, 0.f, 0.f, 1.f };
-	CONTEXT->ClearRenderTargetView(RTTex.Get()->GetRTV().Get(), color);
-	CONTEXT->ClearDepthStencilView(DSTex.Get()->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+	CONTEXT->ClearRenderTargetView(m_ViewportRT.Get()->GetRTV().Get(), color);
+	CONTEXT->ClearDepthStencilView(m_ViewportDS.Get()->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 
-	Vec2 vRes = CDevice::GetInst()->GetResolution();
-	g_GlobalData.g_Resolution = vRes;
+	g_GlobalData.g_Resolution = m_ViewportSize;
 	g_GlobalData.g_Light2DCount = (int)m_vecLight2D.size();
 
 	// Light2D 정보 업데이트 및 바인딩

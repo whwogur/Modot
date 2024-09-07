@@ -6,6 +6,7 @@
 #include "ImGui/ImGuizmo.h"
 #include "CCamera.h"
 #include <Engine/CTransform.h>
+#include <Engine/CRenderMgr.h>
 #include "CKeyMgr.h"
 
 Gizmo::Gizmo()
@@ -16,7 +17,6 @@ Gizmo::Gizmo()
 void Gizmo::Init(CCamera* _Cam)
 {
 	m_EditorCamera = _Cam;
-	m_Resolution = CDevice::GetInst()->GetResolution();
 }
 
 void Gizmo::Update()
@@ -24,7 +24,10 @@ void Gizmo::Update()
 	if (!m_Active)
 		return;
 
-	ImGui::Begin("##GizmoControl", &m_Active, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+	ImGui::Begin("##GizmoControl", &m_Active, ImGuiWindowFlags_NoTitleBar);
+
+	const Vec2& viewportSizeRef = CRenderMgr::GetInst()->GetViewportSizeRef();
+	m_Resolution = viewportSizeRef;
 	if (ImGui::Button(ICON_FA_ARROWS))
 	{
 		m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
@@ -48,8 +51,8 @@ void Gizmo::Update()
 		ImGuizmo::SetOrthographic(true);
 
 		ImGuizmo::BeginFrame();
-		ImGuizmo::SetDrawlist(ImGui::GetBackgroundDrawList());
-		ImGuizmo::SetRect(12, 12, m_Resolution.x, m_Resolution.y);
+		ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList());
+		ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, ImGui::GetWindowHeight(), ImGui::GetWindowWidth());
 
 		// Editor Camera
 		DirectX::XMFLOAT4X4 cameraProjection = m_EditorCamera->GetcamProjRef();

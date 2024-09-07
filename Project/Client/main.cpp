@@ -20,8 +20,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_ int       nCmdShow)
 {
     MD_PROFILE_BEGIN_SESSION("Init", "Profile-Initialization.json");
-    //int screenX = GetSystemMetrics(SM_CXSCREEN);
-    //int screenY = GetSystemMetrics(SM_CYSCREEN);
+    int screenX = GetSystemMetrics(SM_CXSCREEN);
+    int screenY = GetSystemMetrics(SM_CYSCREEN);
 #ifdef _DEBUG
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     //_CrtSetBreakAlloc(6707);
@@ -51,7 +51,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // CEngine 객체 초기화
     if (FAILED(CEngine::GetInst()->Init(hWnd
-        , POINT{ 1280, 768 }
+        , POINT{ screenX, screenY }
         , (OBJECT_SAVE)&CLevelSaveLoad::SaveGameObject
         , (OBJECT_LOAD)&CLevelSaveLoad::LoadGameObject)))
     {

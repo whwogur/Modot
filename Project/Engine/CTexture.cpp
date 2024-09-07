@@ -125,6 +125,17 @@ int CTexture::Save(const wstring& _FilePath)
 
 int CTexture::Create(UINT _Width, UINT _Height, DXGI_FORMAT _PixelFormat, UINT _Flags, D3D11_USAGE _Usage)
 {
+	if (m_Tex2D.Get() != nullptr)
+		m_Tex2D->Release();
+	if (m_RTV.Get() != nullptr)
+		m_RTV->Release();
+	if (m_DSV.Get() != nullptr)
+		m_DSV->Release();
+	if (m_SRV.Get() != nullptr)
+		m_SRV->Release();
+	if (m_UAV.Get() != nullptr)
+		m_UAV->Release();
+
 	m_Desc.Width = _Width;
 	m_Desc.Height = _Height;
 	m_Desc.Format = _PixelFormat;

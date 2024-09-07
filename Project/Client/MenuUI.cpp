@@ -35,7 +35,7 @@ void MenuUI::Tick()
 
 		Update();
 
-		float contentRegionAvailable = ImGui::GetContentRegionAvail().x + 250.0f;
+		float contentRegionAvailable = ImGui::GetContentRegionAvail().x;
 		LEVEL_STATE state = CLevelMgr::GetInst()->GetCurrentLevel()->GetState();
 		string whichCamera;
 		ImVec4 color;
@@ -113,7 +113,7 @@ void MenuUI::Tick()
 			color = { 1, 1, 1, 1 };
 		}
 
-		ImGui::SameLine(1000);
+		ImGui::SameLine(contentRegionAvailable - 300);
 		
 		ImGui::TextColored(color, whichCamera.c_str());
 		ImGui::SameLine();

@@ -107,6 +107,7 @@
     <ClInclude Include="Animator2DUI.h" />
     <ClInclude Include="AnimationUI.h" />
     <ClInclude Include="EditorLogger.h" />
+    <ClInclude Include="MDViewport.h" />
     <ClInclude Include="RigidBodyUI.h" />
     <ClInclude Include="ScriptUI.h" />
     <ClInclude Include="CTestLevel.h" />
@@ -171,6 +172,7 @@
     <ClCompile Include="Animator2DUI.cpp" />
     <ClCompile Include="AnimationUI.cpp" />
     <ClCompile Include="EditorLogger.cpp" />
+    <ClCompile Include="MDViewport.cpp" />
     <ClCompile Include="RigidBodyUI.cpp" />
     <ClCompile Include="ScriptUI.cpp" />
     <ClCompile Include="CTestLevel.cpp" />

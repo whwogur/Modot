@@ -16,8 +16,8 @@ public:
 	void Update();
 
 private:
-	CGameObject*	m_TargetObject;
-	CCamera*		m_EditorCamera;
+	CGameObject*	m_TargetObject = nullptr;
+	CCamera*		m_EditorCamera = nullptr;
 	Vec2			m_Resolution;
 	int				m_GizmoType = -1;
 	bool			m_Active = false;

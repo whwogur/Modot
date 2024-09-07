@@ -5,8 +5,8 @@
 class CGameObject;
 class EditorUI;
 struct ImFont;
-class Gizmo;
 class EditorLogger;
+class MDViewport;
 
 class CEditorMgr :
     public CSingleton<CEditorMgr>
@@ -31,8 +31,6 @@ public:
     void SetThemeUnrealEngine();
     void SetThemeFutureDark();
 private:
-    void ShortCut();
-
     void CreateEditorObject();
     void EditorObjectUpdate();
     void InitImGui();
@@ -41,13 +39,13 @@ private:
     void CreateEditorUI();
     void ObserveContents();
 private:
-    vector<CGameObject*>        m_vecEditorObject;
-    map<string, EditorUI*>      m_mapUI;
-    Vec2                        m_ViewportSize;
-    ImFont*                     m_IconFont;
-    std::shared_ptr<Gizmo>      m_Gizmo;
-    std::unique_ptr<EditorLogger> m_Logger;
-    HANDLE                      m_Sentinel;
+    vector<CGameObject*>            m_vecEditorObject;
+    map<string, EditorUI*>          m_mapUI;
+    ImFont*                         m_IconFont;
+    
+    std::unique_ptr<EditorLogger>   m_Logger;
+    HANDLE                          m_Sentinel;
+    std::shared_ptr<MDViewport>     m_Viewport;
 };
 
 #ifdef _DEBUG
