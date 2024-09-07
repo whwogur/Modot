@@ -51,4 +51,8 @@ private:
     bool            m_Attack1 = false;
     bool            m_Attack2 = false;
     bool            m_Attack3 = false;
+
+    CGameObject* m_AttackBox;
+    CGameObject* m_LeafThrowL;
+    CGameObject* m_LeafThrowR;
 };

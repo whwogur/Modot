@@ -102,7 +102,7 @@ void Inspector::Update()
 	// ===========
 	ImGui::Text("Object Name");
 	ImGui::SameLine(100);
-	ImGui::SetNextItemWidth(200);
+	ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - 40);
 	if (ImGui::InputText("##ObjectName", m_Namebuffer, 255, ImGuiInputTextFlags_EnterReturnsTrue))
 	{
 		string newName(m_Namebuffer);

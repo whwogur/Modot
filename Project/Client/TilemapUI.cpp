@@ -41,7 +41,9 @@ void TileMapUI::Update()
 			ImGui::EndDragDropTarget();
 		}
 
+
 		ImGui::PushFont(iconFont);
+		ImGui::NewLine();
 		ImGui::SameLine(temp.x - 30);
 		if (ImGui::Button(ICON_FA_PENCIL, { 28, 28 }))
 		{

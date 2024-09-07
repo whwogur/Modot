@@ -41,7 +41,7 @@ void ComponentUI::Title()
 	ImGui::TextColored(HEADER_2, ToString(m_Type));
 
 	ImGui::PopStyleVar();
-	ImGui::SameLine(ImGui::GetContentRegionAvail().x - 40.f);
+	ImGui::SameLine(ImGui::GetContentRegionAvail().x - 40);
 	if (ImGui::Button(m_Show ? ICON_FA_MINUS : ICON_FA_PLUS, ImVec2(25, 25)))
 	{
 		m_Show = !m_Show;

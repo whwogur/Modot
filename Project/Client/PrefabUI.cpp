@@ -22,7 +22,7 @@ void PrefabUI::Update()
 
 		ImGui::SameLine(60);
 		ImGui::TextColored(HEADER_1, u8"경로 :");
-		wstring wstrRelPath = pPrefab->GetRelativePath();
+		const wstring& wstrRelPath = pPrefab->GetRelativePath();
 		if (!wstrRelPath.empty())
 		{
 			string strRelPath(wstrRelPath.begin(), wstrRelPath.end());
@@ -32,6 +32,7 @@ void PrefabUI::Update()
 		}
 		else
 		{
+			ImGui::SameLine(100);
 			ImGui::TextColored({1.0f, 0.0f, 0.0f, 1.0f}, u8"저장되지 않은 프리팹");
 			ImGui::SameLine();
 			if (ImGui::Button(ICON_FA_FLOPPY_O, { 25, 25 }))

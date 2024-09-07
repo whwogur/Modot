@@ -2,7 +2,7 @@
 #include "CPlayerScript.h"
 #include "CAttackScript.h"
 #include "../Client/CEditorMgr.h" // ·Î±×¿ë
-
+#include <Engine/CLevelMgr.h>
 CPlayerScript::CPlayerScript()
 	: CScript(UINT(SCRIPT_TYPE::PLAYERSCRIPT))
 	, m_Speed(300.f)
@@ -16,18 +16,15 @@ void CPlayerScript::Begin()
 	GetRenderComponent()->GetDynamicMaterial();
 	m_State = PlayerState::JUMP;
 
-	CGameObject* fx = GetOwner()->GetChildObject(L"LeafThrowL");
+	CGameObject* fx = CLevelMgr::GetInst()->FindObjectByName(L"AttackBox");
 	if (fx != nullptr)
-		fx->ParticleSystem()->SetBurst(false);
-	fx = GetOwner()->GetChildObject(L"LeafThrowR");
+		m_AttackBox = fx;
+	fx = CLevelMgr::GetInst()->FindObjectByName(L"LeafThrowL");
 	if (fx != nullptr)
-		fx->ParticleSystem()->SetBurst(false);
-	fx = GetOwner()->GetChildObject(L"SprintParticle");
+		m_LeafThrowL = fx;
+	fx = CLevelMgr::GetInst()->FindObjectByName(L"LeafThrowR");
 	if (fx != nullptr)
-		fx->ParticleSystem()->SetBurst(false);
-	fx = GetOwner()->GetChildObject(L"AttackBox");
-	if (fx != nullptr)
-		fx->SetDisabled(true);
+		m_LeafThrowR = fx;
 }
 
 #pragma region __UPDATE__STATE__
@@ -387,10 +384,22 @@ void CPlayerScript::BeginState(PlayerState _State)
 		else
 			Animator2D()->Play(L"Momo_AirAttack", 16.0f, false);
 
-		CGameObject* fx = GetOwner()->GetChildObject(L"AttackBox");
-		if (fx != nullptr)
+		OBJECT_DIR objDir = Transform()->GetObjectDir();
+		if (objDir == OBJECT_DIR::RIGHT)
 		{
-			fx->SetDisabled(false);
+			if (m_AttackBox != nullptr)
+			{
+				const Vec3& playerPos = Transform()->GetRelativePosRef();
+				m_AttackBox->Transform()->SetRelativePos(playerPos + Vec3(50.f, 0.f, 0.f));
+			}
+		}
+		else
+		{
+			if (m_AttackBox != nullptr)
+			{
+				const Vec3& playerPos = Transform()->GetRelativePosRef();
+				m_AttackBox->Transform()->SetRelativePos(playerPos + Vec3(-80.f, 0.f, 0.f));
+			}
 		}
 		break;
 	}
@@ -400,10 +409,22 @@ void CPlayerScript::BeginState(PlayerState _State)
 		m_Attack1 = false;
 		Animator2D()->Play(L"Momo_Attack2", 16.0f, false);
 
-		CGameObject* fx = GetOwner()->GetChildObject(L"AttackBox");
-		if (fx != nullptr)
+		OBJECT_DIR objDir = Transform()->GetObjectDir();
+		if (objDir == OBJECT_DIR::RIGHT)
 		{
-			fx->SetDisabled(false);
+			if (m_AttackBox != nullptr)
+			{
+				const Vec3& playerPos = Transform()->GetRelativePosRef();
+				m_AttackBox->Transform()->SetRelativePos(playerPos + Vec3(50.f, 0.f, 0.f));
+			}
+		}
+		else
+		{
+			if (m_AttackBox != nullptr)
+			{
+				const Vec3& playerPos = Transform()->GetRelativePosRef();
+				m_AttackBox->Transform()->SetRelativePos(playerPos + Vec3(-80.f, 0.f, 0.f));
+			}
 		}
 		break;
 	}
@@ -417,26 +438,22 @@ void CPlayerScript::BeginState(PlayerState _State)
 		
 		if (objDir == OBJECT_DIR::RIGHT)
 		{
-			CGameObject* fx = GetOwner()->GetChildObject(L"LeafThrowR");
-			if (fx != nullptr)
+			if (m_LeafThrowR != nullptr)
 			{
-				fx->Transform()->SetRelativePos(Vec3(0.1f, 0.f, 1.f));
-
-				fx->ParticleSystem()->Jerk();
-				fx->ParticleSystem()->SetBurst(true);
-				fx->SetDisabled(false);
+				const Vec3& playerPos = Transform()->GetRelativePosRef();
+				m_LeafThrowR->Transform()->SetRelativePos(playerPos + Vec3(20.f, 0.f, 0.f));
+				m_LeafThrowR->ParticleSystem()->Jerk();
+				m_LeafThrowR->ParticleSystem()->SetBurst(true);
 			}
 		}
 		else
 		{
-			CGameObject* fx = GetOwner()->GetChildObject(L"LeafThrowL");
-			if (fx != nullptr)
+			if (m_LeafThrowL != nullptr)
 			{
-				fx->Transform()->SetRelativePos(Vec3(0.1f, 0.f, 1.f));
-
-				fx->ParticleSystem()->Jerk();
-				fx->ParticleSystem()->SetBurst(true);
-				fx->SetDisabled(false);
+				const Vec3& playerPos = Transform()->GetRelativePosRef();
+				m_LeafThrowL->Transform()->SetRelativePos(playerPos + Vec3(-150.f, 0.f, 0.f));
+				m_LeafThrowL->ParticleSystem()->Jerk();
+				m_LeafThrowL->ParticleSystem()->SetBurst(true);
 			}
 		}
 
@@ -544,36 +561,32 @@ void CPlayerScript::EndState(PlayerState _State)
 	}
 	case PlayerState::ATTACK1:
 	{
-		CGameObject* fx = GetOwner()->GetChildObject(L"AttackBox");
-		if (fx != nullptr)
+		if (m_AttackBox != nullptr)
 		{
-			fx->SetDisabled(true);
+			m_AttackBox->Transform()->SetRelativePos(Vec3(-2000.f, -8000.f, 0.f));
 		}
 		break;
 	}
 	case PlayerState::ATTACK2:
 	{
-		CGameObject* fx = GetOwner()->GetChildObject(L"AttackBox");
-		if (fx != nullptr)
+		if (m_AttackBox != nullptr)
 		{
-			fx->SetDisabled(true);
+			m_AttackBox->Transform()->SetRelativePos(Vec3(-2000.f, -8000.f, 0.f));
 		}
 		break;
 	}
 	case PlayerState::ATTACK3:
 	{
-		CGameObject* fx = GetOwner()->GetChildObject(L"LeafThrowR");
-		if (fx != nullptr)
+		if (m_LeafThrowL != nullptr)
 		{
-			fx->SetDisabled(true);
-			fx->ParticleSystem()->SetBurst(false);
+			m_LeafThrowL->ParticleSystem()->SetBurst(false);
+			m_LeafThrowL->Transform()->SetRelativePos(Vec3(-2000.f, -8000.f, 0.f));
 		}
 
-		fx = GetOwner()->GetChildObject(L"LeafThrowL");
-		if (fx != nullptr)
+		if (m_LeafThrowR != nullptr)
 		{
-			fx->SetDisabled(true);
-			fx->ParticleSystem()->SetBurst(false);
+			m_LeafThrowR->ParticleSystem()->SetBurst(false);
+			m_LeafThrowR->Transform()->SetRelativePos(Vec3(-2000.f, -8000.f, 0.f));
 		}
 
 		m_Attack1 = false;

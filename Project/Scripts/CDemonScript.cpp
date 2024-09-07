@@ -24,6 +24,7 @@ void CDemonScript::Begin()
 	if (Fire != nullptr)
 	{
 		Fire->ParticleSystem()->SetBurst(false);
+		
 	}
 	
 	CGameObject* shockwave = GetOwner()->GetChildObject(L"Demon_Roar");
@@ -289,6 +290,12 @@ void CDemonScript::BeginState(DemonState _State)
 
 		RigidBody()->SetGravityAccel(2000.f);
 		RigidBody()->SetVelocity(Vec2((targetPos.x - demonPos.x) * PI, 6666.f));
+
+		CGameObject* debris = CLevelMgr::GetInst()->FindObjectByName(L"Debris");
+		if (debris != nullptr)
+		{
+			debris->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = true;
+		}
 		break;
 	}
 	case DemonState::MELEE:
@@ -373,6 +380,11 @@ void CDemonScript::EndState(DemonState _State)
 	}
 	case DemonState::JUMPATTACK:
 	{
+		CGameObject* debris = CLevelMgr::GetInst()->FindObjectByName(L"Debris");
+		if (debris != nullptr)
+		{
+			debris->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = false;
+		}
 		RigidBody()->SetGravityAccel(800.f);
 		break;
 	}
