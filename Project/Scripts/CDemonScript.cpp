@@ -120,6 +120,15 @@ void CDemonScript::Tick()
 		{
 			ChangeState(DemonState::IDLE);
 		}
+		else if (m_Acc > 1.2f)
+		{
+			const Vec3& demonPos = Transform()->GetRelativePosRef();
+			OBJECT_DIR objDir = Transform()->GetObjectDir();
+			if (objDir == OBJECT_DIR::RIGHT)
+				m_AttackBox->Transform()->SetRelativePos(demonPos + Vec3(200.f, -50.f, 0.f));
+			else
+				m_AttackBox->Transform()->SetRelativePos(demonPos + Vec3(-200.f, -50.f, 0.f));
+		}
 		break;
 	}
 	case DemonState::ROAR:
@@ -446,6 +455,7 @@ void CDemonScript::EndState(DemonState _State)
 	}
 	case DemonState::MELEE:
 	{
+		m_AttackBox->Transform()->SetRelativePos(Vec3(7777.f, 7777.f, 0.f));
 		break;
 	}
 	case DemonState::ROAR:
