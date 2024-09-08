@@ -31,6 +31,9 @@ private:
 
 private:
     CGameObject*        m_Target;
+    CGameObject*        m_AttackBox;
+    CGameObject*        m_RoarBox;
+
     DemonState          m_State = DemonState::IDLE;
     float               m_AttackReach = 300.f; // TODO
     float               m_Damage;

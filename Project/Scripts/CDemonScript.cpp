@@ -13,7 +13,12 @@ CDemonScript::CDemonScript()
 void CDemonScript::Begin()
 {
 	m_Target = CLevelMgr::GetInst()->FindObjectByName(L"Player");
+	m_AttackBox = CLevelMgr::GetInst()->FindObjectByName(L"DemonAttackBox");
+	m_RoarBox = CLevelMgr::GetInst()->FindObjectByName(L"DemonRoarBox");
+
 	MD_ENGINE_ASSERT(m_Target != nullptr, L"플레이어 못찾음");
+	MD_ENGINE_ASSERT(m_AttackBox != nullptr, L"히트박스 못찾음");
+	MD_ENGINE_ASSERT(m_RoarBox != nullptr, L"히트박스 못찾음");
 
 	CGameObject* Fire = GetOwner()->GetChildObject(L"BreatheFireR");
 	if (Fire != nullptr)
@@ -95,6 +100,14 @@ void CDemonScript::Tick()
 	}
 	case DemonState::JUMPATTACK:
 	{
+		const Vec3& demonPos = Transform()->GetRelativePosRef();
+		OBJECT_DIR objDir = Transform()->GetObjectDir();
+		if (objDir == OBJECT_DIR::RIGHT)
+			m_AttackBox->Transform()->SetRelativePos(demonPos + Vec3(200.f, -50.f, 0.f));
+		else
+			m_AttackBox->Transform()->SetRelativePos(demonPos + Vec3(-200.f, -50.f, 0.f));
+
+
 		if (m_Acc > m_Timer)
 		{
 			ChangeState(DemonState::IDLE);
@@ -227,6 +240,17 @@ void CDemonScript::Tick()
 				}
 			}
 		}
+		else
+		{
+			Vec3& boxPos = m_RoarBox->Transform()->GetRelativePosRef();
+			Vec3& boxScale = m_RoarBox->Transform()->GetRelativeScaleRef();
+			OBJECT_DIR objDir = Transform()->GetObjectDir();
+			if (objDir == OBJECT_DIR::RIGHT)
+				boxPos.x += 0.25;
+			else
+				boxPos.x -= 0.25;
+			boxScale.x += 0.25;
+		}
 
 		if (m_Acc > m_Timer)
 		{
@@ -332,6 +356,13 @@ void CDemonScript::BeginState(DemonState _State)
 		m_Acc = 0.f;
 		m_Timer = 1.6f;
 
+		const Vec3& demonPos = Transform()->GetRelativePosRef();
+		OBJECT_DIR objDir = Transform()->GetObjectDir();
+		if (objDir == OBJECT_DIR::RIGHT)
+			m_RoarBox->Transform()->SetRelativePos(demonPos + Vec3(200.f, -50.f, 0.f));
+		else
+			m_RoarBox->Transform()->SetRelativePos(demonPos + Vec3(-200.f, -50.f, 0.f));
+
 		if (m_Fire)
 		{
 			const Vec3& demonPos = Transform()->GetRelativePosRef();
@@ -365,6 +396,19 @@ void CDemonScript::BeginState(DemonState _State)
 				shockwave->ParticleSystem()->Jerk();
 				shockwave->ParticleSystem()->SetBurst(true);
 			}
+			shockwave = GetOwner()->GetChildObject(L"DebrisBurst");
+			if (shockwave != nullptr)
+			{
+				shockwave->ParticleSystem()->Jerk();
+				shockwave->ParticleSystem()->SetBurst(true);
+			}
+
+			CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
+			CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
+			if (camScript != nullptr)
+			{
+				camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.2f);
+			}
 		}
 		break;
 	}
@@ -396,6 +440,8 @@ void CDemonScript::EndState(DemonState _State)
 			debris->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = false;
 		}
 		RigidBody()->SetGravityAccel(800.f);
+
+		m_AttackBox->Transform()->SetRelativePos(Vec3(7777.f, 7777.f, 0.f));
 		break;
 	}
 	case DemonState::MELEE:
@@ -426,6 +472,8 @@ void CDemonScript::EndState(DemonState _State)
 			{
 				Fire->ParticleSystem()->SetBurst(false);
 			}
+
+			m_RoarBox->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
 		}
 		else
 		{
@@ -434,7 +482,15 @@ void CDemonScript::EndState(DemonState _State)
 			{
 				shockwave->ParticleSystem()->SetBurst(false);
 			}
+
+			shockwave = GetOwner()->GetChildObject(L"DebrisBurst");
+			if (shockwave != nullptr)
+			{
+				shockwave->ParticleSystem()->SetBurst(false);
+			}
 		}
+
+		m_RoarBox->Transform()->SetRelativePos(Vec3(7777.f, 7777.f, 0.f));
 		break;
 	}
 	}
