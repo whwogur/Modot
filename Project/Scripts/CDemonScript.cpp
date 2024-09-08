@@ -2,6 +2,7 @@
 #include "CDemonScript.h"
 #include <Engine/CLevelMgr.h>
 #include "CHellfireScript.h"
+#include "CCameraMoveScript.h"
 CDemonScript::CDemonScript()
 	: CScript(SCRIPT_TYPE::DEMONSCRIPT)
 {
@@ -238,6 +239,15 @@ void CDemonScript::Tick()
 
 void CDemonScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
+	if (m_State == DemonState::JUMPATTACK)
+	{
+		CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
+		CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
+		if (camScript != nullptr)
+		{
+			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.3f);
+		}
+	}
 }
 
 void CDemonScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)

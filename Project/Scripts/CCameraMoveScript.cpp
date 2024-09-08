@@ -55,6 +55,8 @@ void CCameraMoveScript::Tick()
 				camPos.y += vAccel.y;
 		}
 	}
+	
+	CameraEffect();
 }
 
 void CCameraMoveScript::SaveToFile(FILE* _File)
@@ -100,3 +102,56 @@ void CCameraMoveScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _Othe
 	if (wallPos.x > curPos.x + collSize.x / 2)
 		right = false;
 }
+
+void CCameraMoveScript::CameraEffect()
+{
+	while (true)
+	{
+		if (m_EffectList.empty())
+			return;
+
+		CAM_EFFECT_INFO& info = m_EffectList.front();
+		info.Time += DT;
+
+		if (info.Duration < info.Time)
+		{
+			m_EffectList.pop_front();
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	CAM_EFFECT_INFO& info = m_EffectList.front();
+
+	
+	if (CAM_EFFECT::SHAKE == info.Effect)
+	{
+		int x = (rand() % 10 * 2) - 10;
+		int y = (rand() % 10 * 2) - 10;
+		x = x == 0 ? 1 : x;
+		y = y == 0 ? 1 : y;
+
+		float ShakeRatio = 1.f - info.Time / info.Duration;
+		Vec3& camPos = Transform()->GetRelativePosRef();
+
+		camPos.x += (float)x * ShakeRatio;
+		camPos.y += (float)y * ShakeRatio;
+
+		return;
+	}
+}
+
+void CCameraMoveScript::SetCameraEffect(CAM_EFFECT _Effect, float _Duration)
+{
+	CAM_EFFECT_INFO info = {};
+
+	info.Effect = _Effect;
+	info.Duration = _Duration;
+	info.Time = 0.f;
+	info.Alpha = 0.f;
+
+	m_EffectList.push_back(info);
+}
+

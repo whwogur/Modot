@@ -49,9 +49,7 @@ void MenuUI::Tick()
 		if (state == LEVEL_STATE::PLAY)
 		{
 			whichCamera = ICON_FA_CAMERA " MainCam";
-			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.22f, 0.23f, 0.77f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.35f, 0.87f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.15f, 0.2f, 0.7f, 1.0f });
+
 			ImGui::SameLine(contentRegionAvailable / 2 + 32);
 			if (ImGui::Button(ICON_FA_PAUSE, { 22, 22 }))
 			{
@@ -71,7 +69,6 @@ void MenuUI::Tick()
 				pInspector->SetTargetAsset(nullptr);
 				EDITOR_TRACE("Stopped");
 			}
-			ImGui::PopStyleColor(3);
 
 			color = { 0.45f, 0.55f, 0.88f, 1.0f };
 		}
