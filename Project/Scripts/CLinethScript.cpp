@@ -1,6 +1,7 @@
 #include "spch.h"
 #include "CLinethScript.h"
 #include <Engine/CLevelMgr.h>
+
 CLinethScript::CLinethScript()
 	: CScript(SCRIPT_TYPE::LINETHSCRIPT)
 {
@@ -11,10 +12,15 @@ void CLinethScript::Begin()
 	m_Target = CLevelMgr::GetInst()->FindObjectByName(L"Player");
 	m_AttackBox = CLevelMgr::GetInst()->FindObjectByName(L"LinethAttackBox");
 	m_Precursor = CLevelMgr::GetInst()->FindObjectByName(L"Precursor");
+	m_Dust = CLevelMgr::GetInst()->FindObjectByName(L"LinethSpray");
+
+	m_WarningSFX = CAssetMgr::GetInst()->FindAsset<CSound>(L"WarningSFX");
 
 	MD_ENGINE_ASSERT(m_Target != nullptr, L"플레이어 못찾음");
 	MD_ENGINE_ASSERT(m_AttackBox != nullptr, L"히트박스 못찾음");
 	MD_ENGINE_ASSERT(m_Precursor != nullptr, L"전조표시오브젝트 못찾음");
+
+	MD_ENGINE_ASSERT(m_WarningSFX.Get() != nullptr, L"전조사운드 못찾음");
 
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 	BeginState(LinethState::INTRO_CAT);
@@ -115,7 +121,18 @@ void CLinethScript::Tick()
 	}
 	case LinethState::SPRAYDIRT:
 	{
-		DirectionCheck();
+		Vec3& dustPos = m_Dust->Transform()->GetRelativePosRef();
+		OBJECT_DIR dir = Transform()->GetObjectDir();
+
+		if (dir == OBJECT_DIR::RIGHT)
+		{
+			dustPos.x += 777.f * DT;
+		}
+		else
+		{
+			dustPos.x -= 777.f * DT;
+		}
+
 		if (Animator2D()->IsFinished())
 		{
 			ChangeState(LinethState::INTRO_POINT);
@@ -232,7 +249,25 @@ void CLinethScript::BeginState(LinethState _State)
 	}
 	case LinethState::SPRAYDIRT:
 	{
+		DirectionCheck();
 		Animator2D()->Play(L"Lineth_Spray", 11.f, false);
+		
+		const Vec3& linPos = Transform()->GetRelativePosRef();
+		m_Dust->Transform()->SetRelativePos(linPos);
+		CGameObject* particle = m_Dust->GetChildObject(L"SprayDust");
+		if (particle != nullptr)
+		{
+			particle->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN_BURST] = true;
+		}
+
+		particle = m_Dust->GetChildObject(L"SprayFlame");
+		if (particle != nullptr)
+		{
+			particle->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN_BURST] = true;
+		}
+
+		m_Dust->Transform()->SetDir(Transform()->GetObjectDir());
+		m_Dust->Animator2D()->Reset();
 		break;
 	}
 	case LinethState::GOOP:
@@ -240,6 +275,7 @@ void CLinethScript::BeginState(LinethState _State)
 		m_Acc = 0.f;
 		m_Timer = 0.8f;
 		Animator2D()->Play(L"Lineth_Goop", 10.f, false);
+		m_WarningSFX->Play(1, 5.f, true);
 		CGameObject* precursor = CLevelMgr::GetInst()->FindObjectByName(L"Precursor");
 		if (precursor != nullptr)
 		{
@@ -271,7 +307,7 @@ void CLinethScript::BeginState(LinethState _State)
 	{
 		m_Acc = 0.f;
 		m_Timer = 0.8f;
-		Animator2D()->Play(L"Lineth_JumpAttack", 12.f, false);
+		Animator2D()->Play(L"Lineth_JumpAttack", 13.f, false);
 		break;
 	}
 	}
@@ -319,6 +355,19 @@ void CLinethScript::EndState(LinethState _State)
 	}
 	case LinethState::SPRAYDIRT:
 	{
+		CGameObject* particle = m_Dust->GetChildObject(L"SprayDust");
+		if (particle != nullptr)
+		{
+			particle->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN_BURST] = false;
+		}
+
+		particle = m_Dust->GetChildObject(L"SprayFlame");
+		if (particle != nullptr)
+		{
+			particle->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN_BURST] = false;
+		}
+
+		m_Dust->Transform()->SetRelativePos(Vec3(-7777.f, -7777.f, 0.f));
 		break;
 	}
 	case LinethState::GOOP:

@@ -33,7 +33,9 @@ private:
     CGameObject* m_Target;
     CGameObject* m_AttackBox;
     CGameObject* m_Precursor;
+    CGameObject* m_Dust;
 
+    Ptr<CSound>         m_WarningSFX;
     LinethState             m_State = LinethState::INTRO_CAT;
     float                   m_AttackReach = 300.f; // TODO
     float                   m_Damage;
