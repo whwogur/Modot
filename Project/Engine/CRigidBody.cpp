@@ -77,10 +77,6 @@ void CRigidBody::FinalTick()
     Vec3& vTrans = Transform()->GetRelativePosRef();
     vTrans += {m_Velocity.x* DT, m_Velocity.y * DT, 0.0f};
 
-    if (KEY_PRESSED(KEY::_7))
-    {
-        MD_ENGINE_TRACE(L"{0}, {1}", m_Velocity.x, m_Velocity.y);
-    }
     m_Force = Vec2(0.f, 0.f); // »˚ √ ±‚»≠
 }
 
