@@ -116,11 +116,11 @@ void CPlayerScript::Tick()
 		}
 		if (KEY_PRESSED(KEY::RIGHT))
 		{
-			RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
+			RigidBody()->AddForce(Vec2(m_Speed * 10.0f, m_Speed * 10.f));
 		}
 		else if (KEY_PRESSED(KEY::LEFT))
 		{
-			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
+			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, -m_Speed * 10.f));
 		}
 
 		if (KEY_RELEASED(KEY::LEFT) || KEY_RELEASED(KEY::RIGHT))
@@ -451,7 +451,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 			if (m_LeafThrowL != nullptr)
 			{
 				const Vec3& playerPos = Transform()->GetRelativePosRef();
-				m_LeafThrowL->Transform()->SetRelativePos(playerPos + Vec3(-150.f, 0.f, 0.f));
+				m_LeafThrowL->Transform()->SetRelativePos(playerPos + Vec3(-50.f, 0.f, 0.f));
 				m_LeafThrowL->ParticleSystem()->Jerk();
 				m_LeafThrowL->ParticleSystem()->SetBurst(true);
 			}

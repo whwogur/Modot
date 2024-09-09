@@ -1,5 +1,6 @@
 #include "spch.h"
 #include "CPlatformScript.h"
+#include "../Client/CEditorMgr.h"
 
 CPlatformScript::CPlatformScript()
 	: CScript(SCRIPT_TYPE::PLATFORMSCRIPT)
@@ -8,6 +9,8 @@ CPlatformScript::CPlatformScript()
 
 void CPlatformScript::Begin()
 {
+    const Vec3& rotation = Transform()->GetRelativeRoatationRef();
+    m_SlopeNormal = Vec2(cosf(rotation.z), sinf(rotation.z));
 }
 
 void CPlatformScript::Tick()
@@ -73,7 +76,11 @@ void CPlatformScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _Othe
                 _OtherObject->Transform()->SetRelativePos(otherObjPos.x, otherObjPos.y - overlapY, otherObjPos.z);
             }
         }
+
+        _OtherObject->RigidBody()->SetGroundNormal(m_SlopeNormal);
     }
+    EDITOR_TRACE(std::to_string(m_SlopeNormal.x));
+    EDITOR_TRACE(std::to_string(m_SlopeNormal.y));
 }
 
 void CPlatformScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
@@ -86,8 +93,9 @@ void CPlatformScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
     if (_OtherObject->RigidBody() != nullptr)
     {
         const int overlapcount = _OtherCollider->GetOverlapCount();
-        if (overlapcount <= 1)
+        if (overlapcount < 1)
             _OtherObject->RigidBody()->SetGround(false);
+
     }
 }
 

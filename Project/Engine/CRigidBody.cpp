@@ -12,20 +12,15 @@ CRigidBody::CRigidBody()
 	, m_GravityAccel(2500.f)
 	, m_Ground(false)
 	, m_Force{0, 0}
-	, m_GroundRotation(0)
+    , m_GroundNormal{1, 0}
 {
 }
 
 void CRigidBody::FinalTick()
 {
-    // 플랫폼의 기울기를 고려한 힘 변환
-    Vec2 transformedForce;
-    transformedForce.x = m_Force.x * cos(m_GroundRotation) - m_Force.y * sin(m_GroundRotation);
-    transformedForce.y = m_Force.x * sin(m_GroundRotation) + m_Force.y * cos(m_GroundRotation);
-
     // F = M x A
-    Vec2 vAccel = transformedForce / m_Mass; // 기울기를 반영한 힘으로 가속도 계산
-    m_Velocity += vAccel * DT;               // 가속도를 이용해서 속도 증가
+    Vec2 vAccel = m_Force / m_Mass;
+    m_Velocity += vAccel * m_GroundNormal * DT;               // 가속도를 이용해서 속도 증가
 
     // 땅에 있을 때
     if (m_Ground)
@@ -45,9 +40,7 @@ void CRigidBody::FinalTick()
             m_Velocity += vFriction;
         }
     }
-
-    // 공중 상태
-    if (!m_Ground)
+    else
     {
         m_FrictionScale = 0.1f;
         Vec2 vFriction = -m_Velocity;
@@ -84,6 +77,10 @@ void CRigidBody::FinalTick()
     Vec3& vTrans = Transform()->GetRelativePosRef();
     vTrans += {m_Velocity.x* DT, m_Velocity.y * DT, 0.0f};
 
+    if (KEY_PRESSED(KEY::_7))
+    {
+        MD_ENGINE_TRACE(L"{0}, {1}", m_Velocity.x, m_Velocity.y);
+    }
     m_Force = Vec2(0.f, 0.f); // 힘 초기화
 }
 

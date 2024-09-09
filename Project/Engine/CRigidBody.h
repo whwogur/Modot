@@ -38,8 +38,8 @@ public:
     }
 
     bool IsGround()const { return m_Ground; }
-    void SetGroundRotation(float _Dir) { m_GroundRotation = _Dir; }
-    float GetGroundRotation() const { return m_GroundRotation; }
+
+    void SetGroundNormal(Vec2 _Normal) { m_GroundNormal = _Normal; }
 public:
     float& GetMassRef() { return m_Mass; }
     float& GetFrictionRef() { return m_Friction; }
@@ -61,6 +61,6 @@ private:
 
     float   m_GravityAccel;    // 중력 가속도 설정
     bool    m_Ground;          // 땅 체크
-    float   m_GroundRotation;
+    Vec2    m_GroundNormal;
 };
 
