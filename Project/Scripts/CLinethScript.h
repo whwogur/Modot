@@ -3,7 +3,7 @@
 enum class LinethState
 {
     INTRO_CAT, INTRO_TRANSFORM, INTRO_BACK, INTRO_TURN, INTRO_POINT,
-    BACKFLIP, TELEPORT, JUMPBASH, SPRAYDIRT, GOOP, SLASH, ATTACKFROMSKY,
+    BACKFLIP, TELEPORT, JUMPBASH, SPRAYDIRT, GOOP, SLASH, ATTACKFROMSKY, SUNBO, IDLE,
 };
 
 
@@ -28,14 +28,14 @@ private:
     void EndState(LinethState _State);
     void ChangeState(LinethState _NextState);
     void DirectionCheck();
-
+    void RandomAttack();
 private:
     CGameObject* m_Target;
     CGameObject* m_AttackBox;
     CGameObject* m_Precursor;
     CGameObject* m_Dust;
 
-    Ptr<CSound>         m_WarningSFX;
+    Ptr<CSound>             m_WarningSFX;
     LinethState             m_State = LinethState::INTRO_CAT;
     float                   m_AttackReach = 300.f; // TODO
     float                   m_Damage;

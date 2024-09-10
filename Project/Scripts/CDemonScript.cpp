@@ -277,7 +277,7 @@ void CDemonScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherOb
 		CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
 		if (camScript != nullptr)
 		{
-			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.3f);
+			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.12f);
 		}
 	}
 }
@@ -415,7 +415,7 @@ void CDemonScript::BeginState(DemonState _State)
 			CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
 			if (camScript != nullptr)
 			{
-				camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.2f);
+				camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.12f);
 			}
 		}
 		break;

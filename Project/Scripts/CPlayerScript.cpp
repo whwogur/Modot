@@ -223,7 +223,6 @@ void CPlayerScript::Tick()
 		if (Animator2D()->IsFinished())
 		{
 			ChangeState(PlayerState::IDLE);
-			EDITOR_TRACE("Attack2End");
 		}
 		break;
 	}
@@ -232,7 +231,6 @@ void CPlayerScript::Tick()
 		if (Animator2D()->IsFinished())
 		{
 			ChangeState(PlayerState::IDLE);
-			EDITOR_TRACE("Attack3End");
 		}
 		break;
 	}
@@ -295,7 +293,6 @@ void CPlayerScript::BeginState(PlayerState _State)
 		m_Timer = 4.f;
 		RigidBody()->SetGravityAccel(2500.f);
 		Animator2D()->Play(L"Momo_Idle", 8.0f, true);
-		EDITOR_TRACE("Idle");
 		break;
 	}
 	case PlayerState::IDLE2:
@@ -318,7 +315,6 @@ void CPlayerScript::BeginState(PlayerState _State)
 		m_Acc = 0.f;
 		m_Timer = 0.15f;
 		Animator2D()->Play(L"Momo_Land", 10.0f, false);
-		EDITOR_TRACE("Landing");
 		break;
 	}
 	case PlayerState::RUN:
