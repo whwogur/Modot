@@ -4,6 +4,7 @@
 CAttackScript::CAttackScript()
 	: CScript(SCRIPT_TYPE::ATTACKSCRIPT)
 {
+	m_HitSound = CAssetMgr::GetInst()->FindAsset<CSound>(L"Hit");
 }
 
 void CAttackScript::Begin()
@@ -28,8 +29,9 @@ void CAttackScript::Tick()
 void CAttackScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
 	const Vec3& hitPos = Transform()->GetRelativePosRef();
-	OBJECT_DIR dir = _OtherObject->Transform()->GetObjectDir();
-	const float XOffset = dir == OBJECT_DIR::RIGHT ? 70.f : -70.f;
+	
+	OBJECT_DIR dir = Transform()->GetObjectDir();
+	const float XOffset = dir == OBJECT_DIR::RIGHT ? 100.f : -100.f;
 
 	int randNum = std::rand() % 2;
 
@@ -55,7 +57,7 @@ void CAttackScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 	}
 	}
 
-	if (dir == OBJECT_DIR::RIGHT)
+	if (dir == OBJECT_DIR::LEFT)
 	{
 		HitFXList[3]->Transform()->SetRelativePos(hitPos + Vec3(XOffset, -10.f, 0.f));
 		HitFXList[3]->ParticleSystem()->Jerk();
@@ -69,6 +71,8 @@ void CAttackScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 		HitFXList[2]->ParticleSystem()->SetBurst(true);
 		m_ActiveList[2] = true;
 	}
+
+	m_HitSound->Play(1, 2.f, true);
 }
 
 void CAttackScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)

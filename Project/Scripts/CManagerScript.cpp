@@ -8,8 +8,7 @@ CManagerScript::CManagerScript()
 
 void CManagerScript::Begin()
 {
-	Ptr<CSound> m_BGM = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage"); // юс╫ц
-	m_BGM->Play(0, 10, false);
+	m_BGM->Play(0, 10.f, false);
 }
 
 void CManagerScript::Tick()

@@ -22,6 +22,7 @@ void CPlayerScript::Begin()
 		m_AttackBox = fx;
 		m_AttackBox->Transform()->SetRelativePos(Vec3(-7777.f, -7777.f, 0.f));
 	}
+
 	fx = CLevelMgr::GetInst()->FindObjectByName(L"LeafThrowL");
 	if (fx != nullptr)
 	{
@@ -399,7 +400,8 @@ void CPlayerScript::BeginState(PlayerState _State)
 			if (m_AttackBox != nullptr)
 			{
 				const Vec3& playerPos = Transform()->GetRelativePosRef();
-				m_AttackBox->Transform()->SetRelativePos(playerPos + Vec3(50.f, 0.f, 0.f));
+				m_AttackBox->Transform()->SetRelativePos(playerPos + Vec3(80.f, 0.f, 0.f));
+				m_AttackBox->Transform()->SetDir(OBJECT_DIR::RIGHT);
 			}
 		}
 		else
@@ -408,6 +410,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 			{
 				const Vec3& playerPos = Transform()->GetRelativePosRef();
 				m_AttackBox->Transform()->SetRelativePos(playerPos + Vec3(-80.f, 0.f, 0.f));
+				m_AttackBox->Transform()->SetDir(OBJECT_DIR::LEFT);
 			}
 		}
 		break;
@@ -450,7 +453,8 @@ void CPlayerScript::BeginState(PlayerState _State)
 			if (m_LeafThrowR != nullptr)
 			{
 				const Vec3& playerPos = Transform()->GetRelativePosRef();
-				m_LeafThrowR->Transform()->SetRelativePos(playerPos + Vec3(20.f, 0.f, 0.f));
+				m_LeafThrowR->Transform()->SetRelativePos(playerPos + Vec3(30.f, 0.f, 0.f));
+				m_LeafThrowR->Transform()->SetDir(OBJECT_DIR::RIGHT);
 				m_LeafThrowR->ParticleSystem()->Jerk();
 				m_LeafThrowR->ParticleSystem()->SetBurst(true);
 			}
@@ -460,7 +464,8 @@ void CPlayerScript::BeginState(PlayerState _State)
 			if (m_LeafThrowL != nullptr)
 			{
 				const Vec3& playerPos = Transform()->GetRelativePosRef();
-				m_LeafThrowL->Transform()->SetRelativePos(playerPos + Vec3(-50.f, 0.f, 0.f));
+				m_LeafThrowL->Transform()->SetRelativePos(playerPos + Vec3(-30.f, 0.f, 0.f));
+				m_LeafThrowL->Transform()->SetDir(OBJECT_DIR::LEFT);
 				m_LeafThrowL->ParticleSystem()->Jerk();
 				m_LeafThrowL->ParticleSystem()->SetBurst(true);
 			}
