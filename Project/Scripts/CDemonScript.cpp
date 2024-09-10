@@ -39,7 +39,6 @@ void CDemonScript::Begin()
 		shockwave->ParticleSystem()->SetBurst(false);
 	}
 
-	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 }
 
 void CDemonScript::Tick()

@@ -22,7 +22,6 @@ void CLinethScript::Begin()
 
 	MD_ENGINE_ASSERT(m_WarningSFX.Get() != nullptr, L"전조사운드 못찾음");
 
-	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 	BeginState(LinethState::INTRO_CAT);
 }
 

@@ -303,12 +303,12 @@ void CAssetMgr::CreateEngineGraphicShader()
 
 	// UI
 	pShader = new CGraphicShader;
-	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
+	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_UI");
 	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_StdUI");
 
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
-	pShader->SetBSType(BS_TYPE::ALPHABLEND);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
 
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_UI);
 	pShader->AddTexParam(TEX_0, "UI Tex");

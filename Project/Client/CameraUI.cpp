@@ -74,7 +74,7 @@ void CameraUI::Update()
         }
         ImGui::EndDisabled();
 
-        static int prior = pCam->GetPriority();
+        int prior = pCam->GetPriority();
         ImGui::Text("Priority");
         ImGui::SameLine(100);
         if (ImGui::InputInt("##Priority", &prior, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue))
