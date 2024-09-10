@@ -3,7 +3,7 @@
 enum class LinethState
 {
     INTRO_CAT, INTRO_TRANSFORM, INTRO_BACK, INTRO_TURN, INTRO_POINT,
-    BACKFLIP, TELEPORT, JUMPBASH, SPRAYDIRT, GOOP, SLASH, ATTACKFROMSKY, SUNBO, IDLE,
+    BACKFLIP, TELEPORT, JUMPBASH, SPRAYDIRT, GOOP, SLASH, SUNBO, IDLE,
 };
 
 
@@ -42,4 +42,5 @@ private:
 
     float                   m_Acc = 0.f;
     float                   m_Timer = 0.f;
+    Vec3                m_RandomPos = {};
 };

@@ -71,22 +71,32 @@ void CLinethScript::Tick()
 	}
 	case LinethState::BACKFLIP:
 	{
-		DirectionCheck();
 		Vec3& linPos = Transform()->GetRelativePosRef();
-		
-		linPos.x -= 200.f * DT;
+		OBJECT_DIR dir = Transform()->GetObjectDir();
+
+		if (dir == OBJECT_DIR::RIGHT)
+			linPos.x -= 250.f * DT;
+		else
+			linPos.x += 250.f * DT;
+
+
 
 		if (Animator2D()->IsFinished())
 		{
-			const Vec3& playerPos = m_Target->Transform()->GetRelativePosRef();
-			const Vec3& linPos = Transform()->GetRelativePosRef();
+			int randNum = std::rand() % 3;
 
-			if (fabs(linPos.x - playerPos.x) < 200.f)
+			switch (randNum)
 			{
-				ChangeState(LinethState::SLASH);
-			}
-			else
+			case 0:
 				RandomAttack();
+				break;
+			case 1:
+				ChangeState(LinethState::IDLE);
+				break;
+			case 2:
+				ChangeState(LinethState::TELEPORT);
+				break;
+			}
 		}
 		break;
 	}
@@ -159,39 +169,29 @@ void CLinethScript::Tick()
 		
 		break;
 	}
-	case LinethState::ATTACKFROMSKY:
-	{
-		m_Acc += DT;
-		if (m_Acc > m_Timer)
-		{
-			if (Animator2D()->IsFinished())
-			{
-				const Vec3& linPos = Transform()->GetRelativePosRef();
-				m_AttackBox->Transform()->SetRelativePos(linPos + Vec3(0.f, -50.f, 0.f));
-				ChangeState(LinethState::IDLE);
-			}
-		}
-		else
-		{
-			const Vec3& playerPos = m_Target->Transform()->GetRelativePosRef();
-		
-			Transform()->SetRelativePos(playerPos + Vec3(0.f, 300.f, 0.f));
-		}
-		
-		break;
-	}
 	case LinethState::SUNBO:
 	{
 		m_Acc += DT;
 		if (m_Acc > m_Timer)
 		{
-			ChangeState(LinethState::SLASH);
+			int randNum = std::rand() % 2;
+
+			switch (randNum)
+			{
+			case 0:
+				ChangeState(LinethState::SLASH);
+				break;
+			case 1:
+				ChangeState(LinethState::BACKFLIP);
+				break;
+			}
 		}
 		break;
 	}
 	case LinethState::IDLE:
 	{
 		m_Acc += DT;
+		DirectionCheck();
 		if (m_Acc > m_Timer)
 		{
 			RandomAttack();
@@ -259,7 +259,9 @@ void CLinethScript::BeginState(LinethState _State)
 	}
 	case LinethState::BACKFLIP:
 	{
-		Animator2D()->Play(L"Lineth_Backflip", 11.f, true);
+		DirectionCheck();
+		Animator2D()->Play(L"Lineth_Backflip", 11.f, false);
+		Animator2D()->Reset();
 		break;
 	}
 	case LinethState::TELEPORT:
@@ -274,6 +276,7 @@ void CLinethScript::BeginState(LinethState _State)
 		const Vec3& playerPos = m_Target->Transform()->GetRelativePosRef();
 		Transform()->SetRelativePos(playerPos + Vec3(0.f, 300.f, 0.f));
 		RigidBody()->SetGravityAccel(3000.f);
+		RigidBody()->SetGround(false);
 		Animator2D()->Play(L"Lineth_Jumpbash", 8.f, false);
 		Animator2D()->Reset();
 		break;
@@ -311,11 +314,26 @@ void CLinethScript::BeginState(LinethState _State)
 		m_Timer = 0.8f;
 		Animator2D()->Play(L"Lineth_Goop", 10.f, false);
 		Animator2D()->Reset();
-		m_WarningSFX->Play(1, 2.f, true);
+		m_WarningSFX->Play(1, 1.f, true);
 		CGameObject* precursor = CLevelMgr::GetInst()->FindObjectByName(L"Precursor");
 		if (precursor != nullptr)
 		{
-			precursor->Transform()->SetRelativePos(Vec3(-33.f, -300.f, 2));
+			int randNum = std::rand() % 3;
+
+			switch (randNum)
+			{
+			case 0:
+				m_RandomPos = { -800.f, -347.2f, 2.f };
+				break;
+			case 1:
+				m_RandomPos = { 660.f, -347.2f, 2.f };
+				break;
+			case 2:
+				m_RandomPos = { -88.f, -347.2f, 2.f };
+				break;
+			}
+
+			precursor->Transform()->SetRelativePos(m_RandomPos);
 			precursor->ParticleSystem()->Jerk();
 			precursor->ParticleSystem()->SetBurst(true);
 		}
@@ -343,42 +361,18 @@ void CLinethScript::BeginState(LinethState _State)
 		}
 		break;
 	}
-	case LinethState::ATTACKFROMSKY:
-	{
-		m_Acc = 0.f;
-		m_Timer = 0.8f;
-		Animator2D()->Play(L"Lineth_JumpAttack", 13.f, false);
-		Animator2D()->Reset();
-
-		CGameObject* amaterasu = GetOwner()->GetChildObject(L"Amaterasu");
-		if (amaterasu != nullptr)
-		{
-			amaterasu->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN_BURST] = true;
-		}
-		break;
-	}
 	case LinethState::SUNBO:
 	{
 		m_Acc = 0.f;
 		m_Timer = 0.5f;
 		Animator2D()->Play(L"Lineth_Sunbo", 8.f, false);
 		Animator2D()->Reset();
-		m_WarningSFX->Play(1, 2.f, true);
-		CGameObject* precursor = CLevelMgr::GetInst()->FindObjectByName(L"Precursor");
-		const Vec3& playerPos = m_Target->Transform()->GetRelativePosRef();
-
-		if (precursor != nullptr)
-		{
-			precursor->Transform()->SetRelativePos(playerPos + Vec3(100.f, 0.f, 0.f));
-			precursor->ParticleSystem()->Jerk();
-			precursor->ParticleSystem()->SetBurst(true);
-		}
 		break;
 	}
 	case LinethState::IDLE:
 	{
 		m_Acc = 0.f;
-		m_Timer = 0.5f;
+		m_Timer = 1.f;
 		Animator2D()->Play(L"Lineth_Idle", 12.f, true);
 		break;
 	}
@@ -416,7 +410,18 @@ void CLinethScript::EndState(LinethState _State)
 	case LinethState::TELEPORT:
 	{
 		const Vec3& playerPos = m_Target->Transform()->GetRelativePosRef();
-		Transform()->SetRelativePos(playerPos);
+
+		int randNum = std::rand() % 2;
+		switch (randNum)
+		{
+		case 0:
+			Transform()->SetRelativePos(playerPos + Vec3(50.f, 0.f, 0.f));
+			break;
+		case 1:
+			Transform()->SetRelativePos(playerPos + Vec3(-50.f, 0.f, 0.f));
+			break;
+		}
+		
 		break;
 	}
 	case LinethState::JUMPBASH:
@@ -443,7 +448,7 @@ void CLinethScript::EndState(LinethState _State)
 	}
 	case LinethState::GOOP:
 	{
-		Transform()->SetRelativePos(Vec3(-33.f, -345.9f, 2.f));
+		Transform()->SetRelativePos(m_RandomPos);
 		CGameObject* precursor = CLevelMgr::GetInst()->FindObjectByName(L"Precursor");
 		if (precursor != nullptr)
 		{
@@ -461,18 +466,6 @@ void CLinethScript::EndState(LinethState _State)
 		}
 
 		m_AttackBox->Transform()->SetRelativePos(Vec3(-7777.f, -7777.f, 0.f));
-		break;
-	}
-	case LinethState::ATTACKFROMSKY:
-	{
-		const Vec3& linPos = Transform()->GetRelativePosRef();
-		m_AttackBox->Transform()->SetRelativePos(Vec3(-7777.f, -7777.f, 0.f));
-
-		CGameObject* amaterasu = GetOwner()->GetChildObject(L"Amaterasu");
-		if (amaterasu != nullptr)
-		{
-			amaterasu->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN_BURST] = false;
-		}
 		break;
 	}
 	case LinethState::SUNBO:
@@ -512,7 +505,7 @@ void CLinethScript::DirectionCheck()
 
 void CLinethScript::RandomAttack()
 {
-	int randNum = std::rand() % 5;
+	int randNum = std::rand() % 4;
 
 
 	switch (randNum)
@@ -528,9 +521,6 @@ void CLinethScript::RandomAttack()
 		break;
 	case 3:
 		ChangeState(LinethState::SUNBO);
-		break;
-	case 4:
-		ChangeState(LinethState::ATTACKFROMSKY);
 		break;
 	}
 }
