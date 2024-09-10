@@ -18,13 +18,22 @@ void CPlayerScript::Begin()
 
 	CGameObject* fx = CLevelMgr::GetInst()->FindObjectByName(L"AttackBox");
 	if (fx != nullptr)
+	{
 		m_AttackBox = fx;
+		m_AttackBox->Transform()->SetRelativePos(Vec3(-7777.f, -7777.f, 0.f));
+	}
 	fx = CLevelMgr::GetInst()->FindObjectByName(L"LeafThrowL");
 	if (fx != nullptr)
+	{
 		m_LeafThrowL = fx;
+		m_LeafThrowL->Transform()->SetRelativePos(Vec3(-7777.f, -7777.f, 0.f));
+	}
 	fx = CLevelMgr::GetInst()->FindObjectByName(L"LeafThrowR");
 	if (fx != nullptr)
+	{
 		m_LeafThrowR = fx;
+		m_LeafThrowR->Transform()->SetRelativePos(Vec3(-7777.f, -7777.f, 0.f));
+	}
 }
 
 #pragma region __UPDATE__STATE__

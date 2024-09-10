@@ -169,6 +169,7 @@ void CLinethScript::Tick()
 		else
 		{
 			const Vec3& playerPos = m_Target->Transform()->GetRelativePosRef();
+		
 			Transform()->SetRelativePos(playerPos + Vec3(0.f, 300.f, 0.f));
 		}
 		
@@ -210,6 +211,12 @@ void CLinethScript::BeginState(LinethState _State)
 	case LinethState::INTRO_BACK:
 	{
 		CGameObject* amaterasu = GetOwner()->GetChildObject(L"Amaterasu");
+		if (amaterasu != nullptr)
+		{
+			amaterasu->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = true;
+		}
+
+		amaterasu = GetOwner()->GetChildObject(L"Amaterasu2");
 		if (amaterasu != nullptr)
 		{
 			amaterasu->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = true;
@@ -394,6 +401,8 @@ void CLinethScript::EndState(LinethState _State)
 	}
 	case LinethState::ATTACKFROMSKY:
 	{
+		const Vec3& linPos = Transform()->GetRelativePosRef();
+		m_AttackBox->Transform()->SetRelativePos(linPos - Vec3(0.f, -50.f, 0.f));
 		break;
 	}
 	}
