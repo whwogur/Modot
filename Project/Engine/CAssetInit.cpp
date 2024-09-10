@@ -269,6 +269,7 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_0, u8"방사되면서 감소되는 정도");
 	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_1, u8"샘플 밀도");
 	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_2, u8"샘플 가중치 - 중심에서 외곽으로 방사되면서 감소");
+	pShader->AddScalarParam(SCALAR_PARAM::INT_3, u8"활성화");
 	AddAsset(L"GodrayShader", pShader);
 
 	// Fire
@@ -393,6 +394,7 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl->SetScalarParam(FLOAT_0, 0.97f);
 	pMtrl->SetScalarParam(FLOAT_1, 0.5f);
 	pMtrl->SetScalarParam(FLOAT_2, 0.1f);
+	pMtrl->SetScalarParam(INT_3, 0);
 	AddAsset(L"GodrayMtrl", pMtrl);
 
 	//// Fire

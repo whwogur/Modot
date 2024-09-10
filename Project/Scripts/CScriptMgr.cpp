@@ -4,6 +4,7 @@
 #include "CAttackScript.h"
 #include "CBackGroundScript.h"
 #include "CBellScript.h"
+#include "CBlurControl.h"
 #include "CCameraMoveScript.h"
 #include "CDemonScript.h"
 #include "CHellfireScript.h"
@@ -23,6 +24,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CAttackScript");
 	_vec.push_back(L"CBackGroundScript");
 	_vec.push_back(L"CBellScript");
+	_vec.push_back(L"CBlurControl");
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CDemonScript");
 	_vec.push_back(L"CHellfireScript");
@@ -46,6 +48,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CBackGroundScript;
 	if (L"CBellScript" == _strScriptName)
 		return new CBellScript;
+	if (L"CBlurControl" == _strScriptName)
+		return new CBlurControl;
 	if (L"CCameraMoveScript" == _strScriptName)
 		return new CCameraMoveScript;
 	if (L"CDemonScript" == _strScriptName)
@@ -87,6 +91,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::BELLSCRIPT:
 		return new CBellScript;
+		break;
+	case (UINT)SCRIPT_TYPE::BLURCONTROL:
+		return new CBlurControl;
 		break;
 	case (UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT:
 		return new CCameraMoveScript;
@@ -145,6 +152,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::BELLSCRIPT:
 		return L"CBellScript";
+		break;
+
+	case SCRIPT_TYPE::BLURCONTROL:
+		return L"CBlurControl";
 		break;
 
 	case SCRIPT_TYPE::CAMERAMOVESCRIPT:

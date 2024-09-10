@@ -4,12 +4,12 @@
 CHellfireScript::CHellfireScript()
 	: CScript(SCRIPT_TYPE::HELLFIRESCRIPT)
 {
+	AddScriptParam(SCRIPT_PARAM::BOOLEAN_TOGGLE, "Flickering", &m_Flickering);
 }
 
 void CHellfireScript::Begin()
 {
 	MeshRender()->GetDynamicMaterial();
-	AddScriptParam(SCRIPT_PARAM::BOOLEAN_TOGGLE, "Flickering", &m_Flickering);
 }
 
 void CHellfireScript::Tick()
