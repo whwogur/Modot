@@ -67,6 +67,27 @@ void CUIBarScript::Tick()
 	}
 	}
 
+	if (m_Shake)
+	{
+		m_Acc += DT;
+		Vec3& objPos = GetOwner()->GetParent()->Transform()->GetRelativePosRef();
+		int x = (rand() % 10 * 2) - 10;
+		int y = (rand() % 10 * 2) - 10;
+		x = x == 0 ? 1 : x;
+		y = y == 0 ? 1 : y;
+
+		objPos.x += (float)x * 0.1f;
+		objPos.y += (float)y * 0.1f;
+
+
+		if (m_Acc > m_Timer)
+		{
+			m_Acc = 0.f;
+			m_Shake = false;
+			GetOwner()->GetParent()->Transform()->SetRelativePos(m_OriginalPos);
+		}
+	}
+
 	if (KEY_TAP(KEY::_6))
 	{
 		CPlayerManager::GetInst()->TakeDamage(10);
@@ -90,4 +111,10 @@ void CUIBarScript::LoadFromFile(FILE* _File)
 {
 	fread(&m_Type, sizeof(BarType), 1, _File);
 	LoadAssetRef(m_FillTex, _File);
+}
+
+void CUIBarScript::Shake()
+{
+	m_Shake = true;
+	m_OriginalPos = GetOwner()->GetParent()->Transform()->GetRelativePos();
 }

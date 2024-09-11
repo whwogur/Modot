@@ -3,6 +3,7 @@
 #include "CAttackScript.h"
 #include "../Client/CEditorMgr.h" // ·Î±×¿ë
 #include <Engine/CLevelMgr.h>
+#include "CUIBarScript.h"
 CPlayerScript::CPlayerScript()
 	: CScript(UINT(SCRIPT_TYPE::PLAYERSCRIPT))
 	, m_Speed(300.f)
@@ -40,6 +41,11 @@ void CPlayerScript::Begin()
 #pragma region __UPDATE__STATE__
 void CPlayerScript::Tick()
 {
+	if (KEY_TAP(KEY::_7))
+	{
+		CUIBarScript* bscript = (CUIBarScript*)CLevelMgr::GetInst()->FindObjectByName(L"HPBar")->FindScript((UINT)SCRIPT_TYPE::UIBARSCRIPT);
+		bscript->Shake();
+	}
 	DirectionCheck();
 	switch (m_State)
 	{
