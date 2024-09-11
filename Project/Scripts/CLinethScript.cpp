@@ -1,6 +1,7 @@
 #include "spch.h"
 #include "CLinethScript.h"
 #include <Engine/CLevelMgr.h>
+#include "CCameraMoveScript.h"
 
 CLinethScript::CLinethScript()
 	: CScript(SCRIPT_TYPE::LINETHSCRIPT)
@@ -102,7 +103,6 @@ void CLinethScript::Tick()
 	}
 	case LinethState::TELEPORT:
 	{
-		DirectionCheck();
 		m_Acc += DT;
 		if (m_Acc > m_Timer)
 		{
@@ -112,7 +112,6 @@ void CLinethScript::Tick()
 	}
 	case LinethState::JUMPBASH:
 	{
-		DirectionCheck();
 		if (Animator2D()->IsFinished())
 		{
 			ChangeState(LinethState::IDLE);
@@ -149,7 +148,6 @@ void CLinethScript::Tick()
 	{
 		m_Acc += DT;
 
-		DirectionCheck();
 		if (m_Acc > m_Timer)
 		{
 			ChangeState(LinethState::SPRAYDIRT);
@@ -188,6 +186,20 @@ void CLinethScript::Tick()
 		}
 		break;
 	}
+	case LinethState::ATTACKFROMSKY:
+	{
+		m_Acc += DT;
+		if (m_Acc > m_Timer)
+		{
+			RigidBody()->SetGravityAccel(3000.f);
+			if (Animator2D()->IsFinished())
+			{
+				ChangeState(LinethState::IDLE);
+			}
+		}
+
+		break;
+	}
 	case LinethState::IDLE:
 	{
 		m_Acc += DT;
@@ -211,6 +223,15 @@ void CLinethScript::LoadFromFile(FILE* _File)
 
 void CLinethScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
+	if (m_State == LinethState::ATTACKFROMSKY)
+	{
+		CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
+		CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
+		if (camScript != nullptr)
+		{
+			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.12f);
+		}
+	}
 }
 
 void CLinethScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
@@ -369,6 +390,30 @@ void CLinethScript::BeginState(LinethState _State)
 		Animator2D()->Reset();
 		break;
 	}
+	case LinethState::ATTACKFROMSKY:
+	{
+		m_Acc = 0.f;
+		m_Timer = 0.45f;
+		Animator2D()->Play(L"Lineth_JumpAttack", 13.f, false);
+		Animator2D()->Reset();
+
+		CGameObject* amaterasu = GetOwner()->GetChildObject(L"Amaterasu");
+		if (amaterasu != nullptr)
+		{
+			amaterasu->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN_BURST] = true;
+		}
+		
+		RigidBody()->SetGravityAccel(500.f);
+
+		OBJECT_DIR objDir = Transform()->GetObjectDir();
+
+		if (objDir == OBJECT_DIR::RIGHT)
+			RigidBody()->SetVelocity(Vec2(300.f, 1000.f));
+		else
+			RigidBody()->SetVelocity(Vec2(-300.f, 1000.f));
+		
+		break;
+	}
 	case LinethState::IDLE:
 	{
 		m_Acc = 0.f;
@@ -474,6 +519,18 @@ void CLinethScript::EndState(LinethState _State)
 		Transform()->SetRelativePos(playerPos + Vec3(-100.f, 0.f, 0.f));
 		break;
 	}
+	case LinethState::ATTACKFROMSKY:
+	{
+		const Vec3& linPos = Transform()->GetRelativePosRef();
+		m_AttackBox->Transform()->SetRelativePos(Vec3(-7777.f, -7777.f, 0.f));
+
+		CGameObject* amaterasu = GetOwner()->GetChildObject(L"Amaterasu");
+		if (amaterasu != nullptr)
+		{
+			amaterasu->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN_BURST] = false;
+		}
+		break;
+	}
 	case LinethState::IDLE:
 	{
 		break;
@@ -505,9 +562,9 @@ void CLinethScript::DirectionCheck()
 
 void CLinethScript::RandomAttack()
 {
-	int randNum = std::rand() % 4;
+	int randNum = std::rand() % 5;
 
-
+	DirectionCheck();
 	switch (randNum)
 	{
 	case 0:
@@ -521,6 +578,9 @@ void CLinethScript::RandomAttack()
 		break;
 	case 3:
 		ChangeState(LinethState::SUNBO);
+		break;
+	case 4:
+		ChangeState(LinethState::ATTACKFROMSKY);
 		break;
 	}
 }
