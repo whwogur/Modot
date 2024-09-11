@@ -17,6 +17,7 @@
 #include "CPlayerScript.h"
 #include "CSpriteRenderScript.h"
 #include "CTintedBGScript.h"
+#include "CUIBarScript.h"
 #include "CWaterScript.h"
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
@@ -37,6 +38,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CSpriteRenderScript");
 	_vec.push_back(L"CTintedBGScript");
+	_vec.push_back(L"CUIBarScript");
 	_vec.push_back(L"CWaterScript");
 }
 
@@ -74,6 +76,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CSpriteRenderScript;
 	if (L"CTintedBGScript" == _strScriptName)
 		return new CTintedBGScript;
+	if (L"CUIBarScript" == _strScriptName)
+		return new CUIBarScript;
 	if (L"CWaterScript" == _strScriptName)
 		return new CWaterScript;
 	return nullptr;
@@ -130,6 +134,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::TINTEDBGSCRIPT:
 		return new CTintedBGScript;
+		break;
+	case (UINT)SCRIPT_TYPE::UIBARSCRIPT:
+		return new CUIBarScript;
 		break;
 	case (UINT)SCRIPT_TYPE::WATERSCRIPT:
 		return new CWaterScript;
@@ -204,6 +211,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::TINTEDBGSCRIPT:
 		return L"CTintedBGScript";
+		break;
+
+	case SCRIPT_TYPE::UIBARSCRIPT:
+		return L"CUIBarScript";
 		break;
 
 	case SCRIPT_TYPE::WATERSCRIPT:

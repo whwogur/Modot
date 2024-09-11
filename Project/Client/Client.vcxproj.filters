@@ -218,6 +218,9 @@
     <ClInclude Include="EditorLogger.h">
       <Filter>Editor\EditorUI\Modal\Util</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayerManager.h">
+      <Filter>Editor\TestLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -401,6 +404,9 @@
     </ClCompile>
     <ClCompile Include="EditorLogger.cpp">
       <Filter>Editor\EditorUI\Modal\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerManager.cpp">
+      <Filter>Editor\TestLevel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

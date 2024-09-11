@@ -118,6 +118,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CSpriteRenderScript.h" />
     <ClInclude Include="CTintedBGScript.h" />
+    <ClInclude Include="CUIBarScript.h" />
     <ClInclude Include="CWaterScript.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="spch.h" />
@@ -140,6 +141,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CSpriteRenderScript.cpp" />
     <ClCompile Include="CTintedBGScript.cpp" />
+    <ClCompile Include="CUIBarScript.cpp" />
     <ClCompile Include="CWaterScript.cpp" />
     <ClCompile Include="spch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

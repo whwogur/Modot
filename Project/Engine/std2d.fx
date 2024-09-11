@@ -184,13 +184,12 @@ float4 PS_Std2DTint(VTX_OUT _in) : SV_Target
 
 VTX_OUT VS_UI(VTX_IN _in)
 {
-    VTX_OUT output;
+    VTX_OUT output = (VTX_OUT)0.f;
 
     // 화면 공간으로 변환 (z와 w 값 적절하게 설정)
-    output.vPosition = mul(float4(_in.vPos.xy, 0.f, 1.0f), matProj);
-    output.vPosition.z = 0.5f;
-    output.vPosition.w = 1.0f;
-
+    output.vPosition = mul(float4(_in.vPos.xy, 0.f, 1.0f), matWorld);
+    output.vPosition = mul(output.vPosition, matProj);
+    
     output.vColor = _in.vColor;
     output.vUV = _in.vUV;
 
@@ -210,6 +209,8 @@ float4 PS_StdUI(VTX_OUT _in) : SV_Target
         vColor = float4(1.f, 1.f, 0.f, 1.f);
     }
 
+    vColor *= g_vec4_0;
+    
     if (vColor.a == 0.f)
     {
         discard;

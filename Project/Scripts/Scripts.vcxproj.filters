@@ -67,6 +67,9 @@
     <ClInclude Include="CBlurControl.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CUIBarScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -125,6 +128,9 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CBlurControl.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CUIBarScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>

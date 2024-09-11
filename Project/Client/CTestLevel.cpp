@@ -14,10 +14,12 @@
 
 #include <Engine/CSetColorCS.h>
 #include "CLevelSaveLoad.h"
+#include "CPlayerManager.h"
 
 void CTestLevel::CreateTestLevel()
 {
 	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\TESTUI.lv");
+	CPlayerManager::GetInst()->Init();
 	/*pLevel->GetLayer(5)->SetName(L"PlayerAttack");
 	pLevel->GetLayer(6)->SetName(L"MonsterAttack");
 	pLevel->GetLayer(8)->SetName(L"NPC");
