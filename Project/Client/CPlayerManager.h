@@ -13,15 +13,16 @@ public:
 	{}
 	~PlayerStatus() = default;
 
-	float HP;
-	float MP;
-	float Stamina;
+	float	HP;
+	float	MP;
+	float	Stamina;
 
-	float maxHP;
-	float maxMP;
-	float maxStamina;
+	float	maxHP;
+	float	maxMP;
+	float	maxStamina;
 
-	float Damage;
+	float	Damage;
+	bool	Sprinting = false;
 };
 
 class CPlayerManager
@@ -50,6 +51,8 @@ public:
 		if (m_PlayerStatus.get()->HP > m_PlayerStatus.get()->maxHP)
 			m_PlayerStatus.get()->HP = m_PlayerStatus.get()->maxHP;
 	}
+
+	void Sprint(bool _b) { m_PlayerStatus.get()->Sprinting = _b; }
 private:
 	std::shared_ptr<PlayerStatus> m_PlayerStatus = nullptr;
 };
