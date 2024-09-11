@@ -87,18 +87,6 @@ void CUIBarScript::Tick()
 			GetOwner()->GetParent()->Transform()->SetRelativePos(m_OriginalPos);
 		}
 	}
-
-	if (KEY_TAP(KEY::_6))
-	{
-		CPlayerManager::GetInst()->TakeDamage(10);
-		EDITOR_TRACE(u8"데미지 10 받음");
-
-	}
-	if (KEY_TAP(KEY::_7))
-	{
-		CPlayerManager::GetInst()->Recover(10);
-		EDITOR_TRACE(u8"10 회복");
-	}
 }
 
 void CUIBarScript::SaveToFile(FILE* _File)

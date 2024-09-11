@@ -4,6 +4,8 @@
 #include "../Client/CEditorMgr.h" // 로그용
 #include <Engine/CLevelMgr.h>
 #include "CUIBarScript.h"
+#include "../Client/CPlayerManager.h"
+
 CPlayerScript::CPlayerScript()
 	: CScript(UINT(SCRIPT_TYPE::PLAYERSCRIPT))
 	, m_Speed(300.f)
@@ -41,6 +43,18 @@ void CPlayerScript::Begin()
 #pragma region __UPDATE__STATE__
 void CPlayerScript::Tick()
 {
+	if (KEY_TAP(KEY::_1))
+	{
+		CPlayerManager::GetInst()->TakeDamage(10);
+		EDITOR_TRACE(u8"데미지 10 받음");
+
+	}
+	if (KEY_TAP(KEY::_2))
+	{
+		CPlayerManager::GetInst()->Recover(10);
+		EDITOR_TRACE(u8"10 회복");
+	}
+
 	DirectionCheck();
 	switch (m_State)
 	{

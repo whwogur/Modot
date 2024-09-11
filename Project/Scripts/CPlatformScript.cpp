@@ -79,8 +79,8 @@ void CPlatformScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _Othe
 
         _OtherObject->RigidBody()->SetGroundNormal(m_SlopeNormal);
     }
-    EDITOR_TRACE(std::to_string(m_SlopeNormal.x));
-    EDITOR_TRACE(std::to_string(m_SlopeNormal.y));
+    //EDITOR_TRACE(std::to_string(m_SlopeNormal.x));
+    //EDITOR_TRACE(std::to_string(m_SlopeNormal.y));
 }
 
 void CPlatformScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)

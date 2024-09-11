@@ -18,7 +18,7 @@
 
 void CTestLevel::CreateTestLevel()
 {
-	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\TESTUI.lv");
+	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\KohoShrineTEST.lv");
 	CPlayerManager::GetInst()->Init();
 	/*pLevel->GetLayer(5)->SetName(L"PlayerAttack");
 	pLevel->GetLayer(6)->SetName(L"MonsterAttack");
