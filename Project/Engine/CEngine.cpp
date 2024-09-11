@@ -14,6 +14,7 @@
 #include "CTaskMgr.h"
 #include "CFontMgr.h"
 
+#include "../Client/CPlayerManager.h" // 응애 ㅠ
 CEngine::CEngine()
 	: m_hWnd(nullptr)
 	, m_ptResolution{}
@@ -75,6 +76,8 @@ void CEngine::Run()
 	CRenderMgr::GetInst()->Tick();
 
 	CTaskMgr::GetInst()->Tick();
+
+	CPlayerManager::GetInst()->DisplayStats(); // 응애 ㅠㅠㅠ
 }
 
 

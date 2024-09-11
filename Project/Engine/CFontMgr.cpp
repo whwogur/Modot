@@ -20,7 +20,7 @@ void CFontMgr::Init()
 		assert(nullptr);
 	}
 
-	if (FAILED(m_FW1Factory->CreateFontWrapper(DEVICE, L"Arial", &m_FontWrapper)))
+	if (FAILED(m_FW1Factory->CreateFontWrapper(DEVICE, L"MaruKO", &m_FontWrapper)))
 	{
 		assert(nullptr);
 	}

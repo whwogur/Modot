@@ -3,23 +3,22 @@ class PlayerStatus
 {
 public:
 	PlayerStatus()
-		: HP(100.f)
-		, MP(100.f)
-		, Stamina(100.f)
-		, maxHP(100.f)
-		, maxMP(100.f)
-		, maxStamina(100.f)
+		: HP(600)
+		, MP(50)
+		, Stamina(100)
+		, maxHP(600)
+		, maxMP(50)
+		, maxStamina(100)
 		, Damage(5.f)
 	{}
 	~PlayerStatus() = default;
 
-	float	HP;
-	float	MP;
-	float	Stamina;
-
-	float	maxHP;
-	float	maxMP;
-	float	maxStamina;
+	int		HP;
+	int		MP;
+	int		Stamina;
+	int		maxHP;
+	int		maxMP;
+	int		maxStamina;
 
 	float	Damage;
 	bool	Sprinting = false;
@@ -53,6 +52,8 @@ public:
 	}
 
 	void Sprint(bool _b) { m_PlayerStatus.get()->Sprinting = _b; }
+
+	void DisplayStats();
 private:
 	std::shared_ptr<PlayerStatus> m_PlayerStatus = nullptr;
 };

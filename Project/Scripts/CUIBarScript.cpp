@@ -18,19 +18,19 @@ void CUIBarScript::Begin()
 	{
 	case BarType::HP:
 	{
-		Transform()->SetRelativeScale(Vec3((playerstat->HP / playerstat->maxHP) * 0.83f, 0.28f, 1.f));
+		Transform()->SetRelativeScale(Vec3(((float)playerstat->HP / playerstat->maxHP) * 0.83f, 0.28f, 1.f));
 		Transform()->SetRelativePos(Vec3(0.07f, 0.05f, 1.f));
 		break;
 	}
 	case BarType::MP:
 	{
-		Transform()->SetRelativeScale(Vec3((playerstat->MP / playerstat->maxMP) * 0.83f, 0.28f, 1.f));
+		Transform()->SetRelativeScale(Vec3(((float)playerstat->MP / playerstat->maxMP) * 0.83f, 0.28f, 1.f));
 		Transform()->SetRelativePos(Vec3(0.07f, 0.05f, 1.f));
 		break;
 	}
 	case BarType::STAMINA:
 	{
-		Transform()->SetRelativeScale(Vec3(playerstat->Stamina / playerstat->maxStamina, 0.5f, 1.f));
+		Transform()->SetRelativeScale(Vec3((float)playerstat->Stamina / playerstat->maxStamina, 0.5f, 1.f));
 		break;
 	}
 	case BarType::NONE:
@@ -48,17 +48,17 @@ void CUIBarScript::Tick()
 	{
 	case BarType::HP:
 	{
-		Transform()->SetRelativeScale(Vec3((playerstat->HP / playerstat->maxHP) * 0.83f, 0.28f, 1.f));
+		Transform()->SetRelativeScale(Vec3(((float)playerstat->HP / playerstat->maxHP) * 0.83f, 0.28f, 1.f));
 		break;
 	}
 	case BarType::MP:
 	{
-		Transform()->SetRelativeScale(Vec3((playerstat->MP / playerstat->maxMP) * 0.83f, 0.28f, 1.f));
+		Transform()->SetRelativeScale(Vec3(((float)playerstat->MP / playerstat->maxMP) * 0.83f, 0.28f, 1.f));
 		break;
 	}
 	case BarType::STAMINA:
 	{
-		Transform()->SetRelativeScale(Vec3(playerstat->Stamina / playerstat->maxStamina, 0.5f, 1.f));
+		Transform()->SetRelativeScale(Vec3((float)playerstat->Stamina / playerstat->maxStamina, 0.5f, 1.f));
 		break;
 	}
 	case BarType::NONE:
