@@ -5,6 +5,8 @@ enum class DemonState
     JUMPATTACK, MELEE, IDLE, ROAR, BREATHEFIRE, SPITTING,
 };
 
+class CUIBarScript;
+
 class CDemonScript :
     public CScript
 {
@@ -33,6 +35,7 @@ private:
     CGameObject*        m_Target;
     CGameObject*        m_AttackBox;
     CGameObject*        m_RoarBox;
+    CUIBarScript*       m_HPBar;
 
     DemonState          m_State = DemonState::IDLE;
     float               m_AttackReach = 300.f; // TODO

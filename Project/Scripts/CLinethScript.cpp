@@ -2,6 +2,8 @@
 #include "CLinethScript.h"
 #include <Engine/CLevelMgr.h>
 #include "CCameraMoveScript.h"
+#include "CUIBarScript.h"
+#include "CNPCUIScript.h"
 
 CLinethScript::CLinethScript()
 	: CScript(SCRIPT_TYPE::LINETHSCRIPT)
@@ -15,11 +17,15 @@ void CLinethScript::Begin()
 	m_Precursor = CLevelMgr::GetInst()->FindObjectByName(L"Precursor");
 	m_Dust = CLevelMgr::GetInst()->FindObjectByName(L"LinethSpray");
 
+	CGameObject* hpBar = CLevelMgr::GetInst()->FindObjectByName(L"BossHPFill");
+	m_HPBar = static_cast<CUIBarScript*>(hpBar->FindScript((UINT)SCRIPT_TYPE::UIBARSCRIPT));
+
 	m_WarningSFX = CAssetMgr::GetInst()->FindAsset<CSound>(L"WarningSFX");
 
 	MD_ENGINE_ASSERT(m_Target != nullptr, L"플레이어 못찾음");
 	MD_ENGINE_ASSERT(m_AttackBox != nullptr, L"히트박스 못찾음");
 	MD_ENGINE_ASSERT(m_Precursor != nullptr, L"전조표시오브젝트 못찾음");
+	MD_ENGINE_ASSERT(m_HPBar != nullptr, L"HP바 스크립트 못찾음");
 
 	MD_ENGINE_ASSERT(m_WarningSFX.Get() != nullptr, L"전조사운드 못찾음");
 
@@ -223,13 +229,25 @@ void CLinethScript::LoadFromFile(FILE* _File)
 
 void CLinethScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	if (m_State == LinethState::ATTACKFROMSKY)
+	if (_OtherObject->GetName() == L"AttackBox")//TODO
 	{
-		CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
-		CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
-		if (camScript != nullptr)
+		float& hpRef = m_HPBar->GetHPRef();
+		hpRef -= 10.f;
+		if (hpRef <= 0.f)
+			hpRef = 0.f;
+		else
+			m_HPBar->Shake();
+	}
+	else
+	{
+		if (m_State == LinethState::ATTACKFROMSKY)
 		{
-			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.12f);
+			CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
+			CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
+			if (camScript != nullptr)
+			{
+				camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.12f);
+			}
 		}
 	}
 }
@@ -332,7 +350,7 @@ void CLinethScript::BeginState(LinethState _State)
 	case LinethState::GOOP:
 	{
 		m_Acc = 0.f;
-		m_Timer = 0.8f;
+		m_Timer = 0.5f;
 		Animator2D()->Play(L"Lineth_Goop", 10.f, false);
 		Animator2D()->Reset();
 		m_WarningSFX->Play(1, 1.f, true);
@@ -411,6 +429,8 @@ void CLinethScript::BeginState(LinethState _State)
 			RigidBody()->SetVelocity(Vec2(300.f, 1000.f));
 		else
 			RigidBody()->SetVelocity(Vec2(-300.f, 1000.f));
+
+		RigidBody()->SetGround(false);
 		
 		break;
 	}
@@ -446,6 +466,18 @@ void CLinethScript::EndState(LinethState _State)
 	}
 	case LinethState::INTRO_POINT:
 	{
+		CGameObject* npcUI = CLevelMgr::GetInst()->FindObjectByName(L"BossHPUI");
+		if (npcUI != nullptr)
+		{
+			CNPCUIScript* npcUIScript = static_cast<CNPCUIScript*>(npcUI->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
+			if (npcUIScript != nullptr)
+			{
+				npcUIScript->Activate();
+			}
+		}
+		
+
+
 		break;
 	}
 	case LinethState::BACKFLIP:

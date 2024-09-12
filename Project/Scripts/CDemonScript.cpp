@@ -3,6 +3,8 @@
 #include <Engine/CLevelMgr.h>
 #include "CHellfireScript.h"
 #include "CCameraMoveScript.h"
+#include "CUIBarScript.h"
+
 CDemonScript::CDemonScript()
 	: CScript(SCRIPT_TYPE::DEMONSCRIPT)
 {
@@ -16,9 +18,13 @@ void CDemonScript::Begin()
 	m_AttackBox = CLevelMgr::GetInst()->FindObjectByName(L"DemonAttackBox");
 	m_RoarBox = CLevelMgr::GetInst()->FindObjectByName(L"DemonRoarBox");
 
+	CGameObject* hpBar = CLevelMgr::GetInst()->FindObjectByName(L"BossHPFill");
+	m_HPBar = static_cast<CUIBarScript*>(hpBar->FindScript((UINT)SCRIPT_TYPE::UIBARSCRIPT));
+
 	MD_ENGINE_ASSERT(m_Target != nullptr, L"플레이어 못찾음");
 	MD_ENGINE_ASSERT(m_AttackBox != nullptr, L"히트박스 못찾음");
 	MD_ENGINE_ASSERT(m_RoarBox != nullptr, L"히트박스 못찾음");
+	MD_ENGINE_ASSERT(m_HPBar != nullptr, L"HP바 스크립트 못찾음");
 
 	CGameObject* Fire = GetOwner()->GetChildObject(L"BreatheFireR");
 	if (Fire != nullptr)
@@ -271,13 +277,25 @@ void CDemonScript::Tick()
 
 void CDemonScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	if (m_State == DemonState::JUMPATTACK)
+	if (_OtherObject->GetName() == L"AttackBox")//TODO
 	{
-		CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
-		CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
-		if (camScript != nullptr)
+		float& hpRef = m_HPBar->GetHPRef();
+		hpRef -= 10.f;
+		if (hpRef <= 0.f)
+			hpRef = 0.f;
+		else
+			m_HPBar->Shake();
+	}
+	else
+	{
+		if (m_State == DemonState::JUMPATTACK)
 		{
-			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.12f);
+			CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
+			CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
+			if (camScript != nullptr)
+			{
+				camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.12f);
+			}
 		}
 	}
 }

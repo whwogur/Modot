@@ -38,6 +38,8 @@ void CUIBarScript::Begin()
 	}
 	case BarType::BOSSHP:
 	{
+		Transform()->SetRelativeScale(Vec3(m_BossHP / 100.f, 0.5f, 1.f));
+		Transform()->SetRelativePos(Vec3(0.037f, -0.25f, 1.f));
 		break;
 	}
 	case BarType::NONE:
@@ -91,7 +93,7 @@ void CUIBarScript::Tick()
 	}
 	case BarType::BOSSHP:
 	{
-		Transform()->SetRelativeScale(Vec3(m_BossHP / 100.f, 0.5f, 1.f));
+		Transform()->SetRelativeScale(Vec3((m_BossHP / 100.f) * 0.9, 0.2f, 1.f));
 		break;
 	}
 	case BarType::NONE:

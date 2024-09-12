@@ -26,6 +26,9 @@ public:
 
     void Shake();
     void SetTarget(CGameObject* _Target) { m_Target = _Target; };
+
+    // ¿¿æ÷ §–
+    float& GetHPRef() { return m_BossHP; }
 private:
     CGameObject*    m_Target;
     Ptr<CTexture>   m_FillTex;

@@ -6,6 +6,7 @@ enum class LinethState
     BACKFLIP, TELEPORT, JUMPBASH, SPRAYDIRT, GOOP, SLASH, SUNBO, ATTACKFROMSKY, IDLE,
 };
 
+class CUIBarScript;
 
 class CLinethScript :
     public CScript
@@ -30,10 +31,11 @@ private:
     void DirectionCheck();
     void RandomAttack();
 private:
-    CGameObject* m_Target;
-    CGameObject* m_AttackBox;
-    CGameObject* m_Precursor;
-    CGameObject* m_Dust;
+    CGameObject*    m_Target;
+    CGameObject*    m_AttackBox;
+    CGameObject*    m_Precursor;
+    CGameObject*    m_Dust;
+    CUIBarScript*   m_HPBar;
 
     Ptr<CSound>             m_WarningSFX;
     LinethState             m_State = LinethState::INTRO_CAT;
@@ -42,5 +44,5 @@ private:
 
     float                   m_Acc = 0.f;
     float                   m_Timer = 0.f;
-    Vec3                m_RandomPos = {};
+    Vec3                    m_RandomPos = {};
 };
