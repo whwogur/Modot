@@ -12,10 +12,10 @@ void CPlayerManager::Init()
 
 void CPlayerManager::DisplayStats()
 {
-	wstring HP(std::to_wstring(m_PlayerStatus.get()->HP));
-	wstring maxHP(std::to_wstring(m_PlayerStatus.get()->maxHP));
-	wstring MP(std::to_wstring(m_PlayerStatus.get()->MP));
-	wstring maxMP(std::to_wstring(m_PlayerStatus.get()->maxMP));
+	wstring HP(std::to_wstring(static_cast<int>(m_PlayerStatus.get()->HP)));
+	wstring maxHP(std::to_wstring(static_cast<int>(m_PlayerStatus.get()->maxHP)));
+	wstring MP(std::to_wstring(static_cast<int>(m_PlayerStatus.get()->MP)));
+	wstring maxMP(std::to_wstring(static_cast<int>(m_PlayerStatus.get()->maxMP)));
 
 	wstring displayHP = HP + L" / " + maxHP;
 	wstring displayMP = MP + L" / " + maxMP;

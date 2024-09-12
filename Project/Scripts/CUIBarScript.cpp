@@ -6,8 +6,9 @@
 CUIBarScript::CUIBarScript()
 	: CScript(SCRIPT_TYPE::UIBARSCRIPT)
 {
-	AddScriptParam(SCRIPT_PARAM::INT, u8"종류", &m_Type, 0, 0, "0: HP, 1: MP, 2: Stamina");
+	AddScriptParam(SCRIPT_PARAM::INT, u8"종류", &m_Type, 0, 0, "0: HP, 1: MP, 2: Stamina,\n3: BossHP");
 	AddScriptParam(SCRIPT_PARAM::TEXTURE, u8"텍스처", &m_FillTex);
+	AddScriptParam(SCRIPT_PARAM::COLOR, u8"틴트", &m_Tint);
 }
 
 void CUIBarScript::Begin()
@@ -31,10 +32,16 @@ void CUIBarScript::Begin()
 	case BarType::STAMINA:
 	{
 		Transform()->SetRelativeScale(Vec3((float)playerstat->Stamina / playerstat->maxStamina, 0.5f, 1.f));
+		Transform()->SetRelativePos(Vec3(0.f, 0.04f, 1.f));
+		break;
+	}
+	case BarType::BOSSHP:
+	{
 		break;
 	}
 	case BarType::NONE:
 	{
+		MD_ENGINE_ERROR(L"UI 타입 설정 안됨");
 		break;
 	}
 	}
@@ -58,7 +65,12 @@ void CUIBarScript::Tick()
 	}
 	case BarType::STAMINA:
 	{
-		Transform()->SetRelativeScale(Vec3((float)playerstat->Stamina / playerstat->maxStamina, 0.5f, 1.f));
+		Transform()->SetRelativeScale(Vec3((float)playerstat->Stamina / playerstat->maxStamina * 0.7, 0.2f, 1.f));
+		break;
+	}
+	case BarType::BOSSHP:
+	{
+		Transform()->SetRelativeScale(Vec3(m_BossHP / 100.f, 0.5f, 1.f));
 		break;
 	}
 	case BarType::NONE:
@@ -66,6 +78,8 @@ void CUIBarScript::Tick()
 		break;
 	}
 	}
+
+	MeshRender()->GetDynamicMaterial()->SetScalarParam(VEC4_0, m_Tint);
 
 	if (m_Shake)
 	{
@@ -93,12 +107,14 @@ void CUIBarScript::SaveToFile(FILE* _File)
 {
 	fwrite(&m_Type, sizeof(BarType), 1, _File);
 	SaveAssetRef(m_FillTex, _File);
+	fwrite(&m_Tint, sizeof(Vec4), 1, _File);
 }
 
 void CUIBarScript::LoadFromFile(FILE* _File)
 {
 	fread(&m_Type, sizeof(BarType), 1, _File);
 	LoadAssetRef(m_FillTex, _File);
+	fread(&m_Tint, sizeof(Vec4), 1, _File);
 }
 
 void CUIBarScript::Shake()

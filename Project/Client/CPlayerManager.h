@@ -13,15 +13,14 @@ public:
 	{}
 	~PlayerStatus() = default;
 
-	int		HP;
-	int		MP;
-	int		Stamina;
-	int		maxHP;
-	int		maxMP;
-	int		maxStamina;
+	float		HP;
+	float		MP;
+	float		Stamina;
+	float		maxHP;
+	float		maxMP;
+	float		maxStamina;
 
 	float	Damage;
-	bool	Sprinting = false;
 };
 
 class CPlayerManager
@@ -44,14 +43,21 @@ public:
 		if (m_PlayerStatus.get()->Stamina < 0)
 			m_PlayerStatus.get()->Stamina = 0;
 	}
+	void RecoverStamina(float _Stamina)
+	{
+		if (m_PlayerStatus.get()->Stamina >= m_PlayerStatus.get()->maxStamina)
+			return;
+
+		m_PlayerStatus.get()->Stamina += _Stamina;
+		if (m_PlayerStatus.get()->Stamina > m_PlayerStatus.get()->maxStamina)
+			m_PlayerStatus.get()->Stamina = m_PlayerStatus.get()->maxStamina;
+	}
 	void Recover(float _HP)
 	{ 
 		m_PlayerStatus.get()->HP += _HP; 
 		if (m_PlayerStatus.get()->HP > m_PlayerStatus.get()->maxHP)
 			m_PlayerStatus.get()->HP = m_PlayerStatus.get()->maxHP;
 	}
-
-	void Sprint(bool _b) { m_PlayerStatus.get()->Sprinting = _b; }
 
 	void DisplayStats();
 private:

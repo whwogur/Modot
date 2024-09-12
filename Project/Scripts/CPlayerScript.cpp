@@ -77,6 +77,7 @@ void CPlayerScript::Tick()
 	}
 	case PlayerState::JUMP:
 	{
+		CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
 		Jump();
 		if (KEY_PRESSED(KEY::RIGHT))
 		{
@@ -113,6 +114,7 @@ void CPlayerScript::Tick()
 	}
 	case PlayerState::LAND:
 	{
+		CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
 		m_Acc += DT;
 		if (m_Acc > m_Timer)
 		{
@@ -125,12 +127,21 @@ void CPlayerScript::Tick()
 	case PlayerState::RUN:
 	{
 		Jump();
+		CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
+
 		if (KEY_PRESSED(KEY::RIGHT) && KEY_PRESSED(KEY::LEFT))
 			break;
+
 		if (KEY_PRESSED(KEY::LSHIFT))
 		{
-			ChangeState(PlayerState::SPRINT);
+			const std::shared_ptr<PlayerStatus>& stat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+			if (stat.get()->Stamina >= 40.f)
+			{
+				ChangeState(PlayerState::SPRINT);
+				break;
+			}
 		}
+
 		else if (KEY_TAP(KEY::D))
 		{
 			ChangeState(PlayerState::SHOOT);
@@ -198,6 +209,15 @@ void CPlayerScript::Tick()
 	case PlayerState::SPRINT:
 	{
 		Jump();
+		CPlayerManager::GetInst()->UseStamina(20.f * DT);
+
+		const std::shared_ptr<PlayerStatus>& stat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+		if (stat.get()->Stamina <= 10.f)
+		{
+			ChangeState(PlayerState::RUN);
+			break;
+		}
+
 		if (KEY_PRESSED(KEY::RIGHT))
 		{
 			RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
@@ -339,6 +359,8 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	case PlayerState::ROLL:
 	{
+		CPlayerManager::GetInst()->UseStamina(30.f);
+
 		float xvel = Transform()->GetRelativeScale().x;
 		RigidBody()->SetFrictionScale(0.1f);
 		RigidBody()->SetVelocity(Vec2(xvel * 100.f, 0.f));
@@ -674,6 +696,8 @@ void CPlayerScript::Jump()
 
 void CPlayerScript::IdleRoutine()
 {
+	CPlayerManager::GetInst()->RecoverStamina(20.f * DT);
+
 	if (KEY_TAP(KEY::LEFT) || KEY_TAP(KEY::RIGHT) || KEY_PRESSED(KEY::LEFT) || KEY_PRESSED(KEY::RIGHT))
 	{
 		ChangeState(PlayerState::RUN);

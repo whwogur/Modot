@@ -5,6 +5,7 @@ enum class BarType
     HP,
     MP,
     STAMINA,
+    BOSSHP,
 
     NONE,
 };
@@ -24,16 +25,19 @@ public:
     virtual void LoadFromFile(FILE* _File) override;
 
     void Shake();
+    void SetTarget(CGameObject* _Target) { m_Target = _Target; };
 private:
+    CGameObject*    m_Target;
     Ptr<CTexture>   m_FillTex;
     BarType         m_Type = BarType::NONE;
 
     Vec3            m_OriginalPos;
+    Vec4            m_Tint = {1.f, 1.f, 1.f, 1.f};
 
     float           m_Acc;
     float           m_Timer = 0.1f;
     bool            m_Shake = false;
-    /*int             m_MaxValue;
-    int             m_CurValue;*/
+
+    float           m_BossHP = 100.f;
 };
 
