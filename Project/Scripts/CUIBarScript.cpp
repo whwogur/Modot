@@ -20,26 +20,26 @@ void CUIBarScript::Begin()
 	{
 	case BarType::HP:
 	{
-		Transform()->SetRelativeScale(Vec3(((float)playerstat->HP / playerstat->maxHP) * 0.83f, 0.28f, 1.f));
-		Transform()->SetRelativePos(Vec3(0.07f, 0.05f, 1.f));
+		//Transform()->SetRelativeScale(Vec3(((float)playerstat->HP / playerstat->maxHP) * 0.83f, 0.28f, 1.f));
+		//Transform()->SetRelativePos(Vec3(0.07f, 0.05f, 1.f));
 		break;
 	}
 	case BarType::MP:
 	{
-		Transform()->SetRelativeScale(Vec3(((float)playerstat->MP / playerstat->maxMP) * 0.83f, 0.28f, 1.f));
-		Transform()->SetRelativePos(Vec3(0.07f, 0.05f, 1.f));
+		//Transform()->SetRelativeScale(Vec3(((float)playerstat->MP / playerstat->maxMP) * 0.83f, 0.28f, 1.f));
+		//Transform()->SetRelativePos(Vec3(0.07f, 0.05f, 1.f));
 		break;
 	}
 	case BarType::STAMINA:
 	{
-		Transform()->SetRelativeScale(Vec3((float)playerstat->Stamina / playerstat->maxStamina, 0.5f, 1.f));
-		Transform()->SetRelativePos(Vec3(0.f, 0.04f, 1.f));
+		//Transform()->SetRelativeScale(Vec3((float)playerstat->Stamina / playerstat->maxStamina, 0.5f, 1.f));
+		//Transform()->SetRelativePos(Vec3(0.f, 0.04f, 1.f));
 		break;
 	}
 	case BarType::BOSSHP:
 	{
-		Transform()->SetRelativeScale(Vec3(m_BossHP / 100.f, 0.5f, 1.f));
-		Transform()->SetRelativePos(Vec3(0.037f, -0.25f, 1.f));
+		//Transform()->SetRelativeScale(Vec3(m_BossHP / 100.f, 0.5f, 1.f));
+		//Transform()->SetRelativePos(Vec3(0.037f, -0.25f, 1.f));
 		break;
 	}
 	case BarType::NONE:
@@ -53,22 +53,24 @@ void CUIBarScript::Begin()
 void CUIBarScript::Tick()
 {
 	const std::shared_ptr<PlayerStatus>& playerstat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+	Vec3& barPos = Transform()->GetRelativePosRef();
 
 	switch (m_Type)
 	{
 	case BarType::HP:
 	{
-		Transform()->SetRelativeScale(Vec3(((float)playerstat->HP / playerstat->maxHP) * 0.83f, 0.28f, 1.f));
+		Transform()->SetRelativeScale(Vec3((playerstat->HP / playerstat->maxHP) * 144.41f, 9.52f, 1.f));
+		barPos.x = 13.57f - (playerstat->maxHP - playerstat->HP) / 144.41f * 18.5f;
 		break;
 	}
 	case BarType::MP:
 	{
-		Transform()->SetRelativeScale(Vec3(((float)playerstat->MP / playerstat->maxMP) * 0.83f, 0.28f, 1.f));
+		Transform()->SetRelativeScale(Vec3((playerstat->MP / playerstat->maxMP) * 149.83f, 8.28f, 1.f));
+		barPos.x = 8.07f - (playerstat->maxHP - playerstat->HP) / 149.83f * 18.5f;
 		break;
 	}
 	case BarType::STAMINA:
 	{
-		// 부모 있다고 가정
 		if (playerstat->Stamina >= playerstat->maxStamina)
 		{
 			CNPCUIScript* npcUIScript = static_cast<CNPCUIScript*>(GetOwner()->GetParent()->FindScript(SCRIPT_TYPE::NPCUISCRIPT));
@@ -86,7 +88,8 @@ void CUIBarScript::Tick()
 				if (!npcUIScript->IsActive())
 					npcUIScript->Activate();
 			}
-			Transform()->SetRelativeScale(Vec3((float)playerstat->Stamina / playerstat->maxStamina * 0.7, 0.2f, 1.f));
+			Transform()->SetRelativeScale(Vec3(playerstat->Stamina / playerstat->maxStamina * 98.2f, 7.3f, 1.f));
+			barPos.x = 0.f - (playerstat->maxStamina - playerstat->Stamina) / 98.2 * 43.f;
 		}
 		
 		break;
