@@ -13,6 +13,13 @@ void CNPCUIScript::Begin()
 {
 	MeshRender()->GetDynamicMaterial()->SetTexParam(TEX_PARAM::TEX_0, m_Texture);
 	MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, m_Tint);
+	if (!GetOwner()->GetChildren().empty())
+	{
+		for (auto& child : GetOwner()->GetChildren())
+		{
+			child->MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, m_Tint);
+		}
+	}
 }
 
 void CNPCUIScript::Tick()
@@ -23,6 +30,14 @@ void CNPCUIScript::Tick()
 		{
 			m_Tint.w += m_Speed * DT;
 			MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, m_Tint);
+
+			if (!GetOwner()->GetChildren().empty())
+			{
+				for (auto& child : GetOwner()->GetChildren())
+				{
+					child->MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, m_Tint);
+				}
+			}
 		}
 	}
 	else
@@ -31,6 +46,14 @@ void CNPCUIScript::Tick()
 		{
 			m_Tint.w -= m_Speed * DT;
 			MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, m_Tint);
+
+			if (!GetOwner()->GetChildren().empty())
+			{
+				for (auto& child : GetOwner()->GetChildren())
+				{
+					child->MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, m_Tint);
+				}
+			}
 		}
 	}
 }

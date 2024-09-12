@@ -2,6 +2,7 @@
 #include "CUIBarScript.h"
 #include "../Client/CPlayerManager.h"
 #include "../Client/CEditorMgr.h"
+#include "CNPCUIScript.h"
 
 CUIBarScript::CUIBarScript()
 	: CScript(SCRIPT_TYPE::UIBARSCRIPT)
@@ -65,7 +66,27 @@ void CUIBarScript::Tick()
 	}
 	case BarType::STAMINA:
 	{
-		Transform()->SetRelativeScale(Vec3((float)playerstat->Stamina / playerstat->maxStamina * 0.7, 0.2f, 1.f));
+		// 부모 있다고 가정
+		if (playerstat->Stamina >= playerstat->maxStamina)
+		{
+			CNPCUIScript* npcUIScript = static_cast<CNPCUIScript*>(GetOwner()->GetParent()->FindScript(SCRIPT_TYPE::NPCUISCRIPT));
+			if (npcUIScript != nullptr)
+			{
+				if (npcUIScript->IsActive())
+					npcUIScript->Deactivate();
+			}
+		}
+		else
+		{
+			CNPCUIScript* npcUIScript = static_cast<CNPCUIScript*>(GetOwner()->GetParent()->FindScript(SCRIPT_TYPE::NPCUISCRIPT));
+			if (npcUIScript != nullptr)
+			{
+				if (!npcUIScript->IsActive())
+					npcUIScript->Activate();
+			}
+			Transform()->SetRelativeScale(Vec3((float)playerstat->Stamina / playerstat->maxStamina * 0.7, 0.2f, 1.f));
+		}
+		
 		break;
 	}
 	case BarType::BOSSHP:
@@ -79,7 +100,8 @@ void CUIBarScript::Tick()
 	}
 	}
 
-	MeshRender()->GetDynamicMaterial()->SetScalarParam(VEC4_0, m_Tint);
+	if (GetOwner()->GetParent() == nullptr)
+			MeshRender()->GetDynamicMaterial()->SetScalarParam(VEC4_0, m_Tint);
 
 	if (m_Shake)
 	{

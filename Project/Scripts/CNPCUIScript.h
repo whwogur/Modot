@@ -17,10 +17,10 @@ public:
 public:
     void Activate() { m_Activated = true; }
     void Deactivate() { m_Activated = false; }
+    bool IsActive() const { return m_Activated; }
 private:
     bool                m_Activated;
     float               m_Speed = 1.f;
     Ptr<CTexture>       m_Texture;
     Vec4                m_Tint = Vec4(1.f, 1.f, 1.f, 0.f);
 };
-
