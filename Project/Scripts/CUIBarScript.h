@@ -34,6 +34,7 @@ private:
     Ptr<CTexture>   m_FillTex;
     BarType         m_Type = BarType::NONE;
 
+    Vec3            m_OwnerOriginalPos;
     Vec3            m_OriginalPos;
     Vec4            m_Tint = {1.f, 1.f, 1.f, 1.f};
 

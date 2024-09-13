@@ -60,13 +60,13 @@ void CUIBarScript::Tick()
 	case BarType::HP:
 	{
 		Transform()->SetRelativeScale(Vec3((playerstat->HP / playerstat->maxHP) * 144.41f, 9.52f, 1.f));
-		barPos.x = 13.57f - (playerstat->maxHP - playerstat->HP) / 144.41f * 18.5f;
+		barPos.x = 13.57f - (playerstat->maxHP - playerstat->HP) / 144.41f * 19.f;
 		break;
 	}
 	case BarType::MP:
 	{
 		Transform()->SetRelativeScale(Vec3((playerstat->MP / playerstat->maxMP) * 149.83f, 8.28f, 1.f));
-		barPos.x = 8.07f - (playerstat->maxHP - playerstat->HP) / 149.83f * 18.5f;
+		barPos.x = 8.07f - (playerstat->maxMP - playerstat->MP) / 149.83f * 18.5f;
 		break;
 	}
 	case BarType::STAMINA:
@@ -89,14 +89,15 @@ void CUIBarScript::Tick()
 					npcUIScript->Activate();
 			}
 			Transform()->SetRelativeScale(Vec3(playerstat->Stamina / playerstat->maxStamina * 98.2f, 7.3f, 1.f));
-			barPos.x = 0.f - (playerstat->maxStamina - playerstat->Stamina) / 98.2 * 43.f;
+			barPos.x = 0.f - (playerstat->maxStamina - playerstat->Stamina) / 98.2 * 49.1f;
 		}
 		
 		break;
 	}
 	case BarType::BOSSHP:
 	{
-		Transform()->SetRelativeScale(Vec3((m_BossHP / 100.f) * 0.9, 0.2f, 1.f));
+		Transform()->SetRelativeScale(Vec3((m_BossHP / 100.f) * 685.1f, 17.f, 1.f));
+		barPos.x = 28.f - (100.f - m_BossHP) * 3.5f;
 		break;
 	}
 	case BarType::NONE:
@@ -111,21 +112,25 @@ void CUIBarScript::Tick()
 	if (m_Shake)
 	{
 		m_Acc += DT;
-		Vec3& objPos = GetOwner()->GetParent()->Transform()->GetRelativePosRef();
+		Vec3& ownerPos = GetOwner()->GetParent()->Transform()->GetRelativePosRef();
+		Vec3& ownPos = Transform()->GetRelativePosRef();
 		int x = (rand() % 10 * 2) - 10;
 		int y = (rand() % 10 * 2) - 10;
 		x = x == 0 ? 1 : x;
 		y = y == 0 ? 1 : y;
 
-		objPos.x += (float)x * 0.1f;
-		objPos.y += (float)y * 0.1f;
+		ownerPos.x	+= (float)x * 0.1f;
+		ownerPos.y	+= (float)y * 0.1f;
+		ownPos.x	+= (float)x * 0.1f;
+		ownPos.y	+= (float)y * 0.1f;
 
 
 		if (m_Acc > m_Timer)
 		{
 			m_Acc = 0.f;
 			m_Shake = false;
-			GetOwner()->GetParent()->Transform()->SetRelativePos(m_OriginalPos);
+			GetOwner()->GetParent()->Transform()->SetRelativePos(m_OwnerOriginalPos);
+			Transform()->SetRelativePos(m_OriginalPos);
 		}
 	}
 }
@@ -147,5 +152,6 @@ void CUIBarScript::LoadFromFile(FILE* _File)
 void CUIBarScript::Shake()
 {
 	m_Shake = true;
-	m_OriginalPos = GetOwner()->GetParent()->Transform()->GetRelativePos();
+	m_OwnerOriginalPos = GetOwner()->GetParent()->Transform()->GetRelativePos();
+	m_OriginalPos = Transform()->GetRelativePos();
 }
