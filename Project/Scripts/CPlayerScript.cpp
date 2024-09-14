@@ -47,6 +47,7 @@ void CPlayerScript::Tick()
 	{
 		CPlayerManager::GetInst()->TakeDamage(10);
 		EDITOR_TRACE(u8"데미지 10 받음");
+		ChangeState(PlayerState::DAMAGED);
 
 	}
 	if (KEY_TAP(KEY::_2))
@@ -177,12 +178,14 @@ void CPlayerScript::Tick()
 	}
 	case PlayerState::BRAKE:
 	{
+		CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
 		if (Animator2D()->IsFinished())
 			ChangeState(PlayerState::IDLE);
 		break;
 	}
 	case PlayerState::FALL:
 	{
+		CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
 		if (KEY_PRESSED(KEY::RIGHT))
 		{
 			RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
@@ -200,6 +203,23 @@ void CPlayerScript::Tick()
 	}
 	case PlayerState::DAMAGED:
 	{
+		m_Acc += DT;
+		IdleRoutine();
+		if (m_Acc > m_Timer)
+		{
+			if (m_BlinkCount > 10)
+				ChangeState(PlayerState::IDLE);
+			else
+			{
+				m_Acc = 0.f;
+				++m_BlinkCount;
+			}
+		}
+		else
+		{
+			int bindNum = m_BlinkCount % 2 ? 0 : 1;
+			MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::INT_3, bindNum);
+		}
 		break;
 	}
 	case PlayerState::DEAD:
@@ -389,6 +409,8 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	case PlayerState::DAMAGED:
 	{
+		m_Acc = 0.f;
+		m_Timer = 0.2f;
 		break;
 	}
 	case PlayerState::DEAD:

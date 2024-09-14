@@ -47,6 +47,7 @@ private:
 
     float           m_Acc = 0.f;
     float           m_Timer = 0.f;
+    int             m_BlinkCount = 0;
 
     bool            m_Attack1 = false;
     bool            m_Attack2 = false;
