@@ -26,8 +26,6 @@ void CPlatformScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _Othe
 		rb->SetGravityAccel(100.f);
 	}*/
 
-    
-
     if (_OtherObject->RigidBody() != nullptr)
     {
         // _OtherObject->RigidBody()->SetGround(true);

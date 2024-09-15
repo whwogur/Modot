@@ -492,10 +492,10 @@ void CLinethScript::EndState(LinethState _State)
 		switch (randNum)
 		{
 		case 0:
-			Transform()->SetRelativePos(playerPos + Vec3(50.f, 0.f, 0.f));
+			Transform()->SetRelativePos(playerPos + Vec3(100.f, 0.f, 0.f));
 			break;
 		case 1:
-			Transform()->SetRelativePos(playerPos + Vec3(-50.f, 0.f, 0.f));
+			Transform()->SetRelativePos(playerPos + Vec3(-100.f, 0.f, 0.f));
 			break;
 		}
 		
@@ -594,25 +594,35 @@ void CLinethScript::DirectionCheck()
 
 void CLinethScript::RandomAttack()
 {
-	int randNum = std::rand() % 5;
-
 	DirectionCheck();
-	switch (randNum)
+	const Vec3& playerPos = m_Target->Transform()->GetRelativePosRef();
+	const Vec3& linPos = Transform()->GetRelativePosRef();
+
+	if (fabs(playerPos.x - linPos.x) < 300.f)
 	{
-	case 0:
-		ChangeState(LinethState::BACKFLIP);
-		break;
-	case 1:
-		ChangeState(LinethState::TELEPORT);
-		break;
-	case 2:
-		ChangeState(LinethState::GOOP);
-		break;
-	case 3:
-		ChangeState(LinethState::SUNBO);
-		break;
-	case 4:
-		ChangeState(LinethState::ATTACKFROMSKY);
-		break;
+		ChangeState(LinethState::SLASH);
+	}
+	else
+	{
+		int randNum = std::rand() % 5;
+
+		switch (randNum)
+		{
+		case 0:
+			ChangeState(LinethState::BACKFLIP);
+			break;
+		case 1:
+			ChangeState(LinethState::TELEPORT);
+			break;
+		case 2:
+			ChangeState(LinethState::GOOP);
+			break;
+		case 3:
+			ChangeState(LinethState::SUNBO);
+			break;
+		case 4:
+			ChangeState(LinethState::ATTACKFROMSKY);
+			break;
+		}
 	}
 }

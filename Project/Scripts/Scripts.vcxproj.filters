@@ -61,13 +61,13 @@
     <ClInclude Include="CLinethScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="CManagerScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CBlurControl.h">
       <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CUIBarScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="CMinimap.h">
       <Filter>Scripts</Filter>
     </ClInclude>
   </ItemGroup>
@@ -124,13 +124,13 @@
     <ClCompile Include="CLinethScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="CManagerScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CBlurControl.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CUIBarScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CMinimap.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>

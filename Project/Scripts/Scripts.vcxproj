@@ -109,7 +109,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CDemonScript.h" />
     <ClInclude Include="CHellfireScript.h" />
     <ClInclude Include="CLinethScript.h" />
-    <ClInclude Include="CManagerScript.h" />
+    <ClInclude Include="CMinimap.h" />
     <ClInclude Include="CNPCScript.h" />
     <ClInclude Include="CNPCUIScript.h" />
     <ClInclude Include="CParticleScript.h" />
@@ -132,7 +132,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CDemonScript.cpp" />
     <ClCompile Include="CHellfireScript.cpp" />
     <ClCompile Include="CLinethScript.cpp" />
-    <ClCompile Include="CManagerScript.cpp" />
+    <ClCompile Include="CMinimap.cpp" />
     <ClCompile Include="CNPCScript.cpp" />
     <ClCompile Include="CNPCUIScript.cpp" />
     <ClCompile Include="CParticleScript.cpp" />
