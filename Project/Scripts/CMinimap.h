@@ -1,5 +1,14 @@
 #pragma once
 #include "C:\Users\cuteg\Desktop\Modot\External\Include\Engine\CScript.h"
+enum class MapType
+{
+    KOHOVILL,
+    KOHOSHRINE,
+    DEMON,
+    LINETH,
+
+    END,
+};
 
 class CMinimap :
     public CScript
@@ -16,9 +25,15 @@ public:
 
 private:
     Ptr<CSound>     m_BGM;
+    Ptr<CTexture>   m_MapTileTex;
 
-    CGameObject*    m_Player;
+    CGameObject*    m_Player = nullptr;
 
-    float           m_SpaceDivX = 0.f;
+    CGameObject*    m_PlayerIcon = nullptr;
+
+    float           m_Acc = 0.f;
+    float           m_Timer = 2.f;
+
+    MapType         m_Type = MapType::END;
 };
 

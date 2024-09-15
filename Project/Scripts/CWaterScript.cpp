@@ -38,7 +38,7 @@ void CWaterScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherOb
 			splash->Animator2D()->Reset();
 		}
 
-		m_Water1->Play(1, 10.f, false);
+		m_Water1->Play(1, 0.8f, false);
 	}
 }
 
@@ -55,6 +55,6 @@ void CWaterScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObje
 			splash->Animator2D()->Play(1, 14.f, false);
 			splash->Animator2D()->Reset();
 		}
-		m_Water2->Play(1, 10.f, false);
+		m_Water2->Play(1, 0.8f, false);
 	}
 }

@@ -13,7 +13,7 @@ CNPCScript::CNPCScript()
 
 void CNPCScript::Begin()
 {
-	GetOwner()->Animator2D()->Play(m_AnimIndex, m_FPS, true);
+	Animator2D()->Play(m_AnimIndex, m_FPS, true);
 }
 
 void CNPCScript::Tick()

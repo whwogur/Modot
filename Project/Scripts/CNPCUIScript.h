@@ -18,6 +18,7 @@ public:
     void Activate() { m_Activated = true; }
     void Deactivate() { m_Activated = false; }
     bool IsActive() const { return m_Activated; }
+    void SetSpeed(float _Val) { m_Speed = _Val; }
 private:
     bool                m_Activated;
     float               m_Speed = 1.f;
