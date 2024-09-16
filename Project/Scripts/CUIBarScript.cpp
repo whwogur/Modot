@@ -89,7 +89,7 @@ void CUIBarScript::Tick()
 					npcUIScript->Activate();
 			}
 			Transform()->SetRelativeScale(Vec3(playerstat->Stamina / playerstat->maxStamina * 98.2f, 7.3f, 1.f));
-			barPos.x = 0.f - (playerstat->maxStamina - playerstat->Stamina) / 98.2 * 49.1f;
+			barPos.x = 0.f - (playerstat->maxStamina - playerstat->Stamina) / 98.2f * 49.1f;
 		}
 		
 		break;

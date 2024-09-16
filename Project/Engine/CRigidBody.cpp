@@ -74,6 +74,9 @@ void CRigidBody::FinalTick()
         m_Velocity.y = (m_Velocity.y / fabsf(m_Velocity.y)) * m_MaxGravityVel;
     }
 
+    if ((m_RightWall && m_Velocity.x > 0) || (m_LeftWall && m_Velocity.x < 0))
+        m_Velocity.x = 0;
+
     Vec3& vTrans = Transform()->GetRelativePosRef();
     vTrans += {m_Velocity.x* DT, m_Velocity.y * DT, 0.0f};
 

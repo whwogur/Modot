@@ -17,7 +17,9 @@ public:
 
     virtual void SaveToFile(FILE* _File) override;
     virtual void LoadFromFile(FILE* _File) override;
+
 private:
     Vec2    m_SlopeNormal;
+    bool    m_DownJump = false;
 };
 

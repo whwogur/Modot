@@ -36,6 +36,8 @@ public:
             m_FrictionScale = 0.5f;
         }
     }
+    void SetLeftWall(bool _b) { m_LeftWall = _b; }
+    void SetRightWall(bool _b) { m_RightWall = _b; }
 
     bool IsGround()const { return m_Ground; }
 
@@ -61,6 +63,9 @@ private:
 
     float   m_GravityAccel;    // 중력 가속도 설정
     bool    m_Ground;          // 땅 체크
+
+    bool    m_LeftWall = false;
+    bool    m_RightWall = false;
     Vec2    m_GroundNormal;
 };
 
