@@ -33,11 +33,12 @@ public:
     virtual void SaveToFile(FILE* _File) override;
     virtual void LoadFromFile(FILE* _File) override;
 
+    void ChangeState(PlayerState _NextState);
+
 private:
     void BeginState(PlayerState _State);
     void DirectionCheck();
     void EndState(PlayerState _State);
-    void ChangeState(PlayerState _NextState);
 
     void Jump();
     void IdleRoutine();

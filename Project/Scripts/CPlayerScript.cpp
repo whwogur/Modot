@@ -313,10 +313,6 @@ void CPlayerScript::Tick()
 
 void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	if (_OwnCollider->GetOverlapCount() == 1)
-	{
-		ChangeState(PlayerState::LAND);
-	}
 }
 
 void CPlayerScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
@@ -692,12 +688,22 @@ void CPlayerScript::Jump()
 	{
 		if (KEY_TAP(KEY::A))
 		{
-			RigidBody()->SetGravityAccel(2500.f);
+			if (KEY_PRESSED(KEY::DOWN))
+			{
+				if (RigidBody()->CanJumpDown())
+				{
+					RigidBody()->SetGround(false);
+				}
+			}
+			else
+			{
+				RigidBody()->SetGravityAccel(2500.f);
 
-			Vec2 vCurVel = RigidBody()->GetVelocity();
-			RigidBody()->SetVelocity(Vec2(vCurVel.x, 3000.f));
-			RigidBody()->SetGround(false);
-
+				Vec2 vCurVel = RigidBody()->GetVelocity();
+				RigidBody()->SetVelocity(Vec2(vCurVel.x, 3000.f));
+				RigidBody()->SetGround(false);
+			}
+			
 			ChangeState(PlayerState::JUMP);
 		}
 	}

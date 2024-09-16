@@ -38,6 +38,8 @@ public:
     }
     void SetLeftWall(bool _b) { m_LeftWall = _b; }
     void SetRightWall(bool _b) { m_RightWall = _b; }
+    void SetDownJump(bool _b) { m_CanJumpDown = _b; }
+    bool CanJumpDown() const { return m_CanJumpDown; }
 
     bool IsGround()const { return m_Ground; }
 
@@ -66,6 +68,8 @@ private:
 
     bool    m_LeftWall = false;
     bool    m_RightWall = false;
+    bool    m_CanJumpDown = false;
+
     Vec2    m_GroundNormal;
 };
 

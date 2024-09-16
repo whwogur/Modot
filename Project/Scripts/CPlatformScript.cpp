@@ -1,6 +1,7 @@
 #include "spch.h"
 #include "CPlatformScript.h"
 #include "../Client/CEditorMgr.h"
+#include "CPlayerScript.h"
 
 CPlatformScript::CPlatformScript()
 	: CScript(SCRIPT_TYPE::PLATFORMSCRIPT)
@@ -61,7 +62,16 @@ void CPlatformScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _Othe
             if (deltaY > 0)
             {
                 rb->SetGround(true);
+                rb->SetDownJump(m_DownJump);
                 rb->SetGroundNormal(m_SlopeNormal);
+                if (_OtherObject->GetName() == L"Player")
+                {
+                    CPlayerScript* playerScript = static_cast<CPlayerScript*>(_OtherObject->FindScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT));
+                    if(playerScript != nullptr)
+                    {
+                        playerScript->ChangeState(PlayerState::LAND);
+                    }
+                }
             }
             else if (!m_DownJump)
             {
@@ -101,8 +111,10 @@ void CPlatformScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 
 void CPlatformScript::SaveToFile(FILE* _File)
 {
+    fwrite(&m_DownJump, sizeof(bool), 1, _File);
 }
 
 void CPlatformScript::LoadFromFile(FILE* _File)
 {
+    fread(&m_DownJump, sizeof(bool), 1, _File);
 }
