@@ -77,7 +77,7 @@ void CEngine::Run()
 
 	CTaskMgr::GetInst()->Tick();
 
-	CPlayerManager::GetInst()->DisplayStats(); // ÀÀ¾Ö ¤Ð¤Ð¤Ð
+	CPlayerManager::GetInst()->DisplayStats();
 }
 
 

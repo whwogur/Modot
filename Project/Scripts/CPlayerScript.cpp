@@ -16,6 +16,7 @@ CPlayerScript::CPlayerScript()
 
 void CPlayerScript::Begin()
 {
+	CPlayerManager::GetInst()->SetStatDisplay(true);
 	GetRenderComponent()->GetDynamicMaterial();
 	m_State = PlayerState::JUMP;
 

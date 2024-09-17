@@ -60,6 +60,9 @@ public:
 	}
 
 	void DisplayStats();
+	void SetStatDisplay(bool _b) { m_DisplayStats = _b; }
+
 private:
 	std::shared_ptr<PlayerStatus> m_PlayerStatus = nullptr;
+	bool			m_DisplayStats = false;
 };
