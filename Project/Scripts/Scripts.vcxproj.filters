@@ -73,6 +73,9 @@
     <ClInclude Include="CTitleSequence.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CArrowScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -137,6 +140,9 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CTitleSequence.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CArrowScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>

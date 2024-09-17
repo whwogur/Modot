@@ -1,6 +1,7 @@
 #include "spch.h"
 #include "CScriptMgr.h"
 
+#include "CArrowScript.h"
 #include "CAttackScript.h"
 #include "CBackGroundScript.h"
 #include "CBellScript.h"
@@ -23,6 +24,7 @@
 
 void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 {
+	_vec.push_back(L"CArrowScript");
 	_vec.push_back(L"CAttackScript");
 	_vec.push_back(L"CBackGroundScript");
 	_vec.push_back(L"CBellScript");
@@ -46,6 +48,8 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 
 CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 {
+	if (L"CArrowScript" == _strScriptName)
+		return new CArrowScript;
 	if (L"CAttackScript" == _strScriptName)
 		return new CAttackScript;
 	if (L"CBackGroundScript" == _strScriptName)
@@ -91,6 +95,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 {
 	switch (_iScriptType)
 	{
+	case (UINT)SCRIPT_TYPE::ARROWSCRIPT:
+		return new CArrowScript;
+		break;
 	case (UINT)SCRIPT_TYPE::ATTACKSCRIPT:
 		return new CAttackScript;
 		break;
@@ -156,6 +163,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 {
 	switch ((SCRIPT_TYPE)_pScript->GetScriptType())
 	{
+	case SCRIPT_TYPE::ARROWSCRIPT:
+		return L"CArrowScript";
+		break;
+
 	case SCRIPT_TYPE::ATTACKSCRIPT:
 		return L"CAttackScript";
 		break;

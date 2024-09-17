@@ -5,6 +5,7 @@
 #include <Engine/CLevelMgr.h>
 #include "CUIBarScript.h"
 #include "../Client/CPlayerManager.h"
+#include "CArrowScript.h"
 
 CPlayerScript::CPlayerScript()
 	: CScript(UINT(SCRIPT_TYPE::PLAYERSCRIPT))
@@ -38,6 +39,19 @@ void CPlayerScript::Begin()
 	{
 		m_LeafThrowR = fx;
 		m_LeafThrowR->Transform()->SetRelativePos(Vec3(-7777.f, -7777.f, 0.f));
+	}
+
+	for (int i = 0; i < 4; ++i)
+	{
+		wchar_t objName[10];
+		swprintf(objName, 10, L"Arrow%d", i);
+
+		fx = CLevelMgr::GetInst()->FindObjectByName(objName);
+		if (fx != nullptr)
+		{
+			m_Arrow[i] = fx;
+			m_Arrow[i]->Transform()->SetRelativePos(Vec3(-7777.f, -7777.f, 0.f));
+		}
 	}
 }
 
@@ -94,7 +108,11 @@ void CPlayerScript::Tick()
 		{
 			ChangeState(PlayerState::ATTACK1);
 		}
-		
+		else if (KEY_TAP(KEY::D))
+		{
+			ChangeState(PlayerState::SHOOT);
+		}
+
 		if (RigidBody()->GetVelocity().y < 0)
 			ChangeState(PlayerState::FALL);
 		break;
@@ -199,6 +217,10 @@ void CPlayerScript::Tick()
 		if (KEY_TAP(KEY::S))
 		{
 			ChangeState(PlayerState::ATTACK1);
+		}
+		else if (KEY_TAP(KEY::D))
+		{
+			ChangeState(PlayerState::SHOOT);
 		}
 		break;
 	}
@@ -527,7 +549,38 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	case PlayerState::SHOOT:
 	{
-		Animator2D()->Play(L"Momo_Shoot", 13.0f, false);
+		if (RigidBody()->IsGround())
+		{
+			Animator2D()->Play(L"Momo_Shoot", 13.0f, false);
+		}
+		else
+		{
+			Animator2D()->Play(L"Momo_AirShoot", 14.f, false);
+		}
+		
+		for (int i = 0; i < 4; ++i)
+		{
+			CArrowScript* arrowScript = static_cast<CArrowScript*>(m_Arrow[i]->FindScript((UINT)ARROWSCRIPT));
+			if (arrowScript != nullptr && !arrowScript->IsActive())
+			{
+				const Vec3& momoPos = Transform()->GetRelativePosRef();
+				OBJECT_DIR momoDir = Transform()->GetObjectDir();
+
+				if (momoDir == OBJECT_DIR::RIGHT)
+				{
+					m_Arrow[i]->Transform()->SetRelativePos(momoPos + Vec3(50.f, 0.f, 0.f));
+				}
+				else
+				{
+					m_Arrow[i]->Transform()->SetRelativePos(momoPos + Vec3(-50.f, 0.f, 0.f));
+				}
+
+
+				m_Arrow[i]->Transform()->SetDir(momoDir);
+				arrowScript->Activate();
+				break;
+			}
+		}
 		break;
 	}
 	case PlayerState::INTERACTION:
