@@ -95,6 +95,14 @@ void ScriptUI::Update()
 			ImGui::PopStyleColor(3);
 			break;
 		}
+		case SCRIPT_PARAM::CHAR:
+		{	
+			ImGui::TextColored(HEADER_2, vecParam[i].Desc.c_str());
+			ImGui::InputText("##CharParam", (char*)vecParam[i].pData, 255, ImGuiInputTextFlags_EnterReturnsTrue);
+			if (!vecParam[i].Tooltip.empty())
+				ImGui::SetItemTooltip(vecParam[i].Tooltip.c_str());
+			break;
+		}
 		}
 	}
 

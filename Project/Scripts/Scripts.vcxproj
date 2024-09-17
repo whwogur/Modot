@@ -109,6 +109,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CCameraMoveScript.h" />
     <ClInclude Include="CDemonScript.h" />
     <ClInclude Include="CHellfireScript.h" />
+    <ClInclude Include="CLevelTransitionScript.h" />
     <ClInclude Include="CLinethScript.h" />
     <ClInclude Include="CMinimap.h" />
     <ClInclude Include="CNPCScript.h" />
@@ -134,6 +135,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CCameraMoveScript.cpp" />
     <ClCompile Include="CDemonScript.cpp" />
     <ClCompile Include="CHellfireScript.cpp" />
+    <ClCompile Include="CLevelTransitionScript.cpp" />
     <ClCompile Include="CLinethScript.cpp" />
     <ClCompile Include="CMinimap.cpp" />
     <ClCompile Include="CNPCScript.cpp" />

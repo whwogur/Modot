@@ -21,6 +21,7 @@ enum class SCRIPT_PARAM
     PREFAB,
     SPRITE,
     BUTTON,// Á¶½É
+    CHAR,
 };
 
 struct tScriptParam

@@ -1,6 +1,7 @@
 #include "spch.h"
 #include "CAttackScript.h"
 #include <Engine/CLevelMgr.h>
+#include "CPlatformScript.h"
 CAttackScript::CAttackScript()
 	: CScript(SCRIPT_TYPE::ATTACKSCRIPT)
 {
@@ -28,51 +29,55 @@ void CAttackScript::Tick()
 
 void CAttackScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	const Vec3& hitPos = Transform()->GetRelativePosRef();
-	
-	OBJECT_DIR dir = Transform()->GetObjectDir();
-	const float XOffset = dir == OBJECT_DIR::RIGHT ? 100.f : -100.f;
+	CPlatformScript* platformCheck = dynamic_cast<CPlatformScript*>(_OtherObject->FindScript((UINT)SCRIPT_TYPE::PLATFORMSCRIPT));
+	if (platformCheck == nullptr)
+	{
+		const Vec3& hitPos = Transform()->GetRelativePosRef();
 
-	int randNum = std::rand() % 2;
+		OBJECT_DIR dir = Transform()->GetObjectDir();
+		const float XOffset = dir == OBJECT_DIR::RIGHT ? 100.f : -100.f;
 
-	switch (randNum)
-	{
-	case 0:
-	{
-		HitFXList[0]->Transform()->SetRelativePos(hitPos + Vec3(XOffset, 0.f, 0.f));
-		HitFXList[0]->Animator2D()->Reset();
-		HitFXList[0]->Animator2D()->Play(0, 20.f, false);
-		HitFXList[0]->Transform()->SetDir(dir);
-		m_ActiveList[0] = true;
-		break;
-	}
-	case 1:
-	{
-		HitFXList[1]->Transform()->SetRelativePos(hitPos + Vec3(XOffset, 0.f, 0.f));
-		HitFXList[1]->Animator2D()->Reset();
-		HitFXList[1]->Animator2D()->Play(0, 20.f, false);
-		HitFXList[1]->Transform()->SetDir(dir);
-		m_ActiveList[1] = true;
-		break;
-	}
-	}
+		int randNum = std::rand() % 2;
 
-	if (dir == OBJECT_DIR::LEFT)
-	{
-		HitFXList[3]->Transform()->SetRelativePos(hitPos + Vec3(XOffset, -10.f, 0.f));
-		HitFXList[3]->ParticleSystem()->Jerk();
-		HitFXList[3]->ParticleSystem()->SetBurst(true);
-		m_ActiveList[3] = true;
-	}
-	else
-	{
-		HitFXList[2]->Transform()->SetRelativePos(hitPos + Vec3(XOffset, -10.f, 0.f));
-		HitFXList[2]->ParticleSystem()->Jerk();
-		HitFXList[2]->ParticleSystem()->SetBurst(true);
-		m_ActiveList[2] = true;
-	}
+		switch (randNum)
+		{
+		case 0:
+		{
+			HitFXList[0]->Transform()->SetRelativePos(hitPos + Vec3(XOffset, 0.f, 0.f));
+			HitFXList[0]->Animator2D()->Reset();
+			HitFXList[0]->Animator2D()->Play(0, 20.f, false);
+			HitFXList[0]->Transform()->SetDir(dir);
+			m_ActiveList[0] = true;
+			break;
+		}
+		case 1:
+		{
+			HitFXList[1]->Transform()->SetRelativePos(hitPos + Vec3(XOffset, 0.f, 0.f));
+			HitFXList[1]->Animator2D()->Reset();
+			HitFXList[1]->Animator2D()->Play(0, 20.f, false);
+			HitFXList[1]->Transform()->SetDir(dir);
+			m_ActiveList[1] = true;
+			break;
+		}
+		}
 
-	m_HitSound->Play(1, 2.f, true);
+		if (dir == OBJECT_DIR::LEFT)
+		{
+			HitFXList[3]->Transform()->SetRelativePos(hitPos + Vec3(XOffset, -10.f, 0.f));
+			HitFXList[3]->ParticleSystem()->Jerk();
+			HitFXList[3]->ParticleSystem()->SetBurst(true);
+			m_ActiveList[3] = true;
+		}
+		else
+		{
+			HitFXList[2]->Transform()->SetRelativePos(hitPos + Vec3(XOffset, -10.f, 0.f));
+			HitFXList[2]->ParticleSystem()->Jerk();
+			HitFXList[2]->ParticleSystem()->SetBurst(true);
+			m_ActiveList[2] = true;
+		}
+
+		m_HitSound->Play(1, 2.f, true);
+	}
 }
 
 void CAttackScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
