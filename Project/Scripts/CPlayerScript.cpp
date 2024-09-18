@@ -19,7 +19,11 @@ void CPlayerScript::Begin()
 {
 	CPlayerManager::GetInst()->SetStatDisplay(true);
 	GetRenderComponent()->GetDynamicMaterial();
-	m_State = PlayerState::JUMP;
+	const std::shared_ptr<PlayerStatus>& playerStat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+	
+	Transform()->SetRelativePos(playerStat.get()->Pos);
+
+	m_State = PlayerState::IDLE;
 
 	CGameObject* fx = CLevelMgr::GetInst()->FindObjectByName(L"AttackBox");
 	if (fx != nullptr)
@@ -634,7 +638,7 @@ void CPlayerScript::EndState(PlayerState _State)
 	}
 	case PlayerState::DOUBLEJUMP:
 	{
-		
+
 		break;
 	}
 	case PlayerState::LAND:

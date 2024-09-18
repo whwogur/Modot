@@ -3,11 +3,13 @@
 #include "../Client/CLevelSaveLoad.h"
 #include "../Client/Inspector.h"
 #include "../Client/CEditorMgr.h"
+#include "../Client/CPlayerManager.h"
 
 CLevelTransitionScript::CLevelTransitionScript()
 	: CScript(SCRIPT_TYPE::LEVELTRANSITIONSCRIPT)
 {
 	AddScriptParam(SCRIPT_PARAM::CHAR, u8"목적레벨", &m_LevelName);
+	AddScriptParam(SCRIPT_PARAM::VEC3, u8"위치", &m_Pos);
 }
 
 void CLevelTransitionScript::Begin()
@@ -21,11 +23,13 @@ void CLevelTransitionScript::Tick()
 void CLevelTransitionScript::SaveToFile(FILE* _File)
 {
 	fwrite(&m_LevelName, 255, 1, _File);
+	fwrite(&m_Pos, sizeof(Vec3), 1, _File);
 }
 
 void CLevelTransitionScript::LoadFromFile(FILE* _File)
 {
 	fread(&m_LevelName, 255, 1, _File);
+	fread(&m_Pos, sizeof(Vec3), 1, _File);
 }
 
 void CLevelTransitionScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
@@ -38,7 +42,7 @@ void CLevelTransitionScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject
 	pInspector->SetTargetObject(nullptr);
 	pInspector->SetTargetAsset(nullptr);
 #endif
-
+	CPlayerManager::GetInst()->SetNextPos(m_Pos);
 	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\" + wstrLevel);
-	ChangeLevel(pLevel, LEVEL_STATE::STOP);
+	ChangeLevel(pLevel, LEVEL_STATE::PLAY);
 }

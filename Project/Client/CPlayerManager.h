@@ -20,7 +20,8 @@ public:
 	float		maxMP;
 	float		maxStamina;
 
-	float	Damage;
+	float		Damage;
+	Vec3		Pos = {0.f, 0.f, 1.9f};
 };
 
 class CPlayerManager
@@ -29,7 +30,8 @@ class CPlayerManager
 	SINGLE(CPlayerManager)
 public:
 	void Init();
-	const std::shared_ptr<PlayerStatus>& GetPlayerStatusRef() { return m_PlayerStatus; }
+
+	std::shared_ptr<PlayerStatus>& GetPlayerStatusRef() { return m_PlayerStatus; }
 
 	void TakeDamage(float _Damage) 
 	{ 
@@ -61,7 +63,7 @@ public:
 
 	void DisplayStats();
 	void SetStatDisplay(bool _b) { m_DisplayStats = _b; }
-
+	void SetNextPos(Vec3 _Pos) { m_PlayerStatus.get()->Pos = _Pos; }
 private:
 	std::shared_ptr<PlayerStatus> m_PlayerStatus = nullptr;
 	bool			m_DisplayStats = false;

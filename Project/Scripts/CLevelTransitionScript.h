@@ -15,6 +15,7 @@ public:
     
     virtual void BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) override;
 private:
-    char   m_LevelName[255] = {};
+    char    m_LevelName[255] = {};
+    Vec3    m_Pos = {0.f, 0.f, 1.9f};
 };
 
