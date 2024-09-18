@@ -18,7 +18,7 @@
 
 void CTestLevel::CreateTestLevel()
 {
-	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\TitleTEST.lv");
+	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\KohoShrineTEST.lv");
 	CPlayerManager::GetInst()->Init();
 	/*pLevel->GetLayer(5)->SetName(L"PlayerAttack");
 	pLevel->GetLayer(6)->SetName(L"MonsterAttack");
@@ -26,6 +26,7 @@ void CTestLevel::CreateTestLevel()
 	pLevel->GetLayer(9)->SetName(L"Camera");
 	pLevel->GetLayer(10)->SetName(L"LevelBounds");
 	pLevel->GetLayer(11)->SetName(L"UI");*/
+	//pLevel->GetLayer(12)->SetName(L"Trigger");
 
 	//pLevel->SetName(L"ParticleFactory");
 	ChangeLevel(pLevel, LEVEL_STATE::STOP);
