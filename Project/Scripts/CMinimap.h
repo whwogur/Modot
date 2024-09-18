@@ -4,6 +4,7 @@ enum class MapType
 {
     KOHOVILL,
     KOHOSHRINE,
+    KOHOSTREET,
     DEMON,
     LINETH,
 

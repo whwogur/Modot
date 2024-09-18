@@ -6,7 +6,7 @@
 CMinimap::CMinimap()
 	: CScript(SCRIPT_TYPE::MINIMAP)
 {
-	AddScriptParam(SCRIPT_PARAM::INT, u8"¸Ê", &m_Type, 0, 0, "0: KohoVill, 1: KohoShrine\n2: Demon, 3:Lineth");
+	AddScriptParam(SCRIPT_PARAM::INT, u8"¸Ê", &m_Type, 0, 0, "0: KohoVill, 1: KohoShrine\n2: Street, 3:Demon, 4: Lineth");
 }
 
 void CMinimap::Begin()
@@ -27,6 +27,12 @@ void CMinimap::Begin()
 	{
 		m_BGM = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage");
 		
+		break;
+	}
+	case MapType::KOHOSTREET:
+	{
+		m_BGM = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage");
+
 		break;
 	}
 	case MapType::DEMON:
