@@ -20,7 +20,15 @@ void CPlayerScript::Begin()
 	CPlayerManager::GetInst()->SetStatDisplay(true);
 	GetRenderComponent()->GetDynamicMaterial();
 	const std::shared_ptr<PlayerStatus>& playerStat = CPlayerManager::GetInst()->GetPlayerStatusRef();
-	
+	if (KEY_PRESSED(KEY::LEFT))
+	{
+		Transform()->SetDir(OBJECT_DIR::LEFT);
+	}
+	if (KEY_PRESSED(KEY::RIGHT))
+	{
+		Transform()->SetDir(OBJECT_DIR::RIGHT);
+	}
+
 	Transform()->SetRelativePos(playerStat.get()->Pos);
 
 	m_State = PlayerState::IDLE;
@@ -444,7 +452,8 @@ void CPlayerScript::BeginState(PlayerState _State)
 	case PlayerState::SPRINT:
 	{
 		Animator2D()->Play(L"Momo_Sprint", 14.0f, true);
-		m_Speed = 2000.0f;
+		RigidBody()->SetVelocityLimit(500.f);
+		m_Speed = 1000.0f;
 
 		CGameObject* fx = GetOwner()->GetChildObject(L"SprintStart");
 		if (fx != nullptr)
@@ -680,6 +689,7 @@ void CPlayerScript::EndState(PlayerState _State)
 			fx->ParticleSystem()->SetBurst(false);
 		}
 		m_Speed = 300.0f;
+		RigidBody()->SetVelocityLimit(300.f);
 		break;
 	}
 	case PlayerState::ATTACK1:
@@ -755,10 +765,8 @@ void CPlayerScript::Jump()
 			}
 			else
 			{
-				RigidBody()->SetGravityAccel(2500.f);
-
 				Vec2 vCurVel = RigidBody()->GetVelocity();
-				RigidBody()->SetVelocity(Vec2(vCurVel.x, 3000.f));
+				RigidBody()->SetVelocity(Vec2(vCurVel.x, 3500.f));
 				RigidBody()->SetGround(false);
 			}
 			
@@ -770,10 +778,8 @@ void CPlayerScript::Jump()
 	{
 		if (KEY_TAP(KEY::A))
 		{
-			RigidBody()->SetGravityAccel(2500.f);
-
 			Vec2 vCurVel = RigidBody()->GetVelocity();
-			RigidBody()->SetVelocity(Vec2(vCurVel.x, 3000.f));
+			RigidBody()->SetVelocity(Vec2(vCurVel.x, 3500.f));
 
 			ChangeState(PlayerState::DOUBLEJUMP);
 		}

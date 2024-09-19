@@ -31,7 +31,7 @@ void MenuUI::Tick()
 	if (ImGui::BeginMainMenuBar())
 	{
 		Ptr<CTexture> LogoTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Modot_Logo");
-		ImGui::Image(LogoTex->GetSRV().Get(), { 20 ,20 });
+		ImGui::Image(LogoTex->GetSRV().Get(), { 25 ,25 });
 
 		Update();
 
@@ -209,7 +209,7 @@ void MenuUI::File()
 			CEditorMgr::GetInst()->FindEditorUI("FileBrowser")->Toggle();
 		}
 
-		if (ImGui::MenuItem(u8"종료"))
+		if (ImGui::MenuItem(ICON_FA_POWER_OFF , "CTRL + F4"))
 		{
 			PostQuitMessage(0);
 		}
@@ -254,7 +254,7 @@ void MenuUI::Assets()
 {
 	if (ImGui::BeginMenu(ICON_FA_SUITCASE " Assets"))
 	{
-		if (ImGui::MenuItem(u8"재질 저장"))
+		if (ImGui::MenuItem(ICON_FA_FLOPPY_O " Save Material"))
 		{
 			Inspector* pInspector = static_cast<Inspector*>(CEditorMgr::GetInst()->FindEditorUI("Inspector"));
 			Ptr<CMaterial> curMat = dynamic_cast<CMaterial*>(pInspector->GetTargetAsset().Get());
@@ -265,6 +265,7 @@ void MenuUI::Assets()
 				curMat->Save(wstrPath + wstrKey + L".mtrl");
 			}
 		}
+		ImGui::SetItemTooltip(u8"재질을 파일로 저장합니다.");
 
 		AddScript();
 
@@ -342,7 +343,7 @@ void MenuUI::SaveLevelAs()
 
 void MenuUI::AddScript()
 {
-	if (ImGui::BeginMenu(u8"스크립트 추가"))
+	if (ImGui::BeginMenu(ICON_FA_CODE " Add Script"))
 	{
 		vector<wstring> vecScriptsName;
 		CScriptMgr::GetScriptInfo(vecScriptsName);
