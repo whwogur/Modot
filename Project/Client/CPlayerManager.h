@@ -61,7 +61,6 @@ public:
 			m_PlayerStatus.get()->HP = m_PlayerStatus.get()->maxHP;
 	}
 
-	void DisplayStats();
 	void SetStatDisplay(bool _b) { m_DisplayStats = _b; }
 	void SetNextPos(Vec3 _Pos) { m_PlayerStatus.get()->Pos = _Pos; }
 private:

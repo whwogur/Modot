@@ -32,7 +32,7 @@ void CAttackScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 	CPlatformScript* platformCheck = dynamic_cast<CPlatformScript*>(_OtherObject->FindScript((UINT)SCRIPT_TYPE::PLATFORMSCRIPT));
 	if (platformCheck == nullptr)
 	{
-		const Vec3& hitPos = Transform()->GetRelativePosRef();
+		const Vec3& hitPos = _OtherObject->Transform()->GetRelativePosRef();
 
 		OBJECT_DIR dir = Transform()->GetObjectDir();
 		const float XOffset = dir == OBJECT_DIR::RIGHT ? 100.f : -100.f;

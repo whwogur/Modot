@@ -15,6 +15,7 @@
 #include "CLight2D.h"
 #include "CStructuredBuffer.h"
 #include "CKeyMgr.h"
+#include "CFontMgr.h"
 
 CRenderMgr::CRenderMgr()
 	: m_EditorCamera(nullptr)
@@ -74,6 +75,7 @@ void CRenderMgr::Tick()
 	}
 
 	RenderDebugShape();
+	DrawTextOnScrren();
 
 	Clear();
 }
@@ -190,4 +192,25 @@ void CRenderMgr::RenderDebugShape()
 			++iter;
 		}
 	}
+}
+
+void CRenderMgr::DrawTextOnScrren()
+{
+	for (const auto& text : m_vecText)
+	{
+		switch (text.Type)
+		{
+		case TextType::STAT:
+		{
+			CFontMgr::GetInst()->DrawFont(text.Detail.c_str(), text.Pos.x, text.Pos.y, text.FontSize, text.RGBA);
+			break;
+		}
+		case TextType::CONVERSATION:
+		{
+			break;
+		}
+		}
+	}
+
+	m_vecText.clear();
 }

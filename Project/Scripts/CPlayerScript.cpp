@@ -3,6 +3,7 @@
 #include "CAttackScript.h"
 #include "../Client/CEditorMgr.h" // ·Î±×¿ë
 #include <Engine/CLevelMgr.h>
+#include <Engine/CRenderMgr.h>
 #include "CUIBarScript.h"
 #include "../Client/CPlayerManager.h"
 #include "CArrowScript.h"
@@ -343,6 +344,31 @@ void CPlayerScript::Tick()
 		break;
 	}
 	}
+
+	const std::shared_ptr<PlayerStatus>& playerStat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+
+	wstring HP(std::to_wstring(static_cast<int>(playerStat.get()->HP)));
+	wstring maxHP(std::to_wstring(static_cast<int>(playerStat.get()->maxHP)));
+	wstring MP(std::to_wstring(static_cast<int>(playerStat.get()->MP)));
+	wstring maxMP(std::to_wstring(static_cast<int>(playerStat.get()->maxMP)));
+	
+	tRenderText HPinfo = {};
+	HPinfo.Detail = HP + L" / " + maxHP;
+	HPinfo.Pos = Vec2(150.f, 111.f);
+	HPinfo.Type = TextType::STAT;
+	HPinfo.FontSize = 25.f;
+	HPinfo.RGBA = (((((BYTE)255 << 24) | (BYTE)222 << 16) | (BYTE)222 << 8) | (BYTE)222);
+
+	tRenderText MPinfo = {};
+	MPinfo.Detail = MP + L" / " + maxMP;
+	MPinfo.Pos = Vec2(160.f, 148.f);
+	MPinfo.Type = TextType::STAT;
+	MPinfo.FontSize = 25.f;
+	MPinfo.RGBA = (((((BYTE)255 << 24) | (BYTE)222 << 16) | (BYTE)222 << 8) | (BYTE)222);
+
+
+	CRenderMgr::GetInst()->AddRenderText(HPinfo);
+	CRenderMgr::GetInst()->AddRenderText(MPinfo);
 }
 #pragma endregion **** UPDATE STATE ****
 
