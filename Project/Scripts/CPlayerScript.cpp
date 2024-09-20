@@ -454,11 +454,14 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	case PlayerState::ROLL:
 	{
+		m_Invincible = true;
 		CPlayerManager::GetInst()->UseStamina(30.f);
 
-		float xvel = Transform()->GetRelativeScale().x;
+		const Vec3& relScale = Transform()->GetRelativeScaleRef();
+
 		RigidBody()->SetFrictionScale(0.1f);
-		RigidBody()->SetVelocity(Vec2(xvel * 100.f, 0.f));
+		RigidBody()->SetVelocityLimit(500.f);
+		RigidBody()->SetVelocity(Vec2(relScale.x * 500.f, 0.f));
 		Animator2D()->Play(L"Momo_Roll", 12.0f, true);
 
 		CGameObject* fx = GetOwner()->GetChildObject(L"RollEffect");
@@ -504,7 +507,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 	case PlayerState::SPRINT:
 	{
 		Animator2D()->Play(L"Momo_Sprint", 14.0f, true);
-		RigidBody()->SetVelocityLimit(500.f);
+		RigidBody()->SetVelocityLimit(600.f);
 		m_Speed = 1000.0f;
 
 		CGameObject* fx = GetOwner()->GetChildObject(L"SprintStart");
@@ -715,6 +718,8 @@ void CPlayerScript::EndState(PlayerState _State)
 	case PlayerState::ROLL:
 	{
 		RigidBody()->SetFrictionScale(0.5f);
+		RigidBody()->SetVelocityLimit(400.f);
+		m_Invincible = false;
 		break;
 	}
 	case PlayerState::BRAKE:
@@ -740,8 +745,8 @@ void CPlayerScript::EndState(PlayerState _State)
 		{
 			fx->ParticleSystem()->SetBurst(false);
 		}
-		m_Speed = 300.0f;
-		RigidBody()->SetVelocityLimit(300.f);
+
+		RigidBody()->SetVelocityLimit(400.f);
 		break;
 	}
 	case PlayerState::ATTACK1:
@@ -800,6 +805,19 @@ void CPlayerScript::ChangeState(PlayerState _NextState)
 	EndState(m_State);
 	m_State = _NextState;
 	BeginState(_NextState);
+}
+
+void CPlayerScript::SetDamaged(float _Damage)
+{
+	if (m_Damaged)
+		return;
+
+	if (m_Invincible)
+	{// È¿°ú
+		return;
+	}
+	CPlayerManager::GetInst()->TakeDamage(_Damage);
+	m_Damaged = true;
 }
 
 void CPlayerScript::Jump()

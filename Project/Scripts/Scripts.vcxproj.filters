@@ -85,6 +85,7 @@
     <ClInclude Include="CAttackScript.h">
       <Filter>Scripts\Attack</Filter>
     </ClInclude>
+    <ClInclude Include="CMonsterAttack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -157,5 +158,6 @@
     <ClCompile Include="CAttackScript.cpp">
       <Filter>Scripts\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="CMonsterAttack.cpp" />
   </ItemGroup>
 </Project>

@@ -12,6 +12,7 @@
 #include "CLevelTransitionScript.h"
 #include "CLinethScript.h"
 #include "CMinimap.h"
+#include "CMonsterAttack.h"
 #include "CNPCScript.h"
 #include "CNPCUIScript.h"
 #include "CParticleScript.h"
@@ -36,6 +37,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CLevelTransitionScript");
 	_vec.push_back(L"CLinethScript");
 	_vec.push_back(L"CMinimap");
+	_vec.push_back(L"CMonsterAttack");
 	_vec.push_back(L"CNPCScript");
 	_vec.push_back(L"CNPCUIScript");
 	_vec.push_back(L"CParticleScript");
@@ -72,6 +74,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CLinethScript;
 	if (L"CMinimap" == _strScriptName)
 		return new CMinimap;
+	if (L"CMonsterAttack" == _strScriptName)
+		return new CMonsterAttack;
 	if (L"CNPCScript" == _strScriptName)
 		return new CNPCScript;
 	if (L"CNPCUIScript" == _strScriptName)
@@ -131,6 +135,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::MINIMAP:
 		return new CMinimap;
+		break;
+	case (UINT)SCRIPT_TYPE::MONSTERATTACK:
+		return new CMonsterAttack;
 		break;
 	case (UINT)SCRIPT_TYPE::NPCSCRIPT:
 		return new CNPCScript;
@@ -212,6 +219,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::MINIMAP:
 		return L"CMinimap";
+		break;
+
+	case SCRIPT_TYPE::MONSTERATTACK:
+		return L"CMonsterAttack";
 		break;
 
 	case SCRIPT_TYPE::NPCSCRIPT:

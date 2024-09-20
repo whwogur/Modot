@@ -16,11 +16,13 @@ void CAttackScript::Begin()
 	HitFXList[1] = CLevelMgr::GetInst()->FindObjectByName(L"HitFXRed");
 	HitFXList[2] = CLevelMgr::GetInst()->FindObjectByName(L"HitParticleR");
 	HitFXList[3] = CLevelMgr::GetInst()->FindObjectByName(L"HitParticleL");
+	HitFXList[4] = CLevelMgr::GetInst()->FindObjectByName(L"HitSonic");
 
 	MD_ENGINE_ASSERT(HitFXList[0] != nullptr, L"HitFXWhite !");
 	MD_ENGINE_ASSERT(HitFXList[1] != nullptr, L"HitFXRed !");
 	MD_ENGINE_ASSERT(HitFXList[2] != nullptr, L"HitParticleR !");
 	MD_ENGINE_ASSERT(HitFXList[3] != nullptr, L"HitParticleL !");
+	MD_ENGINE_ASSERT(HitFXList[4] != nullptr, L"HitSonic !");
 }
 
 void CAttackScript::Tick()
@@ -76,6 +78,12 @@ void CAttackScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 			m_ActiveList[2] = true;
 		}
 
+		HitFXList[4]->Transform()->SetRelativePos(hitPos);
+		HitFXList[4]->ParticleSystem()->Jerk();
+		HitFXList[4]->ParticleSystem()->SetBurst(true);
+		m_ActiveList[3] = true;
+
+
 		m_HitSound->Play(1, 2.f, true);
 	}
 }
@@ -86,7 +94,7 @@ void CAttackScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject
 
 void CAttackScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	for (int i = 2; i < 4; ++i)
+	for (int i = 2; i < 5; ++i)
 	{
 		if (m_ActiveList[i])
 		{

@@ -34,7 +34,7 @@ public:
     virtual void LoadFromFile(FILE* _File) override;
 
     void ChangeState(PlayerState _NextState);
-
+    void SetDamaged(float _Damage);
 private:
     void BeginState(PlayerState _State);
     void DirectionCheck();
@@ -55,6 +55,7 @@ private:
 
     bool            m_Damaged = false;
     bool            m_Healed = false;
+    bool            m_Invincible = false;
     float           m_DamagedAcc = 0.f;
     int             m_FlickerCount = 0;
 
