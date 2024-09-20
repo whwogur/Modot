@@ -23,7 +23,7 @@ class CCameraMoveScript :
 public:
     CLONE(CCameraMoveScript);
     CCameraMoveScript();
-    ~CCameraMoveScript();
+    ~CCameraMoveScript() = default;
 
 public:
     virtual void Begin() override;

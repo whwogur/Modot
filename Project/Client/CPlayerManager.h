@@ -10,6 +10,8 @@ public:
 		, maxMP(50)
 		, maxStamina(100)
 		, Damage(5.f)
+		, Pos{0.f, 0.f, 1.9f}
+		, CamPos{ 0.f, 0.f, 0.f }
 	{}
 	~PlayerStatus() = default;
 
@@ -21,7 +23,8 @@ public:
 	float		maxStamina;
 
 	float		Damage;
-	Vec3		Pos = {0.f, 0.f, 1.9f};
+	Vec3		Pos;
+	Vec3		CamPos;
 };
 
 class CPlayerManager
@@ -61,9 +64,8 @@ public:
 			m_PlayerStatus.get()->HP = m_PlayerStatus.get()->maxHP;
 	}
 
-	void SetStatDisplay(bool _b) { m_DisplayStats = _b; }
 	void SetNextPos(Vec3 _Pos) { m_PlayerStatus.get()->Pos = _Pos; }
+	void SetNextCamPos(Vec3 _CamPos) { m_PlayerStatus.get()->CamPos = _CamPos; }
 private:
 	std::shared_ptr<PlayerStatus> m_PlayerStatus = nullptr;
-	bool			m_DisplayStats = false;
 };

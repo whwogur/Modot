@@ -18,7 +18,6 @@ CPlayerScript::CPlayerScript()
 
 void CPlayerScript::Begin()
 {
-	CPlayerManager::GetInst()->SetStatDisplay(true);
 	GetRenderComponent()->GetDynamicMaterial();
 	const std::shared_ptr<PlayerStatus>& playerStat = CPlayerManager::GetInst()->GetPlayerStatusRef();
 	if (KEY_PRESSED(KEY::LEFT))

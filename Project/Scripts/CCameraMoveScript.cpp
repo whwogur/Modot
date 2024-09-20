@@ -1,6 +1,7 @@
 #include "spch.h"
 #include "CCameraMoveScript.h"
 #include <Engine/CLevelMgr.h>
+#include "../Client/CPlayerManager.h"
 
 CCameraMoveScript::CCameraMoveScript()
 	: CScript(UINT(SCRIPT_TYPE::CAMERAMOVESCRIPT))
@@ -12,13 +13,12 @@ CCameraMoveScript::CCameraMoveScript()
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "Offset", &m_Offset);
 }
 
-CCameraMoveScript::~CCameraMoveScript()
-{
-}
-
 void CCameraMoveScript::Begin()
 {
+	const std::shared_ptr<PlayerStatus>& playerStat = CPlayerManager::GetInst()->GetPlayerStatusRef();
 	m_Target = CLevelMgr::GetInst()->FindObjectByName(L"Player");
+
+	Transform()->SetRelativePos(playerStat.get()->CamPos);
 }
 
 void CCameraMoveScript::Tick()

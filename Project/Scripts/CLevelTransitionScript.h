@@ -17,5 +17,6 @@ public:
 private:
     char    m_LevelName[255] = {};
     Vec3    m_Pos = {0.f, 0.f, 1.9f};
+    Vec3    m_CamPos = { 0.f, 0.f, 0.f, };
 };
 
