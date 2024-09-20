@@ -70,17 +70,52 @@ void CPlayerScript::Begin()
 #pragma region __UPDATE__STATE__
 void CPlayerScript::Tick()
 {
+	if (m_Damaged)
+	{
+		m_DamagedAcc += DT * 2.f;
+		MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_3, Vec4(m_DamagedAcc));
+		if (m_DamagedAcc > 1.0f)
+		{
+			m_DamagedAcc = 0.f;
+			++m_FlickerCount;
+			if (m_FlickerCount >= 10)
+			{
+				m_Damaged = false;
+				m_DamagedAcc = 0.f;
+				MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_3, Vec4(0.f, 0.f, 0.f, 0.f));
+				m_FlickerCount = 0;
+			}
+		}
+	}
+
+	if (m_Healed)
+	{
+		m_DamagedAcc += DT;
+		MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_3, Vec4(0.f, m_DamagedAcc, 0.f, 0.f));
+		if (m_DamagedAcc > 1.0f)
+		{
+			m_DamagedAcc = 0.f;
+			++m_FlickerCount;
+			if (m_FlickerCount >= 1)
+			{
+				m_Healed = false;
+				m_DamagedAcc = 0.f;
+				MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_3, Vec4(0.f, 0.f, 0.f, 0.f));
+			}
+		}
+	}
+
 	if (KEY_TAP(KEY::_1))
 	{
 		CPlayerManager::GetInst()->TakeDamage(10);
 		EDITOR_TRACE(u8"데미지 10 받음");
-		ChangeState(PlayerState::DAMAGED);
-
+		m_Damaged = true;
 	}
+
 	if (KEY_TAP(KEY::_2))
 	{
 		CPlayerManager::GetInst()->Recover(10);
-		EDITOR_TRACE(u8"10 회복");
+		ChangeState(PlayerState::HEAL);
 	}
 
 	DirectionCheck();
@@ -236,25 +271,10 @@ void CPlayerScript::Tick()
 		}
 		break;
 	}
-	case PlayerState::DAMAGED:
+	case PlayerState::HEAL:
 	{
-		m_Acc += DT;
-		IdleRoutine();
-		if (m_Acc > m_Timer)
-		{
-			if (m_BlinkCount > 10)
-				ChangeState(PlayerState::IDLE);
-			else
-			{
-				m_Acc = 0.f;
-				++m_BlinkCount;
-			}
-		}
-		else
-		{
-			int bindNum = m_BlinkCount % 2 ? 0 : 1;
-			MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::INT_3, bindNum);
-		}
+		if (Animator2D()->IsFinished())
+			ChangeState(PlayerState::IDLE);
 		break;
 	}
 	case PlayerState::DEAD:
@@ -356,15 +376,14 @@ void CPlayerScript::Tick()
 	HPinfo.Pos = Vec2(150.f, 111.f);
 	HPinfo.Type = TextType::STAT;
 	HPinfo.FontSize = 25.f;
-	HPinfo.RGBA = (((((BYTE)255 << 24) | (BYTE)222 << 16) | (BYTE)222 << 8) | (BYTE)222);
+	HPinfo.RGBA = FONT_RGBA(222, 222, 222, 255);
 
 	tRenderText MPinfo = {};
 	MPinfo.Detail = MP + L" / " + maxMP;
 	MPinfo.Pos = Vec2(160.f, 148.f);
 	MPinfo.Type = TextType::STAT;
 	MPinfo.FontSize = 25.f;
-	MPinfo.RGBA = (((((BYTE)255 << 24) | (BYTE)222 << 16) | (BYTE)222 << 8) | (BYTE)222);
-
+	MPinfo.RGBA = FONT_RGBA(222, 222, 222, 255);
 
 	CRenderMgr::GetInst()->AddRenderText(HPinfo);
 	CRenderMgr::GetInst()->AddRenderText(MPinfo);
@@ -463,10 +482,18 @@ void CPlayerScript::BeginState(PlayerState _State)
 		Animator2D()->Play(L"Momo_Fall", 14.0f, false);
 		break;
 	}
-	case PlayerState::DAMAGED:
+	case PlayerState::HEAL:
 	{
-		m_Acc = 0.f;
-		m_Timer = 0.2f;
+		Animator2D()->Play(L"Momo_Recover", 14.f, false);
+		Animator2D()->Reset();
+		if (m_Damaged)
+		{
+			m_Damaged = false;
+			m_DamagedAcc = 0.f;
+			MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_3, Vec4(0.f, 0.f, 0.f, 0.f));
+			m_FlickerCount = 0;
+		}
+		m_Healed = true;
 		break;
 	}
 	case PlayerState::DEAD:
@@ -698,7 +725,7 @@ void CPlayerScript::EndState(PlayerState _State)
 	{
 		break;
 	}
-	case PlayerState::DAMAGED:
+	case PlayerState::HEAL:
 	{
 		break;
 	}

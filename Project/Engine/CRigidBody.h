@@ -50,6 +50,7 @@ public:
     float& GetFrictionScaleRef() { return m_FrictionScale; }
     float& GetVelocityLimitRef() { return m_VelocityLimit; }
     float& GetMaxGravityAccelRef() { return m_MaxGravityVel; }
+    int& GetPlatformCountRef() { return m_PlatformCount; }
 
 private:
     Vec2    m_Force;           // Èû
@@ -70,6 +71,7 @@ private:
     bool    m_RightWall = false;
     bool    m_CanJumpDown = false;
 
+    int     m_PlatformCount = 0;
     Vec2    m_GroundNormal;
 };
 

@@ -7,6 +7,12 @@
     <Filter Include="Scripts">
       <UniqueIdentifier>{b5e7cc46-4e75-4efa-a9d8-333d8c4e2207}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\NPC">
+      <UniqueIdentifier>{71fa2564-db76-45af-b0e9-527d3211644b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Attack">
+      <UniqueIdentifier>{bd0c63c6-a36d-4149-a38d-679fb3bca313}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -25,9 +31,6 @@
     <ClInclude Include="CBackGroundScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="CNPCScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CSpriteRenderScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
@@ -38,9 +41,6 @@
       <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CPlatformScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CAttackScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CBellScript.h">
@@ -73,11 +73,17 @@
     <ClInclude Include="CTitleSequence.h">
       <Filter>Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="CArrowScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CLevelTransitionScript.h">
       <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="CNPCScript.h">
+      <Filter>Scripts\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="CArrowScript.h">
+      <Filter>Scripts\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="CAttackScript.h">
+      <Filter>Scripts\Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -97,9 +103,6 @@
     <ClCompile Include="CBackGroundScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="CNPCScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CSpriteRenderScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
@@ -110,9 +113,6 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CPlatformScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CAttackScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CBellScript.cpp">
@@ -145,11 +145,17 @@
     <ClCompile Include="CTitleSequence.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="CArrowScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CLevelTransitionScript.cpp">
       <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CNPCScript.cpp">
+      <Filter>Scripts\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="CArrowScript.cpp">
+      <Filter>Scripts\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="CAttackScript.cpp">
+      <Filter>Scripts\Attack</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

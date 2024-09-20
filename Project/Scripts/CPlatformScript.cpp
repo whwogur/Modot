@@ -21,15 +21,11 @@ void CPlatformScript::Tick()
 
 void CPlatformScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	/*CRigidBody* rb = _OtherObject->RigidBody();
-	if (rb != nullptr)
-	{
-		rb->SetGroundRotation(Transform()->GetRelativeRoatation().z);
-		rb->SetGravityAccel(100.f);
-	}*/
     CRigidBody* rb = _OtherObject->RigidBody();
     if (rb != nullptr)
     {
+        int& platformCount = rb->GetPlatformCountRef();
+        ++platformCount;
         // _OtherObject->RigidBody()->SetGround(true);
         const Vec3& otherObjPos = _OtherObject->Transform()->GetRelativePosRef();
         const Vec3& ownObjPos = Transform()->GetRelativePosRef();
@@ -64,7 +60,7 @@ void CPlatformScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _Othe
                 rb->SetGround(true);
                 rb->SetDownJump(m_DownJump);
                 rb->SetGroundNormal(m_SlopeNormal);
-                if (_OtherObject->GetName() == L"Player")
+                if (_OtherObject->GetName() == L"Player" && platformCount == 1)
                 {
                     CPlayerScript* playerScript = static_cast<CPlayerScript*>(_OtherObject->FindScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT));
                     if(playerScript != nullptr)
@@ -81,8 +77,6 @@ void CPlatformScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _Othe
             }
         }
     }
-    //EDITOR_TRACE(std::to_string(m_SlopeNormal.x));
-    //EDITOR_TRACE(std::to_string(m_SlopeNormal.y));
 }
 
 void CPlatformScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
@@ -95,9 +89,12 @@ void CPlatformScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
     CRigidBody* rb = _OtherObject->RigidBody();
     if (rb != nullptr)
     {
+        int& platformCount = rb->GetPlatformCountRef();
+        --platformCount;
+
         const Vec2 vel = rb->GetVelocity();
-        const int overlapcount = _OtherCollider->GetOverlapCount();
-        if (overlapcount < 1)
+
+        if (platformCount < 1)
             rb->SetGround(false);
         else
         {

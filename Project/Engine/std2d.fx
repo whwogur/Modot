@@ -53,10 +53,7 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
         if (LeftTopUV.x <= vSpriteUV.x && vSpriteUV.x <= LeftTopUV.x + SliceUV.x
             && LeftTopUV.y <= vSpriteUV.y && vSpriteUV.y <= LeftTopUV.y + SliceUV.y)
         {
-            if (g_int_3)
-                vColor = g_AtlasTex.Sample(g_sam_1, vSpriteUV) * float4(5.f, 5.f, 5.f, 5.f);
-            else
-                vColor = g_AtlasTex.Sample(g_sam_1, vSpriteUV);
+            vColor = g_AtlasTex.Sample(g_sam_1, vSpriteUV);
         }
         else
         {
@@ -82,6 +79,9 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
         discard;
     }
 
+    if (g_vec4_3.g)
+        vColor += g_vec4_3;
+    
     // ±¤¿ø Àû¿ë      
     tLight Light = (tLight)0.f;
 

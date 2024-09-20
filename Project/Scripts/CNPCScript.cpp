@@ -3,11 +3,13 @@
 #include "../Client/CEditorMgr.h"
 #include <Engine/CLevelMgr.h>
 #include "CNPCUIScript.h"
+#include <Engine/CRenderMgr.h>
+
 CNPCScript::CNPCScript()
 	: CScript(UINT(SCRIPT_TYPE::NPCSCRIPT))
 	, m_AnimIndex(0)
 {
-	AddScriptParam(SCRIPT_PARAM::INT, "Animation Index", &m_AnimIndex);
+	AddScriptParam(SCRIPT_PARAM::INT, u8"애니메이션 번호", &m_AnimIndex);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "FPS", &m_FPS);
 }
 
@@ -65,3 +67,22 @@ void CNPCScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject
 
 	}
 }
+
+void CNPCScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
+{
+	if (_OtherObject->GetName() == L"Player")
+	{
+		if (KEY_PRESSED(KEY::UP))
+		{
+			tRenderText tText = {};
+			tText.Detail = L"안녕하세요";
+			tText.FontSize = 25.f;
+			tText.Pos = Vec2(500, 500);
+			tText.Type = TextType::STAT;
+			tText.RGBA = FONT_RGBA(222, 222, 222, 255);
+
+			CRenderMgr::GetInst()->AddRenderText(tText);
+		}
+	}
+}
+ 

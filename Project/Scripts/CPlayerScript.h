@@ -6,7 +6,7 @@ enum class PlayerState
     IDLE, IDLE2,
     JUMP, DOUBLEJUMP, LAND,
     RUN, ROLL, BRAKE, FALL,
-    DAMAGED,
+    HEAL,
     DEAD,
     SPRINT,
     ATTACK1, ATTACK2, ATTACK3, SHOOT,
@@ -48,11 +48,15 @@ private:
 
     float           m_Acc = 0.f;
     float           m_Timer = 0.f;
-    int             m_BlinkCount = 0;
 
     bool            m_Attack1 = false;
     bool            m_Attack2 = false;
     bool            m_Attack3 = false;
+
+    bool            m_Damaged = false;
+    bool            m_Healed = false;
+    float           m_DamagedAcc = 0.f;
+    int             m_FlickerCount = 0;
 
     CGameObject*    m_Arrow[4] = { nullptr, };
     CGameObject*    m_AttackBox;
