@@ -337,6 +337,12 @@ void CLinethScript::BeginState(LinethState _State)
 			particle->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN_BURST] = true;
 		}
 
+		particle = m_Dust->GetChildObject(L"SprayDust2");
+		if (particle != nullptr)
+		{
+			particle->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN_BURST] = true;
+		}
+
 		particle = m_Dust->GetChildObject(L"SprayFlame");
 		if (particle != nullptr)
 		{
@@ -509,6 +515,12 @@ void CLinethScript::EndState(LinethState _State)
 	case LinethState::SPRAYDIRT:
 	{
 		CGameObject* particle = m_Dust->GetChildObject(L"SprayDust");
+		if (particle != nullptr)
+		{
+			particle->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN_BURST] = false;
+		}
+
+		particle = m_Dust->GetChildObject(L"SprayDust2");
 		if (particle != nullptr)
 		{
 			particle->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN_BURST] = false;

@@ -42,7 +42,7 @@ void CPlatformScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _Othe
         float overlapY = (otherSize.y + ownSize.y) * 0.5f - fabs(deltaY);
 
         // X축과 Y축의 겹침 크기를 비교하여 더 작은 쪽으로 밀어내기
-        if (overlapX < overlapY && !m_DownJump)
+        if (overlapX < overlapY)
         {
             if (deltaX > 0)
                 rb->SetLeftWall(true);
@@ -77,6 +77,8 @@ void CPlatformScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _Othe
             }
         }
     }
+    /*EDITOR_TRACE(std::to_string(m_SlopeNormal.x));
+    EDITOR_TRACE(std::to_string(m_SlopeNormal.y));*/
 }
 
 void CPlatformScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
@@ -96,13 +98,11 @@ void CPlatformScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 
         if (platformCount < 1)
             rb->SetGround(false);
+
+        if (vel.x > 0)
+            rb->SetLeftWall(false);
         else
-        {
-            if (vel.x > 0)
-                rb->SetLeftWall(false);
-            else
-                rb->SetRightWall(false);
-        }
+            rb->SetRightWall(false);
     }
 }
 
