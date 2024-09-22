@@ -52,7 +52,7 @@ private:
     void RenderStart();
     void Clear();
     void RenderDebugShape();
-    void DrawTextOnScrren();
+    void DrawTextOnScreen();
 private:
     CCamera*                        m_EditorCamera;
     vector<CCamera*>                m_vecCam;

@@ -4,6 +4,7 @@
 #include <Engine/CLevelMgr.h>
 #include "CNPCUIScript.h"
 #include <Engine/CRenderMgr.h>
+#include "CNPCBehavior.h"
 
 CNPCScript::CNPCScript()
 	: CScript(UINT(SCRIPT_TYPE::NPCSCRIPT))
@@ -72,16 +73,20 @@ void CNPCScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, C
 {
 	if (_OtherObject->GetName() == L"Player")
 	{
-		if (KEY_PRESSED(KEY::UP))
+		if (KEY_TAP(KEY::UP))
 		{
-			tRenderText tText = {};
+			CNPCBehavior* behaviorScript = static_cast<CNPCBehavior*>(GetOwner()->FindScript((UINT)SCRIPT_TYPE::NPCBEHAVIOR));
+			
+			if (behaviorScript != nullptr)
+				behaviorScript->Activate();
+			/*tRenderText tText = {};
 			tText.Detail = L"¾È³çÇÏ¼¼¿ä";
 			tText.FontSize = 25.f;
 			tText.Pos = Vec2(500, 500);
 			tText.Type = TextType::STAT;
 			tText.RGBA = FONT_RGBA(222, 222, 222, 255);
 
-			CRenderMgr::GetInst()->AddRenderText(tText);
+			CRenderMgr::GetInst()->AddRenderText(tText);*/
 		}
 	}
 }

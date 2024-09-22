@@ -75,7 +75,7 @@ void CRenderMgr::Tick()
 	}
 
 	RenderDebugShape();
-	DrawTextOnScrren();
+	DrawTextOnScreen();
 
 	Clear();
 }
@@ -194,7 +194,7 @@ void CRenderMgr::RenderDebugShape()
 	}
 }
 
-void CRenderMgr::DrawTextOnScrren()
+void CRenderMgr::DrawTextOnScreen()
 {
 	for (const auto& text : m_vecText)
 	{
