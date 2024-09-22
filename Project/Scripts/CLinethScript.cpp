@@ -118,6 +118,9 @@ void CLinethScript::Tick()
 	}
 	case LinethState::JUMPBASH:
 	{
+		const Vec3& linPos = Transform()->GetRelativePosRef();
+		m_AttackBox->Transform()->SetRelativePos(linPos + Vec3(0.f, -30.f, 0.f));
+
 		if (Animator2D()->IsFinished())
 		{
 			ChangeState(LinethState::IDLE);
@@ -510,6 +513,7 @@ void CLinethScript::EndState(LinethState _State)
 	case LinethState::JUMPBASH:
 	{
 		RigidBody()->SetGravityAccel(800.f);
+		m_AttackBox->Transform()->SetRelativePos(Vec3(-7777.f, -7777.f, 0.f));
 		break;
 	}
 	case LinethState::SPRAYDIRT:
