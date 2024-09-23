@@ -10,7 +10,7 @@
 #include "CLayer.h"
 #include "CGameObject.h"
 #include "CRenderComponent.h"
-
+#include "CAssetMgr.h"
 
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
@@ -79,8 +79,10 @@ void CCamera::SortGameObject()
 
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
-		if ((m_LayerCheck & (1 << i)) == false)
+		if (false == (m_LayerCheck & (1 << i)))
+		{
 			continue;
+		}
 
 		CLayer* pLayer = pLevel->GetLayer(i);
 
@@ -112,6 +114,9 @@ void CCamera::SortGameObject()
 			case DOMAIN_PARTICLE:
 				m_vecParticles.push_back(vecObjects[j]);
 				break;
+			case DOMAIN_EFFECT:
+				m_vecEffect.push_back(vecObjects[j]);
+				break;
 			case DOMAIN_POSTPROCESS:
 				m_vecPostProcess.push_back(vecObjects[j]);
 				break;
@@ -133,38 +138,96 @@ void CCamera::Render()
 	g_Trans.matProj = m_matProj;
 
 	// Opaque
-	for (const auto& opObj : m_vecOpaque)
-		opObj->Render();
+	for (size_t i = 0; i < m_vecOpaque.size(); ++i)
+	{
+		m_vecOpaque[i]->Render();
+	}
 
 	// Masked
-	for (const auto& maskedObj : m_vecMasked)
-		maskedObj->Render();
+	for (size_t i = 0; i < m_vecMasked.size(); ++i)
+	{
+		m_vecMasked[i]->Render();
+	}
 
 	// Transparent
-	for (const auto& transpObj : m_vecTransparent)
-		transpObj->Render();
+	for (size_t i = 0; i < m_vecTransparent.size(); ++i)
+	{
+		m_vecTransparent[i]->Render();
+	}
 
 	// Particles
-	for (const auto& particleObj : m_vecParticles)
-		particleObj->Render();
+	for (size_t i = 0; i < m_vecParticles.size(); ++i)
+	{
+		m_vecParticles[i]->Render();
+	}
+
+	render_effect();
 
 	// PostProcess 
-	for (const auto& postprocObj : m_vecPostProcess)
+	for (size_t i = 0; i < m_vecPostProcess.size(); ++i)
 	{
 		CRenderMgr::GetInst()->PostProcessCopy();
-		postprocObj->Render();
+		m_vecPostProcess[i]->Render();
 	}
 
 	// UI
-	for (const auto& uiObj : m_vecUI)
-		uiObj->Render();
+	for (size_t i = 0; i < m_vecUI.size(); ++i)
+	{
+		m_vecUI[i]->Render();
+	}
 
 	m_vecOpaque.clear();
 	m_vecMasked.clear();
 	m_vecTransparent.clear();
+	m_vecEffect.clear();
 	m_vecParticles.clear();
 	m_vecPostProcess.clear();
 	m_vecUI.clear();
+}
+
+void CCamera::render_effect()
+{
+	// 렌더타겟 변경
+	Ptr<CTexture> pEffectTarget = CAssetMgr::GetInst()->FindAsset<CTexture>(L"EffectTargetTex");
+	Ptr<CTexture> pEffectDepth = CAssetMgr::GetInst()->FindAsset<CTexture>(L"EffectDepthStencilTex");
+	// 클리어
+	CONTEXT->ClearRenderTargetView(pEffectTarget->GetRTV().Get(), Vec4(0.f, 0.f, 0.f, 0.f));
+	CONTEXT->ClearDepthStencilView(pEffectDepth->GetDSV().Get(), D3D11_CLEAR_STENCIL | D3D11_CLEAR_DEPTH, 1.f, 0);
+	D3D11_VIEWPORT viewport = {};
+	viewport.Width = pEffectTarget->Width();
+	viewport.Height = pEffectTarget->Height();
+	viewport.MaxDepth = 1.f;
+	CONTEXT->RSSetViewports(1, &viewport);
+	CONTEXT->OMSetRenderTargets(1, pEffectTarget->GetRTV().GetAddressOf(), pEffectDepth->GetDSV().Get());
+	// Effect
+	for (size_t i = 0; i < m_vecEffect.size(); ++i)
+	{
+		m_vecEffect[i]->Render();
+	}
+	// BlurTarget 으로 변경
+	Ptr<CTexture> pEffectBlurTarget = CAssetMgr::GetInst()->FindAsset<CTexture>(L"EffectBlurTargetTex");
+	Ptr<CMaterial> pBlurMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BlurMtrl");
+	Ptr<CMesh> pRectMesh = CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh");
+	CONTEXT->ClearRenderTargetView(pEffectBlurTarget->GetRTV().Get(), Vec4(0.f, 0.f, 0.f, 0.f));
+	CONTEXT->RSSetViewports(1, &viewport);
+	CONTEXT->OMSetRenderTargets(1, pEffectBlurTarget->GetRTV().GetAddressOf(), nullptr);
+	pBlurMtrl->SetTexParam(TEX_0, pEffectTarget);
+	pBlurMtrl->Bind();
+	pRectMesh->Render_Particle(2);
+	// 원래 렌더타겟으로 변경
+	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
+	Ptr<CTexture> pDSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
+	Ptr<CMaterial> pEffectMergeMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"EffectMergeMtrl");
+	viewport.Width = pRTTex->Width();
+	viewport.Height = pRTTex->Height();
+	viewport.MinDepth = 0.f;
+	viewport.MaxDepth = 1.f;
+	CONTEXT->RSSetViewports(1, &viewport);
+	CONTEXT->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(), pDSTex->GetDSV().Get());
+	pEffectMergeMtrl->SetTexParam(TEX_0, pEffectTarget);
+	pEffectMergeMtrl->SetTexParam(TEX_1, pEffectBlurTarget);
+	pEffectMergeMtrl->Bind();
+	pRectMesh->Render();
 }
 
 void CCamera::SaveToFile(FILE* _File)

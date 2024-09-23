@@ -65,7 +65,7 @@ public:
 
 private:
     void SortGameObject();
-
+    void render_effect();
 private:
     int                     m_Priority;
     UINT                    m_LayerCheck; // 원하는 레이머나 카메라에 찍히도록
@@ -80,6 +80,7 @@ private:
     vector<CGameObject*>    m_vecOpaque;        // 불투명
     vector<CGameObject*>    m_vecMasked;        // 불투명, 투명
     vector<CGameObject*>    m_vecTransparent;   // 투명, 반투명
+    vector<CGameObject*>    m_vecEffect;
     vector<CGameObject*>    m_vecParticles;     // 투명, 반투명, 입자 타입
     vector<CGameObject*>    m_vecPostProcess;
     vector<CGameObject*>    m_vecUI;

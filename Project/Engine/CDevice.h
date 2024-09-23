@@ -41,7 +41,7 @@ private:
 	WRL::ComPtr<ID3D11BlendState>				m_BSState[(UINT)BS_TYPE::END];
 
 	WRL::ComPtr<ID3D11RasterizerState>			m_RSState[(UINT)RS_TYPE::END];
-	WRL::ComPtr<ID3D11SamplerState>				m_Sampler[3];
+	WRL::ComPtr<ID3D11SamplerState>				m_Sampler[4];
 
 	Ptr<CTexture>								m_RTTex;
 	Ptr<CTexture>								m_DSTex;
