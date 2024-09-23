@@ -130,25 +130,10 @@ void CAssetMgr::CreateEngineTexture()
 
 	// PostProcess 용도 텍스쳐
 	Vec2 Resolution = CDevice::GetInst()->GetResolution();
-	Ptr<CTexture> pPostProcessTex = CreateTexture(
-		L"PostProcessTex"
-		, (UINT)Resolution.x, (UINT)Resolution.y
-		, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
-
-	Ptr<CTexture> pEffectTarget = CreateTexture(
-		L"EffectTargetTex"
-		, (UINT)(Resolution.x), (UINT)(Resolution.y)
-		, DXGI_FORMAT_R32G32B32A32_FLOAT, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
-
-	Ptr<CTexture> pEffectDepth = CreateTexture(
-		L"EffectDepthStencilTex"
-		, (UINT)(Resolution.x), (UINT)(Resolution.y)
-		, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_DEPTH_STENCIL);
-
-	Ptr<CTexture> pEffectBlurTarget = CreateTexture(
-		L"EffectBlurTargetTex"
-		, (UINT)(Resolution.x), (UINT)(Resolution.y)
-		, DXGI_FORMAT_R32G32B32A32_FLOAT, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
+	CreateTexture(L"PostProcessTex", (UINT)Resolution.x, (UINT)Resolution.y, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
+	CreateTexture(L"EffectTargetTex", (UINT)(Resolution.x), (UINT)(Resolution.y), DXGI_FORMAT_R32G32B32A32_FLOAT, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
+	CreateTexture(L"EffectDepthStencilTex", (UINT)(Resolution.x), (UINT)(Resolution.y), DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_DEPTH_STENCIL);
+	CreateTexture(L"EffectBlurTargetTex", (UINT)(Resolution.x), (UINT)(Resolution.y), DXGI_FORMAT_R32G32B32A32_FLOAT, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
 
 	Load<CTexture>(L"noise_01", L"texture\\noise\\noise_01.png");
 	Load<CTexture>(L"noise_02", L"texture\\noise\\noise_02.png");
@@ -396,7 +381,6 @@ void CAssetMgr::CreateEngineMaterial()
 	// EffectMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"EffectShader"));
-	pMtrl->SetScalarParam(VEC4_0, Vec4(2.f, 10.f, 4.f, 1.f));
 	AddAsset(L"EffectMtrl", pMtrl);
 
 	// DebugShapeMtrl

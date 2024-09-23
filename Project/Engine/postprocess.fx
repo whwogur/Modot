@@ -186,7 +186,7 @@ float4 PS_Blur(VS_OUT_BLUR _in) : SV_Target
     float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
         
     float2 vUVStep = 1.f / g_Resolution;
-    vUVStep *= 3.f;
+    vUVStep *= 3.4f;
     
     if (_in.InstID == 0)
     {

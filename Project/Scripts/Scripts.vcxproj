@@ -120,6 +120,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CPlatformScript.h" />
     <ClInclude Include="CPlayerScript.h" />
     <ClInclude Include="CScriptMgr.h" />
+    <ClInclude Include="CSigil.h" />
     <ClInclude Include="CSpriteRenderScript.h" />
     <ClInclude Include="CTintedBGScript.h" />
     <ClInclude Include="CTitleSequence.h" />
@@ -148,6 +149,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CPlatformScript.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
+    <ClCompile Include="CSigil.cpp" />
     <ClCompile Include="CSpriteRenderScript.cpp" />
     <ClCompile Include="CTintedBGScript.cpp" />
     <ClCompile Include="CTitleSequence.cpp" />

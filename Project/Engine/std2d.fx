@@ -243,7 +243,7 @@ float4 PS_Effect(VTX_OUT _in) : SV_Target
     if (0.f == vColor.a)
         discard;
     
-    vColor.rgb = g_vec4_0.xyz;
+    vColor.rgb = g_vec4_1.xyz;
     
     return vColor;
 }

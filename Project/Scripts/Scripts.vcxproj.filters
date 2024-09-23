@@ -13,6 +13,9 @@
     <Filter Include="Scripts\Attack">
       <UniqueIdentifier>{bd0c63c6-a36d-4149-a38d-679fb3bca313}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Title">
+      <UniqueIdentifier>{95d7e696-7932-410e-904d-0ed7115a64f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -70,9 +73,6 @@
     <ClInclude Include="CMinimap.h">
       <Filter>Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="CTitleSequence.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CLevelTransitionScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
@@ -90,6 +90,12 @@
     </ClInclude>
     <ClInclude Include="CNPCBehavior.h">
       <Filter>Scripts\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="CSigil.h">
+      <Filter>Scripts\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="CTitleSequence.h">
+      <Filter>Scripts\Title</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -148,9 +154,6 @@
     <ClCompile Include="CMinimap.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="CTitleSequence.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CLevelTransitionScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
@@ -168,6 +171,12 @@
     </ClCompile>
     <ClCompile Include="CNPCBehavior.cpp">
       <Filter>Scripts\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="CSigil.cpp">
+      <Filter>Scripts\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="CTitleSequence.cpp">
+      <Filter>Scripts\Title</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
