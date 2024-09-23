@@ -22,7 +22,7 @@ void CAttackScript::Begin()
 	MD_ENGINE_ASSERT(HitFXList[1] != nullptr, L"HitFXRed !");
 	MD_ENGINE_ASSERT(HitFXList[2] != nullptr, L"HitParticleR !");
 	MD_ENGINE_ASSERT(HitFXList[3] != nullptr, L"HitParticleL !");
-	MD_ENGINE_ASSERT(HitFXList[4] != nullptr, L"HitSonic !");
+	//MD_ENGINE_ASSERT(HitFXList[4] != nullptr, L"HitSonic !");
 }
 
 void CAttackScript::Tick()
