@@ -16,18 +16,24 @@ void CHellfireScript::Tick()
 {
 	if (m_Flickering)
 	{
-		MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, Vec4(5.f, 0.1f, 0.2f, 0.f));
+		const Vec3& firePos = Transform()->GetRelativePosRef();
+		int randNum = std::rand() % int(firePos.x) % 5;
+		float frandNum = static_cast<float>(randNum);
+
+		MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, Vec4(frandNum, frandNum / 2, 0.2f, 0.f));
+		MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_1, Vec2(frandNum / 3, 0.4f));
+
 		m_Acc += DT;
 		if (m_Acc > m_Timer)
 		{
 			m_Acc = 0.f;
 			m_Flickering = false;
-			Transform()->SetRelativeScale(Vec3(300.f, 300.f, 1.f));
 		}
 	}
 	else
 	{
-		MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, Vec4(0.7f, 0.1f, 0.2f, 0.f));
+		MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, Vec4(0.5f, 0.1f, 0.2f, 0.f));
+		MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_1, Vec2(0.5f, 0.3f));
 	}
 }
 

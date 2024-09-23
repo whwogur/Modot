@@ -29,11 +29,11 @@ private:
     CSigil*                 m_FX[5] = { nullptr, };
 
     UINT                    m_SequenceIdx = 0;
-    std::pair<bool, float>  m_Sequence[MaxSequenceIdx] =
+    float  m_Sequence[MaxSequenceIdx] =
     {
-        std::make_pair(false, 1.f),
-        std::make_pair(false, 1.f),
-        std::make_pair(false, 3.f)
+        1.f,
+        1.f,
+        3.f
     };
 };
 

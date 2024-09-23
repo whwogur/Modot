@@ -17,11 +17,10 @@ public:
     void Flicker()
     { 
         m_Flickering = true;
-        Transform()->SetRelativeScale(Vec3(200.f, 300.f, 1.f));
     }
 private:
     bool        m_Flickering = false;
     float       m_Acc = 0.f;
-    float       m_Timer = 1.8f;
+    float       m_Timer = 1.5f;
 };
 

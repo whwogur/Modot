@@ -119,10 +119,10 @@ void CUIBarScript::Tick()
 		x = x == 0 ? 1 : x;
 		y = y == 0 ? 1 : y;
 
-		ownerPos.x	+= (float)x * 0.1f;
-		ownerPos.y	+= (float)y * 0.1f;
-		ownPos.x	+= (float)x * 0.1f;
-		ownPos.y	+= (float)y * 0.1f;
+		ownerPos.x	+= (float)x * 0.2f;
+		ownerPos.y	+= (float)y * 0.2f;
+		ownPos.x	+= (float)x * 0.2f;
+		ownPos.y	+= (float)y * 0.2f;
 
 
 		if (m_Acc > m_Timer)

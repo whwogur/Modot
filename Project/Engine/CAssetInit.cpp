@@ -438,13 +438,20 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl->SetScalarParam(INT_3, 0);
 	AddAsset(L"GodrayMtrl", pMtrl);
 
-	//// Fire
+	// Fire
 	//pMtrl = new CMaterial();
 	//pMtrl->SetShader(FindAsset<CGraphicShader>(L"FireShader"));
 	//pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"fire01"));
 	//pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"noise01"));
 	//pMtrl->SetTexParam(TEX_2, FindAsset<CTexture>(L"alpha01"));
-	//AddAsset(L"FireMtrl", pMtrl);
+	//pMtrl->SetScalarParam(SCALAR_PARAM::VEC4_0, Vec4(0.5f, 0.1, 0.2f, 0.0f));
+	//pMtrl->SetScalarParam(SCALAR_PARAM::VEC4_1, Vec4(1.2f, 0.3f, 0.5f, 0.0f));
+	//pMtrl->SetScalarParam(SCALAR_PARAM::VEC2_1, Vec2(0.5f, 0.3f));
+	//pMtrl->SetScalarParam(SCALAR_PARAM::VEC2_2, Vec2(0.2f, 0.5f));
+	//pMtrl->SetScalarParam(SCALAR_PARAM::FLOAT_0, 0.3f);
+	//pMtrl->SetScalarParam(SCALAR_PARAM::FLOAT_1, 0.02f);
+	//AddAsset(L"FireMtrl2", pMtrl);
+	//pMtrl->Save(L"material\\FireMtrl2.mtrl");
 	//Load<CMaterial>(L"FireMtrl", L"material\\FireMtrl.mtrl");
 
 	// BlurMtrl

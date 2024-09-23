@@ -27,7 +27,7 @@ void CTitleSequence::Tick()
 	if (m_SequenceIdx < MaxSequenceIdx)
 		m_Acc += DT;
 
-	if (m_Acc > m_Sequence[m_SequenceIdx].second)
+	if (m_Acc > m_Sequence[m_SequenceIdx])
 	{
 		Sequence();
 		m_Acc = 0.f;

@@ -136,7 +136,8 @@ void CCameraMoveScript::CameraEffect()
 		float ShakeRatio = 1.f - info.Time / info.Duration;
 		Vec3& camPos = Transform()->GetRelativePosRef();
 
-		camPos.x += (float)x * ShakeRatio;
+		if (!Collider2D()->GetOverlapCount())
+			camPos.x += (float)x * ShakeRatio;
 		camPos.y += (float)y * ShakeRatio;
 
 		return;
