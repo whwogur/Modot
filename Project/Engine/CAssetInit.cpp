@@ -473,4 +473,5 @@ void CAssetMgr::LoadSound()
 	Load<CSound>(L"Water2", L"sound\\Water2.wav");
 	Load<CSound>(L"WarningSFX", L"sound\\WarningSFX.wav");
 	Load<CSound>(L"Hit", L"sound\\Hit.wav");
+	Load<CSound>(L"Title", L"sound\\Title.wav");
 }

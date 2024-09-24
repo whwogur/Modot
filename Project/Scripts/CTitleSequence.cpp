@@ -8,6 +8,7 @@
 CTitleSequence::CTitleSequence()
 	: CScript(SCRIPT_TYPE::TITLESEQUENCE)
 {
+	m_BGM = CAssetMgr::GetInst()->FindAsset<CSound>(L"Title");
 }
 
 void CTitleSequence::Begin()
@@ -57,9 +58,9 @@ void CTitleSequence::Tick()
 		}
 		else
 		{
-			text.Detail = L"게임 시작\n\n  옵션";
+			text.Detail = L"게임 시작\n\n  옵션\n\n  종료";
 			text.FontSize = 40.f;
-			text.Pos = Vec2(500, 500);
+			text.Pos = Vec2(600, 500);
 			text.RGBA = FONT_RGBA(222, 222, 222, 255);
 			text.Type = TextType::STAT;
 
@@ -70,7 +71,7 @@ void CTitleSequence::Tick()
 				if (m_KnobIdx < 0)
 					m_KnobIdx = KnobCount - 1;
 
-				m_Knob->Transform()->SetRelativePos(Vec3(m_KnobPos[m_KnobIdx].x, m_KnobPos[m_KnobIdx].y, 1.8f));
+				m_Knob->Transform()->SetRelativePos(m_KnobPos[m_KnobIdx]);
 			}
 			else if (KEY_TAP(KEY::DOWN))
 			{
@@ -78,7 +79,7 @@ void CTitleSequence::Tick()
 
 				m_KnobIdx %= KnobCount;
 
-				m_Knob->Transform()->SetRelativePos(Vec3(m_KnobPos[m_KnobIdx].x, m_KnobPos[m_KnobIdx].y, 1.8f));
+				m_Knob->Transform()->SetRelativePos(m_KnobPos[m_KnobIdx]);
 			}
 			else if (KEY_TAP(KEY::A))
 			{
@@ -89,6 +90,9 @@ void CTitleSequence::Tick()
 					break;
 				case 1:
 					// 옵션
+					break;
+				case 2:
+					// 종료
 					break;
 				}
 			}
@@ -120,6 +124,7 @@ void CTitleSequence::Sequence()
 	case 1:
 	{
 		m_BombServiceLogo->Deactivate();
+		m_BGM->Play(0, 0.5f, false);
 		++m_SequenceIdx;
 		break;
 	}

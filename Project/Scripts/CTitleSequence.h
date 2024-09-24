@@ -4,7 +4,7 @@ class CSigil;
 class CNPCUIScript;
 
 constexpr const UINT MaxSequenceIdx = 3;
-constexpr const UINT KnobCount = 2;
+constexpr const UINT KnobCount = 3;
 
 class CTitleSequence :
     public CScript
@@ -22,6 +22,8 @@ public:
 private:
     void Sequence();
 private:
+    Ptr<CSound>             m_BGM;
+
     CNPCUIScript*           m_MomodoraLogo;
     CNPCUIScript*           m_BombServiceLogo;
     CGameObject*            m_DustParticle;
@@ -34,7 +36,7 @@ private:
 
     CSigil*                 m_Knob = nullptr;
     int                     m_KnobIdx = 0;
-    Vec2                    m_KnobPos[KnobCount] = { Vec2(-120.f, -210.f), Vec2(-120.f, -363.f) };
+    Vec3                    m_KnobPos[KnobCount] = { Vec3(15.f, -217.3f, 1.8f), Vec3(15.f, -363.f, 1.8f), Vec3(15.f, -500.f, 1.8f)};
 
 
 
