@@ -16,6 +16,9 @@
     <Filter Include="Scripts\Title">
       <UniqueIdentifier>{95d7e696-7932-410e-904d-0ed7115a64f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\UI">
+      <UniqueIdentifier>{ad66beda-9f58-44ed-87c1-6b458eef9bff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -55,9 +58,6 @@
     <ClInclude Include="CDemonScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="CNPCUIScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CHellfireScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
@@ -65,12 +65,6 @@
       <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CBlurControl.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CUIBarScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CMinimap.h">
       <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CLevelTransitionScript.h">
@@ -96,6 +90,15 @@
     </ClInclude>
     <ClInclude Include="CTitleSequence.h">
       <Filter>Scripts\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="CUIBarScript.h">
+      <Filter>Scripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CNPCUIScript.h">
+      <Filter>Scripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CMinimap.h">
+      <Filter>Scripts\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -136,9 +139,6 @@
     <ClCompile Include="CDemonScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="CNPCUIScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CHellfireScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
@@ -146,12 +146,6 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CBlurControl.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CUIBarScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CMinimap.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CLevelTransitionScript.cpp">
@@ -177,6 +171,15 @@
     </ClCompile>
     <ClCompile Include="CTitleSequence.cpp">
       <Filter>Scripts\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="CUIBarScript.cpp">
+      <Filter>Scripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CNPCUIScript.cpp">
+      <Filter>Scripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CMinimap.cpp">
+      <Filter>Scripts\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

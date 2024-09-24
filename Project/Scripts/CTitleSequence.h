@@ -4,6 +4,7 @@ class CSigil;
 class CNPCUIScript;
 
 constexpr const UINT MaxSequenceIdx = 3;
+constexpr const UINT KnobCount = 2;
 
 class CTitleSequence :
     public CScript
@@ -27,8 +28,17 @@ private:
     float                   m_Acc = 0.f;
 
     CSigil*                 m_FX[5] = { nullptr, };
-
+    bool                    m_KeyPressed = false;
     UINT                    m_SequenceIdx = 0;
+
+
+    CSigil*                 m_Knob = nullptr;
+    int                     m_KnobIdx = 0;
+    Vec2                    m_KnobPos[KnobCount] = { Vec2(-120.f, -210.f), Vec2(-120.f, -363.f) };
+
+
+
+
     float  m_Sequence[MaxSequenceIdx] =
     {
         1.f,
