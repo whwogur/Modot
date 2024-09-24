@@ -29,14 +29,14 @@ private:
     CGameObject*            m_DustParticle;
     float                   m_Acc = 0.f;
 
-    CSigil*                 m_FX[5] = { nullptr, };
+    CSigil*                 m_FX[6] = { nullptr, };
     bool                    m_KeyPressed = false;
     UINT                    m_SequenceIdx = 0;
 
 
     CSigil*                 m_Knob = nullptr;
     int                     m_KnobIdx = 0;
-    Vec3                    m_KnobPos[KnobCount] = { Vec3(15.f, -217.3f, 1.8f), Vec3(15.f, -363.f, 1.8f), Vec3(15.f, -500.f, 1.8f)};
+    Vec3                    m_KnobPos[KnobCount] = { Vec3(15.f, -217.3f, 1.8f), Vec3(15.f, -284.90f, 1.8f), Vec3(15.f, -360.f, 1.8f)};
 
 
 

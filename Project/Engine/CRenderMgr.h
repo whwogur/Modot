@@ -7,18 +7,11 @@ class CLight2D;
 class CStructuredBuffer;
 #define FONT_RGBA(r, g, b, a) (((((BYTE)a << 24 ) | (BYTE)b << 16) | (BYTE)g << 8) | (BYTE)r)
 
-enum class TextType
-{
-    CONVERSATION,
-    STAT,
-};
-
 struct tRenderText
 {
     tRenderText()
         : Detail{}
         , Pos{}
-        , Type(TextType::STAT)
         , FontSize(25.f)
         , RGBA(0)
     {};
@@ -26,7 +19,6 @@ struct tRenderText
 
     wstring     Detail;
     Vec2        Pos;
-    TextType    Type;
     float       FontSize;
     UINT        RGBA;
 };

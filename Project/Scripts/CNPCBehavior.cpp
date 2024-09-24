@@ -28,7 +28,6 @@ void CNPCBehavior::Tick()
 			tText.Detail = L"말시키지 말고\n가라...";
 			tText.FontSize = 25.f;
 			tText.Pos = Vec2(510, 630);
-			tText.Type = TextType::STAT;
 			tText.RGBA = FONT_RGBA(222, 222, 222, 255);
 
 			CRenderMgr::GetInst()->AddRenderText(tText);
@@ -40,7 +39,6 @@ void CNPCBehavior::Tick()
 			tText.Detail = L"보스선택\n1) DemonBoss\n2) Lineth";
 			tText.FontSize = 25.f;
 			tText.Pos = Vec2(800, 580);
-			tText.Type = TextType::STAT;
 			tText.RGBA = FONT_RGBA(222, 180, 0, 255);
 
 			CRenderMgr::GetInst()->AddRenderText(tText);

@@ -198,18 +198,7 @@ void CRenderMgr::DrawTextOnScreen()
 {
 	for (const auto& text : m_vecText)
 	{
-		switch (text.Type)
-		{
-		case TextType::STAT:
-		{
-			CFontMgr::GetInst()->DrawFont(text.Detail.c_str(), text.Pos.x, text.Pos.y, text.FontSize, text.RGBA);
-			break;
-		}
-		case TextType::CONVERSATION:
-		{
-			break;
-		}
-		}
+		CFontMgr::GetInst()->DrawFont(text.Detail.c_str(), text.Pos.x, text.Pos.y, text.FontSize, text.RGBA);
 	}
 
 	m_vecText.clear();
