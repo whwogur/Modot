@@ -13,6 +13,7 @@ CPlayerScript::CPlayerScript()
 	, m_Speed(300.f)
 	, m_State(PlayerState::END)
 {
+	m_ShootArrowSound = CAssetMgr::GetInst()->FindAsset<CSound>(L"ArrowFire");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "PlayerSpeed", &m_Speed);
 }
 
@@ -141,6 +142,7 @@ void CPlayerScript::Tick()
 	case PlayerState::JUMP:
 	{
 		CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
+		CPlayerManager::GetInst()->RecoverMP(5.f * DT);
 		Jump();
 		if (KEY_PRESSED(KEY::RIGHT))
 		{
@@ -166,6 +168,7 @@ void CPlayerScript::Tick()
 	}
 	case PlayerState::DOUBLEJUMP:
 	{
+		CPlayerManager::GetInst()->RecoverMP(5.f * DT);
 		if (KEY_PRESSED(KEY::RIGHT))
 		{
 			RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
@@ -182,6 +185,7 @@ void CPlayerScript::Tick()
 	case PlayerState::LAND:
 	{
 		CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
+		CPlayerManager::GetInst()->RecoverMP(5.f * DT);
 		m_Acc += DT;
 		if (m_Acc > m_Timer)
 		{
@@ -193,6 +197,7 @@ void CPlayerScript::Tick()
 	}
 	case PlayerState::RUN:
 	{
+		CPlayerManager::GetInst()->RecoverMP(5.f * DT);
 		Jump();
 		CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
 
@@ -238,6 +243,7 @@ void CPlayerScript::Tick()
 	}
 	case PlayerState::ROLL:
 	{
+		CPlayerManager::GetInst()->RecoverMP(5.f * DT);
 		if (Animator2D()->IsFinished())
 			ChangeState(PlayerState::IDLE);
 		break;
@@ -245,6 +251,7 @@ void CPlayerScript::Tick()
 	case PlayerState::BRAKE:
 	{
 		CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
+		CPlayerManager::GetInst()->RecoverMP(5.f * DT);
 		if (Animator2D()->IsFinished())
 			ChangeState(PlayerState::IDLE);
 		break;
@@ -252,6 +259,7 @@ void CPlayerScript::Tick()
 	case PlayerState::FALL:
 	{
 		CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
+		CPlayerManager::GetInst()->RecoverMP(5.f * DT);
 		if (KEY_PRESSED(KEY::RIGHT))
 		{
 			RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
@@ -283,6 +291,7 @@ void CPlayerScript::Tick()
 	}
 	case PlayerState::SPRINT:
 	{
+		CPlayerManager::GetInst()->RecoverMP(5.f * DT);
 		Jump();
 		CPlayerManager::GetInst()->UseStamina(20.f * DT);
 
@@ -617,36 +626,52 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	case PlayerState::SHOOT:
 	{
-		if (RigidBody()->IsGround())
+		std::shared_ptr<PlayerStatus>& playerStat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+
+		if (playerStat.get()->MP > 15.f)
 		{
-			Animator2D()->Play(L"Momo_Shoot", 13.0f, false);
+			if (RigidBody()->IsGround())
+			{
+				Animator2D()->Play(L"Momo_Shoot", 13.0f, false);
+			}
+			else
+			{
+				Animator2D()->Play(L"Momo_AirShoot", 14.f, false);
+			}
+
+			for (int i = 0; i < 4; ++i)
+			{
+				CArrowScript* arrowScript = static_cast<CArrowScript*>(m_Arrow[i]->FindScript((UINT)ARROWSCRIPT));
+				if (arrowScript != nullptr && !arrowScript->IsActive())
+				{
+					const Vec3& momoPos = Transform()->GetRelativePosRef();
+					OBJECT_DIR momoDir = Transform()->GetObjectDir();
+
+					if (momoDir == OBJECT_DIR::RIGHT)
+					{
+						m_Arrow[i]->Transform()->SetRelativePos(momoPos + Vec3(50.f, 0.f, 0.f));
+					}
+					else
+					{
+						m_Arrow[i]->Transform()->SetRelativePos(momoPos + Vec3(-50.f, 0.f, 0.f));
+					}
+
+
+					m_Arrow[i]->Transform()->SetDir(momoDir);
+					arrowScript->Activate();
+					break;
+				}
+			}
+
+			m_ShootArrowSound->Play(1, 0.2f, true);
+			playerStat.get()->MP -= 10.f;
 		}
 		else
 		{
-			Animator2D()->Play(L"Momo_AirShoot", 14.f, false);
-		}
-		
-		for (int i = 0; i < 4; ++i)
-		{
-			CArrowScript* arrowScript = static_cast<CArrowScript*>(m_Arrow[i]->FindScript((UINT)ARROWSCRIPT));
-			if (arrowScript != nullptr && !arrowScript->IsActive())
+			CUIBarScript* barScript = static_cast<CUIBarScript*>(CLevelMgr::GetInst()->FindObjectByName(L"MPBar")->FindScript((UINT)SCRIPT_TYPE::UIBARSCRIPT));
+			if (barScript != nullptr)
 			{
-				const Vec3& momoPos = Transform()->GetRelativePosRef();
-				OBJECT_DIR momoDir = Transform()->GetObjectDir();
-
-				if (momoDir == OBJECT_DIR::RIGHT)
-				{
-					m_Arrow[i]->Transform()->SetRelativePos(momoPos + Vec3(50.f, 0.f, 0.f));
-				}
-				else
-				{
-					m_Arrow[i]->Transform()->SetRelativePos(momoPos + Vec3(-50.f, 0.f, 0.f));
-				}
-
-
-				m_Arrow[i]->Transform()->SetDir(momoDir);
-				arrowScript->Activate();
-				break;
+				barScript->Shake();
 			}
 		}
 		break;
@@ -859,6 +884,7 @@ void CPlayerScript::Jump()
 void CPlayerScript::IdleRoutine()
 {
 	CPlayerManager::GetInst()->RecoverStamina(20.f * DT);
+	CPlayerManager::GetInst()->RecoverMP(5.f * DT);
 
 	if (KEY_TAP(KEY::LEFT) || KEY_TAP(KEY::RIGHT) || KEY_PRESSED(KEY::LEFT) || KEY_PRESSED(KEY::RIGHT))
 	{

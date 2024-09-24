@@ -57,6 +57,15 @@ public:
 		if (m_PlayerStatus.get()->Stamina > m_PlayerStatus.get()->maxStamina)
 			m_PlayerStatus.get()->Stamina = m_PlayerStatus.get()->maxStamina;
 	}
+	void RecoverMP(float _MP)
+	{
+		if (m_PlayerStatus.get()->MP >= m_PlayerStatus.get()->maxMP)
+			return;
+
+		m_PlayerStatus.get()->MP += _MP;
+		if (m_PlayerStatus.get()->MP > m_PlayerStatus.get()->maxMP)
+			m_PlayerStatus.get()->MP = m_PlayerStatus.get()->maxMP;
+	}
 	void Recover(float _HP)
 	{ 
 		m_PlayerStatus.get()->HP += _HP; 

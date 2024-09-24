@@ -262,7 +262,7 @@ void MenuUI::Assets()
 			{
 				const wstring& wstrKey = curMat->GetKey();
 				const wstring& wstrPath = CPathMgr::GetInst()->GetContentPath();
-				curMat->Save(wstrPath + wstrKey + L".mtrl");
+				curMat->Save(L"material\\" + wstrKey + L".mtrl");
 			}
 		}
 		ImGui::SetItemTooltip(u8"재질을 파일로 저장합니다.");

@@ -43,7 +43,7 @@ private:
 
     float  m_Sequence[MaxSequenceIdx] =
     {
-        1.f,
+        1.5f,
         1.f,
         3.f
     };

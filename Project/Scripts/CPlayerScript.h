@@ -43,6 +43,8 @@ private:
     void Jump();
     void IdleRoutine();
 private:
+    Ptr<CSound>     m_ShootArrowSound;
+
     float           m_Speed;
     PlayerState     m_State;
 
