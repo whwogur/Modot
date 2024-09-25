@@ -2,7 +2,7 @@
 #include "C:\Users\cuteg\Desktop\Modot\External\Include\Engine\CScript.h"
 enum class DemonState
 {
-    JUMPATTACK, MELEE, IDLE, ROAR, BREATHEFIRE, SPITTING,
+    INTRO1, INTRO2, JUMPATTACK, MELEE, IDLE, ROAR, BREATHEFIRE, SPITTING,
 };
 
 class CUIBarScript;
@@ -19,8 +19,6 @@ public:
     virtual void Tick() override;
 
     virtual void BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) override;
-    virtual void Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) override;
-    virtual void EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) override;
 
     virtual void SaveToFile(FILE* _File) override;
     virtual void LoadFromFile(FILE* _File) override;
@@ -32,12 +30,13 @@ private:
     void DirectionCheck();
 
 private:
+    friend class CDemonSequence;
     CGameObject*        m_Target;
     CGameObject*        m_AttackBox;
     CGameObject*        m_RoarBox;
     CUIBarScript*       m_HPBar;
 
-    DemonState          m_State = DemonState::IDLE;
+    DemonState          m_State = DemonState::INTRO1;
     float               m_AttackReach = 300.f; // TODO
     float               m_Damage;
 

@@ -1,9 +1,13 @@
 #include "spch.h"
 #include "CDemonScript.h"
 #include <Engine/CLevelMgr.h>
+#include <Engine/CRenderMgr.h>
+
 #include "CHellfireScript.h"
 #include "CCameraMoveScript.h"
 #include "CUIBarScript.h"
+#include "CNPCUIScript.h"
+#include "CPlayerScript.h"
 
 CDemonScript::CDemonScript()
 	: CScript(SCRIPT_TYPE::DEMONSCRIPT)
@@ -53,6 +57,38 @@ void CDemonScript::Tick()
 
 	switch (m_State)
 	{
+	case DemonState::INTRO1:
+	{
+		if (KEY_TAP(KEY::A))
+		{
+			ChangeState(DemonState::INTRO2);
+
+			CGameObject* gameObj = CLevelMgr::GetInst()->FindObjectByName(L"DemonTextBox");
+			if (gameObj != nullptr)
+			{
+				CNPCUIScript* scrpt = (CNPCUIScript*)gameObj->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT);
+				if (scrpt != nullptr)
+				{
+					scrpt->Activate();
+				}
+			}
+		}
+		break;
+	}
+	case DemonState::INTRO2:
+	{
+		tRenderText tText = {};
+		tText.Detail = L"Äí¿À¿À¿À...!!!!!!!!!";
+		tText.FontSize = 40.f;
+		tText.Pos = Vec2(100.f, 300.f);
+		tText.RGBA = FONT_RGBA(255, 64, 64, 255);
+		CRenderMgr::GetInst()->AddRenderText(tText);
+
+		if (m_Acc > m_Timer)
+			ChangeState(DemonState::IDLE);
+
+		break;
+	}
 	case DemonState::IDLE:
 	{
 		DirectionCheck();
@@ -300,14 +336,6 @@ void CDemonScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherOb
 	}
 }
 
-void CDemonScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
-{
-}
-
-void CDemonScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
-{
-}
-
 void CDemonScript::SaveToFile(FILE* _File)
 {
 }
@@ -320,6 +348,26 @@ void CDemonScript::BeginState(DemonState _State)
 {
 	switch (_State)
 	{
+	case DemonState::INTRO1:
+	{
+		Animator2D()->Play(L"Demon_Idle", 8.f, true);
+		break;
+	}
+	case DemonState::INTRO2:
+	{
+		Animator2D()->Play(L"Demon_Roar", 8.f, false);
+		Animator2D()->Reset();
+
+		CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
+		CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
+		if (camScript != nullptr)
+		{
+			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.12f);
+		}
+		m_Acc = 0.f;
+		m_Timer = 1.5f;
+		break;
+	}
 	case DemonState::IDLE:
 	{
 		m_Acc = 0.f;
@@ -445,6 +493,31 @@ void CDemonScript::EndState(DemonState _State)
 {
 	switch (_State)
 	{
+	case DemonState::INTRO1:
+	{
+		CPlayerScript* pPlayerScript = static_cast<CPlayerScript*>(m_Target->FindScript((UINT)PLAYERSCRIPT));
+		if (pPlayerScript != nullptr)
+		{
+			pPlayerScript->ChangeState(PlayerState::SURPRISED);
+		}
+		m_Acc = 0.f;
+		break;
+	}
+	case DemonState::INTRO2:
+	{
+		CPlayerScript* pPlayerScript = static_cast<CPlayerScript*>(m_Target->FindScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT));
+		if (pPlayerScript != nullptr)
+		{
+			pPlayerScript->ChangeState(PlayerState::IDLE);
+		}
+
+		CGameObject* pTrigger = CLevelMgr::GetInst()->FindObjectByName(L"DemonTrigger");
+		if (pTrigger != nullptr)
+		{
+			pTrigger->Transform()->SetRelativePos(Vec3(-2222.f, -2222.f, -2222.f));
+		}
+		break;
+	}
 	case DemonState::IDLE:
 	{
 		break;

@@ -28,6 +28,9 @@
     <Filter Include="Scripts\Monster\Lineth">
       <UniqueIdentifier>{5f0f554d-ed3d-4f51-91f2-dccd596fdcf5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Monster\DemonBoss">
+      <UniqueIdentifier>{30b1d862-e58b-4ca4-855d-aa58bebe4702}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -73,12 +76,6 @@
     <ClInclude Include="CMinimap.h">
       <Filter>Scripts\UI</Filter>
     </ClInclude>
-    <ClInclude Include="CHellfireScript.h">
-      <Filter>Scripts\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="CDemonScript.h">
-      <Filter>Scripts\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="CBackGroundScript.h">
       <Filter>Scripts\Generic</Filter>
     </ClInclude>
@@ -111,6 +108,15 @@
     </ClInclude>
     <ClInclude Include="CLinethSequence.h">
       <Filter>Scripts\Monster\Lineth</Filter>
+    </ClInclude>
+    <ClInclude Include="CDemonScript.h">
+      <Filter>Scripts\Monster\DemonBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CHellfireScript.h">
+      <Filter>Scripts\Monster\DemonBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="CDemonSequence.h">
+      <Filter>Scripts\Monster\DemonBoss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -157,12 +163,6 @@
     <ClCompile Include="CMinimap.cpp">
       <Filter>Scripts\UI</Filter>
     </ClCompile>
-    <ClCompile Include="CHellfireScript.cpp">
-      <Filter>Scripts\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="CDemonScript.cpp">
-      <Filter>Scripts\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="CBackGroundScript.cpp">
       <Filter>Scripts\Generic</Filter>
     </ClCompile>
@@ -195,6 +195,15 @@
     </ClCompile>
     <ClCompile Include="CLinethSequence.cpp">
       <Filter>Scripts\Monster\Lineth</Filter>
+    </ClCompile>
+    <ClCompile Include="CDemonScript.cpp">
+      <Filter>Scripts\Monster\DemonBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CHellfireScript.cpp">
+      <Filter>Scripts\Monster\DemonBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CDemonSequence.cpp">
+      <Filter>Scripts\Monster\DemonBoss</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

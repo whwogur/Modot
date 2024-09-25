@@ -386,7 +386,12 @@ void CPlayerScript::Tick()
 	case PlayerState::SURPRISED:
 	{
 		Vec3& playerPos = Transform()->GetRelativePosRef();
-		playerPos.x -= 100.f * DT;
+		const Vec3& pPlayerScale = Transform()->GetRelativeScaleRef();
+
+		if (pPlayerScale.x < 0)
+			playerPos.x += 50.f * DT;
+		else
+			playerPos.x -= 100.f * DT;
 
 		if (Animator2D()->IsFinished())
 		{

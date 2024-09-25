@@ -1,17 +1,18 @@
 ﻿#include "spch.h"
 #include "CNPCBehavior.h"
+#include "CPlayerScript.h"
+#include "CNPCUIScript.h"
+
 #include <Engine/CRenderMgr.h>
 #include <Engine/CLevelMgr.h>
 
-#include "CPlayerScript.h"
-#include "CNPCUIScript.h"
 #include "../Client/CPlayerManager.h"
+#include "../Client/CLevelSaveLoad.h"
 
 #ifdef _DEBUG
 #include "../Client/Inspector.h"
 #include "../Client/CEditorMgr.h"
 #endif
-#include "../Client/CLevelSaveLoad.h"
 
 CNPCBehavior::CNPCBehavior()
 	: CScript(SCRIPT_TYPE::NPCBEHAVIOR)
@@ -172,8 +173,14 @@ void CNPCBehavior::Tick()
 					{
 					case 0: // 악마
 					{
+						CPlayerManager::GetInst()->SetNextPos(Vec3(608.4f, -255.f, 1.8f));
+						CPlayerManager::GetInst()->SetNextCamPos(Vec3(192.52f, 60.68f, 0.f));
+						CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\DemonBossTEST.lv");
+						ChangeLevel(pLevel, LEVEL_STATE::PLAY);
+
 						m_DialogIdx = 0;
 						m_SelectIdx = 0;
+						m_Activated = false;
 						break;
 					}
 					case 1: // 리네스
@@ -185,6 +192,7 @@ void CNPCBehavior::Tick()
 
 						m_DialogIdx = 0;
 						m_SelectIdx = 0;
+						m_Activated = false;
 						break;
 					}
 					case 2:
@@ -201,7 +209,7 @@ void CNPCBehavior::Tick()
 			case 2:
 			{
 				tRenderText tText = {};
-				tText.Detail = L"언제든지 와서\n무시무시한 보스들에게\n도전해 주세요\n  ◝(・▿・)◜";
+				tText.Detail = L"언제든지 와서\n무시무시한 보스들에게\n도전해 주세요\n  ( •⌄• ू )✧";
 				tText.FontSize = 20.f;
 				tText.Pos = Vec2(710, 470);
 				tText.RGBA = FONT_RGBA(222, 222, 222, 255);

@@ -8,6 +8,7 @@
 #include "CBlurControl.h"
 #include "CCameraMoveScript.h"
 #include "CDemonScript.h"
+#include "CDemonSequence.h"
 #include "CHellfireScript.h"
 #include "CLevelTransitionScript.h"
 #include "CLinethScript.h"
@@ -36,6 +37,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CBlurControl");
 	_vec.push_back(L"CCameraMoveScript");
 	_vec.push_back(L"CDemonScript");
+	_vec.push_back(L"CDemonSequence");
 	_vec.push_back(L"CHellfireScript");
 	_vec.push_back(L"CLevelTransitionScript");
 	_vec.push_back(L"CLinethScript");
@@ -72,6 +74,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CCameraMoveScript;
 	if (L"CDemonScript" == _strScriptName)
 		return new CDemonScript;
+	if (L"CDemonSequence" == _strScriptName)
+		return new CDemonSequence;
 	if (L"CHellfireScript" == _strScriptName)
 		return new CHellfireScript;
 	if (L"CLevelTransitionScript" == _strScriptName)
@@ -135,6 +139,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::DEMONSCRIPT:
 		return new CDemonScript;
+		break;
+	case (UINT)SCRIPT_TYPE::DEMONSEQUENCE:
+		return new CDemonSequence;
 		break;
 	case (UINT)SCRIPT_TYPE::HELLFIRESCRIPT:
 		return new CHellfireScript;
@@ -224,6 +231,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::DEMONSCRIPT:
 		return L"CDemonScript";
+		break;
+
+	case SCRIPT_TYPE::DEMONSEQUENCE:
+		return L"CDemonSequence";
 		break;
 
 	case SCRIPT_TYPE::HELLFIRESCRIPT:
