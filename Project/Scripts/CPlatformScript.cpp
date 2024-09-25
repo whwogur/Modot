@@ -42,17 +42,7 @@ void CPlatformScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _Othe
         float overlapY = (otherSize.y + ownSize.y) * 0.5f - fabs(deltaY);
 
         // X축과 Y축의 겹침 크기를 비교하여 더 작은 쪽으로 밀어내기
-        if (overlapX < overlapY)
-        {
-            if (deltaX > 0)
-                rb->SetLeftWall(true);
-            else
-                rb->SetRightWall(true);
-
-            _OtherObject->Transform()->SetRelativePos(ownObjPos.x + deltaX, otherObjPos.y, otherObjPos.z);
-            rb->SetVelocity(Vec2());
-        }
-        else
+        if (overlapX > overlapY)
         {
             // Y축 밀어내기
             if (deltaY > 0)

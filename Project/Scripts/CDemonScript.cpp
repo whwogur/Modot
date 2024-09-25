@@ -313,7 +313,7 @@ void CDemonScript::Tick()
 
 void CDemonScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	if (_OtherObject->GetName() == L"AttackBox")//TODO
+	if (_OtherObject->GetName() == L"AttackBox" || _OtherObject->GetName() == L"Arrow")//TODO
 	{
 		float& hpRef = m_HPBar->GetHPRef();
 		hpRef -= 10.f;
@@ -322,16 +322,13 @@ void CDemonScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherOb
 		else
 			m_HPBar->Shake();
 	}
-	else
+	else if(m_State == DemonState::JUMPATTACK)
 	{
-		if (m_State == DemonState::JUMPATTACK)
+		CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
+		CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
+		if (camScript != nullptr)
 		{
-			CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
-			CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
-			if (camScript != nullptr)
-			{
-				camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.12f);
-			}
+			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.12f);
 		}
 	}
 }

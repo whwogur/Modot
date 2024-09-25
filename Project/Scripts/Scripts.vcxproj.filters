@@ -118,6 +118,9 @@
     <ClInclude Include="CDemonSequence.h">
       <Filter>Scripts\Monster\DemonBoss</Filter>
     </ClInclude>
+    <ClInclude Include="CWall.h">
+      <Filter>Scripts\Generic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -204,6 +207,9 @@
     </ClCompile>
     <ClCompile Include="CDemonSequence.cpp">
       <Filter>Scripts\Monster\DemonBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="CWall.cpp">
+      <Filter>Scripts\Generic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
