@@ -182,113 +182,7 @@ void CDemonScript::Tick()
 	case DemonState::SPITTING:
 	{
 		if (!m_Fire)
-		{// -800 -600 -400				300 500 700
-			const Vec3& demonPos = Transform()->GetRelativePosRef();
-			if (demonPos.x < -400)
-			{
-				if (demonPos.x > -600)
-				{
-					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire0");
-					if (Fire != nullptr)
-					{
-						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
-							script->Flicker();
-					}
-					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire1");
-					if (Fire != nullptr)
-					{
-						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
-							script->Flicker();
-					}
-					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire2");
-					if (Fire != nullptr)
-					{
-						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
-							script->Flicker();
-					}
-				}
-				else
-				{
-					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire0");
-					if (Fire != nullptr)
-					{
-						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
-							script->Flicker();
-					}
-					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire1");
-					if (Fire != nullptr)
-					{
-						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
-							script->Flicker();
-					}
-				}
-			}
-			else
-			{
-				if (demonPos.x < 500)
-				{
-					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire3");
-					if (Fire != nullptr)
-					{
-						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
-							script->Flicker();
-					}
-					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire4");
-					if (Fire != nullptr)
-					{
-						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
-							script->Flicker();
-					}
-					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire5");
-					if (Fire != nullptr)
-					{
-						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
-							script->Flicker();
-					}
-				}
-				else if (demonPos.x > 300)
-				{
-					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire4");
-					if (Fire != nullptr)
-					{
-						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
-							script->Flicker();
-					}
-					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire5");
-					if (Fire != nullptr)
-					{
-						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
-							script->Flicker();
-					}
-				}
-				else
-				{
-					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire2");
-					if (Fire != nullptr)
-					{
-						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
-							script->Flicker();
-					}
-					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire3");
-					if (Fire != nullptr)
-					{
-						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
-							script->Flicker();
-					}
-				}
-			}
+		{
 		}
 		else
 		{
@@ -463,6 +357,142 @@ void CDemonScript::BeginState(DemonState _State)
 		}
 		else
 		{
+			// -800 -600 -400				300 500 700
+			const Vec3& demonPos = Transform()->GetRelativePosRef();
+			if (demonPos.x < -400)
+			{
+				if (demonPos.x > -600)
+				{
+					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire0");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire1");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire2");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+				}
+				else
+				{
+					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire0");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire1");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+				}
+			}
+			else
+			{
+				if (demonPos.x < 300)
+				{
+					const Vec3& demonScale = Transform()->GetRelativeScaleRef();
+					if (demonScale.x < 0)
+					{
+						CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire0");
+						if (Fire != nullptr)
+						{
+							CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+							if (script != nullptr)
+								script->Flicker();
+						}
+						Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire1");
+						if (Fire != nullptr)
+						{
+							CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+							if (script != nullptr)
+								script->Flicker();
+						}
+						Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire2");
+						if (Fire != nullptr)
+						{
+							CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+							if (script != nullptr)
+								script->Flicker();
+						}
+					}
+					else
+					{
+						CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire3");
+						if (Fire != nullptr)
+						{
+							CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+							if (script != nullptr)
+								script->Flicker();
+						}
+						Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire4");
+						if (Fire != nullptr)
+						{
+							CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+							if (script != nullptr)
+								script->Flicker();
+						}
+						Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire5");
+						if (Fire != nullptr)
+						{
+							CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+							if (script != nullptr)
+								script->Flicker();
+						}
+					}
+				}
+				else if (demonPos.x > 300)
+				{
+					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire3");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire4");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+				}
+				else
+				{
+					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire4");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire5");
+					if (Fire != nullptr)
+					{
+						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
+						if (script != nullptr)
+							script->Flicker();
+					}
+				}
+			}
+
 			CGameObject* shockwave = GetOwner()->GetChildObject(L"Demon_Roar");
 			if (shockwave != nullptr)
 			{
