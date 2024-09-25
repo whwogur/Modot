@@ -1,6 +1,6 @@
 #include "spch.h"
 #include "CArrowScript.h"
-#include "CPlatformScript.h"
+#include "CWall.h"
 #include <Engine/CLevelMgr.h>
 CArrowScript::CArrowScript()
 	: CScript(SCRIPT_TYPE::ARROWSCRIPT)
@@ -60,8 +60,8 @@ void CArrowScript::LoadFromFile(FILE* _File)
 void CArrowScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
 	m_Hit = true;
-	CPlatformScript* platformscript = dynamic_cast<CPlatformScript*>(_OtherObject->FindScript((UINT)SCRIPT_TYPE::PLATFORMSCRIPT));
-	if (platformscript != nullptr)
+	CWall* wallScript = dynamic_cast<CWall*>(_OtherObject->FindScript((UINT)SCRIPT_TYPE::WALL));
+	if (wallScript != nullptr)
 	{
 		m_Decaying = true;
 

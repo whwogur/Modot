@@ -32,6 +32,14 @@ private:
     void RandomAttack();
 private:
     friend class CLinethSequence;
+    Ptr<CSound>     m_BGM;
+    Ptr<CSound>     m_Intro;
+    Ptr<CSound>     m_Backflip;
+    Ptr<CSound>     m_Projectile;
+    Ptr<CSound>     m_Teleport;
+    Ptr<CSound>     m_Slash;
+    Ptr<CSound>     m_Land;
+
     CGameObject*    m_Target;
     CGameObject*    m_AttackBox;
     CGameObject*    m_Precursor;

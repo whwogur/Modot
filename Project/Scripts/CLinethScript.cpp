@@ -11,6 +11,13 @@
 CLinethScript::CLinethScript()
 	: CScript(SCRIPT_TYPE::LINETHSCRIPT)
 {
+	m_BGM = CAssetMgr::GetInst()->FindAsset<CSound>(L"Lineth");
+	m_Intro = CAssetMgr::GetInst()->FindAsset<CSound>(L"LinethIntro");
+	m_Projectile = CAssetMgr::GetInst()->FindAsset<CSound>(L"LinProjectile");
+	m_Backflip = CAssetMgr::GetInst()->FindAsset<CSound>(L"LinBackflip");
+	m_Teleport = CAssetMgr::GetInst()->FindAsset<CSound>(L"LinTeleport");
+	m_Slash = CAssetMgr::GetInst()->FindAsset<CSound>(L"LinSlash");
+	m_Land = CAssetMgr::GetInst()->FindAsset<CSound>(L"LinLand");
 }
 
 void CLinethScript::Begin()
@@ -33,6 +40,7 @@ void CLinethScript::Begin()
 	MD_ENGINE_ASSERT(m_WarningSFX.Get() != nullptr, L"전조사운드 못찾음");
 
 	BeginState(LinethState::INTRO_CAT);
+	m_Intro->Play(0, 0.5f, false);
 }
 
 void CLinethScript::Tick()
@@ -261,7 +269,7 @@ void CLinethScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 		else
 			m_HPBar->Shake();
 	}
-	else if(m_State == LinethState::ATTACKFROMSKY)
+	else if(m_State == LinethState::ATTACKFROMSKY || m_State == LinethState::JUMPBASH)
 	{
 		CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
 		CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
@@ -269,7 +277,9 @@ void CLinethScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 		{
 			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.5f);
 		}
-	}	
+
+		m_Land->Play(1, 0.2f, true);
+	}
 }
 
 void CLinethScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
@@ -331,6 +341,8 @@ void CLinethScript::BeginState(LinethState _State)
 		DirectionCheck();
 		Animator2D()->Play(L"Lineth_Backflip", 11.f, false);
 		Animator2D()->Reset();
+
+		m_Backflip->Play(1, 0.2f, true);
 		break;
 	}
 	case LinethState::TELEPORT:
@@ -338,6 +350,8 @@ void CLinethScript::BeginState(LinethState _State)
 		m_Acc = 0.f;
 		m_Timer = 0.5f;
 		Animator2D()->Play(L"Lineth_Teleport", 11.f, true);
+		
+		m_Teleport->Play(1, 0.2f, true);
 		break;
 	}
 	case LinethState::JUMPBASH:
@@ -381,6 +395,8 @@ void CLinethScript::BeginState(LinethState _State)
 
 		m_Dust->Transform()->SetDir(Transform()->GetObjectDir());
 		m_Dust->Animator2D()->Reset();
+
+		m_Projectile->Play(1, 0.2f, true);
 		break;
 	}
 	case LinethState::GOOP:
@@ -434,6 +450,8 @@ void CLinethScript::BeginState(LinethState _State)
 		{
 			m_AttackBox->Transform()->SetRelativePos(linPos + Vec3(-90.f, 0.f, 0.f));
 		}
+
+		m_Slash->Play(1, 0.2f, true);
 		break;
 	}
 	case LinethState::SUNBO:
@@ -442,6 +460,8 @@ void CLinethScript::BeginState(LinethState _State)
 		m_Timer = 0.5f;
 		Animator2D()->Play(L"Lineth_Sunbo", 8.f, false);
 		Animator2D()->Reset();
+			
+		m_Teleport->Play(1, 0.2f, true);;
 		break;
 	}
 	case LinethState::ATTACKFROMSKY:
@@ -532,6 +552,14 @@ void CLinethScript::EndState(LinethState _State)
 			}
 		}
 
+		CGameObject* pTrigger = CLevelMgr::GetInst()->FindObjectByName(L"EventTrigger");
+		if (pTrigger != nullptr)
+		{
+			pTrigger->Transform()->SetRelativePos(Vec3(-2222.f, -2222.f, -2222.f));
+		}
+
+		m_Intro->Stop();
+		m_BGM->Play(0, 0.5f, false);
 		break;
 	}
 	case LinethState::BACKFLIP:
@@ -593,6 +621,8 @@ void CLinethScript::EndState(LinethState _State)
 			precursor->Transform()->SetRelativePos(Vec3(-7777.f, -7777.f, 0.f));
 			precursor->ParticleSystem()->SetBurst(false);
 		}
+
+		m_Teleport->Play(1, 0.2f, true);
 		break;
 	}
 	case LinethState::SLASH:

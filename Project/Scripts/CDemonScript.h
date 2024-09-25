@@ -31,6 +31,11 @@ private:
 
 private:
     friend class CDemonSequence;
+    Ptr<CSound>         m_Roar;
+    Ptr<CSound>         m_Roar2;
+    Ptr<CSound>         m_BGM;
+    Ptr<CSound>         m_Intro;
+
     CGameObject*        m_Target;
     CGameObject*        m_AttackBox;
     CGameObject*        m_RoarBox;

@@ -475,4 +475,17 @@ void CAssetMgr::LoadSound()
 	Load<CSound>(L"Hit", L"sound\\Hit.wav");
 	Load<CSound>(L"Title", L"sound\\Title.wav");
 	Load<CSound>(L"ArrowFire", L"sound\\ArrowFire.wav");
+
+	Load<CSound>(L"DemonIntro", L"sound\\DemonIntro.wav");
+	Load<CSound>(L"Demon", L"sound\\Demon.wav");
+	Load<CSound>(L"DemonRoar", L"sound\\DemonRoar.wav");
+	Load<CSound>(L"DemonRoar2", L"sound\\DemonRoar2.wav");
+
+	Load<CSound>(L"LinethIntro", L"sound\\LinethIntro.wav");
+	Load<CSound>(L"Lineth", L"sound\\Lineth.wav");
+	Load<CSound>(L"LinBackflip", L"sound\\LinBackflip.wav");
+	Load<CSound>(L"LinProjectile", L"sound\\LinProjectile.wav");
+	Load<CSound>(L"LinTeleport", L"sound\\LinTeleport.wav");
+	Load<CSound>(L"LinSlash", L"sound\\LinSlash.wav");
+	Load<CSound>(L"LinLand", L"sound\\LinLand.wav");
 }

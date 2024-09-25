@@ -14,6 +14,11 @@ CDemonScript::CDemonScript()
 {
 	AddScriptParam(SCRIPT_PARAM::FLOAT, u8"공격사거리", &m_AttackReach);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, u8"데미지", &m_Damage);
+
+	m_Roar = CAssetMgr::GetInst()->FindAsset<CSound>(L"DemonRoar");
+	m_Roar2 = CAssetMgr::GetInst()->FindAsset<CSound>(L"DemonRoar2");
+	m_BGM = CAssetMgr::GetInst()->FindAsset<CSound>(L"Demon");
+	m_Intro = CAssetMgr::GetInst()->FindAsset<CSound>(L"DemonIntro");
 }
 
 void CDemonScript::Begin()
@@ -49,6 +54,7 @@ void CDemonScript::Begin()
 		shockwave->ParticleSystem()->SetBurst(false);
 	}
 
+	m_Intro->Play(0, 0.5f, false);
 }
 
 void CDemonScript::Tick()
@@ -250,6 +256,7 @@ void CDemonScript::BeginState(DemonState _State)
 	{
 		Animator2D()->Play(L"Demon_Roar", 8.f, false);
 		Animator2D()->Reset();
+		m_Roar->Play(1, 0.3f, true);
 
 		CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
 		CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
@@ -512,6 +519,8 @@ void CDemonScript::BeginState(DemonState _State)
 			{
 				camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.5f);
 			}
+
+			m_Roar2->Play(1, 0.3f, true);
 		}
 		break;
 	}
@@ -545,6 +554,9 @@ void CDemonScript::EndState(DemonState _State)
 		{
 			pTrigger->Transform()->SetRelativePos(Vec3(-2222.f, -2222.f, -2222.f));
 		}
+
+		m_Intro->Stop();
+		m_BGM->Play(0, 0.5f, false);
 		break;
 	}
 	case DemonState::IDLE:
