@@ -19,6 +19,12 @@
     <Filter Include="Scripts\UI">
       <UniqueIdentifier>{ad66beda-9f58-44ed-87c1-6b458eef9bff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Generic">
+      <UniqueIdentifier>{918456cb-1edd-48c9-b393-4d9b73bedcc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Monster">
+      <UniqueIdentifier>{22b5ffcc-11fd-46f4-928f-2ffaef11fb74}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -27,46 +33,10 @@
     <ClInclude Include="spch.h">
       <Filter>Default</Filter>
     </ClInclude>
-    <ClInclude Include="CCameraMoveScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CPlayerScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CScriptMgr.h" />
-    <ClInclude Include="CBackGroundScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CSpriteRenderScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CParticleScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CTintedBGScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlatformScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CBellScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CWaterScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CDemonScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CHellfireScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CLinethScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="CBlurControl.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CLevelTransitionScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
@@ -100,6 +70,42 @@
     <ClInclude Include="CMinimap.h">
       <Filter>Scripts\UI</Filter>
     </ClInclude>
+    <ClInclude Include="CLinethScript.h">
+      <Filter>Scripts\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CHellfireScript.h">
+      <Filter>Scripts\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CDemonScript.h">
+      <Filter>Scripts\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CBackGroundScript.h">
+      <Filter>Scripts\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="CBellScript.h">
+      <Filter>Scripts\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="CBlurControl.h">
+      <Filter>Scripts\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraMoveScript.h">
+      <Filter>Scripts\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="CParticleScript.h">
+      <Filter>Scripts\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlatformScript.h">
+      <Filter>Scripts\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="CSpriteRenderScript.h">
+      <Filter>Scripts\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="CTintedBGScript.h">
+      <Filter>Scripts\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="CWaterScript.h">
+      <Filter>Scripts\Generic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -108,46 +114,10 @@
     <ClCompile Include="Scripts.cpp">
       <Filter>Default</Filter>
     </ClCompile>
-    <ClCompile Include="CCameraMoveScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CPlayerScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CScriptMgr.cpp" />
-    <ClCompile Include="CBackGroundScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CSpriteRenderScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CParticleScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CTintedBGScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlatformScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CBellScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CWaterScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CDemonScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CHellfireScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CLinethScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="CBlurControl.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CLevelTransitionScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
@@ -180,6 +150,42 @@
     </ClCompile>
     <ClCompile Include="CMinimap.cpp">
       <Filter>Scripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CLinethScript.cpp">
+      <Filter>Scripts\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CHellfireScript.cpp">
+      <Filter>Scripts\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CDemonScript.cpp">
+      <Filter>Scripts\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CBackGroundScript.cpp">
+      <Filter>Scripts\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="CBellScript.cpp">
+      <Filter>Scripts\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="CBlurControl.cpp">
+      <Filter>Scripts\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraMoveScript.cpp">
+      <Filter>Scripts\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="CParticleScript.cpp">
+      <Filter>Scripts\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlatformScript.cpp">
+      <Filter>Scripts\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="CSpriteRenderScript.cpp">
+      <Filter>Scripts\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="CTintedBGScript.cpp">
+      <Filter>Scripts\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="CWaterScript.cpp">
+      <Filter>Scripts\Generic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

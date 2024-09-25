@@ -5,6 +5,7 @@
 #include "CNPCUIScript.h"
 #include <Engine/CRenderMgr.h>
 #include "CNPCBehavior.h"
+#include "CPlayerScript.h"
 
 CNPCScript::CNPCScript()
 	: CScript(UINT(SCRIPT_TYPE::NPCSCRIPT))
@@ -79,14 +80,20 @@ void CNPCScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, C
 			
 			if (behaviorScript != nullptr)
 				behaviorScript->Activate();
-			/*tRenderText tText = {};
-			tText.Detail = L"¾È³çÇÏ¼¼¿ä";
-			tText.FontSize = 25.f;
-			tText.Pos = Vec2(500, 500);
-			tText.Type = TextType::STAT;
-			tText.RGBA = FONT_RGBA(222, 222, 222, 255);
 
-			CRenderMgr::GetInst()->AddRenderText(tText);*/
+			CPlayerScript* playerScript = static_cast<CPlayerScript*>(_OtherObject->FindScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT));
+			if (playerScript != nullptr)
+				playerScript->ChangeState(PlayerState::INTERACTION); // ¹«ÇÑ Ã÷Äí¿ä¹Ì ÁÖÀÇ
+
+			CGameObject* gameObj = CLevelMgr::GetInst()->FindObjectByName(L"StartCon");
+			if (gameObj != nullptr)
+			{
+				CNPCUIScript* scrpt = (CNPCUIScript*)gameObj->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT);
+				if (scrpt != nullptr)
+				{
+					scrpt->Deactivate();
+				}
+			}
 		}
 	}
 }

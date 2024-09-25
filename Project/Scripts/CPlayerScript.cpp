@@ -514,7 +514,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 	case PlayerState::SPRINT:
 	{
 		Animator2D()->Play(L"Momo_Sprint", 14.0f, true);
-		RigidBody()->SetVelocityLimit(600.f);
+		RigidBody()->SetVelocityLimit(500.f);
 		m_Speed = 1000.0f;
 
 		CGameObject* fx = GetOwner()->GetChildObject(L"SprintStart");
@@ -676,6 +676,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	case PlayerState::INTERACTION:
 	{
+		Animator2D()->Play(L"Momo_Idle", 8.0f, true);
 		break;
 	}
 	case PlayerState::END:
@@ -741,7 +742,7 @@ void CPlayerScript::EndState(PlayerState _State)
 	case PlayerState::ROLL:
 	{
 		RigidBody()->SetFrictionScale(0.5f);
-		RigidBody()->SetVelocityLimit(400.f);
+		RigidBody()->SetVelocityLimit(300.f);
 		m_Invincible = false;
 		break;
 	}
@@ -769,7 +770,7 @@ void CPlayerScript::EndState(PlayerState _State)
 			fx->ParticleSystem()->SetBurst(false);
 		}
 
-		RigidBody()->SetVelocityLimit(400.f);
+		RigidBody()->SetVelocityLimit(300.f);
 		break;
 	}
 	case PlayerState::ATTACK1:

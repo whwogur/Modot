@@ -5,6 +5,7 @@ enum class NPCType
     YUHACAT,
     DORA,
     OLIVERIA,
+    GRANDPA,
     NONE,
 };
 
@@ -25,10 +26,9 @@ public:
 public:
     void Activate();
 private:
-    NPCType     m_Type = NPCType::NONE;
+    NPCType     m_Type      = NPCType::NONE;
     bool        m_Activated = false;
-
-    float       m_Acc = 0.f;
-    float       m_Timer = 0.f;
+    int         m_SelectIdx = 0;
+    UINT        m_DialogIdx = 0;
 };
 
