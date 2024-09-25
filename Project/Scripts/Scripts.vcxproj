@@ -111,6 +111,7 @@ call CodeGen.exe</Command>
     <ClInclude Include="CHellfireScript.h" />
     <ClInclude Include="CLevelTransitionScript.h" />
     <ClInclude Include="CLinethScript.h" />
+    <ClInclude Include="CLinethSequence.h" />
     <ClInclude Include="CMinimap.h" />
     <ClInclude Include="CMonsterAttack.h" />
     <ClInclude Include="CNPCBehavior.h" />
@@ -140,6 +141,7 @@ call CodeGen.exe</Command>
     <ClCompile Include="CHellfireScript.cpp" />
     <ClCompile Include="CLevelTransitionScript.cpp" />
     <ClCompile Include="CLinethScript.cpp" />
+    <ClCompile Include="CLinethSequence.cpp" />
     <ClCompile Include="CMinimap.cpp" />
     <ClCompile Include="CMonsterAttack.cpp" />
     <ClCompile Include="CNPCBehavior.cpp" />

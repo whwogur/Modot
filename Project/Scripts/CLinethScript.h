@@ -31,6 +31,7 @@ private:
     void DirectionCheck();
     void RandomAttack();
 private:
+    friend class CLinethSequence;
     CGameObject*    m_Target;
     CGameObject*    m_AttackBox;
     CGameObject*    m_Precursor;

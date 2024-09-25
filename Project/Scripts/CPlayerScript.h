@@ -10,7 +10,7 @@ enum class PlayerState
     DEAD,
     SPRINT,
     ATTACK1, ATTACK2, ATTACK3, SHOOT,
-    INTERACTION,
+    INTERACTION, PET, SURPRISED,
 
     END,
 };

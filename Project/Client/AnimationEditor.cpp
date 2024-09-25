@@ -150,7 +150,7 @@ void AnimationEditor::Update()
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.0f, 0.222f, 0.555f, 1.0f });
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.222f, 0.555f, 0.777f, 1.0f });
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.0f, 0.333f, 0.555f, 1.0f });
-        ImGui::SameLine(770);
+        ImGui::SameLine(780);
         if (ImGui::Button(ICON_FA_ARROW_UP, { 25, 25 }))
         {
             offsetUV.y += deltaUV;

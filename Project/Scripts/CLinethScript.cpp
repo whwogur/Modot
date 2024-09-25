@@ -1,9 +1,12 @@
 #include "spch.h"
 #include "CLinethScript.h"
 #include <Engine/CLevelMgr.h>
+#include <Engine/CRenderMgr.h>
+
 #include "CCameraMoveScript.h"
 #include "CUIBarScript.h"
 #include "CNPCUIScript.h"
+#include "CPlayerScript.h"
 
 CLinethScript::CLinethScript()
 	: CScript(SCRIPT_TYPE::LINETHSCRIPT)
@@ -54,7 +57,14 @@ void CLinethScript::Tick()
 	}
 	case LinethState::INTRO_BACK:
 	{
-		if (KEY_TAP(KEY::_7))
+		tRenderText linDia = {};
+		linDia.Detail = L"(엔진소리를 내며)\n내 몸에 손대지 마라..\n인간..";
+		linDia.FontSize = 18.f;
+		linDia.Pos = Vec2(800.f, 400.f);
+		linDia.RGBA = FONT_RGBA(255, 0, 0, 255);
+		CRenderMgr::GetInst()->AddRenderText(linDia);
+
+		if (KEY_TAP(KEY::A))
 		{
 			ChangeState(LinethState::INTRO_TURN);
 		}
@@ -70,9 +80,17 @@ void CLinethScript::Tick()
 	}
 	case LinethState::INTRO_POINT:
 	{
-		// 대사 후 전투 시작
-		if (KEY_TAP(KEY::_7))
+		tRenderText linDia = {};
+		linDia.Detail = L"인간이 감히 내 몸에\n손을 대다니..!!\n천벌을 받아라";
+		linDia.FontSize = 18.f;
+		linDia.Pos = Vec2(800.f, 400.f);
+		linDia.RGBA = FONT_RGBA(255, 0, 0, 255);
+		CRenderMgr::GetInst()->AddRenderText(linDia);
+		
+		if (KEY_TAP(KEY::A))
+		{
 			RandomAttack();
+		}
 
 		break;
 	}
@@ -232,7 +250,7 @@ void CLinethScript::LoadFromFile(FILE* _File)
 
 void CLinethScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	if (_OtherObject->GetName() == L"AttackBox")//TODO
+	if (_OtherObject->GetName() == L"AttackBox")
 	{
 		float& hpRef = m_HPBar->GetHPRef();
 		hpRef -= 10.f;
@@ -241,18 +259,24 @@ void CLinethScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 		else
 			m_HPBar->Shake();
 	}
-	else
+	else if (_OtherObject->GetName() == L"Arrow")
 	{
-		if (m_State == LinethState::ATTACKFROMSKY)
-		{
-			CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
-			CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
-			if (camScript != nullptr)
-			{
-				camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.12f);
-			}
-		}
+		float& hpRef = m_HPBar->GetHPRef();
+		hpRef -= 10.f;
+		if (hpRef <= 0.f)
+			hpRef = 0.f;
+		else
+			m_HPBar->Shake();
 	}
+	else if(m_State == LinethState::ATTACKFROMSKY)
+	{
+		CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
+		CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
+		if (camScript != nullptr)
+		{
+			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.12f);
+		}
+	}	
 }
 
 void CLinethScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
@@ -275,6 +299,16 @@ void CLinethScript::BeginState(LinethState _State)
 	}
 	case LinethState::INTRO_BACK:
 	{
+		CGameObject* linTextBox = CLevelMgr::GetInst()->FindObjectByName(L"LinethTextBox");
+		if (linTextBox != nullptr)
+		{
+			CNPCUIScript* linScript = static_cast<CNPCUIScript*>(linTextBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
+			if (linScript != nullptr)
+			{
+				linScript->Activate();
+			}
+		}
+
 		CGameObject* amaterasu = GetOwner()->GetChildObject(L"Amaterasu");
 		if (amaterasu != nullptr)
 		{
@@ -485,7 +519,25 @@ void CLinethScript::EndState(LinethState _State)
 			}
 		}
 		
+		CGameObject* linTextBox = CLevelMgr::GetInst()->FindObjectByName(L"LinethTextBox");
+		if (linTextBox != nullptr)
+		{
+			CNPCUIScript* linScript = static_cast<CNPCUIScript*>(linTextBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
+			if (linScript != nullptr)
+			{
+				linScript->Deactivate();
+			}
+		}
 
+		CGameObject* pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
+		if (pPlayer != nullptr)
+		{
+			CPlayerScript* pPlayerScript = static_cast<CPlayerScript*>(pPlayer->FindScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT));
+			if (pPlayerScript != nullptr)
+			{
+				pPlayerScript->ChangeState(PlayerState::IDLE);
+			}
+		}
 
 		break;
 	}
@@ -614,7 +666,7 @@ void CLinethScript::RandomAttack()
 	const Vec3& playerPos = m_Target->Transform()->GetRelativePosRef();
 	const Vec3& linPos = Transform()->GetRelativePosRef();
 
-	if (fabs(playerPos.x - linPos.x) < 300.f)
+	if (fabs(playerPos.x - linPos.x) < 200.f)
 	{
 		ChangeState(LinethState::SLASH);
 	}

@@ -98,9 +98,9 @@ void CNPCBehavior::Tick()
 			case 0:
 			{
 				tRenderText tText = {};
-				tText.Detail = L"또 오셨군요...\n이번엔 어떤 보스에 도전하시겠습니까? ▼";
+				tText.Detail = L"또 오셨군요...\n이번엔 어떤 보스에게\n도전하시겠습니까? ...▼";
 				tText.FontSize = 20.f;
-				tText.Pos = Vec2(650, 450);
+				tText.Pos = Vec2(660, 490);
 				tText.RGBA = FONT_RGBA(222, 222, 222, 255);
 				CRenderMgr::GetInst()->AddRenderText(tText);
 

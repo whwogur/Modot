@@ -367,6 +367,30 @@ void CPlayerScript::Tick()
 	{
 		break;
 	}
+	case PlayerState::PET:
+	{
+		if (Animator2D()->IsFinished())
+		{
+			CGameObject* pLineth = CLevelMgr::GetInst()->FindObjectByName(L"Lineth");
+			if (pLineth != nullptr)
+			{
+				ChangeState(PlayerState::SURPRISED);
+			}
+			else
+			{
+				ChangeState(PlayerState::IDLE);
+			}
+		}
+		break;
+	}
+	case PlayerState::SURPRISED:
+	{
+		if (Animator2D()->IsFinished())
+		{
+			ChangeState(PlayerState::INTERACTION);
+		}
+		break;
+	}
 	case PlayerState::END:
 	{
 		break;
@@ -679,6 +703,18 @@ void CPlayerScript::BeginState(PlayerState _State)
 		Animator2D()->Play(L"Momo_Idle", 8.0f, true);
 		break;
 	}
+	case PlayerState::PET:
+	{
+		Animator2D()->Play(L"Momo_Pet", 10.0f, false);
+		Animator2D()->Reset();
+		break;
+	}
+	case PlayerState::SURPRISED:
+	{
+		Animator2D()->Play(L"Momo_Surprised", 4.0f, false);
+		Animator2D()->Reset();
+		break;
+	}
 	case PlayerState::END:
 	{
 		break;
@@ -813,6 +849,14 @@ void CPlayerScript::EndState(PlayerState _State)
 		break;
 	}
 	case PlayerState::INTERACTION:
+	{
+		break;
+	}
+	case PlayerState::PET:
+	{
+		break;
+	}
+	case PlayerState::SURPRISED:
 	{
 		break;
 	}
