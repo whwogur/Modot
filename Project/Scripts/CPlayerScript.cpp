@@ -385,6 +385,9 @@ void CPlayerScript::Tick()
 	}
 	case PlayerState::SURPRISED:
 	{
+		Vec3& playerPos = Transform()->GetRelativePosRef();
+		playerPos.x -= 100.f * DT;
+
 		if (Animator2D()->IsFinished())
 		{
 			ChangeState(PlayerState::INTERACTION);
@@ -711,7 +714,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	case PlayerState::SURPRISED:
 	{
-		Animator2D()->Play(L"Momo_Surprised", 4.0f, false);
+		Animator2D()->Play(L"Momo_Surprised", 10.0f, false);
 		Animator2D()->Reset();
 		break;
 	}

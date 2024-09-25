@@ -43,8 +43,8 @@ void CLinethSequence::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _Othe
 			CNPCUIScript* scrpt = (CNPCUIScript*)gameObj->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT);
 			if (scrpt != nullptr)
 			{
-				const Vec3& npcPos = Transform()->GetRelativePosRef();
-				scrpt->Transform()->SetRelativePos(npcPos + Vec3(0.f, 150.f, 0.f));
+				const Vec3& linPos = m_Script->Transform()->GetRelativePosRef();
+				scrpt->Transform()->SetRelativePos(linPos + Vec3(0.f, 100.f, 0.f));
 				scrpt->Activate();
 			}
 		}
@@ -80,4 +80,16 @@ void CLinethSequence::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObje
 
 void CLinethSequence::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
+	if (m_Script->m_State == LinethState::INTRO_CAT && _OtherObject->GetName() == L"Player")
+	{
+		CGameObject* gameObj = CLevelMgr::GetInst()->FindObjectByName(L"StartPet");
+		if (gameObj != nullptr)
+		{
+			CNPCUIScript* scrpt = (CNPCUIScript*)gameObj->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT);
+			if (scrpt != nullptr)
+			{
+				scrpt->Deactivate();
+			}
+		}
+	}
 }

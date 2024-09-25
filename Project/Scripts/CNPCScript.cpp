@@ -74,6 +74,15 @@ void CNPCScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, C
 {
 	if (_OtherObject->GetName() == L"Player")
 	{
+		const Vec3& playerPos = _OtherObject->Transform()->GetRelativePosRef();
+		const Vec3& npcPos = Transform()->GetRelativePosRef();
+		Vec3& npcTrans = Transform()->GetRelativeScaleRef();
+
+		if ((playerPos.x - npcPos.x > 0 && npcTrans.x < 0) || (playerPos.x - npcPos.x < 0 && npcTrans.x > 0))
+		{
+			npcTrans.x *= -1;
+		}
+
 		if (KEY_TAP(KEY::UP))
 		{
 			CNPCBehavior* behaviorScript = static_cast<CNPCBehavior*>(GetOwner()->FindScript((UINT)SCRIPT_TYPE::NPCBEHAVIOR));

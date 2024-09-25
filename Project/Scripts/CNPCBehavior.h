@@ -6,6 +6,7 @@ enum class NPCType
     DORA,
     OLIVERIA,
     GRANDPA,
+    CEREZA,
     NONE,
 };
 

@@ -1,15 +1,22 @@
-#include "spch.h"
+ï»¿#include "spch.h"
 #include "CNPCBehavior.h"
 #include <Engine/CRenderMgr.h>
 #include <Engine/CLevelMgr.h>
 
 #include "CPlayerScript.h"
 #include "CNPCUIScript.h"
+#include "../Client/CPlayerManager.h"
+
+#ifdef _DEBUG
+#include "../Client/Inspector.h"
+#include "../Client/CEditorMgr.h"
+#endif
+#include "../Client/CLevelSaveLoad.h"
 
 CNPCBehavior::CNPCBehavior()
 	: CScript(SCRIPT_TYPE::NPCBEHAVIOR)
 {
-	AddScriptParam(SCRIPT_PARAM::INT, u8"NPC", &m_Type, 0, 0, u8"0: YuhaCat, 1: Dora, 2: Oliveria, 3: Grandpa");
+	AddScriptParam(SCRIPT_PARAM::INT, u8"NPC", &m_Type, 0, 0, u8"0: YuhaCat, 1: Dora, 2: Oliveria, 3: Grandpa, 4: Cereza");
 }
 
 void CNPCBehavior::Begin()
@@ -29,21 +36,21 @@ void CNPCBehavior::Tick()
 		case NPCType::DORA:
 		{
 			tRenderText tText = {};
-			tText.Detail = L"¸»½ÃÅ°Áö ¸»°í °¡¶ó...";
+			tText.Detail = L"ë§ì‹œí‚¤ì§€ ë§ê³  ê°€ë¼...";
 			tText.FontSize = 20.f;
 			tText.Pos = Vec2(510, 380);
 			tText.RGBA = FONT_RGBA(222, 222, 222, 255);
 			CRenderMgr::GetInst()->AddRenderText(tText);
 
 			tRenderText tText2 = {};
-			tText2.Detail = L"³Ü..!";
+			tText2.Detail = L"ë„µ..!";
 			tText2.FontSize = 18.f;
 			tText2.Pos = Vec2(510, 410);
 			tText2.RGBA = m_SelectIdx == 0 ? FONT_RGBA(111, 111, 255, 255) : FONT_RGBA(222, 222, 222, 255);
 			CRenderMgr::GetInst()->AddRenderText(tText2);
 
 			tRenderText tText3 = {};
-			tText3.Detail = L"½È¾î";
+			tText3.Detail = L"ì‹«ì–´";
 			tText3.FontSize = 18.f;
 			tText3.Pos = Vec2(510, 430);
 			tText3.RGBA = m_SelectIdx == 1 ? FONT_RGBA(111, 111, 255, 255) : FONT_RGBA(222, 222, 222, 255);
@@ -98,9 +105,9 @@ void CNPCBehavior::Tick()
 			case 0:
 			{
 				tRenderText tText = {};
-				tText.Detail = L"¶Ç ¿À¼Ì±º¿ä...\nÀÌ¹ø¿£ ¾î¶² º¸½º¿¡°Ô\nµµÀüÇÏ½Ã°Ú½À´Ï±î? ...¡å";
+				tText.Detail = L"ë˜ ì˜¤ì…¨êµ°ìš”...\nì´ë²ˆì—” ì–´ë–¤ ë³´ìŠ¤ì—ê²Œ\në„ì „í•˜ì‹œê² ìŠµë‹ˆê¹Œ? ...â–¼";
 				tText.FontSize = 20.f;
-				tText.Pos = Vec2(660, 490);
+				tText.Pos = Vec2(680, 460);
 				tText.RGBA = FONT_RGBA(222, 222, 222, 255);
 				CRenderMgr::GetInst()->AddRenderText(tText);
 
@@ -126,28 +133,28 @@ void CNPCBehavior::Tick()
 				}
 
 				tRenderText tText = {};
-				tText.Detail = L"º¸½º¼±ÅÃ :";
+				tText.Detail = L"ë³´ìŠ¤ì„ íƒ :";
 				tText.FontSize = 20.f;
 				tText.Pos = Vec2(700, 450);
-				tText.RGBA = FONT_RGBA(222, 222, 222, 255);
+				tText.RGBA = FONT_RGBA(255, 55, 55, 255);
 				CRenderMgr::GetInst()->AddRenderText(tText);
 
 				tRenderText tText2 = {};
-				tText2.Detail = L"°¡¸®¼¼ ¾Ç¸¶";
+				tText2.Detail = L"ê°€ë¦¬ì„¸ ì•…ë§ˆ";
 				tText2.FontSize = 20.f;
 				tText2.Pos = Vec2(700, 480);
 				tText2.RGBA = m_SelectIdx == 0 ? FONT_RGBA(111, 111, 255, 255) : FONT_RGBA(222, 222, 222, 255);
 				CRenderMgr::GetInst()->AddRenderText(tText2);
 
 				tRenderText tText3 = {};
-				tText3.Detail = L"°ËÀº °í¾çÀÌ";
+				tText3.Detail = L"ê²€ì€ ê³ ì–‘ì´";
 				tText3.FontSize = 20.f;
 				tText3.Pos = Vec2(700, 500);
 				tText3.RGBA = m_SelectIdx == 1 ? FONT_RGBA(111, 111, 255, 255) : FONT_RGBA(222, 222, 222, 255);
 				CRenderMgr::GetInst()->AddRenderText(tText3);
 
 				tRenderText tText4 = {};
-				tText4.Detail = L"Á» ´õ »ý°¢ÇØº¸°í ¿Ã°Ô¿ä";
+				tText4.Detail = L"ì¢€ ë” ìƒê°í•´ë³´ê³  ì˜¬ê²Œìš”";
 				tText4.FontSize = 20.f;
 				tText4.Pos = Vec2(700, 520);
 				tText4.RGBA = m_SelectIdx == 2 ? FONT_RGBA(111, 111, 255, 255) : FONT_RGBA(222, 222, 222, 255);
@@ -156,29 +163,52 @@ void CNPCBehavior::Tick()
 
 				if (KEY_TAP(KEY::A))
 				{
+#ifdef _DEBUG
+						Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+						pInspector->SetTargetObject(nullptr);
+						pInspector->SetTargetAsset(nullptr);
+#endif
 					switch (m_SelectIdx)
 					{
-					case 0:
+					case 0: // ì•…ë§ˆ
 					{
 						m_DialogIdx = 0;
 						m_SelectIdx = 0;
 						break;
 					}
-					case 1:
+					case 1: // ë¦¬ë„¤ìŠ¤
 					{
+						CPlayerManager::GetInst()->SetNextPos(Vec3(-98.97f, -322.f, 1.8f));
+						CPlayerManager::GetInst()->SetNextCamPos(Vec3(-142.f, -56.12f, 0.f));
+						CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\LinethTEST.lv");
+						ChangeLevel(pLevel, LEVEL_STATE::PLAY);
+
 						m_DialogIdx = 0;
 						m_SelectIdx = 0;
 						break;
 					}
 					case 2:
 					{
-
-						m_DialogIdx = 0;
-						m_SelectIdx = 0;
+						++m_DialogIdx;
 						break;
 					}
 					}
 
+					
+				}
+				break;
+			}
+			case 2:
+			{
+				tRenderText tText = {};
+				tText.Detail = L"ì–¸ì œë“ ì§€ ì™€ì„œ\në¬´ì‹œë¬´ì‹œí•œ ë³´ìŠ¤ë“¤ì—ê²Œ\në„ì „í•´ ì£¼ì„¸ìš”\n  â—(ãƒ»â–¿ãƒ»)â—œ";
+				tText.FontSize = 20.f;
+				tText.Pos = Vec2(710, 470);
+				tText.RGBA = FONT_RGBA(222, 222, 222, 255);
+				CRenderMgr::GetInst()->AddRenderText(tText);
+
+				if (KEY_TAP(KEY::A))
+				{
 					CGameObject* pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
 					if (pPlayer != nullptr)
 					{
@@ -196,6 +226,9 @@ void CNPCBehavior::Tick()
 							uiScript->Deactivate();
 						}
 					}
+
+					m_DialogIdx = 0;
+					m_SelectIdx = 0;
 					m_Activated = false;
 				}
 				break;
@@ -206,6 +239,69 @@ void CNPCBehavior::Tick()
 		}
 		case NPCType::GRANDPA:
 		{
+			break;
+		}
+		case NPCType::CEREZA:
+		{
+			switch (m_DialogIdx)
+			{
+			case 0:
+			{
+				tRenderText tText = {};
+				tText.Detail = L"ëª¨ëª¨! ì™”êµ¬ë‚˜!!\në‚´ ì•žì— ì¢…ì„ ì¢€ ë´!\nìˆ˜ìƒí•˜ì§€ ì•Šì•„? ...â–¼";
+				tText.FontSize = 18.f;
+				tText.Pos = Vec2(360, 460);
+				tText.RGBA = FONT_RGBA(222, 222, 222, 255);
+				CRenderMgr::GetInst()->AddRenderText(tText);
+
+				if (KEY_TAP(KEY::A))
+				{
+					Animator2D()->Play(L"Cereza_Stretch", 8.f, false);
+					Animator2D()->Reset();
+					++m_DialogIdx;
+				}
+				break;
+			}
+			case 1:
+			{
+				tRenderText tText = {};
+				tText.Detail = L"ì´ ì¢…ì„ ì¹˜ë©´\nì—„ì²­ë‚œ ì¼ì´ ì¼ì–´ë‚ ì§€ë„...?";
+				tText.FontSize = 20.f;
+				tText.Pos = Vec2(360, 460);
+				tText.RGBA = FONT_RGBA(255, 55, 55, 255);
+				CRenderMgr::GetInst()->AddRenderText(tText);
+
+				if (Animator2D()->IsFinished())
+					Animator2D()->Reset();
+
+				if (KEY_TAP(KEY::A))
+				{
+					Animator2D()->Play(0, 8.0f, true);
+					CGameObject* pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
+					if (pPlayer != nullptr)
+					{
+						CPlayerScript* playerScript = static_cast<CPlayerScript*>(pPlayer->FindScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT));
+						if (playerScript != nullptr)
+							playerScript->ChangeState(PlayerState::IDLE);
+					}
+
+					CGameObject* textBox = CLevelMgr::GetInst()->FindObjectByName(L"NPCTextBox");
+					if (textBox != nullptr)
+					{
+						CNPCUIScript* uiScript = static_cast<CNPCUIScript*>(textBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
+						if (uiScript != nullptr)
+						{
+							uiScript->Deactivate();
+						}
+					}
+
+					m_DialogIdx = 0;
+					m_SelectIdx = 0;
+					m_Activated = false;
+				}
+				break;
+			}
+			}
 			break;
 		}
 		case NPCType::NONE:
@@ -271,6 +367,21 @@ void CNPCBehavior::Activate()
 	}
 	case NPCType::GRANDPA:
 	{
+		break;
+	}
+	case NPCType::CEREZA:
+	{
+		CGameObject* textBox = CLevelMgr::GetInst()->FindObjectByName(L"NPCTextBox");
+		if (textBox != nullptr)
+		{
+			CNPCUIScript* uiScript = static_cast<CNPCUIScript*>(textBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
+			if (uiScript != nullptr)
+			{
+				textBox->Transform()->SetRelativePos(Vec3(-200.f, -150.f, 0));
+				textBox->Transform()->SetRelativeScale(Vec3(400.f, 200.f, 1.f));
+				uiScript->Activate();
+			}
+		}
 		break;
 	}
 	case NPCType::NONE:
