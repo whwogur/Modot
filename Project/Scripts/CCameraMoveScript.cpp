@@ -116,6 +116,7 @@ void CCameraMoveScript::CameraEffect()
 		if (info.Duration < info.Time)
 		{
 			m_EffectList.pop_front();
+			Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
 		}
 		else
 		{
@@ -128,18 +129,14 @@ void CCameraMoveScript::CameraEffect()
 	
 	if (CAM_EFFECT::SHAKE == info.Effect)
 	{
-		int x = (rand() % 10 * 2) - 10;
-		int y = (rand() % 10 * 2) - 10;
-		x = x == 0 ? 1 : x;
-		y = y == 0 ? 1 : y;
+		int z = (rand() % 10 * 2) - 10;
+		z = z == 0 ? 1 : z;
 
 		float ShakeRatio = 1.f - info.Time / info.Duration;
-		Vec3& camPos = Transform()->GetRelativePosRef();
+		Vec3& camPos = Transform()->GetRelativeRoatationRef();
 
-		if (!Collider2D()->GetOverlapCount())
-			camPos.x += (float)x * ShakeRatio;
-		camPos.y += (float)y * ShakeRatio;
-
+		camPos.z = (float)z * ShakeRatio * DT * 3;
+		
 		return;
 	}
 }

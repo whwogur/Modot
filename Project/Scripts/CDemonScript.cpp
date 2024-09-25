@@ -313,7 +313,9 @@ void CDemonScript::Tick()
 
 void CDemonScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	if (_OtherObject->GetName() == L"AttackBox" || _OtherObject->GetName() == L"Arrow")//TODO
+	CScript* attack = _OtherObject->FindScript((UINT)SCRIPT_TYPE::ATTACKSCRIPT);
+
+	if (attack != nullptr)
 	{
 		float& hpRef = m_HPBar->GetHPRef();
 		hpRef -= 10.f;
@@ -328,7 +330,7 @@ void CDemonScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherOb
 		CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
 		if (camScript != nullptr)
 		{
-			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.12f);
+			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.5f);
 		}
 	}
 }
@@ -359,7 +361,7 @@ void CDemonScript::BeginState(DemonState _State)
 		CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
 		if (camScript != nullptr)
 		{
-			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.12f);
+			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.5f);
 		}
 		m_Acc = 0.f;
 		m_Timer = 1.5f;
@@ -478,7 +480,7 @@ void CDemonScript::BeginState(DemonState _State)
 			CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
 			if (camScript != nullptr)
 			{
-				camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.12f);
+				camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.5f);
 			}
 		}
 		break;

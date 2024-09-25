@@ -250,16 +250,9 @@ void CLinethScript::LoadFromFile(FILE* _File)
 
 void CLinethScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	if (_OtherObject->GetName() == L"AttackBox")
-	{
-		float& hpRef = m_HPBar->GetHPRef();
-		hpRef -= 10.f;
-		if (hpRef <= 0.f)
-			hpRef = 0.f;
-		else
-			m_HPBar->Shake();
-	}
-	else if (_OtherObject->GetName() == L"Arrow")
+	CScript* attack = _OtherObject->FindScript((UINT)SCRIPT_TYPE::ATTACKSCRIPT);
+
+	if (attack != nullptr)
 	{
 		float& hpRef = m_HPBar->GetHPRef();
 		hpRef -= 10.f;
@@ -274,7 +267,7 @@ void CLinethScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 		CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
 		if (camScript != nullptr)
 		{
-			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.12f);
+			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.5f);
 		}
 	}	
 }
