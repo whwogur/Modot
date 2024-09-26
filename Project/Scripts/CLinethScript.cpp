@@ -225,12 +225,17 @@ void CLinethScript::Tick()
 	case LinethState::ATTACKFROMSKY:
 	{
 		m_Acc += DT;
+
+		const Vec3& linPos = Transform()->GetRelativePosRef();
+		m_AttackBox->Transform()->SetRelativePos(linPos + Vec3(0.f, -30.f, 0.f));
+
 		if (m_Acc > m_Timer)
 		{
 			RigidBody()->SetGravityAccel(3000.f);
 			if (Animator2D()->IsFinished())
 			{
 				ChangeState(LinethState::IDLE);
+				m_AttackBox->Transform()->SetRelativePos(linPos + Vec3(-7777.f, -7777.f, 0.f));
 			}
 		}
 

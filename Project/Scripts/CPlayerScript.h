@@ -45,6 +45,11 @@ private:
 private:
     Ptr<CSound>     m_ShootArrowSound;
     Ptr<CSound>     m_JumpSound;
+    Ptr<CSound>     m_Leaf12Sound;
+    Ptr<CSound>     m_Leaf3Sound;
+    Ptr<CSound>     m_RollSound;
+    Ptr<CSound>     m_SprintStartSound;
+    Ptr<CSound>     m_PerfectDodge;
 
     float           m_Speed;
     PlayerState     m_State;
@@ -63,9 +68,11 @@ private:
     int             m_FlickerCount = 0;
 
     CGameObject*    m_Arrow[4] = { nullptr, };
-    CGameObject*    m_AttackBox;
-    CGameObject*    m_LeafThrowL;
-    CGameObject*    m_LeafThrowR;
-    CGameObject*    m_AIL;
-    CGameObject*    m_AIR;
+    CGameObject*    m_AttackBox = nullptr;
+    CGameObject*    m_LeafThrowL = nullptr;
+    CGameObject*    m_LeafThrowR = nullptr;
+    CGameObject*    m_AIL = nullptr;
+    CGameObject*    m_AIR = nullptr;
+    CGameObject*    m_DodgeSpark = nullptr;
+    CGameObject*    m_DodgeSigil = nullptr;
 };

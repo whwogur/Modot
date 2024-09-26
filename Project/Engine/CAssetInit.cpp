@@ -493,6 +493,7 @@ void CAssetMgr::LoadSound()
 	Load<CSound>(L"Hit", L"sound\\Hit.wav");
 	Load<CSound>(L"Title", L"sound\\Title.wav");
 	Load<CSound>(L"ArrowFire", L"sound\\ArrowFire.wav");
+	Load<CSound>(L"TitleSparkle", L"sound\\TitleSparkle.wav");
 
 	Load<CSound>(L"DemonIntro", L"sound\\DemonIntro.wav");
 	Load<CSound>(L"Demon", L"sound\\Demon.wav");
@@ -509,4 +510,9 @@ void CAssetMgr::LoadSound()
 	Load<CSound>(L"LinJump", L"sound\\LinJump.wav");
 
 	Load<CSound>(L"Jump", L"sound\\Jump.wav");
+	Load<CSound>(L"Sprint", L"sound\\Sprint.wav");
+	Load<CSound>(L"Roll", L"sound\\Roll.wav");
+	Load<CSound>(L"Leaf12", L"sound\\Leaf12.wav");
+	Load<CSound>(L"Leaf3", L"sound\\Leaf3.wav");
+	Load<CSound>(L"PerfectDodge", L"sound\\PerfectDodge.wav");
 }

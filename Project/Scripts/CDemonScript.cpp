@@ -167,7 +167,7 @@ void CDemonScript::Tick()
 		{
 			ChangeState(DemonState::IDLE);
 		}
-		else if (m_Acc > 1.2f)
+		else if (m_Acc > 0.8f)
 		{
 			const Vec3& demonPos = Transform()->GetRelativePosRef();
 			OBJECT_DIR objDir = Transform()->GetObjectDir();
@@ -361,6 +361,8 @@ void CDemonScript::BeginState(DemonState _State)
 					FireR->ParticleSystem()->SetBurst(true);
 				}
 			}
+
+			m_Roar2->Play(1, EFFECT_VOL, true);
 		}
 		else
 		{

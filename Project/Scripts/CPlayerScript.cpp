@@ -13,8 +13,14 @@ CPlayerScript::CPlayerScript()
 	, m_Speed(300.f)
 	, m_State(PlayerState::END)
 {
-	m_ShootArrowSound = CAssetMgr::GetInst()->FindAsset<CSound>(L"ArrowFire");
-	m_JumpSound = CAssetMgr::GetInst()->FindAsset<CSound>(L"Jump");
+	m_ShootArrowSound	= CAssetMgr::GetInst()->FindAsset<CSound>(L"ArrowFire");
+	m_JumpSound			= CAssetMgr::GetInst()->FindAsset<CSound>(L"Jump");
+	m_Leaf12Sound		= CAssetMgr::GetInst()->FindAsset<CSound>(L"Leaf12");
+	m_Leaf3Sound		= CAssetMgr::GetInst()->FindAsset<CSound>(L"Leaf3");
+	m_RollSound			= CAssetMgr::GetInst()->FindAsset<CSound>(L"Roll");
+	m_SprintStartSound	= CAssetMgr::GetInst()->FindAsset<CSound>(L"Sprint");
+	m_PerfectDodge		= CAssetMgr::GetInst()->FindAsset<CSound>(L"PerfectDodge");
+
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "PlayerSpeed", &m_Speed);
 }
 
@@ -70,6 +76,8 @@ void CPlayerScript::Begin()
 
 	m_AIL = GetOwner()->GetChildObject(L"AIL");
 	m_AIR = GetOwner()->GetChildObject(L"AIR");
+	m_DodgeSigil = GetOwner()->GetChildObject(L"DodgeSigil");
+	m_DodgeSpark = GetOwner()->GetChildObject(L"DodgeSpark");
 }
 
 #pragma region __UPDATE__STATE__
@@ -435,6 +443,17 @@ void CPlayerScript::Tick()
 
 void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
+	CScript* monAttack = _OtherObject->FindScript((UINT)SCRIPT_TYPE::MONSTERATTACK);
+	if (monAttack != nullptr && m_State == PlayerState::ROLL)
+	{
+		m_DodgeSigil->ParticleSystem()->Jerk();
+		m_DodgeSigil->ParticleSystem()->SetBurst(true);
+
+		m_DodgeSpark->ParticleSystem()->Jerk();
+		m_DodgeSpark->ParticleSystem()->SetBurst(true);
+
+		m_PerfectDodge->Play(1, EFFECT_VOL, true);
+	}
 }
 
 void CPlayerScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
@@ -443,6 +462,13 @@ void CPlayerScript::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject
 
 void CPlayerScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
+	CScript* monAttack = _OtherObject->FindScript((UINT)SCRIPT_TYPE::MONSTERATTACK);
+	if (monAttack != nullptr && m_State == PlayerState::ROLL)
+	{
+		m_DodgeSigil->ParticleSystem()->SetBurst(false);
+
+		m_DodgeSpark->ParticleSystem()->SetBurst(false);
+	}
 }
 
 void CPlayerScript::SaveToFile(FILE* _File)
@@ -527,6 +553,8 @@ void CPlayerScript::BeginState(PlayerState _State)
 			fx->Animator2D()->Play(0, 14.f, false);
 			fx->Animator2D()->Reset();
 		}
+
+		m_RollSound->Play(1, EFFECT_VOL, true);
 		break;
 	}
 	case PlayerState::BRAKE:
@@ -581,6 +609,8 @@ void CPlayerScript::BeginState(PlayerState _State)
 			fx->ParticleSystem()->Jerk();
 			fx->ParticleSystem()->SetBurst(true);
 		}
+
+		m_SprintStartSound->Play(1, EFFECT_VOL, true);
 		break;
 	}
 	case PlayerState::ATTACK1:
@@ -610,6 +640,8 @@ void CPlayerScript::BeginState(PlayerState _State)
 				m_AttackBox->Transform()->SetDir(OBJECT_DIR::LEFT);
 			}
 		}
+
+		m_Leaf12Sound->Play(1, EFFECT_VOL, true);
 		break;
 	}
 	case PlayerState::ATTACK2:
@@ -635,6 +667,8 @@ void CPlayerScript::BeginState(PlayerState _State)
 				m_AttackBox->Transform()->SetRelativePos(playerPos + Vec3(-80.f, 0.f, 0.f));
 			}
 		}
+
+		m_Leaf12Sound->Play(1, EFFECT_VOL, true);
 		break;
 	}
 	case PlayerState::ATTACK3:
@@ -668,6 +702,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 			}
 		}
 
+		m_Leaf3Sound->Play(1, EFFECT_VOL, true);
 		break;
 	}
 	case PlayerState::SHOOT:
