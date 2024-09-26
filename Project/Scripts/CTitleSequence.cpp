@@ -7,9 +7,10 @@
 #include <Engine/CRenderMgr.h>
 
 #include "../Client/CLevelSaveLoad.h"
+#ifdef _DEBUG
 #include "../Client/CEditorMgr.h"
 #include "../Client/Inspector.h"
-
+#endif
 CTitleSequence::CTitleSequence()
 	: CScript(SCRIPT_TYPE::TITLESEQUENCE)
 {
@@ -29,6 +30,7 @@ void CTitleSequence::Begin()
 
 	m_MomodoraLogo = static_cast<CNPCUIScript*>(CLevelMgr::GetInst()->FindObjectByName(L"MomodoraLogo")->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
 	m_BombServiceLogo = static_cast<CNPCUIScript*>(CLevelMgr::GetInst()->FindObjectByName(L"BombServiceLogo")->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
+	m_MenuControl = static_cast<CNPCUIScript*>(CLevelMgr::GetInst()->FindObjectByName(L"MenuControl")->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
 	m_DustParticle = CLevelMgr::GetInst()->FindObjectByName(L"DustParticle");
 }
 
@@ -67,22 +69,22 @@ void CTitleSequence::Tick()
 			tRenderText gameStart = {};
 			gameStart.Detail = L"게임 시작";
 			gameStart.FontSize = 40.f;
-			gameStart.Pos = Vec2(600, 500);
-			gameStart.RGBA = m_KnobIdx == 0 ? FONT_RGBA(255, 255, 111, 255) : FONT_RGBA(222, 222, 222, 255);
+			gameStart.Pos = m_KnobIdx == 0 ? Vec2(640, 500) : Vec2(600, 500);
+			gameStart.RGBA = m_KnobIdx == 0 ? FONT_RGBA(255, 255, 255, 255) : FONT_RGBA(222, 222, 222, 100);
 			CRenderMgr::GetInst()->AddRenderText(gameStart);
 
 			tRenderText options = {};
 			options.Detail = L"옵션";
 			options.FontSize = 40.f;
-			options.Pos = Vec2(630, 550);
-			options.RGBA = m_KnobIdx == 1 ? FONT_RGBA(255, 255, 111, 255) : FONT_RGBA(222, 222, 222, 255);
+			options.Pos = m_KnobIdx == 1 ? Vec2(640, 550) : Vec2(600, 550);
+			options.RGBA = m_KnobIdx == 1 ? FONT_RGBA(255, 255, 255, 255) : FONT_RGBA(222, 222, 222, 100);
 			CRenderMgr::GetInst()->AddRenderText(options);
 
 			tRenderText endGame = {};
 			endGame.Detail = L"종료";
 			endGame.FontSize = 40.f;
-			endGame.Pos = Vec2(630, 600);
-			endGame.RGBA = m_KnobIdx == 2 ? FONT_RGBA(255, 255, 111, 255) : FONT_RGBA(222, 222, 222, 255);
+			endGame.Pos = m_KnobIdx == 2 ? Vec2(640, 600) : Vec2(600, 600);
+			endGame.RGBA = m_KnobIdx == 2 ? FONT_RGBA(255, 255, 255, 255) : FONT_RGBA(222, 222, 222, 100);
 			CRenderMgr::GetInst()->AddRenderText(endGame);
 
 			if (KEY_TAP(KEY::UP))
@@ -110,9 +112,11 @@ void CTitleSequence::Tick()
 				{
 					CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\KohoShrineTEST.lv");
 					ChangeLevel(pLoadedLevel, LEVEL_STATE::PLAY);
+#ifdef _DEBUG
 					Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
 					pInspector->SetTargetObject(nullptr);
 					pInspector->SetTargetAsset(nullptr);
+#endif
 					m_BGM->Stop();
 					break;
 				}
@@ -159,6 +163,7 @@ void CTitleSequence::Sequence()
 	case 2:
 	{
 		m_MomodoraLogo->Activate();
+		m_MenuControl->Activate();
 		for (int i = 0; i < 6; ++i)
 		{
 			m_FX[i]->Activate();

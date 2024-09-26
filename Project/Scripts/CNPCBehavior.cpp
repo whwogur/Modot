@@ -39,21 +39,21 @@ void CNPCBehavior::Tick()
 			tRenderText tText = {};
 			tText.Detail = L"말시키지 말고 가라...";
 			tText.FontSize = 20.f;
-			tText.Pos = Vec2(510, 380);
+			tText.Pos = Vec2(530, 390);
 			tText.RGBA = FONT_RGBA(222, 222, 222, 255);
 			CRenderMgr::GetInst()->AddRenderText(tText);
 
 			tRenderText tText2 = {};
 			tText2.Detail = L"넵..!";
 			tText2.FontSize = 18.f;
-			tText2.Pos = Vec2(510, 410);
+			tText2.Pos = Vec2(530, 420);
 			tText2.RGBA = m_SelectIdx == 0 ? FONT_RGBA(111, 111, 255, 255) : FONT_RGBA(222, 222, 222, 255);
 			CRenderMgr::GetInst()->AddRenderText(tText2);
 
 			tRenderText tText3 = {};
 			tText3.Detail = L"싫어";
 			tText3.FontSize = 18.f;
-			tText3.Pos = Vec2(510, 430);
+			tText3.Pos = Vec2(530, 439);
 			tText3.RGBA = m_SelectIdx == 1 ? FONT_RGBA(111, 111, 255, 255) : FONT_RGBA(222, 222, 222, 255);
 			CRenderMgr::GetInst()->AddRenderText(tText3);
 
@@ -72,8 +72,12 @@ void CNPCBehavior::Tick()
 
 			if (KEY_TAP(KEY::A))
 			{
+				Vec3& doraPos = Transform()->GetRelativePosRef();
+				
+				doraPos.z = 3.7f;
 				Animator2D()->Play(L"Dora_Look", 10.f, false);
 				Animator2D()->Reset();
+				
 				m_Activated = false;
 				m_DialogIdx = 0;
 				m_SelectIdx = 0;

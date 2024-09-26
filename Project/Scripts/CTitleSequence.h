@@ -26,6 +26,8 @@ private:
 
     CNPCUIScript*           m_MomodoraLogo;
     CNPCUIScript*           m_BombServiceLogo;
+    CNPCUIScript*           m_MenuControl;
+
     CGameObject*            m_DustParticle;
     float                   m_Acc = 0.f;
 
@@ -36,7 +38,7 @@ private:
 
     CSigil*                 m_Knob = nullptr;
     int                     m_KnobIdx = 0;
-    Vec3                    m_KnobPos[KnobCount] = { Vec3(15.f, -217.3f, 1.8f), Vec3(15.f, -284.90f, 1.8f), Vec3(15.f, -360.f, 1.8f)};
+    Vec3                    m_KnobPos[KnobCount] = { Vec3(-30.f, -217.3f, 1.8f), Vec3(-30.f, -284.90f, 1.8f), Vec3(-30.f, -360.f, 1.8f)};
 
 
 
