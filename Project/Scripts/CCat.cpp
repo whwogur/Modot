@@ -72,6 +72,12 @@ void CCat::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollid
 				Animator2D()->Play(1, 7.f, false);
 				Animator2D()->Reset();
 			}
+
+			gameObj = GetOwner()->GetChildObject(L"HeartParticle");
+			if (gameObj != nullptr)
+			{
+				gameObj->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = true;
+			}
 		}
 	}
 }
@@ -86,5 +92,11 @@ void CCat::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCol
 		{
 			scrpt->Deactivate();
 		}
+	}
+
+	gameObj = GetOwner()->GetChildObject(L"HeartParticle");
+	if (gameObj != nullptr)
+	{
+		gameObj->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = false;
 	}
 }

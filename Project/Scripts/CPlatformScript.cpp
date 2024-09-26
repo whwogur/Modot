@@ -50,7 +50,7 @@ void CPlatformScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _Othe
                 rb->SetGround(true);
                 rb->SetDownJump(m_DownJump);
                 rb->SetGroundNormal(m_SlopeNormal);
-                if (_OtherObject->GetName() == L"Player" && platformCount == 1)
+                if (platformCount <= 2)
                 {
                     CPlayerScript* playerScript = static_cast<CPlayerScript*>(_OtherObject->FindScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT));
                     if(playerScript != nullptr)

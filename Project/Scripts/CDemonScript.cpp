@@ -225,7 +225,7 @@ void CDemonScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherOb
 	if (attack != nullptr)
 	{
 		float& hpRef = m_HPBar->GetHPRef();
-		hpRef -= 10.f;
+		hpRef -= 5.f;
 		if (hpRef <= 0.f)
 			hpRef = 0.f;
 		else
