@@ -36,6 +36,7 @@ void CSigil::SaveToFile(FILE* _File)
 	SaveAssetRef(m_Texture, _File);
 	fwrite(&m_RPS, sizeof(float), 1, _File);
 	fwrite(&m_BloomColor, sizeof(Vec4), 1, _File);
+	fwrite(&m_Active, sizeof(bool), 1, _File);
 }
 
 void CSigil::LoadFromFile(FILE* _File)
@@ -43,4 +44,5 @@ void CSigil::LoadFromFile(FILE* _File)
 	LoadAssetRef(m_Texture, _File);
 	fread(&m_RPS, sizeof(float), 1, _File);
 	fread(&m_BloomColor, sizeof(Vec4), 1, _File);
+	fread(&m_Active, sizeof(bool), 1, _File);
 }

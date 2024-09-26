@@ -18,7 +18,6 @@ public:
 public:
     Ptr<CTexture>       m_Texture;
     float               m_RPS = 1.f;
-    float               m_Freq = 5.f;
     float               m_Acc = 0.f;
     bool                m_Active = false;
     Vec4                m_BloomColor;

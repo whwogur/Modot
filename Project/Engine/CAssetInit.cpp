@@ -247,6 +247,19 @@ void CAssetMgr::CreateEngineGraphicShader()
 
 	AddAsset(L"EffectShader", pShader);
 
+	// EffectUIShader
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_EffectUI");
+	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Effect");
+
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
+
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_EFFECT);
+
+	AddAsset(L"EffectUIShader", pShader);
+
 	// TintShader
 	pShader = new CGraphicShader;
 	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
@@ -382,6 +395,11 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"EffectShader"));
 	AddAsset(L"EffectMtrl", pMtrl);
+
+	// EffectUIMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"EffectUIShader"));
+	AddAsset(L"EffectUIMtrl", pMtrl);
 
 	// DebugShapeMtrl
 	pMtrl = new CMaterial(true);

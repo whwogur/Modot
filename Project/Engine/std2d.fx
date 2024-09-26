@@ -225,6 +225,17 @@ float4 PS_StdUI(VTX_OUT _in) : SV_Target
 // ==============
 // Effect Shader
 // ==============
+VTX_OUT VS_EffectUI(VTX_IN _in)
+{
+    VTX_OUT output = (VTX_OUT) 0.f;
+    
+    output.vPosition = mul(float4(_in.vPos.xy, 0.f, 1.0f), matWorld);
+    output.vPosition = mul(output.vPosition, matProj);
+    output.vUV = _in.vUV;
+    
+    return output;
+}
+
 VTX_OUT VS_Effect(VTX_IN _in)
 {
     VTX_OUT output = (VTX_OUT) 0.f;
@@ -234,12 +245,16 @@ VTX_OUT VS_Effect(VTX_IN _in)
     
     return output;
 }
+
 float4 PS_Effect(VTX_OUT _in) : SV_Target
 {
+    float4 vColor;
     if (!g_btex_0)
-        discard;
+    {
+        vColor = float4(0.f, 1.f, 0.f, 1.f);
+    }
     
-    float4 vColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+    vColor = g_tex_0.Sample(g_sam_0, _in.vUV);
     if (0.f == vColor.a)
         discard;
     
