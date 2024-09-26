@@ -209,7 +209,7 @@ void CNPCBehavior::Tick()
 			case 2:
 			{
 				tRenderText tText = {};
-				tText.Detail = L"언제든지 와서\n무시무시한 보스들에게\n도전해 주세요\n  ( •⌄• ू )✧";
+				tText.Detail = L"언제든지 와서\n무시무시한 보스들에게\n도전해 주세요 ( •⌄• ू )✧";
 				tText.FontSize = 20.f;
 				tText.Pos = Vec2(710, 470);
 				tText.RGBA = FONT_RGBA(222, 222, 222, 255);
@@ -258,7 +258,7 @@ void CNPCBehavior::Tick()
 				tRenderText tText = {};
 				tText.Detail = L"모모! 왔구나!!\n내 앞에 종을 좀 봐!\n수상하지 않아? ...▼";
 				tText.FontSize = 18.f;
-				tText.Pos = Vec2(360, 460);
+				tText.Pos = Vec2(370, 460);
 				tText.RGBA = FONT_RGBA(222, 222, 222, 255);
 				CRenderMgr::GetInst()->AddRenderText(tText);
 

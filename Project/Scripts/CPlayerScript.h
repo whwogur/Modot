@@ -44,6 +44,7 @@ private:
     void IdleRoutine();
 private:
     Ptr<CSound>     m_ShootArrowSound;
+    Ptr<CSound>     m_JumpSound;
 
     float           m_Speed;
     PlayerState     m_State;
@@ -65,4 +66,6 @@ private:
     CGameObject*    m_AttackBox;
     CGameObject*    m_LeafThrowL;
     CGameObject*    m_LeafThrowR;
+    CGameObject*    m_AIL;
+    CGameObject*    m_AIR;
 };

@@ -488,4 +488,7 @@ void CAssetMgr::LoadSound()
 	Load<CSound>(L"LinTeleport", L"sound\\LinTeleport.wav");
 	Load<CSound>(L"LinSlash", L"sound\\LinSlash.wav");
 	Load<CSound>(L"LinLand", L"sound\\LinLand.wav");
+	Load<CSound>(L"LinJump", L"sound\\LinJump.wav");
+
+	Load<CSound>(L"Jump", L"sound\\Jump.wav");
 }

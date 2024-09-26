@@ -51,7 +51,7 @@ void CMinimap::Begin()
 	uiScript = static_cast<CNPCUIScript*>(m_PlayerIcon->FindScript((UINT)NPCUISCRIPT));
 	uiScript->SetSpeed(500.f);
 
-	m_BGM->Play(0, 0.5f, false);
+	m_BGM->Play(0, BGM_VOL, false);
 }
 
 void CMinimap::Tick()

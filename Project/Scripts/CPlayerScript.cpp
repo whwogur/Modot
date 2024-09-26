@@ -14,6 +14,7 @@ CPlayerScript::CPlayerScript()
 	, m_State(PlayerState::END)
 {
 	m_ShootArrowSound = CAssetMgr::GetInst()->FindAsset<CSound>(L"ArrowFire");
+	m_JumpSound = CAssetMgr::GetInst()->FindAsset<CSound>(L"Jump");
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "PlayerSpeed", &m_Speed);
 }
 
@@ -66,6 +67,9 @@ void CPlayerScript::Begin()
 			m_Arrow[i]->Transform()->SetRelativePos(Vec3(-7777.f, -7777.f, 0.f));
 		}
 	}
+
+	m_AIL = GetOwner()->GetChildObject(L"AIL");
+	m_AIR = GetOwner()->GetChildObject(L"AIR");
 }
 
 #pragma region __UPDATE__STATE__
@@ -472,11 +476,23 @@ void CPlayerScript::BeginState(PlayerState _State)
 	case PlayerState::JUMP:
 	{
 		Animator2D()->Play(L"Momo_Jump", 6.0f, false);
+		m_JumpSound->Play(1, EFFECT_VOL, true);
 		break;
 	}
 	case PlayerState::DOUBLEJUMP:
 	{
 		Animator2D()->Play(L"Momo_DoubleJump", 10.0f, false);
+		m_JumpSound->Play(1, EFFECT_VOL, true);
+
+		OBJECT_DIR dir = Transform()->GetObjectDir();
+		if (dir == OBJECT_DIR::RIGHT)
+		{
+			m_AIR->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = true;
+		}
+		else
+		{
+			m_AIL->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = true;
+		}
 		break;
 	}
 	case PlayerState::LAND:
@@ -693,7 +709,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 				}
 			}
 
-			m_ShootArrowSound->Play(1, 0.2f, true);
+			m_ShootArrowSound->Play(1, EFFECT_VOL, true);
 			playerStat.get()->MP -= 10.f;
 		}
 		else
@@ -770,7 +786,8 @@ void CPlayerScript::EndState(PlayerState _State)
 	}
 	case PlayerState::DOUBLEJUMP:
 	{
-
+		m_AIR->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = false;
+		m_AIL->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = false;
 		break;
 	}
 	case PlayerState::LAND:

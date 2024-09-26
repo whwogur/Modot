@@ -85,7 +85,7 @@ void CAttackScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 		m_ActiveList[4] = true;
 
 
-		m_HitSound->Play(1, 2.f, true);
+		m_HitSound->Play(1, EFFECT_VOL, true);
 	}
 }
 

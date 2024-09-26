@@ -51,15 +51,6 @@ void CDemonSequence::Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObjec
 
 void CDemonSequence::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
-	CGameObject* gameObj = CLevelMgr::GetInst()->FindObjectByName(L"DemonTextBox");
-	if (gameObj != nullptr)
-	{
-		CNPCUIScript* scrpt = (CNPCUIScript*)gameObj->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT);
-		if (scrpt != nullptr)
-		{
-			scrpt->Deactivate();
-		}
-	}
 
 	CGameObject* npcUI = CLevelMgr::GetInst()->FindObjectByName(L"BossHPUI");
 	if (npcUI != nullptr)

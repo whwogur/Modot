@@ -87,7 +87,7 @@ void SoundUI::Update()
 		{
 			if (ImGui::Button(ICON_FA_PLAY, { 30, 30 }))
 			{
-				m_Sound->Play(1, 0.8f, false);
+				m_Sound->Play(1, 0.3f, false);
 				m_Playing = true;
 			}
 		}

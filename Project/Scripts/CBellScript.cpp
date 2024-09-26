@@ -64,7 +64,7 @@ void CBellScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObj
 
 		m_Activated = true;
 
-		m_BellSound->Play(1, 10.f, true);
+		m_BellSound->Play(1, EFFECT_VOL, true);
 		m_Acc = 0.f;
 		m_Timer = 3.0f;
 	}

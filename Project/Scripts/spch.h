@@ -15,4 +15,6 @@
 #include "CScriptMgr.h"
 
 constexpr float PI = 3.14159265359;
+constexpr float BGM_VOL = 0.3f;
+constexpr float EFFECT_VOL = 0.33f;
 #endif //PCH_H

@@ -39,6 +39,7 @@ private:
     Ptr<CSound>     m_Teleport;
     Ptr<CSound>     m_Slash;
     Ptr<CSound>     m_Land;
+    Ptr<CSound>     m_Jump;
 
     CGameObject*    m_Target;
     CGameObject*    m_AttackBox;

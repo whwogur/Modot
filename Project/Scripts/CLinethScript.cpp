@@ -18,6 +18,7 @@ CLinethScript::CLinethScript()
 	m_Teleport = CAssetMgr::GetInst()->FindAsset<CSound>(L"LinTeleport");
 	m_Slash = CAssetMgr::GetInst()->FindAsset<CSound>(L"LinSlash");
 	m_Land = CAssetMgr::GetInst()->FindAsset<CSound>(L"LinLand");
+	m_Jump = CAssetMgr::GetInst()->FindAsset<CSound>(L"LinJump");
 }
 
 void CLinethScript::Begin()
@@ -40,7 +41,7 @@ void CLinethScript::Begin()
 	MD_ENGINE_ASSERT(m_WarningSFX.Get() != nullptr, L"전조사운드 못찾음");
 
 	BeginState(LinethState::INTRO_CAT);
-	m_Intro->Play(0, 0.5f, false);
+	m_Intro->Play(0, BGM_VOL, false);
 }
 
 void CLinethScript::Tick()
@@ -89,7 +90,7 @@ void CLinethScript::Tick()
 	case LinethState::INTRO_POINT:
 	{
 		tRenderText linDia = {};
-		linDia.Detail = L"인간이 감히 내 몸에\n손을 대다니..!!\n천벌을 받아라";
+		linDia.Detail = L"인간이 감히 내 몸에\n손을 대다니..!!\n천벌을 내려주마!!!";
 		linDia.FontSize = 18.f;
 		linDia.Pos = Vec2(800.f, 400.f);
 		linDia.RGBA = FONT_RGBA(255, 0, 0, 255);
@@ -104,15 +105,15 @@ void CLinethScript::Tick()
 	}
 	case LinethState::BACKFLIP:
 	{
-		Vec3& linPos = Transform()->GetRelativePosRef();
 		OBJECT_DIR dir = Transform()->GetObjectDir();
+		Vec2 rigForce = {};
 
 		if (dir == OBJECT_DIR::RIGHT)
-			linPos.x -= 250.f * DT;
+			rigForce.x = -1000.f;
 		else
-			linPos.x += 250.f * DT;
+			rigForce.x = 1000.f;
 
-
+		RigidBody()->AddForce(rigForce);
 
 		if (Animator2D()->IsFinished())
 		{
@@ -278,7 +279,7 @@ void CLinethScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.5f);
 		}
 
-		m_Land->Play(1, 0.2f, true);
+		m_Land->Play(1, EFFECT_VOL, true);
 	}
 }
 
@@ -342,7 +343,7 @@ void CLinethScript::BeginState(LinethState _State)
 		Animator2D()->Play(L"Lineth_Backflip", 11.f, false);
 		Animator2D()->Reset();
 
-		m_Backflip->Play(1, 0.2f, true);
+		m_Backflip->Play(1, EFFECT_VOL, true);
 		break;
 	}
 	case LinethState::TELEPORT:
@@ -351,7 +352,7 @@ void CLinethScript::BeginState(LinethState _State)
 		m_Timer = 0.5f;
 		Animator2D()->Play(L"Lineth_Teleport", 11.f, true);
 		
-		m_Teleport->Play(1, 0.2f, true);
+		m_Teleport->Play(1, EFFECT_VOL, true);
 		break;
 	}
 	case LinethState::JUMPBASH:
@@ -396,7 +397,7 @@ void CLinethScript::BeginState(LinethState _State)
 		m_Dust->Transform()->SetDir(Transform()->GetObjectDir());
 		m_Dust->Animator2D()->Reset();
 
-		m_Projectile->Play(1, 0.2f, true);
+		m_Projectile->Play(1, EFFECT_VOL, true);
 		break;
 	}
 	case LinethState::GOOP:
@@ -405,7 +406,7 @@ void CLinethScript::BeginState(LinethState _State)
 		m_Timer = 0.5f;
 		Animator2D()->Play(L"Lineth_Goop", 10.f, false);
 		Animator2D()->Reset();
-		m_WarningSFX->Play(1, 1.f, true);
+		m_WarningSFX->Play(1, EFFECT_VOL, true);
 		CGameObject* precursor = CLevelMgr::GetInst()->FindObjectByName(L"Precursor");
 		if (precursor != nullptr)
 		{
@@ -451,7 +452,7 @@ void CLinethScript::BeginState(LinethState _State)
 			m_AttackBox->Transform()->SetRelativePos(linPos + Vec3(-90.f, 0.f, 0.f));
 		}
 
-		m_Slash->Play(1, 0.2f, true);
+		m_Slash->Play(1, EFFECT_VOL, true);
 		break;
 	}
 	case LinethState::SUNBO:
@@ -461,7 +462,7 @@ void CLinethScript::BeginState(LinethState _State)
 		Animator2D()->Play(L"Lineth_Sunbo", 8.f, false);
 		Animator2D()->Reset();
 			
-		m_Teleport->Play(1, 0.2f, true);;
+		m_Teleport->Play(1, EFFECT_VOL, true);;
 		break;
 	}
 	case LinethState::ATTACKFROMSKY:
@@ -488,6 +489,7 @@ void CLinethScript::BeginState(LinethState _State)
 
 		RigidBody()->SetGround(false);
 		
+		m_Jump->Play(1, EFFECT_VOL, true);
 		break;
 	}
 	case LinethState::IDLE:
@@ -559,7 +561,7 @@ void CLinethScript::EndState(LinethState _State)
 		}
 
 		m_Intro->Stop();
-		m_BGM->Play(0, 0.5f, false);
+		m_BGM->Play(0, BGM_VOL, false);
 		break;
 	}
 	case LinethState::BACKFLIP:
@@ -622,7 +624,7 @@ void CLinethScript::EndState(LinethState _State)
 			precursor->ParticleSystem()->SetBurst(false);
 		}
 
-		m_Teleport->Play(1, 0.2f, true);
+		m_Teleport->Play(1, EFFECT_VOL, true);
 		break;
 	}
 	case LinethState::SLASH:
