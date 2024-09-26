@@ -7,6 +7,7 @@ enum class NPCType
     OLIVERIA,
     GRANDPA,
     CEREZA,
+    MATRIARCH,
     NONE,
 };
 

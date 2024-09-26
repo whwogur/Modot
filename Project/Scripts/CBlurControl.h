@@ -27,6 +27,7 @@ private:
     float       m_Density = 0.5f;
     float       m_Weight = 0.1f;
     bool        m_Activated = false;
+    bool        m_Peaked = false;
 
     float       m_TargetDecay = 0.f;
     float m_Acc = 0.f;

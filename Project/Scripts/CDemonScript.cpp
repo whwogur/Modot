@@ -8,6 +8,7 @@
 #include "CUIBarScript.h"
 #include "CNPCUIScript.h"
 #include "CPlayerScript.h"
+#include "CBlurControl.h"
 
 CDemonScript::CDemonScript()
 	: CScript(SCRIPT_TYPE::DEMONSCRIPT)
@@ -55,6 +56,12 @@ void CDemonScript::Begin()
 	}
 
 	m_Intro->Play(0, BGM_VOL, false);
+
+	CBlurControl* GodRay = static_cast<CBlurControl*>(CLevelMgr::GetInst()->FindObjectByName(L"GodRay")->FindScript((UINT)SCRIPT_TYPE::BLURCONTROL));
+	if (GodRay != nullptr)
+	{
+		GodRay->Activate();
+	}
 }
 
 void CDemonScript::Tick()

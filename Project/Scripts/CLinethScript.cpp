@@ -7,6 +7,7 @@
 #include "CUIBarScript.h"
 #include "CNPCUIScript.h"
 #include "CPlayerScript.h"
+#include "CBlurControl.h"
 
 CLinethScript::CLinethScript()
 	: CScript(SCRIPT_TYPE::LINETHSCRIPT)
@@ -42,6 +43,12 @@ void CLinethScript::Begin()
 
 	BeginState(LinethState::INTRO_CAT);
 	m_Intro->Play(0, BGM_VOL, false);
+
+	CBlurControl* GodRay = static_cast<CBlurControl*>(CLevelMgr::GetInst()->FindObjectByName(L"GodRay")->FindScript((UINT)SCRIPT_TYPE::BLURCONTROL));
+	if (GodRay != nullptr)
+	{
+		GodRay->Activate();
+	}
 }
 
 void CLinethScript::Tick()

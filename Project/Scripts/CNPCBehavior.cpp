@@ -17,7 +17,7 @@
 CNPCBehavior::CNPCBehavior()
 	: CScript(SCRIPT_TYPE::NPCBEHAVIOR)
 {
-	AddScriptParam(SCRIPT_PARAM::INT, u8"NPC", &m_Type, 0, 0, u8"0: YuhaCat, 1: Dora, 2: Oliveria, 3: Grandpa, 4: Cereza");
+	AddScriptParam(SCRIPT_PARAM::INT, u8"NPC", &m_Type, 0, 0, u8"0: YuhaCat, 1: Dora, 2: Oliveria,\n3: Grandpa, 4: Cereza, 5: Matriarch");
 }
 
 void CNPCBehavior::Begin()
@@ -351,7 +351,7 @@ void CNPCBehavior::Tick()
 				CRenderMgr::GetInst()->AddRenderText(tText);
 
 				tRenderText tText2 = {};
-				tText2.Detail = L"☾ (◟‸◞)";
+				tText2.Detail = L"☾ \\(◟‸◞)";
 				tText2.FontSize = 18.f;
 				tText2.Pos = Vec2(330, 425);
 				tText2.RGBA = m_SelectIdx == 0 ? FONT_RGBA(111, 111, 255, 255) : FONT_RGBA(222, 222, 222, 255);
@@ -468,6 +468,10 @@ void CNPCBehavior::Tick()
 			}
 			break;
 		}
+		case NPCType::MATRIARCH:
+		{
+			break;
+		}
 		case NPCType::NONE:
 		{
 			break;
@@ -568,6 +572,10 @@ void CNPCBehavior::Activate()
 				uiScript->Activate();
 			}
 		}
+		break;
+	}
+	case NPCType::MATRIARCH:
+	{
 		break;
 	}
 	case NPCType::NONE:

@@ -9,7 +9,7 @@ CBlurControl::CBlurControl()
 	AddScriptParam(SCRIPT_PARAM::FLOAT, u8"밀도", &m_Density);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, u8"감소 가중치", &m_Weight);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, u8"고유 감소", &m_TargetDecay);
-	AddScriptParam(SCRIPT_PARAM::INT, u8"종류", &m_Effect, 0, 0, "0: Lineth, 1: Demon");
+	AddScriptParam(SCRIPT_PARAM::INT, u8"종류", &m_Effect, 0, 0, u8"0: 쎔, 1: 약함");
 }
 
 void CBlurControl::Begin()
@@ -19,24 +19,24 @@ void CBlurControl::Begin()
 
 void CBlurControl::Tick()
 {
-	if (KEY_TAP(KEY::M))
-	{
-		Activate();
-	}
-
 	if (m_Activated)
 	{
 		if (m_Acc < m_Timer)
 		{
 			m_Acc += DT;
 			MeshRender()->GetDynamicMaterial()->SetScalarParam(INT_3, 1);
+
 			if (m_Decay > m_TargetDecay)
+				m_Peaked = true;
+
+			if (m_Peaked)
 			{
-				m_Decay -= DT * 2;
+				m_Decay -= DT;
 			}
 			else
-				m_Decay += DT * 2;
-
+			{
+				m_Decay += DT;
+			}
 
 			MeshRender()->GetDynamicMaterial()->SetScalarParam(FLOAT_0, m_Decay);
 			MeshRender()->GetDynamicMaterial()->SetScalarParam(FLOAT_1, m_Density);
@@ -66,6 +66,7 @@ void CBlurControl::LoadFromFile(FILE* _File)
 void CBlurControl::Activate()
 {
 	m_Activated = true;
+	m_Peaked = false;
 	m_Acc = 0.f;
 	
 	switch (m_Effect)
@@ -73,7 +74,7 @@ void CBlurControl::Activate()
 	case BlurEffect::Lineth:
 	{
 		m_Timer = 3.f;
-		m_TargetDecay = 1.f;
+		m_TargetDecay = 1.5f;
 		break;
 	}
 	case BlurEffect::Demon:
@@ -83,6 +84,7 @@ void CBlurControl::Activate()
 		break;
 	}
 	}
+
 	m_Decay = 0.f;
 	m_Density = 0.5f;
 	m_Weight = 0.1f;
