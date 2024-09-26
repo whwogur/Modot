@@ -36,6 +36,8 @@ public:
     void PostProcessCopy();
 
     CCamera* GetEditorCamera() { return m_EditorCamera; }
+
+    bool& GetDebugRenderRef() { return m_DebugRender; }
 public:
     void Init();
     void Tick();
@@ -56,4 +58,5 @@ private:
     Ptr<CTexture>                   m_PostProcessTex;
     // TEXT
     vector<tRenderText>             m_vecText;
+    bool                            m_DebugRender = true;
 };

@@ -74,7 +74,9 @@ void CRenderMgr::Tick()
 		}
 	}
 
-	RenderDebugShape();
+	if (m_DebugRender)
+		RenderDebugShape();
+
 	DrawTextOnScreen();
 
 	Clear();

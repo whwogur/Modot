@@ -9,6 +9,7 @@
 #include <Engine/CGameObject.h>
 #include <Engine/CScript.h>
 #include <Engine/CLevel.h>
+#include <Engine/CRenderMgr.h>
 
 #include "CEditorMgr.h"
 #include "Inspector.h"
@@ -111,7 +112,10 @@ void MenuUI::Tick()
 		}
 
 		ImGui::SameLine(1000);
-		
+		bool& bDebug = CRenderMgr::GetInst()->GetDebugRenderRef();
+		ToggleButton("##DebugToggle", &bDebug);
+		ImGui::SetItemTooltip(u8"µð¹ö±× ON/OFF");
+
 		ImGui::TextColored(color, whichCamera.c_str());
 		ImGui::SameLine();
 		ImGui::TextColored(color, buffer);
