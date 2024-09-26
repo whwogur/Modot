@@ -14,15 +14,15 @@ void CAttackScript::Begin()
 
 	HitFXList[0] = CLevelMgr::GetInst()->FindObjectByName(L"HitFXWhite");
 	HitFXList[1] = CLevelMgr::GetInst()->FindObjectByName(L"HitFXRed");
-	HitFXList[2] = CLevelMgr::GetInst()->FindObjectByName(L"HitParticleR");
-	HitFXList[3] = CLevelMgr::GetInst()->FindObjectByName(L"HitParticleL");
+	HitFXList[2] = CLevelMgr::GetInst()->FindObjectByName(L"HitParticleW");
+	HitFXList[3] = CLevelMgr::GetInst()->FindObjectByName(L"HitParticleR");
 	HitFXList[4] = CLevelMgr::GetInst()->FindObjectByName(L"HitSonic");
 
 	MD_ENGINE_ASSERT(HitFXList[0] != nullptr, L"HitFXWhite !");
 	MD_ENGINE_ASSERT(HitFXList[1] != nullptr, L"HitFXRed !");
-	MD_ENGINE_ASSERT(HitFXList[2] != nullptr, L"HitParticleR !");
+	MD_ENGINE_ASSERT(HitFXList[2] != nullptr, L"HitParticleW !");
 	MD_ENGINE_ASSERT(HitFXList[3] != nullptr, L"HitParticleL !");
-	//MD_ENGINE_ASSERT(HitFXList[4] != nullptr, L"HitSonic !");
+	MD_ENGINE_ASSERT(HitFXList[4] != nullptr, L"HitSonic !");
 }
 
 void CAttackScript::Tick()
@@ -66,7 +66,26 @@ void CAttackScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 
 		if (dir == OBJECT_DIR::LEFT)
 		{
+			HitFXList[2]->Transform()->SetRelativePos(hitPos + Vec3(XOffset, -10.f, 0.f));
+			tParticleModule& mod = HitFXList[2]->ParticleSystem()->GetParticleModuleRef();
+			tParticleModule& mod2 = HitFXList[3]->ParticleSystem()->GetParticleModuleRef();
+
+			if (mod.AddVelocityFixedDir.x > 0)
+			{
+				mod.AddVelocityFixedDir.x = -1.f;
+				HitFXList[2]->ParticleSystem()->SetParticleModule(mod);
+			}
+			HitFXList[2]->ParticleSystem()->Jerk();
+			HitFXList[2]->ParticleSystem()->SetBurst(true);
+			m_ActiveList[2] = true;
+
+
 			HitFXList[3]->Transform()->SetRelativePos(hitPos + Vec3(XOffset, -10.f, 0.f));
+			if (mod2.AddVelocityFixedDir.x > 0)
+			{
+				mod2.AddVelocityFixedDir.x = -1.f;
+				HitFXList[3]->ParticleSystem()->SetParticleModule(mod2);
+			}
 			HitFXList[3]->ParticleSystem()->Jerk();
 			HitFXList[3]->ParticleSystem()->SetBurst(true);
 			m_ActiveList[3] = true;
@@ -74,9 +93,28 @@ void CAttackScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 		else
 		{
 			HitFXList[2]->Transform()->SetRelativePos(hitPos + Vec3(XOffset, -10.f, 0.f));
+			tParticleModule& mod = HitFXList[2]->ParticleSystem()->GetParticleModuleRef();
+			tParticleModule& mod2 = HitFXList[3]->ParticleSystem()->GetParticleModuleRef();
+
+			if (mod.AddVelocityFixedDir.x < 0)
+			{
+				mod.AddVelocityFixedDir.x = 1.f;
+				HitFXList[2]->ParticleSystem()->SetParticleModule(mod);
+			}
 			HitFXList[2]->ParticleSystem()->Jerk();
 			HitFXList[2]->ParticleSystem()->SetBurst(true);
 			m_ActiveList[2] = true;
+
+
+			HitFXList[3]->Transform()->SetRelativePos(hitPos + Vec3(XOffset, -10.f, 0.f));
+			if (mod2.AddVelocityFixedDir.x < 0)
+			{
+				mod2.AddVelocityFixedDir.x = 1.f;
+				HitFXList[3]->ParticleSystem()->SetParticleModule(mod2);
+			}
+			HitFXList[3]->ParticleSystem()->Jerk();
+			HitFXList[3]->ParticleSystem()->SetBurst(true);
+			m_ActiveList[3] = true;
 		}
 
 		HitFXList[4]->Transform()->SetRelativePos((hitPos + attackPos) / 2);
