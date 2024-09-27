@@ -54,6 +54,8 @@ public:
     void SetScale(float _Scale) { m_ProjectionScale = _Scale; }
     float GetScale() { return m_ProjectionScale; }
 
+    bool& GetActiveRef() { return m_Active; }
+
     const Matrix& GetcamViewRef() { return m_matView; }
     const Matrix& GetcamProjRef() { return m_matProj; }
 public:
@@ -62,7 +64,7 @@ public:
     virtual void SaveToFile(FILE* _File) override;
     virtual void LoadFromFile(FILE* _File) override;
     void Render();
-
+    void SetActive(bool _b) { m_Active = _b; }
 private:
     void SortGameObject();
     void render_effect();
@@ -77,6 +79,7 @@ private:
     float                   m_FOV;
     float                   m_ProjectionScale;
 
+    bool                    m_Active = true;
     vector<CGameObject*>    m_vecOpaque;        // 불투명
     vector<CGameObject*>    m_vecMasked;        // 불투명, 투명
     vector<CGameObject*>    m_vecTransparent;   // 투명, 반투명

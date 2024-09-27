@@ -28,6 +28,8 @@ public:
 public:
     void Activate();
 private:
+    void Thaw();
+private:
     NPCType     m_Type      = NPCType::NONE;
     bool        m_Activated = false;
     int         m_SelectIdx = 0;

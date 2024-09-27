@@ -69,29 +69,7 @@ void CNPCBehavior::Tick()
 
 			if (KEY_TAP(KEY::A))
 			{
-				CGameObject* pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
-				if (pPlayer != nullptr)
-				{
-					CPlayerScript* playerScript = static_cast<CPlayerScript*>(pPlayer->FindScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT));
-					if (m_SelectIdx == 1)
-						playerScript->ChangeState(PlayerState::IDLE);
-					else
-						playerScript->ChangeState(PlayerState::PET);
-				}
-
-				CGameObject* textBox = CLevelMgr::GetInst()->FindObjectByName(L"NPCTextBox");
-				if (textBox != nullptr)
-				{
-					CNPCUIScript* uiScript = static_cast<CNPCUIScript*>(textBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
-					if (uiScript != nullptr)
-					{
-						uiScript->Deactivate();
-					}
-				}
-
-				m_Activated = false;
-				m_DialogIdx = 0;
-				m_SelectIdx = 0;
+				Thaw();
 			}
 
 			break;
@@ -140,27 +118,7 @@ void CNPCBehavior::Tick()
 				Animator2D()->Play(L"Dora_Look", 10.f, false);
 				Animator2D()->Reset();
 				
-				m_Activated = false;
-				m_DialogIdx = 0;
-				m_SelectIdx = 0;
-
-				CGameObject* pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
-				if (pPlayer != nullptr)
-				{
-					CPlayerScript* playerScript = static_cast<CPlayerScript*>(pPlayer->FindScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT));
-					if (playerScript != nullptr)
-						playerScript->ChangeState(PlayerState::IDLE);
-				}
-
-				CGameObject* textBox = CLevelMgr::GetInst()->FindObjectByName(L"NPCTextBox");
-				if (textBox != nullptr)
-				{
-					CNPCUIScript* uiScript = static_cast<CNPCUIScript*>(textBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
-					if (uiScript != nullptr)
-					{
-						uiScript->Deactivate();
-					}
-				}
+				Thaw();
 			}
 			
 			break;
@@ -327,27 +285,7 @@ void CNPCBehavior::Tick()
 					}
 					case 2:
 					{
-						CGameObject* pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
-						if (pPlayer != nullptr)
-						{
-							CPlayerScript* playerScript = static_cast<CPlayerScript*>(pPlayer->FindScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT));
-							if (playerScript != nullptr)
-								playerScript->ChangeState(PlayerState::IDLE);
-						}
-
-						CGameObject* textBox = CLevelMgr::GetInst()->FindObjectByName(L"NPCTextBox");
-						if (textBox != nullptr)
-						{
-							CNPCUIScript* uiScript = static_cast<CNPCUIScript*>(textBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
-							if (uiScript != nullptr)
-							{
-								uiScript->Deactivate();
-							}
-						}
-
-						m_DialogIdx = 0;
-						m_SelectIdx = 0;
-						m_Activated = false;
+						Thaw();
 						break;
 					}
 					}
@@ -460,26 +398,7 @@ void CNPCBehavior::Tick()
 
 				if (KEY_TAP(KEY::A))
 				{
-					CGameObject* pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
-					if (pPlayer != nullptr)
-					{
-						CPlayerScript* playerScript = static_cast<CPlayerScript*>(pPlayer->FindScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT));
-						playerScript->ChangeState(PlayerState::IDLE);
-					}
-
-					CGameObject* textBox = CLevelMgr::GetInst()->FindObjectByName(L"NPCTextBox");
-					if (textBox != nullptr)
-					{
-						CNPCUIScript* uiScript = static_cast<CNPCUIScript*>(textBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
-						if (uiScript != nullptr)
-						{
-							uiScript->Deactivate();
-						}
-					}
-
-					m_Activated = false;
-					m_DialogIdx = 0;
-					m_SelectIdx = 0;
+					Thaw();
 				}
 				break;
 			}
@@ -522,27 +441,7 @@ void CNPCBehavior::Tick()
 				if (KEY_TAP(KEY::A))
 				{
 					Animator2D()->Play(0, 8.0f, true);
-					CGameObject* pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
-					if (pPlayer != nullptr)
-					{
-						CPlayerScript* playerScript = static_cast<CPlayerScript*>(pPlayer->FindScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT));
-						if (playerScript != nullptr)
-							playerScript->ChangeState(PlayerState::IDLE);
-					}
-
-					CGameObject* textBox = CLevelMgr::GetInst()->FindObjectByName(L"NPCTextBox");
-					if (textBox != nullptr)
-					{
-						CNPCUIScript* uiScript = static_cast<CNPCUIScript*>(textBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
-						if (uiScript != nullptr)
-						{
-							uiScript->Deactivate();
-						}
-					}
-
-					m_DialogIdx = 0;
-					m_SelectIdx = 0;
-					m_Activated = false;
+					Thaw();
 				}
 				break;
 			}
@@ -579,19 +478,7 @@ void CNPCBehavior::Tick()
 
 				if (KEY_TAP(KEY::A))
 				{
-					CGameObject* textBox = CLevelMgr::GetInst()->FindObjectByName(L"NPCTextBox");
-					if (textBox != nullptr)
-					{
-						CNPCUIScript* uiScript = static_cast<CNPCUIScript*>(textBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
-						if (uiScript != nullptr)
-						{
-							uiScript->Deactivate();
-						}
-					}
-
-					m_DialogIdx = 0;
-					m_SelectIdx = 0;
-					m_Activated = false;
+					Thaw();
 				}
 				break;
 			}
@@ -720,4 +607,28 @@ void CNPCBehavior::Activate()
 		break;
 	}
 	}
+}
+
+void CNPCBehavior::Thaw()
+{
+	CGameObject* textBox = CLevelMgr::GetInst()->FindObjectByName(L"NPCTextBox");
+	if (textBox != nullptr)
+	{
+		CNPCUIScript* uiScript = static_cast<CNPCUIScript*>(textBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
+		if (uiScript != nullptr)
+		{
+			uiScript->Deactivate();
+		}
+	}
+
+	CGameObject* pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
+	if (pPlayer != nullptr)
+	{
+		CPlayerScript* playerScript = static_cast<CPlayerScript*>(pPlayer->FindScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT));
+		if (playerScript != nullptr)
+			playerScript->ChangeState(PlayerState::IDLE);
+	}
+	m_DialogIdx = 0;
+	m_SelectIdx = 0;
+	m_Activated = false;
 }

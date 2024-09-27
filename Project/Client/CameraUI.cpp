@@ -26,6 +26,8 @@ void CameraUI::Update()
     {
         CCamera* pCam = GetTargetObject()->Camera();
 
+        bool& camActive = pCam->GetActiveRef();
+        ToggleButton("##CamActive", &camActive);
         LayerCheck();
 
         Projection();

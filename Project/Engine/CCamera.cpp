@@ -130,6 +130,8 @@ void CCamera::SortGameObject()
 
 void CCamera::Render()
 {
+	if (!m_Active) return;
+		
 	// 오브젝트 분류
 	SortGameObject();
 

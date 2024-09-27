@@ -49,7 +49,7 @@ void MenuUI::Tick()
 
 		if (state == LEVEL_STATE::PLAY)
 		{
-			whichCamera = ICON_FA_CAMERA " MainCam";
+			whichCamera = ICON_FA_CAMERA " MAINCAM";
 
 			ImGui::SameLine(contentRegionAvailable / 2 + 32);
 			if (ImGui::Button(ICON_FA_PAUSE, { 22, 22 }))
@@ -75,7 +75,7 @@ void MenuUI::Tick()
 		}
 		else if (state == LEVEL_STATE::PAUSE)
 		{
-			whichCamera = ICON_FA_CAMERA " EditorCam";
+			whichCamera = ICON_FA_PAUSE" PAUSED";
 			ImGui::SameLine(contentRegionAvailable / 2 + 32);
 			if (ImGui::Button(ICON_FA_PLAY, { 22, 22 }))
 			{
@@ -96,11 +96,11 @@ void MenuUI::Tick()
 				EDITOR_TRACE("Stopped");
 			}
 
-			color = { 1, 1, 1, 1 };
+			color = { 1, 0, 0, 1 };
 		}
 		else
 		{
-			whichCamera = ICON_FA_CAMERA " EditorCam";
+			whichCamera = ICON_FA_CAMERA " EDITORCAM";
 			ImGui::SameLine(contentRegionAvailable / 2 + 32);
 			if (ImGui::Button(ICON_FA_PLAY, { 22, 22 }))
 			{
