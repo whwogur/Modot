@@ -53,6 +53,7 @@ void CLinethScript::Begin()
 
 void CLinethScript::Tick()
 {
+	Dead();
 	switch (m_State)
 	{
 	case LinethState::INTRO_CAT:
@@ -256,6 +257,17 @@ void CLinethScript::Tick()
 		{
 			RandomAttack();
 		}
+		break;
+	}
+	case LinethState::DEAD:
+	{
+		tRenderText linDia = {};
+		linDia.Detail = L"제법이군..\n너의 승리다";
+		linDia.FontSize = 18.f;
+		linDia.Pos = Vec2(800.f, 400.f);
+		linDia.RGBA = FONT_RGBA(255, 0, 0, 255);
+		CRenderMgr::GetInst()->AddRenderText(linDia);
+
 		break;
 	}
 	}
@@ -511,6 +523,37 @@ void CLinethScript::BeginState(LinethState _State)
 		Animator2D()->Play(L"Lineth_Idle", 12.f, true);
 		break;
 	}
+	case LinethState::DEAD:
+	{
+		CGameObject* linTextBox = CLevelMgr::GetInst()->FindObjectByName(L"LinethTextBox");
+		if (linTextBox != nullptr)
+		{
+			CNPCUIScript* linScript = static_cast<CNPCUIScript*>(linTextBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
+			if (linScript != nullptr)
+			{
+				linScript->Activate();
+			}
+		}
+
+		Animator2D()->Play(L"Intro_Cat", 8.f, true);
+		CGameObject* amaterasu = GetOwner()->GetChildObject(L"Amaterasu");
+		if (amaterasu != nullptr)
+		{
+			amaterasu->ParticleSystem()->Jerk();
+			amaterasu->ParticleSystem()->SetBurst(true);
+		}
+
+		CGameObject* npcUI = CLevelMgr::GetInst()->FindObjectByName(L"BossHPUI");
+		if (npcUI != nullptr)
+		{
+			CNPCUIScript* npcUIScript = static_cast<CNPCUIScript*>(npcUI->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
+			if (npcUIScript != nullptr)
+			{
+				npcUIScript->Deactivate();
+			}
+		}
+		break;
+	}
 	}
 }
 
@@ -672,6 +715,25 @@ void CLinethScript::EndState(LinethState _State)
 	{
 		break;
 	}
+	case LinethState::DEAD:
+	{
+		CGameObject* linTextBox = CLevelMgr::GetInst()->FindObjectByName(L"LinethTextBox");
+		if (linTextBox != nullptr)
+		{
+			CNPCUIScript* linScript = static_cast<CNPCUIScript*>(linTextBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
+			if (linScript != nullptr)
+			{
+				linScript->Deactivate();
+			}
+		}
+
+		CGameObject* amaterasu = GetOwner()->GetChildObject(L"Amaterasu");
+		if (amaterasu != nullptr)
+		{
+			amaterasu->ParticleSystem()->SetBurst(false);
+		}
+		break;
+	}
 	}
 }
 
@@ -729,5 +791,17 @@ void CLinethScript::RandomAttack()
 			ChangeState(LinethState::ATTACKFROMSKY);
 			break;
 		}
+	}
+}
+
+void CLinethScript::Dead()
+{
+	float& hp = m_HPBar->GetHPRef();
+	if (hp <= 0.f)
+	{
+		m_Dead = true;
+		ChangeState(LinethState::DEAD);
+		m_Acc = 0.f;
+		m_Timer = 0.f;
 	}
 }

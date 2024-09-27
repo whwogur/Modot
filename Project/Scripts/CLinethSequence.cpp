@@ -4,7 +4,17 @@
 #include "CNPCUIScript.h"
 #include "CPlayerScript.h"
 
+#include "../Client/CPlayerManager.h"
+
 #include <Engine/CLevelMgr.h>
+
+#ifdef _DEBUG
+#include "../Client/Inspector.h"
+#include "../Client/CEditorMgr.h"
+#endif
+
+#include "CBlurControl.h"
+#include "../Client/CLevelSaveLoad.h"
 CLinethSequence::CLinethSequence()
 	: CScript(SCRIPT_TYPE::LINETHSEQUENCE)
 {
@@ -23,6 +33,49 @@ void CLinethSequence::Begin()
 
 void CLinethSequence::Tick()
 {
+	if (!m_Script->m_Dead)
+		return;
+
+	if (KEY_TAP(KEY::_7))
+	{
+		m_Script->ChangeState(LinethState::INTRO_BACK);
+
+		CGameObject* textBox = CLevelMgr::GetInst()->FindObjectByName(L"LinethTextBox");
+		if (textBox != nullptr)
+		{
+			CNPCUIScript* uiScript = static_cast<CNPCUIScript*>(textBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
+			if (uiScript != nullptr)
+			{
+				uiScript->Deactivate();
+			}
+		}
+
+		CBlurControl* GodRay = static_cast<CBlurControl*>(CLevelMgr::GetInst()->FindObjectByName(L"GodRay")->FindScript((UINT)SCRIPT_TYPE::BLURCONTROL));
+		if (GodRay != nullptr)
+		{
+			GodRay->SetEffect(BlurEffect::TurnOn);
+			GodRay->Activate();
+			m_End = true;
+		}
+	}
+
+	CBlurControl* GodRay = static_cast<CBlurControl*>(CLevelMgr::GetInst()->FindObjectByName(L"GodRay")->FindScript((UINT)SCRIPT_TYPE::BLURCONTROL));
+	if (m_End && GodRay->IsFinished())
+	{
+#ifdef _DEBUG
+		Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+		pInspector->SetTargetObject(nullptr);
+		pInspector->SetTargetAsset(nullptr);
+#endif
+
+		CPlayerManager::GetInst()->SetNextPos(Vec3(158.20f, -300.f, 1.8f));
+		CPlayerManager::GetInst()->SetNextCamPos(Vec3(125.18, 43.36f, 0.f));
+		CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\ShrineAfterBoss.lv");
+		ChangeLevel(pLevel, LEVEL_STATE::PLAY);
+
+		Ptr<CSound> curBGM = CAssetMgr::GetInst()->FindAsset<CSound>(L"Lineth");
+		curBGM->Stop();
+	}
 }
 
 void CLinethSequence::SaveToFile(FILE* _File)

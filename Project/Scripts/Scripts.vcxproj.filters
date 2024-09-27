@@ -121,7 +121,9 @@
     <ClInclude Include="CWall.h">
       <Filter>Scripts\Generic</Filter>
     </ClInclude>
-    <ClInclude Include="CCat.h" />
+    <ClInclude Include="CCat.h">
+      <Filter>Scripts\NPC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -212,6 +214,8 @@
     <ClCompile Include="CWall.cpp">
       <Filter>Scripts\Generic</Filter>
     </ClCompile>
-    <ClCompile Include="CCat.cpp" />
+    <ClCompile Include="CCat.cpp">
+      <Filter>Scripts\NPC</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

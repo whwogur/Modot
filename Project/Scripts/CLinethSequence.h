@@ -22,5 +22,6 @@ public:
 
 private:
     CLinethScript*  m_Script;
+    bool            m_End = false;
 };
 

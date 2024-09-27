@@ -22,6 +22,8 @@ public:
 public:
     void Activate();
     bool IsFinished() const { return m_Finished; }
+
+    void SetEffect(BlurEffect _Effect) { m_Effect = _Effect; }
 private:
     BlurEffect  m_Effect = BlurEffect::TurnOn;
     float       m_Decay = 0.97f;

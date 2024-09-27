@@ -8,6 +8,7 @@ enum class NPCType
     GRANDPA,
     CEREZA,
     MATRIARCH,
+    AFTERBOSS,
     NONE,
 };
 

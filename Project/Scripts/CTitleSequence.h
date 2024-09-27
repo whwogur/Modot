@@ -38,7 +38,7 @@ private:
 
     CSigil*                 m_Knob = nullptr;
     int                     m_KnobIdx = 0;
-    Vec3                    m_KnobPos[KnobCount] = { Vec3(-30.f, -217.3f, 1.8f), Vec3(-30.f, -284.90f, 1.8f), Vec3(-30.f, -360.f, 1.8f)};
+    Vec3                    m_KnobPos[KnobCount] = { Vec3(-36.f, -217.3f, 1.8f), Vec3(-36.f, -284.90f, 1.8f), Vec3(-36.f, -360.f, 1.8f)};
 
 
 

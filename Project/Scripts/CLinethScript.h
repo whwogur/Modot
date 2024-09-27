@@ -4,6 +4,7 @@ enum class LinethState
 {
     INTRO_CAT, INTRO_TRANSFORM, INTRO_BACK, INTRO_TURN, INTRO_POINT,
     BACKFLIP, TELEPORT, JUMPBASH, SPRAYDIRT, GOOP, SLASH, SUNBO, ATTACKFROMSKY, IDLE,
+    DEAD,
 };
 
 class CUIBarScript;
@@ -30,6 +31,7 @@ private:
     void ChangeState(LinethState _NextState);
     void DirectionCheck();
     void RandomAttack();
+    void Dead();
 private:
     friend class CLinethSequence;
     Ptr<CSound>     m_BGM;
@@ -55,4 +57,6 @@ private:
     float                   m_Acc = 0.f;
     float                   m_Timer = 0.f;
     Vec3                    m_RandomPos = {};
+
+    bool                m_Dead = false;
 };
