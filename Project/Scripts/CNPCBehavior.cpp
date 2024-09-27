@@ -13,6 +13,7 @@
 #include "../Client/Inspector.h"
 #include "../Client/CEditorMgr.h"
 #endif
+#include "CBlurControl.h"
 
 CNPCBehavior::CNPCBehavior()
 	: CScript(SCRIPT_TYPE::NPCBEHAVIOR)
@@ -228,87 +229,167 @@ void CNPCBehavior::Tick()
 
 
 				if (KEY_TAP(KEY::A))
-				{
-#ifdef _DEBUG
-						Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
-						pInspector->SetTargetObject(nullptr);
-						pInspector->SetTargetAsset(nullptr);
-#endif
-					switch (m_SelectIdx)
-					{
-					case 0: // 악마
-					{
-						CPlayerManager::GetInst()->SetNextPos(Vec3(608.4f, -255.f, 1.8f));
-						CPlayerManager::GetInst()->SetNextCamPos(Vec3(192.52f, 60.68f, 0.f));
-						CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\DemonBossTEST.lv");
-						ChangeLevel(pLevel, LEVEL_STATE::PLAY);
-
-						m_DialogIdx = 0;
-						m_SelectIdx = 0;
-						m_Activated = false;
-
-						Ptr<CSound> curBGM = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage");
-						curBGM->Stop();
-						break;
-					}
-					case 1: // 리네스
-					{
-						CPlayerManager::GetInst()->SetNextPos(Vec3(-98.97f, -322.f, 1.8f));
-						CPlayerManager::GetInst()->SetNextCamPos(Vec3(-142.f, -56.12f, 0.f));
-						CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\LinethTEST.lv");
-						ChangeLevel(pLevel, LEVEL_STATE::PLAY);
-
-						m_DialogIdx = 0;
-						m_SelectIdx = 0;
-						m_Activated = false;
-
-						Ptr<CSound> curBGM = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage");
-						curBGM->Stop();
-						break;
-					}
-					case 2:
-					{
-						++m_DialogIdx;
-						break;
-					}
-					}
-
-					
+				{	
+					++m_DialogIdx;
 				}
 				break;
 			}
 			case 2:
 			{
-				tRenderText tText = {};
-				tText.Detail = L"\"언제든지 와서\n무시무시한 보스들에게\n도전해 주세요\"";
-				tText.FontSize = 20.f;
-				tText.Pos = Vec2(710, 470);
-				tText.RGBA = FONT_RGBA(222, 222, 222, 255);
-				CRenderMgr::GetInst()->AddRenderText(tText);
+
+				switch (m_SelectIdx)
+				{
+				case 0: // 악마
+				{
+					tRenderText tText = {};
+					tText.Detail = L"✨가리세 악마✨";
+					tText.FontSize = 20.f;
+					tText.Pos = Vec2(700, 450);
+					tText.RGBA = FONT_RGBA(255, 55, 55, 255);
+					CRenderMgr::GetInst()->AddRenderText(tText);
+
+					tRenderText tText2 = {};
+					tText2.Detail = L"이녀석은 근거리 공격\n불뿜기, 그리고 샤우팅(?)\n공격을 한다고 알려져 있어요\n공격 시전 전 모이는 기의 색깔을 보면\n어떤 공격인지 알 수 있답니다.\"";
+					tText2.FontSize = 20.f;
+					tText2.Pos = Vec2(700, 480);
+					tText2.RGBA = FONT_RGBA(222, 222, 222, 255);
+					CRenderMgr::GetInst()->AddRenderText(tText2);
+
+					break;
+				}
+				case 1: // 리네스
+				{
+					tRenderText tText = {};
+					tText.Detail = L"✨검정 고양이✨";
+					tText.FontSize = 20.f;
+					tText.Pos = Vec2(700, 450);
+					tText.RGBA = FONT_RGBA(255, 55, 55, 255);
+					CRenderMgr::GetInst()->AddRenderText(tText);
+
+					tRenderText tText2 = {};
+					tText2.Detail = L"\"이분은 보통 고양이가 아니니\n조심 하시길 바랍니다. 만지지 마세요..\"";
+					tText2.FontSize = 20.f;
+					tText2.Pos = Vec2(700, 490);
+					tText2.RGBA = FONT_RGBA(222, 222, 222, 255);
+					CRenderMgr::GetInst()->AddRenderText(tText2);
+
+					break;
+				}
+				case 2:
+				{
+					tRenderText tText = {};
+					tText.Detail = L"\"언제든지 와서\n무시무시한 보스들에게\n도전해 주세요\"";
+					tText.FontSize = 20.f;
+					tText.Pos = Vec2(710, 470);
+					tText.RGBA = FONT_RGBA(222, 222, 222, 255);
+					CRenderMgr::GetInst()->AddRenderText(tText);
+					break;
+				}
+				}
 
 				if (KEY_TAP(KEY::A))
 				{
-					CGameObject* pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
-					if (pPlayer != nullptr)
+#ifdef _DEBUG
+					Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+					pInspector->SetTargetObject(nullptr);
+					pInspector->SetTargetAsset(nullptr);
+#endif
+					switch (m_SelectIdx)
 					{
-						CPlayerScript* playerScript = static_cast<CPlayerScript*>(pPlayer->FindScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT));
-						if (playerScript != nullptr)
-							playerScript->ChangeState(PlayerState::IDLE);
-					}
-
-					CGameObject* textBox = CLevelMgr::GetInst()->FindObjectByName(L"NPCTextBox");
-					if (textBox != nullptr)
+					case 0:
+					case 1:
 					{
-						CNPCUIScript* uiScript = static_cast<CNPCUIScript*>(textBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
-						if (uiScript != nullptr)
+						CBlurControl* GodRay = static_cast<CBlurControl*>(CLevelMgr::GetInst()->FindObjectByName(L"GodRay")->FindScript((UINT)SCRIPT_TYPE::BLURCONTROL));
+						if (GodRay != nullptr)
 						{
-							uiScript->Deactivate();
+							GodRay->Activate();
 						}
-					}
+						CGameObject* pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
+						if (pPlayer != nullptr)
+						{
+							CPlayerScript* playerScript = static_cast<CPlayerScript*>(pPlayer->FindScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT));
+							if (playerScript != nullptr)
+								playerScript->ChangeState(PlayerState::IDLE);
+						}
 
-					m_DialogIdx = 0;
-					m_SelectIdx = 0;
-					m_Activated = false;
+						CGameObject* textBox = CLevelMgr::GetInst()->FindObjectByName(L"NPCTextBox");
+						if (textBox != nullptr)
+						{
+							CNPCUIScript* uiScript = static_cast<CNPCUIScript*>(textBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
+							if (uiScript != nullptr)
+							{
+								uiScript->Deactivate();
+							}
+						}
+
+						++m_DialogIdx;
+						break;
+					}
+					case 2:
+					{
+						CGameObject* pPlayer = CLevelMgr::GetInst()->FindObjectByName(L"Player");
+						if (pPlayer != nullptr)
+						{
+							CPlayerScript* playerScript = static_cast<CPlayerScript*>(pPlayer->FindScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT));
+							if (playerScript != nullptr)
+								playerScript->ChangeState(PlayerState::IDLE);
+						}
+
+						CGameObject* textBox = CLevelMgr::GetInst()->FindObjectByName(L"NPCTextBox");
+						if (textBox != nullptr)
+						{
+							CNPCUIScript* uiScript = static_cast<CNPCUIScript*>(textBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
+							if (uiScript != nullptr)
+							{
+								uiScript->Deactivate();
+							}
+						}
+
+						m_DialogIdx = 0;
+						m_SelectIdx = 0;
+						m_Activated = false;
+						break;
+					}
+					}
+				}
+				break;
+			}
+			case 3:
+			{
+				CBlurControl* GodRay = static_cast<CBlurControl*>(CLevelMgr::GetInst()->FindObjectByName(L"GodRay")->FindScript((UINT)SCRIPT_TYPE::BLURCONTROL));
+				if (GodRay != nullptr)
+				{
+					if (GodRay->IsFinished())
+					{
+						switch (m_SelectIdx)
+						{
+						case 0:
+						{
+							CPlayerManager::GetInst()->SetNextPos(Vec3(608.4f, -255.f, 1.8f));
+							CPlayerManager::GetInst()->SetNextCamPos(Vec3(192.52f, 60.68f, 0.f));
+							CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\DemonBossTEST.lv");
+							ChangeLevel(pLevel, LEVEL_STATE::PLAY);
+
+							Ptr<CSound> curBGM = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage");
+							curBGM->Stop();
+							break;
+						}
+						case 1:
+						{
+							CPlayerManager::GetInst()->SetNextPos(Vec3(-98.97f, -322.f, 1.8f));
+							CPlayerManager::GetInst()->SetNextCamPos(Vec3(-142.f, -56.12f, 0.f));
+							CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\LinethTEST.lv");
+							ChangeLevel(pLevel, LEVEL_STATE::PLAY);
+
+							Ptr<CSound> curBGM = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage");
+							curBGM->Stop();
+							break;
+						}
+						}
+						m_DialogIdx = 0;
+						m_SelectIdx = 0;
+						m_Activated = false;
+					}
 				}
 				break;
 			}
@@ -344,14 +425,14 @@ void CNPCBehavior::Tick()
 			case 1:
 			{
 				tRenderText tText = {};
-				tText.Detail = L".... 어떡할까?";
+				tText.Detail = L".... ???";
 				tText.FontSize = 20.f;
 				tText.Pos = Vec2(320, 390);
 				tText.RGBA = FONT_RGBA(222, 222, 222, 255);
 				CRenderMgr::GetInst()->AddRenderText(tText);
 
 				tRenderText tText2 = {};
-				tText2.Detail = L"☾ \\(◟‸◞)";
+				tText2.Detail = L"☾ 쓰다듬는다";
 				tText2.FontSize = 18.f;
 				tText2.Pos = Vec2(330, 425);
 				tText2.RGBA = m_SelectIdx == 0 ? FONT_RGBA(111, 111, 255, 255) : FONT_RGBA(222, 222, 222, 255);

@@ -8,7 +8,7 @@ CBlurControl::CBlurControl()
 	AddScriptParam(SCRIPT_PARAM::FLOAT, u8"타이머", &m_Timer);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, u8"밀도", &m_Density);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, u8"감소 가중치", &m_Weight);
-	AddScriptParam(SCRIPT_PARAM::INT, u8"종류", &m_Effect, 0, 0, u8"0: 쎔, 1: 약함");
+	AddScriptParam(SCRIPT_PARAM::INT, u8"종류", &m_Effect, 0, 0, u8"0: 증가, 1: 감소");
 }
 
 void CBlurControl::Begin()
@@ -20,19 +20,46 @@ void CBlurControl::Tick()
 {
 	if (m_Activated)
 	{
-		if (0.f < m_Timer)
+		switch (m_Effect)
 		{
-			m_Timer -= DT;
-			MeshRender()->GetDynamicMaterial()->SetScalarParam(INT_3, 1);
+		case BlurEffect::TurnOff:
+		{
+			if (0.f < m_Timer)
+			{
+				m_Timer -= DT;
+				MeshRender()->GetDynamicMaterial()->SetScalarParam(INT_3, 1);
 
-			MeshRender()->GetDynamicMaterial()->SetScalarParam(FLOAT_0, m_Timer);
-			MeshRender()->GetDynamicMaterial()->SetScalarParam(FLOAT_1, m_Density);
-			MeshRender()->GetDynamicMaterial()->SetScalarParam(FLOAT_2, m_Weight);
+				MeshRender()->GetDynamicMaterial()->SetScalarParam(FLOAT_0, m_Timer);
+				MeshRender()->GetDynamicMaterial()->SetScalarParam(FLOAT_1, m_Density);
+				MeshRender()->GetDynamicMaterial()->SetScalarParam(FLOAT_2, m_Weight);
+			}
+			else
+			{
+				m_Finished = true;
+				m_Activated = false;
+			}
+			break;
 		}
-		else
+		case BlurEffect::TurnOn:
 		{
-			m_Activated = false;
+			if (m_Acc < m_Timer)
+			{
+				m_Acc += DT;
+				MeshRender()->GetDynamicMaterial()->SetScalarParam(INT_3, 1);
+
+				MeshRender()->GetDynamicMaterial()->SetScalarParam(FLOAT_0, m_Acc);
+				MeshRender()->GetDynamicMaterial()->SetScalarParam(FLOAT_1, m_Density);
+				MeshRender()->GetDynamicMaterial()->SetScalarParam(FLOAT_2, m_Weight);
+			}
+			else
+			{
+				m_Finished = true;
+				m_Activated = false;
+			}
+			break;
 		}
+		}
+		
 	}
 	else
 	{
@@ -53,21 +80,9 @@ void CBlurControl::LoadFromFile(FILE* _File)
 void CBlurControl::Activate()
 {
 	m_Activated = true;
+	m_Finished = false;
 	
-	switch (m_Effect)
-	{
-	case BlurEffect::Bright:
-	{
-		m_Timer = 2.f;
-		break;
-	}
-	case BlurEffect::LessBright:
-	{
-		m_Timer = 1.5f;
-		break;
-	}
-	}
-
+	m_Timer = 2.f;
 	m_Density = 0.5f;
-	m_Weight = 0.1f;
+	m_Weight = 0.2f;
 }
