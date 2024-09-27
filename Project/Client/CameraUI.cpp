@@ -81,6 +81,7 @@ void CameraUI::Update()
         {
             pCam->SetPriority(prior);
         }
+        ImGui::SetItemTooltip(u8"0: 메인 1: 서브 2: 메뉴");
     }
     
 }

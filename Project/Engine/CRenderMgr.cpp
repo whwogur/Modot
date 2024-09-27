@@ -71,11 +71,11 @@ void CRenderMgr::Tick()
 		if (nullptr != m_EditorCamera)
 		{
 			m_EditorCamera->Render();
+
+			if (m_DebugRender)
+				RenderDebugShape();
 		}
 	}
-
-	if (m_DebugRender)
-		RenderDebugShape();
 
 	DrawTextOnScreen();
 

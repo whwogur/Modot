@@ -27,6 +27,7 @@ void CTestLevel::CreateTestLevel()
 	pLevel->GetLayer(10)->SetName(L"LevelBounds");
 	pLevel->GetLayer(11)->SetName(L"UI");*/
 	//pLevel->GetLayer(12)->SetName(L"Trigger");
+	//pLevel->GetLayer(13)->SetName(L"Menu");
 
 	//pLevel->SetName(L"ParticleFactory");
 	ChangeLevel(pLevel, LEVEL_STATE::STOP);
