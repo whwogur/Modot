@@ -251,7 +251,7 @@ void CNPCBehavior::Tick()
 					tRenderText tText2 = {};
 					tText2.Detail = L"이녀석은 근거리 공격\n불뿜기, 그리고 샤우팅(?)\n공격을 한다고 알려져 있어요\n공격 시전 전 모이는 기의 색깔을 보면\n어떤 공격인지 알 수 있답니다.\"";
 					tText2.FontSize = 20.f;
-					tText2.Pos = Vec2(700, 480);
+					tText2.Pos = Vec2(680, 480);
 					tText2.RGBA = FONT_RGBA(222, 222, 222, 255);
 					CRenderMgr::GetInst()->AddRenderText(tText2);
 
@@ -267,9 +267,9 @@ void CNPCBehavior::Tick()
 					CRenderMgr::GetInst()->AddRenderText(tText);
 
 					tRenderText tText2 = {};
-					tText2.Detail = L"\"이분은 보통 고양이가 아니니\n조심 하시길 바랍니다. 만지지 마세요..\"";
+					tText2.Detail = L"\"보통 고양이가 아니니\n단단히 각오 하셔야 할거에요..\"";
 					tText2.FontSize = 20.f;
-					tText2.Pos = Vec2(700, 490);
+					tText2.Pos = Vec2(680, 490);
 					tText2.RGBA = FONT_RGBA(222, 222, 222, 255);
 					CRenderMgr::GetInst()->AddRenderText(tText2);
 
@@ -551,6 +551,51 @@ void CNPCBehavior::Tick()
 		}
 		case NPCType::MATRIARCH:
 		{
+			switch (m_DialogIdx)
+			{
+			case 0:
+			{
+				tRenderText tText = {};
+				tText.Detail = L"\"뛰어난 여사제 모모여..\" ...▼";
+				tText.FontSize = 18.f;
+				tText.Pos = Vec2(530, 360);
+				tText.RGBA = FONT_RGBA(255, 255, 0, 255);
+				CRenderMgr::GetInst()->AddRenderText(tText);
+
+				if (KEY_TAP(KEY::A))
+				{
+					++m_DialogIdx;
+				}
+				break;
+			}
+			case 1:
+			{
+				tRenderText tText = {};
+				tText.Detail = L"\"그대의 여정에 축복을 ...▼\"";
+				tText.FontSize = 18.f;
+				tText.Pos = Vec2(530, 360);
+				tText.RGBA = FONT_RGBA(255, 255, 0, 255);
+				CRenderMgr::GetInst()->AddRenderText(tText);
+
+				if (KEY_TAP(KEY::A))
+				{
+					CGameObject* textBox = CLevelMgr::GetInst()->FindObjectByName(L"NPCTextBox");
+					if (textBox != nullptr)
+					{
+						CNPCUIScript* uiScript = static_cast<CNPCUIScript*>(textBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
+						if (uiScript != nullptr)
+						{
+							uiScript->Deactivate();
+						}
+					}
+
+					m_DialogIdx = 0;
+					m_SelectIdx = 0;
+					m_Activated = false;
+				}
+				break;
+			}
+			}
 			break;
 		}
 		case NPCType::NONE:
@@ -657,6 +702,17 @@ void CNPCBehavior::Activate()
 	}
 	case NPCType::MATRIARCH:
 	{
+		CGameObject* textBox = CLevelMgr::GetInst()->FindObjectByName(L"NPCTextBox");
+		if (textBox != nullptr)
+		{
+			CNPCUIScript* uiScript = static_cast<CNPCUIScript*>(textBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
+			if (uiScript != nullptr)
+			{
+				textBox->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0));
+				textBox->Transform()->SetRelativeScale(Vec3(400.f, 160.f, 1.f));
+				uiScript->Activate();
+			}
+		}
 		break;
 	}
 	case NPCType::NONE:

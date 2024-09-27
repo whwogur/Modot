@@ -88,11 +88,6 @@ void CPlatformScript::EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 
         if (platformCount < 1)
             rb->SetGround(false);
-
-        if (vel.x > 0)
-            rb->SetLeftWall(false);
-        else
-            rb->SetRightWall(false);
     }
 }
 
