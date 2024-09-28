@@ -26,7 +26,7 @@ void CBlurControl::Tick()
 		{
 			if (0.f < m_Timer)
 			{
-				m_Timer -= DT;
+				m_Timer -= DT / 2;
 				MeshRender()->GetDynamicMaterial()->SetScalarParam(INT_3, 1);
 
 				MeshRender()->GetDynamicMaterial()->SetScalarParam(FLOAT_0, m_Timer);
@@ -44,7 +44,7 @@ void CBlurControl::Tick()
 		{
 			if (m_Acc < m_Timer)
 			{
-				m_Acc += DT;
+				m_Acc += DT / 2;
 				MeshRender()->GetDynamicMaterial()->SetScalarParam(INT_3, 1);
 
 				MeshRender()->GetDynamicMaterial()->SetScalarParam(FLOAT_0, m_Acc);
@@ -82,7 +82,7 @@ void CBlurControl::Activate()
 	m_Activated = true;
 	m_Finished = false;
 	
-	m_Timer = 2.f;
+	m_Timer = 1.5f;
 	m_Density = 0.5f;
 	m_Weight = 0.2f;
 }

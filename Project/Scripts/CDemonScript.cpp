@@ -221,21 +221,22 @@ void CDemonScript::Tick()
 		}
 		else
 		{
+			tRenderText tText = {};
+			tText.Detail = L"데몬을 물리쳤습니다!!\n  초 후 퇴장합니다.";
+			tText.FontSize = 25.f;
+			tText.Pos = Vec2(550.f, 300.f);
+			tText.RGBA = FONT_RGBA(255, 0, 0, 255);
+			CRenderMgr::GetInst()->AddRenderText(tText);
+
 			int remainTime = static_cast<int>(m_Timer - m_Acc);
 			wstring remainTimeStr = std::to_wstring(remainTime);
 			tRenderText tText2 = {};
-			tText2.Detail = remainTimeStr + L"초 후 퇴장합니다.";
-			tText2.FontSize = 20.f;
-			tText2.Pos = Vec2(250.f, 400.f);
-			tText2.RGBA = FONT_RGBA(255, 111, 0, 255);
+			tText2.Detail = remainTimeStr;
+			tText2.FontSize = 30.f;
+			tText2.Pos = Vec2(550.f, 335.f);
+			tText2.RGBA = FONT_RGBA(222, 222, 222, 255);
 			CRenderMgr::GetInst()->AddRenderText(tText2);
 		}
-		tRenderText tText = {};
-		tText.Detail = L"데몬을 물리쳤습니다";
-		tText.FontSize = 20.f;
-		tText.Pos = Vec2(250.f, 300.f);
-		tText.RGBA = FONT_RGBA(255, 255, 0, 255);
-		CRenderMgr::GetInst()->AddRenderText(tText);
 
 		break;
 	}
@@ -561,6 +562,16 @@ void CDemonScript::BeginState(DemonState _State)
 	{
 		Animator2D()->Play(L"DemonDeath", 7.f, false);
 		Animator2D()->Reset();
+
+		CGameObject* npcUI = CLevelMgr::GetInst()->FindObjectByName(L"BossHPUI");
+		if (npcUI != nullptr)
+		{
+			CNPCUIScript* npcUIScript = static_cast<CNPCUIScript*>(npcUI->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
+			if (npcUIScript != nullptr)
+			{
+				npcUIScript->Deactivate();
+			}
+		}
 
 		m_Roar2->Play(1, EFFECT_VOL, true);
 		m_Acc = 0.f;
