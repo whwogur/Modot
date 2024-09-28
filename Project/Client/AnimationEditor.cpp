@@ -147,11 +147,11 @@ void AnimationEditor::Update()
 
         ImGui::NewLine();
 
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.0f, 0.222f, 0.555f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.222f, 0.555f, 0.777f, 1.0f });
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.0f, 0.333f, 0.555f, 1.0f });
-        ImGui::SameLine(780);
-        if (ImGui::Button(ICON_FA_ARROW_UP, { 25, 25 }))
+        ImGui::PushStyleColor(ImGuiCol_Button,          ImVec4{ 0.0f, 0.222f, 0.555f, 1.0f });
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered,   ImVec4{ 0.222f, 0.555f, 0.777f, 1.0f });
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive,    ImVec4{ 0.0f, 0.333f, 0.555f, 1.0f });
+        ImGui::SameLine(777);
+        if (ImGui::Button(ICON_FA_CHEVRON_UP, { 25, 25 }))
         {
             offsetUV.y += deltaUV;
         }
@@ -165,17 +165,17 @@ void AnimationEditor::Update()
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.222f, 0.555f, 0.777f, 1.0f });
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.0f, 0.333f, 0.555f, 1.0f });
         ImGui::SameLine(740);
-        if (ImGui::Button(ICON_FA_ARROW_LEFT, { 25, 25 }))
+        if (ImGui::Button(ICON_FA_CHEVRON_LEFT, { 25, 25 }))
         {
             offsetUV.x -= deltaUV;
         }
         ImGui::SameLine();
-        if (ImGui::Button(ICON_FA_ARROW_DOWN, { 25, 25 }))
+        if (ImGui::Button(ICON_FA_CHEVRON_DOWN, { 25, 25 }))
         {
             offsetUV.y -= deltaUV;
         }
         ImGui::SameLine();
-        if (ImGui::Button(ICON_FA_ARROW_RIGHT, { 25, 25 }))
+        if (ImGui::Button(ICON_FA_CHEVRON_RIGHT, { 25, 25 }))
         {
             offsetUV.x += deltaUV;
         }

@@ -12,6 +12,7 @@ enum class MENU_TYPE
 enum class MEMO
 {
     STATDESC,
+    END,
 };
 
 enum class OPTIONS
@@ -41,6 +42,7 @@ public:
 
     void Activate();
     void Deactivate();
+    void Reset();
 private:
     Ptr<CTexture>       m_AdlogTex;
     Ptr<CTexture>       m_MemoTex;
@@ -53,6 +55,7 @@ private:
 
     CGameObject*        m_ItemKnob;
     int                 m_ItemIdx = 0;
+    bool                m_ItemSelected = false;
     bool                m_Active = false;
 };
 

@@ -10,6 +10,8 @@ public:
 
 	float EffectVolume = 1.f;
 	float BGMVolume = 1.f;
+	float GeneralVolume = 1.f;
+	bool CameraShake = true;
 };
 
 class PlayerStatus
