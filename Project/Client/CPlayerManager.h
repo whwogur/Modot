@@ -1,4 +1,17 @@
 #pragma once
+class GameStatus
+{
+public:
+	GameStatus() = default;
+	~GameStatus() = default;
+
+	int PetCat = 0;
+	int Kills = 0;
+
+	float EffectVolume = 1.f;
+	float BGMVolume = 1.f;
+};
+
 class PlayerStatus
 {
 public:
@@ -35,6 +48,7 @@ public:
 	void Init();
 
 	std::shared_ptr<PlayerStatus>& GetPlayerStatusRef() { return m_PlayerStatus; }
+	std::shared_ptr<GameStatus>& GetGameStatusRef() { return m_GameStatus; }
 
 	void TakeDamage(float _Damage) 
 	{ 
@@ -77,4 +91,5 @@ public:
 	void SetNextCamPos(Vec3 _CamPos) { m_PlayerStatus.get()->CamPos = _CamPos; }
 private:
 	std::shared_ptr<PlayerStatus> m_PlayerStatus = nullptr;
+	std::shared_ptr<GameStatus> m_GameStatus = nullptr;
 };

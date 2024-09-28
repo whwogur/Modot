@@ -14,6 +14,7 @@
 #include "CLevelTransitionScript.h"
 #include "CLinethScript.h"
 #include "CLinethSequence.h"
+#include "CMenuScript.h"
 #include "CMinimap.h"
 #include "CMonsterAttack.h"
 #include "CNPCBehavior.h"
@@ -45,6 +46,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CLevelTransitionScript");
 	_vec.push_back(L"CLinethScript");
 	_vec.push_back(L"CLinethSequence");
+	_vec.push_back(L"CMenuScript");
 	_vec.push_back(L"CMinimap");
 	_vec.push_back(L"CMonsterAttack");
 	_vec.push_back(L"CNPCBehavior");
@@ -90,6 +92,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CLinethScript;
 	if (L"CLinethSequence" == _strScriptName)
 		return new CLinethSequence;
+	if (L"CMenuScript" == _strScriptName)
+		return new CMenuScript;
 	if (L"CMinimap" == _strScriptName)
 		return new CMinimap;
 	if (L"CMonsterAttack" == _strScriptName)
@@ -165,6 +169,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::LINETHSEQUENCE:
 		return new CLinethSequence;
+		break;
+	case (UINT)SCRIPT_TYPE::MENUSCRIPT:
+		return new CMenuScript;
 		break;
 	case (UINT)SCRIPT_TYPE::MINIMAP:
 		return new CMinimap;
@@ -269,6 +276,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::LINETHSEQUENCE:
 		return L"CLinethSequence";
+		break;
+
+	case SCRIPT_TYPE::MENUSCRIPT:
+		return L"CMenuScript";
 		break;
 
 	case SCRIPT_TYPE::MINIMAP:

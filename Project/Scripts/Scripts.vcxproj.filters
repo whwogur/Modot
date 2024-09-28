@@ -124,6 +124,9 @@
     <ClInclude Include="CCat.h">
       <Filter>Scripts\NPC</Filter>
     </ClInclude>
+    <ClInclude Include="CMenuScript.h">
+      <Filter>Scripts\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -216,6 +219,9 @@
     </ClCompile>
     <ClCompile Include="CCat.cpp">
       <Filter>Scripts\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="CMenuScript.cpp">
+      <Filter>Scripts\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
