@@ -66,6 +66,7 @@ void CDemonScript::Begin()
 
 void CDemonScript::Tick()
 {
+	if (m_State != DemonState::DEAD) Dead();
 	m_Acc += DT;
 
 	switch (m_State)
@@ -194,10 +195,7 @@ void CDemonScript::Tick()
 	}
 	case DemonState::SPITTING:
 	{
-		if (!m_Fire)
-		{
-		}
-		else
+		if (m_Fire)
 		{
 			Vec3& boxPos = m_RoarBox->Transform()->GetRelativePosRef();
 			Vec3& boxScale = m_RoarBox->Transform()->GetRelativeScaleRef();
@@ -213,6 +211,32 @@ void CDemonScript::Tick()
 		{
 			ChangeState(DemonState::IDLE);
 		}
+		break;
+	}
+	case DemonState::DEAD:
+	{
+		if (m_Acc > m_Timer)
+		{
+			m_Dead = true;
+		}
+		else
+		{
+			int remainTime = static_cast<int>(m_Timer - m_Acc);
+			wstring remainTimeStr = std::to_wstring(remainTime);
+			tRenderText tText2 = {};
+			tText2.Detail = remainTimeStr + L"초 후 퇴장합니다.";
+			tText2.FontSize = 20.f;
+			tText2.Pos = Vec2(250.f, 400.f);
+			tText2.RGBA = FONT_RGBA(255, 111, 0, 255);
+			CRenderMgr::GetInst()->AddRenderText(tText2);
+		}
+		tRenderText tText = {};
+		tText.Detail = L"데몬을 물리쳤습니다";
+		tText.FontSize = 20.f;
+		tText.Pos = Vec2(250.f, 300.f);
+		tText.RGBA = FONT_RGBA(255, 255, 0, 255);
+		CRenderMgr::GetInst()->AddRenderText(tText);
+
 		break;
 	}
 	}
@@ -533,6 +557,16 @@ void CDemonScript::BeginState(DemonState _State)
 		}
 		break;
 	}
+	case DemonState::DEAD:
+	{
+		Animator2D()->Play(L"DemonDeath", 7.f, false);
+		Animator2D()->Reset();
+
+		m_Roar2->Play(1, EFFECT_VOL, true);
+		m_Acc = 0.f;
+		m_Timer = 10.f;
+		break;
+	}
 	}
 }
 
@@ -653,6 +687,11 @@ void CDemonScript::EndState(DemonState _State)
 		m_RoarBox->Transform()->SetRelativePos(Vec3(7777.f, 7777.f, 0.f));
 		break;
 	}
+	case DemonState::DEAD:
+	{
+
+		break;
+	}
 	}
 }
 
@@ -675,5 +714,14 @@ void CDemonScript::DirectionCheck()
 	else
 	{
 		Transform()->SetDir(OBJECT_DIR::RIGHT);
+	}
+}
+
+void CDemonScript::Dead()
+{
+	float& hp = m_HPBar->GetHPRef();
+	if (hp <= 0.f)
+	{
+		ChangeState(DemonState::DEAD);
 	}
 }

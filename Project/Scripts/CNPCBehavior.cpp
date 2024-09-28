@@ -216,7 +216,7 @@ void CNPCBehavior::Tick()
 					CRenderMgr::GetInst()->AddRenderText(tText);
 
 					tRenderText tText2 = {};
-					tText2.Detail = L"이녀석은 근거리 공격\n불뿜기, 그리고 샤우팅(?)\n공격을 한다고 알려져 있어요\n공격 시전 전 모이는 기의 색깔을 보면\n어떤 공격인지 알 수 있답니다.\"";
+					tText2.Detail = L"이녀석이 공격을 시전하기 전\n 모이는 기의 색깔을\n관찰해보세요\"";
 					tText2.FontSize = 20.f;
 					tText2.Pos = Vec2(680, 480);
 					tText2.RGBA = FONT_RGBA(222, 222, 222, 255);
@@ -501,7 +501,7 @@ void CNPCBehavior::Tick()
 			case 0:
 			{
 				tRenderText tText = {};
-				tText.Detail = L"\"보스를 물리치고 오셨군요!!\n이번엔 누구에게 도전하시겠습니까?\" ...▼";
+				tText.Detail = L"\"보스를 물리치고 오셨군요!!\n이번엔 누구에게 도전하시겠습니까?\" \n...▼";
 				tText.FontSize = 20.f;
 				tText.Pos = Vec2(680, 460);
 				tText.RGBA = FONT_RGBA(222, 222, 222, 255);

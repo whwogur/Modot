@@ -22,5 +22,6 @@ public:
 
 private:
     CDemonScript* m_Script;
+    bool            m_End = false;
 };
 

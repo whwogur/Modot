@@ -2,7 +2,7 @@
 #include "C:\Users\cuteg\Desktop\Modot\External\Include\Engine\CScript.h"
 enum class DemonState
 {
-    INTRO1, INTRO2, JUMPATTACK, MELEE, IDLE, ROAR, BREATHEFIRE, SPITTING,
+    INTRO1, INTRO2, JUMPATTACK, MELEE, IDLE, ROAR, BREATHEFIRE, SPITTING, DEAD,
 };
 
 class CUIBarScript;
@@ -28,7 +28,7 @@ private:
     void EndState(DemonState _State);
     void ChangeState(DemonState _NextState);
     void DirectionCheck();
-
+    void Dead();
 private:
     friend class CDemonSequence;
     Ptr<CSound>         m_Roar;
@@ -48,5 +48,6 @@ private:
     float               m_Acc = 0.f;
     float               m_Timer = 0.f;
     bool                m_Fire = false;
+    bool                m_Dead = false;
 };
 

@@ -5,6 +5,14 @@
 #include <Engine/CLevelMgr.h>
 #include "CNPCUIScript.h"
 #include "CPlayerScript.h"
+#include "CBlurControl.h"
+
+#include "../Client/CLevelSaveLoad.h"
+#include "../Client/CPlayerManager.h"
+#ifdef _DEBUG
+#include "../Client/Inspector.h"
+#include "../Client/CEditorMgr.h"
+#endif
 CDemonSequence::CDemonSequence()
 	: CScript(SCRIPT_TYPE::DEMONSEQUENCE)
 {
@@ -23,6 +31,37 @@ void CDemonSequence::Begin()
 
 void CDemonSequence::Tick()
 {
+	if (!m_Script->m_Dead)
+		return;
+
+	if (KEY_TAP(KEY::_7))
+	{
+		CBlurControl* GodRay = static_cast<CBlurControl*>(CLevelMgr::GetInst()->FindObjectByName(L"GodRay")->FindScript((UINT)SCRIPT_TYPE::BLURCONTROL));
+		if (GodRay != nullptr)
+		{
+			GodRay->SetEffect(BlurEffect::TurnOn);
+			GodRay->Activate();
+			m_End = true;
+		}
+	}
+
+	CBlurControl* GodRay = static_cast<CBlurControl*>(CLevelMgr::GetInst()->FindObjectByName(L"GodRay")->FindScript((UINT)SCRIPT_TYPE::BLURCONTROL));
+	if (m_End && GodRay->IsFinished())
+	{
+#ifdef _DEBUG
+		Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+		pInspector->SetTargetObject(nullptr);
+		pInspector->SetTargetAsset(nullptr);
+#endif
+
+		CPlayerManager::GetInst()->SetNextPos(Vec3(158.20f, -300.f, 1.8f));
+		CPlayerManager::GetInst()->SetNextCamPos(Vec3(125.18, 43.36f, 0.f));
+		CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\ShrineAfterBoss.lv");
+		ChangeLevel(pLevel, LEVEL_STATE::PLAY);
+
+		Ptr<CSound> curBGM = CAssetMgr::GetInst()->FindAsset<CSound>(L"Demon");
+		curBGM->Stop();
+	}
 }
 
 void CDemonSequence::SaveToFile(FILE* _File)

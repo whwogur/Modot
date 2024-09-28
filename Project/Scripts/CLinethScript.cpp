@@ -53,7 +53,8 @@ void CLinethScript::Begin()
 
 void CLinethScript::Tick()
 {
-	Dead();
+	if (m_State != LinethState::DEAD) Dead();
+
 	switch (m_State)
 	{
 	case LinethState::INTRO_CAT:
