@@ -30,6 +30,8 @@ void CMenuScript::Begin()
 	m_MenuKnob = CLevelMgr::GetInst()->FindObjectByName(L"MenuKnob");
 	
 	Activate();
+	Ptr<CSound> test = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage");
+	CPlayerManager::GetInst()->PlayBGM(test);
 }
 
 void CMenuScript::Tick()
@@ -73,7 +75,7 @@ void CMenuScript::Tick()
 				PLAY_EFFECT(m_TickSound);
 			}
 
-			const std::shared_ptr<GameStatus>& gameStat = CPlayerManager::GetInst()->GetGameStatusRef();
+			std::shared_ptr<GameStatus>& gameStat = CPlayerManager::GetInst()->GetGameStatusRef();
 
 			wstring kills(std::to_wstring(gameStat.get()->Kills));
 			wstring petcat(std::to_wstring(gameStat.get()->PetCat));
@@ -250,6 +252,10 @@ void CMenuScript::Tick()
 					{
 						break;
 					}
+					case (int)OPTIONS::MAIN:
+					{
+						break;
+					}
 					}
 				}
 
@@ -265,7 +271,7 @@ void CMenuScript::Tick()
 			{
 				if (m_ItemIdx == (int)OPTIONS::SAVECHANGES)
 				{
-
+					CPlayerManager::GetInst()->UpdateCurBGMVolume();
 				}
 				else if (m_ItemIdx == (int)OPTIONS::MAIN)
 				{

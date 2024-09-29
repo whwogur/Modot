@@ -15,6 +15,7 @@ public:
 
     // 0 ~ 1
     void SetVolume(float _f, int _iChannelIdx);
+    void SetVolume(float _f);
     // MS
     UINT GetSoundLength() const { return m_SoundLength; }
 public:

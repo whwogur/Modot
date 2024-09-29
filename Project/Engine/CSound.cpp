@@ -85,6 +85,14 @@ void CSound::SetVolume(float _f, int _iChannelIdx)
 	}
 }
 
+void CSound::SetVolume(float _f)
+{
+	for (auto& channel : m_listChannel)
+	{
+		channel->setVolume(_f);
+	}
+}
+
 void CSound::RemoveChannel(FMOD::Channel* _pTargetChannel)
 {
 	list<FMOD::Channel*>::iterator iter = m_listChannel.begin();

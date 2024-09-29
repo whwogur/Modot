@@ -29,6 +29,12 @@ void CPlayerManager::ResumeBGM()
 		m_GameStatus.get()->CurBGM->Play(0, m_GameStatus.get()->BGMVolume * m_GameStatus.get()->GeneralVolume, false);
 }
 
+void CPlayerManager::UpdateCurBGMVolume()
+{
+	if (m_GameStatus.get()->CurBGM != nullptr)
+		m_GameStatus.get()->CurBGM.Get()->SetVolume(m_GameStatus.get()->BGMVolume * m_GameStatus.get()->GeneralVolume);
+}
+
 void CPlayerManager::PlayEffect(Ptr<CSound> _Sound)
 {
 	_Sound->Play(1, m_GameStatus.get()->EffectVolume * m_GameStatus.get()->GeneralVolume, true);

@@ -98,6 +98,7 @@ public:
 	void PlayBGM(Ptr<CSound> _BGM);
 	void StopCurBGM();
 	void ResumeBGM();
+	void UpdateCurBGMVolume();
 	void PlayEffect(Ptr<CSound> _Sound);
 private:
 	std::shared_ptr<PlayerStatus> m_PlayerStatus = nullptr;
