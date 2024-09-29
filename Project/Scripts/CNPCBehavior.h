@@ -9,6 +9,7 @@ enum class NPCType
     CEREZA,
     MATRIARCH,
     AFTERBOSS,
+    BOY,
     NONE,
 };
 

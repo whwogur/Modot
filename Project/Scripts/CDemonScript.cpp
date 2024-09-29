@@ -1,4 +1,4 @@
-#include "spch.h"
+ï»¿#include "spch.h"
 #include "CDemonScript.h"
 #include <Engine/CLevelMgr.h>
 #include <Engine/CRenderMgr.h>
@@ -13,8 +13,8 @@
 CDemonScript::CDemonScript()
 	: CScript(SCRIPT_TYPE::DEMONSCRIPT)
 {
-	AddScriptParam(SCRIPT_PARAM::FLOAT, u8"°ø°İ»ç°Å¸®", &m_AttackReach);
-	AddScriptParam(SCRIPT_PARAM::FLOAT, u8"µ¥¹ÌÁö", &m_Damage);
+	AddScriptParam(SCRIPT_PARAM::FLOAT, u8"ê³µê²©ì‚¬ê±°ë¦¬", &m_AttackReach);
+	AddScriptParam(SCRIPT_PARAM::FLOAT, u8"ë°ë¯¸ì§€", &m_Damage);
 
 	m_Roar = CAssetMgr::GetInst()->FindAsset<CSound>(L"DemonRoar");
 	m_Roar2 = CAssetMgr::GetInst()->FindAsset<CSound>(L"DemonRoar2");
@@ -31,10 +31,10 @@ void CDemonScript::Begin()
 	CGameObject* hpBar = CLevelMgr::GetInst()->FindObjectByName(L"BossHPFill");
 	m_HPBar = static_cast<CUIBarScript*>(hpBar->FindScript((UINT)SCRIPT_TYPE::UIBARSCRIPT));
 
-	MD_ENGINE_ASSERT(m_Target != nullptr, L"ÇÃ·¹ÀÌ¾î ¸øÃ£À½");
-	MD_ENGINE_ASSERT(m_AttackBox != nullptr, L"È÷Æ®¹Ú½º ¸øÃ£À½");
-	MD_ENGINE_ASSERT(m_RoarBox != nullptr, L"È÷Æ®¹Ú½º ¸øÃ£À½");
-	MD_ENGINE_ASSERT(m_HPBar != nullptr, L"HP¹Ù ½ºÅ©¸³Æ® ¸øÃ£À½");
+	MD_ENGINE_ASSERT(m_Target != nullptr, L"í”Œë ˆì´ì–´ ëª»ì°¾ìŒ");
+	MD_ENGINE_ASSERT(m_AttackBox != nullptr, L"íˆíŠ¸ë°•ìŠ¤ ëª»ì°¾ìŒ");
+	MD_ENGINE_ASSERT(m_RoarBox != nullptr, L"íˆíŠ¸ë°•ìŠ¤ ëª»ì°¾ìŒ");
+	MD_ENGINE_ASSERT(m_HPBar != nullptr, L"HPë°” ìŠ¤í¬ë¦½íŠ¸ ëª»ì°¾ìŒ");
 
 	CGameObject* Fire = GetOwner()->GetChildObject(L"BreatheFireR");
 	if (Fire != nullptr)
@@ -92,7 +92,7 @@ void CDemonScript::Tick()
 	case DemonState::INTRO2:
 	{
 		tRenderText tText = {};
-		tText.Detail = L"Äí¿À¿À¿À...!!!!!!!!!";
+		tText.Detail = L"ì¿ ì˜¤ì˜¤ì˜¤...!!!!!!!!!";
 		tText.FontSize = 40.f;
 		tText.Pos = Vec2(100.f, 300.f);
 		tText.RGBA = FONT_RGBA(255, 64, 64, 255);
@@ -222,7 +222,7 @@ void CDemonScript::Tick()
 		else
 		{
 			tRenderText tText = {};
-			tText.Detail = L"µ¥¸óÀ» ¹°¸®ÃÆ½À´Ï´Ù!!\n  ÃÊ ÈÄ ÅğÀåÇÕ´Ï´Ù.";
+			tText.Detail = L"âŒ›ë°ëª¬ì„ ë¬¼ë¦¬ì³¤ìŠµë‹ˆë‹¤!!âŒ›\n  ì´ˆ í›„ í‡´ì¥í•©ë‹ˆë‹¤.";
 			tText.FontSize = 25.f;
 			tText.Pos = Vec2(550.f, 300.f);
 			tText.RGBA = FONT_RGBA(255, 0, 0, 255);

@@ -1,12 +1,20 @@
-#include "spch.h"
+ï»¿#include "spch.h"
 #include "CPlayerScript.h"
 #include "CAttackScript.h"
-#include "../Client/CEditorMgr.h" // ·Î±×¿ë
+#include "../Client/CEditorMgr.h" // ë¡œê·¸ìš©
 #include <Engine/CLevelMgr.h>
+#include <Engine/CLevel.h>
 #include <Engine/CRenderMgr.h>
 #include "CUIBarScript.h"
 
+#ifdef _DEBUG
+#include "../Client/Inspector.h"
+#include "../Client/CEditorMgr.h"
+#endif
+
+#include "CMenuScript.h"
 #include "CArrowScript.h"
+#include "../Client/CLevelSaveLoad.h"
 
 CPlayerScript::CPlayerScript()
 	: CScript(UINT(SCRIPT_TYPE::PLAYERSCRIPT))
@@ -20,6 +28,9 @@ CPlayerScript::CPlayerScript()
 	m_RollSound			= CAssetMgr::GetInst()->FindAsset<CSound>(L"Roll");
 	m_SprintStartSound	= CAssetMgr::GetInst()->FindAsset<CSound>(L"Sprint");
 	m_PerfectDodge		= CAssetMgr::GetInst()->FindAsset<CSound>(L"PerfectDodge");
+	m_HealSound			= CAssetMgr::GetInst()->FindAsset<CSound>(L"Heal");
+	m_LandSound			= CAssetMgr::GetInst()->FindAsset<CSound>(L"Land");
+	
 
 	AddScriptParam(SCRIPT_PARAM::FLOAT, "PlayerSpeed", &m_Speed);
 }
@@ -74,377 +85,431 @@ void CPlayerScript::Begin()
 		}
 	}
 
+
 	m_AIL = GetOwner()->GetChildObject(L"AIL");
 	m_AIR = GetOwner()->GetChildObject(L"AIR");
 	m_DodgeSigil = GetOwner()->GetChildObject(L"DodgeSigil");
 	m_DodgeSpark = GetOwner()->GetChildObject(L"DodgeSpark");
+	fx = CLevelMgr::GetInst()->FindObjectByName(L"Menu");
+
+	if (fx != nullptr)
+	{
+		m_Menu = static_cast<CMenuScript*>(fx->FindScript((UINT)SCRIPT_TYPE::MENUSCRIPT));
+	}
+	
 }
 
 #pragma region __UPDATE__STATE__
 void CPlayerScript::Tick()
 {
-	if (KEY_TAP(KEY::_9))
+	if (m_MenuOpened)
 	{
-		CPlayerManager::GetInst()->TakeDamage(100.f);
-	}
-
-	if (m_State != PlayerState::DEAD) Dead();
-
-	if (m_Damaged)
-	{
-		m_DamagedAcc += DT * 2.f;
-		MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_3, Vec4(m_DamagedAcc));
-		if (m_DamagedAcc > 1.0f)
+		if (KEY_TAP(KEY::ESC) || KEY_TAP(KEY::I))
 		{
-			m_DamagedAcc = 0.f;
-			++m_FlickerCount;
-			if (m_FlickerCount >= 10)
+			CloseMenu();
+		}
+	}
+	else
+	{
+		if (KEY_TAP(KEY::I))
+		{
+			OpenMenu();
+		}
+
+		if (m_State != PlayerState::DEAD) Dead();
+
+		if (m_Damaged)
+		{
+			m_DamagedAcc += DT * 2.f;
+			MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_3, Vec4(m_DamagedAcc));
+			if (m_DamagedAcc > 1.0f)
 			{
-				m_Damaged = false;
 				m_DamagedAcc = 0.f;
-				MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_3, Vec4(0.f, 0.f, 0.f, 0.f));
-				m_FlickerCount = 0;
+				++m_FlickerCount;
+				if (m_FlickerCount >= 10)
+				{
+					m_Damaged = false;
+					m_DamagedAcc = 0.f;
+					MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_3, Vec4(0.f, 0.f, 0.f, 0.f));
+					m_FlickerCount = 0;
+				}
 			}
 		}
-	}
 
-	if (m_Healed)
-	{
-		m_DamagedAcc += DT;
-		MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_3, Vec4(0.f, m_DamagedAcc, 0.f, 0.f));
-		if (m_DamagedAcc > 1.0f)
+		if (m_Healed)
 		{
-			m_DamagedAcc = 0.f;
-			++m_FlickerCount;
-			if (m_FlickerCount >= 1)
+			m_DamagedAcc += DT;
+			MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_3, Vec4(0.f, m_DamagedAcc, 0.f, 0.f));
+			if (m_DamagedAcc > 1.0f)
 			{
-				m_Healed = false;
 				m_DamagedAcc = 0.f;
-				MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_3, Vec4(0.f, 0.f, 0.f, 0.f));
+				++m_FlickerCount;
+				if (m_FlickerCount >= 1)
+				{
+					m_Healed = false;
+					m_DamagedAcc = 0.f;
+					MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_3, Vec4(0.f, 0.f, 0.f, 0.f));
+				}
 			}
 		}
-	}
 
-	if (KEY_TAP(KEY::_1))
-	{
-		CPlayerManager::GetInst()->TakeDamage(10);
-		EDITOR_TRACE(u8"µ¥¹ÌÁö 10 ¹ÞÀ½");
-		m_Damaged = true;
-	}
-
-	if (KEY_TAP(KEY::_2))
-	{
-		CPlayerManager::GetInst()->Recover(10);
-		ChangeState(PlayerState::HEAL);
-	}
-
-	DirectionCheck();
-	switch (m_State)
-	{
-	case PlayerState::IDLE:
-	{
-		m_Acc += DT;
-		Jump();
-		IdleRoutine();
-		
-		if (m_Acc > m_Timer)
-			ChangeState(PlayerState::IDLE2);
-		break;
-	}
-	case PlayerState::IDLE2:
-	{
-		IdleRoutine();
-		if (Animator2D()->IsFinished())
-			ChangeState(PlayerState::IDLE);
-		break;
-	}
-	case PlayerState::JUMP:
-	{
-		CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
-		CPlayerManager::GetInst()->RecoverMP(5.f * DT);
-		Jump();
-		if (KEY_PRESSED(KEY::RIGHT))
+		if (KEY_TAP(KEY::_1))
 		{
-			RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
-		}
-		if (KEY_PRESSED(KEY::LEFT))
-		{
-			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
+			CPlayerManager::GetInst()->TakeDamage(100);
+			EDITOR_TRACE(u8"ë°ë¯¸ì§€ 100 ë°›ìŒ");
+			m_Damaged = true;
 		}
 
-		if (KEY_TAP(KEY::S))
+		if (KEY_TAP(KEY::_2))
 		{
-			ChangeState(PlayerState::ATTACK1);
-		}
-		else if (KEY_TAP(KEY::D))
-		{
-			ChangeState(PlayerState::SHOOT);
+			CPlayerManager::GetInst()->Recover(10);
+			ChangeState(PlayerState::HEAL);
 		}
 
-		if (RigidBody()->GetVelocity().y < 0)
-			ChangeState(PlayerState::FALL);
-		break;
-	}
-	case PlayerState::DOUBLEJUMP:
-	{
-		CPlayerManager::GetInst()->RecoverMP(5.f * DT);
-		if (KEY_PRESSED(KEY::RIGHT))
+		DirectionCheck();
+		switch (m_State)
 		{
-			RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
-		}
-		if (KEY_PRESSED(KEY::LEFT))
+		case PlayerState::IDLE:
 		{
-			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
-		}
+			m_Acc += DT;
+			Jump();
+			IdleRoutine();
 
-		if (RigidBody()->GetVelocity().y < 0)
-			ChangeState(PlayerState::FALL);
-		break;
-	}
-	case PlayerState::LAND:
-	{
-		CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
-		CPlayerManager::GetInst()->RecoverMP(5.f * DT);
-		m_Acc += DT;
-		if (m_Acc > m_Timer)
+			if (m_Acc > m_Timer)
+				ChangeState(PlayerState::IDLE2);
+			break;
+		}
+		case PlayerState::IDLE2:
+		{
+			IdleRoutine();
+			if (Animator2D()->IsFinished())
+				ChangeState(PlayerState::IDLE);
+			break;
+		}
+		case PlayerState::JUMP:
+		{
+			CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
+			CPlayerManager::GetInst()->RecoverMP(5.f * DT);
+			Jump();
+			if (KEY_PRESSED(KEY::RIGHT))
+			{
+				RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
+			}
+			if (KEY_PRESSED(KEY::LEFT))
+			{
+				RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
+			}
+
+			if (KEY_TAP(KEY::S))
+			{
+				ChangeState(PlayerState::ATTACK1);
+			}
+			else if (KEY_TAP(KEY::D))
+			{
+				ChangeState(PlayerState::SHOOT);
+			}
+
+			if (RigidBody()->GetVelocity().y < 0)
+				ChangeState(PlayerState::FALL);
+			break;
+		}
+		case PlayerState::DOUBLEJUMP:
+		{
+			CPlayerManager::GetInst()->RecoverMP(5.f * DT);
+			if (KEY_PRESSED(KEY::RIGHT))
+			{
+				RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
+			}
+			if (KEY_PRESSED(KEY::LEFT))
+			{
+				RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
+			}
+
+			if (RigidBody()->GetVelocity().y < 0)
+				ChangeState(PlayerState::FALL);
+			break;
+		}
+		case PlayerState::LAND:
+		{
+			CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
+			CPlayerManager::GetInst()->RecoverMP(5.f * DT);
+			m_Acc += DT;
+			if (m_Acc > m_Timer)
+			{
+				if (Animator2D()->IsFinished())
+					ChangeState(PlayerState::IDLE);
+			}
+
+			break;
+		}
+		case PlayerState::RUN:
+		{
+			CPlayerManager::GetInst()->RecoverMP(5.f * DT);
+			Jump();
+			CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
+
+			if (KEY_PRESSED(KEY::RIGHT) && KEY_PRESSED(KEY::LEFT))
+				break;
+
+			if (KEY_PRESSED(KEY::LSHIFT))
+			{
+				const std::shared_ptr<PlayerStatus>& stat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+				if (stat.get()->Stamina >= 40.f)
+				{
+					ChangeState(PlayerState::SPRINT);
+					break;
+				}
+			}
+
+			else if (KEY_TAP(KEY::D))
+			{
+				ChangeState(PlayerState::SHOOT);
+			}
+			else if (KEY_TAP(KEY::S))
+			{
+				ChangeState(PlayerState::ATTACK1);
+			}
+			if (KEY_PRESSED(KEY::RIGHT))
+			{
+				RigidBody()->AddForce(Vec2(m_Speed * 10.0f, m_Speed * 10.f));
+			}
+			else if (KEY_PRESSED(KEY::LEFT))
+			{
+				RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, -m_Speed * 10.f));
+			}
+
+			if (KEY_RELEASED(KEY::LEFT) || KEY_RELEASED(KEY::RIGHT))
+			{
+				ChangeState(PlayerState::BRAKE);
+			}
+			else if (KEY_PRESSED(KEY::Q))
+			{
+				ChangeState(PlayerState::ROLL);
+			}
+			break;
+		}
+		case PlayerState::ROLL:
+		{
+			CPlayerManager::GetInst()->RecoverMP(5.f * DT);
+			if (Animator2D()->IsFinished())
+				ChangeState(PlayerState::IDLE);
+			break;
+		}
+		case PlayerState::BRAKE:
+		{
+			CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
+			CPlayerManager::GetInst()->RecoverMP(5.f * DT);
+			if (Animator2D()->IsFinished())
+				ChangeState(PlayerState::IDLE);
+			break;
+		}
+		case PlayerState::FALL:
+		{
+			CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
+			CPlayerManager::GetInst()->RecoverMP(5.f * DT);
+			if (KEY_PRESSED(KEY::RIGHT))
+			{
+				RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
+			}
+			else if (KEY_PRESSED(KEY::LEFT))
+			{
+				RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
+			}
+
+			if (KEY_TAP(KEY::S))
+			{
+				ChangeState(PlayerState::ATTACK1);
+			}
+			else if (KEY_TAP(KEY::D))
+			{
+				ChangeState(PlayerState::SHOOT);
+			}
+			break;
+		}
+		case PlayerState::HEAL:
 		{
 			if (Animator2D()->IsFinished())
 				ChangeState(PlayerState::IDLE);
-		}
-		
-		break;
-	}
-	case PlayerState::RUN:
-	{
-		CPlayerManager::GetInst()->RecoverMP(5.f * DT);
-		Jump();
-		CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
-
-		if (KEY_PRESSED(KEY::RIGHT) && KEY_PRESSED(KEY::LEFT))
 			break;
-
-		if (KEY_PRESSED(KEY::LSHIFT))
+		}
+		case PlayerState::DEAD:
 		{
-			const std::shared_ptr<PlayerStatus>& stat = CPlayerManager::GetInst()->GetPlayerStatusRef();
-			if (stat.get()->Stamina >= 40.f)
+			tRenderText tText = {};
+			tText.Detail = L"ðŸ’€ ì“°ëŸ¬ì¡ŒìŠµë‹ˆë‹¤... ðŸ’€";
+			tText.FontSize = 30.f;
+			tText.Pos = Vec2(550.f, 300.f);
+			tText.RGBA = FONT_RGBA(255, 0, 0, 255);
+			CRenderMgr::GetInst()->AddRenderText(tText);
+
+			tRenderText tText2 = {};
+			tText2.Detail = L"[M]";
+			tText2.FontSize = 40.f;
+			tText2.Pos = Vec2(560.f, 335.f);
+			tText2.RGBA = FONT_RGBA(255, 255, 0, 255);
+			CRenderMgr::GetInst()->AddRenderText(tText2);
+
+			tRenderText tText3 = {};
+			tText3.Detail = L"ì„ ëˆŒëŸ¬ ë¶€í™œ";
+			tText3.FontSize = 20.f;
+			tText3.Pos = Vec2(605.f, 350.f);
+			tText3.RGBA = FONT_RGBA(222, 222, 222, 255);
+			CRenderMgr::GetInst()->AddRenderText(tText3);
+
+			if (KEY_TAP(KEY::M))
 			{
-				ChangeState(PlayerState::SPRINT);
+#ifdef _DEBUG
+				Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+				pInspector->SetTargetObject(nullptr);
+				pInspector->SetTargetAsset(nullptr);
+#endif
+				CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\KohoHouseTEST.lv");
+				CPlayerManager::GetInst()->SetNextPos(Vec3(-20.83f, -290.f, 1.8f));
+				CPlayerManager::GetInst()->SetNextCamPos(Vec3(-64.4, 43.5f, 0.f));
+				ChangeLevel(pLoadedLevel, LEVEL_STATE::PLAY);
+
+				CPlayerManager::GetInst()->Recover(600.f);
+			}
+			break;
+		}
+		case PlayerState::SPRINT:
+		{
+			CPlayerManager::GetInst()->RecoverMP(5.f * DT);
+			Jump();
+			CPlayerManager::GetInst()->UseStamina(20.f * DT);
+
+			const std::shared_ptr<PlayerStatus>& stat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+			if (stat.get()->Stamina <= 10.f)
+			{
+				ChangeState(PlayerState::RUN);
 				break;
 			}
-		}
 
-		else if (KEY_TAP(KEY::D))
-		{
-			ChangeState(PlayerState::SHOOT);
-		}
-		else if (KEY_TAP(KEY::S))
-		{
-			ChangeState(PlayerState::ATTACK1);
-		}
-		if (KEY_PRESSED(KEY::RIGHT))
-		{
-			RigidBody()->AddForce(Vec2(m_Speed * 10.0f, m_Speed * 10.f));
-		}
-		else if (KEY_PRESSED(KEY::LEFT))
-		{
-			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, -m_Speed * 10.f));
-		}
+			if (KEY_PRESSED(KEY::RIGHT))
+			{
+				RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
+			}
+			else if (KEY_PRESSED(KEY::LEFT))
+			{
+				RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
+			}
 
-		if (KEY_RELEASED(KEY::LEFT) || KEY_RELEASED(KEY::RIGHT))
-		{
-			ChangeState(PlayerState::BRAKE);
-		}
-		else if (KEY_PRESSED(KEY::Q))
-		{
-			ChangeState(PlayerState::ROLL);
-		}
-		break;
-	}
-	case PlayerState::ROLL:
-	{
-		CPlayerManager::GetInst()->RecoverMP(5.f * DT);
-		if (Animator2D()->IsFinished())
-			ChangeState(PlayerState::IDLE);
-		break;
-	}
-	case PlayerState::BRAKE:
-	{
-		CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
-		CPlayerManager::GetInst()->RecoverMP(5.f * DT);
-		if (Animator2D()->IsFinished())
-			ChangeState(PlayerState::IDLE);
-		break;
-	}
-	case PlayerState::FALL:
-	{
-		CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
-		CPlayerManager::GetInst()->RecoverMP(5.f * DT);
-		if (KEY_PRESSED(KEY::RIGHT))
-		{
-			RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
-		}
-		else if (KEY_PRESSED(KEY::LEFT))
-		{
-			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
-		}
+			if (KEY_RELEASED(KEY::LSHIFT))
+			{
+				if ((KEY_RELEASED(KEY::LSHIFT) && KEY_PRESSED(KEY::LEFT)) ||
+					(KEY_RELEASED(KEY::LSHIFT) && KEY_PRESSED(KEY::RIGHT)))
+					ChangeState(PlayerState::RUN);
+				else
+					ChangeState(PlayerState::IDLE);
+			}
 
-		if (KEY_TAP(KEY::S))
-		{
-			ChangeState(PlayerState::ATTACK1);
-		}
-		else if (KEY_TAP(KEY::D))
-		{
-			ChangeState(PlayerState::SHOOT);
-		}
-		break;
-	}
-	case PlayerState::HEAL:
-	{
-		if (Animator2D()->IsFinished())
-			ChangeState(PlayerState::IDLE);
-		break;
-	}
-	case PlayerState::DEAD:
-	{
-		break;
-	}
-	case PlayerState::SPRINT:
-	{
-		CPlayerManager::GetInst()->RecoverMP(5.f * DT);
-		Jump();
-		CPlayerManager::GetInst()->UseStamina(20.f * DT);
+			if (KEY_RELEASED(KEY::LSHIFT) && (KEY_RELEASED(KEY::LEFT) && KEY_RELEASED(KEY::RIGHT)))
+			{
+				ChangeState(PlayerState::BRAKE);
+			}
 
-		const std::shared_ptr<PlayerStatus>& stat = CPlayerManager::GetInst()->GetPlayerStatusRef();
-		if (stat.get()->Stamina <= 10.f)
-		{
-			ChangeState(PlayerState::RUN);
+			if (!RigidBody()->IsGround())
+				ChangeState(PlayerState::JUMP);
 			break;
 		}
-
-		if (KEY_PRESSED(KEY::RIGHT))
+		case PlayerState::ATTACK1:
 		{
-			RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
-		}
-		else if (KEY_PRESSED(KEY::LEFT))
-		{
-			RigidBody()->AddForce(Vec2(-m_Speed * 10.0f, 0.f));
-		}
-
-		if (KEY_RELEASED(KEY::LSHIFT))
-		{
-			if ((KEY_RELEASED(KEY::LSHIFT) && KEY_PRESSED(KEY::LEFT)) ||
-				(KEY_RELEASED(KEY::LSHIFT) && KEY_PRESSED(KEY::RIGHT)))
-				ChangeState(PlayerState::RUN);
-			else
-				ChangeState(PlayerState::IDLE);
-		}
-
-		if (KEY_RELEASED(KEY::LSHIFT) && (KEY_RELEASED(KEY::LEFT) && KEY_RELEASED(KEY::RIGHT)))
-		{
-			ChangeState(PlayerState::BRAKE);
-		}
-
-		if (!RigidBody()->IsGround())
-			ChangeState(PlayerState::JUMP);
-		break;
-	}
-	case PlayerState::ATTACK1:
-	{
-		if (Animator2D()->IsFinished())
-		{
-			ChangeState(PlayerState::IDLE);
-		}
-		break;
-	}
-	case PlayerState::ATTACK2:
-	{
-		if (Animator2D()->IsFinished())
-		{
-			ChangeState(PlayerState::IDLE);
-		}
-		break;
-	}
-	case PlayerState::ATTACK3:
-	{
-		if (Animator2D()->IsFinished())
-		{
-			ChangeState(PlayerState::IDLE);
-		}
-		break;
-	}
-	case PlayerState::SHOOT:
-	{
-		if (Animator2D()->IsFinished())
-			ChangeState(PlayerState::IDLE);
-		else if (KEY_TAP(KEY::D))
-		{
-			ChangeState(PlayerState::SHOOT);
-		}
-		break;
-	}
-	case PlayerState::INTERACTION:
-	{
-		break;
-	}
-	case PlayerState::PET:
-	{
-		if (Animator2D()->IsFinished())
-		{
-			CGameObject* pLineth = CLevelMgr::GetInst()->FindObjectByName(L"Lineth");
-			if (pLineth != nullptr)
-			{
-				ChangeState(PlayerState::SURPRISED);
-			}
-			else
+			if (Animator2D()->IsFinished())
 			{
 				ChangeState(PlayerState::IDLE);
 			}
+			break;
 		}
-		break;
-	}
-	case PlayerState::SURPRISED:
-	{
-		Vec3& playerPos = Transform()->GetRelativePosRef();
-		const Vec3& pPlayerScale = Transform()->GetRelativeScaleRef();
-
-		if (pPlayerScale.x < 0)
-			playerPos.x += 50.f * DT;
-		else
-			playerPos.x -= 100.f * DT;
-
-		if (Animator2D()->IsFinished())
+		case PlayerState::ATTACK2:
 		{
-			ChangeState(PlayerState::INTERACTION);
+			if (Animator2D()->IsFinished())
+			{
+				ChangeState(PlayerState::IDLE);
+			}
+			break;
 		}
-		break;
-	}
-	case PlayerState::END:
-	{
-		break;
-	}
-	}
+		case PlayerState::ATTACK3:
+		{
+			if (Animator2D()->IsFinished())
+			{
+				ChangeState(PlayerState::IDLE);
+			}
+			break;
+		}
+		case PlayerState::SHOOT:
+		{
+			if (Animator2D()->IsFinished())
+				ChangeState(PlayerState::IDLE);
+			else if (KEY_TAP(KEY::D))
+			{
+				ChangeState(PlayerState::SHOOT);
+			}
+			break;
+		}
+		case PlayerState::INTERACTION:
+		{
+			break;
+		}
+		case PlayerState::PET:
+		{
+			if (Animator2D()->IsFinished())
+			{
+				CGameObject* pLineth = CLevelMgr::GetInst()->FindObjectByName(L"Lineth");
+				if (pLineth != nullptr)
+				{
+					ChangeState(PlayerState::SURPRISED);
+				}
+				else
+				{
+					ChangeState(PlayerState::IDLE);
+				}
+			}
+			break;
+		}
+		case PlayerState::SURPRISED:
+		{
+			Vec3& playerPos = Transform()->GetRelativePosRef();
+			const Vec3& pPlayerScale = Transform()->GetRelativeScaleRef();
 
-	const std::shared_ptr<PlayerStatus>& playerStat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+			if (pPlayerScale.x < 0)
+				playerPos.x += 50.f * DT;
+			else
+				playerPos.x -= 100.f * DT;
 
-	wstring HP(std::to_wstring(static_cast<int>(playerStat.get()->HP)));
-	wstring maxHP(std::to_wstring(static_cast<int>(playerStat.get()->maxHP)));
-	wstring MP(std::to_wstring(static_cast<int>(playerStat.get()->MP)));
-	wstring maxMP(std::to_wstring(static_cast<int>(playerStat.get()->maxMP)));
+			if (Animator2D()->IsFinished())
+			{
+				ChangeState(PlayerState::INTERACTION);
+			}
+			break;
+		}
+		case PlayerState::END:
+		{
+			break;
+		}
+		}
+
+		const std::shared_ptr<PlayerStatus>& playerStat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+
+		wstring HP(std::to_wstring(static_cast<int>(playerStat.get()->HP)));
+		wstring maxHP(std::to_wstring(static_cast<int>(playerStat.get()->maxHP)));
+		wstring MP(std::to_wstring(static_cast<int>(playerStat.get()->MP)));
+		wstring maxMP(std::to_wstring(static_cast<int>(playerStat.get()->maxMP)));
+
+		tRenderText HPinfo = {};
+		HPinfo.Detail = HP + L" / " + maxHP;
+		HPinfo.Pos = Vec2(150.f, 111.f);
+		HPinfo.FontSize = 25.f;
+		HPinfo.RGBA = FONT_RGBA(222, 222, 222, 255);
+
+		tRenderText MPinfo = {};
+		MPinfo.Detail = MP + L" / " + maxMP;
+		MPinfo.Pos = Vec2(160.f, 148.f);
+		MPinfo.FontSize = 25.f;
+		MPinfo.RGBA = FONT_RGBA(222, 222, 222, 255);
+
+		CRenderMgr::GetInst()->AddRenderText(HPinfo);
+		CRenderMgr::GetInst()->AddRenderText(MPinfo);
+	}
 	
-	tRenderText HPinfo = {};
-	HPinfo.Detail = HP + L" / " + maxHP;
-	HPinfo.Pos = Vec2(150.f, 111.f);
-	HPinfo.FontSize = 25.f;
-	HPinfo.RGBA = FONT_RGBA(222, 222, 222, 255);
-
-	tRenderText MPinfo = {};
-	MPinfo.Detail = MP + L" / " + maxMP;
-	MPinfo.Pos = Vec2(160.f, 148.f);
-	MPinfo.FontSize = 25.f;
-	MPinfo.RGBA = FONT_RGBA(222, 222, 222, 255);
-
-	CRenderMgr::GetInst()->AddRenderText(HPinfo);
-	CRenderMgr::GetInst()->AddRenderText(MPinfo);
 }
 #pragma endregion **** UPDATE STATE ****
 
@@ -520,11 +585,11 @@ void CPlayerScript::BeginState(PlayerState _State)
 		OBJECT_DIR dir = Transform()->GetObjectDir();
 		if (dir == OBJECT_DIR::RIGHT)
 		{
-			m_AIR->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = true;
+			m_AIR->ParticleSystem()->SetBurst(true);
 		}
 		else
 		{
-			m_AIL->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = true;
+			m_AIL->ParticleSystem()->SetBurst(true);
 		}
 		break;
 	}
@@ -533,6 +598,8 @@ void CPlayerScript::BeginState(PlayerState _State)
 		m_Acc = 0.f;
 		m_Timer = 0.15f;
 		Animator2D()->Play(L"Momo_Land", 10.0f, false);
+		
+		PLAY_EFFECT(m_LandSound);
 		break;
 	}
 	case PlayerState::RUN:
@@ -586,12 +653,15 @@ void CPlayerScript::BeginState(PlayerState _State)
 			MeshRender()->GetDynamicMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_3, Vec4(0.f, 0.f, 0.f, 0.f));
 			m_FlickerCount = 0;
 		}
+
+		PLAY_EFFECT(m_HealSound);
 		m_Healed = true;
 		break;
 	}
 	case PlayerState::DEAD:
 	{
 		Animator2D()->Play(L"Momo_Die", 14.0f, false);
+		PLAY_EFFECT(CAssetMgr::GetInst()->FindAsset<CSound>(L"Death"));
 		break;
 	}
 	case PlayerState::SPRINT:
@@ -831,8 +901,8 @@ void CPlayerScript::EndState(PlayerState _State)
 	}
 	case PlayerState::DOUBLEJUMP:
 	{
-		m_AIR->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = false;
-		m_AIL->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = false;
+		m_AIR->ParticleSystem()->SetBurst(false);
+		m_AIL->ParticleSystem()->SetBurst(false);
 		break;
 	}
 	case PlayerState::LAND:
@@ -951,7 +1021,7 @@ void CPlayerScript::SetDamaged(float _Damage)
 		return;
 
 	if (m_Invincible)
-	{// È¿°ú
+	{// íš¨ê³¼
 		return;
 	}
 	CPlayerManager::GetInst()->TakeDamage(_Damage);
@@ -1002,6 +1072,32 @@ void CPlayerScript::Dead()
 	{
 		ChangeState(PlayerState::DEAD);
 	}
+}
+
+void CPlayerScript::OpenMenu()
+{
+	m_Menu->Activate();
+	CCamera* mainCam = CRenderMgr::GetInst()->GetCamera((UINT)CameraPriority::Main);
+	for (UINT i = 0; i < 13; ++i)
+	{
+		mainCam->SetLayer(i, false);
+	}
+
+	mainCam->SetLayer(13, true);
+	m_MenuOpened = true;
+}
+
+void CPlayerScript::CloseMenu()
+{
+	m_Menu->Deactivate();
+	CCamera* mainCam = CRenderMgr::GetInst()->GetCamera((UINT)CameraPriority::Main);
+	for (UINT i = 0; i < 13; ++i)
+	{
+		mainCam->SetLayer(i, true);
+	}
+
+	mainCam->SetLayer(13, false);
+	m_MenuOpened = false;
 }
 
 void CPlayerScript::IdleRoutine()

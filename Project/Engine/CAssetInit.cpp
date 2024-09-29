@@ -496,8 +496,7 @@ void CAssetMgr::LoadSound()
 	Load<CSound>(L"TitleSparkle", L"sound\\TitleSparkle.wav");
 	Load<CSound>(L"Transport", L"sound\\Transport.wav");
 	Load<CSound>(L"UITick", L"sound\\UITick.wav");
-	Load<CSound>(L"UICancel", L"sound\\UICancel.wav");
-	
+	Load<CSound>(L"UIClose", L"sound\\UIClose.wav");
 
 	Load<CSound>(L"DemonIntro", L"sound\\DemonIntro.wav");
 	Load<CSound>(L"Demon", L"sound\\Demon.wav");
@@ -519,4 +518,7 @@ void CAssetMgr::LoadSound()
 	Load<CSound>(L"Leaf12", L"sound\\Leaf12.wav");
 	Load<CSound>(L"Leaf3", L"sound\\Leaf3.wav");
 	Load<CSound>(L"PerfectDodge", L"sound\\PerfectDodge.wav");
+	Load<CSound>(L"Heal", L"sound\\Heal.wav");
+	Load<CSound>(L"Land", L"sound\\Land.wav");
+	Load<CSound>(L"Death", L"sound\\Death.wav");
 }

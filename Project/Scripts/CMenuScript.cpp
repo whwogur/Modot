@@ -21,17 +21,15 @@ CMenuScript::CMenuScript()
 	AddScriptParam(SCRIPT_PARAM::TEXTURE, u8"텍스처", &m_OptionsTex);
 
 	m_TickSound = CAssetMgr::GetInst()->FindAsset<CSound>(L"UITick");
-	m_CancelSound = CAssetMgr::GetInst()->FindAsset<CSound>(L"UICancel");
+	m_CloseSound = CAssetMgr::GetInst()->FindAsset<CSound>(L"UIClose");
 }
 
 void CMenuScript::Begin()
 {	
 	MeshRender()->GetDynamicMaterial();
-	m_MenuKnob = CLevelMgr::GetInst()->FindObjectByName(L"MenuKnob");
 	
-	Activate();
-	Ptr<CSound> test = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage");
-	CPlayerManager::GetInst()->PlayBGM(test);
+	/*Ptr<CSound> test = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage");
+	CPlayerManager::GetInst()->PlayBGM(test);*/
 }
 
 void CMenuScript::Tick()
@@ -94,19 +92,19 @@ void CMenuScript::Tick()
 			tRenderText AdLog_playtime = {};
 			AdLog_playtime.Detail = szBuff;
 			AdLog_playtime.FontSize = 36.f;
-			AdLog_playtime.Pos = Vec2(470, 225);
+			AdLog_playtime.Pos = Vec2(470, 210);
 			AdLog_playtime.RGBA = FONT_RGBA(222, 222, 222, 255);
 
 			tRenderText AdLog_kills = {};
 			AdLog_kills.Detail = L"처치한 적: " + kills;
 			AdLog_kills.FontSize = 36.f;
-			AdLog_kills.Pos = Vec2(470, 288);
+			AdLog_kills.Pos = Vec2(470, 273);
 			AdLog_kills.RGBA = FONT_RGBA(222, 222, 222, 255);
 
 			tRenderText AdLog_cats = {};
 			AdLog_cats.Detail = L"쓰다듬은 고양이: " + petcat;
 			AdLog_cats.FontSize = 36.f;
-			AdLog_cats.Pos = Vec2(470, 348);
+			AdLog_cats.Pos = Vec2(470, 333);
 			AdLog_cats.RGBA = FONT_RGBA(222, 222, 222, 255);
 
 			CRenderMgr::GetInst()->AddRenderText(AdLog_playtime);
@@ -264,8 +262,9 @@ void CMenuScript::Tick()
 			else if (KEY_TAP(KEY::S))
 			{
 				m_ItemSelected = false;
+				m_ItemIdx = (int)OPTIONS::NONE;
 
-				PLAY_EFFECT(m_CancelSound);
+				PLAY_EFFECT(m_CloseSound);
 			}
 			else if (KEY_TAP(KEY::A))
 			{
@@ -394,19 +393,6 @@ void CMenuScript::Tick()
 			break;
 		}
 		}
-
-
-		Vec3& menuKnobPos = m_MenuKnob->Transform()->GetRelativePosRef();
-
-		if (menuKnobPos.x != m_MenuKnobPos[(UINT)m_CurType].x &&
-			menuKnobPos.y != m_MenuKnobPos[(UINT)m_CurType].y)
-		{
-			float velX(m_MenuKnobPos[(UINT)m_CurType].x - menuKnobPos.x);
-			float velY(m_MenuKnobPos[(UINT)m_CurType].y - menuKnobPos.y);
-
-			menuKnobPos.x += velX * 50 * DT;
-			menuKnobPos.y += velY * 50 * DT;
-		}
 	}
 }
 
@@ -426,22 +412,14 @@ void CMenuScript::LoadFromFile(FILE* _File)
 
 void CMenuScript::Activate()
 {
-	CSigil* knobScript = static_cast<CSigil*>(m_MenuKnob->FindScript((UINT)SCRIPT_TYPE::SIGIL));
-	if (knobScript != nullptr)
-	{
-		knobScript->Activate();
-	}
+	PLAY_EFFECT(m_TickSound);
 	m_Active = true;
 	Reset();
 }
 
 void CMenuScript::Deactivate()
 {
-	CSigil* knobScript = static_cast<CSigil*>(m_MenuKnob->FindScript((UINT)SCRIPT_TYPE::SIGIL));
-	if (knobScript != nullptr)
-	{
-		knobScript->Activate();
-	}
+	PLAY_EFFECT(m_CloseSound);
 	m_Active = false;
 }
 

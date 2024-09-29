@@ -119,7 +119,7 @@ void CTitleSequence::Tick()
 					pInspector->SetTargetObject(nullptr);
 					pInspector->SetTargetAsset(nullptr);
 #endif
-					m_BGM->Stop();
+					CPlayerManager::GetInst()->StopCurBGM();
 					break;
 				}
 				case 1:

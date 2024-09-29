@@ -1,6 +1,8 @@
 #pragma once
 #include <Engine/CScript.h>
 
+class CMenuScript;
+
 enum class PlayerState
 {
     IDLE, IDLE2,
@@ -43,6 +45,8 @@ private:
     void Jump();
     void IdleRoutine();
     void Dead();
+    void OpenMenu();
+    void CloseMenu();
 private:
     Ptr<CSound>     m_ShootArrowSound;
     Ptr<CSound>     m_JumpSound;
@@ -51,6 +55,8 @@ private:
     Ptr<CSound>     m_RollSound;
     Ptr<CSound>     m_SprintStartSound;
     Ptr<CSound>     m_PerfectDodge;
+    Ptr<CSound>     m_HealSound;
+    Ptr<CSound>     m_LandSound;
 
     float           m_Speed;
     PlayerState     m_State;
@@ -76,4 +82,7 @@ private:
     CGameObject*    m_AIR = nullptr;
     CGameObject*    m_DodgeSpark = nullptr;
     CGameObject*    m_DodgeSigil = nullptr;
+    CMenuScript*    m_Menu;
+
+    bool            m_MenuOpened = false;
 };

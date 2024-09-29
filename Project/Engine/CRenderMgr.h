@@ -10,7 +10,6 @@ class CStructuredBuffer;
 enum class CameraPriority
 {
     Main = 0,
-    Sub,
     Menu,
 };
 
@@ -44,6 +43,11 @@ public:
 
     CCamera* GetEditorCamera() { return m_EditorCamera; }
 
+    CCamera* GetCamera(UINT _Idx)
+    {
+        if (m_vecCam[_Idx] != nullptr)
+            return m_vecCam[_Idx];
+    }
     bool& GetDebugRenderRef() { return m_DebugRender; }
 public:
     void Init();

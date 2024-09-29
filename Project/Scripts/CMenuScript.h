@@ -46,7 +46,7 @@ public:
     void Reset();
 private:
     Ptr<CSound>         m_TickSound = nullptr;
-    Ptr<CSound>         m_CancelSound = nullptr;
+    Ptr<CSound>         m_CloseSound = nullptr;
 
     Ptr<CTexture>       m_AdlogTex;
     Ptr<CTexture>       m_MemoTex;
@@ -54,7 +54,6 @@ private:
 
     MENU_TYPE           m_CurType = MENU_TYPE::ADLOG;
     
-    CGameObject*        m_MenuKnob;
     Vec3                m_MenuKnobPos[(UINT)MENU_TYPE::END] = {Vec3(-589.5f, 492.f, 2.f), Vec3(-78.f, 492.f, 2.f), Vec3(550.5f, 492.f, 2.f)};
 
     CGameObject*        m_ItemKnob;

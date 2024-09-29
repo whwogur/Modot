@@ -216,7 +216,7 @@ void CNPCBehavior::Tick()
 					CRenderMgr::GetInst()->AddRenderText(tText);
 
 					tRenderText tText2 = {};
-					tText2.Detail = L"이녀석이 공격을 시전하기 전\n 모이는 기의 색깔을\n관찰해보세요\"";
+					tText2.Detail = L"\"이녀석이 공격을 시전하기 전\n모이는 이펙트 색깔을\n관찰해보세요\"";
 					tText2.FontSize = 20.f;
 					tText2.Pos = Vec2(680, 480);
 					tText2.RGBA = FONT_RGBA(222, 222, 222, 255);
@@ -680,8 +680,7 @@ void CNPCBehavior::Tick()
 							CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\DemonBossTEST.lv");
 							ChangeLevel(pLevel, LEVEL_STATE::PLAY);
 
-							Ptr<CSound> curBGM = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage");
-							curBGM->Stop();
+							CPlayerManager::GetInst()->StopCurBGM();
 							break;
 						}
 						case 1:
@@ -691,8 +690,7 @@ void CNPCBehavior::Tick()
 							CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\LinethTEST.lv");
 							ChangeLevel(pLevel, LEVEL_STATE::PLAY);
 
-							Ptr<CSound> curBGM = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage");
-							curBGM->Stop();
+							CPlayerManager::GetInst()->StopCurBGM();
 							break;
 						}
 						}
@@ -705,6 +703,72 @@ void CNPCBehavior::Tick()
 			}
 			}
 
+			break;
+		}
+		case NPCType::BOY:
+		{
+			tRenderText tText = {};
+			tText.Detail = L"\"일어나셨군요!!\n마을로 나가시겠습니까?\" \n...▼";
+			tText.FontSize = 20.f;
+			tText.Pos = Vec2(730, 450);
+			tText.RGBA = FONT_RGBA(222, 222, 222, 255);
+			CRenderMgr::GetInst()->AddRenderText(tText);
+
+			tRenderText tText2 = {};
+			tText2.Detail = L"☾ 나간다";
+			tText2.FontSize = 18.f;
+			tText2.Pos = Vec2(730, 490);
+			tText2.RGBA = m_SelectIdx == 0 ? FONT_RGBA(111, 111, 255, 255) : FONT_RGBA(222, 222, 222, 255);
+			CRenderMgr::GetInst()->AddRenderText(tText2);
+
+			tRenderText tText3 = {};
+			tText3.Detail = L"☾ 머무른다";
+			tText3.FontSize = 18.f;
+			tText3.Pos = Vec2(730, 518);
+			tText3.RGBA = m_SelectIdx == 1 ? FONT_RGBA(111, 111, 255, 255) : FONT_RGBA(222, 222, 222, 255);
+			CRenderMgr::GetInst()->AddRenderText(tText3);
+
+			if (KEY_TAP(KEY::UP))
+			{
+				--m_SelectIdx;
+				if (m_SelectIdx < 0)
+					m_SelectIdx = 1;
+			}
+
+			if (KEY_TAP(KEY::DOWN))
+			{
+				++m_SelectIdx;
+				m_SelectIdx %= 2;
+			}
+
+			if (KEY_TAP(KEY::A))
+			{
+				
+				switch (m_SelectIdx)
+				{
+				case 0:
+				{
+#ifdef _DEBUG
+					Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+					pInspector->SetTargetObject(nullptr);
+					pInspector->SetTargetAsset(nullptr);
+#endif
+					CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\KohoVillageTEST.lv");
+					CPlayerManager::GetInst()->SetNextPos(Vec3(-20.83f, -150.94f, 1.8f));
+					CPlayerManager::GetInst()->SetNextCamPos(Vec3(-92.5, 83.f, 0.f));
+					ChangeLevel(pLoadedLevel, LEVEL_STATE::PLAY);
+
+					break;
+				}
+				case 1:
+				{
+					Animator2D()->Play(L"Boy_Idle", 1.f, true);
+					break;
+				}
+				}
+
+				Thaw();
+			}
 			break;
 		}
 		case NPCType::NONE:
@@ -826,6 +890,22 @@ void CNPCBehavior::Activate()
 	}
 	case NPCType::AFTERBOSS:
 	{
+		CGameObject* textBox = CLevelMgr::GetInst()->FindObjectByName(L"NPCTextBox");
+		if (textBox != nullptr)
+		{
+			CNPCUIScript* uiScript = static_cast<CNPCUIScript*>(textBox->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
+			if (uiScript != nullptr)
+			{
+				textBox->Transform()->SetRelativePos(Vec3(200.f, -150.f, 0));
+				textBox->Transform()->SetRelativeScale(Vec3(400.f, 200.f, 1.f));
+				uiScript->Activate();
+			}
+		}
+		break;
+	}
+	case NPCType::BOY:
+	{
+		Animator2D()->Play(L"Boy_Surprised", 11.f, true);
 		CGameObject* textBox = CLevelMgr::GetInst()->FindObjectByName(L"NPCTextBox");
 		if (textBox != nullptr)
 		{
