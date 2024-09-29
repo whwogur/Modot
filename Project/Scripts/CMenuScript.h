@@ -12,6 +12,13 @@ enum class MENU_TYPE
 enum class MEMO
 {
     STATDESC,
+    JUMP,
+    LEAF,
+    BOW,
+    HEAL,
+    ROLL,
+    BELL,
+    MAP,
     END,
 };
 

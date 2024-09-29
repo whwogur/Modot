@@ -27,9 +27,6 @@ CMenuScript::CMenuScript()
 void CMenuScript::Begin()
 {	
 	MeshRender()->GetDynamicMaterial();
-	
-	/*Ptr<CSound> test = CAssetMgr::GetInst()->FindAsset<CSound>(L"kohovillage");
-	CPlayerManager::GetInst()->PlayBGM(test);*/
 }
 
 void CMenuScript::Tick()
@@ -144,6 +141,128 @@ void CMenuScript::Tick()
 				PLAY_EFFECT(m_TickSound);
 			}
 			
+			tRenderText Memo_Stat = {};
+			Memo_Stat.Detail = L"체력, 마력 및 기력";
+			Memo_Stat.FontSize = 38.f;
+			Memo_Stat.Pos = Vec2(210, 175);
+			Memo_Stat.RGBA = m_ItemIdx == (int)MEMO::STATDESC ? FONT_RGBA(255, 255, 255, 255) : FONT_RGBA(155, 155, 155, 222);
+
+			tRenderText Memo_Jump = {};
+			Memo_Jump.Detail = L"점프";
+			Memo_Jump.FontSize = 38.f;
+			Memo_Jump.Pos = Vec2(210, 225);
+			Memo_Jump.RGBA = m_ItemIdx == (int)MEMO::JUMP ? FONT_RGBA(255, 255, 255, 255) : FONT_RGBA(155, 155, 155, 222);
+
+			tRenderText Memo_Leaf = {};
+			Memo_Leaf.Detail = L"신성한 나뭇잎";
+			Memo_Leaf.FontSize = 38.f;
+			Memo_Leaf.Pos = Vec2(210, 275);
+			Memo_Leaf.RGBA = m_ItemIdx == (int)MEMO::LEAF ? FONT_RGBA(255, 255, 255, 255) : FONT_RGBA(155, 155, 155, 222);
+
+			tRenderText Memo_Bow = {};
+			Memo_Bow.Detail = L"코호 활";
+			Memo_Bow.FontSize = 38.f;
+			Memo_Bow.Pos = Vec2(210, 325);
+			Memo_Bow.RGBA = m_ItemIdx == (int)MEMO::BOW ? FONT_RGBA(255, 255, 255, 255) : FONT_RGBA(155, 155, 155, 222);
+
+			tRenderText Memo_Heal = {};
+			Memo_Heal.Detail = L"치유의 종";
+			Memo_Heal.FontSize = 38.f;
+			Memo_Heal.Pos = Vec2(210, 375);
+			Memo_Heal.RGBA = m_ItemIdx == (int)MEMO::HEAL ? FONT_RGBA(255, 255, 255, 255) : FONT_RGBA(155, 155, 155, 222);
+
+			tRenderText Memo_Roll = {};
+			Memo_Roll.Detail = L"회피";
+			Memo_Roll.FontSize = 38.f;
+			Memo_Roll.Pos = Vec2(210, 425);
+			Memo_Roll.RGBA = m_ItemIdx == (int)MEMO::ROLL ? FONT_RGBA(255, 255, 255, 255) : FONT_RGBA(155, 155, 155, 222);
+
+			tRenderText Memo_Bell = {};
+			Memo_Bell.Detail = L"종의 사당";
+			Memo_Bell.FontSize = 38.f;
+			Memo_Bell.Pos = Vec2(210, 475);
+			Memo_Bell.RGBA = m_ItemIdx == (int)MEMO::BELL ? FONT_RGBA(255, 255, 255, 255) : FONT_RGBA(155, 155, 155, 222);
+
+			tRenderText Memo_Map = {};
+			Memo_Map.Detail = L"지도";
+			Memo_Map.FontSize = 38.f;
+			Memo_Map.Pos = Vec2(210, 535);
+			Memo_Map.RGBA = m_ItemIdx == (int)MEMO::MAP ? FONT_RGBA(255, 255, 255, 255) : FONT_RGBA(155, 155, 155, 222);
+
+			CRenderMgr::GetInst()->AddRenderText(Memo_Stat);
+			CRenderMgr::GetInst()->AddRenderText(Memo_Jump);
+			CRenderMgr::GetInst()->AddRenderText(Memo_Leaf);
+			CRenderMgr::GetInst()->AddRenderText(Memo_Bow);
+			CRenderMgr::GetInst()->AddRenderText(Memo_Heal);
+			CRenderMgr::GetInst()->AddRenderText(Memo_Roll);
+			CRenderMgr::GetInst()->AddRenderText(Memo_Bell);
+			CRenderMgr::GetInst()->AddRenderText(Memo_Map);
+
+			tRenderText Desc = {};
+			tRenderText Title = {};
+			switch (m_ItemIdx)
+			{
+			case (int)MEMO::STATDESC:
+			{
+				Title.Detail = L"체력, 마력 및 기력";
+				Desc.Detail = L"화면 우측 상단의 초록색 게이지는 체력으로, \n체력을 수치화한 숫자 역시 표시됩니다. 체력이 0이 되면 \n전투에서 패배하며 코호 마을의 한 소년의\n집으로 돌아갑니다.";
+				
+				break;
+			}
+			case (int)MEMO::JUMP:
+			{
+				Title.Detail = L"점프";
+				Desc.Detail = L"점프는 발판 위로 뛰어오르는 기본 동작입니다.\nA를 눌러 점프할 수 있으며 공중에서 한번 더 누를 시\n한번 더 뛰어오릅니다.";
+				break;
+			}
+			case (int)MEMO::LEAF:
+			{
+				Title.Detail = L"신성한 나뭇잎";
+				Desc.Detail = L"근접 공격 시 신성한 단풍잎의 힘을 사용합니다.\n공격 버튼을 연달아 누르면 콤보를 사용합니다.";
+				break;
+			}
+			case (int)MEMO::BOW:
+			{
+				Title.Detail = L"코호 활";
+				Desc.Detail = L"D를 누르면 멀리 떨어져 있는 적을 향해 활을 쏩니다.";
+				break;
+			}
+			case (int)MEMO::HEAL:
+			{
+				Title.Detail = L"치유의 종";
+				Desc.Detail = L"치유의 종은 울렸을 때 체력을 회복시키고\n상처를 치유해 주는.마법 유물입니다.\nE를 누르면 발동됩니다.";
+				break;
+			}
+			case (int)MEMO::ROLL:
+			{
+				Title.Detail = L"회피";
+				Desc.Detail = L"회피 구르기는 기력이 충분하기만 하면 언제든\n사용할 수 있는 중요한 능력입니다.\n사용 시 적과 대부분의 공격을 피해 없이\n통과할 수 있습니다.";
+				break;
+			}
+			case (int)MEMO::BELL:
+			{
+				Title.Detail = L"종의 사당";
+				Desc.Detail = L"원작에서는 신성한 종을 울려 생명력을 완전히 회복하고\n전투에서 패배 시 마지막으로 울린 종으로 돌아갑니다.\n하지만 여기서는 무슨 기능을 하는지 아무도 모릅니다.";
+				break;
+			}
+			case (int)MEMO::MAP:
+			{
+				Title.Detail = L"미니맵";
+				Desc.Detail = L"지도에서는 기존에 방문한 지역을 확인할 수 있으며,\n아직 발견하지 못한 보물이나 종의 사당 위치 등 다양한\n아이콘이 표시됩니다.";
+				break;
+			}
+			}
+
+			Desc.FontSize = 30.f;
+			Desc.Pos = Vec2(560, 300);
+			Desc.RGBA = FONT_RGBA(255, 255, 155, 222);
+
+			Title.FontSize = 36.f;
+			Title.Pos = Vec2(560, 200);
+			Title.RGBA = FONT_RGBA(255, 255, 0, 222);
+
+			CRenderMgr::GetInst()->AddRenderText(Desc);
+			CRenderMgr::GetInst()->AddRenderText(Title);
 
 			MeshRender()->GetDynamicMaterial()->SetTexParam(TEX_PARAM::TEX_0, m_MemoTex);
 			break;
@@ -281,6 +400,8 @@ void CMenuScript::Tick()
 #endif
 					CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\TitleTEST.lv");
 					ChangeLevel(pLevel, LEVEL_STATE::PLAY);
+
+					CPlayerManager::GetInst()->StopCurBGM();
 				}
 				else
 				{
@@ -355,7 +476,7 @@ void CMenuScript::Tick()
 
 			tRenderText generalVolInfo = {};
 			wchar_t genVolBuff[128] = {};
-			swprintf_s(genVolBuff, L"ᐊ %.1f ᐅ", gameStat.get()->GeneralVolume * 100.f);
+			swprintf_s(genVolBuff, L"ᐊ  %.1f  ᐅ", gameStat.get()->GeneralVolume * 100.f);
 			generalVolInfo.Detail = genVolBuff;
 			generalVolInfo.FontSize = 30.f;
 			generalVolInfo.Pos = Vec2(600, 230);
@@ -363,7 +484,7 @@ void CMenuScript::Tick()
 
 			tRenderText effectVolInfo = {};
 			wchar_t effVolBuff[128] = {};
-			swprintf_s(effVolBuff, L"ᐊ %.1f ᐅ", gameStat.get()->EffectVolume * 100.f);
+			swprintf_s(effVolBuff, L"ᐊ  %.1f  ᐅ", gameStat.get()->EffectVolume * 100.f);
 			effectVolInfo.Detail = effVolBuff;
 			effectVolInfo.FontSize = 30.f;
 			effectVolInfo.Pos = Vec2(600, 260);
@@ -371,7 +492,7 @@ void CMenuScript::Tick()
 
 			tRenderText bgmVolInfo = {};
 			wchar_t bgmVolBuff[128] = {};
-			swprintf_s(bgmVolBuff, L"ᐊ %.1f ᐅ", gameStat.get()->BGMVolume * 100.f);
+			swprintf_s(bgmVolBuff, L"ᐊ  %.1f  ᐅ", gameStat.get()->BGMVolume * 100.f);
 			bgmVolInfo.Detail = bgmVolBuff;
 			bgmVolInfo.FontSize = 30.f;
 			bgmVolInfo.Pos = Vec2(600, 290);

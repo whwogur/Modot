@@ -11,7 +11,7 @@ public:
 
 	float EffectVolume = 0.8f;
 	float BGMVolume = 0.6f;
-	float GeneralVolume = 1.f;
+	float GeneralVolume = 0.9f;
 	bool CameraShake = true;
 
 	Ptr<CSound> CurBGM = nullptr;
