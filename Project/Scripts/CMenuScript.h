@@ -23,6 +23,7 @@ enum class OPTIONS
     EFFECTVOLUME,
     BGMVOLUME,
     SAVECHANGES,
+    MAIN,
     END,
 };
 
@@ -44,6 +45,9 @@ public:
     void Deactivate();
     void Reset();
 private:
+    Ptr<CSound>         m_TickSound = nullptr;
+    Ptr<CSound>         m_CancelSound = nullptr;
+
     Ptr<CTexture>       m_AdlogTex;
     Ptr<CTexture>       m_MemoTex;
     Ptr<CTexture>       m_OptionsTex;

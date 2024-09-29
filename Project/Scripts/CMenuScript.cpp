@@ -5,6 +5,11 @@
 #include <Engine/CLevelMgr.h>
 #include <Engine/CTimeMgr.h>
 #include "CSigil.h"
+#ifdef _DEBUG
+#include "../Client/CEditorMgr.h"
+#include "../Client/Inspector.h"
+#endif
+#include "../Client/CLevelSaveLoad.h"
 
 
 CMenuScript::CMenuScript()
@@ -14,6 +19,9 @@ CMenuScript::CMenuScript()
 	AddScriptParam(SCRIPT_PARAM::TEXTURE, u8"텍스처", &m_AdlogTex);
 	AddScriptParam(SCRIPT_PARAM::TEXTURE, u8"텍스처", &m_MemoTex);
 	AddScriptParam(SCRIPT_PARAM::TEXTURE, u8"텍스처", &m_OptionsTex);
+
+	m_TickSound = CAssetMgr::GetInst()->FindAsset<CSound>(L"UITick");
+	m_CancelSound = CAssetMgr::GetInst()->FindAsset<CSound>(L"UICancel");
 }
 
 void CMenuScript::Begin()
@@ -57,10 +65,12 @@ void CMenuScript::Tick()
 			if (KEY_TAP(KEY::RIGHT))
 			{
 				m_CurType = MENU_TYPE::MEMO;
+				PLAY_EFFECT(m_TickSound);
 			}
 			else if (KEY_TAP(KEY::LEFT))
 			{
 				m_CurType = MENU_TYPE::OPTIONS;
+				PLAY_EFFECT(m_TickSound);
 			}
 
 			const std::shared_ptr<GameStatus>& gameStat = CPlayerManager::GetInst()->GetGameStatusRef();
@@ -109,10 +119,12 @@ void CMenuScript::Tick()
 			if (KEY_TAP(KEY::RIGHT))
 			{
 				m_CurType = MENU_TYPE::OPTIONS;
+				PLAY_EFFECT(m_TickSound);
 			}
 			else if (KEY_TAP(KEY::LEFT))
 			{
 				m_CurType = MENU_TYPE::ADLOG;
+				PLAY_EFFECT(m_TickSound);
 			}
 
 			if (KEY_TAP(KEY::UP))
@@ -120,12 +132,16 @@ void CMenuScript::Tick()
 				--m_ItemIdx;
 				if (m_ItemIdx < (int)MEMO::STATDESC)
 					m_ItemIdx = (int)MEMO::END - 1;
+
+				PLAY_EFFECT(m_TickSound);
 			}
 			else if (KEY_TAP(KEY::DOWN))
 			{
 				++m_ItemIdx;
 				if (m_ItemIdx >= (int)MEMO::END)
 					m_ItemIdx = (int)MEMO::STATDESC;
+
+				PLAY_EFFECT(m_TickSound);
 			}
 			
 
@@ -142,6 +158,7 @@ void CMenuScript::Tick()
 				{
 					m_CurType = MENU_TYPE::ADLOG;
 					Reset();
+					PLAY_EFFECT(m_TickSound);
 				}
 				else
 				{
@@ -180,8 +197,14 @@ void CMenuScript::Tick()
 					{
 						break;
 					}
+					case (int)OPTIONS::MAIN:
+					{
+						break;
+					}
 					}
 				}
+
+				PLAY_EFFECT(m_TickSound);
 			}
 			else if (KEY_TAP(KEY::LEFT))
 			{
@@ -229,14 +252,37 @@ void CMenuScript::Tick()
 					}
 					}
 				}
+
+				PLAY_EFFECT(m_TickSound);
 			}
 			else if (KEY_TAP(KEY::S))
 			{
 				m_ItemSelected = false;
+
+				PLAY_EFFECT(m_CancelSound);
 			}
 			else if (KEY_TAP(KEY::A))
 			{
-				m_ItemSelected = true;
+				if (m_ItemIdx == (int)OPTIONS::SAVECHANGES)
+				{
+
+				}
+				else if (m_ItemIdx == (int)OPTIONS::MAIN)
+				{
+#ifdef _DEBUG
+					Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+					pInspector->SetTargetObject(nullptr);
+					pInspector->SetTargetAsset(nullptr);
+#endif
+					CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\TitleTEST.lv");
+					ChangeLevel(pLevel, LEVEL_STATE::PLAY);
+				}
+				else
+				{
+					m_ItemSelected = true;
+				}
+
+				PLAY_EFFECT(m_TickSound);
 			}
 
 			if (KEY_TAP(KEY::UP))
@@ -244,12 +290,16 @@ void CMenuScript::Tick()
 				--m_ItemIdx;
 				if (m_ItemIdx < (int)OPTIONS::CAMERASHAKE)
 					m_ItemIdx = (int)OPTIONS::END;
+
+				PLAY_EFFECT(m_TickSound);
 			}
 			else if (KEY_TAP(KEY::DOWN))
 			{
 				++m_ItemIdx;
-				if (m_ItemIdx > (int)OPTIONS::END)
+				if (m_ItemIdx >= (int)OPTIONS::END)
 					m_ItemIdx = (int)OPTIONS::CAMERASHAKE;
+
+				PLAY_EFFECT(m_TickSound);
 			}
 
 			// 아이템들
@@ -282,6 +332,12 @@ void CMenuScript::Tick()
 			saveChanges.FontSize = 30.f;
 			saveChanges.Pos = m_ItemIdx == (int)OPTIONS::SAVECHANGES ? Vec2(430, 320) : Vec2(400, 320);
 			saveChanges.RGBA = m_ItemIdx == (int)OPTIONS::SAVECHANGES ? FONT_RGBA(222, 222, 111, 255) : FONT_RGBA(222, 222, 222, 255);
+
+			tRenderText toMain = {};
+			toMain.Detail = L"메인으로";
+			toMain.FontSize = 30.f;
+			toMain.Pos = m_ItemIdx == (int)OPTIONS::MAIN ? Vec2(430, 350) : Vec2(400, 350);
+			toMain.RGBA = m_ItemIdx == (int)OPTIONS::MAIN ? FONT_RGBA(222, 222, 111, 255) : FONT_RGBA(222, 222, 222, 255);
 
 
 			
@@ -321,6 +377,7 @@ void CMenuScript::Tick()
 			CRenderMgr::GetInst()->AddRenderText(effectVol);
 			CRenderMgr::GetInst()->AddRenderText(bgmVol);
 			CRenderMgr::GetInst()->AddRenderText(saveChanges);
+			CRenderMgr::GetInst()->AddRenderText(toMain);
 
 			CRenderMgr::GetInst()->AddRenderText(cameraShakeInfo);
 			CRenderMgr::GetInst()->AddRenderText(generalVolInfo);

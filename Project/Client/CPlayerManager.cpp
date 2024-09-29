@@ -19,12 +19,14 @@ void CPlayerManager::PlayBGM(Ptr<CSound> _BGM)
 
 void CPlayerManager::StopCurBGM()
 {
-	m_GameStatus.get()->CurBGM->Stop();
+	if (m_GameStatus.get()->CurBGM != nullptr)
+		m_GameStatus.get()->CurBGM->Stop();
 }
 
 void CPlayerManager::ResumeBGM()
 {
-	m_GameStatus.get()->CurBGM->Play(0, m_GameStatus.get()->BGMVolume * m_GameStatus.get()->GeneralVolume, false);
+	if (m_GameStatus.get()->CurBGM != nullptr)
+		m_GameStatus.get()->CurBGM->Play(0, m_GameStatus.get()->BGMVolume * m_GameStatus.get()->GeneralVolume, false);
 }
 
 void CPlayerManager::PlayEffect(Ptr<CSound> _Sound)

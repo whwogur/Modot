@@ -766,6 +766,9 @@ void CPlayerScript::BeginState(PlayerState _State)
 	{
 		Animator2D()->Play(L"Momo_Pet", 10.0f, false);
 		Animator2D()->Reset();
+
+		std::shared_ptr<GameStatus>& gameStat = CPlayerManager::GetInst()->GetGameStatusRef();
+		gameStat.get()->PetCat += 1;
 		break;
 	}
 	case PlayerState::SURPRISED:

@@ -494,6 +494,10 @@ void CAssetMgr::LoadSound()
 	Load<CSound>(L"Title", L"sound\\Title.wav");
 	Load<CSound>(L"ArrowFire", L"sound\\ArrowFire.wav");
 	Load<CSound>(L"TitleSparkle", L"sound\\TitleSparkle.wav");
+	Load<CSound>(L"Transport", L"sound\\Transport.wav");
+	Load<CSound>(L"UITick", L"sound\\UITick.wav");
+	Load<CSound>(L"UICancel", L"sound\\UICancel.wav");
+	
 
 	Load<CSound>(L"DemonIntro", L"sound\\DemonIntro.wav");
 	Load<CSound>(L"Demon", L"sound\\Demon.wav");

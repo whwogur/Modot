@@ -26,6 +26,7 @@ public:
     void SetEffect(BlurEffect _Effect) { m_Effect = _Effect; }
 private:
     BlurEffect  m_Effect = BlurEffect::TurnOn;
+    Ptr<CSound> m_Sound;
     float       m_Decay = 0.97f;
     float       m_Density = 0.5f;
     float       m_Weight = 0.1f;

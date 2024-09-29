@@ -9,6 +9,8 @@ CBlurControl::CBlurControl()
 	AddScriptParam(SCRIPT_PARAM::FLOAT, u8"밀도", &m_Density);
 	AddScriptParam(SCRIPT_PARAM::FLOAT, u8"감소 가중치", &m_Weight);
 	AddScriptParam(SCRIPT_PARAM::INT, u8"종류", &m_Effect, 0, 0, u8"0: 증가, 1: 감소");
+	
+	m_Sound = CAssetMgr::GetInst()->FindAsset<CSound>(L"Transport");
 }
 
 void CBlurControl::Begin()
@@ -85,4 +87,6 @@ void CBlurControl::Activate()
 	m_Timer = 1.5f;
 	m_Density = 0.5f;
 	m_Weight = 0.2f;
+
+	PLAY_EFFECT(m_Sound);
 }
