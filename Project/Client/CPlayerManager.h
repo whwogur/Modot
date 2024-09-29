@@ -1,4 +1,5 @@
 #pragma once
+
 class GameStatus
 {
 public:
@@ -8,10 +9,12 @@ public:
 	int PetCat = 0;
 	int Kills = 0;
 
-	float EffectVolume = 1.f;
-	float BGMVolume = 1.f;
+	float EffectVolume = 0.8f;
+	float BGMVolume = 0.6f;
 	float GeneralVolume = 1.f;
 	bool CameraShake = true;
+
+	Ptr<CSound> CurBGM = nullptr;
 };
 
 class PlayerStatus
@@ -91,6 +94,11 @@ public:
 
 	void SetNextPos(Vec3 _Pos) { m_PlayerStatus.get()->Pos = _Pos; }
 	void SetNextCamPos(Vec3 _CamPos) { m_PlayerStatus.get()->CamPos = _CamPos; }
+
+	void PlayBGM(Ptr<CSound> _BGM);
+	void StopCurBGM();
+	void ResumeBGM();
+	void PlayEffect(Ptr<CSound> _Sound);
 private:
 	std::shared_ptr<PlayerStatus> m_PlayerStatus = nullptr;
 	std::shared_ptr<GameStatus> m_GameStatus = nullptr;

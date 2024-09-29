@@ -42,7 +42,7 @@ void CLinethScript::Begin()
 	MD_ENGINE_ASSERT(m_WarningSFX.Get() != nullptr, L"전조사운드 못찾음");
 
 	BeginState(LinethState::INTRO_CAT);
-	m_Intro->Play(0, BGM_VOL, false);
+	PLAY_BGM(m_Intro);
 
 	CBlurControl* GodRay = static_cast<CBlurControl*>(CLevelMgr::GetInst()->FindObjectByName(L"GodRay")->FindScript((UINT)SCRIPT_TYPE::BLURCONTROL));
 	if (GodRay != nullptr)
@@ -304,7 +304,7 @@ void CLinethScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.5f);
 		}
 
-		m_Land->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_Land);
 	}
 }
 
@@ -368,7 +368,7 @@ void CLinethScript::BeginState(LinethState _State)
 		Animator2D()->Play(L"Lineth_Backflip", 11.f, false);
 		Animator2D()->Reset();
 
-		m_Backflip->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_Backflip);
 		break;
 	}
 	case LinethState::TELEPORT:
@@ -377,7 +377,7 @@ void CLinethScript::BeginState(LinethState _State)
 		m_Timer = 0.5f;
 		Animator2D()->Play(L"Lineth_Teleport", 11.f, true);
 		
-		m_Teleport->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_Teleport);
 		break;
 	}
 	case LinethState::JUMPBASH:
@@ -422,7 +422,7 @@ void CLinethScript::BeginState(LinethState _State)
 		m_Dust->Transform()->SetDir(Transform()->GetObjectDir());
 		m_Dust->Animator2D()->Reset();
 
-		m_Projectile->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_Projectile);
 		break;
 	}
 	case LinethState::GOOP:
@@ -431,7 +431,7 @@ void CLinethScript::BeginState(LinethState _State)
 		m_Timer = 0.5f;
 		Animator2D()->Play(L"Lineth_Goop", 10.f, false);
 		Animator2D()->Reset();
-		m_WarningSFX->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_WarningSFX);
 		CGameObject* precursor = CLevelMgr::GetInst()->FindObjectByName(L"Precursor");
 		if (precursor != nullptr)
 		{
@@ -477,7 +477,7 @@ void CLinethScript::BeginState(LinethState _State)
 			m_AttackBox->Transform()->SetRelativePos(linPos + Vec3(-90.f, 0.f, 0.f));
 		}
 
-		m_Slash->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_Slash);
 		break;
 	}
 	case LinethState::SUNBO:
@@ -487,7 +487,7 @@ void CLinethScript::BeginState(LinethState _State)
 		Animator2D()->Play(L"Lineth_Sunbo", 8.f, false);
 		Animator2D()->Reset();
 			
-		m_Teleport->Play(1, EFFECT_VOL, true);;
+		PLAY_EFFECT(m_Teleport);
 		break;
 	}
 	case LinethState::ATTACKFROMSKY:
@@ -514,7 +514,7 @@ void CLinethScript::BeginState(LinethState _State)
 
 		RigidBody()->SetGround(false);
 		
-		m_Jump->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_Jump);
 		break;
 	}
 	case LinethState::IDLE:
@@ -617,7 +617,7 @@ void CLinethScript::EndState(LinethState _State)
 		}
 
 		m_Intro->Stop();
-		m_BGM->Play(0, BGM_VOL, false);
+		PLAY_BGM(m_BGM);
 		break;
 	}
 	case LinethState::BACKFLIP:
@@ -680,7 +680,7 @@ void CLinethScript::EndState(LinethState _State)
 			precursor->ParticleSystem()->SetBurst(false);
 		}
 
-		m_Teleport->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_Teleport);
 		break;
 	}
 	case LinethState::SLASH:

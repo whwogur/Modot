@@ -1,7 +1,6 @@
 #include "spch.h"
 #include "CCameraMoveScript.h"
 #include <Engine/CLevelMgr.h>
-#include "../Client/CPlayerManager.h"
 
 CCameraMoveScript::CCameraMoveScript()
 	: CScript(UINT(SCRIPT_TYPE::CAMERAMOVESCRIPT))

@@ -156,7 +156,7 @@ void CTitleSequence::Sequence()
 	case 1:
 	{
 		m_BombServiceLogo->Deactivate();
-		m_BGM->Play(0, 0.5f, false);
+		PLAY_BGM(m_BGM);
 		++m_SequenceIdx;
 		break;
 	}

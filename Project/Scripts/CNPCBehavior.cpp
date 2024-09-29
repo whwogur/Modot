@@ -6,7 +6,7 @@
 #include <Engine/CRenderMgr.h>
 #include <Engine/CLevelMgr.h>
 
-#include "../Client/CPlayerManager.h"
+
 #include "../Client/CLevelSaveLoad.h"
 
 #ifdef _DEBUG

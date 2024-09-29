@@ -3,7 +3,7 @@
 #include "../Client/CLevelSaveLoad.h"
 #include "../Client/Inspector.h"
 #include "../Client/CEditorMgr.h"
-#include "../Client/CPlayerManager.h"
+
 
 CLevelTransitionScript::CLevelTransitionScript()
 	: CScript(SCRIPT_TYPE::LEVELTRANSITIONSCRIPT)

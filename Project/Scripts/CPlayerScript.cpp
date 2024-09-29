@@ -5,7 +5,7 @@
 #include <Engine/CLevelMgr.h>
 #include <Engine/CRenderMgr.h>
 #include "CUIBarScript.h"
-#include "../Client/CPlayerManager.h"
+
 #include "CArrowScript.h"
 
 CPlayerScript::CPlayerScript()
@@ -452,7 +452,7 @@ void CPlayerScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 		m_DodgeSpark->ParticleSystem()->Jerk();
 		m_DodgeSpark->ParticleSystem()->SetBurst(true);
 
-		m_PerfectDodge->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_PerfectDodge);
 	}
 }
 
@@ -502,13 +502,13 @@ void CPlayerScript::BeginState(PlayerState _State)
 	case PlayerState::JUMP:
 	{
 		Animator2D()->Play(L"Momo_Jump", 6.0f, false);
-		m_JumpSound->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_JumpSound);
 		break;
 	}
 	case PlayerState::DOUBLEJUMP:
 	{
 		Animator2D()->Play(L"Momo_DoubleJump", 10.0f, false);
-		m_JumpSound->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_JumpSound);
 
 		OBJECT_DIR dir = Transform()->GetObjectDir();
 		if (dir == OBJECT_DIR::RIGHT)
@@ -554,7 +554,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 			fx->Animator2D()->Reset();
 		}
 
-		m_RollSound->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_RollSound);
 		break;
 	}
 	case PlayerState::BRAKE:
@@ -610,7 +610,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 			fx->ParticleSystem()->SetBurst(true);
 		}
 
-		m_SprintStartSound->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_SprintStartSound);
 		break;
 	}
 	case PlayerState::ATTACK1:
@@ -641,7 +641,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 			}
 		}
 
-		m_Leaf12Sound->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_Leaf12Sound);
 		break;
 	}
 	case PlayerState::ATTACK2:
@@ -668,7 +668,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 			}
 		}
 
-		m_Leaf12Sound->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_Leaf12Sound);
 		break;
 	}
 	case PlayerState::ATTACK3:
@@ -702,7 +702,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 			}
 		}
 
-		m_Leaf3Sound->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_Leaf3Sound);
 		break;
 	}
 	case PlayerState::SHOOT:
@@ -744,7 +744,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 				}
 			}
 
-			m_ShootArrowSound->Play(1, EFFECT_VOL, true);
+			PLAY_EFFECT(m_ShootArrowSound);
 			playerStat.get()->MP -= 10.f;
 		}
 		else

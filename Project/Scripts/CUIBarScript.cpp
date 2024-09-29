@@ -1,6 +1,6 @@
 #include "spch.h"
 #include "CUIBarScript.h"
-#include "../Client/CPlayerManager.h"
+
 #include "../Client/CEditorMgr.h"
 #include "CNPCUIScript.h"
 

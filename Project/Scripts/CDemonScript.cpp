@@ -55,7 +55,7 @@ void CDemonScript::Begin()
 		shockwave->ParticleSystem()->SetBurst(false);
 	}
 
-	m_Intro->Play(0, BGM_VOL, false);
+	PLAY_BGM(m_Intro);
 
 	CBlurControl* GodRay = static_cast<CBlurControl*>(CLevelMgr::GetInst()->FindObjectByName(L"GodRay")->FindScript((UINT)SCRIPT_TYPE::BLURCONTROL));
 	if (GodRay != nullptr)
@@ -288,7 +288,7 @@ void CDemonScript::BeginState(DemonState _State)
 	{
 		Animator2D()->Play(L"Demon_Roar", 8.f, false);
 		Animator2D()->Reset();
-		m_Roar->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_Roar);
 
 		CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
 		CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
@@ -394,7 +394,7 @@ void CDemonScript::BeginState(DemonState _State)
 				}
 			}
 
-			m_Roar2->Play(1, EFFECT_VOL, true);
+			PLAY_EFFECT(m_Roar2);
 		}
 		else
 		{
@@ -554,7 +554,7 @@ void CDemonScript::BeginState(DemonState _State)
 				camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.5f);
 			}
 
-			m_Roar2->Play(1, EFFECT_VOL, true);
+			PLAY_EFFECT(m_Roar2);
 		}
 		break;
 	}
@@ -573,7 +573,7 @@ void CDemonScript::BeginState(DemonState _State)
 			}
 		}
 
-		m_Roar2->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_Roar2);
 		m_Acc = 0.f;
 		m_Timer = 10.f;
 		break;
@@ -620,7 +620,7 @@ void CDemonScript::EndState(DemonState _State)
 		}
 
 		m_Intro->Stop();
-		m_BGM->Play(0, BGM_VOL, false);
+		PLAY_BGM(m_BGM);
 		break;
 	}
 	case DemonState::IDLE:

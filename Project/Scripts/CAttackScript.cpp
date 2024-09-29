@@ -122,8 +122,7 @@ void CAttackScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherO
 		HitFXList[4]->ParticleSystem()->SetBurst(true);
 		m_ActiveList[4] = true;
 
-
-		m_HitSound->Play(1, EFFECT_VOL, true);
+		PLAY_EFFECT(m_HitSound);
 	}
 }
 

@@ -4,7 +4,7 @@
 #include "CNPCUIScript.h"
 #include "CPlayerScript.h"
 
-#include "../Client/CPlayerManager.h"
+
 
 #include <Engine/CLevelMgr.h>
 

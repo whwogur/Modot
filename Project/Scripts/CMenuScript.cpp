@@ -5,7 +5,7 @@
 #include <Engine/CLevelMgr.h>
 #include <Engine/CTimeMgr.h>
 #include "CSigil.h"
-#include "../Client/CPlayerManager.h"
+
 
 CMenuScript::CMenuScript()
 	: CScript(SCRIPT_TYPE::MENUSCRIPT)

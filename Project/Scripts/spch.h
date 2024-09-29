@@ -13,8 +13,10 @@
 #include <Engine/global.h>
 #include <Engine/CEngine.h>
 #include "CScriptMgr.h"
+#include "../Client/CPlayerManager.h"
+
+#define PLAY_BGM(SOUND) CPlayerManager::GetInst()->PlayBGM(SOUND)
+#define PLAY_EFFECT(SOUND) CPlayerManager::GetInst()->PlayEffect(SOUND)
 
 constexpr float PI = 3.14159265359;
-constexpr float BGM_VOL = 0.3f;
-constexpr float EFFECT_VOL = 0.33f;
 #endif //PCH_H

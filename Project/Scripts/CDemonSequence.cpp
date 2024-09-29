@@ -8,7 +8,7 @@
 #include "CBlurControl.h"
 
 #include "../Client/CLevelSaveLoad.h"
-#include "../Client/CPlayerManager.h"
+
 #ifdef _DEBUG
 #include "../Client/Inspector.h"
 #include "../Client/CEditorMgr.h"
