@@ -29,7 +29,7 @@ void CEditorMgr::InitImGui()
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
-    wstring wcontentPath = CPathMgr::GetInst()->GetContentPath();
+    const wstring& wcontentPath = CPathMgr::GetInst()->GetContentPath();
     string iconContentPath = string(wcontentPath.begin(), wcontentPath.end()) + "font\\fontawesome-webfont.ttf";
     string defaultContentPath = string(wcontentPath.begin(), wcontentPath.end()) + "font\\LINESeedKR-Bd.ttf";
     io.Fonts->AddFontFromFileTTF(defaultContentPath.c_str(), 14.0f, NULL, io.Fonts->GetGlyphRangesKorean());

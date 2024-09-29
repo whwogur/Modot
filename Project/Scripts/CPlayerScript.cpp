@@ -83,6 +83,13 @@ void CPlayerScript::Begin()
 #pragma region __UPDATE__STATE__
 void CPlayerScript::Tick()
 {
+	if (KEY_TAP(KEY::_9))
+	{
+		CPlayerManager::GetInst()->TakeDamage(100.f);
+	}
+
+	if (m_State != PlayerState::DEAD) Dead();
+
 	if (m_Damaged)
 	{
 		m_DamagedAcc += DT * 2.f;
@@ -984,6 +991,16 @@ void CPlayerScript::Jump()
 
 			ChangeState(PlayerState::DOUBLEJUMP);
 		}
+	}
+}
+
+void CPlayerScript::Dead()
+{
+	std::shared_ptr<PlayerStatus>& playerStat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+
+	if (playerStat.get()->HP <= 0.f)
+	{
+		ChangeState(PlayerState::DEAD);
 	}
 }
 

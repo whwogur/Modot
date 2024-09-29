@@ -42,6 +42,7 @@ private:
 
     void Jump();
     void IdleRoutine();
+    void Dead();
 private:
     Ptr<CSound>     m_ShootArrowSound;
     Ptr<CSound>     m_JumpSound;
