@@ -163,10 +163,20 @@ void CPlayerScript::Tick()
 			m_Damaged = true;
 		}
 
-		if (KEY_TAP(KEY::_2))
+		if (KEY_TAP(KEY::E))
 		{
-			CPlayerManager::GetInst()->Recover(10);
-			ChangeState(PlayerState::HEAL);
+			if (CPlayerManager::GetInst()->GetPlayerStatusRef().get()->MP > 20)
+			{
+				CPlayerManager::GetInst()->UseMP(15.f);
+				CPlayerManager::GetInst()->Recover(100.f);
+				EDITOR_TRACE(u8"100 회복");
+				ChangeState(PlayerState::HEAL);
+			}
+			else
+			{
+				EDITOR_TRACE(u8"마나 부족");
+			}
+			
 		}
 
 		DirectionCheck();

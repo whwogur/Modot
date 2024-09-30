@@ -230,7 +230,7 @@ void CMenuScript::Tick()
 			case (int)MEMO::HEAL:
 			{
 				Title.Detail = L"치유의 종";
-				Desc.Detail = L"치유의 종은 울렸을 때 체력을 회복시키고\n상처를 치유해 주는.마법 유물입니다.\nE를 누르면 발동됩니다.";
+				Desc.Detail = L"치유의 종은 마나를 소모해 체력을 회복시키고\n상처를 치유해 주는 마법 유물입니다.\nE를 누르면 발동됩니다.";
 				break;
 			}
 			case (int)MEMO::ROLL:

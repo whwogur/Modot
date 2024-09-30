@@ -85,6 +85,12 @@ public:
 		if (m_PlayerStatus.get()->MP > m_PlayerStatus.get()->maxMP)
 			m_PlayerStatus.get()->MP = m_PlayerStatus.get()->maxMP;
 	}
+	void UseMP(float _MP)
+	{
+		m_PlayerStatus.get()->MP -= _MP;
+		if (m_PlayerStatus.get()->MP < 0)
+			m_PlayerStatus.get()->MP = 0;
+	}
 	void Recover(float _HP)
 	{ 
 		m_PlayerStatus.get()->HP += _HP; 
