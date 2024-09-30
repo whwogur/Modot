@@ -82,6 +82,9 @@ private:
     CGameObject*    m_AIR = nullptr;
     CGameObject*    m_DodgeSpark = nullptr;
     CGameObject*    m_DodgeSigil = nullptr;
+    CGameObject*    m_HealAngel = nullptr;
+    CGameObject*    m_HealParticle = nullptr;
+
     CMenuScript*    m_Menu;
 
     bool            m_MenuOpened = false;

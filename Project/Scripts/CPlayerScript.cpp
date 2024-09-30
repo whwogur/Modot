@@ -90,6 +90,9 @@ void CPlayerScript::Begin()
 	m_AIR = GetOwner()->GetChildObject(L"AIR");
 	m_DodgeSigil = GetOwner()->GetChildObject(L"DodgeSigil");
 	m_DodgeSpark = GetOwner()->GetChildObject(L"DodgeSpark");
+	m_HealAngel = GetOwner()->GetChildObject(L"HealAngel");
+	m_HealParticle = GetOwner()->GetChildObject(L"HealParticle");
+
 	fx = CLevelMgr::GetInst()->FindObjectByName(L"Menu");
 
 	if (fx != nullptr)
@@ -655,6 +658,12 @@ void CPlayerScript::BeginState(PlayerState _State)
 		}
 
 		PLAY_EFFECT(m_HealSound);
+		m_HealAngel->ParticleSystem()->Jerk();
+		m_HealAngel->ParticleSystem()->SetBurst(true);
+
+		m_HealParticle->ParticleSystem()->Jerk();
+		m_HealParticle->ParticleSystem()->SetBurst(true);
+
 		m_Healed = true;
 		break;
 	}
@@ -932,6 +941,8 @@ void CPlayerScript::EndState(PlayerState _State)
 	}
 	case PlayerState::HEAL:
 	{
+		m_HealAngel->ParticleSystem()->SetBurst(false);
+		m_HealParticle->ParticleSystem()->SetBurst(false);
 		break;
 	}
 	case PlayerState::DEAD:

@@ -31,6 +31,9 @@
     <Filter Include="Scripts\Monster\DemonBoss">
       <UniqueIdentifier>{30b1d862-e58b-4ca4-855d-aa58bebe4702}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Player">
+      <UniqueIdentifier>{a08cca53-474e-43e0-a0f8-2f1aa1791b50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -38,9 +41,6 @@
     </ClInclude>
     <ClInclude Include="spch.h">
       <Filter>Default</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlayerScript.h">
-      <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CLevelTransitionScript.h">
@@ -127,6 +127,9 @@
     <ClInclude Include="CMenuScript.h">
       <Filter>Scripts\UI</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayerScript.h">
+      <Filter>Scripts\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -134,9 +137,6 @@
     </ClCompile>
     <ClCompile Include="Scripts.cpp">
       <Filter>Default</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlayerScript.cpp">
-      <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CLevelTransitionScript.cpp">
@@ -222,6 +222,9 @@
     </ClCompile>
     <ClCompile Include="CMenuScript.cpp">
       <Filter>Scripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerScript.cpp">
+      <Filter>Scripts\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
