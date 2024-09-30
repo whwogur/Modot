@@ -252,6 +252,18 @@ bool ParamUI::InputTexture(Ptr<CTexture>& _CurTex, const string& _Desc
 			}
 		}
 
+		payload = ImGui::AcceptDragDropPayload("FileBrowser");
+		if (payload)
+		{
+			std::pair<std::filesystem::path, bool>* pElem = reinterpret_cast<std::pair<std::filesystem::path, bool>*>(payload->Data);
+			Ptr<CTexture> pTex = CAssetMgr::GetInst()->FindAsset<CTexture>(pElem->first.stem().wstring());
+
+			if (pTex.Get() != nullptr)
+			{
+				_CurTex = ((CTexture*)pTex.Get());
+			}
+		}
+
 		ImGui::EndDragDropTarget();
 	}
 

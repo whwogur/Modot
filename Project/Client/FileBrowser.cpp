@@ -160,6 +160,23 @@ void FileBrowser::Update()
 				}
 			}
 		}
+
+		if (ImGui::BeginDragDropSource())
+		{
+			if (!listNode.second && listNode.first.extension() == ".png")
+			{
+				Ptr<CTexture> pTex = CAssetMgr::GetInst()->FindAsset<CTexture>(listNode.first.stem().wstring());
+
+				if (pTex != nullptr)
+				{
+					auto* pElem = &listNode;
+
+					ImGui::SetDragDropPayload("FileBrowser", pElem, sizeof(std::pair<std::filesystem::path, bool>), ImGuiCond_Once);
+					ImGui::Image(pTex->GetSRV().Get(), { 100, 100 });
+					ImGui::EndDragDropSource();
+				}
+			}
+		}
 		
 		std::string filenameString = listNode.first.filename().string();
 		ImGui::TextWrapped(filenameString.c_str());
