@@ -74,14 +74,14 @@ void CAnimator2D::FinalTick()
 
 void CAnimator2D::SaveToFile(FILE* _File)
 {
-	size_t FlipBookCount = m_vecAnimation.size();
-	fwrite(&FlipBookCount, sizeof(size_t), 1, _File);
+	size_t AnimationCount = m_vecAnimation.size();
+	fwrite(&AnimationCount, sizeof(size_t), 1, _File);
 	for (auto animation : m_vecAnimation)
 	{
 		SaveAssetRef(animation, _File);
 	}
 
-	// 현재 재생중인 FlipBook 정보
+	// 현재 재생중인 Animation 정보
 	SaveAssetRef(m_CurAnimation, _File);
 	SaveAssetRef(m_CurFrmSprite, _File);
 
@@ -93,13 +93,13 @@ void CAnimator2D::SaveToFile(FILE* _File)
 
 void CAnimator2D::LoadFromFile(FILE* _File)
 {
-	size_t FlipBookCount = 0;
-	fread(&FlipBookCount, sizeof(size_t), 1, _File);
-	for (size_t i = 0; i < FlipBookCount; ++i)
+	size_t AnimationCount = 0;
+	fread(&AnimationCount, sizeof(size_t), 1, _File);
+	for (size_t i = 0; i < AnimationCount; ++i)
 	{
-		Ptr<CAnimation> pFlipBook;
-		LoadAssetRef(pFlipBook, _File);
-		m_vecAnimation.push_back(pFlipBook);
+		Ptr<CAnimation> pAnimation;
+		LoadAssetRef(pAnimation, _File);
+		m_vecAnimation.push_back(pAnimation);
 	}
 
 	LoadAssetRef(m_CurAnimation, _File);

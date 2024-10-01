@@ -29,7 +29,7 @@ void FileBrowser::Refresh()
 		auto relativePath = std::filesystem::relative(path, m_ContentPath);
 
 		bool isDirectory = directoryEntry.is_directory() ? true : false;
-		m_List.push_back(make_pair(relativePath, isDirectory));
+		m_List.emplace_back(relativePath, isDirectory);
 	}
 }
 

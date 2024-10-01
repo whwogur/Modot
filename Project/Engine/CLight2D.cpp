@@ -20,7 +20,6 @@ void CLight2D::FinalTick()
 	m_Info.WorldPos = Transform()->GetWorldPos();
 	m_Info.WorldDir = Transform()->GetWorldDir(DIR::RIGHT);
 
-	// ÀÚ½ÅÀ» RenderMgr ¿¡ µî·Ï½ÃÅ´
 	CRenderMgr::GetInst()->RegisterLight2D(this);
 }
 

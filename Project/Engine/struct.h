@@ -9,6 +9,29 @@ struct Vtx
 
 struct tDebugShapeInfo
 {
+	tDebugShapeInfo()
+		: Shape(DEBUG_SHAPE::RECT)
+		, vPos{}
+		, vScale{}
+		, vRot{}
+		, matWorld{}
+		, vColor{}
+		, LifeTime(0.0f)
+		, Age(0.0f)
+		, DepthTest(true)
+	{}
+
+	tDebugShapeInfo(DEBUG_SHAPE shape, const Vec3& pos, const Vec3& scale, const Vec3& rot, const Matrix& world, const Vec4& color, float lifetime, bool depthTest)
+		: Shape(shape)
+		, vPos(pos)
+		, vScale(scale)
+		, vRot(rot)
+		, matWorld(world)
+		, vColor(color)
+		, LifeTime(lifetime)
+		, Age(0.0f)
+		, DepthTest(depthTest)
+	{}
 	DEBUG_SHAPE		Shape;
 	Vec3			vPos;
 	Vec3			vScale;
@@ -35,6 +58,17 @@ struct tLight
 
 struct tLightInfo
 {
+	tLightInfo() = default;
+
+	tLightInfo(const tLight& lightInfo, const Vec3& pos, const Vec3& dir, float radius, float angle, LIGHT_TYPE type)
+		: light(lightInfo)
+		, WorldPos(pos)
+		, WorldDir(dir)
+		, Radius(radius)
+		, Angle(angle)
+		, Type(type)
+	{}
+
 	tLight		light;		// 광원 색상정보
 	Vec3		WorldPos;	// 광원 위치
 	Vec3		WorldDir;	// 광윈이 진행하는 방향

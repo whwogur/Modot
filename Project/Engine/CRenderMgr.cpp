@@ -71,11 +71,11 @@ void CRenderMgr::Tick()
 		if (nullptr != m_EditorCamera)
 		{
 			m_EditorCamera->Render();
-
-			if (m_DebugRender)
-				RenderDebugShape();
 		}
 	}
+
+	if (m_DebugRender)
+		RenderDebugShape();
 
 	DrawTextOnScreen();
 
@@ -119,7 +119,8 @@ void CRenderMgr::RenderStart()
 	vector<tLightInfo> vecLight2DInfo;
 	for (size_t i = 0; i < m_vecLight2D.size(); ++i)
 	{
-		vecLight2DInfo.push_back(m_vecLight2D[i]->GetLightInfoRef());
+		tLightInfo& info = m_vecLight2D[i]->GetLightInfoRef();
+		vecLight2DInfo.emplace_back(info.light, info.WorldPos, info.WorldDir, info.Radius, info.Angle, info.Type);
 	}
 
 	if (m_Light2DBuffer->GetElementCount() < vecLight2DInfo.size())

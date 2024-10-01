@@ -80,6 +80,10 @@ void CAssetMgr::CreateEngineMesh()
 	float fTheta = XM_2PI / Slice;
 	float Radius = 0.5f;
 
+	// reserve를 사용해 벡터 크기 미리 예약
+	vecVtx.reserve(Slice + 2);    // 중심점(1) + 테두리 점(Slice + 1)
+	vecIdx.reserve(Slice * 3);    // Slice개의 삼각형, 각 삼각형은 3개의 인덱스
+
 	// 중심점
 	v.vPos = Vec3(0.f, 0.f, 0.f);
 	v.vUV = Vec2(0.5f, 0.5f);
