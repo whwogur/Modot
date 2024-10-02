@@ -31,15 +31,17 @@ public:
     void SetDir(OBJECT_DIR _Dir);
     OBJECT_DIR GetObjectDir() const { return m_RelativeScale.x > 0 ? OBJECT_DIR::RIGHT : OBJECT_DIR::LEFT; }
 
-    const Matrix& GetWorldMat() { return m_matWorld; }
+    Matrix& GetWorldMat() { return m_matWorld; }
+    Matrix& GetTransformationMat() { return m_matTransformation; }
+
     Vec3 GetRelativePos() { return m_RelativePos; }
     Vec3& GetRelativePosRef() { return m_RelativePos; }
     Vec3 GetWorldPos() { return m_matWorld.Translation(); }
     Vec3 GetRelativeScale() { return m_RelativeScale; }
     Vec3& GetRelativeScaleRef() { return m_RelativeScale; }
     Vec3 GetWorldScale();
-    Vec3 GetRelativeRoatation() { return m_RelativeRotation; }
-    Vec3& GetRelativeRoatationRef() { return m_RelativeRotation; }
+    Vec3 GetRelativeRotation() { return m_RelativeRotation; }
+    Vec3& GetRelativeRotationRef() { return m_RelativeRotation; }
     Vec3 GetRelativeDir(DIR _Type) { return m_RelativeDir[_Type]; }
     Vec3 GetWorldDir(DIR _Type) { return m_WorldDir[_Type]; }
 
@@ -53,6 +55,6 @@ private:
     Vec3    m_WorldDir[3];
 
     Matrix  m_matWorld;
-
+    Matrix m_matTransformation = {};
     bool    m_IndependentScale;
 };

@@ -25,7 +25,7 @@ void CSigil::Tick()
 			m_Active = false;
 	}
 
-	Vec3& rot = Transform()->GetRelativeRoatationRef();
+	Vec3& rot = Transform()->GetRelativeRotationRef();
 	rot.z += m_RPS * DT;
 
 	MeshRender()->GetDynamicMaterial()->SetScalarParam(VEC4_1, m_BloomColor * m_Acc);

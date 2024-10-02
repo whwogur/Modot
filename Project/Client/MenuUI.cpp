@@ -161,9 +161,6 @@ void MenuUI::Update()
 
 void MenuUI::File()
 {
-	ImFont* iconFont = CEditorMgr::GetInst()->GetIconFont();
-	ImGui::PushFont(iconFont);
-
 	if (ImGui::BeginMenu(ICON_FA_FILE " File"))
 	{
 		if (ImGui::MenuItem(u8"»õ ·¹º§", " Ctrl + N"))
@@ -219,7 +216,6 @@ void MenuUI::File()
 		}
 		ImGui::EndMenu();
 	}
-	ImGui::PopFont();
 }
 
 void MenuUI::Tools()

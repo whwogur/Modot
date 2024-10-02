@@ -58,7 +58,7 @@ void Gizmo::Update()
 		CTransform* tc = m_TargetObject->Transform();
 
 		DirectX::XMFLOAT4X4 transform{};
-		ImGuizmo::RecomposeMatrixFromComponents(&tc->GetRelativePosRef().x, &tc->GetRelativeRoatationRef().x, &tc->GetRelativeScaleRef().x, *transform.m);
+		ImGuizmo::RecomposeMatrixFromComponents(&tc->GetRelativePosRef().x, &tc->GetRelativeRotationRef().x, &tc->GetRelativeScaleRef().x, *transform.m);
 
 		// Snapping
 		bool snap = KEY_PRESSED(KEY::CTRL);
@@ -73,7 +73,7 @@ void Gizmo::Update()
 
 		if (ImGuizmo::IsUsing())
 		{
-			ImGuizmo::DecomposeMatrixToComponents(*transform.m, &tc->GetRelativePosRef().x, &tc->GetRelativeRoatationRef().x, &tc->GetRelativeScaleRef().x);
+			ImGuizmo::DecomposeMatrixToComponents(*transform.m, &tc->GetRelativePosRef().x, &tc->GetRelativeRotationRef().x, &tc->GetRelativeScaleRef().x);
 		}
 	}
 }

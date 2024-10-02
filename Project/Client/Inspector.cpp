@@ -26,6 +26,7 @@ Inspector::~Inspector()
 
 void Inspector::SetTargetObject(CGameObject* _Object)
 {
+	CEditorMgr::GetInst()->SetTargetObject(_Object);
 	m_TargetObject = _Object;
 	
 	if (_Object != nullptr)

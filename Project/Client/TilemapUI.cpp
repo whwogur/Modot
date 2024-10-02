@@ -22,7 +22,6 @@ void TileMapUI::Update()
 	{
 		CTileMap* pTileMap = GetTargetObject()->TileMap();
 		ImVec2 temp = ImGui::GetContentRegionAvail();
-		ImFont* iconFont = CEditorMgr::GetInst()->GetIconFont();
 		if (ImGui::BeginDragDropTarget())
 		{
 			const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
@@ -42,7 +41,6 @@ void TileMapUI::Update()
 		}
 
 
-		ImGui::PushFont(iconFont);
 		ImGui::NewLine();
 		ImGui::SameLine(temp.x - 30);
 		if (ImGui::Button(ICON_FA_PENCIL, { 28, 28 }))
@@ -56,7 +54,6 @@ void TileMapUI::Update()
 			else
 				pUI->SetActive(true);
 		}
-		ImGui::PopFont();
 
 		Ptr<CTexture> pTexture = pTileMap->GetAtlasTexture();
 		if (pTexture != nullptr)

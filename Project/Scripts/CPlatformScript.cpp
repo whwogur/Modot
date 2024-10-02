@@ -11,7 +11,7 @@ CPlatformScript::CPlatformScript()
 
 void CPlatformScript::Begin()
 {
-    const Vec3& rotation = Transform()->GetRelativeRoatationRef();
+    const Vec3& rotation = Transform()->GetRelativeRotationRef();
     m_SlopeNormal = Vec2(cosf(rotation.z), sinf(rotation.z));
 }
 

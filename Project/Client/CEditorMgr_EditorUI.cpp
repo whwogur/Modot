@@ -5,7 +5,9 @@
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_dx11.h"
 #include "ImGui/imgui_impl_win32.h"
+
 #include <Engine/CDevice.h>
+#include <Engine/CRenderMgr.h>
 
 #include "CAssetMgr.h"
 #include "CPathMgr.h"
@@ -23,6 +25,8 @@
 #include "SpriteEditor.h"
 #include "TilemapEditor.h"
 #include "CollisionCheck.h"
+#include <ImGui/imgui_internal.h>
+#include <ImGui/ImGuizmo.h>
 void CEditorMgr::InitImGui()
 {
     // Setup Dear ImGui context
@@ -37,26 +41,18 @@ void CEditorMgr::InitImGui()
     ImFontConfig config;
     config.MergeMode = true;
     static const ImWchar icon_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
-    m_IconFont = io.Fonts->AddFontFromFileTTF(iconContentPath.c_str(), 12.0f, &config, icon_ranges);
+    io.Fonts->AddFontFromFileTTF(iconContentPath.c_str(), 12.0f, &config, icon_ranges);
     
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
-    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
-    //io.ConfigViewportsNoAutoMerge = true;
-    //io.ConfigViewportsNoTaskBarIcon = true;
-    //io.ConfigViewportsNoDefaultParent = true;
-    //io.ConfigDockingAlwaysTabBar = true;
-    //io.ConfigDockingTransparentPayload = true;
-    //io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleFonts;     // FIXME-DPI: Experimental. THIS CURRENTLY DOESN'T WORK AS EXPECTED. DON'T USE IN USER APP!
-    //io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleViewports; // FIXME-DPI: Experimental.
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;  // Enable Gamepad Controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;     // Enable Docking
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;   // Enable Multi-Viewport / Platform Windows
 
     //SetThemeMicrosoft();
     //SetThemeMoonlight();
     //SetThemeUnrealEngine();
     SetThemeFutureDark();
 
-    // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
     ImGuiStyle& style = ImGui::GetStyle();
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
@@ -167,6 +163,169 @@ void CEditorMgr::ObserveContents()
     }
 }
 
+void CEditorMgr::RenderViewport()
+{
+    ImGuiWindowClass window_class;
+    window_class.ClassId = ImGui::GetID("Editor Viewport");
+    window_class.DockNodeFlagsOverrideSet = 0;
+    window_class.DockingAllowUnclassed = true;
+
+    ImGui::SetNextWindowClass(&window_class);
+
+    ImGui::Begin("Level ViewPort");
+
+    // RT Copy
+    CRenderMgr::GetInst()->RenderTargetCopy();
+
+    // Viewport에서의 마우스 위치 등록
+    ImVec2 viewportPos = ImGui::GetCursorScreenPos();
+    m_ViewportMousePos = Vec2(ImGui::GetIO().MousePos.x - viewportPos.x, ImGui::GetIO().MousePos.y - viewportPos.y);
+
+    // 상태 확인
+    m_ViewportFocused = ImGui::IsWindowFocused();
+    m_ViewportHovered = ImGui::IsWindowHovered();
+
+    // 크기 등록
+    ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+    m_ViewportSize = Vec2(viewportSize.x, viewportSize.y);
+
+    // 렌더링
+    Ptr<CTexture> pCopyTex = CRenderMgr::GetInst()->GetRenderTargetCopy();
+    ImGui::Image((void*)pCopyTex->GetSRV().Get(), viewportSize);
+
+    // ImGuizmo
+    if (m_GizmoActive)
+        RenderGizmo();
+
+    //// Drag & Drop
+    //if (ImGui::BeginDragDropTarget())
+    //{
+    //    // Level 불러오기
+    //    if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+    //    {
+    //        string name = (char*)payload->Data;
+    //        name.resize(payload->DataSize);
+    //        std::filesystem::path fileNameStr = name;
+    //        if (fileNameStr.extension() == CLevelSaveLoad::GetLevelExtension())
+    //        {
+    //            CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(fileNameStr.filename().wstring());
+
+    //            if (nullptr != pLoadedLevel)
+    //                GamePlayStatic::ChangeLevel(pLoadedLevel, LEVEL_STATE::STOP);
+    //        }
+    //    }
+
+    //    // Prefab
+    //    if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("LEVEL_EDITOR_ASSETS"))
+    //    {
+    //        string AssetStr = (char*)payload->Data;
+    //        AssetStr.resize(payload->DataSize);
+    //        std::filesystem::path AssetPath = AssetStr;
+    //        if (L".pref" == AssetPath.extension())
+    //        {
+    //            Ptr<CPrefab> pPrefab = CAssetMgr::GetInst()->Load<CPrefab>(AssetPath, AssetPath);
+    //            CGameObject* pObj = pPrefab->Instantiate();
+
+    //            // 카메라위치 기준 생성
+    //            CCamera* pCam = CRenderMgr::GetInst()->GetMainCamera();
+    //            Vec3 pos = pCam->Transform()->GetWorldPos();
+    //            Vec3 dir = pCam->Transform()->GetWorldDir(DIR_TYPE::FRONT);
+    //            pos += dir.Normalize() * 500.f;
+    //            pObj->Transform()->SetRelativePos(pos);
+
+    //            GamePlayStatic::SpawnGameObject(pObj, pObj->GetLayerIdx());
+    //        }
+    //    }
+
+    //    ImGui::EndDragDropTarget();
+    //}
+
+    ImGui::End();
+}
+
+void CEditorMgr::RenderGizmo()
+{
+    if (nullptr == m_TargetObject || -1 == m_TargetObject->GetLayerIdx())
+        return;
+
+    CCamera* pCam = CRenderMgr::GetInst()->GetMainCamera();
+
+    if (nullptr == pCam)
+        return;
+
+    if (m_ViewportFocused)
+    {
+        if (KEY_TAP(KEY::Z))
+            m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+        else if (KEY_TAP(KEY::X))
+            m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+        else if (KEY_TAP(KEY::C))
+            m_GizmoType = ImGuizmo::OPERATION::SCALE;
+    }
+
+    ImGuizmo::SetOrthographic(pCam->GetProjType() == PROJ_TYPE::ORTHOGRAPHIC ? true : false);
+
+    ImGuizmo::SetDrawlist(ImGui::GetCurrentWindow()->DrawList);
+    float windowWidth = (float)ImGui::GetWindowWidth();
+    float windowHeight = (float)ImGui::GetWindowHeight();
+    ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+
+    Matrix CamView = pCam->GetcamViewRef();
+    Matrix CamProj = pCam->GetcamProjRef();
+
+    // transform
+    CTransform* pTr = m_TargetObject->Transform();
+    Matrix WorldMat = pTr->GetWorldMat();
+
+    // Snapping
+    bool snap = false;
+    if (KEY_PRESSED(KEY::CTRL)) snap = true;
+
+    float snapValue = 0.f;
+    if (m_GizmoType == ImGuizmo::OPERATION::TRANSLATE)
+        snapValue = 25.f;
+    else if (m_GizmoType == ImGuizmo::OPERATION::ROTATE)
+        snapValue = 30.0f;
+    else if (m_GizmoType == ImGuizmo::OPERATION::SCALE)
+        snapValue = 1.0f;
+
+    float snapValues[3] = { snapValue, snapValue, snapValue };
+
+    ImGuizmo::Manipulate(*CamView.m, *CamProj.m, (ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, *WorldMat.m, nullptr, snap ? snapValues : nullptr);
+
+    if (ImGuizmo::IsUsing())
+    {
+        Matrix originWorldMat = pTr->GetWorldMat();
+
+        if (nullptr != pTr->GetOwner()->GetParent())
+        {
+            Matrix InvTransformationMat = pTr->GetTransformationMat().Invert();
+
+            WorldMat *= InvTransformationMat;
+            originWorldMat *= InvTransformationMat;
+        }
+
+        // ImGuizmo변화량이 적용된 Matrix와 원본 Matrix SRT 분해
+        float Ftranslation[3] = { 0.0f, 0.0f, 0.0f }, Frotation[3] = { 0.0f, 0.0f, 0.0f }, Fscale[3] = { 0.0f, 0.0f, 0.0f };
+        ImGuizmo::DecomposeMatrixToComponents(*WorldMat.m, Ftranslation, Frotation, Fscale);
+
+        float originFtranslation[3] = { 0.0f, 0.0f, 0.0f }, originFrotation[3] = { 0.0f, 0.0f, 0.0f }, originFscale[3] = { 0.0f, 0.0f, 0.0f };
+        ImGuizmo::DecomposeMatrixToComponents(*originWorldMat.m, originFtranslation, originFrotation, originFscale);
+
+        // ImGuizmo로 조정한 변화량 추출
+        Vec3 vPosOffset =
+            Vec3(originFtranslation[0] - Ftranslation[0], originFtranslation[1] - Ftranslation[1], originFtranslation[2] - Ftranslation[2]);
+        Vec3 vRotOffset = Vec3(DirectX::XMConvertToRadians(originFrotation[0]) - DirectX::XMConvertToRadians(Frotation[0]),
+            DirectX::XMConvertToRadians(originFrotation[1]) - DirectX::XMConvertToRadians(Frotation[1]),
+            DirectX::XMConvertToRadians(originFrotation[2]) - DirectX::XMConvertToRadians(Frotation[2]));
+        Vec3 vScaleOffset = Vec3(originFscale[0] - Fscale[0], originFscale[1] - Fscale[1], originFscale[2] - Fscale[2]);
+
+        pTr->SetRelativePos(pTr->GetRelativePos() - vPosOffset);
+        pTr->SetRelativeRotation(pTr->GetRelativeRotation() - vRotOffset);
+        pTr->SetRelativeScale(pTr->GetRelativeScale() - vScaleOffset);
+    }
+}
+
 
 void CEditorMgr::ImGuiRun()
 {
@@ -174,10 +333,18 @@ void CEditorMgr::ImGuiRun()
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
+    ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport());
+    ImGuizmo::BeginFrame();
 
     ParamUI::ResetID();
 
     ImGuiTick();
+
+    if (KEY_TAP(KEY::G))
+    {
+        m_GizmoActive = !m_GizmoActive;
+        m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+    }
 
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

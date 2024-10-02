@@ -16,13 +16,10 @@
 #include "ImGui/imgui_impl_dx11.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "EditorUI.h"
-#include "ImGui/ImGuizmo.h"
-#include "Gizmo.h"
 #include "EditorLogger.h"
+#include <Inspector.h>
+#include <ImGui/imgui_internal.h>
 CEditorMgr::CEditorMgr()
-	: m_IconFont(nullptr)
-	, m_Logger(nullptr)
-	, m_Sentinel(nullptr)
 {
 }
 
@@ -450,9 +447,24 @@ void CEditorMgr::EditorObjectUpdate()
 
 void CEditorMgr::ImGuiTick()
 {
+	ImGuiWindowClass window_class;
+	window_class.ClassId = ImGui::GetMainViewport()->ID;
+	window_class.DockNodeFlagsOverrideSet = ImGuiDockNodeFlags_NoDockingSplitOther;
+	window_class.DockingAllowUnclassed = true;
+
+	ImGui::SetNextWindowClass(&window_class);
+	ImGui::Begin("Editor Dockspace");
+
+	ImGuiID dockSpace = ImGui::GetID("Level Editor DockSpace");
+	ImGui::DockSpace(dockSpace);
+
+	RenderViewport();
+
     for (const auto& pair : m_mapUI)
     {
         pair.second->Tick();
     }
 	m_Logger->Draw("Log");
+
+	ImGui::End();
 }

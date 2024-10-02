@@ -46,15 +46,17 @@ public:
     void AddRenderText(const tRenderText& _Text) { m_vecText.emplace_back(_Text); }
     void RegisterLight2D(CLight2D* _Light) { m_vecLight2D.push_back(_Light); }
     void PostProcessCopy();
+    void RenderTargetCopy();
 
     CCamera* GetEditorCamera() { return m_EditorCamera; }
-
+    CCamera* GetMainCamera();
     CCamera* GetCamera(UINT _Idx)
     {
         if (m_vecCam[_Idx] != nullptr)
             return m_vecCam[_Idx];
     }
     bool& GetDebugRenderRef() { return m_DebugRender; }
+    Ptr<CTexture> GetRenderTargetCopy() { return m_RenderTargetCopy; }
 public:
     void Init();
     void Tick();
@@ -73,6 +75,7 @@ private:
     vector<CLight2D*>               m_vecLight2D;
     CStructuredBuffer*              m_Light2DBuffer;
     Ptr<CTexture>                   m_PostProcessTex;
+    Ptr<CTexture>                   m_RenderTargetCopy;
     // TEXT
     vector<tRenderText>             m_vecText;
     bool                            m_DebugRender = true;

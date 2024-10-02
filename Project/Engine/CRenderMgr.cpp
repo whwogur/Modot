@@ -37,6 +37,7 @@ void CRenderMgr::Init()
 {
 	MD_PROFILE_FUNCTION();
 	m_PostProcessTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"PostProcessTex");
+	m_RenderTargetCopy = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetCopy");
 
 	m_DebugObject = new CGameObject;
 	m_DebugObject->AddComponent(new CTransform);
@@ -96,6 +97,31 @@ void CRenderMgr::PostProcessCopy()
 {
 	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
 	CONTEXT->CopyResource(m_PostProcessTex->GetTex2D().Get(), pRTTex->GetTex2D().Get());
+}
+
+void CRenderMgr::RenderTargetCopy()
+{
+	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
+	CONTEXT->CopyResource(m_RenderTargetCopy->GetTex2D().Get(), pRTTex->GetTex2D().Get());
+}
+
+CCamera* CRenderMgr::GetMainCamera()
+{
+	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+	if (nullptr == pCurLevel)
+		return nullptr;
+
+	if (pCurLevel->GetState() == LEVEL_STATE::PLAY)
+	{
+		return m_vecCam[0];
+	}
+
+	if (nullptr != m_EditorCamera)
+	{
+		return m_EditorCamera;
+	}
+
+	return nullptr;
 }
 
 void CRenderMgr::RenderStart()
