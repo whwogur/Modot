@@ -163,19 +163,20 @@ void FileBrowser::Update()
 
 		if (ImGui::BeginDragDropSource())
 		{
-			if (!listNode.second && listNode.first.extension() == ".png")
+			if (!listNode.second)
 			{
-				Ptr<CTexture> pTex = CAssetMgr::GetInst()->FindAsset<CTexture>(listNode.first.stem().wstring());
-
-				if (pTex != nullptr)
+				std::filesystem::path ext = listNode.first.extension();
+				std::filesystem::path stem = listNode.first.stem();
+				if (ext == ".png" || ext == ".tga")
 				{
 					auto* pElem = &listNode;
 
 					ImGui::SetDragDropPayload("FileBrowser", pElem, sizeof(std::pair<std::filesystem::path, bool>), ImGuiCond_Once);
-					ImGui::Image(pTex->GetSRV().Get(), { 100, 100 });
-					ImGui::EndDragDropSource();
+					ImGui::Image(icon->GetSRV().Get(), { 100, 100 });
 				}
 			}
+
+			ImGui::EndDragDropSource();
 		}
 		
 		std::string filenameString = listNode.first.filename().string();

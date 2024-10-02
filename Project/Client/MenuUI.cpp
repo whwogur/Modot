@@ -19,6 +19,7 @@
 #include "CLevelSaveLoad.h"
 #include "MaterialUI.h"
 #include "CollisionCheck.h"
+#include "CPlayerManager.h"
 MenuUI::MenuUI()
 {
 }
@@ -71,7 +72,8 @@ void MenuUI::Tick()
 				Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
 				pInspector->SetTargetObject(nullptr);
 				pInspector->SetTargetAsset(nullptr);
-				EDITOR_TRACE("Stopped");
+				
+				CPlayerManager::GetInst()->StopCurBGM();
 			}
 
 			color = { 0.45f, 0.55f, 0.88f, 1.0f };
@@ -83,7 +85,6 @@ void MenuUI::Tick()
 			if (ImGui::Button(ICON_FA_PLAY, { 22, 22 }))
 			{
 				ChangeLevelState(LEVEL_STATE::PLAY);
-				EDITOR_TRACE("Play");
 			}
 			ImGui::SameLine(contentRegionAvailable / 2 + 30);
 			if (ImGui::Button(ICON_FA_STOP, { 22, 22 }))
@@ -96,7 +97,7 @@ void MenuUI::Tick()
 				Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
 				pInspector->SetTargetObject(nullptr);
 				pInspector->SetTargetAsset(nullptr);
-				EDITOR_TRACE("Stopped");
+				CPlayerManager::GetInst()->StopCurBGM();
 			}
 
 			color = { 1, 0, 0, 1 };

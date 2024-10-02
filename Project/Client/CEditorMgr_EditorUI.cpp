@@ -27,6 +27,7 @@
 #include "CollisionCheck.h"
 #include <ImGui/imgui_internal.h>
 #include <ImGui/ImGuizmo.h>
+#include <TreeUI.h>
 void CEditorMgr::InitImGui()
 {
     // Setup Dear ImGui context
@@ -197,48 +198,30 @@ void CEditorMgr::RenderViewport()
     if (m_GizmoActive)
         RenderGizmo();
 
-    //// Drag & Drop
-    //if (ImGui::BeginDragDropTarget())
-    //{
-    //    // Level 불러오기
-    //    if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
-    //    {
-    //        string name = (char*)payload->Data;
-    //        name.resize(payload->DataSize);
-    //        std::filesystem::path fileNameStr = name;
-    //        if (fileNameStr.extension() == CLevelSaveLoad::GetLevelExtension())
-    //        {
-    //            CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(fileNameStr.filename().wstring());
+    // Drag & Drop
+    if (ImGui::BeginDragDropTarget())
+    {
+        // Prefab from content browser
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree"))
+        {
+            TreeNode** ppNode = (TreeNode**)payload->Data;
+            TreeNode* pNode = *ppNode;
 
-    //            if (nullptr != pLoadedLevel)
-    //                GamePlayStatic::ChangeLevel(pLoadedLevel, LEVEL_STATE::STOP);
-    //        }
-    //    }
+            Ptr<CPrefab> pPrefab = (CPrefab*)pNode->GetData();
+            if (pPrefab != nullptr)
+            {
+                CGameObject* pInstantiatedObj = pPrefab->Instantiate();
+                if (pInstantiatedObj != nullptr)
+                {
+                    const wstring& objName = pInstantiatedObj->GetName();
+                    pInstantiatedObj->SetName(objName);
+                    CreateObject(pInstantiatedObj, 0);
+                }
+            }
+        }
 
-    //    // Prefab
-    //    if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("LEVEL_EDITOR_ASSETS"))
-    //    {
-    //        string AssetStr = (char*)payload->Data;
-    //        AssetStr.resize(payload->DataSize);
-    //        std::filesystem::path AssetPath = AssetStr;
-    //        if (L".pref" == AssetPath.extension())
-    //        {
-    //            Ptr<CPrefab> pPrefab = CAssetMgr::GetInst()->Load<CPrefab>(AssetPath, AssetPath);
-    //            CGameObject* pObj = pPrefab->Instantiate();
-
-    //            // 카메라위치 기준 생성
-    //            CCamera* pCam = CRenderMgr::GetInst()->GetMainCamera();
-    //            Vec3 pos = pCam->Transform()->GetWorldPos();
-    //            Vec3 dir = pCam->Transform()->GetWorldDir(DIR_TYPE::FRONT);
-    //            pos += dir.Normalize() * 500.f;
-    //            pObj->Transform()->SetRelativePos(pos);
-
-    //            GamePlayStatic::SpawnGameObject(pObj, pObj->GetLayerIdx());
-    //        }
-    //    }
-
-    //    ImGui::EndDragDropTarget();
-    //}
+        ImGui::EndDragDropTarget();
+    }
 
     ImGui::End();
 }
