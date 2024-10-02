@@ -6,7 +6,6 @@
 
 #include "CEditorCameraScript.h"
 #include <Engine/CRenderMgr.h>
-#include "Gizmo.h"
 #include "EditorLogger.h"
 
 void CEditorMgr::CreateEditorObject()

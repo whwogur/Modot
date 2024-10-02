@@ -172,7 +172,7 @@ void CEditorMgr::RenderViewport()
 
     ImGui::SetNextWindowClass(&window_class);
 
-    ImGui::Begin("Level ViewPort");
+    ImGui::Begin(ICON_FA_GAMEPAD);
 
     // RT Copy
     CRenderMgr::GetInst()->RenderTargetCopy();
