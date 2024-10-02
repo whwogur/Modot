@@ -500,6 +500,7 @@ void CPlayerScript::Tick()
 		}
 		}
 
+		const Vec2& viewportPos = CEditorMgr::GetInst()->GetViewportPos();
 		const std::shared_ptr<PlayerStatus>& playerStat = CPlayerManager::GetInst()->GetPlayerStatusRef();
 
 		wstring HP(std::to_wstring(static_cast<int>(playerStat.get()->HP)));
@@ -509,13 +510,13 @@ void CPlayerScript::Tick()
 
 		tRenderText HPinfo = {};
 		HPinfo.Detail = HP + L" / " + maxHP;
-		HPinfo.Pos = Vec2(150.f, 111.f);
+		HPinfo.Pos = Vec2(150.f, 111.f) + viewportPos;
 		HPinfo.FontSize = 25.f;
 		HPinfo.RGBA = FONT_RGBA(222, 222, 222, 255);
 
 		tRenderText MPinfo = {};
 		MPinfo.Detail = MP + L" / " + maxMP;
-		MPinfo.Pos = Vec2(160.f, 148.f);
+		MPinfo.Pos = Vec2(160.f, 148.f) + viewportPos;
 		MPinfo.FontSize = 25.f;
 		MPinfo.RGBA = FONT_RGBA(222, 222, 222, 255);
 

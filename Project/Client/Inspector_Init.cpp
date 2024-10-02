@@ -16,6 +16,7 @@
 #include "TileMapUI.h"
 #include "ParticleSystemUI.h"
 #include "RigidBodyUI.h"
+#include "TextRenderUI.h"
 
 #include "MeshUI.h"
 #include "MeshDataUI.h"
@@ -82,6 +83,10 @@ void Inspector::CreateComponentUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY] = new RigidBodyUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]->SetName("RigidBodyUI");
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::TEXTRENDER] = new TextRenderUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::TEXTRENDER]->SetName("TextRenderUI");
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::TEXTRENDER]);
 }
 
 void Inspector::CreateScriptUI(UINT _Count)

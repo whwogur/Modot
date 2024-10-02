@@ -30,7 +30,7 @@ const char* COMPONENT_TYPE_STRING[] =
 	"Light3D",
 	"Animator2D",
 	"Animator3D",
-	"State Machine",
+	"Text",
 	"RigidBody",
 	"Camera",
 	"Mesh Render",

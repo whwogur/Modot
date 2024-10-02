@@ -55,7 +55,7 @@ public:
     GET_COMPONENT(Light2D, LIGHT2D);
     GET_COMPONENT(RigidBody, RIGIDBODY);
     GET_COMPONENT(ParticleSystem, PARTICLESYSTEM);
-
+    GET_COMPONENT(TextRender, TEXTRENDER);
 public:
     void Begin();
     void Tick();

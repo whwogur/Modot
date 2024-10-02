@@ -218,6 +218,9 @@
     <ClInclude Include="CPlayerManager.h">
       <Filter>Editor\TestLevel</Filter>
     </ClInclude>
+    <ClInclude Include="TextRenderUI.h">
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -401,6 +404,9 @@
     </ClCompile>
     <ClCompile Include="CPlayerManager.cpp">
       <Filter>Editor\TestLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRenderUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

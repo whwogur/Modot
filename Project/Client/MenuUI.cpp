@@ -32,8 +32,7 @@ void MenuUI::Tick()
 
 	if (ImGui::BeginMainMenuBar())
 	{
-		Ptr<CTexture> LogoTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Modot_Logo");
-		ImGui::Image(LogoTex->GetSRV().Get(), { 25 ,25 });
+		ImGui::Image(m_LogoTex->GetSRV().Get(), { 25 ,25 });
 
 		Update();
 		bool& bDebug = CRenderMgr::GetInst()->GetDebugRenderRef();
@@ -115,7 +114,7 @@ void MenuUI::Tick()
 			color = { 1, 1, 1, 1 };
 		}
 
-		ImGui::SameLine(contentRegionAvailable - 100.f);
+		ImGui::SameLine(contentRegionAvailable);
 		
 		ImGui::TextColored(color, whichCamera.c_str());
 		ImGui::SameLine();
@@ -158,6 +157,11 @@ void MenuUI::Update()
 
 		ImGui::EndMenu();
 	}
+}
+
+void MenuUI::Init()
+{
+	m_LogoTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Modot_Logo");
 }
 
 void MenuUI::File()

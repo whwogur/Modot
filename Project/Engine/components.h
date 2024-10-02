@@ -10,3 +10,4 @@
 #include "CAnimator2D.h"
 #include "CTileMap.h"
 #include "CParticleSystem.h"
+#include "CTextRender.h"

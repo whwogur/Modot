@@ -11,6 +11,8 @@ void DrawDebugRect(const Matrix& _matWorld, Vec4 _Color, float _Life, bool _Dept
 
 void SaveWString(const wstring& _String, FILE* _File);
 void LoadWString(wstring& _String, FILE* _File);
+wstring ToWstring(const string& str);
+string ToString(const wstring& wstr);
 
 template<typename T, int _Size>
 void Delete_Array(T(&_arr)[_Size])

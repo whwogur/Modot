@@ -140,8 +140,13 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 	}
 	case COMPONENT_TYPE::ANIMATOR3D:
 		break;
-	case COMPONENT_TYPE::STATE_MACHINE:
-		break;
+	case COMPONENT_TYPE::TEXTRENDER:
+	{
+		CTextRender* textRender = new CTextRender;
+		AddComponent(textRender);
+		CLevelMgr::GetInst()->SetLevelDirty();
+		return;
+	}
 	case COMPONENT_TYPE::RIGIDBODY:
 	{
 		CRigidBody* rigidBody = new CRigidBody;

@@ -133,6 +133,7 @@
     <ClInclude Include="SoundUI.h" />
     <ClInclude Include="SpriteEditor.h" />
     <ClInclude Include="SpriteUI.h" />
+    <ClInclude Include="TextRenderUI.h" />
     <ClInclude Include="TextureUI.h" />
     <ClInclude Include="TilemapEditor.h" />
     <ClInclude Include="TileMapUI.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="SoundUI.cpp" />
     <ClCompile Include="SpriteEditor.cpp" />
     <ClCompile Include="SpriteUI.cpp" />
+    <ClCompile Include="TextRenderUI.cpp" />
     <ClCompile Include="TextureUI.cpp" />
     <ClCompile Include="TilemapEditor.cpp" />
     <ClCompile Include="TileMapUI.cpp" />

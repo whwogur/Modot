@@ -11,7 +11,7 @@ public:
 public:
     virtual void Tick() override;
     virtual void Update() override;
-
+    virtual void Init() override;
 private:
     void File();
     void Tools();
@@ -20,4 +20,6 @@ private:
     void LoadLevel();
     void SaveLevelAs();
     void AddScript();
+private:
+    Ptr<CTexture>       m_LogoTex;
 };

@@ -88,9 +88,6 @@
     <ClInclude Include="components.h">
       <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="CRenderComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
     <ClInclude Include="Ptr.h">
       <Filter>06. Asset</Filter>
     </ClInclude>
@@ -115,14 +112,8 @@
     <ClInclude Include="CAnimation.h">
       <Filter>06. Asset</Filter>
     </ClInclude>
-    <ClInclude Include="CMeshRender.h">
-      <Filter>Component</Filter>
-    </ClInclude>
     <ClInclude Include="CSprite.h">
       <Filter>06. Asset</Filter>
-    </ClInclude>
-    <ClInclude Include="CTileMap.h">
-      <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="CLight2D.h">
       <Filter>Component</Filter>
@@ -148,9 +139,6 @@
     <ClInclude Include="CComputeShader.h">
       <Filter>06. Asset\Shader\ComputeShader</Filter>
     </ClInclude>
-    <ClInclude Include="CParticleSystem.h">
-      <Filter>Component</Filter>
-    </ClInclude>
     <ClInclude Include="CSetColorCS.h">
       <Filter>06. Asset\Shader\ComputeShader\SetColor</Filter>
     </ClInclude>
@@ -168,6 +156,21 @@
     </ClInclude>
     <ClInclude Include="CFontMgr.h">
       <Filter>04. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CMeshRender.h">
+      <Filter>Component\RenderComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="CParticleSystem.h">
+      <Filter>Component\RenderComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderComponent.h">
+      <Filter>Component\RenderComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="CTileMap.h">
+      <Filter>Component\RenderComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="CTextRender.h">
+      <Filter>Component\RenderComponent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -228,9 +231,6 @@
     <ClCompile Include="CTransform.cpp">
       <Filter>Component</Filter>
     </ClCompile>
-    <ClCompile Include="CRenderComponent.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
     <ClCompile Include="CCamera.cpp">
       <Filter>Component</Filter>
     </ClCompile>
@@ -259,14 +259,8 @@
     <ClCompile Include="CTaskMgr.cpp">
       <Filter>04. Manager</Filter>
     </ClCompile>
-    <ClCompile Include="CMeshRender.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
     <ClCompile Include="CSprite.cpp">
       <Filter>06. Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="CTileMap.cpp">
-      <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="CLight2D.cpp">
       <Filter>Component</Filter>
@@ -292,9 +286,6 @@
     <ClCompile Include="CComputeShader.cpp">
       <Filter>06. Asset\Shader\ComputeShader</Filter>
     </ClCompile>
-    <ClCompile Include="CParticleSystem.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
     <ClCompile Include="CSetColorCS.cpp">
       <Filter>06. Asset\Shader\ComputeShader\SetColor</Filter>
     </ClCompile>
@@ -312,6 +303,21 @@
     </ClCompile>
     <ClCompile Include="CFontMgr.cpp">
       <Filter>04. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CMeshRender.cpp">
+      <Filter>Component\RenderComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="CParticleSystem.cpp">
+      <Filter>Component\RenderComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderComponent.cpp">
+      <Filter>Component\RenderComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="CTileMap.cpp">
+      <Filter>Component\RenderComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="CTextRender.cpp">
+      <Filter>Component\RenderComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -383,6 +389,9 @@
     </Filter>
     <Filter Include="06. Asset\Texture">
       <UniqueIdentifier>{d6f162aa-a841-45ef-bfdf-5d0c839c8d0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\RenderComponent">
+      <UniqueIdentifier>{dad05c7f-0e34-4e57-bbc7-e5f3b7adb613}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -130,3 +130,15 @@ void LoadWString(wstring& _String, FILE* _File)
 	_String.resize(len);
 	fread((wchar_t*)_String.c_str(), sizeof(wchar_t), len, _File);
 }
+
+string ToString(const wstring& wstr)
+{
+	string str(wstr.length(), 0);
+	std::transform(wstr.begin(), wstr.end(), str.begin(), [](wchar_t c) { return (char)c; });
+	return str;
+}
+
+wstring ToWstring(const string& str)
+{
+	return wstring().assign(str.begin(), str.end());
+}

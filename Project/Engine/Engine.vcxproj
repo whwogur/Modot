@@ -144,6 +144,7 @@ call EngineHeaderCopy.bat</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="CTextRender.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTileMap.h" />
     <ClInclude Include="CTimeMgr.h">
@@ -203,6 +204,7 @@ call EngineHeaderCopy.bat</Command>
     <ClCompile Include="CSprite.cpp" />
     <ClCompile Include="CStructuredBuffer.cpp" />
     <ClCompile Include="CTaskMgr.cpp" />
+    <ClCompile Include="CTextRender.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTileMap.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />

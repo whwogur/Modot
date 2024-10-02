@@ -27,6 +27,8 @@ public:
     void SetThemeFutureDark();
 
     void SetTargetObject(CGameObject* _Target) { m_TargetObject = _Target; };
+
+    const Vec2& GetViewportPos() { return m_ViewportPos; }
 private:
     void CreateEditorObject();
     void EditorObjectUpdate();
@@ -43,6 +45,7 @@ private:
 
     Vec2                            m_ViewportSize = {};
     Vec2                            m_ViewportMousePos = {};
+    Vec2                            m_ViewportPos = {};
     CGameObject*                    m_TargetObject = nullptr;
 
     std::unique_ptr<EditorLogger>   m_Logger = nullptr;
