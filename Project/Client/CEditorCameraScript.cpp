@@ -48,14 +48,14 @@ void CEditorCameraScript::OrthoGraphicMove()
 		Vec3 vPos = Transform()->GetRelativePos();
 		if (KEY_PRESSED(KEY::O))
 		{
-			float scale = Camera()->GetScale();
-			Camera()->SetScale(float(scale + 0.005));
+			float& scale = Camera()->GetScaleRef();
+			scale += 1 * EngineDT;
 		}
 
 		if (KEY_PRESSED(KEY::I))
 		{
-			float scale = Camera()->GetScale();
-			Camera()->SetScale(float(scale - 0.005));
+			float& scale = Camera()->GetScaleRef();
+			scale -= 1 * EngineDT;
 		}
 
 		if (KEY_PRESSED(KEY::W))

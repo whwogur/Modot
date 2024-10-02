@@ -43,6 +43,7 @@ void CEditorMgr::InitImGui()
     config.MergeMode = true;
     static const ImWchar icon_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
     io.Fonts->AddFontFromFileTTF(iconContentPath.c_str(), 12.0f, &config, icon_ranges);
+    io.Fonts->AddFontFromFileTTF(iconContentPath.c_str(), 12.0f, NULL, io.Fonts->GetGlyphRangesKorean());
     
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;  // Enable Gamepad Controls

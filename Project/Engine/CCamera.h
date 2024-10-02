@@ -52,7 +52,8 @@ public:
     float GetFOV() { return m_FOV; }
 
     void SetScale(float _Scale) { m_ProjectionScale = _Scale; }
-    float GetScale() { return m_ProjectionScale; }
+    float GetScale() const { return m_ProjectionScale; }
+    float& GetScaleRef() { return m_ProjectionScale; }
 
     bool& GetActiveRef() { return m_Active; }
 
