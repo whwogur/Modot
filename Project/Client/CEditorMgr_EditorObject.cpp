@@ -6,12 +6,10 @@
 
 #include "CEditorCameraScript.h"
 #include <Engine/CRenderMgr.h>
-#include "Gizmo.h"
 #include "EditorLogger.h"
 
 void CEditorMgr::CreateEditorObject()
 {
-	m_Gizmo = std::make_shared<Gizmo>();
 	m_Logger = std::make_unique<EditorLogger>();
 
 	CGameObject* pEditorCamera = new CGameObjectEx;
@@ -28,7 +26,6 @@ void CEditorMgr::CreateEditorObject()
 	m_vecEditorObject.push_back(pEditorCamera);
 
 	CRenderMgr::GetInst()->Init(pEditorCamera->Camera());
-	m_Gizmo->Init(pEditorCamera->Camera());
 	m_Logger->LogAdapterInfo();
 }
 

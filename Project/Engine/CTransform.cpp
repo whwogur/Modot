@@ -42,19 +42,22 @@ void CTransform::FinalTick()
 	// 부모 오브젝트가 있는지 확인
 	if (GetOwner()->GetParent())
 	{
+		m_matTransformation = GetOwner()->GetParent()->Transform()->GetWorldMat();
 		// 부모의 월드행렬을 곱해서 최종 월드행렬을 계산함
 		const Matrix& matParentWorldMat = GetOwner()->GetParent()->Transform()->GetWorldMat();
 		if (m_IndependentScale)
 		{
-			Vec3 vParentScale = GetOwner()->GetParent()->Transform()->GetWorldScale();
-			Matrix matParentScale = XMMatrixScaling(vParentScale.x, vParentScale.y, vParentScale.z);
-			Matrix matParentScaceInv = XMMatrixInverse(nullptr, matParentScale);
+			Vec3 vParentScale = GetOwner()->GetParent()->Transform()->GetRelativeScale();
+			Matrix matParentScaleInv = XMMatrixScaling(1.f / vParentScale.x, 1.f / vParentScale.y, 1.f / vParentScale.z);
 
-			m_matWorld = m_matWorld * matParentScaceInv * matParentWorldMat;
+			// 부모의 크기 행렬 상쇄
+			m_matTransformation = matParentScaleInv * m_matTransformation;
+
+			m_matWorld *= m_matTransformation;
 		}
 		else
 		{
-			m_matWorld *= matParentWorldMat;
+			m_matWorld *= m_matTransformation;
 		}
 
 		// 최종 월드기준 오브젝트의 방향벡터를 구함

@@ -132,7 +132,7 @@ void CCameraMoveScript::CameraEffect()
 		z = z == 0 ? 1 : z;
 
 		float ShakeRatio = 1.f - info.Time / info.Duration;
-		Vec3& camPos = Transform()->GetRelativeRoatationRef();
+		Vec3& camPos = Transform()->GetRelativeRotationRef();
 
 		camPos.z = (float)z * ShakeRatio * DT * 3;
 		

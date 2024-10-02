@@ -31,7 +31,7 @@ void TransformUI::Update()
 
 		Vec3& vPos = pTrans->GetRelativePosRef();
 		Vec3& vScale = pTrans->GetRelativeScaleRef();
-		Vec3& vRot = pTrans->GetRelativeRoatationRef();
+		Vec3& vRot = pTrans->GetRelativeRotationRef();
 		vRot = (vRot / XM_PI) * 180.f;
 
 		DrawVec3Control("Position", vPos, 0.0f, 80.0f);

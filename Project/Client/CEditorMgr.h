@@ -4,8 +4,6 @@
 
 class CGameObject;
 class EditorUI;
-struct ImFont;
-class Gizmo;
 class EditorLogger;
 
 class CEditorMgr :
@@ -18,9 +16,6 @@ public:
 
 public:
     EditorUI* FindEditorUI(const string& Name);
-    ImFont* GetIconFont() { return m_IconFont; }
-    void SetTargetObject(CGameObject* Obj);
-    void SetGizmoMode(int Type);
 
     void EditorWarn(const string& _Log);
     void EditorError(const string& _Log);
@@ -30,9 +25,9 @@ public:
     void SetThemeMicrosoft();
     void SetThemeUnrealEngine();
     void SetThemeFutureDark();
-private:
-    void ShortCut();
 
+    void SetTargetObject(CGameObject* _Target) { m_TargetObject = _Target; };
+private:
     void CreateEditorObject();
     void EditorObjectUpdate();
     void InitImGui();
@@ -40,14 +35,24 @@ private:
     void ImGuiTick(); 
     void CreateEditorUI();
     void ObserveContents();
+    void RenderViewport();
+    void RenderGizmo();
 private:
-    vector<CGameObject*>        m_vecEditorObject;
-    map<string, EditorUI*>      m_mapUI;
-    Vec2                        m_ViewportSize;
-    ImFont*                     m_IconFont;
-    std::shared_ptr<Gizmo>      m_Gizmo;
-    std::unique_ptr<EditorLogger> m_Logger;
-    HANDLE                      m_Sentinel;
+    vector<CGameObject*>            m_vecEditorObject;
+    map<string, EditorUI*>          m_mapUI;
+
+    Vec2                            m_ViewportSize = {};
+    Vec2                            m_ViewportMousePos = {};
+    CGameObject*                    m_TargetObject = nullptr;
+
+    std::unique_ptr<EditorLogger>   m_Logger = nullptr;
+    HANDLE                          m_Sentinel = nullptr;
+
+    bool            m_ViewportFocused = false;
+    bool            m_ViewportHovered = false;
+
+    bool            m_GizmoActive = false;
+    int             m_GizmoType = 0;
 };
 
 #ifdef _DEBUG

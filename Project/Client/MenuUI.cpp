@@ -35,8 +35,11 @@ void MenuUI::Tick()
 		ImGui::Image(LogoTex->GetSRV().Get(), { 25 ,25 });
 
 		Update();
+		bool& bDebug = CRenderMgr::GetInst()->GetDebugRenderRef();
+		ToggleButton("##DebugToggle", &bDebug);
+		ImGui::SetItemTooltip(u8"디버그 ON/OFF");
 
-		float contentRegionAvailable = ImGui::GetContentRegionAvail().x + 250.0f;
+		float contentRegionAvailable = ImGui::GetContentRegionAvail().x;
 		LEVEL_STATE state = CLevelMgr::GetInst()->GetCurrentLevel()->GetState();
 		string whichCamera;
 		ImVec4 color;
@@ -51,13 +54,13 @@ void MenuUI::Tick()
 		{
 			whichCamera = ICON_FA_CAMERA " MAINCAM";
 
-			ImGui::SameLine(contentRegionAvailable / 2 + 32);
+			ImGui::SameLine(contentRegionAvailable / 2);
 			if (ImGui::Button(ICON_FA_PAUSE, { 22, 22 }))
 			{
 				ChangeLevelState(LEVEL_STATE::PAUSE);
 				EDITOR_TRACE("Paused");
 			}
-			ImGui::SameLine(contentRegionAvailable / 2 + 70);
+			ImGui::SameLine(contentRegionAvailable / 2 + 30);
 			if (ImGui::Button(ICON_FA_STOP, { 22, 22 }))
 			{
 				const wstring& lvName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
@@ -76,13 +79,13 @@ void MenuUI::Tick()
 		else if (state == LEVEL_STATE::PAUSE)
 		{
 			whichCamera = ICON_FA_PAUSE" PAUSED";
-			ImGui::SameLine(contentRegionAvailable / 2 + 32);
+			ImGui::SameLine(contentRegionAvailable / 2);
 			if (ImGui::Button(ICON_FA_PLAY, { 22, 22 }))
 			{
 				ChangeLevelState(LEVEL_STATE::PLAY);
 				EDITOR_TRACE("Play");
 			}
-			ImGui::SameLine(contentRegionAvailable / 2 + 70);
+			ImGui::SameLine(contentRegionAvailable / 2 + 30);
 			if (ImGui::Button(ICON_FA_STOP, { 22, 22 }))
 			{
 				const wstring& lvName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
@@ -101,7 +104,7 @@ void MenuUI::Tick()
 		else
 		{
 			whichCamera = ICON_FA_CAMERA " EDITORCAM";
-			ImGui::SameLine(contentRegionAvailable / 2 + 32);
+			ImGui::SameLine(contentRegionAvailable / 2);
 			if (ImGui::Button(ICON_FA_PLAY, { 22, 22 }))
 			{
 				ChangeLevelState(LEVEL_STATE::PLAY);
@@ -111,11 +114,8 @@ void MenuUI::Tick()
 			color = { 1, 1, 1, 1 };
 		}
 
-		ImGui::SameLine(1000);
-		bool& bDebug = CRenderMgr::GetInst()->GetDebugRenderRef();
-		ToggleButton("##DebugToggle", &bDebug);
-		ImGui::SetItemTooltip(u8"디버그 ON/OFF");
-
+		ImGui::SameLine(contentRegionAvailable - 100.f);
+		
 		ImGui::TextColored(color, whichCamera.c_str());
 		ImGui::SameLine();
 		ImGui::TextColored(color, buffer);
@@ -161,9 +161,6 @@ void MenuUI::Update()
 
 void MenuUI::File()
 {
-	ImFont* iconFont = CEditorMgr::GetInst()->GetIconFont();
-	ImGui::PushFont(iconFont);
-
 	if (ImGui::BeginMenu(ICON_FA_FILE " File"))
 	{
 		if (ImGui::MenuItem(u8"새 레벨", " Ctrl + N"))
@@ -219,7 +216,6 @@ void MenuUI::File()
 		}
 		ImGui::EndMenu();
 	}
-	ImGui::PopFont();
 }
 
 void MenuUI::Tools()

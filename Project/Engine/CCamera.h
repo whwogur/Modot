@@ -56,8 +56,8 @@ public:
 
     bool& GetActiveRef() { return m_Active; }
 
-    const Matrix& GetcamViewRef() { return m_matView; }
-    const Matrix& GetcamProjRef() { return m_matProj; }
+    Matrix& GetcamViewRef() { return m_matView; }
+    Matrix& GetcamProjRef() { return m_matProj; }
 public:
     virtual void Begin() override;
     virtual void FinalTick() override;
