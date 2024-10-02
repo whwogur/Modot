@@ -21,7 +21,6 @@
 #include "EditorLogger.h"
 CEditorMgr::CEditorMgr()
 	: m_IconFont(nullptr)
-	, m_Gizmo(nullptr)
 	, m_Logger(nullptr)
 	, m_Sentinel(nullptr)
 {
@@ -51,24 +50,12 @@ void CEditorMgr::Init()
 
 void CEditorMgr::Tick()
 {
-    ShortCut();
 
     EditorObjectUpdate();
 
     ImGuiRun();
 
 	ObserveContents();
-}
-
-void CEditorMgr::SetTargetObject(CGameObject* Obj)
-{
-	m_Gizmo->SetTargetObject(Obj); //TODO
-	m_Gizmo->SetGizmoType(ImGuizmo::OPERATION::TRANSLATE);
-}
-
-void CEditorMgr::SetGizmoMode(int Type)
-{
-	{ m_Gizmo->SetGizmoType(ImGuizmo::OPERATION(Type)); }
 }
 
 void CEditorMgr::EditorWarn(const string& _Log)
@@ -448,26 +435,6 @@ void CEditorMgr::SetThemeFutureDark()
 	style.Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.196078434586525f, 0.1764705926179886f, 0.5450980663299561f, 0.501960813999176f);
 }
 
-void CEditorMgr::ShortCut()
-{
-    if (KEY_TAP(KEY::G))
-    {
-		m_Gizmo->ToggleActive();
-    }
-	if (KEY_TAP(KEY::Z))
-	{
-		m_Gizmo->SetGizmoType(ImGuizmo::OPERATION::TRANSLATE);
-	}
-	if (KEY_TAP(KEY::X))
-	{
-		m_Gizmo->SetGizmoType(ImGuizmo::OPERATION::ROTATE);
-	}
-	if (KEY_TAP(KEY::C))
-	{
-		m_Gizmo->SetGizmoType(ImGuizmo::OPERATION::SCALE);
-	}
-}
-
 void CEditorMgr::EditorObjectUpdate()
 {
     for (size_t i = 0; i < m_vecEditorObject.size(); ++i)
@@ -483,7 +450,6 @@ void CEditorMgr::EditorObjectUpdate()
 
 void CEditorMgr::ImGuiTick()
 {
-	m_Gizmo->Update();
     for (const auto& pair : m_mapUI)
     {
         pair.second->Tick();

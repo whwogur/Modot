@@ -19,8 +19,6 @@ public:
 public:
     EditorUI* FindEditorUI(const string& Name);
     ImFont* GetIconFont() { return m_IconFont; }
-    void SetTargetObject(CGameObject* Obj);
-    void SetGizmoMode(int Type);
 
     void EditorWarn(const string& _Log);
     void EditorError(const string& _Log);
@@ -30,9 +28,8 @@ public:
     void SetThemeMicrosoft();
     void SetThemeUnrealEngine();
     void SetThemeFutureDark();
-private:
-    void ShortCut();
 
+private:
     void CreateEditorObject();
     void EditorObjectUpdate();
     void InitImGui();
@@ -45,7 +42,7 @@ private:
     map<string, EditorUI*>      m_mapUI;
     Vec2                        m_ViewportSize;
     ImFont*                     m_IconFont;
-    std::shared_ptr<Gizmo>      m_Gizmo;
+
     std::unique_ptr<EditorLogger> m_Logger;
     HANDLE                      m_Sentinel;
 };

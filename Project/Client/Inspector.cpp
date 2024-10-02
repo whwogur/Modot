@@ -27,7 +27,6 @@ Inspector::~Inspector()
 void Inspector::SetTargetObject(CGameObject* _Object)
 {
 	m_TargetObject = _Object;
-	CEditorMgr::GetInst()->SetTargetObject(_Object);
 	
 	if (_Object != nullptr)
 	{
@@ -196,5 +195,4 @@ void Inspector::Purge()
 	{
 		scriptUI->SetActive(false);
 	}
-	CEditorMgr::GetInst()->SetTargetObject(nullptr);
 }
