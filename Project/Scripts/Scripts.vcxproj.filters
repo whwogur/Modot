@@ -34,6 +34,9 @@
     <Filter Include="Scripts\Player">
       <UniqueIdentifier>{a08cca53-474e-43e0-a0f8-2f1aa1791b50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Text2D">
+      <UniqueIdentifier>{bd4d1793-4eba-4e14-8ad1-a5d431cdedde}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -130,6 +133,9 @@
     <ClInclude Include="CPlayerScript.h">
       <Filter>Scripts\Player</Filter>
     </ClInclude>
+    <ClInclude Include="CText2D.h">
+      <Filter>Scripts\Text2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -225,6 +231,9 @@
     </ClCompile>
     <ClCompile Include="CPlayerScript.cpp">
       <Filter>Scripts\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CText2D.cpp">
+      <Filter>Scripts\Text2D</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

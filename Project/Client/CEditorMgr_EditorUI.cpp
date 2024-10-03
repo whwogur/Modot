@@ -181,7 +181,6 @@ void CEditorMgr::RenderViewport()
 
     // Viewport에서의 마우스 위치 등록
     ImVec2 viewportPos = ImGui::GetCursorScreenPos();
-    m_ViewportPos = Vec2(viewportPos.x, viewportPos.y);
     m_ViewportMousePos = Vec2(ImGui::GetIO().MousePos.x - viewportPos.x, ImGui::GetIO().MousePos.y - viewportPos.y);
 
     // 상태 확인

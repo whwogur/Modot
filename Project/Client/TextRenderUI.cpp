@@ -10,20 +10,26 @@ TextRenderUI::TextRenderUI()
 
 void TextRenderUI::Update()
 {
-	Title();
+    Title();
 
-	if (!Collapsed())
-	{
+    if (!Collapsed())
+    {
         CTextRender* pTextRender = GetTargetObject()->TextRender();
         if (pTextRender != nullptr)
         {
-            const wstring& Str = pTextRender->GetText();
-            char buffer[256] = {};
-            memset(buffer, 0, sizeof(buffer));
-            strcpy_s(buffer, sizeof(buffer), ToString(Str).c_str());
+            static std::string previousText = ToString(pTextRender->GetText());
+            char buffer[256];
+            strcpy_s(buffer, previousText.c_str());
+
+            // ImGui::InputText 사용
             if (ImGui::InputText(u8"텍스트", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
             {
-                pTextRender->SetText(ToWstring(buffer));
+                // buffer가 변경되었으면 std::string으로 변환 후 업데이트
+                if (previousText != buffer)
+                {
+                    previousText = buffer;
+                    pTextRender->SetText(ToWstring(previousText));
+                }
             }
 
             float size = pTextRender->GetTextSize();
@@ -37,10 +43,6 @@ void TextRenderUI::Update()
                 color *= 255.f;
                 pTextRender->SetTextColor(color);
             }
-
-            int CamIdx = pTextRender->GetCameraIdx();
-            if (ImGui::InputInt(u8"카메라 인덱스", &CamIdx))
-                pTextRender->SetCameraIdx(CamIdx);
         }
-	}
+    }
 }

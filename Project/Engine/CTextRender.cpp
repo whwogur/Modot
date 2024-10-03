@@ -55,7 +55,6 @@ void CTextRender::SaveToFile(FILE* _File)
     SaveWString(m_Text, _File);
     fwrite(&m_Size, sizeof(float), 1, _File);
     fwrite(&m_Color, sizeof(Vec4), 1, _File);
-    fwrite(&m_CameraIdx, sizeof(int), 1, _File);
 }
 
 void CTextRender::LoadFromFile(FILE* _File)
@@ -63,5 +62,4 @@ void CTextRender::LoadFromFile(FILE* _File)
     LoadWString(m_Text, _File);
     fread(&m_Size, sizeof(float), 1, _File);
     fread(&m_Color, sizeof(Vec4), 1, _File);
-    fread(&m_CameraIdx, sizeof(int), 1, _File);
 }

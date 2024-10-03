@@ -103,6 +103,35 @@ void ScriptUI::Update()
 				ImGui::SetItemTooltip(vecParam[i].Tooltip.c_str());
 			break;
 		}
+		case SCRIPT_PARAM::WSTRING:
+		{
+			std::string previousText = ToString(*(wstring*)vecParam[i].pData);
+			// 버퍼 재사용을 위해 고정 크기의 배열을 사용
+			static char buffer[1024];
+
+			strcpy_s(buffer, previousText.c_str());
+
+			// ImGui::InputText 사용
+			if (ImGui::InputText(u8"텍스트", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
+			{
+				std::string newText(buffer);
+				// buffer가 변경되었으면 업데이트
+				if (previousText != newText)
+				{
+					if (newText.size() > sizeof(buffer) - 1)
+					{
+						MessageBox(nullptr, L"입력 크기 제한", L"너무 많이 입력했음", MB_OK);
+						assert(nullptr);
+					}
+					else
+					{
+						previousText = newText;
+						(*(wstring*)vecParam[i].pData) = ToWstring(previousText);
+					}
+				}
+			}
+			break;
+		}
 		}
 	}
 

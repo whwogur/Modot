@@ -85,6 +85,9 @@ private:
     CGameObject*    m_HealAngel = nullptr;
     CGameObject*    m_HealParticle = nullptr;
 
+    CGameObject*    m_HPText = nullptr;
+    CGameObject*    m_MPText = nullptr;
+
     CMenuScript*    m_Menu;
 
     bool            m_MenuOpened = false;

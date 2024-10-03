@@ -22,6 +22,7 @@ enum class SCRIPT_PARAM
     SPRITE,
     BUTTON,// Á¶½É
     CHAR,
+    WSTRING,
 };
 
 struct tScriptParam

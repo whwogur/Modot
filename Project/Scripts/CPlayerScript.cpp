@@ -9,7 +9,6 @@
 
 #ifdef _DEBUG
 #include "../Client/Inspector.h"
-#include "../Client/CEditorMgr.h"
 #endif
 
 #include "CMenuScript.h"
@@ -92,6 +91,9 @@ void CPlayerScript::Begin()
 	m_DodgeSpark = GetOwner()->GetChildObject(L"DodgeSpark");
 	m_HealAngel = GetOwner()->GetChildObject(L"HealAngel");
 	m_HealParticle = GetOwner()->GetChildObject(L"HealParticle");
+
+	m_HPText = CLevelMgr::GetInst()->FindObjectByName(L"PlayerHPText");
+	m_MPText = CLevelMgr::GetInst()->FindObjectByName(L"PlayerMPText");
 
 	fx = CLevelMgr::GetInst()->FindObjectByName(L"Menu");
 
@@ -500,7 +502,6 @@ void CPlayerScript::Tick()
 		}
 		}
 
-		const Vec2& viewportPos = CEditorMgr::GetInst()->GetViewportPos();
 		const std::shared_ptr<PlayerStatus>& playerStat = CPlayerManager::GetInst()->GetPlayerStatusRef();
 
 		wstring HP(std::to_wstring(static_cast<int>(playerStat.get()->HP)));
@@ -508,20 +509,8 @@ void CPlayerScript::Tick()
 		wstring MP(std::to_wstring(static_cast<int>(playerStat.get()->MP)));
 		wstring maxMP(std::to_wstring(static_cast<int>(playerStat.get()->maxMP)));
 
-		tRenderText HPinfo = {};
-		HPinfo.Detail = HP + L" / " + maxHP;
-		HPinfo.Pos = Vec2(150.f, 111.f) + viewportPos;
-		HPinfo.FontSize = 25.f;
-		HPinfo.RGBA = FONT_RGBA(222, 222, 222, 255);
-
-		tRenderText MPinfo = {};
-		MPinfo.Detail = MP + L" / " + maxMP;
-		MPinfo.Pos = Vec2(160.f, 148.f) + viewportPos;
-		MPinfo.FontSize = 25.f;
-		MPinfo.RGBA = FONT_RGBA(222, 222, 222, 255);
-
-		CRenderMgr::GetInst()->AddRenderText(HPinfo);
-		CRenderMgr::GetInst()->AddRenderText(MPinfo);
+		m_HPText->TextRender()->SetText(HP + L" / " + maxHP);
+		m_MPText->TextRender()->SetText(MP + L" / " + maxMP);
 	}
 	
 }

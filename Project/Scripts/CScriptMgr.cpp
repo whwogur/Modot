@@ -25,6 +25,7 @@
 #include "CPlayerScript.h"
 #include "CSigil.h"
 #include "CSpriteRenderScript.h"
+#include "CText2D.h"
 #include "CTintedBGScript.h"
 #include "CTitleSequence.h"
 #include "CUIBarScript.h"
@@ -57,6 +58,7 @@ void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
 	_vec.push_back(L"CPlayerScript");
 	_vec.push_back(L"CSigil");
 	_vec.push_back(L"CSpriteRenderScript");
+	_vec.push_back(L"CText2D");
 	_vec.push_back(L"CTintedBGScript");
 	_vec.push_back(L"CTitleSequence");
 	_vec.push_back(L"CUIBarScript");
@@ -114,6 +116,8 @@ CScript * CScriptMgr::GetScript(const wstring& _strScriptName)
 		return new CSigil;
 	if (L"CSpriteRenderScript" == _strScriptName)
 		return new CSpriteRenderScript;
+	if (L"CText2D" == _strScriptName)
+		return new CText2D;
 	if (L"CTintedBGScript" == _strScriptName)
 		return new CTintedBGScript;
 	if (L"CTitleSequence" == _strScriptName)
@@ -202,6 +206,9 @@ CScript * CScriptMgr::GetScript(UINT _iScriptType)
 		break;
 	case (UINT)SCRIPT_TYPE::SPRITERENDERSCRIPT:
 		return new CSpriteRenderScript;
+		break;
+	case (UINT)SCRIPT_TYPE::TEXT2D:
+		return new CText2D;
 		break;
 	case (UINT)SCRIPT_TYPE::TINTEDBGSCRIPT:
 		return new CTintedBGScript;
@@ -320,6 +327,10 @@ const wchar_t * CScriptMgr::GetScriptName(CScript * _pScript)
 
 	case SCRIPT_TYPE::SPRITERENDERSCRIPT:
 		return L"CSpriteRenderScript";
+		break;
+
+	case SCRIPT_TYPE::TEXT2D:
+		return L"CText2D";
 		break;
 
 	case SCRIPT_TYPE::TINTEDBGSCRIPT:
