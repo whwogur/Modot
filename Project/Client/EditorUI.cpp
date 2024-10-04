@@ -37,6 +37,10 @@ void EditorUI::Tick()
 		flag = ImGuiWindowFlags_MenuBar;
 	if (!m_Moveable)
 		flag |= ImGuiWindowFlags_NoMove;
+	if (m_Transparent)
+		flag |= ImGuiWindowFlags_NoBackground;
+	if (!m_Dockable)
+		flag |= ImGuiWindowFlags_NoDocking;
 
 	if (nullptr == m_Parent)
 	{

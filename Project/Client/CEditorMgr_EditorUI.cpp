@@ -141,6 +141,8 @@ void CEditorMgr::CreateEditorUI()
     pUI->SetName("TilemapEditor");
     pUI->Init();
     pUI->SetActive(false);
+    pUI->SetTransparent(true);
+    pUI->SetDockable(false);
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
     pUI = new CollisionCheck;
@@ -324,7 +326,7 @@ void CEditorMgr::ImGuiRun()
 
     ImGuiTick();
 
-    if (KEY_TAP(KEY::G))
+    if (KEY_TAP(KEY::G) && m_ViewportFocused)
     {
         m_GizmoActive = !m_GizmoActive;
         m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;

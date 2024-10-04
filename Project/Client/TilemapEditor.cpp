@@ -35,12 +35,17 @@ void TilemapEditor::Update()// 정리 필요..;
         int maxAtlasCol = m_Tilemap->GetMaxAtlasCol();
         static int selTileIndex = 0;
 
-		
+		// ============
+        // Selector
+        // ============
         static bool bOpen = IsActive();
         static bool enableGrid = false;
-        ImGui::Begin(ICON_FA_HAND_POINTER_O "##TileAtlasSelector", &bOpen);
-        ImGui::NewLine();
-        ImGui::TextColored(HEADER_1, "Atlas :");
+        bool& bTransparent = IsTransparentRef();
+        ImGui::Begin(ICON_FA_HAND_POINTER_O "##TileAtlasSelector", &bOpen, ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse);
+        ImGui::TextColored(HEADER_2, u8"투명");
+        ImGui::SameLine();
+        ToggleButton("##TilemapTransparent", &bTransparent);
+        ImGui::TextColored(HEADER_1, u8"아틀라스 :");
         ImGui::SameLine();
         const map<wstring, Ptr<CAsset>>& pTextures = CAssetMgr::GetInst()->GetAssets(ASSET_TYPE::TEXTURE);
         ImGui::SetNextItemWidth(200);
@@ -57,7 +62,8 @@ void TilemapEditor::Update()// 정리 필요..;
             ImGui::EndCombo();
         }
         ImGui::SetItemTooltip(u8"타일맵 아틀라스를\n선택해주세요");
-        ImGui::Checkbox("Enable Grid", &enableGrid);
+        ImGui::SameLine();
+        ImGui::Checkbox(u8"그리드", &enableGrid);
         if (!m_EditHistory.empty())
         {
             ImGui::SameLine();
@@ -158,6 +164,9 @@ void TilemapEditor::Update()// 정리 필요..;
         ImGui::SetItemTooltip(u8"게임 화면 타일 크기");
         ImGui::End();
 
+        // ============
+        // Tilemap
+        // ============
 
         int previewIdx = 0;
         float previewTileSize = 30;
@@ -233,7 +242,7 @@ void TilemapEditor::Update()// 정리 필요..;
                     CTileMap* pTilemap = pGameObject->TileMap();
                     if (pTilemap != nullptr)
                     {
-                        m_Tilemap = pTilemap;
+                        SetTilemap(pTilemap);
                     }
                 }
             }
@@ -245,14 +254,21 @@ void TilemapEditor::Update()// 정리 필요..;
 
 void TilemapEditor::Activate()
 {
-    m_RowCol = m_Tilemap->GetRowCol();
+    if (m_Tilemap != nullptr)
+        m_RowCol = m_Tilemap->GetRowCol();
+    else
+        SetTransparent(false);
 }
 
 void TilemapEditor::SetTilemap(CTileMap* _Tilemap)
 {//TODO
     m_Tilemap = _Tilemap;
-    const vector<tTileInfo>& vecRef = m_Tilemap->GetTileInfoRef();
-    m_TilemapToBeEdited.assign(vecRef.begin(), vecRef.end());
+    if (m_Tilemap != nullptr)
+    {
+        const vector<tTileInfo>& vecRef = m_Tilemap->GetTileInfoRef();
+        m_TilemapToBeEdited.assign(vecRef.begin(), vecRef.end());
+    }
+
     m_EditHistory.clear();
 }
 

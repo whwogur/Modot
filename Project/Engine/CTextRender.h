@@ -25,9 +25,13 @@ public:
     Vec4 GetTextColor() const { return m_Color; }
     void SetTextColor(Vec4 _color) { m_Color = _color; }
 
+    const int GetCamIdx() const { return m_CameraIdx; }
+    int& GetCamIdxRef() { return m_CameraIdx; }
+    void SetCamIdx(int _Val) { m_CameraIdx = _Val; }
 private:
     wstring     m_Text = {};
     float       m_Size = 20.f;
     Vec4        m_Color = Vec4(255.f, 255.f, 255.f, 255.f);
+    int        m_CameraIdx = 0;
 };
 

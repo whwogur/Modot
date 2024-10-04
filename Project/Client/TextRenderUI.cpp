@@ -17,8 +17,8 @@ void TextRenderUI::Update()
         CTextRender* pTextRender = GetTargetObject()->TextRender();
         if (pTextRender != nullptr)
         {
-            static std::string previousText = ToString(pTextRender->GetText());
-            char buffer[256];
+            std::string previousText = ToString(pTextRender->GetText());
+            static char buffer[256];
             strcpy_s(buffer, previousText.c_str());
 
             // ImGui::InputText 사용
@@ -42,6 +42,13 @@ void TextRenderUI::Update()
             {
                 color *= 255.f;
                 pTextRender->SetTextColor(color);
+            }
+
+            int camIdx = pTextRender->GetCamIdx();
+
+            if (ImGui::InputInt(u8"카메라", &camIdx, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue))
+            {
+                pTextRender->SetCamIdx(camIdx);
             }
         }
     }

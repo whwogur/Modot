@@ -6,6 +6,8 @@
 #include "CFontMgr.h"
 #include "CTransform.h"
 #include "CAssetMgr.h"
+#include "CLevelMgr.h"
+#include "CLevel.h"
 CTextRender::CTextRender()
 	: CRenderComponent(COMPONENT_TYPE::TEXTRENDER)
 {
@@ -19,7 +21,11 @@ void CTextRender::FinalTick()
 
 void CTextRender::Render()
 {
-    CCamera* pCam = CRenderMgr::GetInst()->GetMainCamera();
+    CCamera* pCam = nullptr;
+    if (CLevelMgr::GetInst()->GetCurrentLevel()->GetState() == LEVEL_STATE::PLAY)
+        pCam = CRenderMgr::GetInst()->GetCamera(m_CameraIdx);
+    else
+        pCam = CRenderMgr::GetInst()->GetEditorCamera();
 
     if (nullptr == pCam)
         return;
@@ -55,6 +61,7 @@ void CTextRender::SaveToFile(FILE* _File)
     SaveWString(m_Text, _File);
     fwrite(&m_Size, sizeof(float), 1, _File);
     fwrite(&m_Color, sizeof(Vec4), 1, _File);
+    fwrite(&m_CameraIdx, sizeof(int), 1, _File);
 }
 
 void CTextRender::LoadFromFile(FILE* _File)
@@ -62,4 +69,5 @@ void CTextRender::LoadFromFile(FILE* _File)
     LoadWString(m_Text, _File);
     fread(&m_Size, sizeof(float), 1, _File);
     fread(&m_Color, sizeof(Vec4), 1, _File);
+    fread(&m_CameraIdx, sizeof(int), 1, _File);
 }

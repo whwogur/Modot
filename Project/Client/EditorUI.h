@@ -28,6 +28,11 @@ public:
 	void SetActive(bool _Active);
 	void Toggle() { m_Active = !m_Active; }
 
+	void SetTransparent(bool _b) { m_Transparent = _b; }
+	bool& IsTransparentRef() { return m_Transparent; }
+
+	void SetDockable(bool _b) { m_Dockable = _b; }
+	bool& IsDockableRef() { return m_Dockable; }
 	void SetModal(bool _Modal) { m_Modal = _Modal; }
 	bool IsModal() const { return m_Modal; }
 	void UseMenuBar(bool _Use) { m_UseMenuBar = _Use; }
@@ -63,6 +68,8 @@ private:
 	bool				m_UseMenuBar;
 	bool				m_Moveable;
 	bool				m_HorizontalScroll;
+	bool				m_Transparent = false;
+	bool				m_Dockable = true;
 };
 
 typedef void(EditorUI::* DELEGATE_0)(void);
