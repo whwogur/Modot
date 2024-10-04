@@ -35,10 +35,6 @@ void MenuUI::Tick()
 		ImGui::Image(m_LogoTex->GetSRV().Get(), { 25 ,25 });
 
 		Update();
-		bool& bDebug = CRenderMgr::GetInst()->GetDebugRenderRef();
-		ToggleButton("##DebugToggle", &bDebug);
-		ImGui::SetItemTooltip(u8"디버그 ON/OFF");
-
 		float contentRegionAvailable = ImGui::GetContentRegionAvail().x;
 		LEVEL_STATE state = CLevelMgr::GetInst()->GetCurrentLevel()->GetState();
 		string whichCamera;
@@ -133,30 +129,13 @@ void MenuUI::Update()
 
 	Assets();
 
-	if (ImGui::BeginMenu(ICON_FA_GLOBE " External"))
-	{
-		if (ImGui::MenuItem(ICON_FA_GITHUB " Github"))
-		{
-			ShellExecute(0, 0, L"https://github.com/whwogur", 0, 0, SW_SHOW);
-		}
+	External();
 
-		if (ImGui::MenuItem(ICON_FA_YOUTUBE_PLAY " Youtube"))
-		{
-			ShellExecute(0, 0, L"https://www.youtube.com/@user-vy8dx1rr4q", 0, 0, SW_SHOW);
-		}
+	bool& bDebug = CRenderMgr::GetInst()->GetDebugRenderRef();
+	ToggleButton("##DebugToggle", &bDebug);
+	ImGui::SetItemTooltip(u8"디버그 ON/OFF");
 
-		if (ImGui::MenuItem(ICON_FA_TWITCH " Aesprite"))
-		{
-			
-		}
-
-		if (ImGui::MenuItem(ICON_FA_TERMINAL" CMD"))
-		{
-			ShellExecute(NULL, L"open", L"cmd.exe", NULL, NULL, SW_SHOWNORMAL);
-		}
-
-		ImGui::EndMenu();
-	}
+	GizmoStat();
 }
 
 void MenuUI::Init()
@@ -276,6 +255,47 @@ void MenuUI::Assets()
 
 
 		ImGui::EndMenu();
+	}
+}
+
+void MenuUI::External()
+{
+	if (ImGui::BeginMenu(ICON_FA_GLOBE " External"))
+	{
+		if (ImGui::MenuItem(ICON_FA_GITHUB " Github"))
+		{
+			ShellExecute(0, 0, L"https://github.com/whwogur", 0, 0, SW_SHOW);
+		}
+
+		if (ImGui::MenuItem(ICON_FA_YOUTUBE_PLAY " Youtube"))
+		{
+			ShellExecute(0, 0, L"https://www.youtube.com/@user-vy8dx1rr4q", 0, 0, SW_SHOW);
+		}
+
+		if (ImGui::MenuItem(ICON_FA_TWITCH " Aesprite"))
+		{
+
+		}
+
+		if (ImGui::MenuItem(ICON_FA_TERMINAL" CMD"))
+		{
+			ShellExecute(NULL, L"open", L"cmd.exe", NULL, NULL, SW_SHOWNORMAL);
+		}
+
+		ImGui::EndMenu();
+	}
+}
+
+void MenuUI::GizmoStat()
+{
+	const bool& IsGizmoActive = CEditorMgr::GetInst()->GetGizmoActiveRef();
+	if (IsGizmoActive)
+	{
+		const int& GizmoType = CEditorMgr::GetInst()->GetGizmoTypeRef();
+		
+		ImGui::TextColored(GizmoType == 7	? ImVec4(HEADER_3) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_ARROWS); // TRANS
+		ImGui::TextColored(GizmoType == 120 ? ImVec4(HEADER_3) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_DOT_CIRCLE_O); // RITATE
+		ImGui::TextColored(GizmoType == 896 ? ImVec4(HEADER_3) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_EXPAND); // SCALE
 	}
 }
 

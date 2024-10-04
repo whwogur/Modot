@@ -16,6 +16,8 @@ private:
     void File();
     void Tools();
     void Assets();
+    void External();
+    void GizmoStat();
 
     void LoadLevel();
     void SaveLevelAs();

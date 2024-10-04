@@ -115,6 +115,7 @@ void CEditorMgr::CreateEditorUI()
     pUI = new AnimationEditor;
     pUI->SetName("AnimationEditor");
     pUI->SetActive(false);
+    pUI->SetDockable(false);
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
     // SE_AtlasView
@@ -148,6 +149,7 @@ void CEditorMgr::CreateEditorUI()
     pUI = new CollisionCheck;
     pUI->SetName(ICON_FA_CHECK_SQUARE_O" CollisionCheck");
     pUI->SetActive(false);
+    pUI->SetDockable(false);
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 }
 

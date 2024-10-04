@@ -21,12 +21,10 @@ public:
     void EditorError(const string& _Log);
     void EditorTrace(const string& _Log);
 
-    void SetThemeMoonlight();
-    void SetThemeMicrosoft();
-    void SetThemeUnrealEngine();
-    void SetThemeFutureDark();
-
     void SetTargetObject(CGameObject* _Target) { m_TargetObject = _Target; };
+
+    const bool& GetGizmoActiveRef() const { return m_GizmoActive; }
+    const int& GetGizmoTypeRef() const { return m_GizmoType; }
 private:
     void CreateEditorObject();
     void EditorObjectUpdate();
@@ -37,6 +35,11 @@ private:
     void ObserveContents();
     void RenderViewport();
     void RenderGizmo();
+
+    void SetThemeMoonlight();
+    void SetThemeMicrosoft();
+    void SetThemeUnrealEngine();
+    void SetThemeFutureDark();
 private:
     vector<CGameObject*>            m_vecEditorObject;
     map<string, EditorUI*>          m_mapUI;
