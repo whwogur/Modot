@@ -7,6 +7,7 @@ TilemapEditor::TilemapEditor()
     , m_Altered(false)
     , m_RowCol{1, 1}
 {
+    m_ImageNotFound = CAssetMgr::GetInst()->FindAsset<CTexture>(L"ImageNotFound");
 }
 
 void TilemapEditor::Init()
@@ -228,6 +229,7 @@ void TilemapEditor::Update()// 정리 필요..;
     {
         ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, u8"선택된 타일맵 없음");
 
+        ImGui::Image(m_ImageNotFound->GetSRV().Get(), { 820, 400 });
         if (ImGui::BeginDragDropTarget())
         {
             const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HierarchyViewTree");

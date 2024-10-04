@@ -30,4 +30,6 @@ private:
     std::vector<tTileInfo>              m_TilemapToBeEdited;
     bool                                m_Altered;
     std::pair<int, int>                 m_RowCol;
+    
+    Ptr<CTexture>                       m_ImageNotFound;
 };
