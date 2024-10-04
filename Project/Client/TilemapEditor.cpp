@@ -205,7 +205,7 @@ void TilemapEditor::Update()// 정리 필요..;
             (wY < mY && mY < wY + wSY) &&
             ImGui::IsWindowFocused())
         {
-            if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+            if (ImGui::IsMouseDown(ImGuiMouseButton_Right))
             {
                 ImVec2 pos = { mX - wX, mY - wY };
                 float scrollX = ImGui::GetScrollX();
@@ -276,9 +276,12 @@ void TilemapEditor::SetTilemap(CTileMap* _Tilemap)
 
 void TilemapEditor::Edit(UINT vecTileIdx, UINT oldImgIdx, UINT newImgIdx)
 {
-    m_EditHistory.push_back(std::make_pair(vecTileIdx, oldImgIdx));
+    if (m_TilemapToBeEdited[vecTileIdx].ImgIdx != newImgIdx)
+    {
+        m_EditHistory.push_back(std::make_pair(vecTileIdx, oldImgIdx));
 
-    m_TilemapToBeEdited[vecTileIdx].ImgIdx = newImgIdx;
+        m_TilemapToBeEdited[vecTileIdx].ImgIdx = newImgIdx;
+    }
 }
 
 void TilemapEditor::Undo()
