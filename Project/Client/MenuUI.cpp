@@ -134,8 +134,6 @@ void MenuUI::Update()
 	bool& bDebug = CRenderMgr::GetInst()->GetDebugRenderRef();
 	ToggleButton("##DebugToggle", &bDebug);
 	ImGui::SetItemTooltip(u8"µð¹ö±× ON/OFF");
-
-	GizmoStat();
 }
 
 void MenuUI::Init()
@@ -283,19 +281,6 @@ void MenuUI::External()
 		}
 
 		ImGui::EndMenu();
-	}
-}
-
-void MenuUI::GizmoStat()
-{
-	const bool& IsGizmoActive = CEditorMgr::GetInst()->GetGizmoActiveRef();
-	if (IsGizmoActive)
-	{
-		const int& GizmoType = CEditorMgr::GetInst()->GetGizmoTypeRef();
-		
-		ImGui::TextColored(GizmoType == 7	? ImVec4(HEADER_3) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_ARROWS); // TRANS
-		ImGui::TextColored(GizmoType == 120 ? ImVec4(HEADER_3) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_DOT_CIRCLE_O); // RITATE
-		ImGui::TextColored(GizmoType == 896 ? ImVec4(HEADER_3) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_EXPAND); // SCALE
 	}
 }
 
