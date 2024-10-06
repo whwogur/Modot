@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CEditorCameraScript.h"
+#include "CEditorMgr.h"
 
 CEditorCameraScript::CEditorCameraScript()
 	: CScript(-1)
@@ -28,10 +29,13 @@ void CEditorCameraScript::Tick()
 
 	if (KEY_TAP(KEY::P))
 	{
-		if (PROJ_TYPE::ORTHOGRAPHIC == Camera()->GetProjType())
-			Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
-		else
-			Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+		if (CEditorMgr::GetInst()->IsViewportFocused() && CEditorMgr::GetInst()->IsViewportHovered())
+		{
+			if (PROJ_TYPE::ORTHOGRAPHIC == Camera()->GetProjType())
+				Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
+			else
+				Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+		}
 	}
 }
 

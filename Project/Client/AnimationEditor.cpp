@@ -219,7 +219,7 @@ void AnimationEditor::Update()
         ImGui::SetWindowFontScale(1.18f);
         ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, u8"애니메이션을 선택해주세요!!!");
         ImGui::SameLine(800);
-        if (ImGui::Button(ICON_FA_FILE_IMAGE_O "NEW", { 100, 30 }))
+        if (ImGui::Button(ICON_FA_DELICIOUS " NEW", { 100, 30 }))
         {
             Ptr<CAnimation> temp = new CAnimation;
             Ptr<CSprite> tempSprite = CAssetMgr::GetInst()->FindAsset<CSprite>(L"DefaultSprite");

@@ -25,6 +25,9 @@ public:
 
     const bool& GetGizmoActiveRef() const { return m_GizmoActive; }
     const int& GetGizmoTypeRef() const { return m_GizmoType; }
+
+    const bool IsViewportFocused() const { return m_ViewportFocused; }
+    const bool IsViewportHovered() const { return m_ViewportHovered; }
 private:
     void CreateEditorObject();
     void EditorObjectUpdate();

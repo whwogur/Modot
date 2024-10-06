@@ -502,15 +502,15 @@ void CPlayerScript::Tick()
 		}
 		}
 
-		const std::shared_ptr<PlayerStatus>& playerStat = CPlayerManager::GetInst()->GetPlayerStatusRef();
-
-		wstring HP(std::to_wstring(static_cast<int>(playerStat.get()->HP)));
-		wstring maxHP(std::to_wstring(static_cast<int>(playerStat.get()->maxHP)));
-		wstring MP(std::to_wstring(static_cast<int>(playerStat.get()->MP)));
-		wstring maxMP(std::to_wstring(static_cast<int>(playerStat.get()->maxMP)));
-
-		m_HPText->TextRender()->SetText(HP + L" / " + maxHP);
-		m_MPText->TextRender()->SetText(MP + L" / " + maxMP);
+		//const std::shared_ptr<PlayerStatus>& playerStat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+		//
+		//wstring HP(std::to_wstring(static_cast<int>(playerStat.get()->HP)));
+		//wstring maxHP(std::to_wstring(static_cast<int>(playerStat.get()->maxHP)));
+		//wstring MP(std::to_wstring(static_cast<int>(playerStat.get()->MP)));
+		//wstring maxMP(std::to_wstring(static_cast<int>(playerStat.get()->maxMP)));
+		//
+		//m_HPText->TextRender()->SetText(HP + L" / " + maxHP);
+		//m_MPText->TextRender()->SetText(MP + L" / " + maxMP);
 	}
 	
 }

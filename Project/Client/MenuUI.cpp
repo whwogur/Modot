@@ -260,7 +260,7 @@ void MenuUI::External()
 {
 	if (ImGui::BeginMenu(ICON_FA_GLOBE " External"))
 	{
-		if (ImGui::MenuItem(ICON_FA_GITHUB " Github"))
+		if (ImGui::MenuItem(ICON_FA_GITHUB_SQUARE " Github"))
 		{
 			ShellExecute(0, 0, L"https://github.com/whwogur", 0, 0, SW_SHOW);
 		}

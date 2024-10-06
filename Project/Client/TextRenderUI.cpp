@@ -21,15 +21,21 @@ void TextRenderUI::Update()
             static char buffer[256];
             strcpy_s(buffer, previousText.c_str());
 
-            // ImGui::InputText 사용
-            if (ImGui::InputText(u8"텍스트", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
+            if (ImGui::IsWindowFocused())
             {
-                // buffer가 변경되었으면 std::string으로 변환 후 업데이트
-                if (previousText != buffer)
+                if (ImGui::InputTextMultiline(u8"텍스트", buffer, sizeof(buffer), {0, 200}, ImGuiInputTextFlags_CtrlEnterForNewLine))
                 {
-                    previousText = buffer;
-                    pTextRender->SetText(ToWstring(previousText));
+                    // buffer가 변경되었으면 std::string으로 변환 후 업데이트
+                    if (previousText != buffer)
+                    {
+                        previousText = buffer;
+                        pTextRender->SetText(ToWstring(previousText));
+                    }
                 }
+            }
+            else
+            {
+                ImGui::InputText(u8"텍스트", buffer, sizeof(buffer), ImGuiInputTextFlags_ReadOnly);
             }
 
             float size = pTextRender->GetTextSize();
