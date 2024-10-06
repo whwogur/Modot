@@ -1,6 +1,6 @@
 #include "spch.h"
 #include "CText2D.h"
-
+//TODO
 CText2D::CText2D()
 	: CScript(SCRIPT_TYPE::TEXT2D)
 {

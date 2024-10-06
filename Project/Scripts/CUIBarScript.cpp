@@ -3,7 +3,7 @@
 
 #include "../Client/CEditorMgr.h"
 #include "CNPCUIScript.h"
-
+//TODO
 CUIBarScript::CUIBarScript()
 	: CScript(SCRIPT_TYPE::UIBARSCRIPT)
 {
