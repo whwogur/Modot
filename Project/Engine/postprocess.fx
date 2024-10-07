@@ -228,6 +228,7 @@ float4 PS_EffectMerge(VS_OUT _in) : SV_Target
     float4 vEffectBlur = g_tex_1.Sample(g_sam_0, _in.vUV);
     
     float4 vBloom = pow(abs(pow(vEffect, 2.2f)) + abs(pow(vEffectBlur, 2.2f)), 1.f / 2.2f);
+    vBloom = saturate(vBloom);
     
     return vBloom;
 }

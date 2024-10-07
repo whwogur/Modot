@@ -433,5 +433,8 @@
     <FxCompile Include="particletick.fx">
       <Filter>Shader\ComputeShader</Filter>
     </FxCompile>
+    <FxCompile Include="std3d.fx">
+      <Filter>Shader\GraphicShader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
