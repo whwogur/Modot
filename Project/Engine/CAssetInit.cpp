@@ -21,14 +21,11 @@ void CAssetMgr::Init()
 
 void CAssetMgr::CreateEngineMesh()
 {
-	MD_PROFILE_FUNCTION();
 	Ptr<CMesh> pMesh = nullptr;
-
 	Vtx v;
 
 	// PointMesh
-	pMesh = new CMesh;
-	pMesh->SetEngineAsset();
+	pMesh = new CMesh();
 	v.vPos = Vec3(0.f, 0.f, 0.f);
 	v.vColor = Vec4(0.f, 0.f, 0.f, 1.f);
 	v.vUV = Vec2(0.f, 0.f);
@@ -36,7 +33,12 @@ void CAssetMgr::CreateEngineMesh()
 	UINT i = 0;
 	pMesh->Create(&v, 1, &i, 1);
 	AddAsset(L"PointMesh", pMesh);
+	pMesh->SetEngineAsset();
 
+	// RectMesh 생성	
+	// 0 -- 1
+	// | \  |
+	// 3 -- 2
 	Vtx arrVtx[4] = {};
 
 	v.vPos = Vec3(-0.5f, 0.5f, 0.f);
@@ -62,12 +64,12 @@ void CAssetMgr::CreateEngineMesh()
 	v.vUV = Vec2(0.f, 1.f);
 	arrVtx[3] = v;
 
-	// Index 버퍼
+	// Index 버퍼 생성
 	UINT arrIdx[6] = {};
 	arrIdx[0] = 0;	arrIdx[1] = 1;	arrIdx[2] = 2;
 	arrIdx[3] = 0; 	arrIdx[4] = 2;	arrIdx[5] = 3;
 
-	pMesh = new CMesh;
+	pMesh = new CMesh();
 	pMesh->Create(arrVtx, 4, arrIdx, 6);
 	pMesh->SetEngineAsset();
 	AddAsset(L"RectMesh", pMesh);
@@ -75,7 +77,7 @@ void CAssetMgr::CreateEngineMesh()
 	// RectMesh_Debug
 	arrIdx[0] = 0;	arrIdx[1] = 1;	arrIdx[2] = 2; arrIdx[3] = 3; arrIdx[4] = 0;
 
-	pMesh = new CMesh;
+	pMesh = new CMesh();
 	pMesh->Create(arrVtx, 4, arrIdx, 5);
 	pMesh->SetEngineAsset();
 	AddAsset(L"RectMesh_Debug", pMesh);
@@ -88,10 +90,6 @@ void CAssetMgr::CreateEngineMesh()
 	float fTheta = XM_2PI / Slice;
 	float Radius = 0.5f;
 
-	// reserve를 사용해 벡터 크기 미리 예약
-	vecVtx.reserve(Slice + 2);    // 중심점(1) + 테두리 점(Slice + 1)
-	vecIdx.reserve(Slice * 3);    // Slice개의 삼각형, 각 삼각형은 3개의 인덱스
-
 	// 중심점
 	v.vPos = Vec3(0.f, 0.f, 0.f);
 	v.vUV = Vec2(0.5f, 0.5f);
@@ -99,7 +97,7 @@ void CAssetMgr::CreateEngineMesh()
 	v.vTangent = Vec3(1.f, 0.f, 0.f);
 	v.vNormal = Vec3(0.f, 0.f, -1.f);
 	v.vBinormal = Vec3(0.f, -1.f, 0.f);
-	vecVtx.emplace_back(v);
+	vecVtx.push_back(v);
 
 	// 테두리
 	float Angle = 0.f;
@@ -108,7 +106,7 @@ void CAssetMgr::CreateEngineMesh()
 		v.vPos = Vec3(Radius * cosf(Angle), Radius * sinf(Angle), 0.f);
 		v.vUV = Vec2(v.vPos.x + 0.5f, -(v.vPos.y - 0.5f));
 		v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-		vecVtx.emplace_back(v);
+		vecVtx.push_back(v);
 
 		Angle += fTheta;
 	}
@@ -121,7 +119,7 @@ void CAssetMgr::CreateEngineMesh()
 		vecIdx.push_back(i + 1);
 	}
 
-	pMesh = new CMesh;
+	pMesh = new CMesh();
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 	pMesh->SetEngineAsset();
 	AddAsset(L"CircleMesh", pMesh);
@@ -133,7 +131,7 @@ void CAssetMgr::CreateEngineMesh()
 		vecIdx.push_back((UINT)i);
 	}
 
-	pMesh = new CMesh;
+	pMesh = new CMesh();
 	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 	pMesh->SetEngineAsset();
 	AddAsset(L"CircleMesh_Debug", pMesh);
@@ -333,8 +331,8 @@ void CAssetMgr::CreateEngineMesh()
 
 	pMesh = new CMesh();
 	pMesh->Create(arrCube, 24, vecIdx.data(), (UINT)vecIdx.size());
-	pMesh->SetEngineAsset();
 	AddAsset(L"CubeMesh", pMesh);
+	pMesh->SetEngineAsset();
 	vecIdx.clear();
 }
 
@@ -706,12 +704,12 @@ void CAssetMgr::CreateEngineMaterial()
 	// EffectMergeMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"EffectMergeShader"));
+	AddAsset(L"EffectMergeMtrl", pMtrl);
 
 	// Std3DMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"Std3DShader"));
 	AddAsset(L"Std3DMtrl", pMtrl);
-	AddAsset(L"EffectMergeMtrl", pMtrl);
 }
 
 void CAssetMgr::LoadSound()

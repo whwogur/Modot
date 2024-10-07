@@ -94,7 +94,7 @@ int CGraphicShader::CreateVertexShader(const wstring& _RelativePath, const strin
 	Element[5].SemanticName = "BINORMAL";
 	Element[5].SemanticIndex = 0;
 
-	DEVICE->CreateInputLayout(Element, 3
+	DEVICE->CreateInputLayout(Element, 6
 							, m_VSBlob->GetBufferPointer()
 							, m_VSBlob->GetBufferSize()
 							, m_Layout.GetAddressOf());

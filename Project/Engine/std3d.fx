@@ -25,7 +25,7 @@ VS_OUT VS_Std3D(VS_IN _in)
 
 float4 PS_Std3D(VS_OUT _in) : SV_Target
 {
-    float4 vOutColor = float4(1.f, 0.f, 1.f, 1.f);
+    float4 vOutColor = float4(1.f, 0.f, 0.f, 1.f);
     
     if (g_btex_0)
         vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
