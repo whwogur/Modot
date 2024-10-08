@@ -348,18 +348,6 @@ void CAssetMgr::CreateEngineTexture()
 	CreateTexture(L"EffectDepthStencilTex", (UINT)(Resolution.x), (UINT)(Resolution.y), DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_DEPTH_STENCIL);
 	CreateTexture(L"EffectBlurTargetTex", (UINT)(Resolution.x), (UINT)(Resolution.y), DXGI_FORMAT_R32G32B32A32_FLOAT, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);
 
-	Load<CTexture>(L"noise_01", L"texture\\noise\\noise_01.png");
-	Load<CTexture>(L"noise_02", L"texture\\noise\\noise_02.png");
-	Load<CTexture>(L"noise_03", L"texture\\noise\\noise_03.jpg");
-	Load<CTexture>(L"ComponentIcons", L"texture\\ComponentIcons.png");
-	Load<CTexture>(L"ScriptIcon", L"texture\\ScriptIcon.png");
-	Load<CTexture>(L"Modot_Logo", L"texture\\Modot_Logo.png");
-	Load<CTexture>(L"RedDiscFx", L"texture\\RedDiscFx.png");
-	Load<CTexture>(L"DiscDonut", L"texture\\DiscDonut.png");
-	Load<CTexture>(L"alpha01", L"texture\\alpha01.tga");
-	Load<CTexture>(L"noise01", L"texture\\noise01.tga");
-	Load<CTexture>(L"fire01", L"texture\\fire01.tga");
-	Load<CTexture>(L"Default-Particle", L"texture\\Default-Particle.png");
 }
 
 void CAssetMgr::CreateEngineSprite()
@@ -680,22 +668,6 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl->SetScalarParam(INT_3, 0);
 	AddAsset(L"GodrayMtrl", pMtrl);
 
-	// Fire
-	//pMtrl = new CMaterial();
-	//pMtrl->SetShader(FindAsset<CGraphicShader>(L"FireShader"));
-	//pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"fire01"));
-	//pMtrl->SetTexParam(TEX_1, FindAsset<CTexture>(L"noise01"));
-	//pMtrl->SetTexParam(TEX_2, FindAsset<CTexture>(L"alpha01"));
-	//pMtrl->SetScalarParam(SCALAR_PARAM::VEC4_0, Vec4(0.5f, 0.1, 0.2f, 0.0f));
-	//pMtrl->SetScalarParam(SCALAR_PARAM::VEC4_1, Vec4(1.2f, 0.3f, 0.5f, 0.0f));
-	//pMtrl->SetScalarParam(SCALAR_PARAM::VEC2_1, Vec2(0.5f, 0.3f));
-	//pMtrl->SetScalarParam(SCALAR_PARAM::VEC2_2, Vec2(0.2f, 0.5f));
-	//pMtrl->SetScalarParam(SCALAR_PARAM::FLOAT_0, 0.3f);
-	//pMtrl->SetScalarParam(SCALAR_PARAM::FLOAT_1, 0.02f);
-	//AddAsset(L"FireMtrl2", pMtrl);
-	//pMtrl->Save(L"material\\FireMtrl2.mtrl");
-	//Load<CMaterial>(L"FireMtrl", L"material\\FireMtrl.mtrl");
-
 	// BlurMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"BlurShader"));
@@ -714,40 +686,5 @@ void CAssetMgr::CreateEngineMaterial()
 
 void CAssetMgr::LoadSound()
 {
-	Load<CSound>(L"kohovillage", L"sound\\kohovillage.wav");
-	Load<CSound>(L"SaveBell", L"sound\\SaveBell.wav");
-	Load<CSound>(L"Water1", L"sound\\Water1.wav");
-	Load<CSound>(L"Water2", L"sound\\Water2.wav");
-	Load<CSound>(L"WarningSFX", L"sound\\WarningSFX.wav");
-	Load<CSound>(L"Hit", L"sound\\Hit.wav");
-	Load<CSound>(L"Title", L"sound\\Title.wav");
-	Load<CSound>(L"ArrowFire", L"sound\\ArrowFire.wav");
-	Load<CSound>(L"TitleSparkle", L"sound\\TitleSparkle.wav");
-	Load<CSound>(L"Transport", L"sound\\Transport.wav");
-	Load<CSound>(L"UITick", L"sound\\UITick.wav");
-	Load<CSound>(L"UIClose", L"sound\\UIClose.wav");
-
-	Load<CSound>(L"DemonIntro", L"sound\\DemonIntro.wav");
-	Load<CSound>(L"Demon", L"sound\\Demon.wav");
-	Load<CSound>(L"DemonRoar", L"sound\\DemonRoar.wav");
-	Load<CSound>(L"DemonRoar2", L"sound\\DemonRoar2.wav");
-
-	Load<CSound>(L"LinethIntro", L"sound\\LinethIntro.wav");
-	Load<CSound>(L"Lineth", L"sound\\Lineth.wav");
-	Load<CSound>(L"LinBackflip", L"sound\\LinBackflip.wav");
-	Load<CSound>(L"LinProjectile", L"sound\\LinProjectile.wav");
-	Load<CSound>(L"LinTeleport", L"sound\\LinTeleport.wav");
-	Load<CSound>(L"LinSlash", L"sound\\LinSlash.wav");
-	Load<CSound>(L"LinLand", L"sound\\LinLand.wav");
-	Load<CSound>(L"LinJump", L"sound\\LinJump.wav");
-
-	Load<CSound>(L"Jump", L"sound\\Jump.wav");
-	Load<CSound>(L"Sprint", L"sound\\Sprint.wav");
-	Load<CSound>(L"Roll", L"sound\\Roll.wav");
-	Load<CSound>(L"Leaf12", L"sound\\Leaf12.wav");
-	Load<CSound>(L"Leaf3", L"sound\\Leaf3.wav");
-	Load<CSound>(L"PerfectDodge", L"sound\\PerfectDodge.wav");
-	Load<CSound>(L"Heal", L"sound\\Heal.wav");
-	Load<CSound>(L"Land", L"sound\\Land.wav");
-	Load<CSound>(L"Death", L"sound\\Death.wav");
+	
 }

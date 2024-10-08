@@ -9,17 +9,14 @@
 
 #include <Engine/CCollisionMgr.h>
 
-#include <Scripts/CPlayerScript.h>
-#include <Scripts/CCameraMoveScript.h>
-
 #include <Engine/CSetColorCS.h>
 #include "CLevelSaveLoad.h"
 #include "CPlayerManager.h"
 
 void CTestLevel::CreateTestLevel()
 {
-	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\KohoHouseTEST.lv");
-	CPlayerManager::GetInst()->Init();
+	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\3dTEST.lv");
+	//CPlayerManager::GetInst()->Init();
 	/*pLevel->GetLayer(5)->SetName(L"PlayerAttack");
 	pLevel->GetLayer(6)->SetName(L"MonsterAttack");
 	pLevel->GetLayer(8)->SetName(L"NPC");

@@ -13,28 +13,6 @@ enum class CameraPriority
     Menu,
 };
 
-struct tRenderText
-{
-    tRenderText()
-        : Detail{}
-        , Pos{}
-        , FontSize(25.f)
-        , RGBA(0)
-    {};
-    tRenderText(const wstring& detail, const Vec2& pos, float fontSize, UINT rgba)
-        : Detail(detail)
-        , Pos(pos)
-        , FontSize(fontSize)
-        , RGBA(rgba)
-    {}
-    ~tRenderText() = default;
-
-    wstring     Detail;
-    Vec2        Pos;
-    float       FontSize;
-    UINT        RGBA;
-};
-
 class CRenderMgr :
     public CSingleton<CRenderMgr>
 {
@@ -43,7 +21,6 @@ public:
     void RegisterCamera(CCamera* _Cam, int _CamPriority);
     void Init(CCamera* _Cam) { m_EditorCamera = _Cam; }
     void AddDebugShapeInfo(const tDebugShapeInfo& _Info) { m_DebugShapeList.emplace_back(_Info); }
-    void AddRenderText(const tRenderText& _Text) { m_vecText.emplace_back(_Text); }
     void RegisterLight2D(CLight2D* _Light) { m_vecLight2D.push_back(_Light); }
     void PostProcessCopy();
     void RenderTargetCopy();
@@ -65,7 +42,6 @@ private:
     void RenderStart();
     void Clear();
     void RenderDebugShape();
-    void DrawTextOnScreen();
 private:
     CCamera*                        m_EditorCamera;
     vector<CCamera*>                m_vecCam;
@@ -77,6 +53,5 @@ private:
     Ptr<CTexture>                   m_PostProcessTex;
     Ptr<CTexture>                   m_RenderTargetCopy;
     // TEXT
-    vector<tRenderText>             m_vecText;
     bool                            m_DebugRender = true;
 };

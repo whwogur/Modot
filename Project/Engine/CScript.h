@@ -20,7 +20,6 @@ enum class SCRIPT_PARAM
     TEXTURE,
     PREFAB,
     SPRITE,
-    BUTTON,// Á¶½É
     CHAR,
     WSTRING,
 };

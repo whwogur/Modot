@@ -78,8 +78,6 @@ void CRenderMgr::Tick()
 	if (m_DebugRender)
 		RenderDebugShape();
 
-	DrawTextOnScreen();
-
 	Clear();
 }
 
@@ -224,14 +222,4 @@ void CRenderMgr::RenderDebugShape()
 			++iter;
 		}
 	}
-}
-
-void CRenderMgr::DrawTextOnScreen()
-{
-	for (const auto& text : m_vecText)
-	{
-		CFontMgr::GetInst()->DrawFont(text.Detail.c_str(), text.Pos.x, text.Pos.y, text.FontSize, text.RGBA);
-	}
-
-	m_vecText.clear();
 }
