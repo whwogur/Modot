@@ -7,9 +7,6 @@
 #include <Engine/CGameObject.h>
 #include <Engine/components.h>
 
-#include <Engine/CCollisionMgr.h>
-
-#include <Engine/CSetColorCS.h>
 #include "CLevelSaveLoad.h"
 #include "CPlayerManager.h"
 
