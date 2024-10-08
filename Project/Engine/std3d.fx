@@ -20,7 +20,7 @@ struct VS_OUT
 {
     float4 vPosition : SV_Position;
     float2 vUV : TEXCOORD;
-    float LightPow : FOG;
+    float3 vWorldNormal : NORMAL;
 };
 
 VS_OUT VS_Std3D(VS_IN _in)
@@ -33,11 +33,7 @@ VS_OUT VS_Std3D(VS_IN _in)
     // 월드스페이스에서의 광원의 진행 방향
     float3 vLightDir = -normalize(g_LightDir);
     
-    // 월드에서 정점에서의 표면의 수직방향
-    float3 vWorldNormal = normalize(mul(float4(_in.vNormal, 0.f), matWorld));
-        
-    // 정점에 도달한 빛의 세기
-    output.LightPow = saturate(dot(vLightDir, vWorldNormal));
+    output.vWorldNormal = normalize(mul(float4(_in.vNormal, 0.f), matWorld));
     
     return output;
 }
@@ -49,8 +45,13 @@ float4 PS_Std3D(VS_OUT _in) : SV_Target
     if (g_btex_0)
         vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
         
-    // 최종 색상에 빛의 세기를 곱한다.    
-    vOutColor.xyz *= (_in.LightPow + g_Ambient);
+    // VS 에서 받은 노말값으로, 빛의 세기를 PS 에서 직접 구한다음 빛의 세기를 적용
+    float3 vLightDir = -normalize(g_LightDir);
+    float LightPow = saturate(dot(vLightDir, _in.vWorldNormal));
+    vOutColor.xyz *= (LightPow + g_Ambient);
+           
+    // 반사 벡터
+    // vR = vL + 2 * dot(-vL, vN) * vN;
 
     return vOutColor;
 }
