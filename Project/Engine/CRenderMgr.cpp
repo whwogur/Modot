@@ -158,6 +158,12 @@ void CRenderMgr::RenderStart()
 		m_Light2DBuffer->Bind(11);
 	}
 
+	CCamera* pCam = GetMainCamera();
+
+	if (pCam != nullptr)
+		g_GlobalData.g_CamWorldPos = pCam->Transform()->GetWorldPos();
+	else
+		g_GlobalData.g_CamWorldPos = Vec3(0.f, 0.f, 0.f);
 	// GlobalData ¹ÙÀÎµù
 	static CConstBuffer* pGlobalCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::GLOBAL);
 	pGlobalCB->SetData(&g_GlobalData);

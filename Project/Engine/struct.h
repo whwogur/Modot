@@ -152,6 +152,9 @@ struct tGlobalData
 	// 렌더타겟의 해상도 정보
 	Vec2	g_Resolution;
 
+	// 카메라 월드 위치
+	Vec4	g_CamWorldPos;
+
 	// 바인딩 된 구조화버퍼에 광원이 몇개 들어있는지
 	int     g_Light2DCount;
 	int     g_Light3DCount;
