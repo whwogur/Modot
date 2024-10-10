@@ -1,20 +1,18 @@
 #include "pch.h"
-#include "Light2DUI.h"
+#include "Light3DUI.h"
+#include <Engine/CLight3D.h>
 
-#include <Engine/CGameObject.h>
-#include <Engine/CLight2D.h>
-
-Light2DUI::Light2DUI()
-	: ComponentUI(COMPONENT_TYPE::LIGHT2D)
+Light3DUI::Light3DUI()
+	: ComponentUI(COMPONENT_TYPE::LIGHT3D)
 {
 }
 
-void Light2DUI::Update()
+void Light3DUI::Update()
 {
 	Title();
 	if (!Collapsed())
 	{
-		CLight2D* pLight = GetTargetObject()->Light2D();
+		CLight3D* pLight = GetTargetObject()->Light3D();
 
 		// ±¤¿ø Á¾·ù
 		LIGHT_TYPE	Type = pLight->GetLightType();
@@ -58,6 +56,10 @@ void Light2DUI::Update()
 		ImGui::SameLine(100);
 		ImGui::ColorEdit3("##LightAmbient", info.light.Ambient);
 
+		ImGui::Text("Specular Coefficient");
+		ImGui::SameLine();
+		ImGui::DragFloat("##SpecularCoefficient", &info.light.SpecCoefficient);
+
 		// ±¤¿øÀÇ ¹Ý°æ ( Point, Spot )
 		ImGui::BeginDisabled(Type == LIGHT_TYPE::DIRECTIONAL);
 
@@ -82,5 +84,5 @@ void Light2DUI::Update()
 		pLight->SetAngle(Angle);
 
 		ImGui::EndDisabled();
-	}	
+	}
 }

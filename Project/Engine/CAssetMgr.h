@@ -35,7 +35,6 @@ private:
 	void CreateEngineMesh();
 	void CreateEngineMaterial();
 	void CreateEngineTexture();
-	void CreateEngineSprite();
 	void CreateEngineGraphicShader();
 	void CreateEngineComputeShader();
 	void DeleteAsset(ASSET_TYPE _Type, const wstring& _Key);

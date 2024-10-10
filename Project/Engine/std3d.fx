@@ -2,11 +2,6 @@
 #define _STD3D
 #include "value.fx"
 
-static float3 g_LightDir = float3(1.f, -1.f, 1.f);
-static float3 g_LightColor = float3(1.f, 1.f, 1.f);
-static float3 g_Ambient = float3(0.15f, 0.15f, 0.15f);
-static float g_SpecCoef = 0.3f; // 반사 계수
-
 struct VS_IN
 {
     float3 vPos : POSITION;
@@ -33,8 +28,6 @@ VS_OUT VS_Std3D(VS_IN _in)
     output.vPosition = mul(float4(_in.vPos, 1.f), matWVP);
     output.vUV = _in.vUV;
     
-    // 월드스페이스에서의 광원의 진행 방향
-    float3 vLightDir = -normalize(g_LightDir);
     // 정점의 ViewSpace 좌표
     output.vViewPos = mul(float4(_in.vPos, 1.f), matWV).xyz;
     
@@ -50,9 +43,11 @@ float4 PS_Std3D(VS_OUT _in) : SV_Target
     
     if (g_btex_0)
         vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+    
+    tLightInfo Light = g_Light3D[0]; // 임시
         
     // VS 에서 받은 노말값으로, 빛의 세기를 PS 에서 직접 구한다음 빛의 세기를 적용
-    float3 vLightDir = normalize(mul(float4(g_LightDir, 0.f), matView).xyz);
+    float3 vLightDir = normalize(mul(float4(Light.WorldDir, 0.f), matView).xyz);
     float LightPow = saturate(dot(-vLightDir, _in.vViewNormal));
            
     // 반사광 계산
@@ -69,9 +64,9 @@ float4 PS_Std3D(VS_OUT _in) : SV_Target
     float SpecularPow = saturate(dot(vReflect, -vEye));
     SpecularPow = pow(SpecularPow, 20);
     
-    vOutColor.xyz = vOutColor.xyz * LightPow * g_LightColor
-                        + vOutColor.xyz * g_Ambient
-                        + SpecularPow * g_LightColor * g_SpecCoef;
+    vOutColor.xyz = vOutColor.xyz * LightPow * Light.light.Color.xyz
+                        + vOutColor.xyz * Light.light.Ambient.xyz
+                        + SpecularPow * Light.light.Color.xyz * Light.light.SpecCoefficient;
 
     return vOutColor;
 }

@@ -1,14 +1,14 @@
 #pragma once
 #include "ComponentUI.h"
-class Light2DUI :
+class Light3DUI :
     public ComponentUI
 {
-
 public:
-    Light2DUI();
-    ~Light2DUI() = default;
+    Light3DUI();
+    ~Light3DUI() = default;
 
 public:
     virtual void Update() override;
 
 };
+

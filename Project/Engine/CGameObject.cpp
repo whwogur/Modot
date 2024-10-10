@@ -46,12 +46,12 @@ CGameObject::CGameObject(const CGameObject& _Other)
 		pClonedCom->Init();
 	}
 
-	for (auto script : _Other.m_vecScript)
+	for (auto& script : _Other.m_vecScript)
 	{
 		AddComponent(script->Clone());
 	}
 
-	for (auto child : _Other.m_vecChildren)
+	for (auto& child : _Other.m_vecChildren)
 	{
 		AddChild(child->Clone());
 	}
@@ -130,7 +130,12 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 		return;
 	}
 	case COMPONENT_TYPE::LIGHT3D:
-		break;
+	{
+		CLight3D* light3d = new CLight3D;
+		AddComponent(light3d);
+		CLevelMgr::GetInst()->SetLevelDirty();
+		return;
+	}
 	case COMPONENT_TYPE::ANIMATOR2D:
 	{
 		CAnimator2D* animator2d = new CAnimator2D;

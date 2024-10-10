@@ -108,6 +108,7 @@
     <ClInclude Include="AnimationUI.h" />
     <ClInclude Include="CPlayerManager.h" />
     <ClInclude Include="EditorLogger.h" />
+    <ClInclude Include="Light3DUI.h" />
     <ClInclude Include="RigidBodyUI.h" />
     <ClInclude Include="ScriptUI.h" />
     <ClInclude Include="CTestLevel.h" />
@@ -173,6 +174,7 @@
     <ClCompile Include="AnimationUI.cpp" />
     <ClCompile Include="CPlayerManager.cpp" />
     <ClCompile Include="EditorLogger.cpp" />
+    <ClCompile Include="Light3DUI.cpp" />
     <ClCompile Include="RigidBodyUI.cpp" />
     <ClCompile Include="ScriptUI.cpp" />
     <ClCompile Include="CTestLevel.cpp" />
@@ -256,7 +258,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico" />
-    <Image Include="icon1.ico" />
     <Image Include="Modot_Logo.ico" />
     <Image Include="small.ico" />
   </ItemGroup>

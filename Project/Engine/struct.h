@@ -57,7 +57,8 @@ struct tTask
 struct tLight
 {
 	Vec4	Color;		// ºûÀÇ »ö»ó
-	Vec4	Ambient;	// È¯°æ±¤	
+	Vec4	Ambient;	// È¯°æ±¤
+	float   SpecCoefficient;
 };
 
 struct tLightInfo
@@ -79,7 +80,7 @@ struct tLightInfo
 	float		Radius;		// ±¤¿øÀÇ ¹Ý°æ
 	float		Angle;		// ±¤¿ø ¹üÀ§ °¢µµ
 	LIGHT_TYPE	Type;		// ±¤¿ø Á¾·ù
-	int			padding[3];
+	int			padding[2];
 };
 
 struct tTransform

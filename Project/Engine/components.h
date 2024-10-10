@@ -5,6 +5,7 @@
 #include "CMeshRender.h"
 #include "CCollider2D.h"
 #include "CLight2D.h"
+#include "CLight3D.h"
 #include "CScript.h"
 #include "CRigidBody.h"
 #include "CAnimator2D.h"

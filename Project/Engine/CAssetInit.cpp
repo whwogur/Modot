@@ -444,10 +444,6 @@ void CAssetMgr::CreateEngineTexture()
 
 }
 
-void CAssetMgr::CreateEngineSprite()
-{
-}
-
 void CAssetMgr::CreateEngineGraphicShader()
 {
 	MD_PROFILE_FUNCTION();
