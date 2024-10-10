@@ -133,7 +133,8 @@ void MenuUI::Update()
 
 	bool& bDebug = CRenderMgr::GetInst()->GetDebugRenderRef();
 	ToggleButton("##DebugToggle", &bDebug);
-	ImGui::SetItemTooltip(u8"µð¹ö±× ON/OFF");
+	ImGui::SameLine();
+	ImGui::Text(bDebug ? "Debug ON" : "Debug OFF");
 }
 
 void MenuUI::Init()
@@ -275,7 +276,7 @@ void MenuUI::External()
 
 		}
 
-		if (ImGui::MenuItem(ICON_FA_TERMINAL" CMD"))
+		if (ImGui::MenuItem(ICON_FA_TERMINAL" Powershell"))
 		{
 			ShellExecute(NULL, L"open", L"cmd.exe", NULL, NULL, SW_SHOWNORMAL);
 		}

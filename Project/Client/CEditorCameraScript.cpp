@@ -39,7 +39,10 @@ void CEditorCameraScript::Tick()
 	}
 }
 
-
+void CEditorCameraScript::Begin()
+{
+	Transform()->SetRelativePos(Vec3(0.f, 0.f, -1000.f));
+}
 
 void CEditorCameraScript::OrthoGraphicMove()
 {
@@ -142,6 +145,14 @@ void CEditorCameraScript::PerspectiveMove()
 		else if (KEY_RELEASED(KEY::RBTN))
 		{
 			CKeyMgr::GetInst()->MouseCapture(false);
+		}
+
+		if (KEY_TAP(KEY::_7))
+		{
+			const Vec3& camPos = Transform()->GetRelativePosRef();
+			string temp = std::to_string(camPos.x) +" , " + std::to_string(camPos.y) + " , " + std::to_string(camPos.z);
+			EDITOR_TRACE(u8"에디터 카메라 위치 :");
+			EDITOR_TRACE(temp);
 		}
 	}
 }

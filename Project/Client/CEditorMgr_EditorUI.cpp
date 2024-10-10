@@ -178,30 +178,41 @@ void CEditorMgr::RenderViewport()
 
     ImGui::SetNextWindowClass(&window_class);
 
-    ImGui::Begin(ICON_FA_GAMEPAD);
+    ImGui::Begin(ICON_FA_GAMEPAD" Viewport");
 
     if (m_GizmoActive)
     {
         ImGui::TextColored(m_GizmoType == 7 ? ImVec4(HEADER_2) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_ARROWS); // TRANS
-        ImGui::SetItemTooltip("Translation Z");
+        ImGui::SetItemTooltip("Translation (Z)");
         ImGui::SameLine();
-        ImGui::TextColored(m_GizmoType == 120 ? ImVec4(HEADER_2) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_DOT_CIRCLE_O); // RITATE
-        ImGui::SetItemTooltip("Rotation X");
+        ImGui::TextColored(m_GizmoType == 120 ? ImVec4(HEADER_2) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_REFRESH); // RITATE
+        ImGui::SetItemTooltip("Rotation (X)");
         ImGui::SameLine();
         ImGui::TextColored(m_GizmoType == 896 ? ImVec4(HEADER_2) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_EXPAND); // SCALE
-        ImGui::SetItemTooltip("Scale C");
+        ImGui::SetItemTooltip("Scale (C)");
+        ImGui::SameLine();
+        ImGui::TextColored({0.5f, 0.5f, 0.5f, 1}, ICON_FA_MOUSE_POINTER);
     }
     else
     {
         ImGui::Text(ICON_FA_ARROWS);
         ImGui::SetItemTooltip(u8"Translation Z");
         ImGui::SameLine();
-        ImGui::Text(ICON_FA_DOT_CIRCLE_O);
+        ImGui::Text(ICON_FA_REFRESH);
         ImGui::SetItemTooltip(u8"Rotation X");
         ImGui::SameLine();
         ImGui::Text(ICON_FA_EXPAND);
         ImGui::SetItemTooltip(u8"Scale C");
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(HEADER_2), ICON_FA_MOUSE_POINTER);
     }
+
+    ImGui::SameLine();
+    PROJ_TYPE type = CRenderMgr::GetInst()->GetMainCamera()->GetProjType();
+    if (type == PROJ_TYPE::ORTHOGRAPHIC)
+        ImGui::TextColored(HEADER_3, ICON_FA_VIDEO_CAMERA" Orthographic");
+    else
+        ImGui::TextColored(HEADER_3, ICON_FA_VIDEO_CAMERA" Perspective");
 
     // RT Copy
     CRenderMgr::GetInst()->RenderTargetCopy();
