@@ -4,8 +4,8 @@
 class CCamera;
 class CGameObject;
 class CLight2D;
+class CLight3D;
 class CStructuredBuffer;
-#define FONT_RGBA(r, g, b, a) (((((BYTE)a << 24 ) | (BYTE)b << 16) | (BYTE)g << 8) | (BYTE)r)
 
 enum class CameraPriority
 {
@@ -22,6 +22,7 @@ public:
     void Init(CCamera* _Cam) { m_EditorCamera = _Cam; }
     void AddDebugShapeInfo(const tDebugShapeInfo& _Info) { m_DebugShapeList.emplace_back(_Info); }
     void RegisterLight2D(CLight2D* _Light) { m_vecLight2D.push_back(_Light); }
+    void RegisterLight3D(CLight3D* _Light) { m_vecLight3D.push_back(_Light); }
     void PostProcessCopy();
     void RenderTargetCopy();
 
@@ -43,15 +44,19 @@ private:
     void Clear();
     void RenderDebugShape();
 private:
-    CCamera*                        m_EditorCamera;
-    vector<CCamera*>                m_vecCam;
-    list<tDebugShapeInfo>           m_DebugShapeList;
-    CGameObject*                    m_DebugObject;
+    CCamera*                                        m_EditorCamera;
+    vector<CCamera*>                                m_vecCam;
+    list<tDebugShapeInfo>                           m_DebugShapeList;
+    std::unique_ptr<CGameObject>                    m_DebugObject;
     // Light
-    vector<CLight2D*>               m_vecLight2D;
-    CStructuredBuffer*              m_Light2DBuffer;
-    Ptr<CTexture>                   m_PostProcessTex;
-    Ptr<CTexture>                   m_RenderTargetCopy;
+    vector<CLight2D*>                               m_vecLight2D;
+    vector<CLight3D*>                               m_vecLight3D;
+    
+    std::shared_ptr<CStructuredBuffer>              m_Light2DBuffer;
+    std::shared_ptr<CStructuredBuffer>              m_Light3DBuffer;
+
+    Ptr<CTexture>                                   m_PostProcessTex;
+    Ptr<CTexture>                                   m_RenderTargetCopy;
     // TEXT
-    bool                            m_DebugRender = true;
+    bool                                            m_DebugRender = true;
 };

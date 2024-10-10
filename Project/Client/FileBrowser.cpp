@@ -72,7 +72,7 @@ void FileBrowser::Update()
 	}
 
 	static float padding = 16.0f;
-	static float thumbnailSize = 50.0f;
+	static float thumbnailSize = 64.0f;
 	float cellSize = thumbnailSize + padding;
 
 	float panelWidth = ImGui::GetContentRegionAvail().x;
@@ -81,7 +81,7 @@ void FileBrowser::Update()
 		columnCount = 1;
 
 	ImGui::SetNextItemWidth(50.f);
-	ImGui::SliderFloat(ICON_FA_SEARCH_PLUS, &thumbnailSize, 50.0f, 70.0f, "%.1f", ImGuiSliderFlags_NoInput);
+	ImGui::SliderFloat(ICON_FA_SEARCH_PLUS, &thumbnailSize, 64.0f, 128.0f, "%.1f", ImGuiSliderFlags_NoInput);
 	ImGui::SetItemTooltip(u8"아이콘 크기 조절");
 	ImGui::SameLine(100);
 

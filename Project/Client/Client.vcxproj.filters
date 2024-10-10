@@ -221,12 +221,18 @@
     <ClInclude Include="TextRenderUI.h">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
+    <ClInclude Include="Light3DUI.h">
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
       <Filter>Default</Filter>
     </Image>
     <Image Include="small.ico">
+      <Filter>Default</Filter>
+    </Image>
+    <Image Include="Modot_Logo.ico">
       <Filter>Default</Filter>
     </Image>
   </ItemGroup>
@@ -406,6 +412,9 @@
       <Filter>Editor\TestLevel</Filter>
     </ClCompile>
     <ClCompile Include="TextRenderUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Light3DUI.cpp">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
   </ItemGroup>

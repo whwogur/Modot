@@ -123,17 +123,12 @@ void Inspector::Update()
 	int LayerIdx = m_TargetObject->GetLayerIdx();
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
 	CLayer* pLayer = pCurLevel->GetLayer(LayerIdx);
-	string LayerName = string(pLayer->GetName().begin(), pLayer->GetName().end());
+	string LayerName(pLayer->GetName().begin(), pLayer->GetName().end());
 
-	char buffer[50] = {};
 	ImGui::Text("Layer");
 	ImGui::SameLine(100);
-	if (LayerName.empty())
-		sprintf_s(buffer, 50, "%d : %s", LayerIdx, "None");
-	else
-		sprintf_s(buffer, 50, "%d : %s", LayerIdx, LayerName.c_str());
 
-	if (ImGui::BeginCombo("##LayerCombo", buffer))
+	if (ImGui::BeginCombo("##LayerCombo", LayerName.c_str()))
 	{
 		for (int i = 0; i < MAX_LAYER; ++i)
 		{

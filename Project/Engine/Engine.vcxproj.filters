@@ -172,6 +172,9 @@
     <ClInclude Include="CTextRender.h">
       <Filter>Component\RenderComponent</Filter>
     </ClInclude>
+    <ClInclude Include="CLight3D.h">
+      <Filter>Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -318,6 +321,9 @@
     </ClCompile>
     <ClCompile Include="CTextRender.cpp">
       <Filter>Component\RenderComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="CLight3D.cpp">
+      <Filter>Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

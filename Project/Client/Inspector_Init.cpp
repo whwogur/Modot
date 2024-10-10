@@ -10,6 +10,7 @@
 #include "TransformUI.h"
 #include "Collider2DUI.h"
 #include "Light2DUI.h"
+#include "Light3DUI.h"
 #include "CameraUI.h"
 #include "MeshRenderUI.h"
 #include "Animator2DUI.h"
@@ -59,6 +60,10 @@ void Inspector::CreateComponentUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D] = new Light2DUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]->SetName("Light2DUI");
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT2D]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT3D] = new Light3DUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT3D]->SetName("Light3DUI");
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::LIGHT3D]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA] = new CameraUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::CAMERA]->SetName("CameraUI");

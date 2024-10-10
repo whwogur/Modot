@@ -1,20 +1,18 @@
 #include "pch.h"
-#include "Light2DUI.h"
+#include "Light3DUI.h"
+#include <Engine/CLight3D.h>
 
-#include <Engine/CGameObject.h>
-#include <Engine/CLight2D.h>
-
-Light2DUI::Light2DUI()
-	: ComponentUI(COMPONENT_TYPE::LIGHT2D)
+Light3DUI::Light3DUI()
+	: ComponentUI(COMPONENT_TYPE::LIGHT3D)
 {
 }
 
-void Light2DUI::Update()
+void Light3DUI::Update()
 {
 	Title();
 	if (!Collapsed())
 	{
-		CLight2D* pLight = GetTargetObject()->Light2D();
+		CLight3D* pLight = GetTargetObject()->Light3D();
 
 		// ±¤¿ø Á¾·ù
 		LIGHT_TYPE	Type = pLight->GetLightType();
@@ -23,7 +21,7 @@ void Light2DUI::Update()
 		const char* combo_preview_value = items[(UINT)Type];
 
 		ImGui::Text("Light Type");
-		ImGui::SameLine(100);
+		ImGui::SameLine(140);
 		ImGui::SetNextItemWidth(180);
 
 		if (ImGui::BeginCombo("##LightTypeCombo", combo_preview_value))
@@ -51,18 +49,23 @@ void Light2DUI::Update()
 		tLightInfo& info = pLight->GetLightInfoRef();
 
 		ImGui::Text("Light Color");
-		ImGui::SameLine(100);
-		ImGui::ColorEdit3("##LightColor", info.light.Color);
+		ImGui::SameLine(140);
+		ImGui::ColorEdit3("##LightColor", info.light.Color, ImGuiColorEditFlags_InputRGB | ImGuiColorEditFlags_NoAlpha | ImGuiColorEditFlags_DisplayHSV);
 
 		ImGui::Text("Light Ambient");
-		ImGui::SameLine(100);
-		ImGui::ColorEdit3("##LightAmbient", info.light.Ambient);
+		ImGui::SameLine(140);
+		ImGui::ColorEdit3("##LightAmbient", info.light.Ambient, ImGuiColorEditFlags_InputRGB | ImGuiColorEditFlags_NoAlpha | ImGuiColorEditFlags_DisplayHSV);
+
+		ImGui::Text("Specular Coefficient");
+		ImGui::SameLine(140);
+		ImGui::SetNextItemWidth(100);
+		ImGui::DragFloat("##SpecularCoefficient", &info.light.SpecCoefficient, 0.01f, 0.0f, 1.f, "%.2f");
 
 		// ±¤¿øÀÇ ¹Ý°æ ( Point, Spot )
 		ImGui::BeginDisabled(Type == LIGHT_TYPE::DIRECTIONAL);
 
 		ImGui::Text("Light Radius");
-		ImGui::SameLine(100);
+		ImGui::SameLine(140);
 		ImGui::SetNextItemWidth(120);
 		ImGui::InputFloat("##InputLightRadius", (float*)&info.Radius, 0.1f, 0.2f, "%.2f", ImGuiInputTextFlags_AutoSelectAll);
 		ImGui::EndDisabled();
@@ -75,12 +78,12 @@ void Light2DUI::Update()
 		Angle = (Angle / XM_PI) * 180.f;
 
 		ImGui::Text("Light Angle");
-		ImGui::SameLine(100);
+		ImGui::SameLine(140);
 		ImGui::DragFloat("##DragAngle", &Angle, 0.1f);
 
 		Angle = (Angle / 180.f) * XM_PI;
 		pLight->SetAngle(Angle);
 
 		ImGui::EndDisabled();
-	}	
+	}
 }

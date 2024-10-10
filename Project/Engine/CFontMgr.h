@@ -10,6 +10,8 @@
 #pragma comment(lib, "FontEngine/FW1FontWrapper.lib"))
 #endif
 
+#define FONT_RGBA(r, g, b, a) (((((BYTE)a << 24 ) | (BYTE)b << 16) | (BYTE)g << 8) | (BYTE)r)
+
 class CFontMgr :
     public CSingleton<CFontMgr>
 {

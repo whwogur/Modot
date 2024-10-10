@@ -13,6 +13,7 @@
 #include "CLevelMgr.h"
 #include "CLevel.h"
 #include "CLight2D.h"
+#include "CLight3D.h"
 #include "CStructuredBuffer.h"
 #include "CKeyMgr.h"
 #include "CFontMgr.h"
@@ -22,15 +23,12 @@ CRenderMgr::CRenderMgr()
 	, m_DebugObject(nullptr)
 	, m_DebugShapeList{}
 {
-	m_Light2DBuffer = new CStructuredBuffer;
+	m_Light2DBuffer = std::make_shared<CStructuredBuffer>();
+	m_Light3DBuffer = std::make_shared<CStructuredBuffer>();
 }
 
 CRenderMgr::~CRenderMgr()
 {
-	if (nullptr != m_DebugObject)
-		delete m_DebugObject;
-	if (nullptr != m_Light2DBuffer)
-		delete m_Light2DBuffer;
 }
 
 void CRenderMgr::Init()
@@ -39,7 +37,7 @@ void CRenderMgr::Init()
 	m_PostProcessTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"PostProcessTex");
 	m_RenderTargetCopy = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetCopy");
 
-	m_DebugObject = new CGameObject;
+	m_DebugObject = std::make_unique<CGameObject>();
 	m_DebugObject->AddComponent(new CTransform);
 	m_DebugObject->AddComponent(new CMeshRender);
 	m_DebugObject->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DebugShapeMtrl"));
@@ -158,6 +156,29 @@ void CRenderMgr::RenderStart()
 		m_Light2DBuffer->Bind(11);
 	}
 
+	// Light3D 정보 업데이트 및 바인딩
+	vector<tLightInfo> vecLight3DInfo;
+	for (size_t i = 0; i < m_vecLight3D.size(); ++i)
+	{
+		tLightInfo& info = m_vecLight3D[i]->GetLightInfoRef();
+		vecLight3DInfo.emplace_back(info.light, info.WorldPos, info.WorldDir, info.Radius, info.Angle, info.Type);
+	}
+	if (m_Light3DBuffer->GetElementCount() < vecLight3DInfo.size())
+	{
+		m_Light3DBuffer->Create(sizeof(tLightInfo), (UINT)vecLight3DInfo.size(), SB_TYPE::SRV_ONLY, true);
+	}
+	if (!vecLight3DInfo.empty())
+	{
+		m_Light3DBuffer->SetData(vecLight3DInfo.data());
+		m_Light3DBuffer->Bind(12);
+	}
+
+	CCamera* pCam = GetMainCamera();
+
+	if (pCam != nullptr)
+		g_GlobalData.g_CamWorldPos = pCam->Transform()->GetWorldPos();
+	else
+		g_GlobalData.g_CamWorldPos = Vec3(0.f, 0.f, 0.f);
 	// GlobalData 바인딩
 	static CConstBuffer* pGlobalCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::GLOBAL);
 	pGlobalCB->SetData(&g_GlobalData);
@@ -167,6 +188,7 @@ void CRenderMgr::RenderStart()
 void CRenderMgr::Clear()
 {
 	m_vecLight2D.clear();
+	m_vecLight3D.clear();
 }
 
 void CRenderMgr::RenderDebugShape()

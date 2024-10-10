@@ -35,7 +35,6 @@ private:
 	void CreateEngineMesh();
 	void CreateEngineMaterial();
 	void CreateEngineTexture();
-	void CreateEngineSprite();
 	void CreateEngineGraphicShader();
 	void CreateEngineComputeShader();
 	void DeleteAsset(ASSET_TYPE _Type, const wstring& _Key);
@@ -50,7 +49,7 @@ template<typename T>
 Ptr<T> CAssetMgr::Load(const wstring& _Key, const wstring& _RelativePath)
 {
 	// 동일 키값 에셋이 있는지 확인
-	Ptr<T> Asset = FindAsset<T>(_Key); MD_ENGINE_TRACE(L"Loading \"{0}\" ...", _Key);
+	Ptr<T> Asset = FindAsset<T>(_Key);
 
 	if (nullptr != Asset)
 	{
@@ -58,8 +57,6 @@ Ptr<T> CAssetMgr::Load(const wstring& _Key, const wstring& _RelativePath)
 	}
 
 	// 동일 키값의 에셋이 없었으면
-	MD_ENGINE_TRACE(L"Generating \"{0}\" ...", _Key);
-
 	Asset = new T;
 
 	MD_ENGINE_ASSERT(SUCCEEDED(Asset->Load(_RelativePath)), L"애셋 로드 실패!");
