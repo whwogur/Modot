@@ -7,8 +7,6 @@ class CLight2D;
 class CLight3D;
 class CStructuredBuffer;
 
-#define FONT_RGBA(r, g, b, a) (((((BYTE)a << 24 ) | (BYTE)b << 16) | (BYTE)g << 8) | (BYTE)r)
-
 enum class CameraPriority
 {
     Main = 0,
