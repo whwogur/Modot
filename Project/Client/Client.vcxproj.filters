@@ -229,6 +229,10 @@
     <Image Include="small.ico">
       <Filter>Default</Filter>
     </Image>
+    <Image Include="Modot_Logo.ico">
+      <Filter>Default</Filter>
+    </Image>
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
