@@ -65,13 +65,16 @@ struct tLightInfo
 {
 	tLightInfo() = default;
 
-	tLightInfo(const tLight& lightInfo, const Vec3& pos, const Vec3& dir, float radius, float angle, LIGHT_TYPE type)
+	tLightInfo(const tLight& lightInfo, const Vec3& pos, const Vec3& dir, float radius, float angle, LIGHT_TYPE type, float outer, float inner, float falloff)
 		: light(lightInfo)
 		, WorldPos(pos)
 		, WorldDir(dir)
 		, Radius(radius)
 		, Angle(angle)
 		, Type(type)
+		, ConeOuter(outer)
+		, ConeInner(inner)
+		, Falloff(falloff)
 	{}
 
 	tLight		light;		// 광원 색상정보
@@ -80,7 +83,11 @@ struct tLightInfo
 	float		Radius;		// 광원의 반경
 	float		Angle;		// 광원 범위 각도
 	LIGHT_TYPE	Type;		// 광원 종류
-	int			padding[2];
+	
+	float		ConeOuter;
+	float		ConeInner;
+	float		Falloff;
+	int			Padding[3];
 };
 
 struct tTransform
@@ -150,12 +157,10 @@ struct tGlobalData
 	float   g_Time;
 	float   g_EngineTime;
 
-	// 렌더타겟의 해상도 정보
-	Vec2	g_Resolution;
-
 	// 카메라 월드 위치
 	Vec4	g_CamWorldPos;
-
+	// 렌더타겟의 해상도 정보
+	Vec2	g_Resolution;
 	// 바인딩 된 구조화버퍼에 광원이 몇개 들어있는지
 	int     g_Light2DCount;
 	int     g_Light3DCount;

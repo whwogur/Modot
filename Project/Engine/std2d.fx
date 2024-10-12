@@ -53,7 +53,7 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
         if (LeftTopUV.x <= vSpriteUV.x && vSpriteUV.x <= LeftTopUV.x + SliceUV.x
             && LeftTopUV.y <= vSpriteUV.y && vSpriteUV.y <= LeftTopUV.y + SliceUV.y)
         {
-            vColor = g_AtlasTex.Sample(g_sam_1, vSpriteUV);
+            vColor = g_AtlasTex.Sample(g_PointWrapSampler, vSpriteUV);
         }
         else
         {
@@ -66,7 +66,7 @@ float4 PS_Std2D(VTX_OUT _in) : SV_Target
     {
         if (g_btex_0)
         {
-            vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
+            vColor = g_tex_0.Sample(g_PointWrapSampler, _in.vUV);
         }
         else
         {
@@ -104,7 +104,7 @@ float4 PS_Std2D_Alphablend(VTX_OUT _in) : SV_Target
 
     if (g_btex_0)
     {
-        vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
+        vColor = g_tex_0.Sample(g_PointWrapSampler, _in.vUV);
     }
     else
     {
@@ -125,7 +125,7 @@ float4 PS_Std2DSprite(VTX_OUT _in) : SV_Target
     if (g_vec2_0.x <= vSpriteUV.x && vSpriteUV.x <= g_vec2_0.x + g_vec2_1.x
         && g_vec2_0.y <= vSpriteUV.y && vSpriteUV.y <= g_vec2_0.y + g_vec2_1.y)
     {
-        vColor = g_tex_0.Sample(g_sam_1, vSpriteUV);
+        vColor = g_tex_0.Sample(g_PointWrapSampler, vSpriteUV);
     }
     else
     {
@@ -157,7 +157,7 @@ float4 PS_Std2DTint(VTX_OUT _in) : SV_Target
     
     if (g_btex_0)
     {
-        vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
+        vColor = g_tex_0.Sample(g_PointWrapSampler, _in.vUV);
     }
     else
     {
@@ -205,7 +205,7 @@ float4 PS_StdUI(VTX_OUT _in) : SV_Target
     
     if (g_btex_0)
     {
-        vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
+        vColor = g_tex_0.Sample(g_PointWrapSampler, _in.vUV);
     }
     else
     {
@@ -254,7 +254,7 @@ float4 PS_Effect(VTX_OUT _in) : SV_Target
         vColor = float4(0.f, 1.f, 0.f, 1.f);
     }
     
-    vColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+    vColor = g_tex_0.Sample(g_AniWrapSampler, _in.vUV);
     if (0.f == vColor.a)
         discard;
     

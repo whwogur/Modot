@@ -70,7 +70,7 @@ float4 PS_TileMap(VS_OUT _in) : SV_Target
         float2 vLeftTopUV = float2(col, row) * TileSliceUV;
 
         float2 vUV = vLeftTopUV + frac(_in.vUV) * TileSliceUV;
-        vOutColor = AtlasTex.Sample(g_sam_1, vUV);
+        vOutColor = AtlasTex.Sample(g_PointWrapSampler, vUV);
     }
     else
     {
