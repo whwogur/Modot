@@ -4,6 +4,9 @@
     <Filter Include="Default">
       <UniqueIdentifier>{9ceafc54-ac6d-4878-bf00-bdf9e229651c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Default\Test">
+      <UniqueIdentifier>{b43977bf-aca8-4e97-afe1-e078b04827fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -13,6 +16,9 @@
       <Filter>Default</Filter>
     </ClInclude>
     <ClInclude Include="CScriptMgr.h" />
+    <ClInclude Include="CTestObject.h">
+      <Filter>Default\Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -22,5 +28,8 @@
       <Filter>Default</Filter>
     </ClCompile>
     <ClCompile Include="CScriptMgr.cpp" />
+    <ClCompile Include="CTestObject.cpp">
+      <Filter>Default\Test</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

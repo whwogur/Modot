@@ -41,7 +41,8 @@ void HierarchyView::Update()
 	if (CLevelMgr::GetInst()->IsDirty())
 		RefreshLevel();
 	const wstring& levelName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
-	string strLevelName = ICON_FA_FILE_VIDEO_O " " + string(levelName.begin(), levelName.end());
+	string strLevelName(levelName.begin(), levelName.end());
+	ImGui::TextColored(HEADER_2, ICON_FA_CHROME" CurLevel: "); ImGui::SameLine();
 	ImGui::TextColored(HEADER_3, strLevelName.c_str());
 
 	if (ImGui::BeginPopupContextWindow(0, 1))
