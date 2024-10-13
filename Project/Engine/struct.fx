@@ -18,7 +18,12 @@ struct tLightInfo
     float   Radius;     // 광원의 반경
     float   Angle;      // 광원 범위 각도
     uint    Type;       // 광원 종류
-    int2    padding;    // 패딩
+    
+    float   ConeOuter;
+    float   ConeInner;
+    
+    float   Falloff;
+    int3    Padding;
 };
 
 // Particle

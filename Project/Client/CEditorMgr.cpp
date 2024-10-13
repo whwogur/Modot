@@ -347,7 +347,7 @@ void CEditorMgr::SetThemeFutureDark()
 	ImGuiStyle& style = ImGui::GetStyle();
 
 	style.Alpha = 1.0f;
-	style.DisabledAlpha = 1.0f;
+	style.DisabledAlpha = 0.45f;
 	style.WindowPadding = ImVec2(12.0f, 12.0f);
 	style.WindowRounding = 0.0f;
 	style.WindowBorderSize = 0.0f;
@@ -358,8 +358,8 @@ void CEditorMgr::SetThemeFutureDark()
 	style.ChildBorderSize = 1.0f;
 	style.PopupRounding = 0.0f;
 	style.PopupBorderSize = 1.0f;
-	style.FramePadding = ImVec2(6.0f, 6.0f);
-	style.FrameRounding = 0.0f;
+	style.FramePadding = ImVec2(5.5f, 5.5f);
+	style.FrameRounding = 5.0f;
 	style.FrameBorderSize = 0.0f;
 	style.ItemSpacing = ImVec2(12.0f, 6.0f);
 	style.ItemInnerSpacing = ImVec2(6.0f, 3.0f);

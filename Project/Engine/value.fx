@@ -72,21 +72,20 @@ cbuffer GLOBAL_DATA : register(b3)
     float   g_Time;
     float   g_EngineTime;
 
-    // 렌더타겟의 해상도 정보
-    float2  g_Resolution;
-
     // 렌더링을 할때의 카메라(시점)의 월드 위치 DISCARD IF NOT NECCESSARY
     float4 g_CamWorldPos;
     
+    // 렌더타겟의 해상도 정보
+    float2  g_Resolution;
     // 바인딩 된 구조화버퍼에 광원이 몇개 들어있는지
     int     g_Light2DCount;
     int     g_Light3DCount;
 }
 
-SamplerState g_sam_0 : register(s0); // 이방성 필터 샘플러
-SamplerState g_sam_1 : register(s1); // 포인트 필터 샘플러
-SamplerState g_sam_2 : register(s2);
-SamplerState g_sam_3 : register(s3);
+SamplerState g_AniWrapSampler : register(s0); // 이방성 필터 샘플러
+SamplerState g_PointWrapSampler : register(s1); // 포인트 필터 샘플러
+SamplerState g_LinearClampSampler : register(s2);
+SamplerState g_LinearWrapSampler : register(s3);
 
 Texture2D       g_tex_0 : register(t0);
 Texture2D       g_tex_1 : register(t1);

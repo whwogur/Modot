@@ -136,13 +136,14 @@ void CRenderMgr::RenderStart()
 	Vec2 vRes = CDevice::GetInst()->GetResolution();
 	g_GlobalData.g_Resolution = vRes;
 	g_GlobalData.g_Light2DCount = (int)m_vecLight2D.size();
+	g_GlobalData.g_Light3DCount = (int)m_vecLight3D.size();
 
 	// Light2D 정보 업데이트 및 바인딩
 	vector<tLightInfo> vecLight2DInfo;
 	for (size_t i = 0; i < m_vecLight2D.size(); ++i)
 	{
 		tLightInfo& info = m_vecLight2D[i]->GetLightInfoRef();
-		vecLight2DInfo.emplace_back(info.light, info.WorldPos, info.WorldDir, info.Radius, info.Angle, info.Type);
+		vecLight2DInfo.emplace_back(info.light, info.WorldPos, info.WorldDir, info.Radius, info.Angle, info.Type, info.ConeOuter, info.ConeInner, info.Falloff);
 	}
 
 	if (m_Light2DBuffer->GetElementCount() < vecLight2DInfo.size())
@@ -161,7 +162,7 @@ void CRenderMgr::RenderStart()
 	for (size_t i = 0; i < m_vecLight3D.size(); ++i)
 	{
 		tLightInfo& info = m_vecLight3D[i]->GetLightInfoRef();
-		vecLight3DInfo.emplace_back(info.light, info.WorldPos, info.WorldDir, info.Radius, info.Angle, info.Type);
+		vecLight3DInfo.emplace_back(info.light, info.WorldPos, info.WorldDir, info.Radius, info.Angle, info.Type, info.ConeOuter, info.ConeInner, info.Falloff);
 	}
 	if (m_Light3DBuffer->GetElementCount() < vecLight3DInfo.size())
 	{

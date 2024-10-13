@@ -5,7 +5,7 @@ class MenuUI :
     public EditorUI
 {
 public:
-    MenuUI();
+    MenuUI() = default;
     ~MenuUI() = default;
 
 public:

@@ -53,9 +53,9 @@ float4 PS_Fire(VS_OUT _in) : SV_TARGET
     float4 alphaColor;
 
     // Sample the same noise texture using the three different texture coordinates to get three different noise scales.
-    noise1 = g_tex_1.Sample(g_sam_0, _in.texCoords1);
-    noise2 = g_tex_1.Sample(g_sam_0, _in.texCoords2);
-    noise3 = g_tex_1.Sample(g_sam_0, _in.texCoords3);
+    noise1 = g_tex_1.Sample(g_AniWrapSampler, _in.texCoords1);
+    noise2 = g_tex_1.Sample(g_AniWrapSampler, _in.texCoords2);
+    noise3 = g_tex_1.Sample(g_AniWrapSampler, _in.texCoords3);
 
     // Move the noise from the (0, 1) range to the (-1, +1) range.
     noise1 = (noise1 - 0.5f) * 2.0f;
@@ -79,12 +79,12 @@ float4 PS_Fire(VS_OUT _in) : SV_TARGET
 
     // Sample the color from the fire texture using the perturbed and distorted texture sampling coordinates.
     // Use the clamping sample state instead of the wrap sample state to prevent flames wrapping around.
-    fireColor = g_tex_0.Sample(g_sam_2, noiseCoords.xy);
+    fireColor = g_tex_0.Sample(g_LinearClampSampler, noiseCoords.xy);
 
     // Sample the alpha value from the alpha texture using the perturbed and distorted texture sampling coordinates.
     // This will be used for transparency of the fire.
     // Use the clamping sample state instead of the wrap sample state to prevent flames wrapping around.
-    alphaColor = g_tex_2.Sample(g_sam_2, noiseCoords.xy);
+    alphaColor = g_tex_2.Sample(g_LinearClampSampler, noiseCoords.xy);
 
     // Set the alpha blending of the fire to the perturbed and distorted alpha texture value.
     fireColor.a = alphaColor.r;

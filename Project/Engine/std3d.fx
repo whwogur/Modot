@@ -1,6 +1,7 @@
 #ifndef _STD3D
 #define _STD3D
 #include "value.fx"
+#include "func.fx"
 
 struct VS_IN
 {
@@ -42,32 +43,20 @@ float4 PS_Std3D(VS_OUT _in) : SV_Target
     float4 vOutColor = float4(0.5f, 0.5f, 0.5f, 1.f);
     
     if (g_btex_0)
-        vOutColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+        vOutColor = g_tex_0.Sample(g_AniWrapSampler, _in.vUV);
     
-    tLightInfo Light = g_Light3D[0]; // 임시
+    tLight light = (tLight) 0.f;
+    
+    for (int i = 0; i < g_Light3DCount; ++i)
+    {
+        CalculateLight3D(i, _in.vViewNormal, _in.vViewPos, light);
+    }
+    
+    // 계산한 빛을 물체의 색상에 적용
+    vOutColor.xyz = vOutColor.xyz * light.Color.rgb
+                    + vOutColor.xyz * light.Ambient.rgb
+                    + g_Light3D[0].light.Color.rgb * light.SpecCoefficient;
         
-    // VS 에서 받은 노말값으로, 빛의 세기를 PS 에서 직접 구한다음 빛의 세기를 적용
-    float3 vLightDir = normalize(mul(float4(Light.WorldDir, 0.f), matView).xyz);
-    float LightPow = saturate(dot(-vLightDir, _in.vViewNormal));
-           
-    // 반사광 계산
-    // vR = vL + 2 * dot(-vL, vN) * vN;
-    float3 vReflect = vLightDir + 2 * dot(-vLightDir, _in.vViewNormal) * _in.vViewNormal;
-    vReflect = normalize(vReflect);
-    
-        
-    // 카메라에서 물체를 향하는 vEye 를 구한다. 카메라는 원점에 있다.
-    // 픽셀의 뷰스페이스 위치가 곧 카메라에서 물체를 향하는 Eye 방향이다.
-    float3 vEye = normalize(_in.vViewPos);
-    
-    // 반사 방향과 시선 벡터를 내적해서 둘 사이의 벌어진 각도에 대한 cos 값을 반사광의 세기로 사용한다.
-    float SpecularPow = saturate(dot(vReflect, -vEye));
-    SpecularPow = pow(SpecularPow, 20);
-    
-    vOutColor.xyz = vOutColor.xyz * LightPow * Light.light.Color.xyz
-                        + vOutColor.xyz * Light.light.Ambient.xyz
-                        + SpecularPow * Light.light.Color.xyz * Light.light.SpecCoefficient;
-
     return vOutColor;
 }
 #endif

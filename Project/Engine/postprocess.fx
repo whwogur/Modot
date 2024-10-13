@@ -40,7 +40,7 @@ float4 PS_Shockwave(VS_OUT _in) : SV_Target
 
     float Dist = distance(texCoord, WaveCentre);
 
-    float4 Color = g_tex_0.Sample(g_sam_0, texCoord);
+    float4 Color = g_tex_0.Sample(g_AniWrapSampler, texCoord);
 
     // Only distort the pixels within the parameter distance from the centre
     if ((Dist <= (CurrentTime + WaveParams.z)) && (Dist >= (CurrentTime - WaveParams.z)))
@@ -55,7 +55,7 @@ float4 PS_Shockwave(VS_OUT _in) : SV_Target
 
         // Perform the distortion and reduce the effect over time
         texCoord += ((DiffTexCoord * DiffTime) / (CurrentTime * Dist * 10.0));
-        Color = g_tex_0.Sample(g_sam_0, texCoord);
+        Color = g_tex_0.Sample(g_AniWrapSampler, texCoord);
 
         // Blow out the color and reduce the effect over time
         Color += (Color * ScaleDiff) / (CurrentTime * Dist * 40.0);
@@ -116,7 +116,7 @@ float4 PS_Godray(VS_OUT _in) : SV_Target
         float2 dTuv = tuv * density / SAMPLES;
     
         // 초기 텍스처 샘플의 일부를 가져옵니다. 값이 클수록 장면이 더 선명해짐
-        float4 col = g_tex_0.Sample(g_sam_2, uv) * 0.25;
+        float4 col = g_tex_0.Sample(g_LinearClampSampler, uv) * 0.25;
     
         // 샘플이 불연속적으로 축적될 때 밴딩을 제거하기 위해 지터링 
         // 특히 샘플 레이어가 적을 때 매우 중요
@@ -128,7 +128,7 @@ float4 PS_Godray(VS_OUT _in) : SV_Target
         for (float i = 0.0; i < SAMPLES; i++)
         {
             uv -= dTuv;
-            col += g_tex_0.Sample(g_sam_2, uv) * weight;
+            col += g_tex_0.Sample(g_LinearClampSampler, uv) * weight;
             weight *= decay;
         }
     
@@ -140,7 +140,7 @@ float4 PS_Godray(VS_OUT _in) : SV_Target
     }
     else
     {
-        return g_tex_0.Sample(g_sam_0, _in.vPosition.xy / g_Resolution.xy);
+        return g_tex_0.Sample(g_AniWrapSampler, _in.vPosition.xy / g_Resolution.xy);
     }
 }
 
@@ -193,7 +193,7 @@ float4 PS_Blur(VS_OUT_BLUR _in) : SV_Target
         for (int i = 0; i < 13; ++i)
         {
             float2 vUV = _in.vUV + float2(vUVStep.x * (-6 + i), 0.f);
-            vColor += g_tex_0.Sample(g_sam_3, vUV) * CrossFilter[i];
+            vColor += g_tex_0.Sample(g_LinearWrapSampler, vUV) * CrossFilter[i];
         }
     }
     else if (_in.InstID == 1)
@@ -201,7 +201,7 @@ float4 PS_Blur(VS_OUT_BLUR _in) : SV_Target
         for (int j = 0; j < 13; ++j)
         {
             float2 vUV = _in.vUV + float2(0.f, vUVStep.y * (-6 + j));
-            vColor += g_tex_0.Sample(g_sam_3, vUV) * CrossFilter[j];
+            vColor += g_tex_0.Sample(g_LinearWrapSampler, vUV) * CrossFilter[j];
         }
     }
     vColor /= Total;
@@ -224,8 +224,8 @@ float4 PS_EffectMerge(VS_OUT _in) : SV_Target
 {
     float4 vColor = float4(0.f, 0.f, 0.f, 0.f);
     
-    float4 vEffect = g_tex_0.Sample(g_sam_0, _in.vUV);
-    float4 vEffectBlur = g_tex_1.Sample(g_sam_0, _in.vUV);
+    float4 vEffect = g_tex_0.Sample(g_AniWrapSampler, _in.vUV);
+    float4 vEffectBlur = g_tex_1.Sample(g_AniWrapSampler, _in.vUV);
     
     float4 vBloom = pow(abs(pow(vEffect, 2.2f)) + abs(pow(vEffectBlur, 2.2f)), 1.f / 2.2f);
     vBloom = saturate(vBloom);

@@ -7,7 +7,10 @@
 #include <Engine/CLevelMgr.h>
 #include <Engine/CLevel.h>
 #include <Engine/CLayer.h>
+#include <Engine/CRenderMgr.h>
+#include <Engine/CTransform.h>
 
+#include "CEditorMgr.h"
 CameraUI::CameraUI()
 	: ComponentUI(COMPONENT_TYPE::CAMERA)
     , m_ShowLayerCheck(false)
@@ -28,6 +31,34 @@ void CameraUI::Update()
 
         bool& camActive = pCam->GetActiveRef();
         ToggleButton("##CamActive", &camActive);
+        ImGui::SetItemTooltip(u8"카메라 활성화/비활성화");
+
+        ImGui::SameLine(250);
+        if (ImGui::Button(ICON_FA_CLIPBOARD" EditorView"))
+        {
+            if (CLevelMgr::GetInst()->GetCurrentLevel()->GetState() == LEVEL_STATE::STOP)
+            {
+                CTransform* pTrans = CRenderMgr::GetInst()->GetMainCamera()->Transform();
+                if (pTrans != nullptr)
+                {
+                    const Vec3& pRot = pTrans->GetRelativeRotationRef();
+                    const Vec3& pPos = pTrans->GetRelativePosRef();
+                    pCam->Transform()->SetRelativePos(pPos);
+                    pCam->Transform()->SetRelativeRotation(pRot);
+
+                    CEditorMgr::GetInst()->EditorTrace("Copied");
+                }
+                else
+                {
+                    CEditorMgr::GetInst()->EditorError("Couldn't find EditorCam->Transform !");
+                }
+            }
+            else
+            {
+                CEditorMgr::GetInst()->EditorError("LevelState Must be at STOP !!");
+            }
+        }
+        ImGui::SetItemTooltip(u8"에디터 카메라 위치 복사");
         LayerCheck();
 
         Projection();
@@ -83,7 +114,7 @@ void CameraUI::Update()
         {
             pCam->SetPriority(prior);
         }
-        ImGui::SetItemTooltip(u8"0: 메인 1: 메뉴");
+        ImGui::SetItemTooltip(u8"0: 메인 1: Other");
     }
     
 }

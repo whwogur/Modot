@@ -5,6 +5,7 @@
 
 enum SCRIPT_TYPE
 {
+	TESTOBJECT,
 };
 
 using namespace std;

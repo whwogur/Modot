@@ -74,15 +74,20 @@ void Light3DUI::Update()
 		// 광원의 범위 각도
 		ImGui::BeginDisabled(Type != LIGHT_TYPE::SPOT);
 
-		float Angle = info.Angle;
-		Angle = (Angle / XM_PI) * 180.f;
-
-		ImGui::Text("Light Angle");
+		ImGui::Text("InnerCone");
 		ImGui::SameLine(140);
-		ImGui::DragFloat("##DragAngle", &Angle, 0.1f);
+		ImGui::SetNextItemWidth(120);
+		ImGui::DragFloat("##InnerCone", &info.ConeOuter, 0.01f, 0.f, 1.f, "%.2f");
 
-		Angle = (Angle / 180.f) * XM_PI;
-		pLight->SetAngle(Angle);
+		ImGui::Text("OuterCone");
+		ImGui::SameLine(140);
+		ImGui::SetNextItemWidth(120);
+		ImGui::DragFloat("##OuterCone", &info.ConeInner, 0.01f, 0.f, 1.f, "%.2f");
+
+		ImGui::Text("Falloff");
+		ImGui::SameLine(140);
+		ImGui::SetNextItemWidth(120);
+		ImGui::DragFloat("##Falloff", &info.Falloff, 0.1f, 0.f, 1.f, "%.2f");
 
 		ImGui::EndDisabled();
 	}

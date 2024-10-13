@@ -316,6 +316,9 @@ int CDevice::CreateView()
     m_DSTex = CAssetMgr::GetInst()->CreateTexture(L"DepthStencilTex"
         , (UINT)m_vResolution.x, (UINT)m_vResolution.y
         , DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_DEPTH_STENCIL);
+
+    CONTEXT->OMSetRenderTargets(1, m_RTTex->GetRTV().GetAddressOf(), m_DSTex->GetDSV().Get());
+
     return S_OK;
 }
 

@@ -102,7 +102,7 @@ void Inspector::Update()
 	// ===========
 	ImGui::Text("Object Name");
 	ImGui::SameLine(100);
-	ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - 40);
+	ImGui::SetNextItemWidth(200);
 	if (ImGui::InputText("##ObjectName", m_Namebuffer, 255, ImGuiInputTextFlags_EnterReturnsTrue))
 	{
 		string newName(m_Namebuffer);
@@ -128,6 +128,7 @@ void Inspector::Update()
 	ImGui::Text("Layer");
 	ImGui::SameLine(100);
 
+	ImGui::SetNextItemWidth(200);
 	if (ImGui::BeginCombo("##LayerCombo", LayerName.c_str()))
 	{
 		for (int i = 0; i < MAX_LAYER; ++i)
@@ -151,6 +152,13 @@ void Inspector::Update()
 			}
 		}
 		ImGui::EndCombo();
+	}
+	ImGui::SameLine();
+	if (ImGui::Button(ICON_FA_COG))
+	{
+		EditorUI* pEditor = CEditorMgr::GetInst()->FindEditorUI(ICON_FA_CHECK_SQUARE_O" CollisionCheck");
+		if (pEditor != nullptr)
+			pEditor->SetActive(true);
 	}
 
 	ImGui::NewLine();

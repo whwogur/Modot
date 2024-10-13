@@ -20,9 +20,6 @@
 #include "MaterialUI.h"
 #include "CollisionCheck.h"
 #include "CPlayerManager.h"
-MenuUI::MenuUI()
-{
-}
 
 void MenuUI::Tick()
 {
@@ -48,7 +45,7 @@ void MenuUI::Tick()
 
 		if (state == LEVEL_STATE::PLAY)
 		{
-			whichCamera = ICON_FA_CAMERA " MAINCAM";
+			whichCamera = ICON_FA_CAMERA_RETRO " MAINCAM";
 
 			ImGui::SameLine(contentRegionAvailable / 2);
 			if (ImGui::Button(ICON_FA_PAUSE, { 22, 22 }))
@@ -67,8 +64,6 @@ void MenuUI::Tick()
 				Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
 				pInspector->SetTargetObject(nullptr);
 				pInspector->SetTargetAsset(nullptr);
-				
-				CPlayerManager::GetInst()->StopCurBGM();
 			}
 
 			color = { 0.45f, 0.55f, 0.88f, 1.0f };
@@ -92,14 +87,13 @@ void MenuUI::Tick()
 				Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
 				pInspector->SetTargetObject(nullptr);
 				pInspector->SetTargetAsset(nullptr);
-				CPlayerManager::GetInst()->StopCurBGM();
 			}
 
 			color = { 1, 0, 0, 1 };
 		}
 		else
 		{
-			whichCamera = ICON_FA_CAMERA " EDITORCAM";
+			whichCamera = ICON_FA_CAMERA_RETRO " EDITORCAM";
 			ImGui::SameLine(contentRegionAvailable / 2);
 			if (ImGui::Button(ICON_FA_PLAY, { 22, 22 }))
 			{
@@ -223,7 +217,7 @@ void MenuUI::Tools()
 			animEditor->SetActive(true);
 		}
 
-		if (ImGui::MenuItem(u8"충돌 매트릭스", " Alt + C"))
+		if (ImGui::MenuItem(u8"레이어 관리", " Alt + C"))
 		{
 			CollisionCheck* animEditor = static_cast<CollisionCheck*>(CEditorMgr::GetInst()->FindEditorUI(ICON_FA_CHECK_SQUARE_O" CollisionCheck"));
 			animEditor->SetActive(true);
