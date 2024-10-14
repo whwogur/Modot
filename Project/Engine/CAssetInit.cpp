@@ -486,9 +486,7 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetDSType(DS_TYPE::LESS);
 	pShader->SetBSType(BS_TYPE::DEFAULT);
-
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEBUG);
-
 	AddAsset(L"DebugShapeShader", pShader);
 
 	pShader = new CGraphicShader;
@@ -505,7 +503,6 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->AddScalarParam(INT_2, "AtlasMaxCol");
 	pShader->AddScalarParam(VEC2_0, "TileSliceUV");
 	pShader->AddScalarParam(VEC2_1, "Tile Col*Row");
-
 	AddAsset(L"TileMapShader", pShader);
 
 	// Std2DShader
@@ -663,7 +660,8 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDSType(DS_TYPE::LESS);
 	pShader->SetBSType(BS_TYPE::DEFAULT);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_OPAQUE);
-	pShader->AddTexParam(TEX_0, u8"ÅØ½ºÃ³");
+	pShader->AddTexParam(TEX_0, "Albedo");
+	pShader->AddTexParam(TEX_1, "Normal");
 	AddAsset(L"Std3DShader", pShader);
 }
 
