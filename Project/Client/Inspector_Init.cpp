@@ -18,6 +18,7 @@
 #include "ParticleSystemUI.h"
 #include "RigidBodyUI.h"
 #include "TextRenderUI.h"
+#include "SkyBoxUI.h"
 
 #include "MeshUI.h"
 #include "MeshDataUI.h"
@@ -92,6 +93,10 @@ void Inspector::CreateComponentUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::TEXTRENDER] = new TextRenderUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::TEXTRENDER]->SetName("TextRenderUI");
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::TEXTRENDER]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::SKYBOX] = new SkyBoxUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::SKYBOX]->SetName("SkyBoxUI");
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::SKYBOX]);
 }
 
 void Inspector::CreateScriptUI(UINT _Count)

@@ -27,6 +27,7 @@ public:
     GET_OTHER_COMPONENT(RigidBody);
     GET_OTHER_COMPONENT(ParticleSystem);
     GET_OTHER_COMPONENT(TextRender);
+    GET_OTHER_COMPONENT(SkyBox);
 public:
     virtual void Init() {}
     virtual void Begin();

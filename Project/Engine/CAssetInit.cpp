@@ -663,6 +663,19 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->AddTexParam(TEX_0, "Albedo");
 	pShader->AddTexParam(TEX_1, "Normal");
 	AddAsset(L"Std3DShader", pShader);
+
+	// SkyBoxShader
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\skybox.fx", "VS_SkyBox");
+	pShader->CreatePixelShader(L"shader\\skybox.fx", "PS_SkyBox");
+	pShader->SetRSType(RS_TYPE::CULL_FRONT);
+	pShader->SetDSType(DS_TYPE::LESS_EQUAL);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_OPAQUE);
+
+	pShader->AddTexParam(TEX_0, "Albedo Texture");
+
+	AddAsset(L"SkyBoxShader", pShader);
 }
 
 #include "CParticleTickCS.h"
@@ -770,6 +783,11 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"Std3DShader"));
 	AddAsset(L"Std3DMtrl", pMtrl);
+
+	// SkyBoxMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"SkyBoxShader"));
+	AddAsset(L"SkyBoxMtrl", pMtrl);
 }
 
 void CAssetMgr::LoadSound()

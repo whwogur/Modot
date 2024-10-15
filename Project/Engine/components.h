@@ -12,3 +12,4 @@
 #include "CTileMap.h"
 #include "CParticleSystem.h"
 #include "CTextRender.h"
+#include "CSkyBox.h"

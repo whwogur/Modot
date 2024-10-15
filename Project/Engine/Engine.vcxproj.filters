@@ -157,23 +157,26 @@
     <ClInclude Include="CFontMgr.h">
       <Filter>04. Manager</Filter>
     </ClInclude>
-    <ClInclude Include="CMeshRender.h">
-      <Filter>Component\RenderComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="CParticleSystem.h">
-      <Filter>Component\RenderComponent</Filter>
-    </ClInclude>
     <ClInclude Include="CRenderComponent.h">
       <Filter>Component\RenderComponent</Filter>
     </ClInclude>
     <ClInclude Include="CTileMap.h">
       <Filter>Component\RenderComponent</Filter>
     </ClInclude>
-    <ClInclude Include="CTextRender.h">
-      <Filter>Component\RenderComponent</Filter>
-    </ClInclude>
     <ClInclude Include="CLight3D.h">
       <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CSkyBox.h">
+      <Filter>Component\RenderComponent\Skybox</Filter>
+    </ClInclude>
+    <ClInclude Include="CParticleSystem.h">
+      <Filter>Component\RenderComponent\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="CMeshRender.h">
+      <Filter>Component\RenderComponent\MeshRender</Filter>
+    </ClInclude>
+    <ClInclude Include="CTextRender.h">
+      <Filter>Component\RenderComponent\TextRender</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -307,23 +310,26 @@
     <ClCompile Include="CFontMgr.cpp">
       <Filter>04. Manager</Filter>
     </ClCompile>
-    <ClCompile Include="CMeshRender.cpp">
-      <Filter>Component\RenderComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="CParticleSystem.cpp">
-      <Filter>Component\RenderComponent</Filter>
-    </ClCompile>
     <ClCompile Include="CRenderComponent.cpp">
       <Filter>Component\RenderComponent</Filter>
     </ClCompile>
     <ClCompile Include="CTileMap.cpp">
       <Filter>Component\RenderComponent</Filter>
     </ClCompile>
-    <ClCompile Include="CTextRender.cpp">
-      <Filter>Component\RenderComponent</Filter>
-    </ClCompile>
     <ClCompile Include="CLight3D.cpp">
       <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CSkyBox.cpp">
+      <Filter>Component\RenderComponent\Skybox</Filter>
+    </ClCompile>
+    <ClCompile Include="CParticleSystem.cpp">
+      <Filter>Component\RenderComponent\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="CMeshRender.cpp">
+      <Filter>Component\RenderComponent\MeshRender</Filter>
+    </ClCompile>
+    <ClCompile Include="CTextRender.cpp">
+      <Filter>Component\RenderComponent\TextRender</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -399,6 +405,18 @@
     <Filter Include="Component\RenderComponent">
       <UniqueIdentifier>{dad05c7f-0e34-4e57-bbc7-e5f3b7adb613}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\RenderComponent\Skybox">
+      <UniqueIdentifier>{f43cd4bc-57d3-4dce-aeb2-1f7dd9ec0a68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\RenderComponent\ParticleSystem">
+      <UniqueIdentifier>{b1183885-1ed9-49fc-9812-740892dd1508}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\RenderComponent\MeshRender">
+      <UniqueIdentifier>{a7647a19-5a74-4a28-86f6-bb9af561c34e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\RenderComponent\TextRender">
+      <UniqueIdentifier>{6e9c7542-7a43-486a-a6dd-f70deb4d7303}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -440,6 +458,9 @@
       <Filter>Shader\ComputeShader</Filter>
     </FxCompile>
     <FxCompile Include="std3d.fx">
+      <Filter>Shader\GraphicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="skybox.fx">
       <Filter>Shader\GraphicShader</Filter>
     </FxCompile>
   </ItemGroup>
