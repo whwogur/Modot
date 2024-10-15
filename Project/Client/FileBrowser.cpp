@@ -100,7 +100,7 @@ void FileBrowser::Update()
 	for (auto& listNode : m_List)
 	{
 		Ptr<CTexture> icon = listNode.second ? m_DirectoryIcon : 
-			listNode.first.extension() == ".png" || listNode.first.extension() == ".tga" ?
+			listNode.first.extension() == ".png" || listNode.first.extension() == ".tga" || listNode.first.extension() == ".TGA" ?
 			CAssetMgr::GetInst()->FindAsset<CTexture>(listNode.first.stem()) : m_FileIcon;
 
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
@@ -167,12 +167,20 @@ void FileBrowser::Update()
 			{
 				std::filesystem::path ext = listNode.first.extension();
 				std::filesystem::path stem = listNode.first.stem();
-				if (ext == ".png" || ext == ".tga")
+				if (ext == ".png" || ext == ".tga" || ext == ".TGA")
 				{
 					auto* pElem = &listNode;
 
 					ImGui::SetDragDropPayload("FileBrowser", pElem, sizeof(std::pair<std::filesystem::path, bool>), ImGuiCond_Once);
 					ImGui::Image(icon->GetSRV().Get(), { 100, 100 });
+				}
+
+				if (ext == ".dds")
+				{
+					auto* pElem = &listNode;
+
+					ImGui::SetDragDropPayload("FileBrowser", pElem, sizeof(std::pair<std::filesystem::path, bool>), ImGuiCond_Once);
+					ImGui::Text(stem.string().c_str());
 				}
 			}
 

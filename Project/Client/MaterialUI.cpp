@@ -215,7 +215,7 @@ void MaterialUI::ChangeTexture(DWORD_PTR Param)
 		return;
 	}
 
-	wstring strAssetName = wstring(strName.begin(), strName.end());
+	wstring strAssetName(strName.begin(), strName.end());
 
 	Ptr<CTexture> pTex = CAssetMgr::GetInst()->FindAsset<CTexture>(strAssetName);
 

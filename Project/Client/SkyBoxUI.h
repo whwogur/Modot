@@ -9,5 +9,9 @@ public:
 
 public:
     virtual void Update() override;
+
+private:
+    Ptr<CTexture>       m_CubemapTex;
+    Ptr<CTexture>       m_NullTexture;
 };
 

@@ -31,8 +31,12 @@ void CTestObject::Tick()
 
 void CTestObject::SaveToFile(FILE* _File)
 {
+	SaveAssetRef(m_AlbedoTex, _File);
+	SaveAssetRef(m_NormalTex, _File);
 }
 
 void CTestObject::LoadFromFile(FILE* _File)
 {
+	LoadAssetRef(m_AlbedoTex, _File);
+	LoadAssetRef(m_NormalTex, _File);
 }
