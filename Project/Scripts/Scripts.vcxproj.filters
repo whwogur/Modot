@@ -19,6 +19,9 @@
     <ClInclude Include="CTestObject.h">
       <Filter>Default\Test</Filter>
     </ClInclude>
+    <ClInclude Include="CCameraControl.h">
+      <Filter>Default\Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spch.cpp">
@@ -29,6 +32,9 @@
     </ClCompile>
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CTestObject.cpp">
+      <Filter>Default\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraControl.cpp">
       <Filter>Default\Test</Filter>
     </ClCompile>
   </ItemGroup>

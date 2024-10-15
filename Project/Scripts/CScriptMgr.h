@@ -5,6 +5,7 @@
 
 enum SCRIPT_TYPE
 {
+	CAMERACONTROL,
 	TESTOBJECT,
 };
 

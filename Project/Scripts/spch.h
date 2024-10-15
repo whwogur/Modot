@@ -18,5 +18,11 @@
 #define PLAY_BGM(SOUND) CPlayerManager::GetInst()->PlayBGM(SOUND)
 #define PLAY_EFFECT(SOUND) CPlayerManager::GetInst()->PlayEffect(SOUND)
 
+#ifdef _DEBUG
+	#include "../Client/CEditorMgr.h"
+#else
+	#define EDITOR_TRACE()
+#endif
+
 constexpr float PI = 3.14159265359;
 #endif //PCH_H

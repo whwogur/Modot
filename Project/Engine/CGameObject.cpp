@@ -184,7 +184,12 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 	case COMPONENT_TYPE::DECAl:
 		break;
 	case COMPONENT_TYPE::SKYBOX:
-		break;
+	{
+		CSkyBox* pSkybox = new CSkyBox;
+		AddComponent(pSkybox);
+		CLevelMgr::GetInst()->SetLevelDirty();
+		return;
+	}
 	case COMPONENT_TYPE::LANDSCAPE:
 		break;
 

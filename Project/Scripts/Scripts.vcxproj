@@ -101,12 +101,14 @@ call CodeGen.exe</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CCameraControl.h" />
     <ClInclude Include="CScriptMgr.h" />
     <ClInclude Include="CTestObject.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="spch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CCameraControl.cpp" />
     <ClCompile Include="CScriptMgr.cpp" />
     <ClCompile Include="CTestObject.cpp" />
     <ClCompile Include="spch.cpp">

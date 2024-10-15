@@ -57,6 +57,7 @@ public:
     GET_COMPONENT(RigidBody, RIGIDBODY);
     GET_COMPONENT(ParticleSystem, PARTICLESYSTEM);
     GET_COMPONENT(TextRender, TEXTRENDER);
+    GET_COMPONENT(SkyBox, SKYBOX);
 public:
     void Begin();
     void Tick();

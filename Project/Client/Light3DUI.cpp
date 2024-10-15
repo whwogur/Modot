@@ -72,23 +72,36 @@ void Light3DUI::Update()
 
 
 		// 광원의 범위 각도
+		// 각도 변환
+		float innerConeDeg = acosf(info.ConeInner) * (180.0f / XM_PI);
+		float outerConeDeg = acosf(info.ConeOuter) * (180.0f / XM_PI);
+
 		ImGui::BeginDisabled(Type != LIGHT_TYPE::SPOT);
 
 		ImGui::Text("InnerCone");
 		ImGui::SameLine(140);
 		ImGui::SetNextItemWidth(120);
-		ImGui::DragFloat("##InnerCone", &info.ConeOuter, 0.01f, 0.f, 1.f, "%.2f");
+		if (ImGui::DragFloat("##InnerConeDeg", &innerConeDeg, 0.1f, 0.0f, outerConeDeg, "%.2f")) // 범위 0~90도
+		{
+			// 각도를 다시 코사인 값으로 변환
+			info.ConeInner = cosf(innerConeDeg * (XM_PI / 180.0f));
+		}
 
 		ImGui::Text("OuterCone");
 		ImGui::SameLine(140);
 		ImGui::SetNextItemWidth(120);
-		ImGui::DragFloat("##OuterCone", &info.ConeInner, 0.01f, 0.f, 1.f, "%.2f");
+		if (ImGui::DragFloat("##OuterConeDeg", &outerConeDeg, 0.1f, innerConeDeg + 0.1f, 90.f, "%.2f")) // 범위 0~90도
+		{
+			// 각도를 다시 코사인 값으로 변환
+			info.ConeOuter = cosf(outerConeDeg * (XM_PI / 180.0f));
+		}
 
 		ImGui::Text("Falloff");
 		ImGui::SameLine(140);
 		ImGui::SetNextItemWidth(120);
-		ImGui::DragFloat("##Falloff", &info.Falloff, 0.1f, 0.f, 1.f, "%.2f");
+		ImGui::DragFloat("##Falloff", &info.Falloff, 0.1f, 0.1f, 10.f, "%.2f");
 
 		ImGui::EndDisabled();
+
 	}
 }
