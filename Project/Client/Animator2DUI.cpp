@@ -20,7 +20,7 @@ void Animator2DUI::Update()
 		CGameObject* targetObj = GetTargetObject();
 		if (targetObj != nullptr)
 		{
-			const vector<Ptr<CAnimation>>& vecAnim = targetObj->Animator2D()->GetAnimationsRef();
+			const std::vector<Ptr<CAnimation>>& vecAnim = targetObj->Animator2D()->GetAnimationsRef();
 			if (!vecAnim.empty())
 			{
 				const string combo_preview_value = "(" + std::to_string(vecAnim.size()) + ") Slots Available";

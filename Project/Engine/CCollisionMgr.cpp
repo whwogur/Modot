@@ -68,8 +68,8 @@ void CCollisionMgr::CollisionBtwLayer(UINT _Left, UINT _Right)
 		return;
 
 	// 각 레이어에 속한 모든 오브젝트들을 가져온다.
-	const vector<CGameObject*>& vecLeft = pCurLevel->GetLayer(_Left)->GetObjects();
-	const vector<CGameObject*>& vecRight = pCurLevel->GetLayer(_Right)->GetObjects();
+	const std::vector<CGameObject*>& vecLeft = pCurLevel->GetLayer(_Left)->GetObjects();
+	const std::vector<CGameObject*>& vecRight = pCurLevel->GetLayer(_Right)->GetObjects();
 
 	for (size_t i = 0; i < vecLeft.size(); ++i)
 	{

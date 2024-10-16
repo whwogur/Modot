@@ -286,7 +286,7 @@ bool ParamUI::InputTexture(Ptr<CTexture>& _CurTex, const string& _Desc
 	{
 		ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("List");
 		pListUI->SetName("Texture");
-		vector<string> vecTexNames;
+		std::vector<string> vecTexNames;
 		CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::TEXTURE, vecTexNames);
 		pListUI->AddList(vecTexNames);
 		pListUI->AddDelegate(_Inst, (DELEGATE_1)_MemFunc);
@@ -355,7 +355,7 @@ bool ParamUI::InputSprite(Ptr<CSprite>& _CurSprite, const string& _Desc, EditorU
 	{
 		ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("List");
 		pListUI->SetName("Sprites");
-		vector<string> vecTexNames;
+		std::vector<string> vecTexNames;
 		CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::SPRITE, vecTexNames);
 		pListUI->AddList(vecTexNames);
 		pListUI->AddDelegate(_Inst, (DELEGATE_1)_MemFunc);
@@ -421,7 +421,7 @@ bool ParamUI::InputPrefab(Ptr<CPrefab>& _CurPrefab, const string& _Desc, EditorU
 	{
 		ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("List");
 		pListUI->SetName("Prefab");
-		vector<string> vecPrefabName;
+		std::vector<string> vecPrefabName;
 		CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::PREFAB, vecPrefabName);
 		pListUI->AddList(vecPrefabName);
 		pListUI->AddDelegate(_Inst, (DELEGATE_1)_MemFunc);

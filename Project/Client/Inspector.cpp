@@ -54,7 +54,7 @@ void Inspector::SetTargetObject(CGameObject* _Object)
 	}
 	else
 	{
-		const vector<CScript*>& vecScripts = m_TargetObject->GetScripts();
+		const std::vector<CScript*>& vecScripts = m_TargetObject->GetScripts();
 
 		if (m_vecScriptUI.size() < vecScripts.size())
 		{

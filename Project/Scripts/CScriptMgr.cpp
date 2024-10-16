@@ -4,7 +4,7 @@
 #include "CCameraControl.h"
 #include "CTestObject.h"
 
-void CScriptMgr::GetScriptInfo(vector<wstring>& _vec)
+void CScriptMgr::GetScriptInfo(std::vector<wstring>& _vec)
 {
 	_vec.push_back(L"CCameraControl");
 	_vec.push_back(L"CTestObject");

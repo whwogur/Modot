@@ -10,7 +10,7 @@ public:
 
 public:
     void AddItem(const string& _item);
-    void AddList(const vector<string>& _list);
+    void AddList(const std::vector<string>& _list);
     void AddDelegate(EditorUI* _UI, DELEGATE_1 _Func)
     {
         m_UI = _UI;
@@ -24,7 +24,7 @@ public:
     virtual void Update() override;
 
 private:
-    vector<string>  m_vecList;
+    std::vector<string>  m_vecList;
     int             m_SelectedIdx;
     string          m_SelectedName;
     EditorUI*       m_UI;

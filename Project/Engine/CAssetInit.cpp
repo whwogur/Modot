@@ -83,8 +83,8 @@ void CAssetMgr::CreateEngineMesh()
 	AddAsset(L"RectMesh_Debug", pMesh);
 
 	// CircleMesh 
-	vector<Vtx> vecVtx;
-	vector<UINT> vecIdx;
+	std::vector<Vtx> vecVtx;
+	std::vector<UINT> vecIdx;
 
 	int Slice = 40;
 	float fTheta = XM_2PI / Slice;

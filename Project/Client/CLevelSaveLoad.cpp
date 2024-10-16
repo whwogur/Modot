@@ -27,7 +27,7 @@ void CLevelSaveLoad::SaveLevel(const wstring& _RelativePath, CLevel* _Level)
 
 		SaveWString(pLayer->GetName(), File);
 
-		const vector<CGameObject*>& vecParents = pLayer->GetParentObjects();
+		const std::vector<CGameObject*>& vecParents = pLayer->GetParentObjects();
 
 		size_t count = vecParents.size();
 		fwrite(&count, sizeof(size_t), 1, File);
@@ -69,7 +69,7 @@ void CLevelSaveLoad::SaveGameObject(FILE* _File, CGameObject* _Object)
 	// COMPONENT_TYPE::END 저장
 	fwrite(&i, sizeof(COMPONENT_TYPE), 1, _File);
 
-	const vector<CScript*> vecScripts = _Object->GetScripts();
+	const std::vector<CScript*> vecScripts = _Object->GetScripts();
 	size_t ScriptCount = vecScripts.size();
 	fwrite(&ScriptCount, sizeof(size_t), 1, _File);
 
@@ -82,7 +82,7 @@ void CLevelSaveLoad::SaveGameObject(FILE* _File, CGameObject* _Object)
 	}
 
 	// Child 정보 저장
-	const vector<CGameObject*>& vecChild = _Object->GetChildren();
+	const std::vector<CGameObject*>& vecChild = _Object->GetChildren();
 	size_t ChildCount = vecChild.size();
 	fwrite(&ChildCount, sizeof(size_t), 1, _File);
 	for (auto childObject : vecChild)

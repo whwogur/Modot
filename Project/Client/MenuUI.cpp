@@ -350,7 +350,7 @@ void MenuUI::AddScript()
 {
 	if (ImGui::BeginMenu(ICON_FA_CODE " Add Script"))
 	{
-		vector<wstring> vecScriptsName;
+		std::vector<wstring> vecScriptsName;
 		CScriptMgr::GetScriptInfo(vecScriptsName);
 
 		for (size_t i = 0; i < vecScriptsName.size(); ++i)

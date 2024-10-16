@@ -267,7 +267,7 @@ void TilemapEditor::SetTilemap(CTileMap* _Tilemap)
     m_Tilemap = _Tilemap;
     if (m_Tilemap != nullptr)
     {
-        const vector<tTileInfo>& vecRef = m_Tilemap->GetTileInfoRef();
+        const std::vector<tTileInfo>& vecRef = m_Tilemap->GetTileInfoRef();
         m_TilemapToBeEdited.assign(vecRef.begin(), vecRef.end());
     }
 

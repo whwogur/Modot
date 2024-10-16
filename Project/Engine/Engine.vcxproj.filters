@@ -28,21 +28,6 @@
     <ClInclude Include="struct.h">
       <Filter>01. Header</Filter>
     </ClInclude>
-    <ClInclude Include="CKeyMgr.h">
-      <Filter>04. Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="CPathMgr.h">
-      <Filter>04. Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="CTaskMgr.h">
-      <Filter>04. Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="CTimeMgr.h">
-      <Filter>04. Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="CAssetMgr.h">
-      <Filter>04. Manager</Filter>
-    </ClInclude>
     <ClInclude Include="CAsset.h">
       <Filter>06. Asset</Filter>
     </ClInclude>
@@ -64,13 +49,7 @@
     <ClInclude Include="assets.h">
       <Filter>06. Asset</Filter>
     </ClInclude>
-    <ClInclude Include="CLevelMgr.h">
-      <Filter>04. Manager</Filter>
-    </ClInclude>
     <ClInclude Include="CLevel.h">
-      <Filter>05. Level</Filter>
-    </ClInclude>
-    <ClInclude Include="CLayer.h">
       <Filter>05. Level</Filter>
     </ClInclude>
     <ClInclude Include="CGameObject.h">
@@ -82,56 +61,20 @@
     <ClInclude Include="CComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="CTransform.h">
-      <Filter>Component</Filter>
-    </ClInclude>
     <ClInclude Include="components.h">
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="Ptr.h">
       <Filter>06. Asset</Filter>
     </ClInclude>
-    <ClInclude Include="CCamera.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="CRenderMgr.h">
-      <Filter>04. Manager</Filter>
-    </ClInclude>
     <ClInclude Include="CMaterial.h">
       <Filter>06. Asset\Material</Filter>
-    </ClInclude>
-    <ClInclude Include="CCollider2D.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="CAnimator2D.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="CCollisionMgr.h">
-      <Filter>04. Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="CAnimation.h">
-      <Filter>06. Asset</Filter>
-    </ClInclude>
-    <ClInclude Include="CSprite.h">
-      <Filter>06. Asset</Filter>
-    </ClInclude>
-    <ClInclude Include="CLight2D.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="CScript.h">
-      <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="CConstBuffer.h">
       <Filter>03. Device\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="CStructuredBuffer.h">
       <Filter>03. Device\Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="CRigidBody.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="CPrefab.h">
-      <Filter>06. Asset</Filter>
     </ClInclude>
     <ClInclude Include="CGraphicShader.h">
       <Filter>06. Asset\Shader\GraphicShader</Filter>
@@ -154,17 +97,8 @@
     <ClInclude Include="CTexture.h">
       <Filter>06. Asset\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="CFontMgr.h">
-      <Filter>04. Manager</Filter>
-    </ClInclude>
     <ClInclude Include="CRenderComponent.h">
       <Filter>Component\RenderComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="CTileMap.h">
-      <Filter>Component\RenderComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="CLight3D.h">
-      <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="CSkyBox.h">
       <Filter>Component\RenderComponent\Skybox</Filter>
@@ -177,6 +111,75 @@
     </ClInclude>
     <ClInclude Include="CTextRender.h">
       <Filter>Component\RenderComponent\TextRender</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimation.h">
+      <Filter>06. Asset\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="CPrefab.h">
+      <Filter>06. Asset\Prefab</Filter>
+    </ClInclude>
+    <ClInclude Include="CSprite.h">
+      <Filter>06. Asset\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollisionMgr.h">
+      <Filter>04. Manager\CollisionMananger</Filter>
+    </ClInclude>
+    <ClInclude Include="CAssetMgr.h">
+      <Filter>04. Manager\AssetManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CFontMgr.h">
+      <Filter>04. Manager\FontManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CKeyMgr.h">
+      <Filter>04. Manager\KeyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CLevelMgr.h">
+      <Filter>04. Manager\LevelManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimeMgr.h">
+      <Filter>04. Manager\TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CTaskMgr.h">
+      <Filter>04. Manager\TaskManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderMgr.h">
+      <Filter>04. Manager\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CPathMgr.h">
+      <Filter>04. Manager\PathManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CMRT.h">
+      <Filter>04. Manager\RenderManager\MultipleRenderTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="CTileMap.h">
+      <Filter>Component\RenderComponent\Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="CRigidBody.h">
+      <Filter>Component\RigidBody2D</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimator2D.h">
+      <Filter>Component\Animator2D</Filter>
+    </ClInclude>
+    <ClInclude Include="CCamera.h">
+      <Filter>Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollider2D.h">
+      <Filter>Component\Collider2D</Filter>
+    </ClInclude>
+    <ClInclude Include="CLight2D.h">
+      <Filter>Component\Light2D</Filter>
+    </ClInclude>
+    <ClInclude Include="CLight3D.h">
+      <Filter>Component\Light3D</Filter>
+    </ClInclude>
+    <ClInclude Include="CTransform.h">
+      <Filter>Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="CScript.h">
+      <Filter>Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CLayer.h">
+      <Filter>05. Level\Layer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -192,18 +195,6 @@
     <ClCompile Include="CDevice.cpp">
       <Filter>03. Device</Filter>
     </ClCompile>
-    <ClCompile Include="CPathMgr.cpp">
-      <Filter>04. Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="CKeyMgr.cpp">
-      <Filter>04. Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="CTimeMgr.cpp">
-      <Filter>04. Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="CAssetMgr.cpp">
-      <Filter>04. Manager</Filter>
-    </ClCompile>
     <ClCompile Include="CAsset.cpp">
       <Filter>06. Asset</Filter>
     </ClCompile>
@@ -216,13 +207,7 @@
     <ClCompile Include="Log.cpp">
       <Filter>Default</Filter>
     </ClCompile>
-    <ClCompile Include="CLevelMgr.cpp">
-      <Filter>04. Manager</Filter>
-    </ClCompile>
     <ClCompile Include="CLevel.cpp">
-      <Filter>05. Level</Filter>
-    </ClCompile>
-    <ClCompile Include="CLayer.cpp">
       <Filter>05. Level</Filter>
     </ClCompile>
     <ClCompile Include="CGameObject.cpp">
@@ -234,57 +219,18 @@
     <ClCompile Include="CComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
-    <ClCompile Include="CTransform.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="CCamera.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
     <ClCompile Include="extern.cpp" />
-    <ClCompile Include="CRenderMgr.cpp">
-      <Filter>04. Manager</Filter>
-    </ClCompile>
     <ClCompile Include="CMaterial.cpp">
       <Filter>06. Asset\Material</Filter>
     </ClCompile>
     <ClCompile Include="func.cpp">
       <Filter>01. Header</Filter>
     </ClCompile>
-    <ClCompile Include="CCollider2D.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="CAnimator2D.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="CCollisionMgr.cpp">
-      <Filter>04. Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="CAnimation.cpp">
-      <Filter>06. Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="CTaskMgr.cpp">
-      <Filter>04. Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="CSprite.cpp">
-      <Filter>06. Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="CLight2D.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="CScript.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
     <ClCompile Include="CConstBuffer.cpp">
       <Filter>03. Device\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="CStructuredBuffer.cpp">
       <Filter>03. Device\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="CRigidBody.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="CPrefab.cpp">
-      <Filter>06. Asset</Filter>
     </ClCompile>
     <ClCompile Include="CGraphicShader.cpp">
       <Filter>06. Asset\Shader\GraphicShader</Filter>
@@ -298,26 +244,14 @@
     <ClCompile Include="CParticleTickCS.cpp">
       <Filter>06. Asset\Shader\ComputeShader\ParticleTick</Filter>
     </ClCompile>
-    <ClCompile Include="CAssetInit.cpp">
-      <Filter>04. Manager</Filter>
-    </ClCompile>
     <ClCompile Include="CSound.cpp">
       <Filter>06. Asset\Sound</Filter>
     </ClCompile>
     <ClCompile Include="CTexture.cpp">
       <Filter>06. Asset\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="CFontMgr.cpp">
-      <Filter>04. Manager</Filter>
-    </ClCompile>
     <ClCompile Include="CRenderComponent.cpp">
       <Filter>Component\RenderComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="CTileMap.cpp">
-      <Filter>Component\RenderComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="CLight3D.cpp">
-      <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="CSkyBox.cpp">
       <Filter>Component\RenderComponent\Skybox</Filter>
@@ -330,6 +264,81 @@
     </ClCompile>
     <ClCompile Include="CTextRender.cpp">
       <Filter>Component\RenderComponent\TextRender</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimation.cpp">
+      <Filter>06. Asset\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="CPrefab.cpp">
+      <Filter>06. Asset\Prefab</Filter>
+    </ClCompile>
+    <ClCompile Include="CSprite.cpp">
+      <Filter>06. Asset\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollisionMgr.cpp">
+      <Filter>04. Manager\CollisionMananger</Filter>
+    </ClCompile>
+    <ClCompile Include="CAssetInit.cpp">
+      <Filter>04. Manager\AssetManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CAssetMgr.cpp">
+      <Filter>04. Manager\AssetManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CFontMgr.cpp">
+      <Filter>04. Manager\FontManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CKeyMgr.cpp">
+      <Filter>04. Manager\KeyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CLevelMgr.cpp">
+      <Filter>04. Manager\LevelManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CTimeMgr.cpp">
+      <Filter>04. Manager\TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CTaskMgr.cpp">
+      <Filter>04. Manager\TaskManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderMgr.cpp">
+      <Filter>04. Manager\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CPathMgr.cpp">
+      <Filter>04. Manager\PathManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CMRT.cpp">
+      <Filter>04. Manager\RenderManager\MultipleRenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderMgr_Init.cpp">
+      <Filter>04. Manager\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CTileMap.cpp">
+      <Filter>Component\RenderComponent\Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="CRigidBody.cpp">
+      <Filter>Component\RigidBody2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimator2D.cpp">
+      <Filter>Component\Animator2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CCamera.cpp">
+      <Filter>Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollider2D.cpp">
+      <Filter>Component\Collider2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CLight2D.cpp">
+      <Filter>Component\Light2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CLight3D.cpp">
+      <Filter>Component\Light3D</Filter>
+    </ClCompile>
+    <ClCompile Include="CTransform.cpp">
+      <Filter>Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="CScript.cpp">
+      <Filter>Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CLayer.cpp">
+      <Filter>05. Level\Layer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -416,6 +425,75 @@
     </Filter>
     <Filter Include="Component\RenderComponent\TextRender">
       <UniqueIdentifier>{6e9c7542-7a43-486a-a6dd-f70deb4d7303}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Asset\Animation">
+      <UniqueIdentifier>{331a9fec-4f2e-403d-a6ab-7fe4c7bf4657}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Asset\Prefab">
+      <UniqueIdentifier>{fe88ad16-0092-40b5-9192-b41967fc1aa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Asset\Sprite">
+      <UniqueIdentifier>{52ee5855-3e33-4267-a309-57e608000805}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Manager\AssetManager">
+      <UniqueIdentifier>{f71088bb-634d-4340-acac-8706d70bf6f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Manager\CollisionMananger">
+      <UniqueIdentifier>{943ec8ed-4385-41d0-9770-bf56ed25b198}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Manager\FontManager">
+      <UniqueIdentifier>{451184a6-05ee-4fd2-aa3b-70d759488777}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Manager\KeyManager">
+      <UniqueIdentifier>{8366e2ee-1ea3-4294-9b2d-88821471ba49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Manager\LevelManager">
+      <UniqueIdentifier>{aba45065-f30f-44e5-9f26-78d9e8923398}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Manager\PathManager">
+      <UniqueIdentifier>{2c9fe63d-bace-40a0-9d77-1840fd7f2bfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Manager\RenderManager">
+      <UniqueIdentifier>{acc5f948-46cc-456d-bdf7-e76e56b50c80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Manager\TaskManager">
+      <UniqueIdentifier>{46070a8f-b09d-47d6-b7e9-b978350c52aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Manager\TimeManager">
+      <UniqueIdentifier>{52caf14e-1ca1-4ec0-aef8-824c4c8627b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Manager\RenderManager\MultipleRenderTarget">
+      <UniqueIdentifier>{ad18af7c-92d2-4595-a345-16eb6cb932f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\RenderComponent\Tilemap">
+      <UniqueIdentifier>{f73f3ff2-2ba5-43d8-b128-e1bc8690d773}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Camera">
+      <UniqueIdentifier>{7817ef73-27f4-42ef-8bca-bf016032c770}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Animator2D">
+      <UniqueIdentifier>{b0451349-210a-44b6-aaa3-1f9a91b28301}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Collider2D">
+      <UniqueIdentifier>{8478b68f-224c-4270-b785-a43ac381d843}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Light2D">
+      <UniqueIdentifier>{f7885eee-937a-402d-8000-dab889dd4c6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Light3D">
+      <UniqueIdentifier>{e205eabd-2306-4514-ac0d-525d881f4a03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\RigidBody2D">
+      <UniqueIdentifier>{471b9b4e-32c9-4e57-8858-610244077d39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script">
+      <UniqueIdentifier>{225e82df-2731-4ae9-957a-7bbf75687f02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Transform">
+      <UniqueIdentifier>{c35617f4-cb62-45d8-8058-fc79e1ceb5dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Level\Layer">
+      <UniqueIdentifier>{2ef89d13-1eec-45b0-96b0-daffb5bed09d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

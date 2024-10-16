@@ -33,7 +33,7 @@ void AnimationUI::Update()
 	}
 	ImGui::SetItemTooltip(u8"애니메이션 에디터를 엽니다");
 
-	const vector<Ptr<CSprite>>& vecSprites = anim->GetSpritesCRef();
+	const std::vector<Ptr<CSprite>>& vecSprites = anim->GetSpritesCRef();
 
 	string animFrameCount = std::to_string(anim->GetMaxFrameCount());
 
@@ -80,7 +80,7 @@ void AnimationUI::Update()
 	ImGui::NewLine();
 	if (ImGui::BeginCombo("##SpriteListCombo", u8"스프라이트 목록"))
 	{
-		vector<Ptr<CSprite>>& spriteRef = anim->GetSpritesRef();
+		std::vector<Ptr<CSprite>>& spriteRef = anim->GetSpritesRef();
 		for (int i = 0; i < spriteRef.size(); ++i)
 		{
 			ImGui::SetItemTooltip(u8"클릭해서 순서 변경");

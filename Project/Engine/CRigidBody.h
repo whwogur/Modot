@@ -54,7 +54,7 @@ public:
 
 private:
     Vec2    m_Force;           // 힘
-    Vec2    m_Velocity;        // 속도 ( vector )
+    Vec2    m_Velocity;        // 속도 ( std::vector )
     float   m_Mass;            // 질량
 
     float   m_Friction;        // 마찰력

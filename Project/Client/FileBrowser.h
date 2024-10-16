@@ -15,7 +15,7 @@ private:
     void Refresh();
     void Search(const string& _File);
 private:
-    vector<std::pair<path, bool>> m_List;
+    std::vector<std::pair<path, bool>> m_List;
 
     path            m_CurrentDirectory;
     path            m_ContentPath;

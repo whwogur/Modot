@@ -23,9 +23,9 @@ public:
     CGameObject* GetParent() { return m_Parent; }
     int GetLayerIdx() const { return m_LayerIdx; }
     void AddChild(CGameObject* _ChildObject);
-    const vector<CGameObject*>& GetChildren() { return m_vecChildren; }
-    const vector<CScript*> GetScripts() { return m_vecScript; }
-    vector<CScript*>& GetScriptsRef() { return m_vecScript; }
+    const std::vector<CGameObject*>& GetChildren() { return m_vecChildren; }
+    const std::vector<CScript*> GetScripts() { return m_vecScript; }
+    std::vector<CScript*>& GetScriptsRef() { return m_vecScript; }
 
     CScript* FindScript(UINT _uintType);
     bool IsDead() const { return m_Dead; }
@@ -70,8 +70,8 @@ private:
     CGameObject*                m_Parent;
     int                         m_LayerIdx; // 소속 레이어의 인덱스 번호
 
-    vector<CScript*>            m_vecScript;
-    vector<CGameObject*>        m_vecChildren;
+    std::vector<CScript*>            m_vecScript;
+    std::vector<CGameObject*>        m_vecChildren;
     bool                        m_Dead;
     bool                        m_Disabled;
     friend class CLevel;

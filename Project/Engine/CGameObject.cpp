@@ -272,7 +272,7 @@ void CGameObject::DetachFromLayer()
 void CGameObject::DetachChild()
 {
 	CLevelMgr::GetInst()->SetLevelDirty();
-	vector<CGameObject*>::iterator iter = m_Parent->m_vecChildren.begin();
+	std::vector<CGameObject*>::iterator iter = m_Parent->m_vecChildren.begin();
 
 	for (; iter != m_Parent->m_vecChildren.end(); ++iter)
 	{
@@ -355,7 +355,7 @@ void CGameObject::FinalTick()
 			m_arrCom[i]->FinalTick();
 	}
 
-	vector<CGameObject*>::iterator iter = m_vecChildren.begin();
+	std::vector<CGameObject*>::iterator iter = m_vecChildren.begin();
 	for (; iter != m_vecChildren.end(); )
 	{
 		(*iter)->FinalTick();

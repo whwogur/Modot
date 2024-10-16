@@ -104,7 +104,7 @@ namespace DirectX
         };
 
         //------------------------------------------------------------------------------
-        // 2D vector
+        // 2D std::vector
         struct Vector2 : public XMFLOAT2
         {
             Vector2() noexcept : XMFLOAT2(0.f, 0.f) {}
@@ -152,7 +152,7 @@ namespace DirectX
             Vector2 operator+ () const { return *this; }
             Vector2 operator- () const { return Vector2(-x, -y); }
 
-            // Vector operations
+            // std::vector operations
             bool InBounds(const Vector2& Bounds) const;
 
             float Length() const;
@@ -229,7 +229,7 @@ namespace DirectX
         Vector2 operator* (float S, const Vector2& V);
 
         //------------------------------------------------------------------------------
-        // 3D vector
+        // 3D std::vector
         struct Vector3 : public XMFLOAT3
         {
             Vector3() noexcept : XMFLOAT3(0.f, 0.f, 0.f) {}
@@ -275,7 +275,7 @@ namespace DirectX
             Vector3 operator+ () const { return *this; }
             Vector3 operator- () const;
 
-            // Vector operations
+            // std::vector operations
             bool InBounds(const Vector3& Bounds) const;
 
             float Length() const;
@@ -363,7 +363,7 @@ namespace DirectX
         Vector3 operator* (float S, const Vector3& V);
 
         //------------------------------------------------------------------------------
-        // 4D vector
+        // 4D std::vector
         struct Vector4 : public XMFLOAT4
         {
             Vector4() noexcept : XMFLOAT4(0.f, 0.f, 0.f, 0.f) {}
@@ -415,7 +415,7 @@ namespace DirectX
 			operator Vector3 () { return Vector3(x, y, z); }
 			
 
-            // Vector operations
+            // std::vector operations
             bool InBounds(const Vector4& Bounds) const;
 
             float Length() const;

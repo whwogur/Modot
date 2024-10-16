@@ -96,7 +96,7 @@ CGameObject* CLevel::FindObjectByName(const wstring& _Name)
 {
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
-		const vector<CGameObject*>& vecParent = m_Layer[i]->GetParentObjects();
+		const std::vector<CGameObject*>& vecParent = m_Layer[i]->GetParentObjects();
 
 		// 큐를 사용하여 BFS 탐색
 		std::queue<CGameObject*> objQueue;
@@ -110,7 +110,7 @@ CGameObject* CLevel::FindObjectByName(const wstring& _Name)
 				objQueue.pop();
 
 				// 자식 객체들을 큐에 추가
-				const vector<CGameObject*>& vecChild = pObject->GetChildren();
+				const std::vector<CGameObject*>& vecChild = pObject->GetChildren();
 				for (size_t k = 0; k < vecChild.size(); ++k)
 				{
 					objQueue.push(vecChild[k]);

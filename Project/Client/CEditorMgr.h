@@ -44,7 +44,7 @@ private:
     void SetThemeUnrealEngine();
     void SetThemeFutureDark();
 private:
-    vector<CGameObject*>            m_vecEditorObject;
+    std::vector<CGameObject*>            m_vecEditorObject;
     map<string, EditorUI*>          m_mapUI;
 
     Vec2                            m_ViewportSize = {};
