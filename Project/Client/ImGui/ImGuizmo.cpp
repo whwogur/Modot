@@ -905,7 +905,7 @@ namespace IMGUIZMO_NAMESPACE
       const float numer = plan.Dot3(rOrigin) - plan.w;
       const float denom = plan.Dot3(rVector);
 
-      if (fabsf(denom) < FLT_EPSILON)  // normal is orthogonal to vector, cant intersect
+      if (fabsf(denom) < FLT_EPSILON)  // normal is orthogonal to std::vector, cant intersect
       {
          return -1.0f;
       }
@@ -1075,7 +1075,7 @@ namespace IMGUIZMO_NAMESPACE
 
        gContext.mReversed = (nearPos.z/nearPos.w) > (farPos.z / farPos.w);
 
-      // compute scale from the size of camera right vector projected on screen at the matrix position
+      // compute scale from the size of camera right std::vector projected on screen at the matrix position
       vec_t pointRight = viewInverse.v.right;
       pointRight.TransformPoint(gContext.mViewProjection);
       gContext.mScreenFactor = gContext.mGizmoSizeClipSpace / (pointRight.x / pointRight.w - gContext.mMVP.v.position.x / gContext.mMVP.v.position.w);
@@ -1555,7 +1555,7 @@ namespace IMGUIZMO_NAMESPACE
                dir /= d; // Normalize
                dir *= gContext.mStyle.TranslationLineArrowSize;
 
-               ImVec2 ortogonalDir(dir.y, -dir.x); // Perpendicular vector
+               ImVec2 ortogonalDir(dir.y, -dir.x); // Perpendicular std::vector
                ImVec2 a(worldDirSSpace + dir);
                drawList->AddTriangleFilled(worldDirSSpace - dir, a + ortogonalDir, a - ortogonalDir, colors[i + 1]);
                // Arrow head end

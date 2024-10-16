@@ -960,7 +960,7 @@ CODE
    - How can I have multiple windows with the same label?
  Q: How can I display an image? What is ImTextureID, how does it work?
  Q: How can I use my own math types instead of ImVec2?
- Q: How can I interact with standard C++ types (such as std::string and std::vector)?
+ Q: How can I interact with standard C++ types (such as std::string and std::std::vector)?
  Q: How can I display custom shapes? (using low-level ImDrawList API)
  >> See https://www.dearimgui.com/faq
 
@@ -3912,7 +3912,7 @@ ImGuiID ImGui::AddContextHook(ImGuiContext* ctx, const ImGuiContextHook* hook)
     return g.HookIdNext;
 }
 
-// Deferred removal, avoiding issue with changing vector while iterating it
+// Deferred removal, avoiding issue with changing std::vector while iterating it
 void ImGui::RemoveContextHook(ImGuiContext* ctx, ImGuiID hook_id)
 {
     ImGuiContext& g = *ctx;
@@ -4839,7 +4839,7 @@ void ImGui::NewFrame()
     ImGuiContext& g = *GImGui;
 
     // Remove pending delete hooks before frame start.
-    // This deferred removal avoid issues of removal while iterating the hook vector
+    // This deferred removal avoid issues of removal while iterating the hook std::vector
     for (int n = g.Hooks.Size - 1; n >= 0; n--)
         if (g.Hooks[n].Type == ImGuiContextHookType_PendingRemoval_)
             g.Hooks.erase(&g.Hooks[n]);
@@ -9204,7 +9204,7 @@ int ImGui::GetKeyPressedAmount(ImGuiKey key, float repeat_delay, float repeat_ra
     return CalcTypematicRepeatAmount(t - g.IO.DeltaTime, t, repeat_delay, repeat_rate);
 }
 
-// Return 2D vector representing the combination of four cardinal direction, with analog value support (for e.g. ImGuiKey_GamepadLStick* values).
+// Return 2D std::vector representing the combination of four cardinal direction, with analog value support (for e.g. ImGuiKey_GamepadLStick* values).
 ImVec2 ImGui::GetKeyMagnitude2d(ImGuiKey key_left, ImGuiKey key_right, ImGuiKey key_up, ImGuiKey key_down)
 {
     return ImVec2(

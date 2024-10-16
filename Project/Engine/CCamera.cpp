@@ -86,7 +86,7 @@ void CCamera::SortGameObject()
 
 		CLayer* pLayer = pLevel->GetLayer(i);
 
-		const vector<CGameObject*>& vecObjects = pLayer->GetObjects();
+		const std::vector<CGameObject*>& vecObjects = pLayer->GetObjects();
 		for (size_t j = 0; j < vecObjects.size(); ++j)
 		{
 			if (nullptr == vecObjects[j]->GetRenderComponent()

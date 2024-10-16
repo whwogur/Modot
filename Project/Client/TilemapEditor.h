@@ -23,13 +23,13 @@ private:
     void Revert();
     void Commit();
 private:
-    CTileMap*                           m_Tilemap;
-    ImVec2                              m_ImagePos = {};
-    ImVec2                              m_ImageButtonPos = {};
-    vector<std::pair<UINT, UINT>>       m_EditHistory;
-    std::vector<tTileInfo>              m_TilemapToBeEdited;
-    bool                                m_Altered;
-    std::pair<int, int>                 m_RowCol;
+    CTileMap*                               m_Tilemap;
+    ImVec2                                  m_ImagePos = {};
+    ImVec2                                  m_ImageButtonPos = {};
+    std::vector<std::pair<UINT, UINT>>      m_EditHistory;
+    std::vector<tTileInfo>                  m_TilemapToBeEdited;
+    bool                                    m_Altered;
+    std::pair<int, int>                     m_RowCol;
     
-    Ptr<CTexture>                       m_ImageNotFound;
+    Ptr<CTexture>                           m_ImageNotFound;
 };

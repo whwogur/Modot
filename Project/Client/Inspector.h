@@ -31,7 +31,7 @@ private:
 private:
     CGameObject*                m_TargetObject;
     ComponentUI*                m_arrComUI[(UINT)COMPONENT_TYPE::END];
-    vector<class ScriptUI*>     m_vecScriptUI;
+    std::vector<class ScriptUI*>     m_vecScriptUI;
     Ptr<CAsset>                 m_TargetAsset;
     Ptr<CTexture>               m_IconTexture;
     AssetUI*                    m_arrAssetUI[(UINT)ASSET_TYPE::END];

@@ -21,7 +21,7 @@ void ScriptUI::Update()
 
 	ImGui::TextColored(HEADER_3, string(strScriptName.begin(), strScriptName.end()).c_str());
 	// Script 에서 노출시킬 데이터를 보여준다.
-	const vector<tScriptParam>& vecParam = m_Script->GetScriptParam();
+	const std::vector<tScriptParam>& vecParam = m_Script->GetScriptParam();
 
 	for (size_t i = 0; i < vecParam.size(); ++i)
 	{

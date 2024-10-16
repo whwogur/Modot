@@ -37,7 +37,7 @@ private:
 
     string              m_Name;
     TreeNode*           m_ParentNode;
-    vector<TreeNode*>   m_vecChildNode;
+    std::vector<TreeNode*>   m_vecChildNode;
     const UINT          m_ID;
     DWORD_PTR           m_Data;
 

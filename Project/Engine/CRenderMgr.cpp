@@ -124,7 +124,7 @@ void CRenderMgr::RenderStart()
 	g_GlobalData.g_Light3DCount = (int)m_vecLight3D.size();
 
 	// Light2D 정보 업데이트 및 바인딩
-	vector<tLightInfo> vecLight2DInfo;
+	std::vector<tLightInfo> vecLight2DInfo;
 	for (size_t i = 0; i < m_vecLight2D.size(); ++i)
 	{
 		tLightInfo& info = m_vecLight2D[i]->GetLightInfoRef();
@@ -143,7 +143,7 @@ void CRenderMgr::RenderStart()
 	}
 
 	// Light3D 정보 업데이트 및 바인딩
-	vector<tLightInfo> vecLight3DInfo;
+	std::vector<tLightInfo> vecLight3DInfo;
 	for (size_t i = 0; i < m_vecLight3D.size(); ++i)
 	{
 		tLightInfo& info = m_vecLight3D[i]->GetLightInfoRef();
@@ -179,7 +179,7 @@ void CRenderMgr::Clear()
 
 void CRenderMgr::RenderDebugShape()
 {
-	list<tDebugShapeInfo>::iterator iter = m_DebugShapeList.begin();
+	std::list<tDebugShapeInfo>::iterator iter = m_DebugShapeList.begin();
 
 	for (; iter != m_DebugShapeList.end(); )
 	{

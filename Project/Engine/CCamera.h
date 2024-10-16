@@ -81,11 +81,11 @@ private:
     float                   m_ProjectionScale;
 
     bool                    m_Active = true;
-    vector<CGameObject*>    m_vecOpaque;        // 불투명
-    vector<CGameObject*>    m_vecMasked;        // 불투명, 투명
-    vector<CGameObject*>    m_vecTransparent;   // 투명, 반투명
-    vector<CGameObject*>    m_vecEffect;
-    vector<CGameObject*>    m_vecParticles;     // 투명, 반투명, 입자 타입
-    vector<CGameObject*>    m_vecPostProcess;
-    vector<CGameObject*>    m_vecUI;
+    std::vector<CGameObject*>    m_vecOpaque;        // 불투명
+    std::vector<CGameObject*>    m_vecMasked;        // 불투명, 투명
+    std::vector<CGameObject*>    m_vecTransparent;   // 투명, 반투명
+    std::vector<CGameObject*>    m_vecEffect;
+    std::vector<CGameObject*>    m_vecParticles;     // 투명, 반투명, 입자 타입
+    std::vector<CGameObject*>    m_vecPostProcess;
+    std::vector<CGameObject*>    m_vecUI;
 };

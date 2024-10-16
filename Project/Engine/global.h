@@ -33,10 +33,7 @@ using std::string;
 using std::wstring;
 
 #include <vector>
-using std::vector;
-
 #include <list>
-using std::list;
 
 #include <map>
 using std::map;

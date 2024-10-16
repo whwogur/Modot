@@ -13,7 +13,7 @@ private:
 	void ExecuteTask();	
 
 private:
-	vector<tTask>			m_vecTask;
-	vector<CGameObject*>	m_GC;
+	std::vector<tTask>			m_vecTask;
+	std::vector<CGameObject*>	m_GC;
 };
 

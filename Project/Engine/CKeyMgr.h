@@ -57,7 +57,7 @@ public:
 	}
 
 private:
-	vector<tKeyInfo>	m_vecKeyInfo;
+	std::vector<tKeyInfo>	m_vecKeyInfo;
 
 	Vec2				m_MousePos;
 	Vec2				m_PrevMousePos;

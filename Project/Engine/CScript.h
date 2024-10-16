@@ -53,7 +53,7 @@ public:
     virtual void BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) {}
     virtual void Overlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) {}
     virtual void EndOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider) {}
-    const vector<tScriptParam>& GetScriptParam() { return   m_ScriptParam; }
+    const std::vector<tScriptParam>& GetScriptParam() { return   m_ScriptParam; }
 
 protected:
     void AddScriptParam(SCRIPT_PARAM _Type, const string& _Desc, void* _pData, DWORD_PTR _Param0 = 0, DWORD_PTR _Param1 = 0, const string& _Tooltip = "")
@@ -64,5 +64,5 @@ protected:
     void Instantiate(Ptr<CPrefab> _Pref, int _LayerIdx, Vec3 _WorldPos, const wstring& _Name = L"");
 private:
     UINT                    m_ScriptType;
-    vector<tScriptParam>    m_ScriptParam;
+    std::vector<tScriptParam>    m_ScriptParam;
 };

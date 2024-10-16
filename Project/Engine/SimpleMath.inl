@@ -327,7 +327,7 @@ inline Vector2 operator* (float S, const Vector2& V)
 }
 
 //------------------------------------------------------------------------------
-// Vector operations
+// std::vector operations
 //------------------------------------------------------------------------------
 
 inline bool Vector2::InBounds(const Vector2& Bounds) const
@@ -906,7 +906,7 @@ inline Vector3 operator* (float S, const Vector3& V)
 }
 
 //------------------------------------------------------------------------------
-// Vector operations
+// std::vector operations
 //------------------------------------------------------------------------------
 
 inline bool Vector3::InBounds(const Vector3& Bounds) const
@@ -1488,7 +1488,7 @@ inline Vector4 operator* (float S, const Vector4& V)
 }
 
 //------------------------------------------------------------------------------
-// Vector operations
+// std::vector operations
 //------------------------------------------------------------------------------
 
 inline bool Vector4::InBounds(const Vector4& Bounds) const

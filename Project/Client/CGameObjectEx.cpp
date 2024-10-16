@@ -13,7 +13,7 @@ void CGameObjectEx::FinalTick()
 
 	
 	// 자식 오브젝트
-	vector<CGameObject*>::const_iterator iter = GetChildren().begin();
+	std::vector<CGameObject*>::const_iterator iter = GetChildren().begin();
 	for (; iter != GetChildren().end(); ++iter)
 	{
 		(*iter)->FinalTick();

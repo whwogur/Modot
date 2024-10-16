@@ -41,7 +41,7 @@ void CLayer::Tick()
 
 void CLayer::FinalTick()
 {
-	vector<CGameObject*>::iterator iter = m_Parents.begin();
+	std::vector<CGameObject*>::iterator iter = m_Parents.begin();
 
 	for (; iter != m_Parents.end(); )
 	{
@@ -71,7 +71,7 @@ void CLayer::AddObject(CGameObject* _Object, bool _bChildMovesTogether)
 	}
 	
 	// 자식들까지 딸려서 이동
-	static list<CGameObject*> queue;
+	static std::list<CGameObject*> queue;
 	queue.clear();
 	queue.push_back(_Object);
 	_Object->m_LayerIdx = m_LayerIdx;
@@ -86,7 +86,7 @@ void CLayer::AddObject(CGameObject* _Object, bool _bChildMovesTogether)
 			pObject->m_LayerIdx = m_LayerIdx;
 		}
 
-		const vector<CGameObject*>& vecChildren = pObject->GetChildren();
+		const std::vector<CGameObject*>& vecChildren = pObject->GetChildren();
 		for (size_t i = 0; i < vecChildren.size(); ++i)
 		{
 			queue.push_back(vecChildren[i]);
@@ -96,7 +96,7 @@ void CLayer::AddObject(CGameObject* _Object, bool _bChildMovesTogether)
 
 void CLayer::RemoveFromParentsList(CGameObject* _Object)
 {
-	vector<CGameObject*>::iterator iter = m_Parents.begin();
+	std::vector<CGameObject*>::iterator iter = m_Parents.begin();
 
 	for (; iter != m_Parents.end(); ++iter)
 	{

@@ -23,5 +23,5 @@ private:
 
 private:
     class TreeUI*   m_Tree;
-    vector<wstring> m_vecAssetPath;
+    std::vector<wstring> m_vecAssetPath;
 };

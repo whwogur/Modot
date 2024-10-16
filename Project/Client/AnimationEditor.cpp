@@ -64,7 +64,7 @@ void AnimationEditor::Update()
         Vec2& offsetUV = curSprite->GetOffsetUVRef();
         Vec2 LeftTop = curSprite->GetLeftTopUV() - offsetUV;
         Vec2 Slice = curSprite->GetSliceUV() - offsetUV;
-        vector<Ptr<CSprite>>& vecSprite = m_Animation->GetSpritesRef();
+        std::vector<Ptr<CSprite>>& vecSprite = m_Animation->GetSpritesRef();
         
         if (ImGui::Button("Atlas Texture " ICON_FA_PICTURE_O, { 150, 30 }))
         {

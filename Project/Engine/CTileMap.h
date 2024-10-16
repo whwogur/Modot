@@ -24,7 +24,7 @@ public:
     void SetTileSize(Vec2 _Size);
     void SetAtlasTexture(Ptr<CTexture> _Atlas);
     void SetAtlasTileSize(Vec2 _TileSize);
-    void SetTileInfo(const vector<tTileInfo>& _vecTileInfo) { m_vecTileInfo.assign(_vecTileInfo.begin(), _vecTileInfo.end()); }
+    void SetTileInfo(const std::vector<tTileInfo>& _vecTileInfo) { m_vecTileInfo.assign(_vecTileInfo.begin(), _vecTileInfo.end()); }
 
     Vec2 GetTileSize() const { return m_TileSize; }
     Vec2 GetAtlasTileSize() const { return m_AtlasTileSize; }
@@ -34,7 +34,7 @@ public:
     Vec2& GetAtlasTileSizeRef() { return m_AtlasTileSize; }
     Vec2& GetTileSizeRef() { return m_TileSize; }
 
-    vector<tTileInfo>& GetTileInfoRef() { return m_vecTileInfo; }
+    std::vector<tTileInfo>& GetTileInfoRef() { return m_vecTileInfo; }
     int GetMaxAtlasRow() const { return m_AtlasMaxRow; }
     int GetMaxAtlasCol() const { return m_AtlasMaxCol; }
 public:
@@ -59,7 +59,7 @@ private:
     int                     m_AtlasMaxRow;      // Atlas 텍스쳐가 보유하고 있는 타일의 최대 행 숫자
     int                     m_AtlasMaxCol;      // Atlas 텍스쳐가 보유하고 있는 타일의 최대 열 숫자
 
-    vector<tTileInfo>       m_vecTileInfo;      // 각각의 타일의 정보
+    std::vector<tTileInfo>       m_vecTileInfo;      // 각각의 타일의 정보
 
     std::shared_ptr<CStructuredBuffer>      m_Buffer;
 };

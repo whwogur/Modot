@@ -60,7 +60,7 @@ int CSound::Play(int _LoopCount, float _Volume, bool _AllowOverlap)
 
 void CSound::Stop()
 {
-	list<FMOD::Channel*>::iterator iter;
+	std::list<FMOD::Channel*>::iterator iter;
 
 	while (!m_listChannel.empty())
 	{
@@ -71,7 +71,7 @@ void CSound::Stop()
 
 void CSound::SetVolume(float _f, int _iChannelIdx)
 {
-	list<FMOD::Channel*>::iterator iter = m_listChannel.begin();
+	std::list<FMOD::Channel*>::iterator iter = m_listChannel.begin();
 
 	int iIdx = -1;
 	for (; iter != m_listChannel.end(); ++iter)
@@ -95,7 +95,7 @@ void CSound::SetVolume(float _f)
 
 void CSound::RemoveChannel(FMOD::Channel* _pTargetChannel)
 {
-	list<FMOD::Channel*>::iterator iter = m_listChannel.begin();
+	std::list<FMOD::Channel*>::iterator iter = m_listChannel.begin();
 	for (; iter != m_listChannel.end(); ++iter)
 	{
 		if (*iter == _pTargetChannel)

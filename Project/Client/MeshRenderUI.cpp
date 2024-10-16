@@ -62,7 +62,7 @@ void MeshRenderUI::Update()
 			{
 				ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("List");
 				pListUI->SetName("Mesh");
-				vector<string> vecMeshNames;
+				std::vector<string> vecMeshNames;
 				CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::MESH, vecMeshNames);
 				pListUI->AddList(vecMeshNames);
 				pListUI->AddDelegate(this, (DELEGATE_1)&MeshRenderUI::SelectMesh);
@@ -102,7 +102,7 @@ void MeshRenderUI::Update()
 			{
 				ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("List");
 				pListUI->SetName("Material");
-				vector<string> vecMtrlNames;
+				std::vector<string> vecMtrlNames;
 				CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::MATERIAL, vecMtrlNames);
 				pListUI->AddList(vecMtrlNames);
 				pListUI->AddDelegate(this, (DELEGATE_1)&MeshRenderUI::SelectMaterial);

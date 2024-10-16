@@ -12,7 +12,7 @@ public:
 	void AddChild(EditorUI* _UI);
 
 	EditorUI* GetParent() { return m_Parent; }
-	const vector<EditorUI*>& GetChildren() { return m_vecChildUI; }
+	const std::vector<EditorUI*>& GetChildren() { return m_vecChildUI; }
 
 	void SetName(const string& _Name);
 
@@ -61,7 +61,7 @@ private:
 	bool				m_Active;
 
 	EditorUI* m_Parent;
-	vector<EditorUI*>	m_vecChildUI;
+	std::vector<EditorUI*>	m_vecChildUI;
 
 	bool				m_Modal;
 	bool				m_ChildBorder;

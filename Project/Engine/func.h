@@ -27,7 +27,7 @@ void Delete_Array(T(&_arr)[_Size])
 
 
 template<typename T>
-void Delete_Vec(vector<T*>& _vec)
+void Delete_Vec(std::vector<T*>& _vec)
 {
 	for (size_t i = 0; i < _vec.size(); ++i)
 	{

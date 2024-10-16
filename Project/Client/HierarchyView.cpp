@@ -109,7 +109,7 @@ void HierarchyView::RefreshLevel()
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
 		CLayer* pLayer = pLevel->GetLayer(i);
-		const vector<CGameObject*>& vecObjects = pLayer->GetParentObjects();
+		const std::vector<CGameObject*>& vecObjects = pLayer->GetParentObjects();
 
 		for (size_t i = 0; i < vecObjects.size(); ++i)
 		{
@@ -126,7 +126,7 @@ void HierarchyView::AddGameObject(TreeNode* pNode, CGameObject* _Object)
 
 	TreeNode* pObjectNode = m_Tree->AddNode(pNode, ObjectName.c_str(), (DWORD_PTR)_Object);
 
-	const vector<CGameObject*>& vecChild = _Object->GetChildren();
+	const std::vector<CGameObject*>& vecChild = _Object->GetChildren();
 
 	for (size_t i = 0; i < vecChild.size(); ++i)
 	{

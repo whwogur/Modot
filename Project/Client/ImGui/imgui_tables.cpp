@@ -3251,7 +3251,7 @@ void ImGui::TableAngledHeadersRowEx(ImGuiID row_id, float angle, float max_label
     const float row_height = ImTrunc(ImFabs(ImRotate(ImVec2(max_label_width, flip_label ? +header_height : -header_height), cos_a, sin_a).y));
     table->AngledHeadersHeight = row_height;
     table->AngledHeadersSlope = (sin_a != 0.0f) ? (cos_a / sin_a) : 0.0f;
-    const ImVec2 header_angled_vector = unit_right * (row_height / -sin_a); // vector from bottom-left to top-left, and from bottom-right to top-right
+    const ImVec2 header_angled_vector = unit_right * (row_height / -sin_a); // std::vector from bottom-left to top-left, and from bottom-right to top-right
 
     // Declare row, override and draw our own background
     TableNextRow(ImGuiTableRowFlags_Headers, row_height);

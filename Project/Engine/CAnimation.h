@@ -22,8 +22,8 @@ public:
     Ptr<CSprite> GetSprite(int _Idx) { return m_vecSprite[_Idx]; }
     Ptr<CSprite>& GetSpriteRef(int _Idx) { return m_vecSprite[_Idx]; }
     int GetMaxFrameCount() { return (int)m_vecSprite.size(); }
-    const vector<Ptr<CSprite>>& GetSpritesCRef() { return m_vecSprite; }
-    vector<Ptr<CSprite>>& GetSpritesRef() { return m_vecSprite; }
+    const std::vector<Ptr<CSprite>>& GetSpritesCRef() { return m_vecSprite; }
+    std::vector<Ptr<CSprite>>& GetSpritesRef() { return m_vecSprite; }
 private:
-    vector<Ptr<CSprite>>    m_vecSprite;
+    std::vector<Ptr<CSprite>>    m_vecSprite;
 };

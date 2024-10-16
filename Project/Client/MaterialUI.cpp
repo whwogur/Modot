@@ -66,7 +66,7 @@ void MaterialUI::Update()
 	{
 		ListUI* pListUI = (ListUI*)CEditorMgr::GetInst()->FindEditorUI("List");
 		pListUI->SetName("GraphicShader");
-		vector<string> vecMeshNames;
+		std::vector<string> vecMeshNames;
 		CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::GRAPHIC_SHADER, vecMeshNames);
 		pListUI->AddList(vecMeshNames);
 		pListUI->AddDelegate(this, (DELEGATE_1)&MaterialUI::SelectShader);
@@ -90,8 +90,8 @@ void MaterialUI::ShaderParameter()
 		return;
 
 	// Shader 가 요구하는 파라미터 목록을 가져온다.
-	const vector<tScalarParam>& vecScalarParam = pShader->GetScalarParam();
-	const vector<tTexParam>& vecTexParam = pShader->GetTexParam();
+	const std::vector<tScalarParam>& vecScalarParam = pShader->GetScalarParam();
+	const std::vector<tTexParam>& vecTexParam = pShader->GetTexParam();
 
 	vecScalarParam;
 	for (size_t i = 0; i < vecScalarParam.size(); ++i)

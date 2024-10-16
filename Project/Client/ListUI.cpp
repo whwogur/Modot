@@ -61,7 +61,7 @@ void ListUI::AddItem(const string& _item)
 	m_vecList.push_back(_item);
 }
 
-void ListUI::AddList(const vector<string>& _list)
+void ListUI::AddList(const std::vector<string>& _list)
 {
 	m_vecList.insert(m_vecList.end(), _list.begin(), _list.end());
 }

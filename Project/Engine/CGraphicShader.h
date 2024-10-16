@@ -38,8 +38,8 @@ public:
     void AddScalarParam(SCALAR_PARAM _Type, const string& _Desc) { m_ScalarParam.push_back(tScalarParam{ _Type, _Desc }); }
     void AddTexParam(TEX_PARAM _Type, const string& _Desc) { m_TexParam.push_back(tTexParam{ _Type, _Desc }); }
 
-    const vector<tScalarParam>& GetScalarParam() { return m_ScalarParam; }
-    const vector<tTexParam>& GetTexParam() { return m_TexParam; }
+    const std::vector<tScalarParam>& GetScalarParam() { return m_ScalarParam; }
+    const std::vector<tTexParam>& GetTexParam() { return m_TexParam; }
 
     void Bind();
 
@@ -62,7 +62,7 @@ private:
     SHADER_DOMAIN                       m_Domain;
 
     // Shader Parameter
-    vector<tScalarParam>                m_ScalarParam;
-    vector<tTexParam>                   m_TexParam;
+    std::vector<tScalarParam>                m_ScalarParam;
+    std::vector<tTexParam>                   m_TexParam;
 };
 

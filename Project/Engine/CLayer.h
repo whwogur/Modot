@@ -15,8 +15,8 @@ public:
     int GetLayerIdx() { return m_LayerIdx; }
 
     void AddObject(CGameObject* _Object, bool _bMoveChildTogether);
-    const vector<CGameObject*>& GetParentObjects() { return m_Parents; }
-    const vector<CGameObject*>& GetObjects() { return m_Objects; }
+    const std::vector<CGameObject*>& GetParentObjects() { return m_Parents; }
+    const std::vector<CGameObject*>& GetObjects() { return m_Objects; }
     void ClearObject() { m_Objects.clear(); }
     void RegisterGameObject(CGameObject* _Object) { m_Objects.push_back(_Object); } // finaltick¸¶´Ù
     void DetachObject(CGameObject* _Object);
@@ -27,7 +27,7 @@ public:
     void FinalTick();
 
 private:
-    vector<CGameObject*>    m_Parents;
-    vector<CGameObject*>    m_Objects;
+    std::vector<CGameObject*>    m_Parents;
+    std::vector<CGameObject*>    m_Objects;
     const int               m_LayerIdx;
 };

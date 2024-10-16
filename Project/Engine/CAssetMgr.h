@@ -27,7 +27,7 @@ public:
 	Ptr<CTexture> CreateTexture(wstring _strKey, WRL::ComPtr<ID3D11Texture2D> _Tex2D);
 
 public:
-	void GetAssetNames(ASSET_TYPE _Type, vector<string>& _vecOut);
+	void GetAssetNames(ASSET_TYPE _Type, std::vector<string>& _vecOut);
 	const map<wstring, Ptr<CAsset>>& GetAssets(ASSET_TYPE _Type) { return m_mapAsset[(UINT)_Type]; }
 	bool IsDirty() const { return m_Dirty; }
 	
