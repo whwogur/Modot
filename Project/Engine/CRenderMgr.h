@@ -6,6 +6,7 @@ class CGameObject;
 class CLight2D;
 class CLight3D;
 class CStructuredBuffer;
+class CMRT;
 
 enum class CameraPriority
 {
@@ -35,15 +36,17 @@ public:
     }
     bool& GetDebugRenderRef() { return m_DebugRender; }
     Ptr<CTexture> GetRenderTargetCopy() { return m_RenderTargetCopy; }
+    CMRT* GetMRT(MRT_TYPE _Type) { return m_arrMRT[(UINT)_Type].get(); }
 public:
     void Init();
     void Tick();
-
+    void CreateMRT();
 private:
     void RenderStart();
     void Clear();
     void RenderDebugShape();
 private:
+    std::unique_ptr<CMRT>                           m_arrMRT[(UINT)MRT_TYPE::END];
     CCamera*                                        m_EditorCamera;
     vector<CCamera*>                                m_vecCam;
     list<tDebugShapeInfo>                           m_DebugShapeList;

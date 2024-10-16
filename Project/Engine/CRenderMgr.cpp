@@ -18,6 +18,7 @@
 #include "CKeyMgr.h"
 #include "CFontMgr.h"
 
+#include "CMRT.h"
 CRenderMgr::CRenderMgr()
 	: m_EditorCamera(nullptr)
 	, m_DebugObject(nullptr)
@@ -29,18 +30,6 @@ CRenderMgr::CRenderMgr()
 
 CRenderMgr::~CRenderMgr()
 {
-}
-
-void CRenderMgr::Init()
-{
-	MD_PROFILE_FUNCTION();
-	m_PostProcessTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"PostProcessTex");
-	m_RenderTargetCopy = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetCopy");
-
-	m_DebugObject = std::make_unique<CGameObject>();
-	m_DebugObject->AddComponent(new CTransform);
-	m_DebugObject->AddComponent(new CMeshRender);
-	m_DebugObject->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DebugShapeMtrl"));
 }
 
 void CRenderMgr::Tick()
@@ -123,18 +112,14 @@ CCamera* CRenderMgr::GetMainCamera()
 void CRenderMgr::RenderStart()
 {
 	MD_PROFILE_FUNCTION();
-	Ptr<CTexture> RTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
-	Ptr<CTexture> DSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
-	// ·»´õÅ¸°Ù ÁöÁ¤
-	CONTEXT->OMSetRenderTargets(1, RTTex.Get()->GetRTV().GetAddressOf(), DSTex.Get()->GetDSV().Get());
+	// ·»´õÅ¸°Ù Å¬¸®¾î ¹× ÁöÁ¤
+	m_arrMRT[(UINT)MRT_TYPE::SWAPCHAIN]->ClearRT();
+	m_arrMRT[(UINT)MRT_TYPE::SWAPCHAIN]->ClearDS();
+	m_arrMRT[(UINT)MRT_TYPE::SWAPCHAIN]->SetOM();
 
-	// TargetClear
-	float color[4] = { 0.f, 0.f, 0.f, 1.f };
-	CONTEXT->ClearRenderTargetView(RTTex.Get()->GetRTV().Get(), color);
-	CONTEXT->ClearDepthStencilView(DSTex.Get()->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+	// GlobalData ¼³Á¤
+	g_GlobalData.g_Resolution = CDevice::GetInst()->GetResolution();
 
-	Vec2 vRes = CDevice::GetInst()->GetResolution();
-	g_GlobalData.g_Resolution = vRes;
 	g_GlobalData.g_Light2DCount = (int)m_vecLight2D.size();
 	g_GlobalData.g_Light3DCount = (int)m_vecLight3D.size();
 
