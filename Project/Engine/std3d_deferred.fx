@@ -69,10 +69,8 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
     
     if (g_btex_1)
     {
-        float3 vViewNormal = _in.vViewNormal;
-        vViewNormal = g_tex_1.Sample(g_AniWrapSampler, _in.vUV).xyz;
-        
-        vViewNormal = vViewNormal * 2.f - 1.f;
+        float3 vNormal = g_tex_1.Sample(g_AniWrapSampler, _in.vUV).xyz;
+        vNormal = vNormal * 2.f - 1.f;
                 
         float3x3 matRot =
         {
@@ -81,10 +79,9 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
             _in.vViewNormal    
         };
         
-        
-    
-        //output.vNormal = 
+        output.vNormal = float4(mul(vNormal, matRot), 1.f);
     }
+    
     return output;
 }
 

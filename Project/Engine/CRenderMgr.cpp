@@ -210,7 +210,6 @@ void CRenderMgr::Render(CCamera* _Cam)
 	// =================
 	// 
 	// 분류된 물체들 렌더링
-	m_arrMRT[(UINT)MRT_TYPE::SWAPCHAIN]->SetOM();
 	_Cam->RenderOpaque();
 	_Cam->RenderMasked();
 	_Cam->RenderEffect();

@@ -187,6 +187,7 @@ void CCamera::RenderUI()
 
 void CCamera::ClearVec()
 {
+	m_vecDeferred.clear();
 	m_vecOpaque.clear();
 	m_vecMasked.clear();
 	m_vecTransparent.clear();

@@ -505,23 +505,6 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->AddScalarParam(VEC2_1, "Tile Col*Row");
 	AddAsset(L"TileMapShader", pShader);
 
-	// Std2DShader
-	pShader = new CGraphicShader;
-	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
-	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2DSprite");
-
-	pShader->SetRSType(RS_TYPE::CULL_NONE);
-	pShader->SetDSType(DS_TYPE::LESS);
-	pShader->SetBSType(BS_TYPE::DEFAULT);
-
-	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASKED);
-	pShader->AddTexParam(TEX_0, "OutputTexture");
-	pShader->AddScalarParam(VEC2_0, "LeftTopUV");
-	pShader->AddScalarParam(VEC2_1, "SliceUV");
-	pShader->AddScalarParam(VEC2_2, "BackgroundUV");
-	pShader->AddScalarParam(VEC2_3, "OffsetUV");
-	AddAsset(L"Std2DSpriteShader", pShader);
-
 	// EffectShader
 	pShader = new CGraphicShader;
 	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Effect");
@@ -691,6 +674,11 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"SkyBoxShader"));
 	AddAsset(L"SkyBoxMtrl", pMtrl);
+
+	// Std3D_DeferredMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"Std3D_DeferredShader"));
+	AddAsset(L"DeferredMtrl", pMtrl);
 }
 
 void CAssetMgr::LoadSound()
