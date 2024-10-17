@@ -44,12 +44,15 @@ void CRenderMgr::Tick()
 	// Level 이 Play 상태인 경우, Level 내에 있는 카메라 시점으로 렌더링
 	if (pCurLevel->GetState() == LEVEL_STATE::PLAY)
 	{
+		if (m_vecCam[0] != nullptr)
+			Render(m_vecCam[0]);
+
 		for (size_t i = 0; i < m_vecCam.size(); ++i)
 		{
 			if (nullptr == m_vecCam[i])
 				continue;
 
-			m_vecCam[i]->Render();
+			Render_Sub(m_vecCam[i]);
 		}
 	}
 
@@ -58,7 +61,7 @@ void CRenderMgr::Tick()
 	{
 		if (nullptr != m_EditorCamera)
 		{
-			m_EditorCamera->Render();
+			Render(m_EditorCamera);
 		}
 	}
 
@@ -171,6 +174,59 @@ void CRenderMgr::RenderStart()
 	pGlobalCB->Bind();
 }
 
+void CRenderMgr::Render(CCamera* _Cam)
+{
+	// 오브젝트 분류
+	_Cam->SortGameObject();
+	// 카메라 변환행렬 설정
+	// 물체가 렌더링될 때 사용할 View, Proj 행렬
+	g_Trans.matView = _Cam->GetcamViewRef();
+	g_Trans.matProj = _Cam->GetcamProjRef();
+
+	// MRT 모두 클리어
+	ClearMRT();
+	// ==================
+	// DEFERRED RENDERING
+	// ==================
+	m_arrMRT[(UINT)MRT_TYPE::DEFERRED]->SetOM();
+	_Cam->RenderDeferred();
+
+
+	// ===============
+	// LIGHT RENDERING
+	// ===============
+	m_arrMRT[(UINT)MRT_TYPE::LIGHT]->SetOM();
+
+
+
+
+	// =====================================
+	// MERGE ALBEDO + LIGHTS ====> SwapChain 
+	// =====================================
+	m_arrMRT[(UINT)MRT_TYPE::SWAPCHAIN]->SetOM();
+
+	// =================
+	// FORWARD RENDERING
+	// =================
+	// 
+	// 분류된 물체들 렌더링
+	m_arrMRT[(UINT)MRT_TYPE::SWAPCHAIN]->SetOM();
+	_Cam->RenderOpaque();
+	_Cam->RenderMasked();
+	_Cam->RenderEffect();
+	_Cam->RenderTransparent();
+	_Cam->RenderParticle();
+	_Cam->RenderPostprocess();
+	_Cam->RenderUI();
+	// 정리
+	_Cam->ClearVec();
+}
+
+void CRenderMgr::Render_Sub(CCamera* _Cam)
+{
+
+}
+
 void CRenderMgr::Clear()
 {
 	m_vecLight2D.clear();
@@ -230,4 +286,11 @@ void CRenderMgr::RenderDebugShape()
 			++iter;
 		}
 	}
+}
+
+void CRenderMgr::ClearMRT()
+{
+	m_arrMRT[(UINT)MRT_TYPE::SWAPCHAIN]->Clear();
+	m_arrMRT[(UINT)MRT_TYPE::DEFERRED]->ClearRT();
+	m_arrMRT[(UINT)MRT_TYPE::LIGHT]->ClearRT();
 }

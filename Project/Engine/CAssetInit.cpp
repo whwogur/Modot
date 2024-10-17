@@ -535,77 +535,6 @@ void CAssetMgr::CreateEngineGraphicShader()
 
 	AddAsset(L"EffectShader", pShader);
 
-	// EffectUIShader
-	pShader = new CGraphicShader;
-	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_EffectUI");
-	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Effect");
-
-	pShader->SetRSType(RS_TYPE::CULL_NONE);
-	pShader->SetDSType(DS_TYPE::LESS);
-	pShader->SetBSType(BS_TYPE::ALPHABLEND);
-
-	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_EFFECT);
-
-	AddAsset(L"EffectUIShader", pShader);
-
-	// TintShader
-	pShader = new CGraphicShader;
-	pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
-	pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2DTint");
-
-	pShader->SetRSType(RS_TYPE::CULL_NONE);
-	pShader->SetDSType(DS_TYPE::LESS);
-	pShader->SetBSType(BS_TYPE::ALPHABLEND);
-
-	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_MASKED);
-	pShader->AddTexParam(TEX_0, "OutputTexture");
-	pShader->AddScalarParam(VEC4_0, "Tint");
-	AddAsset(L"Std2DTintShader", pShader);
-
-	// Shockwave
-	pShader = new CGraphicShader;
-	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_Shockwave");
-	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_Shockwave");
-	pShader->SetRSType(RS_TYPE::CULL_NONE);
-	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
-	pShader->SetBSType(BS_TYPE::DEFAULT);
-	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
-	pShader->AddScalarParam(SCALAR_PARAM::VEC4_0, "float4");
-	pShader->AddScalarParam(SCALAR_PARAM::VEC4_1, "Params");
-	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_3, "Time");
-	AddAsset(L"ShockwaveShader", pShader);
-
-	// Godray
-	pShader = new CGraphicShader;
-	pShader->CreateVertexShader(L"shader\\postprocess.fx", "VS_Shockwave");
-	pShader->CreatePixelShader(L"shader\\postprocess.fx", "PS_Godray");
-	pShader->SetRSType(RS_TYPE::CULL_NONE);
-	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
-	pShader->SetBSType(BS_TYPE::DEFAULT);
-	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
-	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_0, u8"방사되면서 감소되는 정도");
-	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_1, u8"샘플 밀도");
-	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_2, u8"샘플 가중치 - 중심에서 외곽으로 방사되면서 감소");
-	pShader->AddScalarParam(SCALAR_PARAM::INT_3, u8"활성화");
-	AddAsset(L"GodrayShader", pShader);
-
-	// Fire
-	pShader = new CGraphicShader;
-	pShader->CreateVertexShader(L"shader\\myFX.fx", "VS_Fire");
-	pShader->CreatePixelShader(L"shader\\myFX.fx", "PS_Fire");
-	pShader->SetRSType(RS_TYPE::CULL_NONE);
-	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
-	pShader->SetBSType(BS_TYPE::ALPHABLEND);
-	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
-	pShader->AddScalarParam(SCALAR_PARAM::VEC4_0, "Scroll Speed");
-	pShader->AddScalarParam(SCALAR_PARAM::VEC4_1, "Noise Tex");
-	pShader->AddScalarParam(SCALAR_PARAM::VEC2_0, "Distortion 1");
-	pShader->AddScalarParam(SCALAR_PARAM::VEC2_1, "Distortion 2");
-	pShader->AddScalarParam(SCALAR_PARAM::VEC2_2, "Distortion 3");
-	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_0, "UDistortion 1");
-	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_1, "UDistortion 2");
-	AddAsset(L"FireShader", pShader);
-
 	// ParticleShader
 	pShader = new CGraphicShader;
 	pShader->CreateVertexShader(L"shader\\particle.fx", "VS_Particle");
@@ -664,6 +593,18 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->AddTexParam(TEX_1, "Normal");
 	AddAsset(L"Std3DShader", pShader);
 
+	// Std3D_DeferredShader
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\std3d_deferred.fx", "VS_Std3D_Deferred");
+	pShader->CreatePixelShader(L"shader\\std3d_deferred.fx", "PS_Std3D_Deferred");
+	pShader->SetRSType(RS_TYPE::CULL_BACK);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
+	pShader->AddTexParam(TEX_0, "Albedo");
+	pShader->AddTexParam(TEX_1, "Normal");
+	AddAsset(L"Std3D_DeferredShader", pShader);
+
 	// SkyBoxShader
 	pShader = new CGraphicShader;
 	pShader->CreateVertexShader(L"shader\\skybox.fx", "VS_SkyBox");
@@ -709,22 +650,10 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"EffectShader"));
 	AddAsset(L"EffectMtrl", pMtrl);
 
-	// EffectUIMtrl
-	pMtrl = new CMaterial(true);
-	pMtrl->SetShader(FindAsset<CGraphicShader>(L"EffectUIShader"));
-	AddAsset(L"EffectUIMtrl", pMtrl);
-
 	// DebugShapeMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"DebugShapeShader"));
 	AddAsset(L"DebugShapeMtrl", pMtrl);
-
-	// TintMtrl
-	pMtrl = new CMaterial(true);
-	pMtrl->SetShader(FindAsset<CGraphicShader>(L"Std2DTintShader"));
-	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"Checkerboard"));
-	pMtrl->SetScalarParam(VEC4_0, Vec4(1, 1, 1, 1));
-	AddAsset(L"Std2DTintMtrl", pMtrl);
 
 	// UIMtrl
 	pMtrl = new CMaterial(true);
@@ -742,32 +671,6 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"ParticleRenderShader"));
 	AddAsset(L"ParticleRenderMtrl", pMtrl);
-
-	// SpriteRenderMtrl
-	pMtrl = new CMaterial(true);
-	pMtrl->SetShader(FindAsset<CGraphicShader>(L"Std2DSpriteShader"));
-	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"Checkerboard"));
-	pMtrl->SetScalarParam(VEC2_0, Vec2(0, 0)); // lefttop
-	pMtrl->SetScalarParam(VEC2_1, Vec2(0.9f, 0.9f)); // slice
-	pMtrl->SetScalarParam(VEC2_2, Vec2(0.88f, 0.9f)); // background
-	pMtrl->SetScalarParam(VEC2_3, Vec2(0, 0)); // offset
-	AddAsset(L"SpriteRenderMtrl", pMtrl);
-
-	// Shockwave
-	pMtrl = new CMaterial(true);
-	pMtrl->SetShader(FindAsset<CGraphicShader>(L"ShockwaveShader"));
-	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
-	AddAsset(L"ShockwaveMtrl", pMtrl);
-
-	// Godray
-	pMtrl = new CMaterial(true);
-	pMtrl->SetShader(FindAsset<CGraphicShader>(L"GodrayShader"));
-	pMtrl->SetTexParam(TEX_0, FindAsset<CTexture>(L"PostProcessTex"));
-	pMtrl->SetScalarParam(FLOAT_0, 0.97f);
-	pMtrl->SetScalarParam(FLOAT_1, 0.5f);
-	pMtrl->SetScalarParam(FLOAT_2, 0.1f);
-	pMtrl->SetScalarParam(INT_3, 0);
-	AddAsset(L"GodrayMtrl", pMtrl);
 
 	// BlurMtrl
 	pMtrl = new CMaterial(true);

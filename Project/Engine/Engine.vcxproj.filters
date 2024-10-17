@@ -541,5 +541,8 @@
     <FxCompile Include="skybox.fx">
       <Filter>Shader\GraphicShader</Filter>
     </FxCompile>
+    <FxCompile Include="std3d_deferred.fx">
+      <Filter>Shader\GraphicShader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
