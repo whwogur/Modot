@@ -83,14 +83,12 @@ void CRenderMgr::RegisterCamera(CCamera* _Cam, int _CamPriority)
 
 void CRenderMgr::PostProcessCopy()
 {
-	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
-	CONTEXT->CopyResource(m_PostProcessTex->GetTex2D().Get(), pRTTex->GetTex2D().Get());
+	CONTEXT->CopyResource(m_PostProcessTex->GetTex2D().Get(), m_SwapChainRenderTarget->GetTex2D().Get());
 }
 
 void CRenderMgr::RenderTargetCopy()
 {
-	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
-	CONTEXT->CopyResource(m_RenderTargetCopy->GetTex2D().Get(), pRTTex->GetTex2D().Get());
+	CONTEXT->CopyResource(m_RenderTargetCopy->GetTex2D().Get(), m_SwapChainRenderTarget->GetTex2D().Get());
 }
 
 CCamera* CRenderMgr::GetMainCamera()
@@ -196,7 +194,10 @@ void CRenderMgr::Render(CCamera* _Cam)
 	// LIGHT RENDERING
 	// ===============
 	m_arrMRT[(UINT)MRT_TYPE::LIGHT]->SetOM();
-
+	for (const auto& Light3D : m_vecLight3D)
+	{
+		Light3D->Render();
+	}
 
 
 
@@ -205,6 +206,8 @@ void CRenderMgr::Render(CCamera* _Cam)
 	// =====================================
 	m_arrMRT[(UINT)MRT_TYPE::SWAPCHAIN]->SetOM();
 
+	m_MergeMtrl->Bind();
+	m_RectMesh->Render();
 	// =================
 	// FORWARD RENDERING
 	// =================

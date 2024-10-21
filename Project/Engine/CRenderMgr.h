@@ -23,7 +23,7 @@ public:
     void Init(CCamera* _Cam) { m_EditorCamera = _Cam; }
     void AddDebugShapeInfo(const tDebugShapeInfo& _Info) { m_DebugShapeList.emplace_back(_Info); }
     void RegisterLight2D(CLight2D* _Light) { m_vecLight2D.push_back(_Light); }
-    void RegisterLight3D(CLight3D* _Light) { m_vecLight3D.push_back(_Light); }
+    int RegisterLight3D(CLight3D* _Light) { m_vecLight3D.push_back(_Light); return m_vecLight3D.size() - 1; }
     void PostProcessCopy();
     void RenderTargetCopy();
 
@@ -40,8 +40,6 @@ public:
 public:
     void Init();
     void Tick();
-    void CreateMRT();
-    void ClearMRT();
 private:
     void RenderStart();
     void Render(CCamera* _Cam);
@@ -49,6 +47,9 @@ private:
 
     void Clear();
     void RenderDebugShape();
+    void CreateMRT();
+    void ClearMRT();
+    void CreateMaterial();
 private:
     std::unique_ptr<CMRT>                                   m_arrMRT[(UINT)MRT_TYPE::END];
     CCamera*                                                m_EditorCamera;
@@ -64,6 +65,9 @@ private:
 
     Ptr<CTexture>                                           m_PostProcessTex;
     Ptr<CTexture>                                           m_RenderTargetCopy;
+    Ptr<CTexture>                                           m_SwapChainRenderTarget;
+    Ptr<CMesh>                                              m_RectMesh;
+    Ptr<CMaterial>                                          m_MergeMtrl;
     // TEXT
     bool                                                    m_DebugRender = true;
 };

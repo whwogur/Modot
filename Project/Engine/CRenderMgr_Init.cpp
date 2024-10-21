@@ -10,13 +10,15 @@ void CRenderMgr::Init()
 	MD_PROFILE_FUNCTION();
 	m_PostProcessTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"PostProcessTex");
 	m_RenderTargetCopy = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetCopy");
-
+	
+	m_SwapChainRenderTarget = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
 	m_DebugObject = std::make_unique<CGameObject>();
 	m_DebugObject->AddComponent(new CTransform);
 	m_DebugObject->AddComponent(new CMeshRender);
 	m_DebugObject->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DebugShapeMtrl"));
 
 	CreateMRT();
+	CreateMaterial();
 }
 
 void CRenderMgr::CreateMRT()
@@ -106,4 +108,42 @@ void CRenderMgr::CreateMRT()
 		m_arrMRT[(UINT)MRT_TYPE::LIGHT]->Create(2, arrRT, pDSTex);
 		m_arrMRT[(UINT)MRT_TYPE::LIGHT]->SetClearColor(arrClearColor, false);
 	}
+}
+
+
+void CRenderMgr::CreateMaterial()
+{
+	// DirLightShader
+	Ptr<CGraphicShader> pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\light.fx", "VS_DirLight");
+	pShader->CreatePixelShader(L"shader\\light.fx", "PS_DirLight");
+	pShader->SetRSType(RS_TYPE::CULL_BACK);
+	pShader->SetBSType(BS_TYPE::ONE_ONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_LIGHT);
+	CAssetMgr::GetInst()->AddAsset(L"DirLightShader", pShader);
+	// DirLightMtrl
+	Ptr<CMaterial> pMtrl = new CMaterial(true);
+	pMtrl->SetShader(pShader);
+	pMtrl->SetTexParam(TEX_0, CAssetMgr::GetInst()->FindAsset<CTexture>(L"PositionTargetTex"));
+	pMtrl->SetTexParam(TEX_1, CAssetMgr::GetInst()->FindAsset<CTexture>(L"NormalTargetTex"));
+	CAssetMgr::GetInst()->AddAsset(L"DirLightMtrl", pMtrl);
+
+	// MergeShader
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\merge.fx", "VS_Merge");
+	pShader->CreatePixelShader(L"shader\\merge.fx", "PS_Merge");
+	pShader->SetRSType(RS_TYPE::CULL_BACK);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_NONE);
+	// MergeMtrl
+	m_MergeMtrl = new CMaterial(true);
+	m_MergeMtrl->SetShader(pShader);
+	m_MergeMtrl->SetTexParam(TEX_0, CAssetMgr::GetInst()->FindAsset<CTexture>(L"AlbedoTargetTex"));
+	m_MergeMtrl->SetTexParam(TEX_1, CAssetMgr::GetInst()->FindAsset<CTexture>(L"DiffuseTargetTex"));
+	m_MergeMtrl->SetTexParam(TEX_2, CAssetMgr::GetInst()->FindAsset<CTexture>(L"SpecularTargetTex"));
+
+	// RectMesh
+	m_RectMesh = CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh");
 }

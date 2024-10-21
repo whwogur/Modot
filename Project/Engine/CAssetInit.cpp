@@ -596,9 +596,7 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDSType(DS_TYPE::LESS_EQUAL);
 	pShader->SetBSType(BS_TYPE::DEFAULT);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_OPAQUE);
-
 	pShader->AddTexParam(TEX_0, "Albedo Texture");
-
 	AddAsset(L"SkyBoxShader", pShader);
 }
 
