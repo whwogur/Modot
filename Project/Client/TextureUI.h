@@ -5,7 +5,7 @@ class TextureUI :
 {
 public:
     TextureUI();
-    ~TextureUI();
+    ~TextureUI() = default;
 public:
     virtual void Update() override;
 

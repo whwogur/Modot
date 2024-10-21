@@ -1,21 +1,19 @@
 #include "pch.h"
 #include "CCamera.h"
-
 #include "CDevice.h"
-
 #include "CRenderMgr.h"
-
 #include "CLevelMgr.h"
+#include "CAssetMgr.h"
+#include "CTimeMgr.h"
+#include "CKeyMgr.h"
+
 #include "CLevel.h"
 #include "CLayer.h"
 #include "CGameObject.h"
 #include "CRenderComponent.h"
-#include "CAssetMgr.h"
-
-#include "CTimeMgr.h"
-#include "CKeyMgr.h"
 #include "CTransform.h"
 #include "CMRT.h"
+
 CCamera::CCamera()
 	: CComponent(COMPONENT_TYPE::CAMERA)
 	, m_Priority(-1)
@@ -102,6 +100,9 @@ void CCamera::SortGameObject()
 
 			switch (Domain)
 			{
+			case DOMAIN_DEFERRED:
+				m_vecDeferred.push_back(vecObjects[j]);
+				break;
 			case DOMAIN_OPAQUE:
 				m_vecOpaque.push_back(vecObjects[j]);
 				break;
@@ -128,56 +129,65 @@ void CCamera::SortGameObject()
 	}
 }
 
-void CCamera::Render()
+void CCamera::RenderDeferred()
 {
-	if (!m_Active) return;
-		
-	// 오브젝트 분류
-	SortGameObject();
-
-	// 물체가 렌더링될 때 사용할 View, Proj 행렬
-	g_Trans.matView = m_matView;
-	g_Trans.matProj = m_matProj;
-
-	// Opaque
-	for (size_t i = 0; i < m_vecOpaque.size(); ++i)
+	for (const auto& DeferredObj : m_vecDeferred)
 	{
-		m_vecOpaque[i]->Render();
+		DeferredObj->Render();
 	}
+}
 
-	// Masked
-	for (size_t i = 0; i < m_vecMasked.size(); ++i)
+void CCamera::RenderOpaque()
+{
+	for (const auto& OpaqueObj : m_vecOpaque)
 	{
-		m_vecMasked[i]->Render();
+		OpaqueObj->Render();
 	}
+}
 
-	// Transparent
-	for (size_t i = 0; i < m_vecTransparent.size(); ++i)
+void CCamera::RenderMasked()
+{
+	for (const auto& MaskedObj : m_vecMasked)
 	{
-		m_vecTransparent[i]->Render();
+		MaskedObj->Render();
 	}
+}
 
-	// Particles
-	for (size_t i = 0; i < m_vecParticles.size(); ++i)
+void CCamera::RenderTransparent()
+{
+	for (const auto& TransparentObj : m_vecTransparent)
 	{
-		m_vecParticles[i]->Render();
+		TransparentObj->Render();
 	}
+}
 
-	render_effect();
-
-	// PostProcess 
-	for (size_t i = 0; i < m_vecPostProcess.size(); ++i)
+void CCamera::RenderParticle()
+{
+	for (const auto& ParticleObj : m_vecParticles)
 	{
-		CRenderMgr::GetInst()->PostProcessCopy();
-		m_vecPostProcess[i]->Render();
+		ParticleObj->Render();
 	}
+}
 
-	// UI
-	for (size_t i = 0; i < m_vecUI.size(); ++i)
+void CCamera::RenderPostprocess()
+{
+	for (const auto& PostProcess : m_vecPostProcess)
 	{
-		m_vecUI[i]->Render();
+		PostProcess->Render();
 	}
+}
 
+void CCamera::RenderUI()
+{
+	for (const auto& UI : m_vecUI)
+	{
+		UI->Render();
+	}
+}
+
+void CCamera::ClearVec()
+{
+	m_vecDeferred.clear();
 	m_vecOpaque.clear();
 	m_vecMasked.clear();
 	m_vecTransparent.clear();
@@ -187,7 +197,7 @@ void CCamera::Render()
 	m_vecUI.clear();
 }
 
-void CCamera::render_effect()
+void CCamera::RenderEffect()
 {
 	// EffectMRT 로 변경
 	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::EFFECT)->Clear();

@@ -2,17 +2,16 @@
 #include "CTestLevel.h"
 
 #include <Engine/CLevelMgr.h>
-#include <Engine/CLevel.h>
-#include <Engine/CLayer.h>
-#include <Engine/CGameObject.h>
-#include <Engine/components.h>
+//#include <Engine/CLevel.h>
+//#include <Engine/CLayer.h>
+//#include <Engine/CGameObject.h>
+//#include <Engine/components.h>
 
 #include "CLevelSaveLoad.h"
-#include "CPlayerManager.h"
 
 void CTestLevel::CreateTestLevel()
 {
-	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\TEST.lv");
+	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\3dTEST.lv");
 	//pLevel->GetLayer(0)->SetName(L"Default");
 	//CPlayerManager::GetInst()->Init();
 	/*pLevel->GetLayer(5)->SetName(L"PlayerAttack");

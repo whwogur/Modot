@@ -1,4 +1,3 @@
-#pragma once
 #ifndef _STRUCT
 #define _STRUCT
 

@@ -8,10 +8,6 @@ TextureUI::TextureUI()
 {
 }
 
-TextureUI::~TextureUI()
-{
-}
-
 void TextureUI::Update()
 {
 	Title();
@@ -19,12 +15,10 @@ void TextureUI::Update()
 	Ptr<CTexture> pTexture = (CTexture*)GetAsset().Get();
 
 	// 이미지	
-	ImVec2 uv_min = ImVec2(0.0f, 0.0f);
-	ImVec2 uv_max = ImVec2(1.0f, 1.0f);
-
-	ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-	ImVec4 border_col = ImVec4(0.7f, 0.7f, 0.7f, 1.0f);
-	ImGui::Image(pTexture->GetSRV().Get(), ImVec2(150, 150), uv_min, uv_max, tint_col, border_col);
+	static float thumbnailSize = 100.0f;
+	ImGui::SetNextItemWidth(100.f);
+	ImGui::SliderFloat(ICON_FA_SEARCH_PLUS, &thumbnailSize, 64.0f, 512.0f, "%.1f", ImGuiSliderFlags_NoInput);
+	ImGui::Image(pTexture->GetSRV().Get(), { thumbnailSize ,thumbnailSize }, {0, 0}, {1, 1}, {1, 1, 1, 1}, HEADER_2);
 
 	// 텍스쳐 이름
 	OutputAssetName();
