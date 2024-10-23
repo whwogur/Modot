@@ -6,6 +6,7 @@ class CLight3D :
 public:
     CLONE(CLight3D);
     CLight3D();
+    CLight3D(const CLight3D& _Other);
     ~CLight3D() = default;
 
 public:

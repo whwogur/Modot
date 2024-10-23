@@ -12,6 +12,14 @@ CLight3D::CLight3D()
 	SetLightType(LIGHT_TYPE::DIRECTIONAL);
 }
 
+CLight3D::CLight3D(const CLight3D& _Other)
+	: CComponent(_Other)
+	, m_Info(_Other.m_Info)
+	, m_LightIdx(-1)
+{
+	SetLightType(m_Info.Type);
+}
+
 void CLight3D::SetLightType(LIGHT_TYPE _Type)
 {
 	m_Info.Type = _Type;
@@ -35,8 +43,6 @@ void CLight3D::SetLightType(LIGHT_TYPE _Type)
 void CLight3D::SetRadius(float _Radius)
 {
 	m_Info.Radius = _Radius;
-
-	Transform()->SetRelativeScale(Vec3(_Radius * 2.f, _Radius * 2.f, _Radius * 2.f));
 }
 void CLight3D::Render()
 {
@@ -52,6 +58,8 @@ void CLight3D::FinalTick()
 	m_Info.WorldDir = Transform()->GetWorldDir(DIR::FRONT);
 
 	m_LightIdx = CRenderMgr::GetInst()->RegisterLight3D(this);
+
+	Transform()->SetRelativeScale(Vec3(m_Info.Radius * 2.f, m_Info.Radius * 2.f, m_Info.Radius * 2.f));
 }
 void CLight3D::SaveToFile(FILE* _File)
 {
