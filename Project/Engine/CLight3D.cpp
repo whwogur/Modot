@@ -32,8 +32,15 @@ void CLight3D::SetLightType(LIGHT_TYPE _Type)
 		m_LightMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"SpotLightMtrl");
 	}
 }
+void CLight3D::SetRadius(float _Radius)
+{
+	m_Info.Radius = _Radius;
+
+	Transform()->SetRelativeScale(Vec3(_Radius * 2.f, _Radius * 2.f, _Radius * 2.f));
+}
 void CLight3D::Render()
 {
+	Transform()->Bind();
 	m_LightMtrl->SetScalarParam(SCALAR_PARAM::INT_0, m_LightIdx);
 	m_LightMtrl->Bind();
 	m_VolumeMesh->Render();

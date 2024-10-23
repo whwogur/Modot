@@ -67,7 +67,10 @@ void Light3DUI::Update()
 		ImGui::Text("Light Radius");
 		ImGui::SameLine(140);
 		ImGui::SetNextItemWidth(120);
-		ImGui::InputFloat("##InputLightRadius", (float*)&info.Radius, 0.1f, 0.2f, "%.2f", ImGuiInputTextFlags_AutoSelectAll);
+		if (ImGui::InputFloat("##InputLightRadius", (float*)&info.Radius, 0.1f, 0.2f, "%.2f", ImGuiInputTextFlags_AutoSelectAll))
+		{
+			pLight->SetRadius(info.Radius);
+		}
 		ImGui::EndDisabled();
 
 

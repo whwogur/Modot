@@ -55,6 +55,7 @@ private:
     Vec3    m_WorldDir[3];
 
     Matrix  m_matWorld;
+    Matrix  m_matWorldInv;
     Matrix m_matTransformation = {};
     bool    m_IndependentScale;
 };

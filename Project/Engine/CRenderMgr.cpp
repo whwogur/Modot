@@ -180,6 +180,8 @@ void CRenderMgr::Render(CCamera* _Cam)
 	// 물체가 렌더링될 때 사용할 View, Proj 행렬
 	g_Trans.matView = _Cam->GetcamViewRef();
 	g_Trans.matProj = _Cam->GetcamProjRef();
+	g_Trans.matViewInv = _Cam->GetcamViewInvRef();
+	g_Trans.matProjInv = _Cam->GetcamProjInvRef();
 
 	// MRT 모두 클리어
 	ClearMRT();

@@ -75,12 +75,16 @@ void CTransform::FinalTick()
 			m_WorldDir[i] = m_RelativeDir[i];
 		}
 	}
+
+	// 월드 역행렬 계산
+	m_matWorldInv = XMMatrixInverse(nullptr, m_matWorld);
 }
 
 void CTransform::Bind()
 {
 	g_Trans.matWorld = m_matWorld;
-	
+	g_Trans.matWorldInv = m_matWorldInv;
+
 	g_Trans.matWV = g_Trans.matWorld * g_Trans.matView;
 	g_Trans.matWVP = g_Trans.matWV * g_Trans.matProj;
 	CConstBuffer* pTransformCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::TRANSFORM);
