@@ -181,6 +181,9 @@
     <ClInclude Include="CLayer.h">
       <Filter>05. Level\Layer</Filter>
     </ClInclude>
+    <ClInclude Include="CDecal.h">
+      <Filter>Component\Decal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -340,6 +343,9 @@
     <ClCompile Include="CLayer.cpp">
       <Filter>05. Level\Layer</Filter>
     </ClCompile>
+    <ClCompile Include="CDecal.cpp">
+      <Filter>Component\Decal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -494,6 +500,9 @@
     </Filter>
     <Filter Include="05. Level\Layer">
       <UniqueIdentifier>{2ef89d13-1eec-45b0-96b0-daffb5bed09d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Decal">
+      <UniqueIdentifier>{17155765-ef7c-4515-90eb-ee7c7c1d5327}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

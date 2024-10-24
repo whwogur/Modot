@@ -13,3 +13,4 @@
 #include "CParticleSystem.h"
 #include "CTextRender.h"
 #include "CSkyBox.h"
+#include "CDecal.h"
