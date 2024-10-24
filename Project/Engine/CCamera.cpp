@@ -69,6 +69,10 @@ void CCamera::FinalTick()
 		// Perspective	
 		m_matProj = XMMatrixPerspectiveFovLH(m_FOV, m_AspectRatio, 1.f, m_Far);
 	}
+
+	// 역행렬 계산
+	m_matViewInv = XMMatrixInverse(nullptr, m_matView);
+	m_matProjInv = XMMatrixInverse(nullptr, m_matProj);
 }
 
 void CCamera::SortGameObject()

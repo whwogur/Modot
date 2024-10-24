@@ -11,6 +11,14 @@ CSkyBox::CSkyBox()
 	SetSkyBoxType(m_Type);
 }
 
+CSkyBox::CSkyBox(const CSkyBox& _Other)
+	: CRenderComponent(COMPONENT_TYPE::SKYBOX)
+	, m_Type(_Other.m_Type)
+	, m_SkyBoxTex(_Other.m_SkyBoxTex)
+{
+	SetSkyBoxType(m_Type);
+}
+
 void CSkyBox::FinalTick()
 {
 }

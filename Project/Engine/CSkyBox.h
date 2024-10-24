@@ -12,6 +12,7 @@ class CSkyBox :
 public:
     CLONE(CSkyBox)
     CSkyBox();
+    CSkyBox(const CSkyBox& _Other);
     ~CSkyBox() = default;
 
 public:

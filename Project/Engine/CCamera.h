@@ -59,6 +59,8 @@ public:
 
     Matrix& GetcamViewRef() { return m_matView; }
     Matrix& GetcamProjRef() { return m_matProj; }
+    Matrix& GetcamViewInvRef() { return m_matViewInv; }
+    Matrix& GetcamProjInvRef() { return m_matProjInv; }
 public:
     virtual void Begin() override;
     virtual void FinalTick() override;
@@ -82,7 +84,7 @@ private:
     int                             m_Priority;
     UINT                            m_LayerCheck; // 원하는 레이머나 카메라에 찍히도록
     PROJ_TYPE                       m_ProjType;
-    Matrix                          m_matView, m_matProj;
+    Matrix                          m_matView, m_matProj, m_matViewInv, m_matProjInv;
     float                           m_Width, m_Height;
     float                           m_AspectRatio;
     float                           m_Far;
