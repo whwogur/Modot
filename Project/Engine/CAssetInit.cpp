@@ -334,8 +334,23 @@ void CAssetMgr::CreateEngineMesh()
 	AddAsset(L"CubeMesh", pMesh);
 	pMesh->SetEngineAsset();
 
+	vecIdx.clear();
+
+	// CubeMesh - DEBUG
+	
+	vecIdx.push_back(0); vecIdx.push_back(1); vecIdx.push_back(2); vecIdx.push_back(3); vecIdx.push_back(4);
+	vecIdx.push_back(7); vecIdx.push_back(6); vecIdx.push_back(5); vecIdx.push_back(4); vecIdx.push_back(3);
+	vecIdx.push_back(0); vecIdx.push_back(7); vecIdx.push_back(6); vecIdx.push_back(1); vecIdx.push_back(2);
+	vecIdx.push_back(5);
+
+	pMesh = new CMesh();
+	pMesh->SetEngineAsset();
+	pMesh->Create(arrCube, 24, vecIdx.data(), (UINT)vecIdx.size());
+	AddAsset(L"CubeMesh_Debug", pMesh);
+
 	vecVtx.clear();
 	vecIdx.clear();
+
 	// ============
 	// Sphere Mesh
 	// ============
@@ -485,7 +500,7 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetDSType(DS_TYPE::LESS);
-	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEBUG);
 	AddAsset(L"DebugShapeShader", pShader);
 
@@ -504,6 +519,18 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->AddScalarParam(VEC2_0, "TileSliceUV");
 	pShader->AddScalarParam(VEC2_1, "Tile Col*Row");
 	AddAsset(L"TileMapShader", pShader);
+
+	// DebugLineShader
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\debug.fx", "VS_DebugLine");
+	pShader->CreateGeometryShader(L"shader\\debug.fx", "GS_DebugLine");
+	pShader->CreatePixelShader(L"shader\\debug.fx", "PS_DebugLine");
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEBUG);
+	AddAsset(L"DebugLineShader", pShader);
 
 	// EffectShader
 	pShader = new CGraphicShader;

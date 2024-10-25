@@ -19,6 +19,7 @@
 #include "RigidBodyUI.h"
 #include "TextRenderUI.h"
 #include "SkyBoxUI.h"
+#include "DecalUI.h"
 
 #include "MeshUI.h"
 #include "MeshDataUI.h"
@@ -97,6 +98,10 @@ void Inspector::CreateComponentUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::SKYBOX] = new SkyBoxUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::SKYBOX]->SetName("SkyBoxUI");
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::SKYBOX]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::DECAL] = new DecalUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::DECAL]->SetName("DecalUI");
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::DECAL]);
 }
 
 void Inspector::CreateScriptUI(UINT _Count)

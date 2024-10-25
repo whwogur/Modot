@@ -182,7 +182,12 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 		return;
 	}
 	case COMPONENT_TYPE::DECAL:
-		break;
+	{
+		CDecal* decal = new CDecal;
+		AddComponent(decal);
+		CLevelMgr::GetInst()->SetLevelDirty();
+		return;
+	}
 	case COMPONENT_TYPE::SKYBOX:
 	{
 		CSkyBox* pSkybox = new CSkyBox;
