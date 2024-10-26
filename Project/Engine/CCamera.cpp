@@ -107,6 +107,9 @@ void CCamera::SortGameObject()
 			case DOMAIN_DEFERRED:
 				m_vecDeferred.push_back(vecObjects[j]);
 				break;
+			case DOMAIN_DECAL:
+				m_vecDecal.push_back(vecObjects[j]);
+				break;
 			case DOMAIN_OPAQUE:
 				m_vecOpaque.push_back(vecObjects[j]);
 				break;
@@ -138,6 +141,14 @@ void CCamera::RenderDeferred()
 	for (const auto& DeferredObj : m_vecDeferred)
 	{
 		DeferredObj->Render();
+	}
+}
+
+void CCamera::RenderDecal()
+{
+	for (const auto& DecalObj : m_vecDecal)
+	{
+		DecalObj->Render();
 	}
 }
 
@@ -192,6 +203,7 @@ void CCamera::RenderUI()
 void CCamera::ClearVec()
 {
 	m_vecDeferred.clear();
+	m_vecDecal.clear();
 	m_vecOpaque.clear();
 	m_vecMasked.clear();
 	m_vecTransparent.clear();

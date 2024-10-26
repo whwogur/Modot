@@ -71,6 +71,7 @@ public:
 private:
     void SortGameObject();
     void RenderDeferred();
+    void RenderDecal();
     void RenderOpaque();
     void RenderMasked();
     void RenderEffect();
@@ -93,6 +94,7 @@ private:
 
     bool                            m_Active = true;
     std::vector<CGameObject*>       m_vecDeferred;
+    std::vector<CGameObject*>       m_vecDecal;
     std::vector<CGameObject*>       m_vecOpaque;        // 불투명
     std::vector<CGameObject*>       m_vecMasked;        // 불투명, 투명
     std::vector<CGameObject*>       m_vecTransparent;   // 투명, 반투명

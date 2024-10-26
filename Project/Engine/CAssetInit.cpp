@@ -625,6 +625,17 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_OPAQUE);
 	pShader->AddTexParam(TEX_0, "Albedo Texture");
 	AddAsset(L"SkyBoxShader", pShader);
+
+	// DecalShader
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\decal.fx", "VS_Decal");
+	pShader->CreatePixelShader(L"shader\\decal.fx", "PS_Decal");
+	pShader->SetRSType(RS_TYPE::CULL_FRONT);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::DECAL);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DECAL);
+	pShader->AddTexParam(TEX_0, "Decal Texture");
+	AddAsset(L"DecalShader", pShader);
 }
 
 #include "CParticleTickCS.h"
@@ -704,6 +715,11 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"Std3D_DeferredShader"));
 	AddAsset(L"DeferredMtrl", pMtrl);
+
+	// DecalMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"DecalShader"));
+	AddAsset(L"DecalMtrl", pMtrl);
 }
 
 void CAssetMgr::LoadSound()

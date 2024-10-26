@@ -559,5 +559,8 @@
     <FxCompile Include="merge.fx">
       <Filter>Shader\GraphicShader</Filter>
     </FxCompile>
+    <FxCompile Include="decal.fx">
+      <Filter>Shader\GraphicShader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

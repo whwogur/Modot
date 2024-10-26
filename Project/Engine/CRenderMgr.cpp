@@ -191,6 +191,11 @@ void CRenderMgr::Render(CCamera* _Cam)
 	m_arrMRT[(UINT)MRT_TYPE::DEFERRED]->SetOM();
 	_Cam->RenderDeferred();
 
+	// ===============
+	// DECAL RENDERING
+	// ===============
+	m_arrMRT[(UINT)MRT_TYPE::DECAL]->SetOM();
+	_Cam->RenderDecal();
 
 	// ===============
 	// LIGHT RENDERING
