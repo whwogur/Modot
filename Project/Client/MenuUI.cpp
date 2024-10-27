@@ -36,6 +36,7 @@ void MenuUI::Tick()
 		External();
 		EditorSettings();
 		OutputInfo();
+
 		ImGui::EndMainMenuBar();
 	}
 }

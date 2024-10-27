@@ -230,6 +230,7 @@
     <ClInclude Include="DecalUI.h">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
+    <ClInclude Include="EditorViewport.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -429,6 +430,7 @@
     <ClCompile Include="DecalUI.cpp">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
+    <ClCompile Include="EditorViewport.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
