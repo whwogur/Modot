@@ -18,7 +18,6 @@ private:
     void Assets();
     void External();
     void OutputInfo();
-    void EditorCameraSlider();
     void EditorSettings();
 
     void LoadLevel();

@@ -7,15 +7,15 @@
 #include "ImGui/imgui_impl_dx11.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "ImGui/imgui_internal.h"
+#include "CEditorCameraScript.h"
 #include "TreeUI.h"
 
-#include <Engine/CRenderMgr.h>
 #include <Engine/CCamera.h>
+#include <Engine/CLevel.h>
+#include <Engine/CRenderMgr.h>
 #include <Engine/CKeyMgr.h>
+#include <Engine/CLevelMgr.h>
 #include <Engine/CTransform.h>
-EditorViewport::EditorViewport()
-{
-}
 
 void EditorViewport::Update()
 {
@@ -58,9 +58,11 @@ void EditorViewport::Update()
     ImGui::SameLine();
     PROJ_TYPE type = CRenderMgr::GetInst()->GetMainCamera()->GetProjType();
     if (type == PROJ_TYPE::ORTHOGRAPHIC)
-        ImGui::TextColored(HEADER_3, ICON_FA_VIDEO_CAMERA" Orthographic");
+        ImGui::TextColored(HEADER_1, ICON_FA_VIDEO_CAMERA" Orthographic");
     else
-        ImGui::TextColored(HEADER_3, ICON_FA_VIDEO_CAMERA" Perspective");
+        ImGui::TextColored(HEADER_1, ICON_FA_VIDEO_CAMERA" Perspective");
+
+    EditorCameraSlider();
 
     // RT Copy
     CRenderMgr::GetInst()->RenderTargetCopy();
@@ -199,5 +201,22 @@ void EditorViewport::RenderGizmo()
         pTr->SetRelativePos(pTr->GetRelativePos() - vPosOffset);
         pTr->SetRelativeRotation(pTr->GetRelativeRotation() - vRotOffset);
         pTr->SetRelativeScale(pTr->GetRelativeScale() - vScaleOffset);
+    }
+}
+
+void EditorViewport::EditorCameraSlider()
+{
+    LEVEL_STATE lvState = CLevelMgr::GetInst()->GetCurrentLevel()->GetState();
+    if (lvState == LEVEL_STATE::STOP)
+    {
+        ImGui::SameLine();
+        static CGameObject* editorCam = CRenderMgr::GetInst()->GetEditorCamera()->GetOwner();
+        const std::vector<CScript*>& vecScript = editorCam->GetScriptsRef();
+        CEditorCameraScript* eCamScript = (CEditorCameraScript*)vecScript[0];
+        float& camSpeed = eCamScript->GetCamSpeedRef();
+
+        ImGui::SetNextItemWidth(100.f);
+        ImGui::DragFloat("##EditorCamSpeedSlider", &camSpeed, 5.f, 100.f, 1000.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+        ImGui::SetItemTooltip(u8"에디터 카메라 속도 조절");
     }
 }

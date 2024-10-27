@@ -2,7 +2,7 @@
 class EditorViewport
 {
 public:
-	EditorViewport();
+	EditorViewport() = default;
 	~EditorViewport() = default;
 
 public:
@@ -19,6 +19,7 @@ public:
 	void SetTargetObject(CGameObject* _Target) { m_TargetObject = _Target; }
 private:
 	void RenderGizmo();
+	void EditorCameraSlider();
 private:
 	CGameObject*	m_TargetObject = nullptr;
 	bool            m_ViewportFocused = false;

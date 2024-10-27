@@ -264,7 +264,6 @@ void MenuUI::OutputInfo()
 	}
 	else
 	{
-		EditorCameraSlider();
 		whichCamera = ICON_FA_CAMERA_RETRO " EDITORCAM";
 		ImGui::SameLine(contentRegionAvailable / 2);
 		if (ImGui::Button(ICON_FA_PLAY, { 22, 22 }))
@@ -282,18 +281,6 @@ void MenuUI::OutputInfo()
 	ImGui::TextColored(color, whichCamera.c_str());
 	ImGui::SameLine();
 	ImGui::TextColored(color, buffer);
-}
-
-void MenuUI::EditorCameraSlider()
-{
-	static CGameObject* editorCam = CRenderMgr::GetInst()->GetEditorCamera()->GetOwner();
-	const std::vector<CScript*>& vecScript = editorCam->GetScriptsRef();
-	CEditorCameraScript* eCamScript = (CEditorCameraScript*)vecScript[0];
-	float& camSpeed = eCamScript->GetCamSpeedRef();
-
-	ImGui::SetNextItemWidth(100.f);
-	ImGui::DragFloat("##EditorCamSpeedSlider", &camSpeed, 10.f, 100.f, 1000.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
-	ImGui::SetItemTooltip(u8"에디터 카메라 속도");
 }
 
 void MenuUI::EditorSettings()
