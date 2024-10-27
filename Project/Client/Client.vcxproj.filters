@@ -227,6 +227,9 @@
     <ClInclude Include="SkyBoxUI.h">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
+    <ClInclude Include="DecalUI.h">
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -421,6 +424,9 @@
       <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
     <ClCompile Include="SkyBoxUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DecalUI.cpp">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
   </ItemGroup>

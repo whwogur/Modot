@@ -206,6 +206,7 @@ int CDevice::CreateBlendState()
 
     if (FAILED(DEVICE->CreateBlendState(&Desc, m_BSState[(UINT)BS_TYPE::ALPHABLEND].GetAddressOf())))
     {
+        MD_ENGINE_ERROR(L"알파블렌드 블렌드스테이트 생성 실패");
         return E_FAIL;
     }
 
@@ -229,6 +230,35 @@ int CDevice::CreateBlendState()
 
     if (FAILED(DEVICE->CreateBlendState(&Desc, m_BSState[(UINT)BS_TYPE::ONE_ONE].GetAddressOf())))
     {
+        MD_ENGINE_ERROR(L"OneOne 블렌드스테이트 생성 실패");
+        return E_FAIL;
+    }
+
+    // Decal BlendState
+    Desc.AlphaToCoverageEnable = false;
+    Desc.IndependentBlendEnable = true;
+    Desc.RenderTarget[0].BlendEnable = true;
+    Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+    Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+    Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA; // 계수
+    Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA; // 계수
+    Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+    Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+    Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+
+    Desc.RenderTarget[1].BlendEnable = true;
+    Desc.RenderTarget[1].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+    Desc.RenderTarget[1].BlendOp = D3D11_BLEND_OP_ADD;
+    Desc.RenderTarget[1].SrcBlend = D3D11_BLEND_ONE;
+    Desc.RenderTarget[1].DestBlend = D3D11_BLEND_ONE;
+    Desc.RenderTarget[1].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+    Desc.RenderTarget[1].SrcBlendAlpha = D3D11_BLEND_ONE;
+    Desc.RenderTarget[1].DestBlendAlpha = D3D11_BLEND_ZERO;
+
+    if (FAILED(DEVICE->CreateBlendState(&Desc, m_BSState[(UINT)BS_TYPE::DECAL].GetAddressOf())))
+    {
+        MD_ENGINE_ERROR(L"데칼 블렌드스테이트 생성 실패");
         return E_FAIL;
     }
 

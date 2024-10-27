@@ -334,8 +334,23 @@ void CAssetMgr::CreateEngineMesh()
 	AddAsset(L"CubeMesh", pMesh);
 	pMesh->SetEngineAsset();
 
+	vecIdx.clear();
+
+	// CubeMesh - DEBUG
+	
+	vecIdx.push_back(0); vecIdx.push_back(1); vecIdx.push_back(2); vecIdx.push_back(3); vecIdx.push_back(4);
+	vecIdx.push_back(7); vecIdx.push_back(6); vecIdx.push_back(5); vecIdx.push_back(4); vecIdx.push_back(3);
+	vecIdx.push_back(0); vecIdx.push_back(7); vecIdx.push_back(6); vecIdx.push_back(1); vecIdx.push_back(2);
+	vecIdx.push_back(5);
+
+	pMesh = new CMesh();
+	pMesh->SetEngineAsset();
+	pMesh->Create(arrCube, 24, vecIdx.data(), (UINT)vecIdx.size());
+	AddAsset(L"CubeMesh_Debug", pMesh);
+
 	vecVtx.clear();
 	vecIdx.clear();
+
 	// ============
 	// Sphere Mesh
 	// ============
@@ -485,7 +500,7 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
 	pShader->SetDSType(DS_TYPE::LESS);
-	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEBUG);
 	AddAsset(L"DebugShapeShader", pShader);
 
@@ -504,6 +519,18 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->AddScalarParam(VEC2_0, "TileSliceUV");
 	pShader->AddScalarParam(VEC2_1, "Tile Col*Row");
 	AddAsset(L"TileMapShader", pShader);
+
+	// DebugLineShader
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\debug.fx", "VS_DebugLine");
+	pShader->CreateGeometryShader(L"shader\\debug.fx", "GS_DebugLine");
+	pShader->CreatePixelShader(L"shader\\debug.fx", "PS_DebugLine");
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::ALPHABLEND);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEBUG);
+	AddAsset(L"DebugLineShader", pShader);
 
 	// EffectShader
 	pShader = new CGraphicShader;
@@ -598,6 +625,17 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_OPAQUE);
 	pShader->AddTexParam(TEX_0, "Albedo Texture");
 	AddAsset(L"SkyBoxShader", pShader);
+
+	// DecalShader
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\decal.fx", "VS_Decal");
+	pShader->CreatePixelShader(L"shader\\decal.fx", "PS_Decal");
+	pShader->SetRSType(RS_TYPE::CULL_FRONT);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetBSType(BS_TYPE::DECAL);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DECAL);
+	pShader->AddTexParam(TEX_0, "Decal Texture");
+	AddAsset(L"DecalShader", pShader);
 }
 
 #include "CParticleTickCS.h"
@@ -677,6 +715,11 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"Std3D_DeferredShader"));
 	AddAsset(L"DeferredMtrl", pMtrl);
+
+	// DecalMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"DecalShader"));
+	AddAsset(L"DecalMtrl", pMtrl);
 }
 
 void CAssetMgr::LoadSound()

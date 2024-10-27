@@ -60,6 +60,11 @@ void CLight3D::FinalTick()
 	m_LightIdx = CRenderMgr::GetInst()->RegisterLight3D(this);
 
 	Transform()->SetRelativeScale(Vec3(m_Info.Radius * 2.f, m_Info.Radius * 2.f, m_Info.Radius * 2.f));
+	// DebugShape
+	if (m_Info.Type == LIGHT_TYPE::POINT)
+	{
+		DrawDebugSphere(Transform()->GetWorldMat(), Vec4(0.f, 1.f, 0.f, 1.f), 0.f, true);
+	}
 }
 void CLight3D::SaveToFile(FILE* _File)
 {
