@@ -20,10 +20,9 @@
 #include "MaterialUI.h"
 #include "CollisionCheck.h"
 #include "CPlayerManager.h"
-
+#include "CEditorCameraScript.h"
 void MenuUI::Tick()
 {
-	static bool ModeToggle = false;
 	if (!IsActive())
 		return;
 
@@ -31,104 +30,25 @@ void MenuUI::Tick()
 	{
 		ImGui::Image(m_LogoTex->GetSRV().Get(), { 25 ,25 });
 
-		Update();
-		float contentRegionAvailable = ImGui::GetContentRegionAvail().x;
-		LEVEL_STATE state = CLevelMgr::GetInst()->GetCurrentLevel()->GetState();
-		string whichCamera;
-		ImVec4 color;
-		UINT FPS = CTimeMgr::GetInst()->GetFPSRecord();
-		char buffer[30];
-		const char* iconFun = FPS > 500 ? ICON_FA_FIGHTER_JET :
-			(FPS > 100 ? ICON_FA_BICYCLE : ICON_FA_WHEELCHAIR);
-
-		sprintf_s(buffer, "%s FPS: %d", iconFun, FPS);
-
-		if (state == LEVEL_STATE::PLAY)
-		{
-			whichCamera = ICON_FA_CAMERA_RETRO " MAINCAM";
-
-			ImGui::SameLine(contentRegionAvailable / 2);
-			if (ImGui::Button(ICON_FA_PAUSE, { 22, 22 }))
-			{
-				ChangeLevelState(LEVEL_STATE::PAUSE);
-				EDITOR_TRACE("Paused");
-			}
-			ImGui::SameLine(contentRegionAvailable / 2 + 30);
-			if (ImGui::Button(ICON_FA_STOP, { 22, 22 }))
-			{
-				const wstring& lvName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
-				CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\" + lvName + L".lv");
-				ChangeLevel(pLoadedLevel, LEVEL_STATE::STOP);
-
-				// Inspector Clear 하기 (이전 오브젝트 정보를 보여주고 있을 수가 있기 때문에)				
-				Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
-				pInspector->SetTargetObject(nullptr);
-				pInspector->SetTargetAsset(nullptr);
-			}
-
-			color = { 0.45f, 0.55f, 0.88f, 1.0f };
-		}
-		else if (state == LEVEL_STATE::PAUSE)
-		{
-			whichCamera = ICON_FA_PAUSE" PAUSED";
-			ImGui::SameLine(contentRegionAvailable / 2);
-			if (ImGui::Button(ICON_FA_PLAY, { 22, 22 }))
-			{
-				ChangeLevelState(LEVEL_STATE::PLAY);
-			}
-			ImGui::SameLine(contentRegionAvailable / 2 + 30);
-			if (ImGui::Button(ICON_FA_STOP, { 22, 22 }))
-			{
-				const wstring& lvName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
-				CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\" + lvName + L".lv");
-				ChangeLevel(pLoadedLevel, LEVEL_STATE::STOP);
-
-				// Inspector Clear 하기 (이전 오브젝트 정보를 보여주고 있을 수가 있기 때문에)				
-				Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
-				pInspector->SetTargetObject(nullptr);
-				pInspector->SetTargetAsset(nullptr);
-			}
-
-			color = { 1, 0, 0, 1 };
-		}
-		else
-		{
-			whichCamera = ICON_FA_CAMERA_RETRO " EDITORCAM";
-			ImGui::SameLine(contentRegionAvailable / 2);
-			if (ImGui::Button(ICON_FA_PLAY, { 22, 22 }))
-			{
-				ChangeLevelState(LEVEL_STATE::PLAY);
-				EDITOR_TRACE("Play");
-			}
-
-			color = { 1, 1, 1, 1 };
-		}
-
-		ImGui::SameLine(contentRegionAvailable);
-		
-		ImGui::TextColored(color, whichCamera.c_str());
-		ImGui::SameLine();
-		ImGui::TextColored(color, buffer);
+		File();
+		Tools();
+		Assets();
+		External();
+		OutputInfo();
 
 		ImGui::EndMainMenuBar();
 	}
+
+		
+
+		
+
+	
 }
 
 
 void MenuUI::Update()
 {
-	File();
-
-	Tools();
-
-	Assets();
-
-	External();
-
-	bool& bDebug = CRenderMgr::GetInst()->GetDebugRenderRef();
-	ToggleButton("##DebugToggle", &bDebug);
-	ImGui::SameLine();
-	ImGui::Text(bDebug ? "Debug ON" : "Debug OFF");
 }
 
 void MenuUI::Init()
@@ -277,6 +197,108 @@ void MenuUI::External()
 
 		ImGui::EndMenu();
 	}
+}
+
+void MenuUI::OutputInfo()
+{
+	// Debug Toggle
+	bool& bDebug = CRenderMgr::GetInst()->GetDebugRenderRef();
+	ToggleButton("##DebugToggle", &bDebug);
+	ImGui::SameLine();
+	ImGui::Text(bDebug ? "Debug ON" : "Debug OFF");
+
+	// Info
+	float contentRegionAvailable = ImGui::GetContentRegionAvail().x;
+	LEVEL_STATE state = CLevelMgr::GetInst()->GetCurrentLevel()->GetState();
+	string whichCamera;
+	ImVec4 color;
+	UINT FPS = CTimeMgr::GetInst()->GetFPSRecord();
+	char buffer[30];
+	const char* iconFun = FPS > 500 ? ICON_FA_FIGHTER_JET :
+		(FPS > 100 ? ICON_FA_BICYCLE : ICON_FA_WHEELCHAIR);
+
+	sprintf_s(buffer, "%s FPS: %d", iconFun, FPS);
+
+	if (state == LEVEL_STATE::PLAY)
+	{
+		whichCamera = ICON_FA_CAMERA_RETRO " MAINCAM";
+
+		ImGui::SameLine(contentRegionAvailable / 2);
+		if (ImGui::Button(ICON_FA_PAUSE, { 22, 22 }))
+		{
+			ChangeLevelState(LEVEL_STATE::PAUSE);
+			EDITOR_TRACE("Paused");
+		}
+		ImGui::SameLine(contentRegionAvailable / 2 + 30);
+		if (ImGui::Button(ICON_FA_STOP, { 22, 22 }))
+		{
+			const wstring& lvName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
+			CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\" + lvName + L".lv");
+			ChangeLevel(pLoadedLevel, LEVEL_STATE::STOP);
+
+			// Inspector Clear 하기 (이전 오브젝트 정보를 보여주고 있을 수가 있기 때문에)				
+			Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+			pInspector->SetTargetObject(nullptr);
+			pInspector->SetTargetAsset(nullptr);
+		}
+
+		color = { 0.45f, 0.55f, 0.88f, 1.0f };
+	}
+	else if (state == LEVEL_STATE::PAUSE)
+	{
+		whichCamera = ICON_FA_PAUSE" PAUSED";
+		ImGui::SameLine(contentRegionAvailable / 2);
+		if (ImGui::Button(ICON_FA_PLAY, { 22, 22 }))
+		{
+			ChangeLevelState(LEVEL_STATE::PLAY);
+		}
+		ImGui::SameLine(contentRegionAvailable / 2 + 30);
+		if (ImGui::Button(ICON_FA_STOP, { 22, 22 }))
+		{
+			const wstring& lvName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
+			CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\" + lvName + L".lv");
+			ChangeLevel(pLoadedLevel, LEVEL_STATE::STOP);
+
+			// Inspector Clear 하기 (이전 오브젝트 정보를 보여주고 있을 수가 있기 때문에)				
+			Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
+			pInspector->SetTargetObject(nullptr);
+			pInspector->SetTargetAsset(nullptr);
+		}
+
+		color = { 1, 0, 0, 1 };
+	}
+	else
+	{
+		EditorCameraSlider();
+		whichCamera = ICON_FA_CAMERA_RETRO " EDITORCAM";
+		ImGui::SameLine(contentRegionAvailable / 2);
+		if (ImGui::Button(ICON_FA_PLAY, { 22, 22 }))
+		{
+			ChangeLevelState(LEVEL_STATE::PLAY);
+			EDITOR_TRACE("Play");
+		}
+
+		color = { 1, 1, 1, 1 };
+
+	}
+
+	ImGui::SameLine(contentRegionAvailable);
+
+	ImGui::TextColored(color, whichCamera.c_str());
+	ImGui::SameLine();
+	ImGui::TextColored(color, buffer);
+}
+
+void MenuUI::EditorCameraSlider()
+{
+	static CGameObject* editorCam = CRenderMgr::GetInst()->GetEditorCamera()->GetOwner();
+	const std::vector<CScript*>& vecScript = editorCam->GetScriptsRef();
+	CEditorCameraScript* eCamScript = (CEditorCameraScript*)vecScript[0];
+	float& camSpeed = eCamScript->GetCamSpeedRef();
+
+	ImGui::SetNextItemWidth(100.f);
+	ImGui::DragFloat("##EditorCamSpeedSlider", &camSpeed, 10.f, 100.f, 1000.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+	ImGui::SetItemTooltip(u8"에디터 카메라 속도");
 }
 
 void MenuUI::LoadLevel()

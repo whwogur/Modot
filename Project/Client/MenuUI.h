@@ -17,6 +17,8 @@ private:
     void Tools();
     void Assets();
     void External();
+    void OutputInfo();
+    void EditorCameraSlider();
 
     void LoadLevel();
     void SaveLevelAs();
