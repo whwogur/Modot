@@ -19,6 +19,7 @@ private:
     void External();
     void OutputInfo();
     void EditorCameraSlider();
+    void EditorSettings();
 
     void LoadLevel();
     void SaveLevelAs();

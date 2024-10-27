@@ -34,16 +34,10 @@ void MenuUI::Tick()
 		Tools();
 		Assets();
 		External();
+		EditorSettings();
 		OutputInfo();
-
 		ImGui::EndMainMenuBar();
 	}
-
-		
-
-		
-
-	
 }
 
 
@@ -299,6 +293,40 @@ void MenuUI::EditorCameraSlider()
 	ImGui::SetNextItemWidth(100.f);
 	ImGui::DragFloat("##EditorCamSpeedSlider", &camSpeed, 10.f, 100.f, 1000.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
 	ImGui::SetItemTooltip(u8"에디터 카메라 속도");
+}
+
+void MenuUI::EditorSettings()
+{
+	if (ImGui::BeginMenu(ICON_FA_COG " Editor"))
+	{
+		if (ImGui::BeginMenu(u8"테마 변경"))
+		{
+			if (ImGui::MenuItem("Microsoft"))
+			{
+				CEditorMgr::GetInst()->SetThemeMicrosoft();
+			}
+
+			if (ImGui::MenuItem("Unreal"))
+			{
+				CEditorMgr::GetInst()->SetThemeUnrealEngine();
+			}
+
+			if (ImGui::MenuItem("Moonlight"))
+			{
+				CEditorMgr::GetInst()->SetThemeMoonlight();
+			}
+
+			if (ImGui::MenuItem("Dark"))
+			{
+				CEditorMgr::GetInst()->SetThemeFutureDark();
+			}
+
+			ImGui::EndMenu();
+		}
+
+
+		ImGui::EndMenu();
+	}
 }
 
 void MenuUI::LoadLevel()

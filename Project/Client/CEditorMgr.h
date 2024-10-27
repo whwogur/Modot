@@ -28,6 +28,11 @@ public:
 
     const bool IsViewportFocused() const { return m_ViewportFocused; }
     const bool IsViewportHovered() const { return m_ViewportHovered; }
+
+    void SetThemeMoonlight();
+    void SetThemeMicrosoft();
+    void SetThemeUnrealEngine();
+    void SetThemeFutureDark();
 private:
     void CreateEditorObject();
     void EditorObjectUpdate();
@@ -37,12 +42,7 @@ private:
     void CreateEditorUI();
     void ObserveContents();
     void RenderViewport();
-    void RenderGizmo();
-
-    void SetThemeMoonlight();
-    void SetThemeMicrosoft();
-    void SetThemeUnrealEngine();
-    void SetThemeFutureDark();
+    void RenderGizmo();    
 private:
     std::vector<CGameObject*>            m_vecEditorObject;
     map<string, EditorUI*>          m_mapUI;
