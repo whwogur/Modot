@@ -138,6 +138,7 @@
     <ClInclude Include="SpriteEditor.h" />
     <ClInclude Include="SpriteUI.h" />
     <ClInclude Include="TextRenderUI.h" />
+    <ClInclude Include="TexturePreview.h" />
     <ClInclude Include="TextureUI.h" />
     <ClInclude Include="TilemapEditor.h" />
     <ClInclude Include="TileMapUI.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="SpriteEditor.cpp" />
     <ClCompile Include="SpriteUI.cpp" />
     <ClCompile Include="TextRenderUI.cpp" />
+    <ClCompile Include="TexturePreview.cpp" />
     <ClCompile Include="TextureUI.cpp" />
     <ClCompile Include="TilemapEditor.cpp" />
     <ClCompile Include="TileMapUI.cpp" />

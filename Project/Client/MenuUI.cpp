@@ -35,6 +35,7 @@ void MenuUI::Tick()
 		Assets();
 		External();
 		EditorSettings();
+
 		OutputInfo();
 
 		ImGui::EndMainMenuBar();
@@ -136,6 +137,11 @@ void MenuUI::Tools()
 		{
 			CollisionCheck* animEditor = static_cast<CollisionCheck*>(CEditorMgr::GetInst()->FindEditorUI(ICON_FA_CHECK_SQUARE_O" CollisionCheck"));
 			animEditor->SetActive(true);
+		}
+
+		if (ImGui::MenuItem(u8"텍스처 툴", " Alt + P"))
+		{
+			CEditorMgr::GetInst()->FindEditorUI(ICON_FA_PICTURE_O" Texture Preview")->Toggle();
 		}
 
 		ImGui::EndMenu();

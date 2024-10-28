@@ -19,6 +19,7 @@
 #include "Content.h"
 #include "HierarchyView.h"
 #include "FileBrowser.h"
+#include "TexturePreview.h"
 #include "AnimationEditor.h"
 #include "SE_AtlasView.h"
 #include "SE_Detail.h"
@@ -149,6 +150,12 @@ void CEditorMgr::CreateEditorUI()
     pUI = new CollisionCheck;
     pUI->SetName(ICON_FA_CHECK_SQUARE_O" CollisionCheck");
     pUI->SetActive(false);
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    // FileBrowser
+    pUI = new TexturePreview;
+    pUI->UseHorizontalScroll(true);
+    pUI->SetName(ICON_FA_PICTURE_O" Texture Preview");
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 }
 

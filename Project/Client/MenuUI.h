@@ -1,5 +1,6 @@
 #pragma once
 #include "EditorUI.h"
+#include "TexturePreview.h"
 
 class MenuUI :
     public EditorUI
@@ -24,5 +25,5 @@ private:
     void SaveLevelAs();
     void AddScript();
 private:
-    Ptr<CTexture>       m_LogoTex;
+    Ptr<CTexture>                   m_LogoTex;
 };

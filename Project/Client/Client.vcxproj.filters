@@ -61,6 +61,12 @@
     <Filter Include="Editor\EditorUI\Modal\AnimationEditor">
       <UniqueIdentifier>{3232e88b-4cad-4c11-85a8-b3d8ea5dd31c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\EditorUI\MainMenu\TexturePreview">
+      <UniqueIdentifier>{e7d41de0-5e16-4aa4-a732-db1894dfe15a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\Modal\TexturePreview">
+      <UniqueIdentifier>{337d90f6-8813-4c6a-9680-4bae86cd51ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -259,6 +265,9 @@
     </ClInclude>
     <ClInclude Include="AnimationEditor.h">
       <Filter>Editor\EditorUI\Modal\AnimationEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="TexturePreview.h">
+      <Filter>Editor\EditorUI\Modal\TexturePreview</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -461,6 +470,9 @@
     </ClCompile>
     <ClCompile Include="AnimationEditor.cpp">
       <Filter>Editor\EditorUI\Modal\AnimationEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="TexturePreview.cpp">
+      <Filter>Editor\EditorUI\Modal\TexturePreview</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
