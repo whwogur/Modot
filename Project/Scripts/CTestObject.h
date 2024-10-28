@@ -17,5 +17,6 @@ private:
     bool                m_Move = false;
     Ptr<CTexture>       m_AlbedoTex = nullptr;
     Ptr<CTexture>       m_NormalTex = nullptr;
+    Ptr<CTexture>       m_SkyboxTex;
 };
 

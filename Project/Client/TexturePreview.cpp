@@ -145,6 +145,39 @@ void TexturePreview::Update()
 		}
 	}
 
+	ImGui::NewLine();
+	// Name Output
+	if (m_Tex1 != nullptr)
+	{
+		ImGui::SameLine(m_TexSizeX / 3.f);
+		const wstring& wstrName = m_Tex1->GetKey();
+		string strName(wstrName.begin(), wstrName.end());
+		ImGui::TextColored(HEADER_2, strName.c_str());
+	}
+
+	if (m_Tex2 != nullptr)
+	{
+		ImGui::SameLine((m_TexSizeX / 2.f) * 3);
+		const wstring& wstrName = m_Tex2->GetKey();
+		string strName(wstrName.begin(), wstrName.end());
+		ImGui::TextColored(HEADER_2, strName.c_str());
+	}
+
+	if (m_Tex3 != nullptr)
+	{
+		ImGui::SameLine((m_TexSizeX / 2.f) * 5);
+		const wstring& wstrName = m_Tex3->GetKey();
+		string strName(wstrName.begin(), wstrName.end());
+		ImGui::TextColored(HEADER_2, strName.c_str());
+	}
+
+	if (m_Tex4 != nullptr)
+	{
+		ImGui::SameLine((m_TexSizeX / 2.f) * 7);
+		const wstring& wstrName = m_Tex4->GetKey();
+		string strName(wstrName.begin(), wstrName.end());
+		ImGui::TextColored(HEADER_2, strName.c_str());
+	}
 }
 
 void TexturePreview::ChangeTexture()

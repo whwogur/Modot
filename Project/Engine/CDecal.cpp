@@ -8,6 +8,8 @@ CDecal::CDecal()
 {
 	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"CubeMesh"));
 	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DecalMtrl"));
+	m_DecalTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Logo");
+	m_EmissiveTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Logo");
 }
 
 void CDecal::FinalTick()
@@ -18,7 +20,11 @@ void CDecal::FinalTick()
 void CDecal::Render()
 {
 	Transform()->Bind();
-	GetMaterial()->SetTexParam(TEX_PARAM::TEX_1, m_DecalTex);
+	if (m_DecalEnable)
+		GetMaterial()->SetTexParam(TEX_PARAM::TEX_1, m_DecalTex);
+	if (m_EmissiveEnable)
+		GetMaterial()->SetTexParam(TEX_PARAM::TEX_2, m_EmissiveTex);
+
 	GetMaterial()->Bind();
 	GetMesh()->Render();
 }

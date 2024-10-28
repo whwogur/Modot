@@ -23,12 +23,12 @@ void SkyBoxUI::Update()
 			SKYBOX_TYPE eType = pSkyBox->GetType();
 			if (ImGui::BeginCombo("##SkyboxType", eType == SPHERE ? "Sphere" : "Cube"))
 			{
-				if (ImGui::Selectable("Sphere", eType == SPHERE ? true : false, ImGuiSelectableFlags_Disabled & eType == SPHERE))
+				if (ImGui::Selectable("Sphere", eType == SPHERE ? true : false, ImGuiSelectableFlags_Disabled && eType == SPHERE))
 				{
 					pSkyBox->SetSkyBoxType(SKYBOX_TYPE::SPHERE);
 				}
 
-				if (ImGui::Selectable("Cube", eType == CUBE ? true : false, ImGuiSelectableFlags_Disabled & eType == CUBE))
+				if (ImGui::Selectable("Cube", eType == CUBE ? true : false, ImGuiSelectableFlags_Disabled && eType == CUBE))
 				{
 					pSkyBox->SetSkyBoxType(SKYBOX_TYPE::CUBE);
 				}

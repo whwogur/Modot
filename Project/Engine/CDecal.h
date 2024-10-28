@@ -9,7 +9,14 @@ public:
     ~CDecal() = default;
 
 public:
+    Ptr<CTexture> GetDecalTexture() { return m_DecalTex; }
+    Ptr<CTexture> GetEmissiveTexture() { return m_EmissiveTex; }
+
     void SetDecalTexture(Ptr<CTexture> _Tex) { m_DecalTex = _Tex; }
+    void SetEmissiveTexture(Ptr<CTexture> _Tex) { m_EmissiveTex = _Tex; }
+
+    bool& GetDecalEnableRef() { return m_DecalEnable; }
+    bool& GetEmissiveEnableRef() { return m_EmissiveEnable; }
 public:
     virtual void FinalTick() override;
     virtual void Render() override;
@@ -18,4 +25,8 @@ public:
 
 private:
     Ptr<CTexture>   m_DecalTex;
+    Ptr<CTexture>   m_EmissiveTex;
+
+    bool            m_DecalEnable = true;
+    bool            m_EmissiveEnable = false;
 };

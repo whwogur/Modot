@@ -7,6 +7,7 @@ CTestObject::CTestObject()
 	AddScriptParam(SCRIPT_PARAM::BOOLEAN_TOGGLE, u8"Rotate", &m_Move);
 	AddScriptParam(SCRIPT_PARAM::TEXTURE, "Albedo", &m_AlbedoTex);
 	AddScriptParam(SCRIPT_PARAM::TEXTURE, "Normal", &m_NormalTex);
+	m_SkyboxTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"SkyWater");
 }
 
 void CTestObject::Begin()
@@ -27,6 +28,7 @@ void CTestObject::Tick()
 	
 	MeshRender()->GetDynamicMaterial()->SetTexParam(TEX_0, m_AlbedoTex);
 	MeshRender()->GetDynamicMaterial()->SetTexParam(TEX_1, m_NormalTex);
+	MeshRender()->GetDynamicMaterial()->SetTexParam(TEXCUBE_0, m_SkyboxTex);
 }
 
 void CTestObject::SaveToFile(FILE* _File)
