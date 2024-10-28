@@ -34,6 +34,39 @@
     <Filter Include="Editor\EditorUI\Modal\Util">
       <UniqueIdentifier>{11ddf1b5-fe19-43fb-b5db-c73257e41210}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\Viewport">
+      <UniqueIdentifier>{c20cf685-f358-40e7-be45-590ca4dd8aba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\Content">
+      <UniqueIdentifier>{be624e41-9e4c-42e3-9ec7-387ef7cb5833}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\HierarchyView">
+      <UniqueIdentifier>{1bb922b4-f07a-43eb-9468-ca97426d9b3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\Inspector">
+      <UniqueIdentifier>{c6e155d7-0bd2-4ff4-9b70-585157cf11ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\MainMenu">
+      <UniqueIdentifier>{16949301-2f7f-4d0c-9cfd-a1767ee8fc0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\Modal\ListUI">
+      <UniqueIdentifier>{9e1fb6cc-172a-4e05-9310-7c822e2654ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\Modal\FileBrowser">
+      <UniqueIdentifier>{096a4d61-abf6-4b31-a8d0-14470924ff5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\Modal\Collision">
+      <UniqueIdentifier>{b74ebeb5-91f2-4a6d-a5a9-efa45877f9b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\Modal\AnimationEditor">
+      <UniqueIdentifier>{3232e88b-4cad-4c11-85a8-b3d8ea5dd31c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\MainMenu\TexturePreview">
+      <UniqueIdentifier>{e7d41de0-5e16-4aa4-a732-db1894dfe15a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\Modal\TexturePreview">
+      <UniqueIdentifier>{337d90f6-8813-4c6a-9680-4bae86cd51ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -50,18 +83,6 @@
     </ClInclude>
     <ClInclude Include="pch.h" />
     <ClInclude Include="EditorUI.h">
-      <Filter>Editor\EditorUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Inspector.h">
-      <Filter>Editor\EditorUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Content.h">
-      <Filter>Editor\EditorUI</Filter>
-    </ClInclude>
-    <ClInclude Include="HierarchyView.h">
-      <Filter>Editor\EditorUI</Filter>
-    </ClInclude>
-    <ClInclude Include="ListUI.h">
       <Filter>Editor\EditorUI</Filter>
     </ClInclude>
     <ClInclude Include="ComponentUI.h">
@@ -169,15 +190,6 @@
     <ClInclude Include="ImGui\imgui_neo_sequencer.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationEditor.h">
-      <Filter>Editor\EditorUI\Modal</Filter>
-    </ClInclude>
-    <ClInclude Include="FileBrowser.h">
-      <Filter>Editor\EditorUI\Modal</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuUI.h">
-      <Filter>Editor\EditorUI</Filter>
-    </ClInclude>
     <ClInclude Include="CTestLevel.h">
       <Filter>Editor\TestLevel</Filter>
     </ClInclude>
@@ -209,9 +221,6 @@
     <ClInclude Include="ParamUI.h">
       <Filter>Editor\EditorUI\Modal\Util</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionCheck.h">
-      <Filter>Editor\EditorUI\Modal</Filter>
-    </ClInclude>
     <ClInclude Include="EditorLogger.h">
       <Filter>Editor\EditorUI\Modal\Util</Filter>
     </ClInclude>
@@ -230,6 +239,36 @@
     <ClInclude Include="DecalUI.h">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
+    <ClInclude Include="EditorViewport.h">
+      <Filter>Editor\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="Content.h">
+      <Filter>Editor\EditorUI\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="HierarchyView.h">
+      <Filter>Editor\EditorUI\HierarchyView</Filter>
+    </ClInclude>
+    <ClInclude Include="Inspector.h">
+      <Filter>Editor\EditorUI\Inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuUI.h">
+      <Filter>Editor\EditorUI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="ListUI.h">
+      <Filter>Editor\EditorUI\Modal\ListUI</Filter>
+    </ClInclude>
+    <ClInclude Include="FileBrowser.h">
+      <Filter>Editor\EditorUI\Modal\FileBrowser</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionCheck.h">
+      <Filter>Editor\EditorUI\Modal\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationEditor.h">
+      <Filter>Editor\EditorUI\Modal\AnimationEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="TexturePreview.h">
+      <Filter>Editor\EditorUI\Modal\TexturePreview</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -246,18 +285,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="EditorUI.cpp">
-      <Filter>Editor\EditorUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Content.cpp">
-      <Filter>Editor\EditorUI</Filter>
-    </ClCompile>
-    <ClCompile Include="HierarchyView.cpp">
-      <Filter>Editor\EditorUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Inspector.cpp">
-      <Filter>Editor\EditorUI</Filter>
-    </ClCompile>
-    <ClCompile Include="ListUI.cpp">
       <Filter>Editor\EditorUI</Filter>
     </ClCompile>
     <ClCompile Include="ComponentUI.cpp">
@@ -295,9 +322,6 @@
     </ClCompile>
     <ClCompile Include="AnimationUI.cpp">
       <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Inspector_Init.cpp">
-      <Filter>Editor\EditorUI</Filter>
     </ClCompile>
     <ClCompile Include="Collider2DUI.cpp">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
@@ -371,15 +395,6 @@
     <ClCompile Include="ImGui\imgui_neo_sequencer.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationEditor.cpp">
-      <Filter>Editor\EditorUI\Modal</Filter>
-    </ClCompile>
-    <ClCompile Include="FileBrowser.cpp">
-      <Filter>Editor\EditorUI\Modal</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuUI.cpp">
-      <Filter>Editor\EditorUI</Filter>
-    </ClCompile>
     <ClCompile Include="CTestLevel.cpp">
       <Filter>Editor\TestLevel</Filter>
     </ClCompile>
@@ -408,9 +423,6 @@
     <ClCompile Include="ParamUI.cpp">
       <Filter>Editor\EditorUI\Modal\Util</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionCheck.cpp">
-      <Filter>Editor\EditorUI\Modal</Filter>
-    </ClCompile>
     <ClCompile Include="EditorLogger.cpp">
       <Filter>Editor\EditorUI\Modal\Util</Filter>
     </ClCompile>
@@ -428,6 +440,39 @@
     </ClCompile>
     <ClCompile Include="DecalUI.cpp">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorViewport.cpp">
+      <Filter>Editor\Viewport</Filter>
+    </ClCompile>
+    <ClCompile Include="Content.cpp">
+      <Filter>Editor\EditorUI\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="HierarchyView.cpp">
+      <Filter>Editor\EditorUI\HierarchyView</Filter>
+    </ClCompile>
+    <ClCompile Include="Inspector.cpp">
+      <Filter>Editor\EditorUI\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="Inspector_Init.cpp">
+      <Filter>Editor\EditorUI\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuUI.cpp">
+      <Filter>Editor\EditorUI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="ListUI.cpp">
+      <Filter>Editor\EditorUI\Modal\ListUI</Filter>
+    </ClCompile>
+    <ClCompile Include="FileBrowser.cpp">
+      <Filter>Editor\EditorUI\Modal\FileBrowser</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionCheck.cpp">
+      <Filter>Editor\EditorUI\Modal\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationEditor.cpp">
+      <Filter>Editor\EditorUI\Modal\AnimationEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="TexturePreview.cpp">
+      <Filter>Editor\EditorUI\Modal\TexturePreview</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

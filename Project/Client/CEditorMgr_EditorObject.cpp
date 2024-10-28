@@ -7,10 +7,12 @@
 #include "CEditorCameraScript.h"
 #include <Engine/CRenderMgr.h>
 #include "EditorLogger.h"
+#include "EditorViewport.h"
 
 void CEditorMgr::CreateEditorObject()
 {
 	m_Logger = std::make_unique<EditorLogger>();
+	m_Viewport = std::make_unique<EditorViewport>();
 
 	CGameObject* pEditorCamera = new CGameObjectEx;
 	pEditorCamera->SetName(L"EditorCamera");

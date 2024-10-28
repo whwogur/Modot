@@ -714,6 +714,7 @@ void CAssetMgr::CreateEngineMaterial()
 	// Std3D_DeferredMtrl
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"Std3D_DeferredShader"));
+	pMtrl->SetTexParam(TEX_PARAM::TEXCUBE_0, FindAsset<CTexture>(L"SkyWater"));
 	AddAsset(L"DeferredMtrl", pMtrl);
 
 	// DecalMtrl

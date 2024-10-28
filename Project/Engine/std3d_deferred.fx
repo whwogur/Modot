@@ -82,6 +82,14 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
         output.vNormal = float4(mul(vNormal, matRot), 1.f);
     }
     
+    if (g_btexcube_0)
+    {
+        float3 vViewReflect = reflect(normalize(_in.vViewPos).xyz, output.vNormal.xyz);
+        float3 vWorldReflect = normalize(mul(float4(vViewReflect, 0.f), matViewInv).xyz);
+        float3 vRelfectColor = g_texcube_0.Sample(g_AniWrapSampler, vWorldReflect);
+        output.vAlbedo.rgb *= vRelfectColor.rgb;
+    }
+    
     return output;
 }
 

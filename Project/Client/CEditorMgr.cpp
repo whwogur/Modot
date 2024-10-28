@@ -17,6 +17,7 @@
 #include "ImGui/imgui_impl_win32.h"
 #include "EditorUI.h"
 #include "EditorLogger.h"
+#include "EditorViewport.h"
 #include <Inspector.h>
 #include <ImGui/imgui_internal.h>
 CEditorMgr::CEditorMgr()
@@ -68,6 +69,21 @@ void CEditorMgr::EditorError(const string& _Log)
 void CEditorMgr::EditorTrace(const string& _Log)
 {
 	m_Logger->AddLog(LOG_CATEGORY[2], _Log.c_str());
+}
+
+void CEditorMgr::SetTargetObject(CGameObject* _Target)
+{
+	m_Viewport->SetTargetObject(_Target);
+}
+
+const bool CEditorMgr::IsViewportFocused() const
+{
+	return m_Viewport->IsViewportFocused();
+}
+
+const bool CEditorMgr::IsViewportHovered() const
+{
+	return m_Viewport->IsViewportHovered();
 }
 
 
@@ -447,7 +463,7 @@ void CEditorMgr::EditorObjectUpdate()
 
 void CEditorMgr::ImGuiTick()
 {
-	RenderViewport();
+	m_Viewport->Update();
 
     for (const auto& pair : m_mapUI)
     {
