@@ -7,6 +7,7 @@ CRenderComponent::CRenderComponent(COMPONENT_TYPE _Type)
 	: CComponent(_Type)
 	, m_Mesh(nullptr)
 	, m_Mtrl(nullptr)
+	, m_FrustumCheck(true)
 {
 }
 
@@ -15,6 +16,7 @@ CRenderComponent::CRenderComponent(const CRenderComponent& _Other)
 	, m_Mesh(_Other.m_Mesh)
 	, m_Mtrl(_Other.m_Mtrl)
 	, m_SharedMtrl(_Other.m_Mtrl)
+	, m_FrustumCheck(_Other.m_FrustumCheck)
 {
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
 	if (pCurLevel != nullptr)

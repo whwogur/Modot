@@ -1,6 +1,7 @@
 #pragma once
 #include "CComponent.h"
 class CGameObject;
+class CFrustum;
 
 enum PROJ_TYPE
 {
@@ -14,6 +15,7 @@ class CCamera :
 public:
     CCamera();
     ~CCamera() = default;
+    CCamera(const CCamera& _Other);
     CLONE(CCamera);
 public:
     int GetPriority() const { return m_Priority; }
@@ -102,4 +104,5 @@ private:
     std::vector<CGameObject*>       m_vecParticles;     // 투명, 반투명, 입자 타입
     std::vector<CGameObject*>       m_vecPostProcess;
     std::vector<CGameObject*>       m_vecUI;
+    std::unique_ptr<CFrustum>       m_Frustum;
 };
