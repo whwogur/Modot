@@ -21,7 +21,6 @@ public:
     CFrustum(CCamera* _Owner);
     ~CFrustum() = default;
 
-
 public:
     void FinalTick();
     bool FrustumCheck(Vec3 _WorldPos, float _Radius = 0.f);

@@ -59,7 +59,7 @@ bool IsValid(CGameObject*& _Object)
 	return true;
 }
 
-void DrawDebugRect(Vec3 _Pos, Vec3 _Scale, Vec3 _Rot, Vec4 _Color, float _Life, bool _DepthTest)
+void DrawDebugRect(const Vec3& _Pos, const Vec3& _Scale, const Vec3& _Rot, const Vec4& _Color, float _Life, bool _DepthTest)
 {
 	tDebugShapeInfo Info = {};
 
@@ -94,7 +94,7 @@ void DrawDebugRect(const Matrix& _matWorld, Vec4 _Color, float _Life, bool _Dept
 	CRenderMgr::GetInst()->AddDebugShapeInfo(Info);
 }
 
-void DrawDebugCircle(Vec3 _Pos, float _Radius, Vec4 _Color, float _Life, bool _DepthTest)
+void DrawDebugCircle(const Vec3& _Pos, float _Radius, const Vec4& _Color, float _Life, bool _DepthTest)
 {
 	tDebugShapeInfo Info = {};
 
@@ -114,7 +114,7 @@ void DrawDebugCircle(Vec3 _Pos, float _Radius, Vec4 _Color, float _Life, bool _D
 	CRenderMgr::GetInst()->AddDebugShapeInfo(Info);
 }
 
-void DrawDebugCube(Vec3 _Pos, Vec3 _Scale, Vec3 _Rot, Vec4 _Color, float _Life, bool _DepthTest)
+void DrawDebugCube(const Vec3& _Pos, const Vec3& _Scale, const Vec3& _Rot, const Vec4& _Color, float _Life, bool _DepthTest)
 {
 	tDebugShapeInfo Info = {};
 	Info.Shape = DEBUG_SHAPE::CUBE;
@@ -132,7 +132,7 @@ void DrawDebugCube(Vec3 _Pos, Vec3 _Scale, Vec3 _Rot, Vec4 _Color, float _Life, 
 	CRenderMgr::GetInst()->AddDebugShapeInfo(Info);
 }
 
-void DrawDebugCube(const Matrix& _matWorld, Vec4 _Color, float _Life, bool _DepthTest)
+void DrawDebugCube(const Matrix& _matWorld, const Vec4& _Color, float _Life, bool _DepthTest)
 {
 	tDebugShapeInfo Info = {};
 	Info.Shape = DEBUG_SHAPE::CUBE;
@@ -143,7 +143,7 @@ void DrawDebugCube(const Matrix& _matWorld, Vec4 _Color, float _Life, bool _Dept
 	CRenderMgr::GetInst()->AddDebugShapeInfo(Info);
 }
 
-void DrawDebugSphere(Vec3 _Pos, float _Radius, Vec4 _Color, float _Life, bool _DepthTest)
+void DrawDebugSphere(const Vec3& _Pos, float _Radius, const Vec4& _Color, float _Life, bool _DepthTest)
 {
 	tDebugShapeInfo Info = {};
 	Info.Shape = DEBUG_SHAPE::SPHERE;
@@ -158,7 +158,7 @@ void DrawDebugSphere(Vec3 _Pos, float _Radius, Vec4 _Color, float _Life, bool _D
 	CRenderMgr::GetInst()->AddDebugShapeInfo(Info);
 }
 
-void DrawDebugSphere(const Matrix& _matWorld, Vec4 _Color, float _Life, bool _DepthTest)
+void DrawDebugSphere(const Matrix& _matWorld, const Vec4& _Color, float _Life, bool _DepthTest)
 {
 	tDebugShapeInfo Info = {};
 	Info.Shape = DEBUG_SHAPE::SPHERE;
@@ -169,7 +169,7 @@ void DrawDebugSphere(const Matrix& _matWorld, Vec4 _Color, float _Life, bool _De
 	CRenderMgr::GetInst()->AddDebugShapeInfo(Info);
 }
 
-void DrawDebugLine(Vec3 _Start, Vec3 _End, Vec4 _Color, float _Life, bool _DepthTest)
+void DrawDebugLine(const Vec3& _Start, const Vec3& _End, const Vec4& _Color, float _Life, bool _DepthTest)
 {
 	tDebugShapeInfo Info = {};
 	Info.Shape = DEBUG_SHAPE::LINE;
@@ -181,11 +181,11 @@ void DrawDebugLine(Vec3 _Start, Vec3 _End, Vec4 _Color, float _Life, bool _Depth
 	CRenderMgr::GetInst()->AddDebugShapeInfo(Info);
 }
 
-void DrawDebugCone(const Matrix& _WorldMat, Vec4 _Color, float _Life, bool _DepthTest)
+void DrawDebugCone(const Matrix& _matWorld, const Vec4& _Color, float _Life, bool _DepthTest)
 {
 	tDebugShapeInfo info = {};
 	info.Shape = DEBUG_SHAPE::CONE;
-	info.matWorld = _WorldMat;
+	info.matWorld = _matWorld;
 	info.vColor = _Color;
 	info.DepthTest = _DepthTest;
 	info.LifeTime = _Life;

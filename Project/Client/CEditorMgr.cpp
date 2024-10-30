@@ -448,19 +448,6 @@ void CEditorMgr::SetThemeFutureDark()
 	style.Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.196078434586525f, 0.1764705926179886f, 0.5450980663299561f, 0.501960813999176f);
 }
 
-void CEditorMgr::EditorObjectUpdate()
-{
-    for (size_t i = 0; i < m_vecEditorObject.size(); ++i)
-    {
-        m_vecEditorObject[i]->Tick();
-    }
-
-    for (size_t i = 0; i < m_vecEditorObject.size(); ++i)
-    {
-        m_vecEditorObject[i]->FinalTick();
-    }
-}
-
 void CEditorMgr::ImGuiTick()
 {
 	m_Viewport->Update();
