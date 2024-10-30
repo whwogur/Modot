@@ -9,6 +9,7 @@ CSkyBox::CSkyBox()
 	, m_Type(CUBE)
 {
 	SetSkyBoxType(m_Type);
+	SetFrustumCheck(false);
 }
 
 CSkyBox::CSkyBox(const CSkyBox& _Other)

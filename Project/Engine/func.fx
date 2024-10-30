@@ -102,64 +102,96 @@ void CalculateLightIntensity(float3 vLightDir, float3 _ViewNormal, float3 _ViewP
     SpecularPow = pow(SpecularPow, 15);
 }
 
-void CalculateAttenuation(float3 vLightViewPos, float3 _ViewPos, float LightRadius, out float Ratio, out float SpecRatio)
-{
-    float Distance = length(vLightViewPos - _ViewPos);
-    float CamDistance = length(_ViewPos);
-    
-    // 거리에 따른 감쇠 계산
-    Ratio = saturate(cos((PI / 2.f) * saturate(Distance / LightRadius)));
-    SpecRatio = saturate(cos((PI / 2.f) * saturate(CamDistance / LightRadius)));
-}
-
-float CalculateSpotAttenuation(float3 vLightDir, float3 spotDir, float coneOuter, float coneInner, float falloff)
-{
-    float spotCos = dot(-vLightDir, spotDir); // 스포트라이트와 표면 간의 방향 벡터 내적
-    float spotFactor = saturate((spotCos - coneOuter) / (coneInner - coneOuter)); // 각도 감쇠 계산
-    return pow(spotFactor, falloff);
-}
-
 void CalculateLight3D(int _LightIdx, float3 _ViewNormal, float3 _ViewPos, inout tLight _Light)
 {
     tLightInfo LightInfo = g_Light3D[_LightIdx];
-
+    
     float LightPow = 0.f;
     float SpecularPow = 0.f;
     float Ratio = 1.f;
     float SpecRatio = 1.f;
     
     // Directional Light
-    if (LIGHT_DIRECTIONAL == LightInfo.Type)
+    if (LightInfo.Type == LIGHT_DIRECTIONAL)
     {
+        // VS 에서 받은 노말값으로, 빛의 세기를 PS 에서 직접 구한다음 빛의 세기를 적용
         float3 vLightDir = normalize(mul(float4(LightInfo.WorldDir, 0.f), matView).xyz);
-        CalculateLightIntensity(vLightDir, _ViewNormal, _ViewPos, LightPow, SpecularPow);
+        LightPow = saturate(dot(-vLightDir, _ViewNormal));
+            
+        // 반사광 계산
+        // vR = vL + 2 * dot(-vL, vN) * vN;
+        float3 vReflect = vLightDir + 2 * dot(-vLightDir, _ViewNormal) * _ViewNormal;
+        vReflect = normalize(vReflect);
+            
+        // 카메라에서 물체를 향하는 vEye 를 구한다. 카메라는 원점에 있다.
+        // 픽셀의 뷰스페이스 위치가 곧 카메라에서 물체를 향하는 Eye 방향이다.
+        float3 vEye = normalize(_ViewPos);
+    
+        // 반사 방향과 시선 벡터를 내적해서 둘 사이의 벌어진 각도에 대한 cos 값을 반사광의 세기로 사용한다.
+        SpecularPow = saturate(dot(vReflect, -vEye));
+        SpecularPow = pow(SpecularPow, 15);
     }
     
     // Point Light
-    else if (LIGHT_POINT == LightInfo.Type)
+    else if (LightInfo.Type == LIGHT_POINT)
     {
+        // 표면 위치에서 광원의 위치를 뺀다. 광원에서 표면을 향하는 방향벡터를 구할 수 있다.
         float3 vLightViewPos = mul(float4(LightInfo.WorldPos, 1.f), matView).xyz;
         float3 vLightDir = normalize(_ViewPos - vLightViewPos);
-        
-        CalculateLightIntensity(vLightDir, _ViewNormal, _ViewPos, LightPow, SpecularPow);
-        CalculateAttenuation(vLightViewPos, _ViewPos, LightInfo.Radius, Ratio, SpecRatio);
-    }
+        LightPow = saturate(dot(-vLightDir, _ViewNormal));
+            
+        // 반사광 계산
+        // vR = vL + 2 * dot(-vL, vN) * vN;
+        float3 vReflect = vLightDir + 2 * dot(-vLightDir, _ViewNormal) * _ViewNormal;
+        vReflect = normalize(vReflect);
+            
+        // 카메라에서 물체를 향하는 vEye 를 구한다. 카메라는 원점에 있다.
+        // 픽셀의 뷰스페이스 위치가 곧 카메라에서 물체를 향하는 Eye 방향이다.
+        float3 vEye = normalize(_ViewPos);
     
-    // Spot Light
-    else if (LIGHT_SPOT == LightInfo.Type)
+        // 반사 방향과 시선 벡터를 내적해서 둘 사이의 벌어진 각도에 대한 cos 값을 반사광의 세기로 사용한다.
+        SpecularPow = saturate(dot(vReflect, -vEye));
+        SpecularPow = pow(SpecularPow, 15);
+             
+        // 거리에 따른 빛의 세기 감소량을 계산한다.
+        float Distance = length(vLightViewPos - _ViewPos);
+        float CamDistance = length(_ViewPos);
+        //Ratio = saturate(1.f - (Distance / LightInfo.Radius));
+        Ratio = saturate(cos((PI / 2.f) * saturate(Distance / LightInfo.Radius)));
+        SpecRatio = saturate(cos((PI / 2.f) * saturate(CamDistance / LightInfo.Radius)));
+    }
+    else if (LightInfo.Type == LIGHT_SPOT)
     {
+    // 표면 위치에서 광원의 위치를 뺀다. 광원에서 표면을 향하는 방향벡터를 구할 수 있다.
         float3 vLightViewPos = mul(float4(LightInfo.WorldPos, 1.f), matView).xyz;
         float3 vLightDir = normalize(_ViewPos - vLightViewPos);
-        
-        CalculateLightIntensity(vLightDir, _ViewNormal, _ViewPos, LightPow, SpecularPow);
-        CalculateAttenuation(vLightViewPos, _ViewPos, LightInfo.Radius, Ratio, SpecRatio);
+        float3 vSpotDir = normalize(mul(float4(LightInfo.WorldDir, 0.f), matView).xyz);
 
-        // 스포트라이트 각도 감쇠 계산
-        float3 spotDir = normalize(mul(float4(LightInfo.WorldDir, 0.f), matView).xyz);
-        float spotFactor = CalculateSpotAttenuation(vLightDir, spotDir, LightInfo.ConeOuter, LightInfo.ConeInner, LightInfo.Falloff);
-        Ratio *= spotFactor; // 각도 감쇠 적용
-    }
+    // 스포트라이트 각도에 따른 감쇠 계산
+        float cosAngle = dot(-vLightDir, vSpotDir);
+        float SpotEffect = saturate((cosAngle - cos(radians(LightInfo.ConeOuter))) /
+                                (cos(radians(LightInfo.ConeInner)) - cos(radians(LightInfo.ConeOuter))));
     
+    // 광원의 세기 계산
+        LightPow = saturate(dot(-vLightDir, _ViewNormal)) * SpotEffect;
+    
+    // 반사광 계산
+        float3 vReflect = vLightDir + 2 * dot(-vLightDir, _ViewNormal) * _ViewNormal;
+        vReflect = normalize(vReflect);
+        float3 vEye = normalize(_ViewPos);
+    
+    // 반사 방향과 시선 벡터를 내적해서 둘 사이의 벌어진 각도에 대한 cos 값을 반사광의 세기로 사용한다.
+        SpecularPow = saturate(dot(vReflect, -vEye));
+        SpecularPow = pow(SpecularPow, 15);
+    
+    // 거리에 따른 빛의 세기 감소량을 계산한다.
+        float Distance = length(vLightViewPos - _ViewPos);
+        Ratio = saturate(cos((PI / 2.f) * saturate(Distance / LightInfo.Radius)));
+        SpecRatio = Ratio * SpotEffect;
+    }
+
+      
+    // 표면이 받는 빛 = 광원의 빛 * 표면이 받는 빛의 세기 * 거리에 따른 빛의 감소량
     _Light.Color += LightInfo.light.Color * LightPow * Ratio;
     _Light.Ambient += LightInfo.light.Ambient * Ratio;
     _Light.SpecCoefficient += LightInfo.light.SpecCoefficient * SpecularPow * SpecRatio;

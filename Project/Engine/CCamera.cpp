@@ -13,7 +13,7 @@
 #include "CRenderComponent.h"
 #include "CTransform.h"
 #include "CMRT.h"
-
+#include "CFrustum.h"
 CCamera::CCamera()
 	: CComponent(COMPONENT_TYPE::CAMERA)
 	, m_Priority(-1)
@@ -29,6 +29,23 @@ CCamera::CCamera()
 	m_Width = vResolution.x;
 	m_Height = vResolution.y;
 	m_AspectRatio = m_Width / m_Height;
+
+	m_Frustum = std::make_unique<CFrustum>(this);
+}
+
+CCamera::CCamera(const CCamera& _Other)
+	: CComponent(_Other)
+	, m_Priority(-1)
+	, m_LayerCheck(_Other.m_LayerCheck)
+	, m_ProjType(_Other.m_ProjType)
+	, m_Frustum(nullptr)
+	, m_Width(_Other.m_Width)
+	, m_Height(_Other.m_Height)
+	, m_Far(_Other.m_Far)
+	, m_FOV(_Other.m_FOV)
+	, m_ProjectionScale(_Other.m_ProjectionScale)
+{
+	m_Frustum = std::make_unique<CFrustum>(this);
 }
 
 void CCamera::Begin()
@@ -73,6 +90,8 @@ void CCamera::FinalTick()
 	// 역행렬 계산
 	m_matViewInv = XMMatrixInverse(nullptr, m_matView);
 	m_matProjInv = XMMatrixInverse(nullptr, m_matProj);
+
+	m_Frustum->FinalTick();
 }
 
 void CCamera::SortGameObject()
@@ -91,15 +110,26 @@ void CCamera::SortGameObject()
 		const std::vector<CGameObject*>& vecObjects = pLayer->GetObjects();
 		for (size_t j = 0; j < vecObjects.size(); ++j)
 		{
-			if (nullptr == vecObjects[j]->GetRenderComponent()
-				|| nullptr == vecObjects[j]->GetRenderComponent()->GetMesh()
-				|| nullptr == vecObjects[j]->GetRenderComponent()->GetMaterial()
-				|| nullptr == vecObjects[j]->GetRenderComponent()->GetMaterial()->GetShader())
+			CRenderComponent* Rcomp = vecObjects[j]->GetRenderComponent();
+			if (Rcomp == nullptr)
+				continue;
+
+			if ( nullptr == Rcomp->GetMesh() ||
+				 nullptr == Rcomp->GetMaterial() ||
+				 nullptr == Rcomp->GetMaterial()->GetShader())
 			{
 				continue;
 			}
 
-			Ptr<CGraphicShader> pShader = vecObjects[j]->GetRenderComponent()->GetMaterial()->GetShader();
+			// 절두체 검사를 진행 함, 실패 함
+			if (Rcomp->ChecksFrustum()
+				&& m_Frustum->FrustumCheck(vecObjects[j]->Transform()->GetWorldPos()
+												  , vecObjects[j]->Transform()->GetWorldScale().x / 2.f) == false)
+			{
+				continue;
+			}
+
+			Ptr<CGraphicShader> pShader = Rcomp->GetMaterial()->GetShader();
 			SHADER_DOMAIN Domain = pShader->GetDomain();
 
 			switch (Domain)

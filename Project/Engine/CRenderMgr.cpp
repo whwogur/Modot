@@ -233,7 +233,6 @@ void CRenderMgr::Render(CCamera* _Cam)
 
 void CRenderMgr::Render_Sub(CCamera* _Cam)
 {
-
 }
 
 void CRenderMgr::Clear()
@@ -274,6 +273,9 @@ void CRenderMgr::RenderDebugShape()
 			m_DebugObject->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"SphereMesh"));
 			m_DebugObject->MeshRender()->GetMaterial()->GetShader()->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 			m_DebugObject->MeshRender()->GetMaterial()->GetShader()->SetRSType(RS_TYPE::CULL_FRONT);
+			break;
+		case DEBUG_SHAPE::CONE:
+			m_DebugObject->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"ConeMesh"));
 			break;
 		}
 

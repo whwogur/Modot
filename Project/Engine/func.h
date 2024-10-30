@@ -14,6 +14,7 @@ void DrawDebugCube(const Matrix& _matWorld, Vec4 _Color, float _Life, bool _Dept
 void DrawDebugSphere(Vec3 _Pos, float _Radius, Vec4 _Color, float _Life, bool _DepthTest);
 void DrawDebugSphere(const Matrix& _matWorld, Vec4 _Color, float _Life, bool _DepthTest);
 void DrawDebugLine(Vec3 _Start, Vec3 _End, Vec4 _Color, float _Life, bool _DepthTest);
+void DrawDebugCone(const Matrix& _matWorld, Vec4 _Color, float _Life, bool _DepthTest);
 
 void SaveWString(const wstring& _String, FILE* _File);
 void LoadWString(wstring& _String, FILE* _File);

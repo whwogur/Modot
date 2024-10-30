@@ -21,428 +21,151 @@ void CAssetMgr::Init()
 
 void CAssetMgr::CreateEngineMesh()
 {
-	Ptr<CMesh> pMesh = nullptr;
-	Vtx v;
-
-	// PointMesh
-	pMesh = new CMesh();
-	v.vPos = Vec3(0.f, 0.f, 0.f);
-	v.vColor = Vec4(0.f, 0.f, 0.f, 1.f);
-	v.vUV = Vec2(0.f, 0.f);
-
-	UINT i = 0;
-	pMesh->Create(&v, 1, &i, 1);
-	AddAsset(L"PointMesh", pMesh);
-	pMesh->SetEngineAsset();
-
-	// RectMesh 생성	
-	// 0 -- 1
-	// | \  |
-	// 3 -- 2
-	Vtx arrVtx[4] = {};
-
-	v.vPos = Vec3(-0.5f, 0.5f, 0.f);
-	v.vColor = Vec4(1.f, 0.f, 0.f, 1.f);
-	v.vUV = Vec2(0.f, 0.f);
-	v.vTangent = Vec3(1.f, 0.f, 0.f);
-	v.vNormal = Vec3(0.f, 0.f, -1.f);
-	v.vBinormal = Vec3(0.f, -1.f, 0.f);
-	arrVtx[0] = v;
-
-	v.vPos = Vec3(0.5f, 0.5f, 0.f);
-	v.vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-	v.vUV = Vec2(1.f, 0.f);
-	arrVtx[1] = v;
-
-	v.vPos = Vec3(0.5f, -0.5f, 0.f);
-	v.vColor = Vec4(0.f, 0.f, 1.f, 1.f);
-	v.vUV = Vec2(1.f, 1.f);
-	arrVtx[2] = v;
-
-	v.vPos = Vec3(-0.5f, -0.5f, 0.f);
-	v.vColor = Vec4(1.f, 0.f, 0.f, 1.f);
-	v.vUV = Vec2(0.f, 1.f);
-	arrVtx[3] = v;
-
-	// Index 버퍼 생성
-	UINT arrIdx[6] = {};
-	arrIdx[0] = 0;	arrIdx[1] = 1;	arrIdx[2] = 2;
-	arrIdx[3] = 0; 	arrIdx[4] = 2;	arrIdx[5] = 3;
-
-	pMesh = new CMesh();
-	pMesh->Create(arrVtx, 4, arrIdx, 6);
-	pMesh->SetEngineAsset();
-	AddAsset(L"RectMesh", pMesh);
-
-	// RectMesh_Debug
-	arrIdx[0] = 0;	arrIdx[1] = 1;	arrIdx[2] = 2; arrIdx[3] = 3; arrIdx[4] = 0;
-
-	pMesh = new CMesh();
-	pMesh->Create(arrVtx, 4, arrIdx, 5);
-	pMesh->SetEngineAsset();
-	AddAsset(L"RectMesh_Debug", pMesh);
-
-	// CircleMesh 
-	std::vector<Vtx> vecVtx;
-	std::vector<UINT> vecIdx;
-
-	int Slice = 40;
-	float fTheta = XM_2PI / Slice;
-	float Radius = 0.5f;
-
-	// 중심점
-	v.vPos = Vec3(0.f, 0.f, 0.f);
-	v.vUV = Vec2(0.5f, 0.5f);
-	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-	v.vTangent = Vec3(1.f, 0.f, 0.f);
-	v.vNormal = Vec3(0.f, 0.f, -1.f);
-	v.vBinormal = Vec3(0.f, -1.f, 0.f);
-	vecVtx.push_back(v);
-
-	// 테두리
-	float Angle = 0.f;
-	for (int i = 0; i < Slice + 1; ++i)
+	// ==========
+	//    Point
+	// ==========
 	{
-		v.vPos = Vec3(Radius * cosf(Angle), Radius * sinf(Angle), 0.f);
-		v.vUV = Vec2(v.vPos.x + 0.5f, -(v.vPos.y - 0.5f));
-		v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-		vecVtx.push_back(v);
-
-		Angle += fTheta;
+		auto mesh = MakePoint();
+		Ptr<CMesh> pMesh = new CMesh();
+		pMesh->SetEngineAsset();
+		pMesh->Create(mesh.vertices.data(), (UINT)mesh.vertices.size(), mesh.indices.data(), (UINT)mesh.indices.size());
+		pMesh->SetName(L"PointMesh");
+		AddAsset(L"PointMesh", pMesh);
 	}
 
-	// 인덱스
-	for (int i = 0; i < Slice; ++i)
+	// ==========
+	//    Rect
+	// ==========
 	{
-		vecIdx.push_back(0);
-		vecIdx.push_back(i + 2);
-		vecIdx.push_back(i + 1);
+		auto mesh = MakeRect();
+		Ptr<CMesh> pMesh = new CMesh();
+		pMesh->SetEngineAsset();
+		pMesh->Create(mesh.vertices.data(), (UINT)mesh.vertices.size(), mesh.indices.data(), (UINT)mesh.indices.size());
+		pMesh->SetName(L"RectMesh");
+		AddAsset(L"RectMesh", pMesh);
 	}
 
-	pMesh = new CMesh();
-	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
-	pMesh->SetEngineAsset();
-	AddAsset(L"CircleMesh", pMesh);
-
-	// CircleMesh_Debug
-	vecIdx.clear();
-	for (size_t i = 1; i < vecVtx.size(); ++i)
+	// ==========
+	// Debug Rect
+	// ==========
 	{
-		vecIdx.push_back((UINT)i);
+		auto mesh = MakeRectDebug();
+		Ptr<CMesh> pMesh = new CMesh();
+		pMesh->SetEngineAsset();
+		pMesh->Create(mesh.vertices.data(), (UINT)mesh.vertices.size(), mesh.indices.data(), (UINT)mesh.indices.size());
+		pMesh->SetName(L"RectMesh_Debug");
+		AddAsset(L"RectMesh_Debug", pMesh);
 	}
 
-	pMesh = new CMesh();
-	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
-	pMesh->SetEngineAsset();
-	AddAsset(L"CircleMesh_Debug", pMesh);
-	vecIdx.clear();
-
-	// CubeMesh
-	// 24개의 정점이 필요
-	// 평면 하나당 정점 4개 x 6면 = 24개
-	Vtx arrCube[24] = {};
-
-	// 윗면
-	arrCube[0].vPos = Vec3(-0.5f, 0.5f, 0.5f);
-	arrCube[0].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-	arrCube[0].vUV = Vec2(0.f, 0.f);
-	arrCube[0].vTangent = Vec3(1.f, 0.f, 0.f);
-	arrCube[0].vNormal = Vec3(0.f, 1.f, 0.f);
-	arrCube[0].vBinormal = Vec3(0.f, 0.f, -1.f);
-
-	arrCube[1].vPos = Vec3(0.5f, 0.5f, 0.5f);
-	arrCube[1].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-	arrCube[1].vUV = Vec2(1.f, 0.f);
-	arrCube[1].vTangent = Vec3(1.f, 0.f, 0.f);
-	arrCube[1].vNormal = Vec3(0.f, 1.f, 0.f);
-	arrCube[1].vBinormal = Vec3(0.f, 0.f, -1.f);
-
-	arrCube[2].vPos = Vec3(0.5f, 0.5f, -0.5f);
-	arrCube[2].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-	arrCube[2].vUV = Vec2(1.f, 1.f);
-	arrCube[2].vTangent = Vec3(1.f, 0.f, 0.f);
-	arrCube[2].vNormal = Vec3(0.f, 1.f, 0.f);
-	arrCube[2].vBinormal = Vec3(0.f, 0.f, -1.f);
-
-	arrCube[3].vPos = Vec3(-0.5f, 0.5f, -0.5f);
-	arrCube[3].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-	arrCube[3].vUV = Vec2(0.f, 1.f);
-	arrCube[3].vTangent = Vec3(1.f, 0.f, 0.f);
-	arrCube[3].vNormal = Vec3(0.f, 1.f, 0.f);
-	arrCube[3].vBinormal = Vec3(0.f, 0.f, -1.f);
-
-
-	// 아랫 면	
-	arrCube[4].vPos = Vec3(-0.5f, -0.5f, -0.5f);
-	arrCube[4].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
-	arrCube[4].vUV = Vec2(0.f, 0.f);
-	arrCube[4].vTangent = Vec3(1.f, 0.f, 0.f);
-	arrCube[4].vNormal = Vec3(0.f, -1.f, 0.f);
-	arrCube[4].vBinormal = Vec3(0.f, 0.f, 1.f);
-
-	arrCube[5].vPos = Vec3(0.5f, -0.5f, -0.5f);
-	arrCube[5].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
-	arrCube[5].vUV = Vec2(1.f, 0.f);
-	arrCube[5].vTangent = Vec3(1.f, 0.f, 0.f);
-	arrCube[5].vNormal = Vec3(0.f, -1.f, 0.f);
-	arrCube[5].vBinormal = Vec3(0.f, 0.f, 1.f);
-
-	arrCube[6].vPos = Vec3(0.5f, -0.5f, 0.5f);
-	arrCube[6].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
-	arrCube[6].vUV = Vec2(1.f, 1.f);
-	arrCube[6].vTangent = Vec3(1.f, 0.f, 0.f);
-	arrCube[6].vNormal = Vec3(0.f, -1.f, 0.f);
-	arrCube[6].vBinormal = Vec3(0.f, 0.f, 1.f);
-
-	arrCube[7].vPos = Vec3(-0.5f, -0.5f, 0.5f);
-	arrCube[7].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
-	arrCube[7].vUV = Vec2(0.f, 1.f);
-	arrCube[7].vTangent = Vec3(1.f, 0.f, 0.f);
-	arrCube[7].vNormal = Vec3(0.f, -1.f, 0.f);
-	arrCube[7].vBinormal = Vec3(0.f, 0.f, 1.f);
-
-	// 왼쪽 면
-	arrCube[8].vPos = Vec3(-0.5f, 0.5f, 0.5f);
-	arrCube[8].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-	arrCube[8].vUV = Vec2(0.f, 0.f);
-	arrCube[8].vTangent = Vec3(0.f, 0.f, -1.f);
-	arrCube[8].vNormal = Vec3(-1.f, 0.f, 0.f);
-	arrCube[8].vBinormal = Vec3(0.f, -1.f, 0.f);
-
-	arrCube[9].vPos = Vec3(-0.5f, 0.5f, -0.5f);
-	arrCube[9].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-	arrCube[9].vUV = Vec2(1.f, 0.f);
-	arrCube[9].vTangent = Vec3(0.f, 0.f, -1.f);
-	arrCube[9].vNormal = Vec3(-1.f, 0.f, 0.f);
-	arrCube[9].vBinormal = Vec3(0.f, -1.f, 0.f);
-
-	arrCube[10].vPos = Vec3(-0.5f, -0.5f, -0.5f);
-	arrCube[10].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-	arrCube[10].vUV = Vec2(1.f, 1.f);
-	arrCube[10].vTangent = Vec3(0.f, 0.f, -1.f);
-	arrCube[10].vNormal = Vec3(-1.f, 0.f, 0.f);
-	arrCube[10].vBinormal = Vec3(0.f, -1.f, 0.f);
-
-	arrCube[11].vPos = Vec3(-0.5f, -0.5f, 0.5f);
-	arrCube[11].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-	arrCube[11].vUV = Vec2(0.f, 1.f);
-	arrCube[11].vTangent = Vec3(0.f, 0.f, -1.f);
-	arrCube[11].vNormal = Vec3(-1.f, 0.f, 0.f);
-	arrCube[11].vBinormal = Vec3(0.f, -1.f, 0.f);
-
-	// 오른쪽 면
-	arrCube[12].vPos = Vec3(0.5f, 0.5f, -0.5f);
-	arrCube[12].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
-	arrCube[12].vUV = Vec2(0.f, 0.f);
-	arrCube[12].vTangent = Vec3(0.f, 0.f, 1.f);
-	arrCube[12].vNormal = Vec3(1.f, 0.f, 0.f);
-	arrCube[12].vBinormal = Vec3(0.f, -1.f, 0.f);
-
-	arrCube[13].vPos = Vec3(0.5f, 0.5f, 0.5f);
-	arrCube[13].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
-	arrCube[13].vUV = Vec2(1.f, 0.f);
-	arrCube[13].vTangent = Vec3(0.f, 0.f, 1.f);
-	arrCube[13].vNormal = Vec3(1.f, 0.f, 0.f);
-	arrCube[13].vBinormal = Vec3(0.f, -1.f, 0.f);
-
-	arrCube[14].vPos = Vec3(0.5f, -0.5f, 0.5f);
-	arrCube[14].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
-	arrCube[14].vUV = Vec2(1.f, 1.f);
-	arrCube[14].vTangent = Vec3(0.f, 0.f, 1.f);
-	arrCube[14].vNormal = Vec3(1.f, 0.f, 0.f);
-	arrCube[14].vBinormal = Vec3(0.f, -1.f, 0.f);
-
-	arrCube[15].vPos = Vec3(0.5f, -0.5f, -0.5f);
-	arrCube[15].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
-	arrCube[15].vUV = Vec2(0.f, 1.f);
-	arrCube[15].vTangent = Vec3(0.f, 0.f, 1.f);
-	arrCube[15].vNormal = Vec3(1.f, 0.f, 0.f);
-	arrCube[15].vBinormal = Vec3(0.f, -1.f, 0.f);
-
-	// 뒷 면
-	arrCube[16].vPos = Vec3(0.5f, 0.5f, 0.5f);
-	arrCube[16].vColor = Vec4(1.f, 1.f, 0.f, 1.f);
-	arrCube[16].vUV = Vec2(0.f, 0.f);
-	arrCube[16].vTangent = Vec3(-1.f, 0.f, 0.f);
-	arrCube[16].vNormal = Vec3(0.f, 0.f, 1.f);
-	arrCube[16].vBinormal = Vec3(0.f, -1.f, 1.f);
-
-	arrCube[17].vPos = Vec3(-0.5f, 0.5f, 0.5f);
-	arrCube[17].vColor = Vec4(1.f, 1.f, 0.f, 1.f);
-	arrCube[17].vUV = Vec2(1.f, 0.f);
-	arrCube[17].vTangent = Vec3(-1.f, 0.f, 0.f);
-	arrCube[17].vNormal = Vec3(0.f, 0.f, 1.f);
-	arrCube[17].vBinormal = Vec3(0.f, -1.f, 1.f);
-
-	arrCube[18].vPos = Vec3(-0.5f, -0.5f, 0.5f);
-	arrCube[18].vColor = Vec4(1.f, 1.f, 0.f, 1.f);
-	arrCube[18].vUV = Vec2(1.f, 1.f);
-	arrCube[18].vTangent = Vec3(-1.f, 0.f, 0.f);
-	arrCube[18].vNormal = Vec3(0.f, 0.f, 1.f);
-	arrCube[18].vBinormal = Vec3(0.f, -1.f, 1.f);
-
-	arrCube[19].vPos = Vec3(0.5f, -0.5f, 0.5f);
-	arrCube[19].vColor = Vec4(1.f, 1.f, 0.f, 1.f);
-	arrCube[19].vUV = Vec2(0.f, 1.f);
-	arrCube[19].vTangent = Vec3(-1.f, 0.f, 0.f);
-	arrCube[19].vNormal = Vec3(0.f, 0.f, 1.f);
-	arrCube[19].vBinormal = Vec3(0.f, -1.f, 1.f);
-
-	// 앞 면
-	arrCube[20].vPos = Vec3(-0.5f, 0.5f, -0.5f);
-	arrCube[20].vColor = Vec4(1.f, 0.f, 1.f, 1.f);
-	arrCube[20].vUV = Vec2(0.f, 0.f);
-	arrCube[20].vTangent = Vec3(1.f, 0.f, 0.f);
-	arrCube[20].vNormal = Vec3(0.f, 0.f, -1.f);
-	arrCube[20].vBinormal = Vec3(0.f, -1.f, 0.f);
-
-	arrCube[21].vPos = Vec3(0.5f, 0.5f, -0.5f);
-	arrCube[21].vColor = Vec4(1.f, 0.f, 1.f, 1.f);
-	arrCube[21].vUV = Vec2(1.f, 0.f);
-	arrCube[21].vTangent = Vec3(1.f, 0.f, 0.f);
-	arrCube[21].vNormal = Vec3(0.f, 0.f, -1.f);
-	arrCube[21].vBinormal = Vec3(0.f, -1.f, 0.f);
-
-	arrCube[22].vPos = Vec3(0.5f, -0.5f, -0.5f);
-	arrCube[22].vColor = Vec4(1.f, 0.f, 1.f, 1.f);
-	arrCube[22].vUV = Vec2(1.f, 1.f);
-	arrCube[22].vTangent = Vec3(1.f, 0.f, 0.f);
-	arrCube[22].vNormal = Vec3(0.f, 0.f, -1.f);
-	arrCube[22].vBinormal = Vec3(0.f, -1.f, 0.f);
-
-	arrCube[23].vPos = Vec3(-0.5f, -0.5f, -0.5f);
-	arrCube[23].vColor = Vec4(1.f, 0.f, 1.f, 1.f);
-	arrCube[23].vUV = Vec2(0.f, 1.f);
-	arrCube[23].vTangent = Vec3(1.f, 0.f, 0.f);
-	arrCube[23].vNormal = Vec3(0.f, 0.f, -1.f);
-	arrCube[23].vBinormal = Vec3(0.f, -1.f, 0.f);
-
-	// 인덱스
-	for (int i = 0; i < 12; i += 2)
+	// ==========
+	// RectGrid
+	// ==========
 	{
-		vecIdx.push_back(i * 2);
-		vecIdx.push_back(i * 2 + 1);
-		vecIdx.push_back(i * 2 + 2);
-
-		vecIdx.push_back(i * 2);
-		vecIdx.push_back(i * 2 + 2);
-		vecIdx.push_back(i * 2 + 3);
+		auto mesh = MakeRectGrid(100, 100);
+		Ptr<CMesh> pMesh = new CMesh();
+		pMesh->SetEngineAsset();
+		pMesh->Create(mesh.vertices.data(), (UINT)mesh.vertices.size(), mesh.indices.data(), (UINT)mesh.indices.size());
+		pMesh->SetName(L"RectGridMesh");
+		AddAsset(L"RectGridMesh", pMesh);
 	}
 
-	pMesh = new CMesh();
-	pMesh->Create(arrCube, 24, vecIdx.data(), (UINT)vecIdx.size());
-	AddAsset(L"CubeMesh", pMesh);
-	pMesh->SetEngineAsset();
+	// ==========
+	//   Circle
+	// ==========
+	{
+		auto mesh = MakeCircle(0.5f, 40);
+		Ptr<CMesh> pMesh = new CMesh();
+		pMesh->SetEngineAsset();
+		pMesh->Create(mesh.vertices.data(), (UINT)mesh.vertices.size(), mesh.indices.data(), (UINT)mesh.indices.size());
+		pMesh->SetName(L"CircleMesh");
+		AddAsset(L"CircleMesh", pMesh);
+	}
 
-	vecIdx.clear();
+	// ============
+	// Debug Circle
+	// ============
+	{
+		auto mesh = MakeCircleDebug(0.5f, 40);
+		Ptr<CMesh> pMesh = new CMesh();
+		pMesh->SetEngineAsset();
+		pMesh->Create(mesh.vertices.data(), (UINT)mesh.vertices.size(), mesh.indices.data(), (UINT)mesh.indices.size());
+		pMesh->SetName(L"CircleMesh_Debug");
+		AddAsset(L"CircleMesh_Debug", pMesh);
+	}
 
-	// CubeMesh - DEBUG
+	// ==========
+	//    Cube
+	// ==========
+	{
+		auto mesh = MakeCube();
+		Ptr<CMesh> pMesh = new CMesh();
+		pMesh->Create(mesh.vertices.data(), (UINT)mesh.vertices.size(), mesh.indices.data(), (UINT)mesh.indices.size());
+		pMesh->SetName(L"CubeMesh");
+		AddAsset(L"CubeMesh", pMesh);
+
+	// ==========
+	// Cube Debug
+	// ==========
+		mesh.indices.clear();
+		mesh.indices.resize(16);
+		mesh.indices = {
+			0, 1, 2, 3, 4,
+			7, 6, 5, 4, 3,
+			0, 7, 6, 1, 2, 5
+		};
+		pMesh = new CMesh();
+		pMesh->SetEngineAsset();
+		pMesh->Create(mesh.vertices.data(), (UINT)mesh.vertices.size(), mesh.indices.data(), (UINT)mesh.indices.size());
+		pMesh->SetName(L"CubeMesh_Debug");
+		AddAsset(L"CubeMesh_Debug", pMesh);
+	}
+
+	// ============
+	//	  Sphere
+	// ============
+	{
+		auto mesh = MakeSphere(1, 25, 25);
+		Ptr<CMesh> pMesh = new CMesh();
+		pMesh->SetEngineAsset();
+		pMesh->Create(mesh.vertices.data(), (UINT)mesh.vertices.size(), mesh.indices.data(), (UINT)mesh.indices.size());
+		pMesh->SetName(L"SphereMesh");
+		AddAsset(L"SphereMesh", pMesh);
+	}
+
+	// =========
+	//   Cone
+	// =========
+	{
+		tMeshData meshData = MakeCone(0.5f, 1.f);
+		Ptr<CMesh> pMesh = new CMesh();
+		pMesh->SetEngineAsset();
+		pMesh->Create(meshData.vertices.data(), (UINT)meshData.vertices.size(), meshData.indices.data(), (UINT)meshData.indices.size());
+		AddAsset(L"ConeMesh", pMesh);
+	}
 	
-	vecIdx.push_back(0); vecIdx.push_back(1); vecIdx.push_back(2); vecIdx.push_back(3); vecIdx.push_back(4);
-	vecIdx.push_back(7); vecIdx.push_back(6); vecIdx.push_back(5); vecIdx.push_back(4); vecIdx.push_back(3);
-	vecIdx.push_back(0); vecIdx.push_back(7); vecIdx.push_back(6); vecIdx.push_back(1); vecIdx.push_back(2);
-	vecIdx.push_back(5);
+	// ===========
+	//   Cylinder
+	// ===========
+	{
+		auto mesh = MakeCylinder(0.5f, 0.5f, 0.5f, 100);
+		Ptr<CMesh> pMesh = new CMesh();
+		pMesh->SetEngineAsset();
+		pMesh->Create(mesh.vertices.data(), (UINT)mesh.vertices.size(), mesh.indices.data(), (UINT)mesh.indices.size());
+		pMesh->SetName(L"CylinderMesh");
+		AddAsset(L"CylinderMesh", pMesh);
+	}
 
-	pMesh = new CMesh();
-	pMesh->SetEngineAsset();
-	pMesh->Create(arrCube, 24, vecIdx.data(), (UINT)vecIdx.size());
-	AddAsset(L"CubeMesh_Debug", pMesh);
-
-	vecVtx.clear();
-	vecIdx.clear();
-
-	// ============
-	// Sphere Mesh
-	// ============
-	float fRadius = 0.5f;
-	// Top
-	v.vPos = Vec3(0.f, fRadius, 0.f);
-	v.vUV = Vec2(0.5f, 0.f);
-	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-	v.vNormal = v.vPos;
-	v.vNormal.Normalize();
-	v.vTangent = Vec3(1.f, 0.f, 0.f);
-	v.vBinormal = Vec3(0.f, 0.f, -1.f);
-	vecVtx.push_back(v);
-	// Body
-	UINT iStackCount = 40; // 가로 분할 개수
-	UINT iSliceCount = 40; // 세로 분할 개수
-	float fStackAngle = XM_PI / iStackCount;
-	float fSliceAngle = XM_2PI / iSliceCount;
-	float fUVXStep = 1.f / (float)iSliceCount;
-	float fUVYStep = 1.f / (float)iStackCount;
-	for (UINT i = 1; i < iStackCount; ++i)
+	// ===========
+	//   Capsule
+	// ===========
 	{
-		float phi = i * fStackAngle;
-		for (UINT j = 0; j <= iSliceCount; ++j)
-		{
-			float theta = j * fSliceAngle;
-			v.vPos = Vec3(fRadius * sinf(i * fStackAngle) * cosf(j * fSliceAngle)
-				, fRadius * cosf(i * fStackAngle)
-				, fRadius * sinf(i * fStackAngle) * sinf(j * fSliceAngle));
-			v.vUV = Vec2(fUVXStep * j, fUVYStep * i);
-			v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-			v.vNormal = v.vPos;
-			v.vNormal.Normalize();
-			v.vTangent.x = -fRadius * sinf(phi) * sinf(theta);
-			v.vTangent.y = 0.f;
-			v.vTangent.z = fRadius * sinf(phi) * cosf(theta);
-			v.vTangent.Normalize();
-			v.vNormal.Cross(v.vTangent, v.vBinormal);
-			v.vBinormal.Normalize();
-			vecVtx.emplace_back(v);
-		}
+		auto mesh = MakeCapsule(0.5f, 0.5f, 30);
+		Ptr<CMesh> pMesh = new CMesh();
+		pMesh->SetEngineAsset();
+		pMesh->Create(mesh.vertices.data(), (UINT)mesh.vertices.size(), mesh.indices.data(), (UINT)mesh.indices.size());
+		pMesh->SetName(L"CapsuleMesh");
+		AddAsset(L"CapsuleMesh", pMesh);
 	}
-	// Bottom
-	v.vPos = Vec3(0.f, -fRadius, 0.f);
-	v.vUV = Vec2(0.5f, 1.f);
-	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-	v.vNormal = v.vPos;
-	v.vNormal.Normalize();
-	v.vTangent = Vec3(1.f, 0.f, 0.f);
-	v.vBinormal = Vec3(0.f, 0.f, -1.f);
-	vecVtx.push_back(v);
-	// 인덱스
-	// 북극점
-	for (UINT i = 0; i < iSliceCount; ++i)
-	{
-		vecIdx.push_back(0);
-		vecIdx.push_back(i + 2);
-		vecIdx.push_back(i + 1);
-	}
-	// 몸통
-	for (UINT i = 0; i < iStackCount - 2; ++i)
-	{
-		for (UINT j = 0; j < iSliceCount; ++j)
-		{
-			// + 
-			// | \
-			// +--+
-			vecIdx.push_back((iSliceCount + 1) * (i)+(j)+1);
-			vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j + 1) + 1);
-			vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j)+1);
-			// +--+
-			//  \ |
-			//    +
-			vecIdx.push_back((iSliceCount + 1) * (i)+(j)+1);
-			vecIdx.push_back((iSliceCount + 1) * (i)+(j + 1) + 1);
-			vecIdx.push_back((iSliceCount + 1) * (i + 1) + (j + 1) + 1);
-		}
-	}
-	// 남극점
-	UINT iBottomIdx = (UINT)vecVtx.size() - 1;
-	for (UINT i = 0; i < iSliceCount; ++i)
-	{
-		vecIdx.push_back(iBottomIdx);
-		vecIdx.push_back(iBottomIdx - (i + 2));
-		vecIdx.push_back(iBottomIdx - (i + 1));
-	}
-	pMesh = new CMesh();
-	pMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
-	AddAsset(L"SphereMesh", pMesh);
-	pMesh->SetEngineAsset();
-	vecVtx.clear();
-	vecIdx.clear();
 }
 
 void CAssetMgr::CreateEngineTexture()
@@ -726,4 +449,631 @@ void CAssetMgr::CreateEngineMaterial()
 void CAssetMgr::LoadSound()
 {
 	
+}
+
+tMeshData CAssetMgr::MakeCone(const float _Radius, const float _Height)
+{
+	tMeshData meshData;
+	Vtx v;
+
+	// Top
+	v.vPos = Vec3(0.f, 0.f, 0.f);
+	v.vUV = Vec2(0.5f, 0.f);
+	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	v.vNormal = Vec3(0.f, 0.f, -1.f);
+	v.vTangent = Vec3(1.f, 0.f, 0.f);
+	meshData.vertices.emplace_back(v);
+
+	// Body
+	UINT iSliceCount = 40;
+
+	float fSliceAngle = XM_2PI / iSliceCount;
+
+	float fUVXStep = 1.f / (float)iSliceCount;
+	float fUVYStep = 1.f;
+
+	for (UINT i = 0; i <= iSliceCount; ++i)
+	{
+		float theta = i * fSliceAngle;
+
+		v.vPos = Vec3(_Radius * cosf(theta), _Radius * sinf(theta), _Height);
+		v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+		v.vUV = Vec2(fUVXStep * i, fUVYStep);
+
+		v.vNormal = Vec3(0.f, 0.f, 1.f);
+		v.vTangent = Vec3(1.f, 0.f, 0.f);
+		v.vNormal.Cross(v.vTangent, v.vBinormal);
+		v.vBinormal.Normalize();
+		meshData.vertices.emplace_back(v);
+
+		// 인덱스
+		if (i < iSliceCount)
+		{
+			meshData.indices.emplace_back(0);
+			meshData.indices.emplace_back(i + 2);
+			meshData.indices.emplace_back(i + 1);
+		}
+	}
+
+	tMeshData circle2D = MakeCircle(_Radius, iSliceCount);
+	{
+		int offset = int(meshData.vertices.size());
+
+		for (auto& vtx : circle2D.vertices)
+		{
+			vtx.vPos = Vector3::Transform(vtx.vPos, Matrix::CreateRotationX(XM_PI));
+			vtx.vPos.z += _Height;
+			meshData.vertices.emplace_back(vtx);
+		}
+
+		for (const auto& index : circle2D.indices)
+		{
+			meshData.indices.emplace_back(index + offset);
+		}
+	}
+
+	return meshData;
+}
+
+tMeshData CAssetMgr::MakeCircle(const float _Radius, const int _SliceCnt)
+{
+	tMeshData meshData;
+	Vtx v;
+
+	// 중심 점
+	v.vPos = Vec3(0.f, 0.f, 0.f);
+	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	v.vUV = Vec2(0.5f, 0.5f);
+	meshData.vertices.emplace_back(v);
+
+	float fTheta = 0.f;
+
+	for (int i = 0; i <= _SliceCnt; ++i)
+	{
+		fTheta = (XM_2PI / _SliceCnt) * i;
+
+		v.vPos = Vec3(_Radius * cosf(fTheta), _Radius * sinf(fTheta), 0.f);
+		v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+		v.vUV = Vec2(cosf(fTheta), sinf(fTheta));
+
+		v.vNormal = Vec3(0.f, 0.f, -1.f);
+		v.vTangent = Vec3(1.f, 0.f, 0.f);
+		v.vNormal.Cross(v.vTangent, v.vBinormal);
+		v.vBinormal.Normalize();
+
+		meshData.vertices.emplace_back(v);
+	}
+
+	for (int i = 0; i < _SliceCnt; ++i)
+	{
+		meshData.indices.emplace_back(0);
+		meshData.indices.emplace_back(i + 2);
+		meshData.indices.emplace_back(i + 1);
+	}
+
+	return meshData;
+}
+
+tMeshData CAssetMgr::MakePoint()
+{
+	tMeshData meshData;
+	Vtx v;
+	v.vPos = Vec3(0.f, 0.f, 0.f);
+	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	v.vUV = Vec2(0.5f, 0.5f);
+
+	v.vNormal = Vec3(0.f, 0.f, -1.f);
+	v.vTangent = Vec3(1.f, 0.f, 0.f);
+	v.vNormal.Cross(v.vTangent, v.vBinormal);
+	v.vBinormal.Normalize();
+
+	meshData.vertices.emplace_back(v);
+	meshData.indices.emplace_back(0);
+
+	return meshData;
+}
+
+tMeshData CAssetMgr::MakeRect()
+{
+	std::vector<Vec3> positions;
+	std::vector<Vec3> colors;
+	std::vector<Vec3> normals;
+	std::vector<Vec2> texcoords;
+	std::vector<Vec3> tangents;
+
+	// 앞면
+	positions.emplace_back(Vec3(-0.5f, 0.5f, 0.0f));
+	positions.emplace_back(Vec3(0.5f, 0.5f, 0.0f));
+	positions.emplace_back(Vec3(0.5f, -0.5f, 0.0f));
+	positions.emplace_back(Vec3(-0.5f, -0.5f, 0.0f));
+	colors.emplace_back(Vec3(1.0f, 1.0f, 1.0f));
+	colors.emplace_back(Vec3(1.0f, 1.0f, 1.0f));
+	colors.emplace_back(Vec3(1.0f, 1.0f, 1.0f));
+	colors.emplace_back(Vec3(1.0f, 1.0f, 1.0f));
+	normals.emplace_back(Vec3(0.0f, 0.0f, -1.0f));
+	normals.emplace_back(Vec3(0.0f, 0.0f, -1.0f));
+	normals.emplace_back(Vec3(0.0f, 0.0f, -1.0f));
+	normals.emplace_back(Vec3(0.0f, 0.0f, -1.0f));
+
+	texcoords.emplace_back(Vec2(0.0f, 0.0f));
+	texcoords.emplace_back(Vec2(1.0f, 0.0f));
+	texcoords.emplace_back(Vec2(1.0f, 1.0f));
+	texcoords.emplace_back(Vec2(0.0f, 1.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+
+	tMeshData meshData;
+
+	for (size_t i = 0; i < positions.size(); i++)
+	{
+		Vtx v;
+		v.vPos = positions[i];
+		v.vColor = colors[i];
+		v.vColor.w = 1.f;
+		v.vUV = texcoords[i];
+
+		v.vNormal = normals[i];
+		v.vTangent = tangents[i];
+		v.vNormal.Cross(v.vTangent, v.vBinormal);
+		v.vBinormal.Normalize();
+
+		meshData.vertices.emplace_back(v);
+	}
+	meshData.indices = {
+		0, 2, 3, 2, 0, 1,
+	};
+
+	return meshData;
+}
+
+tMeshData CAssetMgr::MakeRectDebug()
+{
+	std::vector<Vec3> positions;
+	std::vector<Vec3> colors;
+	std::vector<Vec3> normals;
+	std::vector<Vec2> texcoords;
+	std::vector<Vec3> tangents;
+
+	// 앞면
+	positions.emplace_back(Vec3(-0.5f, 0.5f, 0.0f));
+	positions.emplace_back(Vec3(0.5f, 0.5f, 0.0f));
+	positions.emplace_back(Vec3(0.5f, -0.5f, 0.0f));
+	positions.emplace_back(Vec3(-0.5f, -0.5f, 0.0f));
+	colors.emplace_back(Vec3(1.0f, 1.0f, 1.0f));
+	colors.emplace_back(Vec3(1.0f, 1.0f, 1.0f));
+	colors.emplace_back(Vec3(1.0f, 1.0f, 1.0f));
+	colors.emplace_back(Vec3(1.0f, 1.0f, 1.0f));
+	normals.emplace_back(Vec3(0.0f, 0.0f, -1.0f));
+	normals.emplace_back(Vec3(0.0f, 0.0f, -1.0f));
+	normals.emplace_back(Vec3(0.0f, 0.0f, -1.0f));
+	normals.emplace_back(Vec3(0.0f, 0.0f, -1.0f));
+
+	texcoords.emplace_back(Vec2(0.0f, 0.0f));
+	texcoords.emplace_back(Vec2(1.0f, 0.0f));
+	texcoords.emplace_back(Vec2(1.0f, 1.0f));
+	texcoords.emplace_back(Vec2(0.0f, 1.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+
+	tMeshData meshData;
+
+	for (size_t i = 0; i < positions.size(); i++)
+	{
+		Vtx v;
+		v.vPos = positions[i];
+		v.vColor = colors[i];
+		v.vUV = texcoords[i];
+		v.vColor.w = 1.f;
+
+		v.vNormal = normals[i];
+		v.vTangent = tangents[i];
+		v.vNormal.Cross(v.vTangent, v.vBinormal);
+		v.vBinormal.Normalize();
+
+		meshData.vertices.emplace_back(v);
+	}
+
+	meshData.indices = { 0, 1, 2, 3, 0 };
+
+	return meshData;
+}
+
+tMeshData CAssetMgr::MakeCircleDebug(const float radius, const int numSlices)
+{
+	tMeshData meshData;
+	Vtx v;
+
+	// 중심
+	v.vPos = Vec3(0.f, 0.f, 0.f);
+	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	v.vUV = Vec2(0.5f, 0.5f);
+	meshData.vertices.emplace_back(v);
+
+	float fTheta = 0.f;
+
+	for (int i = 0; i <= numSlices; ++i)
+	{
+		fTheta = (XM_2PI / numSlices) * i;
+
+		v.vPos = Vec3(radius * cosf(fTheta), radius * sinf(fTheta), 0.f);
+		v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+		v.vUV = Vec2(cosf(fTheta), sinf(fTheta));
+
+		v.vNormal = Vec3(0.f, 0.f, -1.f);
+		v.vTangent = Vec3(1.f, 0.f, 0.f);
+		v.vNormal.Cross(v.vTangent, v.vBinormal);
+		v.vBinormal.Normalize();
+
+		meshData.vertices.emplace_back(v);
+	}
+
+	for (int i = 1; i < meshData.vertices.size(); ++i)
+	{
+		meshData.indices.emplace_back(i);
+	}
+
+	return meshData;
+}
+
+tMeshData CAssetMgr::MakeRectGrid(const int _SliceCnt, const int _StackCnt)
+{
+	tMeshData meshData;
+
+	float dx = 2.0f / _SliceCnt;
+	float dy = 2.0f / _StackCnt;
+
+	float y = 1.0f;
+	for (int j = 0; j < _StackCnt + 1; j++)
+	{
+		float x = -1.0f;
+		for (int i = 0; i < _SliceCnt + 1; i++)
+		{
+			Vtx v;
+			v.vPos = Vec3(x, y, 0.0f);
+			v.vUV = Vec2(x + 1.0f, y + 1.0f) * 0.5f;
+			v.vNormal = Vec3(0.0f, 0.0f, -1.0f);
+			v.vTangent = Vec3(1.0f, 0.0f, 0.0f);
+			v.vNormal.Cross(v.vTangent, v.vBinormal);
+			v.vBinormal.Normalize();
+
+			meshData.vertices.push_back(v);
+
+			x += dx;
+		}
+		y -= dy;
+	}
+
+	for (int j = 0; j < _StackCnt; j++)
+	{
+		for (int i = 0; i < _SliceCnt; i++)
+		{
+			meshData.indices.push_back((_SliceCnt + 1) * j + i);
+			meshData.indices.push_back((_SliceCnt + 1) * j + i + 1);
+			meshData.indices.push_back((_SliceCnt + 1) * (j + 1) + i);
+			meshData.indices.push_back((_SliceCnt + 1) * (j + 1) + i);
+			meshData.indices.push_back((_SliceCnt + 1) * j + i + 1);
+			meshData.indices.push_back((_SliceCnt + 1) * (j + 1) + i + 1);
+		}
+	}
+
+	return meshData;
+}
+
+tMeshData CAssetMgr::MakeSphere(const float _Radius, const int _SliceCnt, const int _StackCnt)
+{
+	const float dTheta = -XM_2PI / float(_SliceCnt);
+	const float dPhi = -XM_PI / float(_SliceCnt);
+
+	tMeshData meshData;
+
+	std::vector<Vtx>& vertices = meshData.vertices;
+
+	for (int j = 0; j <= _StackCnt; j++)
+	{
+		Vec3 stackStartPoint = Vec3::Transform(Vec3(0.0f, -_Radius, 0.0f), Matrix::CreateRotationZ(dPhi * j));
+
+		for (int i = 0; i <= _SliceCnt; i++)
+		{
+			Vtx v;
+
+			v.vPos = Vec3::Transform(stackStartPoint, Matrix::CreateRotationY(dTheta * float(i)));
+
+			v.vNormal = v.vPos;
+			v.vNormal.Normalize();
+			v.vUV = Vec2(float(i) / _SliceCnt, 1.0f - float(j) / _StackCnt) * 0.5f;
+
+			Vec3 biTangent = Vec3(0.0f, 1.0f, 0.0f);
+
+			Vec3 normalOrth = v.vNormal - biTangent.Dot(v.vNormal) * v.vNormal;
+			normalOrth.Normalize();
+
+			v.vTangent = biTangent.Cross(normalOrth);
+			v.vTangent.Normalize();
+			v.vNormal.Cross(v.vTangent, v.vBinormal);
+			v.vBinormal.Normalize();
+
+			vertices.emplace_back(v);
+		}
+	}
+
+	std::vector<UINT>& indices = meshData.indices;
+
+	for (int j = 0; j < _StackCnt; j++)
+	{
+		const int offset = (_SliceCnt + 1) * j;
+
+		for (int i = 0; i < _SliceCnt; i++)
+		{
+			indices.emplace_back(offset + i);
+			indices.emplace_back(offset + i + _SliceCnt + 1);
+			indices.emplace_back(offset + i + 1 + _SliceCnt + 1);
+
+			indices.emplace_back(offset + i);
+			indices.emplace_back(offset + i + 1 + _SliceCnt + 1);
+			indices.emplace_back(offset + i + 1);
+		}
+	}
+
+	return meshData;
+}
+
+tMeshData CAssetMgr::MakeCylinder(const float _BotRadius, const float _TopRadius, float _Height, int _SliceCnt)
+{
+	const float dTheta = -XM_2PI / float(_SliceCnt);
+
+	tMeshData meshData;
+
+	std::vector<Vtx>& vertices = meshData.vertices;
+
+	for (int i = 0; i <= _SliceCnt; i++)
+	{
+		Vtx v;
+		v.vPos = Vec3::Transform(Vec3(_BotRadius, -0.5f * _Height, 0.0f), Matrix::CreateRotationY(dTheta * float(i)));
+		v.vUV = Vec2(float(i) / _SliceCnt, 1.0f);
+
+		v.vNormal = v.vPos - Vec3(0.0f, -0.5f * _Height, 0.0f);
+		v.vNormal.Normalize();
+
+		vertices.emplace_back(v);
+	}
+
+	for (int i = 0; i <= _SliceCnt; i++)
+	{
+		Vtx v;
+		v.vPos = Vec3::Transform(Vec3(_TopRadius, 0.5f * _Height, 0.0f), Matrix::CreateRotationY(dTheta * float(i)));
+		v.vUV = Vec2(float(i) / _SliceCnt, 0.0f);
+
+		v.vNormal = v.vPos - Vec3(0.0f, 0.5f * _Height, 0.0f);
+		v.vNormal.Normalize();
+
+		vertices.emplace_back(v);
+	}
+
+	std::vector<UINT>& indices = meshData.indices;
+
+	for (int i = 0; i < _SliceCnt; i++)
+	{
+		indices.emplace_back(i);
+		indices.emplace_back(i + _SliceCnt + 1);
+		indices.emplace_back(i + 1 + _SliceCnt + 1);
+
+		indices.emplace_back(i);
+		indices.emplace_back(i + 1 + _SliceCnt + 1);
+		indices.emplace_back(i + 1);
+	}
+
+	return meshData;
+}
+
+tMeshData CAssetMgr::MakeCapsule(const float _Radius, const float _WaistHeight, const int _SliceCnt)
+{
+	tMeshData topSphere = MakeSphere(_Radius, _SliceCnt, _SliceCnt / 2);
+	tMeshData bottomSphere = MakeSphere(_Radius, _SliceCnt, _SliceCnt / 2);
+
+	// 상단과 하단을 y축 방향으로 이동시켜서 캡슐의 상단과 하단에 배치
+	for (auto& vertex : topSphere.vertices)
+		vertex.vPos.y += _WaistHeight;
+
+	for (auto& vertex : bottomSphere.vertices)
+		vertex.vPos.y -= _WaistHeight;
+
+	// Cylinder
+	tMeshData cylinder = MakeCylinder(_Radius, _Radius, 2.0f * _WaistHeight, _SliceCnt);
+
+	/*    ____ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	 *   /    \                 \
+	 *   \____/ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ/
+	 */
+	// 상단 + 하단 + 원기둥
+	tMeshData capsule;
+	capsule.vertices.insert(capsule.vertices.end(), topSphere.vertices.begin(), topSphere.vertices.end());
+	capsule.vertices.insert(capsule.vertices.end(), bottomSphere.vertices.begin(), bottomSphere.vertices.end());
+	capsule.vertices.insert(capsule.vertices.end(), cylinder.vertices.begin(), cylinder.vertices.end());
+
+	// 상단과 하단, 원기둥의 인덱스를 조정하여 캡슐의 인덱스를 생성합니다.
+	int offsetTop = int(topSphere.vertices.size());
+	int offsetCylinder = int(offsetTop + bottomSphere.vertices.size());
+	capsule.indices = topSphere.indices;
+	for (auto& index : bottomSphere.indices)
+		capsule.indices.push_back(index + offsetTop);
+	for (auto& index : cylinder.indices)
+		capsule.indices.push_back(index + offsetCylinder);
+
+	return capsule;
+}
+
+tMeshData CAssetMgr::MakeCube()
+{
+	std::vector<Vec3> positions;
+	std::vector<Vec3> colors;
+	std::vector<Vec3> normals;
+	std::vector<Vec2> texcoords;
+	std::vector<Vec3> tangents;
+
+	// 윗면
+	positions.emplace_back(Vec3(-0.5f, 0.5f, 0.5f));
+	positions.emplace_back(Vec3(0.5f, 0.5f, 0.5f));
+	positions.emplace_back(Vec3(0.5f, 0.5f, -0.5f));
+	positions.emplace_back(Vec3(-0.5f, 0.5f, -0.5f));
+	colors.emplace_back(Vec3(0.0f, 1.0f, 0.0f));
+	colors.emplace_back(Vec3(0.0f, 1.0f, 0.0f));
+	colors.emplace_back(Vec3(0.0f, 1.0f, 0.0f));
+	colors.emplace_back(Vec3(0.0f, 1.0f, 0.0f));
+	normals.emplace_back(Vec3(0.0f, 1.0f, 0.0f));
+	normals.emplace_back(Vec3(0.0f, 1.0f, 0.0f));
+	normals.emplace_back(Vec3(0.0f, 1.0f, 0.0f));
+	normals.emplace_back(Vec3(0.0f, 1.0f, 0.0f));
+	texcoords.emplace_back(Vec2(0.0f, 0.0f));
+	texcoords.emplace_back(Vec2(1.0f, 0.0f));
+	texcoords.emplace_back(Vec2(1.0f, 1.0f));
+	texcoords.emplace_back(Vec2(0.0f, 1.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(1.f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+
+	// 아랫면
+	positions.emplace_back(Vec3(-0.5f, -0.5f, -0.5f));
+	positions.emplace_back(Vec3(0.5f, -0.5f, -0.5f));
+	positions.emplace_back(Vec3(0.5f, -0.5f, 0.5f));
+	positions.emplace_back(Vec3(-0.5f, -0.5f, 0.5f));
+	colors.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	colors.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	colors.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	colors.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	normals.emplace_back(Vec3(0.0f, -1.0f, 0.0f));
+	normals.emplace_back(Vec3(0.0f, -1.0f, 0.0f));
+	normals.emplace_back(Vec3(0.0f, -1.0f, 0.0f));
+	normals.emplace_back(Vec3(0.0f, -1.0f, 0.0f));
+	texcoords.emplace_back(Vec2(0.0f, 0.0f));
+	texcoords.emplace_back(Vec2(1.0f, 0.0f));
+	texcoords.emplace_back(Vec2(1.0f, 1.0f));
+	texcoords.emplace_back(Vec2(0.0f, 1.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+
+	// 앞면
+	positions.emplace_back(Vec3(-0.5f, 0.5f, -0.5f));
+	positions.emplace_back(Vec3(0.5f, 0.5f, -0.5f));
+	positions.emplace_back(Vec3(0.5f, -0.5f, -0.5f));
+	positions.emplace_back(Vec3(-0.5f, -0.5f, -0.5f));
+	colors.emplace_back(Vec3(1.0f, 0.0f, 1.0f));
+	colors.emplace_back(Vec3(1.0f, 0.0f, 1.0f));
+	colors.emplace_back(Vec3(1.0f, 0.0f, 1.0f));
+	colors.emplace_back(Vec3(1.0f, 0.0f, 1.0f));
+	normals.emplace_back(Vec3(0.0f, 0.0f, -1.0f));
+	normals.emplace_back(Vec3(0.0f, 0.0f, -1.0f));
+	normals.emplace_back(Vec3(0.0f, 0.0f, -1.0f));
+	normals.emplace_back(Vec3(0.0f, 0.0f, -1.0f));
+	texcoords.emplace_back(Vec2(0.0f, 0.0f));
+	texcoords.emplace_back(Vec2(1.0f, 0.0f));
+	texcoords.emplace_back(Vec2(1.0f, 1.0f));
+	texcoords.emplace_back(Vec2(1.0f, 1.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+
+	// 뒷면
+	positions.emplace_back(Vec3(0.5f, 0.5f, 0.5f));
+	positions.emplace_back(Vec3(-0.5f, 0.5f, 0.5f));
+	positions.emplace_back(Vec3(-0.5f, -0.5f, 0.5f));
+	positions.emplace_back(Vec3(0.5f, -0.5f, 0.5f));
+	colors.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	colors.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	colors.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	colors.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	normals.emplace_back(Vec3(0.0f, 0.0f, 1.0f));
+	normals.emplace_back(Vec3(0.0f, 0.0f, 1.0f));
+	normals.emplace_back(Vec3(0.0f, 0.0f, 1.0f));
+	normals.emplace_back(Vec3(0.0f, 0.0f, 1.0f));
+	texcoords.emplace_back(Vec2(0.0f, 0.0f));
+	texcoords.emplace_back(Vec2(1.0f, 0.0f));
+	texcoords.emplace_back(Vec2(1.0f, 1.0f));
+	texcoords.emplace_back(Vec2(0.0f, 1.0f));
+	tangents.emplace_back(Vec3(-1.0f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(-1.0f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(-1.0f, 0.0f, 0.0f));
+	tangents.emplace_back(Vec3(-1.0f, 0.0f, 0.0f));
+
+	// 왼쪽
+	positions.emplace_back(Vec3(-0.5f, 0.5f, 0.5f));
+	positions.emplace_back(Vec3(-0.5f, 0.5f, -0.5f));
+	positions.emplace_back(Vec3(-0.5f, -0.5f, -0.5f));
+	positions.emplace_back(Vec3(-0.5f, -0.5f, 0.5f));
+	colors.emplace_back(Vec3(0.0f, 1.0f, 0.0f));
+	colors.emplace_back(Vec3(0.0f, 1.0f, 0.0f));
+	colors.emplace_back(Vec3(0.0f, 1.0f, 0.0f));
+	colors.emplace_back(Vec3(0.0f, 1.0f, 0.0f));
+	normals.emplace_back(Vec3(-1.0f, 0.0f, 0.0f));
+	normals.emplace_back(Vec3(-1.0f, 0.0f, 0.0f));
+	normals.emplace_back(Vec3(-1.0f, 0.0f, 0.0f));
+	normals.emplace_back(Vec3(-1.0f, 0.0f, 0.0f));
+	texcoords.emplace_back(Vec2(0.0f, 0.0f));
+	texcoords.emplace_back(Vec2(1.0f, 0.0f));
+	texcoords.emplace_back(Vec2(1.0f, 1.0f));
+	texcoords.emplace_back(Vec2(0.0f, 1.0f));
+	tangents.emplace_back(Vec3(0.0f, 0.0f, -1.0f));
+	tangents.emplace_back(Vec3(0.0f, 0.0f, -1.0f));
+	tangents.emplace_back(Vec3(0.0f, 0.0f, -1.0f));
+	tangents.emplace_back(Vec3(0.0f, 0.0f, -1.0f));
+
+	// 오른쪽
+	positions.emplace_back(Vec3(0.5f, 0.5f, -0.5f));
+	positions.emplace_back(Vec3(0.5f, 0.5f, 0.5f));
+	positions.emplace_back(Vec3(0.5f, -0.5f, 0.5f));
+	positions.emplace_back(Vec3(0.5f, -0.5f, -0.5f));
+	colors.emplace_back(Vec3(0.0f, 0.0f, 1.0f));
+	colors.emplace_back(Vec3(0.0f, 0.0f, 1.0f));
+	colors.emplace_back(Vec3(0.0f, 0.0f, 1.0f));
+	colors.emplace_back(Vec3(0.0f, 0.0f, 1.0f));
+	normals.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	normals.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	normals.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	normals.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
+	texcoords.emplace_back(Vec2(0.0f, 0.0f));
+	texcoords.emplace_back(Vec2(1.0f, 0.0f));
+	texcoords.emplace_back(Vec2(1.0f, 1.0f));
+	texcoords.emplace_back(Vec2(0.0f, 1.0f));
+	tangents.emplace_back(Vec3(0.0f, 0.0f, 1.0f));
+	tangents.emplace_back(Vec3(0.0f, 0.0f, 1.0f));
+	tangents.emplace_back(Vec3(0.0f, 0.0f, 1.0f));
+	tangents.emplace_back(Vec3(0.0f, 0.0f, 1.0f));
+
+	tMeshData meshData;
+	for (size_t i = 0; i < positions.size(); i++)
+	{
+		Vtx v;
+		v.vPos = positions[i];
+		v.vColor = colors[i];
+		v.vColor.w = 1.f;
+		v.vUV = texcoords[i];
+
+		v.vNormal = normals[i];
+		v.vTangent = tangents[i];
+		v.vNormal.Cross(v.vTangent, v.vBinormal);
+		v.vBinormal.Normalize();
+
+		meshData.vertices.push_back(v);
+	}
+
+	// 인덱스
+	for (int i = 0; i < 12; i += 2)
+	{
+		meshData.indices.push_back(i * 2);
+		meshData.indices.push_back(i * 2 + 1);
+		meshData.indices.push_back(i * 2 + 2);
+
+		meshData.indices.push_back(i * 2);
+		meshData.indices.push_back(i * 2 + 2);
+		meshData.indices.push_back(i * 2 + 3);
+	}
+
+	return meshData;
 }

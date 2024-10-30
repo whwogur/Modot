@@ -58,7 +58,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
 {
     PS_OUT output = (PS_OUT) 0.f;
     
-    output.vAlbedo = float4(1.f, 0.f, 1.f, 1.f);
+    output.vAlbedo = float4(0.7f, 0.7f, 0.7f, 1.f);
     output.vNormal = float4(_in.vViewNormal, 1.f);
     output.vPosition = float4(_in.vViewPos, 1.f);
     output.vEmissive = float4(0.f, 0.f, 0.f, 0.f);

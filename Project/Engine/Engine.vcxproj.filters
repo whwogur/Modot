@@ -184,6 +184,9 @@
     <ClInclude Include="CDecal.h">
       <Filter>Component\RenderComponent\Decal</Filter>
     </ClInclude>
+    <ClInclude Include="CFrustum.h">
+      <Filter>Component\Camera\Frustum</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -346,6 +349,9 @@
     <ClCompile Include="CDecal.cpp">
       <Filter>Component\RenderComponent\Decal</Filter>
     </ClCompile>
+    <ClCompile Include="CFrustum.cpp">
+      <Filter>Component\Camera\Frustum</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -503,6 +509,9 @@
     </Filter>
     <Filter Include="Component\RenderComponent\Decal">
       <UniqueIdentifier>{17155765-ef7c-4515-90eb-ee7c7c1d5327}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Camera\Frustum">
+      <UniqueIdentifier>{34137d29-8585-4933-ad0b-084f6b8d74e5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

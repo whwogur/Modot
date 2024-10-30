@@ -18,6 +18,11 @@ public:
     Ptr<CMaterial> GetSharedMtrl();
 
     Ptr<CMaterial> GetDynamicMaterial();
+
+    // 절두체 체크를 받을 것인지
+    void SetFrustumCheck(bool _Check) { m_FrustumCheck = _Check; }
+    // 절두체 체크 받는지 확인
+    bool ChecksFrustum() const { return m_FrustumCheck; }
 public:
     virtual void FinalTick() = 0;
     virtual void Render() = 0;
@@ -32,4 +37,5 @@ private:
     Ptr<CMaterial>      m_Mtrl;         // 현재 사용중인 재질
     Ptr<CMaterial>      m_SharedMtrl;   // 공유 재질(마스터)
     Ptr<CMaterial>      m_DynamicMtrl;  // 임시 재질
+    bool                m_FrustumCheck; // 절두체 체크를 받을것인지 말것인지
 };

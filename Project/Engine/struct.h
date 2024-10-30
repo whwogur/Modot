@@ -11,6 +11,12 @@ struct Vtx
 	Vec3	vBinormal;  // Á¾¹ý¼±
 };
 
+struct tMeshData
+{
+	std::vector<Vtx> vertices;
+	std::vector<UINT> indices;
+};
+
 struct tDebugShapeInfo
 {
 	tDebugShapeInfo()
