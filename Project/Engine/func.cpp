@@ -181,6 +181,18 @@ void DrawDebugLine(Vec3 _Start, Vec3 _End, Vec4 _Color, float _Life, bool _Depth
 	CRenderMgr::GetInst()->AddDebugShapeInfo(Info);
 }
 
+void DrawDebugCone(const Matrix& _WorldMat, Vec4 _Color, float _Life, bool _DepthTest)
+{
+	tDebugShapeInfo info = {};
+	info.Shape = DEBUG_SHAPE::CONE;
+	info.matWorld = _WorldMat;
+	info.vColor = _Color;
+	info.DepthTest = _DepthTest;
+	info.LifeTime = _Life;
+
+	CRenderMgr::GetInst()->AddDebugShapeInfo(info);
+}
+
 void SaveWString(const wstring& _String, FILE* _File)
 {
 	size_t len = _String.length();

@@ -65,6 +65,11 @@ void CLight3D::FinalTick()
 	{
 		DrawDebugSphere(Transform()->GetWorldMat(), Vec4(0.f, 1.f, 0.f, 1.f), 0.f, true);
 	}
+	else if (m_Info.Type == LIGHT_TYPE::SPOT)
+	{
+		Transform()->SetRelativeScale(Vec3(m_Info.Radius, m_Info.Radius, m_Info.Radius));
+		DrawDebugCone(Transform()->GetWorldMat(), Vec4(0.f, 1.f, 0.f, 1.f), 0.f, true);
+	}
 }
 void CLight3D::SaveToFile(FILE* _File)
 {

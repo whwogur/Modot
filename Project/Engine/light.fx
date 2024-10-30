@@ -136,7 +136,7 @@ PS_OUT PS_PointLight(VS_OUT _in)
 }
 
 // ================================
-// Point Light Shader
+// SpotLight Shader
 // MRT  : LIGHT (Diffuse, Specular)
 // Mesh : SphereMesh
 // Rasterizer   : CULL_FRONT, (CULL_NONE 하면 광원처리 2중첩)
@@ -177,7 +177,7 @@ PS_OUT PS_SpotLight(VS_OUT _in)
     float3 vLocalPos = mul(float4(vWorldPos, 1.f), matWorldInv).xyz;
     
     // 물체가 볼륨메쉬 영역 밖이라면 광원계산 중단
-    if (0.5f < length(vLocalPos))
+    if (1.f < length(vLocalPos))
     {
         discard;
     }

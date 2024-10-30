@@ -39,6 +39,20 @@ private:
 	void CreateEngineComputeShader();
 	void DeleteAsset(ASSET_TYPE _Type, const wstring& _Key);
 	void LoadSound();
+
+private:
+	tMeshData MakeCone(const float _Radius, const float _Height);
+	tMeshData MakeCircle(const float _Radius, const int _SliceCnt);
+	tMeshData MakePoint();
+	tMeshData MakeRect();
+	tMeshData MakeRectDebug();
+	tMeshData MakeRectGrid(const int _SliceCnt, const int _StackCnt);
+	tMeshData MakeCircleDebug(const float _Radius, const int _SliceCnt);
+	tMeshData MakeSphere(const float _Radius, const int _SliceCnt, const int _StackCnt);
+	tMeshData MakeCylinder(const float _BotRadius, const float _TopRadius, float _Height, int _SliceCnt);
+	tMeshData MakeCapsule(const float _Radius, const float _WaistHeight, const int _SliceCnt);
+	tMeshData MakeCube();
+
 private:
 	friend class CTaskMgr;
 	map<wstring, Ptr<CAsset>> m_mapAsset[(UINT)ASSET_TYPE::END];
