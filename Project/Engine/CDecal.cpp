@@ -9,7 +9,7 @@ CDecal::CDecal()
 	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"CubeMesh"));
 	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DecalMtrl"));
 	m_DecalTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Logo");
-	m_EmissiveTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Logo");
+	m_EmissiveTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"ImageNotFound");
 }
 
 void CDecal::FinalTick()

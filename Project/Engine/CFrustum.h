@@ -23,7 +23,7 @@ public:
 
 public:
     void FinalTick();
-    bool FrustumCheck(Vec3 _WorldPos, float _Radius = 0.f);
+    bool FrustumCheck(const Vec3& _WorldPos, float _Radius = 0.f);
 private:
     CCamera*    m_Owner;
     // NDC 좌표계에서 시야의 최대위치 좌표

@@ -34,6 +34,13 @@ void ComponentUI::Title()
 {
 	float vUV_0 = (1 / (float)COMPONENT_TYPE::END) * (UINT)m_Type;
 	float vUV_1 = (1 / (float)COMPONENT_TYPE::END) * ((UINT)m_Type + 1);
+
+	if (ImGui::Button(m_Show ? ICON_FA_CARET_DOWN : ICON_FA_CARET_RIGHT, ImVec2(22, 22)))
+	{
+		m_Show = !m_Show;
+	}
+
+	ImGui::SameLine();
 	ImGui::Image((void*)m_IconTexture.Get()->GetSRV().Get(), { ICON_SIZE, ICON_SIZE }, {vUV_0, 0}, {vUV_1, 1});
 	ImGui::SameLine();
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
@@ -41,9 +48,4 @@ void ComponentUI::Title()
 	ImGui::TextColored(HEADER_2, ToString(m_Type));
 
 	ImGui::PopStyleVar();
-	ImGui::SameLine(ImGui::GetContentRegionAvail().x - 40);
-	if (ImGui::Button(m_Show ? ICON_FA_MINUS : ICON_FA_PLUS, ImVec2(25, 25)))
-	{
-		m_Show = !m_Show;
-	}
 }

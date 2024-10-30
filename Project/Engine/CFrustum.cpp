@@ -66,7 +66,7 @@ void CFrustum::FinalTick()
 	DrawDebugLine(arrWorld[3], arrWorld[7], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
 }
 
-bool CFrustum::FrustumCheck(Vec3 _WorldPos, float _Radius)
+bool CFrustum::FrustumCheck(const Vec3& _WorldPos, float _Radius)
 {
 	for (int i = 0; i < 6; ++i)
 	{
