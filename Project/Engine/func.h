@@ -5,16 +5,16 @@ void DeleteObject(CGameObject* _DeleteObject);
 void ChangeLevelState(LEVEL_STATE _NextState);
 void ChangeLevel(class CLevel* _Level, LEVEL_STATE _NextLevelState);
 bool IsValid(CGameObject*& _Object);
-void DrawDebugCircle(Vec3 _Pos, float _Radius, Vec4 _Color, float _Life, bool _DepthTes);
-void DrawDebugRect(Vec3 _Pos, Vec3 _Scale, Vec3 _Rot, Vec4 _Color, float _Life, bool _DepthTest);
+void DrawDebugCircle(const Vec3& _Pos, float _Radius, const Vec4& _Color, float _Life, bool _DepthTest);
+void DrawDebugRect(const Vec3& _Pos, const Vec3& _Scale, const Vec3& _Rot, const Vec4& _Color, float _Life, bool _DepthTest);
 void DrawDebugRect(const Matrix& _matWorld, Vec4 _Color, float _Life, bool _DepthTest);
 
-void DrawDebugCube(Vec3 _Pos, Vec3 _Scale, Vec3 _Rot, Vec4 _Color, float _Life, bool _DepthTest);
-void DrawDebugCube(const Matrix& _matWorld, Vec4 _Color, float _Life, bool _DepthTest);
-void DrawDebugSphere(Vec3 _Pos, float _Radius, Vec4 _Color, float _Life, bool _DepthTest);
-void DrawDebugSphere(const Matrix& _matWorld, Vec4 _Color, float _Life, bool _DepthTest);
-void DrawDebugLine(Vec3 _Start, Vec3 _End, Vec4 _Color, float _Life, bool _DepthTest);
-void DrawDebugCone(const Matrix& _matWorld, Vec4 _Color, float _Life, bool _DepthTest);
+void DrawDebugCube(const Vec3& _Pos,const Vec3& _Scale,const Vec3& _Rot, const Vec4& _Color, float _Life, bool _DepthTest);
+void DrawDebugCube(const Matrix& _matWorld, const Vec4& _Color, float _Life, bool _DepthTest);
+void DrawDebugSphere(const Vec3& _Pos, float _Radius,const Vec4& _Color, float _Life, bool _DepthTest);
+void DrawDebugSphere(const Matrix& _matWorld,const Vec4& _Color, float _Life, bool _DepthTest);
+void DrawDebugLine(const Vec3& _Start,const Vec3& _End,const Vec4& _Color, float _Life, bool _DepthTest);
+void DrawDebugCone(const Matrix& _matWorld, const Vec4& _Color, float _Life, bool _DepthTest);
 
 void SaveWString(const wstring& _String, FILE* _File);
 void LoadWString(wstring& _String, FILE* _File);

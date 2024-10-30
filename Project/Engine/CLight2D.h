@@ -13,8 +13,8 @@ public:
     void SetRadius(float _Radius) { m_Info.Radius = _Radius; }
     void SetAngle(float _Angle) { m_Info.Angle = _Angle; }
 
-    void SetLightColor(Vec3 _Color) { m_Info.light.Color = _Color; }
-    void SetLightAmbient(Vec3 _Amb) { m_Info.light.Ambient = _Amb; }
+    void SetLightColor(const Vec3& _Color) { m_Info.light.Color = _Color; }
+    void SetLightAmbient(const Vec3& _Amb) { m_Info.light.Ambient = _Amb; }
 
     LIGHT_TYPE GetLightType() { return m_Info.Type; }
     float GetRadius() { return m_Info.Radius; }

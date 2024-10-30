@@ -49,9 +49,24 @@ void CFrustum::FinalTick()
 	m_arrFace[(UINT)FACE_TYPE::FT_RIGHT]	= XMPlaneFromPoints(arrWorld[1], arrWorld[5], arrWorld[6]);
 	m_arrFace[(UINT)FACE_TYPE::FT_TOP]		= XMPlaneFromPoints(arrWorld[4], arrWorld[5], arrWorld[1]);
 	m_arrFace[(UINT)FACE_TYPE::FT_BOT]		= XMPlaneFromPoints(arrWorld[6], arrWorld[7], arrWorld[3]);
+
+	DrawDebugLine(arrWorld[0], arrWorld[1], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
+	DrawDebugLine(arrWorld[1], arrWorld[2], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
+	DrawDebugLine(arrWorld[2], arrWorld[3], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
+	DrawDebugLine(arrWorld[3], arrWorld[0], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
+
+	DrawDebugLine(arrWorld[4], arrWorld[5], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
+	DrawDebugLine(arrWorld[5], arrWorld[6], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
+	DrawDebugLine(arrWorld[6], arrWorld[7], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
+	DrawDebugLine(arrWorld[7], arrWorld[4], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
+
+	DrawDebugLine(arrWorld[0], arrWorld[4], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
+	DrawDebugLine(arrWorld[1], arrWorld[5], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
+	DrawDebugLine(arrWorld[2], arrWorld[6], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
+	DrawDebugLine(arrWorld[3], arrWorld[7], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
 }
 
-bool CFrustum::FrustumCheck(Vec3 _WorldPos, float _Radius)
+bool CFrustum::FrustumCheck(const Vec3& _WorldPos, float _Radius)
 {
 	for (int i = 0; i < 6; ++i)
 	{

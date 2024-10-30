@@ -32,3 +32,19 @@ void CEditorMgr::CreateEditorObject()
 	m_Logger->LogAdapterInfo();
 }
 
+void CEditorMgr::EditorObjectUpdate()
+{
+	for (const auto& EditorObj : m_vecEditorObject)
+	{
+		EditorObj->Tick();
+	}
+
+	for (const auto& EditorObj : m_vecEditorObject)
+	{
+		EditorObj->FinalTick();
+	}
+
+	DrawDebugLine(Vec3(0.f, 0.f, 0.f), Vec3(10000.f, 0.f, 0.f), Vec4(1.f, 0.f, 0.f, 1.f), 0.f, true);
+	DrawDebugLine(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 10000.f, 0.f), Vec4(0.f, 1.f, 0.f, 1.f), 0.f, true);
+	DrawDebugLine(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 0.f, 10000.f), Vec4(0.f, 0.f, 1.f, 1.f), 0.f, true);
+}

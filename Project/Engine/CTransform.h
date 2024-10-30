@@ -6,10 +6,27 @@ enum class OBJECT_DIR
     RIGHT,
 };
 
+class BoundingSphere // TODO
+{
+public:
+    BoundingSphere() = default;
+    ~BoundingSphere() = default;
+
+public:
+    float GetRadius() const { return m_Radius; }
+
+private:
+    friend class CTransform;
+    void SetRadius(float _Radius) { m_Radius = _Radius; }
+
+private:
+    float m_Radius = 0.f;
+};
+
 class CTransform :
     public CComponent
 {
-public:
+ public:
     CTransform();
     ~CTransform() = default;
     CLONE(CTransform);
@@ -18,9 +35,9 @@ public:
     void Bind();
 
 public:
-    void SetRelativePos(Vec3 _Pos) { m_RelativePos = _Pos; }
-    void SetRelativeScale(Vec3 _Scale) { m_RelativeScale = _Scale; }
-    void SetRelativeRotation(Vec3 _Rot) { m_RelativeRotation = _Rot; }
+    void SetRelativePos(const Vec3& _Pos) { m_RelativePos = _Pos; }
+    void SetRelativeScale(const Vec3& _Scale) { m_RelativeScale = _Scale; }
+    void SetRelativeRotation(const Vec3& _Rot) { m_RelativeRotation = _Rot; }
     void SetWorldMatrix(const Matrix& matWorld) { m_matWorld = matWorld; }
     void SetIndependentScale(bool _Set) { m_IndependentScale = _Set; }
     bool IsIndependentScale() { return m_IndependentScale; }
@@ -56,6 +73,6 @@ private:
 
     Matrix  m_matWorld;
     Matrix  m_matWorldInv;
-    Matrix m_matTransformation = {};
+    Matrix  m_matTransformation = {};
     bool    m_IndependentScale;
 };

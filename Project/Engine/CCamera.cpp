@@ -110,26 +110,26 @@ void CCamera::SortGameObject()
 		const std::vector<CGameObject*>& vecObjects = pLayer->GetObjects();
 		for (size_t j = 0; j < vecObjects.size(); ++j)
 		{
-			CRenderComponent* Rcomp = vecObjects[j]->GetRenderComponent();
-			if (Rcomp == nullptr)
+			CRenderComponent* RenderComp = vecObjects[j]->GetRenderComponent();
+			if (RenderComp == nullptr)
 				continue;
 
-			if ( nullptr == Rcomp->GetMesh() ||
-				 nullptr == Rcomp->GetMaterial() ||
-				 nullptr == Rcomp->GetMaterial()->GetShader())
+			if ( nullptr == RenderComp->GetMesh() ||
+				 nullptr == RenderComp->GetMaterial() ||
+				 nullptr == RenderComp->GetMaterial()->GetShader())
 			{
 				continue;
 			}
 
 			// 절두체 검사를 진행 함, 실패 함
-			if (Rcomp->ChecksFrustum()
+			if (RenderComp->ChecksFrustum()
 				&& m_Frustum->FrustumCheck(vecObjects[j]->Transform()->GetWorldPos()
 												  , vecObjects[j]->Transform()->GetWorldScale().x / 2.f) == false)
 			{
 				continue;
 			}
 
-			Ptr<CGraphicShader> pShader = Rcomp->GetMaterial()->GetShader();
+			Ptr<CGraphicShader> pShader = RenderComp->GetMaterial()->GetShader();
 			SHADER_DOMAIN Domain = pShader->GetDomain();
 
 			switch (Domain)
