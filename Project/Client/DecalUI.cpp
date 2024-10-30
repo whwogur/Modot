@@ -21,6 +21,13 @@ void DecalUI::Update()
 		
 		Ptr<CTexture> pDecalTex = pDecal->GetDecalTexture();
 		Ptr<CTexture> pEmissiveTex = pDecal->GetEmissiveTexture();
+		bool decalEnabled = pDecal->GetDecalEnabled();
+
+		if (ImGui::Checkbox("Decal", &decalEnabled))
+		{
+			pDecal->ToggleDecalMode(decalEnabled);
+		}
+		ImGui::SetItemTooltip(u8"ON: µ¥Ä®\nOFF: ¹ß±¤");
 
 		if (ParamUI::InputTexture(pDecalTex, "DecalTex", this, (DELEGATE_1)&DecalUI::SelectDecalTexture))
 		{

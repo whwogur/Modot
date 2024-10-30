@@ -15,8 +15,9 @@ public:
     void SetDecalTexture(Ptr<CTexture> _Tex) { m_DecalTex = _Tex; }
     void SetEmissiveTexture(Ptr<CTexture> _Tex) { m_EmissiveTex = _Tex; }
 
-    bool& GetDecalEnableRef() { return m_DecalEnable; }
-    bool& GetEmissiveEnableRef() { return m_EmissiveEnable; }
+    bool GetDecalEnabled() const { return m_DecalEnable; }
+    bool GetEmissiveEnabled() const { return m_EmissiveEnable; }
+    void ToggleDecalMode(bool _Decal);
 public:
     virtual void FinalTick() override;
     virtual void Render() override;
