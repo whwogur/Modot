@@ -25,6 +25,7 @@ void CDecal::Render()
 	else
 	{
 		GetMaterial()->SetTexParam(TEX_PARAM::TEX_2, m_EmissiveTex);
+		GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_0, m_EmissionMultiplier);
 		assert(m_EmissiveEnable);
 	}
 

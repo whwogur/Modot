@@ -36,9 +36,12 @@ void DecalUI::Update()
 
 		if (ParamUI::InputTexture(pEmissiveTex, "EmissiveTex", this, (DELEGATE_1)&DecalUI::SelectEmissiveTexture))
 		{
-			pDecal->SetDecalTexture((CTexture*)pEmissiveTex.Get());
+			pDecal->SetEmissiveTexture((CTexture*)pEmissiveTex.Get());
 		}
 
+		float& emissiveMul = pDecal->GetEmissionMultiplierRef();
+		ImGui::SetNextItemWidth(100.f);
+		ImGui::SliderFloat(u8"°è¼ö", &emissiveMul, 0.1f, 10.0f, "%.3f");
 	}
 }
 

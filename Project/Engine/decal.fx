@@ -12,8 +12,10 @@
 // DepthStencil : NO_TEST_NO_WRITE
 // BlendState   : Albedo - AlphaBlend, Emissive - One_One
 // Parameter
-#define POS_TARGET      g_tex_0
-
+#define POS_TARGET          g_tex_0
+#define DECAL_TEXTURE       g_tex_1
+#define EMISSION_TEXTURE    g_tex_2
+#define EMISSION_MULTIPLIER g_float_0
 // 뷰 역행렬
 // 월드 역행렬
 // ================================
@@ -79,12 +81,13 @@ PS_OUT PS_Decal(VS_OUT _in)
     
     if (g_btex_1)
     {
-        vColor = g_tex_1.Sample(g_AniWrapSampler, vUV);
+        vColor = DECAL_TEXTURE.Sample(g_AniWrapSampler, vUV);
     }
     
     if (g_btex_2)
     {
-        vEmissive = g_tex_2.Sample(g_AniWrapSampler, vUV);
+        vEmissive = EMISSION_TEXTURE.Sample(g_AniWrapSampler, vUV);
+        vEmissive *= EMISSION_MULTIPLIER;
     }
     
     vColor.rgb *= vColor.a;

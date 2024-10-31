@@ -334,8 +334,9 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDSType(DS_TYPE::LESS);
 	pShader->SetBSType(BS_TYPE::DEFAULT);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
-	pShader->AddTexParam(TEX_0, "Albedo");
-	pShader->AddTexParam(TEX_1, "Normal");
+	pShader->AddTexParam(TEX_PARAM::TEX_0, "Albedo");
+	pShader->AddTexParam(TEX_PARAM::TEX_1, "Normal");
+	pShader->AddTexParam(TEX_PARAM::TEXCUBE_0, "Reflection");
 	AddAsset(L"Std3D_DeferredShader", pShader);
 
 	// SkyBoxShader
@@ -357,7 +358,9 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 	pShader->SetBSType(BS_TYPE::DECAL);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DECAL);
-	pShader->AddTexParam(TEX_0, "Decal Texture");
+	pShader->AddTexParam(TEX_PARAM::TEX_1, "Decal Texture");
+	pShader->AddTexParam(TEX_PARAM::TEX_2, "Emissive Texture");
+	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_0, "Emission Mul");
 	AddAsset(L"DecalShader", pShader);
 }
 
