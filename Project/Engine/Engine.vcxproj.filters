@@ -571,5 +571,8 @@
     <FxCompile Include="decal.fx">
       <Filter>Shader\GraphicShader</Filter>
     </FxCompile>
+    <FxCompile Include="shadowmap.fx">
+      <Filter>Shader\GraphicShader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

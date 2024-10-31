@@ -1,5 +1,7 @@
 #pragma once
 #include "CComponent.h"
+class CMRT;
+
 class CLight3D :
     public CComponent
 {
@@ -30,11 +32,16 @@ public:
     tLightInfo& GetLightInfoRef() { return m_Info; }
 
     void Render();
+    void CreateShadowMap();
 private:
-    tLightInfo      m_Info;
-    int             m_LightIdx;
+    tLightInfo                  m_Info;
+    int                         m_LightIdx;
 
-    Ptr<CMesh>      m_VolumeMesh;
-    Ptr<CMaterial>  m_LightMtrl;
+    Ptr<CMesh>                  m_VolumeMesh;
+    Ptr<CMaterial>              m_LightMtrl;
+
+    Ptr<CMaterial>              m_ShadowMapMtrl;
+    std::unique_ptr<CMRT>       m_ShadowMapMRT;
+    std::unique_ptr<CGameObject> m_Cam;
 };
 
