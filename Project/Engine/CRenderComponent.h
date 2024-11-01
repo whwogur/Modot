@@ -26,7 +26,7 @@ public:
 public:
     virtual void FinalTick() = 0;
     virtual void Render() = 0;
-
+    virtual void RenderShadow();
 protected:
     void SaveDataToFile(FILE* _File);
     void LoadDataFromFile(FILE* _File);

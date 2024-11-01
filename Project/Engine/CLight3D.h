@@ -34,14 +34,15 @@ public:
     void Render();
     void CreateShadowMap();
 private:
-    tLightInfo                  m_Info;
-    int                         m_LightIdx;
+    tLightInfo                      m_Info;
+    int                             m_LightIdx;
+    Vec3                            m_TargetPos;
 
-    Ptr<CMesh>                  m_VolumeMesh;
-    Ptr<CMaterial>              m_LightMtrl;
+    Ptr<CMesh>                      m_VolumeMesh;
+    Ptr<CMaterial>                  m_LightMtrl;
 
-    Ptr<CMaterial>              m_ShadowMapMtrl;
-    std::unique_ptr<CMRT>       m_ShadowMapMRT;
-    std::unique_ptr<CGameObject> m_Cam;
+    Ptr<CMaterial>                  m_ShadowMapMtrl;
+    std::unique_ptr<CMRT>           m_ShadowMapMRT;
+    std::unique_ptr<CGameObject>    m_Cam;
 };
 

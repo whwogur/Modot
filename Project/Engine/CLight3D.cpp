@@ -77,6 +77,9 @@ void CLight3D::Render()
 {
 	Transform()->Bind();
 	m_LightMtrl->SetScalarParam(SCALAR_PARAM::INT_0, m_LightIdx);
+
+	m_LightMtrl->SetScalarParam(SCALAR_PARAM::MAT_0, m_Cam->Camera()->GetcamViewRef() * m_Cam->Camera()->GetcamProjRef());
+	m_LightMtrl->SetTexParam(TEX_PARAM::TEX_2, m_ShadowMapMRT->GetRT(0));
 	m_LightMtrl->Bind();
 	m_VolumeMesh->Render();
 }
@@ -85,14 +88,20 @@ void CLight3D::CreateShadowMap()
 {
 	// 카메라의 Transform 에 Light3D 의 Transform 정보를 복사
 	*m_Cam->Transform() = *Transform();
-
+	// 현재 카메라의 위치를 기준으로 ViewMat, ProjMat 를 계산한다.
+	m_Cam->Camera()->FinalTick();
+	// 광원 카메라의 View Proj 정보를 상수버퍼 전역변수에 세팅한다.
+	g_Trans.matView = m_Cam->Camera()->GetcamViewRef();
+	g_Trans.matProj = m_Cam->Camera()->GetcamProjRef();
+	g_Trans.matViewInv = m_Cam->Camera()->GetcamViewInvRef();
+	g_Trans.matProjInv = m_Cam->Camera()->GetcamProjInvRef();
 	// MRT 설정
 	m_ShadowMapMRT->Clear();
 	m_ShadowMapMRT->SetOM();
 	// ShdowMap Mtrl Binding
 	m_ShadowMapMtrl->Bind();
-	//m_Cam->Camera()->SortGameObject();
-	//m_Cam->Camera()->render_shadowmap();
+	m_Cam->Camera()->SortShadows();
+	m_Cam->Camera()->RenderShadowMap();
 }
 
 void CLight3D::FinalTick()
@@ -100,9 +109,15 @@ void CLight3D::FinalTick()
 	m_Info.WorldPos = Transform()->GetWorldPos();
 	m_Info.WorldDir = Transform()->GetWorldDir(DIR::FRONT);
 
-	m_LightIdx = CRenderMgr::GetInst()->RegisterLight3D(this);
+
+	// 광원의 위치설정
+	if (m_Info.Type == LIGHT_TYPE::DIRECTIONAL)
+	{
+		Transform()->SetRelativePos(m_TargetPos + -m_Info.WorldDir * 10000.f);
+	}
 
 	Transform()->SetRelativeScale(Vec3(m_Info.Radius * 2.f, m_Info.Radius * 2.f, m_Info.Radius * 2.f));
+	m_LightIdx = CRenderMgr::GetInst()->RegisterLight3D(this);
 	// DebugShape
 	if (m_Info.Type == LIGHT_TYPE::POINT)
 	{

@@ -90,8 +90,9 @@ PS_OUT PS_Decal(VS_OUT _in)
         vEmissive *= EMISSION_MULTIPLIER;
     }
     
-    vColor.rgb *= vColor.a;
     output.vAlbedo = vColor;
+    
+    vEmissive.rgb *= vEmissive.a;
     output.vEmissive = vEmissive;
    
     return output;

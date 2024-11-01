@@ -41,7 +41,7 @@ void DecalUI::Update()
 
 		float& emissiveMul = pDecal->GetEmissionMultiplierRef();
 		ImGui::SetNextItemWidth(100.f);
-		ImGui::SliderFloat(u8"계수", &emissiveMul, 0.1f, 10.0f, "%.3f");
+		ImGui::SliderFloat(u8"계수", &emissiveMul, 0.1f, 5.0f, "%.2f");
 	}
 }
 

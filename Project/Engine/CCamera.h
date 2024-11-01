@@ -82,8 +82,12 @@ private:
     void RenderPostprocess();
     void RenderUI();
     void ClearVec();
+
+    void SortShadows();
+    void RenderShadowMap();
 private:
     friend class CRenderMgr;
+    friend class CLight3D;
     int                             m_Priority;
     UINT                            m_LayerCheck; // 원하는 레이머나 카메라에 찍히도록
     PROJ_TYPE                       m_ProjType;
@@ -104,5 +108,7 @@ private:
     std::vector<CGameObject*>       m_vecParticles;     // 투명, 반투명, 입자 타입
     std::vector<CGameObject*>       m_vecPostProcess;
     std::vector<CGameObject*>       m_vecUI;
+    std::vector<CGameObject*>       m_vecShadow;
+
     std::unique_ptr<CFrustum>       m_Frustum;
 };
