@@ -334,8 +334,9 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDSType(DS_TYPE::LESS);
 	pShader->SetBSType(BS_TYPE::DEFAULT);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
-	pShader->AddTexParam(TEX_0, "Albedo");
-	pShader->AddTexParam(TEX_1, "Normal");
+	pShader->AddTexParam(TEX_PARAM::TEX_0, "Albedo");
+	pShader->AddTexParam(TEX_PARAM::TEX_1, "Normal");
+	pShader->AddTexParam(TEX_PARAM::TEXCUBE_0, "Reflection");
 	AddAsset(L"Std3D_DeferredShader", pShader);
 
 	// SkyBoxShader
@@ -357,8 +358,20 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
 	pShader->SetBSType(BS_TYPE::DECAL);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DECAL);
-	pShader->AddTexParam(TEX_0, "Decal Texture");
+	pShader->AddTexParam(TEX_PARAM::TEX_1, "Decal Texture");
+	pShader->AddTexParam(TEX_PARAM::TEX_2, "Emissive Texture");
+	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_0, "Emission Mul");
 	AddAsset(L"DecalShader", pShader);
+
+	// DirLightShadowMap Shader
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\shadowmap.fx", "VS_DirLightShadowMap");
+	pShader->CreatePixelShader(L"shader\\shadowmap.fx", "PS_DirLightShadowMap");
+	pShader->SetRSType(RS_TYPE::CULL_BACK);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_SHADOWMAP);
+	AddAsset(L"DirLightShadowMap", pShader);
 }
 
 #include "CParticleTickCS.h"
@@ -444,6 +457,11 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"DecalShader"));
 	AddAsset(L"DecalMtrl", pMtrl);
+
+	// DirLightShadowMapMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"DirLightShadowMap"));
+	AddAsset(L"DirLightShadowMapMtrl", pMtrl);
 }
 
 void CAssetMgr::LoadSound()
@@ -765,59 +783,103 @@ tMeshData CAssetMgr::MakeRectGrid(const int _SliceCnt, const int _StackCnt)
 
 tMeshData CAssetMgr::MakeSphere(const float _Radius, const int _SliceCnt, const int _StackCnt)
 {
-	const float dTheta = -XM_2PI / float(_SliceCnt);
-	const float dPhi = -XM_PI / float(_SliceCnt);
+	const float fStackAngle = XM_PI / _StackCnt;
+	const float fSliceAngle = XM_2PI / _SliceCnt;
+
+	const float fUVXStep = 1.f / (float)_SliceCnt;
+	const float fUVYStep = 1.f / (float)_StackCnt;
 
 	tMeshData meshData;
+	Vtx v;
 
-	std::vector<Vtx>& vertices = meshData.vertices;
+	// Top
+	v.vPos = Vec3(0.f, _Radius, 0.f);
+	v.vUV = Vec2(0.5f, 0.f);
+	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	v.vNormal = v.vPos;
+	v.vNormal.Normalize();
+	v.vTangent = Vec3(1.f, 0.f, 0.f);
+	v.vBinormal = Vec3(0.f, 0.f, -1.f);
+	meshData.vertices.emplace_back(v);
 
-	for (int j = 0; j <= _StackCnt; j++)
+	for (UINT i = 1; i < _StackCnt; ++i)
 	{
-		Vec3 stackStartPoint = Vec3::Transform(Vec3(0.0f, -_Radius, 0.0f), Matrix::CreateRotationZ(dPhi * j));
+		float phi = i * fStackAngle;
 
-		for (int i = 0; i <= _SliceCnt; i++)
+		for (UINT j = 0; j <= _SliceCnt; ++j)
 		{
-			Vtx v;
+			float theta = j * fSliceAngle;
 
-			v.vPos = Vec3::Transform(stackStartPoint, Matrix::CreateRotationY(dTheta * float(i)));
+			v.vPos = Vec3(_Radius * sinf(i * fStackAngle) * cosf(j * fSliceAngle)
+				, _Radius * cosf(i * fStackAngle)
+				, _Radius * sinf(i * fStackAngle) * sinf(j * fSliceAngle));
 
+			v.vUV = Vec2(fUVXStep * j, fUVYStep * i);
+			v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
 			v.vNormal = v.vPos;
 			v.vNormal.Normalize();
-			v.vUV = Vec2(float(i) / _SliceCnt, 1.0f - float(j) / _StackCnt) * 0.5f;
 
-			Vec3 biTangent = Vec3(0.0f, 1.0f, 0.0f);
-
-			Vec3 normalOrth = v.vNormal - biTangent.Dot(v.vNormal) * v.vNormal;
-			normalOrth.Normalize();
-
-			v.vTangent = biTangent.Cross(normalOrth);
+			v.vTangent.x = -_Radius * sinf(phi) * sinf(theta);
+			v.vTangent.y = 0.f;
+			v.vTangent.z = _Radius * sinf(phi) * cosf(theta);
 			v.vTangent.Normalize();
+
 			v.vNormal.Cross(v.vTangent, v.vBinormal);
 			v.vBinormal.Normalize();
 
-			vertices.emplace_back(v);
+			meshData.vertices.emplace_back(v);
 		}
 	}
 
-	std::vector<UINT>& indices = meshData.indices;
+	// Bottom
+	v.vPos = Vec3(0.f, -_Radius, 0.f);
+	v.vUV = Vec2(0.5f, 1.f);
+	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	v.vNormal = v.vPos;
+	v.vNormal.Normalize();
 
-	for (int j = 0; j < _StackCnt; j++)
+	v.vTangent = Vec3(1.f, 0.f, 0.f);
+	v.vBinormal = Vec3(0.f, 0.f, -1.f);
+	meshData.vertices.emplace_back(v);
+
+	// ÀÎµ¦½º
+	// ºÏ±ØÁ¡
+	for (UINT i = 0; i < _SliceCnt; ++i)
 	{
-		const int offset = (_SliceCnt + 1) * j;
+		meshData.indices.push_back(0);
+		meshData.indices.push_back(i + 2);
+		meshData.indices.push_back(i + 1);
+	}
 
-		for (int i = 0; i < _SliceCnt; i++)
+	// ¸öÅë
+	for (UINT i = 0; i < _StackCnt - 2; ++i)
+	{
+		for (UINT j = 0; j < _SliceCnt; ++j)
 		{
-			indices.emplace_back(offset + i);
-			indices.emplace_back(offset + i + _SliceCnt + 1);
-			indices.emplace_back(offset + i + 1 + _SliceCnt + 1);
+			// + 
+			// | \
+			// +--+
+			meshData.indices.push_back((_SliceCnt + 1) * (i)+(j)+1);
+			meshData.indices.push_back((_SliceCnt + 1) * (i + 1) + (j + 1) + 1);
+			meshData.indices.push_back((_SliceCnt + 1) * (i + 1) + (j)+1);
 
-			indices.emplace_back(offset + i);
-			indices.emplace_back(offset + i + 1 + _SliceCnt + 1);
-			indices.emplace_back(offset + i + 1);
+			// +--+
+			//  \ |
+			//    +
+			meshData.indices.push_back((_SliceCnt + 1) * (i)+(j)+1);
+			meshData.indices.push_back((_SliceCnt + 1) * (i)+(j + 1) + 1);
+			meshData.indices.push_back((_SliceCnt + 1) * (i + 1) + (j + 1) + 1);
 		}
 	}
 
+	// ³²±ØÁ¡
+	UINT iBottomIdx = (UINT)meshData.vertices.size() - 1;
+	for (UINT i = 0; i < _SliceCnt; ++i)
+	{
+		meshData.indices.push_back(iBottomIdx);
+		meshData.indices.push_back(iBottomIdx - (i + 2));
+		meshData.indices.push_back(iBottomIdx - (i + 1));
+	}
 	return meshData;
 }
 
@@ -826,8 +888,6 @@ tMeshData CAssetMgr::MakeCylinder(const float _BotRadius, const float _TopRadius
 	const float dTheta = -XM_2PI / float(_SliceCnt);
 
 	tMeshData meshData;
-
-	std::vector<Vtx>& vertices = meshData.vertices;
 
 	for (int i = 0; i <= _SliceCnt; i++)
 	{
@@ -838,7 +898,7 @@ tMeshData CAssetMgr::MakeCylinder(const float _BotRadius, const float _TopRadius
 		v.vNormal = v.vPos - Vec3(0.0f, -0.5f * _Height, 0.0f);
 		v.vNormal.Normalize();
 
-		vertices.emplace_back(v);
+		meshData.vertices.emplace_back(v);
 	}
 
 	for (int i = 0; i <= _SliceCnt; i++)
@@ -850,20 +910,18 @@ tMeshData CAssetMgr::MakeCylinder(const float _BotRadius, const float _TopRadius
 		v.vNormal = v.vPos - Vec3(0.0f, 0.5f * _Height, 0.0f);
 		v.vNormal.Normalize();
 
-		vertices.emplace_back(v);
+		meshData.vertices.emplace_back(v);
 	}
-
-	std::vector<UINT>& indices = meshData.indices;
 
 	for (int i = 0; i < _SliceCnt; i++)
 	{
-		indices.emplace_back(i);
-		indices.emplace_back(i + _SliceCnt + 1);
-		indices.emplace_back(i + 1 + _SliceCnt + 1);
+		meshData.indices.push_back(i);
+		meshData.indices.push_back(i + _SliceCnt + 1);
+		meshData.indices.push_back(i + 1 + _SliceCnt + 1);
 
-		indices.emplace_back(i);
-		indices.emplace_back(i + 1 + _SliceCnt + 1);
-		indices.emplace_back(i + 1);
+		meshData.indices.push_back(i);
+		meshData.indices.push_back(i + 1 + _SliceCnt + 1);
+		meshData.indices.push_back(i + 1);
 	}
 
 	return meshData;
@@ -884,17 +942,12 @@ tMeshData CAssetMgr::MakeCapsule(const float _Radius, const float _WaistHeight, 
 	// Cylinder
 	tMeshData cylinder = MakeCylinder(_Radius, _Radius, 2.0f * _WaistHeight, _SliceCnt);
 
-	/*    ____¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ
-	 *   /    \                 \
-	 *   \____/¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ¤Ñ/
-	 */
 	// »ó´Ü + ÇÏ´Ü + ¿ø±âµÕ
 	tMeshData capsule;
 	capsule.vertices.insert(capsule.vertices.end(), topSphere.vertices.begin(), topSphere.vertices.end());
 	capsule.vertices.insert(capsule.vertices.end(), bottomSphere.vertices.begin(), bottomSphere.vertices.end());
 	capsule.vertices.insert(capsule.vertices.end(), cylinder.vertices.begin(), cylinder.vertices.end());
 
-	// »ó´Ü°ú ÇÏ´Ü, ¿ø±âµÕÀÇ ÀÎµ¦½º¸¦ Á¶Á¤ÇÏ¿© Ä¸½¶ÀÇ ÀÎµ¦½º¸¦ »ý¼ºÇÕ´Ï´Ù.
 	int offsetTop = int(topSphere.vertices.size());
 	int offsetCylinder = int(offsetTop + bottomSphere.vertices.size());
 	capsule.indices = topSphere.indices;

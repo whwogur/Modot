@@ -104,6 +104,7 @@ call EngineHeaderCopy.bat</Command>
     <ClInclude Include="CAnimator2D.h" />
     <ClInclude Include="CAsset.h" />
     <ClInclude Include="CAssetMgr.h" />
+    <ClInclude Include="CBoundingSphere.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCollider2D.h" />
     <ClInclude Include="CCollisionMgr.h" />
@@ -175,6 +176,7 @@ call EngineHeaderCopy.bat</Command>
     <ClCompile Include="CAsset.cpp" />
     <ClCompile Include="CAssetInit.cpp" />
     <ClCompile Include="CAssetMgr.cpp" />
+    <ClCompile Include="CBoundingSphere.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCollider2D.cpp" />
     <ClCompile Include="CCollisionMgr.cpp" />
@@ -288,6 +290,12 @@ call EngineHeaderCopy.bat</Command>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="setcolor.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="shadowmap.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>

@@ -30,9 +30,11 @@ struct PS_OUT
 // DepthStencil : NO_TEST_NO_WRITE
 // BlendState   : ONE_ONE
 // Parameter
-#define LIGHT_IDX       g_int_0
-#define POS_TARGET      g_tex_0
-#define NORMAL_TARGET   g_tex_1
+#define LIGHT_IDX               g_int_0
+#define POS_TARGET              g_tex_0
+#define NORMAL_TARGET           g_tex_1
+#define SHADOWMAP_TEXTURE       g_tex_2
+#define LIGHT_VP                g_mat_0
 // ================================
 VS_OUT VS_DirLight(VS_IN _in)
 {
@@ -57,12 +59,43 @@ PS_OUT PS_DirLight(VS_OUT _in)
     
     float3 vViewNormal = NORMAL_TARGET.Sample(g_AniWrapSampler, _in.vUV).xyz;
     
+    bool bShadow = false;
+    if (g_btex_2)
+    {
+        // 빛을 받을 지점(ViewPos) 을 WorldPos 로 변경하고, 광원시점으로 투영시킴
+        float3 vWorldPos = mul(float4(vViewPos.xyz, 1.f), matViewInv).xyz;
+        float4 vProjPos = mul(float4(vWorldPos, 1.f), LIGHT_VP);
+        vProjPos.xyz = vProjPos.xyz / vProjPos.w;
+        
+        // 광원으로 투영시킨 NDC 좌표를 UV 로 변환해서 광원시점에 기록된 물체의 깊이를 확인한다.
+        float2 vShadowMapUV = float2((vProjPos.x + 1.f) * 0.5f, 1.f - (vProjPos.y + 1.f) * 0.5f);
+        float fDist = SHADOWMAP_TEXTURE.Sample(g_AniWrapSampler, vShadowMapUV).x;
+        
+        // 광원 시점에서 물체가 기록된 범위(시야 범위) 이내에서만 테스트 진행
+        if (0.f < vShadowMapUV.x && vShadowMapUV.x < 1.f
+            && 0.f < vShadowMapUV.y && vShadowMapUV.y < 1.f)
+        {
+            // 광원시점에서 기록된 깊이값과, 투영된 깊이 비교
+            if (fDist + 0.00001f < vProjPos.z)
+            {
+                bShadow = true;
+            }
+        }
+    }
+    
     // 해당 지점이 받을 빛의 세기를 계산한다.
     tLight light = (tLight) 0.f;
     CalculateLight3D(LIGHT_IDX, vViewNormal, vViewPos.xyz, light);
         
-    output.vDiffuse = light.Color + light.Ambient;
-    output.vSpecular = light.SpecCoefficient;
+    if (bShadow)
+    {
+        output.vDiffuse = (light.Color + light.Ambient) * 0.1f;
+    }
+    else
+    {
+        output.vDiffuse = light.Color + light.Ambient;
+        output.vSpecular = light.SpecCoefficient;
+    }
     
     output.vDiffuse.a = 1.f;
     output.vSpecular.a = 1.f;

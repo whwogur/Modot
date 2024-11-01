@@ -3,7 +3,7 @@
 
 #include "CDevice.h"
 #include "CConstBuffer.h"
-
+#include "CRenderComponent.h"
 CTransform::CTransform()
 	: CComponent(COMPONENT_TYPE::TRANSFORM)
 	, m_RelativeDir{}
@@ -78,6 +78,9 @@ void CTransform::FinalTick()
 
 	// 월드 역행렬 계산
 	m_matWorldInv = XMMatrixInverse(nullptr, m_matWorld);
+
+	if (m_UseFrustumCulling)
+		m_BoundingSphere->RenderBounds(m_RelativePos);
 }
 
 void CTransform::Bind()
@@ -126,6 +129,42 @@ Vec3 CTransform::GetWorldScale()
 	}
 
 	return vWorldScale;
+}
+
+CTransform& CTransform::operator=(const CTransform& _Other)
+{
+	m_RelativePos = _Other.m_RelativePos;
+	m_RelativeScale = _Other.m_RelativeScale;
+	m_RelativeRotation = _Other.m_RelativeRotation;
+	m_matWorld = _Other.m_matWorld;
+	m_matWorldInv = _Other.m_matWorldInv;
+	m_IndependentScale = _Other.m_IndependentScale;
+	for (int i = 0; i < 3; ++i)
+	{
+		m_RelativeDir[i] = _Other.m_RelativeDir[i];
+		m_WorldDir[i] = _Other.m_WorldDir[i];
+	}
+	return *this;
+}
+
+void CTransform::SetFrustumCulling(bool _Cull)
+{
+	m_UseFrustumCulling = _Cull;
+
+	if (m_BoundingSphere == nullptr)
+		m_BoundingSphere = std::make_shared<CBoundingSphere>();
+
+	m_BoundingSphere->SetRadius(m_RelativeScale.x / 2.f);
+
+	CRenderComponent* rComp = GetOwner()->GetRenderComponent();
+	if (rComp != nullptr)
+		rComp->SetFrustumCheck(_Cull);
+}
+
+std::shared_ptr<CBoundingSphere>& CTransform::GetBoundingSphere()
+{
+	if (m_UseFrustumCulling && m_BoundingSphere != nullptr)
+		return m_BoundingSphere;
 }
 
 void CTransform::SaveToFile(FILE* _File)

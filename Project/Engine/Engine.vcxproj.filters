@@ -187,6 +187,9 @@
     <ClInclude Include="CFrustum.h">
       <Filter>Component\Camera\Frustum</Filter>
     </ClInclude>
+    <ClInclude Include="CBoundingSphere.h">
+      <Filter>Component\Transform\Bounding</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -352,6 +355,9 @@
     <ClCompile Include="CFrustum.cpp">
       <Filter>Component\Camera\Frustum</Filter>
     </ClCompile>
+    <ClCompile Include="CBoundingSphere.cpp">
+      <Filter>Component\Transform\Bounding</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -513,6 +519,9 @@
     <Filter Include="Component\Camera\Frustum">
       <UniqueIdentifier>{34137d29-8585-4933-ad0b-084f6b8d74e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Transform\Bounding">
+      <UniqueIdentifier>{63ecd7cd-8556-4aee-af65-1829e2ec975d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -569,6 +578,9 @@
       <Filter>Shader\GraphicShader</Filter>
     </FxCompile>
     <FxCompile Include="decal.fx">
+      <Filter>Shader\GraphicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="shadowmap.fx">
       <Filter>Shader\GraphicShader</Filter>
     </FxCompile>
   </ItemGroup>

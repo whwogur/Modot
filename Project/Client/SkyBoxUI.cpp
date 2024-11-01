@@ -23,12 +23,12 @@ void SkyBoxUI::Update()
 			SKYBOX_TYPE eType = pSkyBox->GetType();
 			if (ImGui::BeginCombo("##SkyboxType", eType == SPHERE ? "Sphere" : "Cube"))
 			{
-				if (ImGui::Selectable("Sphere", eType == SPHERE ? true : false, ImGuiSelectableFlags_Disabled && eType == SPHERE))
+				if (ImGui::Selectable("Sphere"))
 				{
 					pSkyBox->SetSkyBoxType(SKYBOX_TYPE::SPHERE);
 				}
 
-				if (ImGui::Selectable("Cube", eType == CUBE ? true : false, ImGuiSelectableFlags_Disabled && eType == CUBE))
+				if (ImGui::Selectable("Cube"))
 				{
 					pSkyBox->SetSkyBoxType(SKYBOX_TYPE::CUBE);
 				}
@@ -40,12 +40,13 @@ void SkyBoxUI::Update()
 			Ptr<CTexture> pCurTex = pSkyBox->GetSkyBoxTex();
 			if (ParamUI::InputTexture(pCurTex, u8"ÅØ½ºÃ³"))
 			{
+				pSkyBox->SetSkyBoxTexture(pCurTex);
+
 				bool isCube = pCurTex->IsCubeMap();
 				pSkyBox->SetSkyBoxType(isCube ? CUBE : SPHERE);
-				pSkyBox->SetSkyBoxTexture(pCurTex);
 			}
 		}
 		else
-			ImGui::Image(m_NullTexture->GetSRV().Get(), { 100, 100 });
+			ImGui::Image(m_NullTexture->GetSRV().Get(), { 150, 150 });
 	}
 }

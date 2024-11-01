@@ -4,6 +4,9 @@
 #include "value.fx"
 #include "func.fx"
 
+#define ALBEDO_TEXTURE g_tex_0
+#define NORMAL_TEXTURE g_tex_1
+#define REFLECTION_TEXTURE g_texcube_0
 struct VS_IN
 {
     float3 vPos         : POSITION;
@@ -65,11 +68,11 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
     output.vData = float4(0.f, 0.f, 0.f, 0.f);
     
     if (g_btex_0)
-        output.vAlbedo = g_tex_0.Sample(g_AniWrapSampler, _in.vUV);
+        output.vAlbedo = ALBEDO_TEXTURE.Sample(g_AniWrapSampler, _in.vUV);
     
     if (g_btex_1)
     {
-        float3 vNormal = g_tex_1.Sample(g_AniWrapSampler, _in.vUV).xyz;
+        float3 vNormal = NORMAL_TEXTURE.Sample(g_AniWrapSampler, _in.vUV).xyz;
         vNormal = vNormal * 2.f - 1.f;
                 
         float3x3 matRot =
@@ -86,7 +89,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
     {
         float3 vViewReflect = reflect(normalize(_in.vViewPos).xyz, output.vNormal.xyz);
         float3 vWorldReflect = normalize(mul(float4(vViewReflect, 0.f), matViewInv).xyz);
-        float3 vRelfectColor = g_texcube_0.Sample(g_AniWrapSampler, vWorldReflect);
+        float3 vRelfectColor = REFLECTION_TEXTURE.Sample(g_AniWrapSampler, vWorldReflect);
         output.vAlbedo.rgb *= vRelfectColor.rgb;
     }
     

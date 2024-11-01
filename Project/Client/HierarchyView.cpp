@@ -53,7 +53,7 @@ void HierarchyView::Update()
 			pGameObject->SetName(L"NewObject");
 			pGameObject->AddComponent(new CTransform);
 			pGameObject->Transform()->SetRelativePos(0.f, 0.f, 0.f);
-			pGameObject->Transform()->SetRelativeScale(200.f, 200.f, 1.f);
+			pGameObject->Transform()->SetRelativeScale(100.f, 100.f, 100.f);
 			CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(0, pGameObject);
 		}
 

@@ -174,6 +174,15 @@ void CRenderMgr::RenderStart()
 
 void CRenderMgr::Render(CCamera* _Cam)
 {
+	// ================
+	//  ShadowMap
+	// ================
+	// 광원 시점에서 물체들의 깊이 기록
+	for (const auto& Light3D : m_vecLight3D)
+	{
+		Light3D->CreateShadowMap();
+	}
+
 	// 오브젝트 분류
 	_Cam->SortGameObject();
 	// 카메라 변환행렬 설정

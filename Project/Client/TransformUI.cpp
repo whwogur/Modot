@@ -3,6 +3,7 @@
 
 #include <Engine/CGameObject.h>
 #include <Engine/CTransform.h>
+#include <Engine/CBoundingSphere.h>
 
 TransformUI::TransformUI()
 	: ComponentUI(COMPONENT_TYPE::TRANSFORM)
@@ -40,5 +41,26 @@ void TransformUI::Update()
 
 		vRot = (vRot / 180.f) * XM_PI;
 
+		bool bFrustumCull = pTrans->GetFrustumCulling();
+
+		if (ImGui::Checkbox("Frustum Culling", &bFrustumCull))
+		{
+			pTrans->SetFrustumCulling(bFrustumCull);
+		}
+
+		if (bFrustumCull)
+		{
+			std::shared_ptr<CBoundingSphere>& pBoundingSphere = pTrans->GetBoundingSphere();
+
+			if (pBoundingSphere != nullptr)
+			{
+				float fRadius = pBoundingSphere->GetRadius();
+				if (ImGui::DragFloat("Radius", &fRadius, 1.f, 0.f, 0.f, "%.1f"))
+				{
+					pBoundingSphere->SetRadius(fRadius);
+				}
+			}
+		}
+		
 	}	
 }

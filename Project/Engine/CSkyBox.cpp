@@ -6,7 +6,7 @@
 
 CSkyBox::CSkyBox()
 	: CRenderComponent(COMPONENT_TYPE::SKYBOX)
-	, m_Type(CUBE)
+	, m_Type(SKYBOX_TYPE::SPHERE)
 {
 	SetSkyBoxType(m_Type);
 	SetFrustumCheck(false);
@@ -49,11 +49,13 @@ void CSkyBox::Render()
 		}
 	}
 	
-
-		
-
 	GetMaterial()->Bind();
 	GetMesh()->Render();
+}
+
+void CSkyBox::RenderShadow()
+{
+	
 }
 
 void CSkyBox::SaveToFile(FILE* _File)
@@ -70,6 +72,9 @@ void CSkyBox::LoadFromFile(FILE* _File)
 
 void CSkyBox::SetSkyBoxType(SKYBOX_TYPE _Type)
 {
+	if (m_Type == _Type)
+		return;
+
 	m_Type = _Type;
 	if (SKYBOX_TYPE::SPHERE == m_Type)
 		SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"SphereMesh"));
