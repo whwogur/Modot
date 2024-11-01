@@ -1,35 +1,20 @@
 #pragma once
 #include "CComponent.h"
+#include "CBoundingSphere.h"
+
 enum class OBJECT_DIR
 {
     LEFT,
     RIGHT,
 };
 
-class BoundingSphere // TODO
-{
-public:
-    BoundingSphere() = default;
-    ~BoundingSphere() = default;
-
-public:
-    float GetRadius() const { return m_Radius; }
-
-private:
-    friend class CTransform;
-    void SetRadius(float _Radius) { m_Radius = _Radius; }
-
-private:
-    float m_Radius = 0.f;
-};
-
 class CTransform :
     public CComponent
 {
- public:
+public:
     CTransform();
     ~CTransform() = default;
-    CLONE(CTransform);
+    CLONE(CTransform)
 public:
     virtual void FinalTick() override;
     void Bind();
@@ -64,17 +49,31 @@ public:
 
     CTransform& operator = (const CTransform& _Other);
 
+    bool GetFrustumCulling() const{ return m_UseFrustumCulling; }
+    void SetFrustumCulling(bool _Cull);
+    std::shared_ptr<CBoundingSphere>& GetBoundingSphere();
+    float GetBoundRadius()
+    {
+        if (m_UseFrustumCulling == false)
+            return -1.f;
+        else
+            return m_BoundingSphere->GetRadius();
+    }
+
     virtual void SaveToFile(FILE* _File) override;
     virtual void LoadFromFile(FILE* _File) override;
 private:
-    Vec3    m_RelativePos;
-    Vec3    m_RelativeScale;
-    Vec3    m_RelativeRotation;
-    Vec3    m_RelativeDir[3];
-    Vec3    m_WorldDir[3];
+    Vec3                                m_RelativePos;
+    Vec3                                m_RelativeScale;
+    Vec3                                m_RelativeRotation;
+    Vec3                                m_RelativeDir[3];
+    Vec3                                m_WorldDir[3];
 
-    Matrix  m_matWorld;
-    Matrix  m_matWorldInv;
-    Matrix  m_matTransformation = {};
-    bool    m_IndependentScale;
+    Matrix                              m_matWorld;
+    Matrix                              m_matWorldInv;
+    Matrix                              m_matTransformation = {};
+    bool                                m_IndependentScale;
+
+    bool                                m_UseFrustumCulling = false;
+    std::shared_ptr<CBoundingSphere>    m_BoundingSphere = nullptr;
 };

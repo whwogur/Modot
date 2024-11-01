@@ -40,8 +40,8 @@ void CLight3D::SetLightType(LIGHT_TYPE _Type)
 		m_ShadowMapMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DirLightShadowMapMtrl");
 		// 광원 카메라 옵션 설정
 		m_Cam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
-		m_Cam->Camera()->SetWidth(8'192);
-		m_Cam->Camera()->SetHeight(8'192);
+		m_Cam->Camera()->SetWidth(8192);
+		m_Cam->Camera()->SetHeight(8192);
 		m_Cam->Camera()->SetLayerAll();
 		m_Cam->Camera()->SetLayer(31, false);
 		m_Cam->Camera()->SetScale(1.f);
@@ -113,7 +113,7 @@ void CLight3D::FinalTick()
 	// 광원의 위치설정
 	if (m_Info.Type == LIGHT_TYPE::DIRECTIONAL)
 	{
-		Transform()->SetRelativePos(m_TargetPos + -m_Info.WorldDir * 10000.f);
+		Transform()->SetRelativePos(m_TargetPos -m_Info.WorldDir * 3000.f);
 	}
 
 	Transform()->SetRelativeScale(Vec3(m_Info.Radius * 2.f, m_Info.Radius * 2.f, m_Info.Radius * 2.f));

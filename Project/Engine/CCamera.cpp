@@ -123,8 +123,9 @@ void CCamera::SortGameObject()
 
 			// 절두체 검사를 진행 함, 실패 함
 			if (RenderComp->ChecksFrustum()
+				&& vecObjects[j]->Transform()->GetFrustumCulling()
 				&& m_Frustum->FrustumCheck(vecObjects[j]->Transform()->GetWorldPos()
-												  , vecObjects[j]->Transform()->GetWorldScale().x / 2.f) == false)
+												  , vecObjects[j]->Transform()->GetBoundRadius()) == false)
 			{
 				continue;
 			}

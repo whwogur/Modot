@@ -36,7 +36,7 @@ public:
 private:
     tLightInfo                      m_Info;
     int                             m_LightIdx;
-    Vec3                            m_TargetPos;
+    Vec3                            m_TargetPos = { 0, 0, 0 };
 
     Ptr<CMesh>                      m_VolumeMesh;
     Ptr<CMaterial>                  m_LightMtrl;

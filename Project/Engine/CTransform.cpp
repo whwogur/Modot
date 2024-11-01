@@ -3,7 +3,7 @@
 
 #include "CDevice.h"
 #include "CConstBuffer.h"
-
+#include "CRenderComponent.h"
 CTransform::CTransform()
 	: CComponent(COMPONENT_TYPE::TRANSFORM)
 	, m_RelativeDir{}
@@ -78,6 +78,9 @@ void CTransform::FinalTick()
 
 	// 월드 역행렬 계산
 	m_matWorldInv = XMMatrixInverse(nullptr, m_matWorld);
+
+	if (m_UseFrustumCulling)
+		m_BoundingSphere->RenderBounds(m_RelativePos);
 }
 
 void CTransform::Bind()
@@ -142,6 +145,26 @@ CTransform& CTransform::operator=(const CTransform& _Other)
 		m_WorldDir[i] = _Other.m_WorldDir[i];
 	}
 	return *this;
+}
+
+void CTransform::SetFrustumCulling(bool _Cull)
+{
+	m_UseFrustumCulling = _Cull;
+
+	if (m_BoundingSphere == nullptr)
+		m_BoundingSphere = std::make_shared<CBoundingSphere>();
+
+	m_BoundingSphere->SetRadius(m_RelativeScale.x / 2.f);
+
+	CRenderComponent* rComp = GetOwner()->GetRenderComponent();
+	if (rComp != nullptr)
+		rComp->SetFrustumCheck(_Cull);
+}
+
+std::shared_ptr<CBoundingSphere>& CTransform::GetBoundingSphere()
+{
+	if (m_UseFrustumCulling && m_BoundingSphere != nullptr)
+		return m_BoundingSphere;
 }
 
 void CTransform::SaveToFile(FILE* _File)
