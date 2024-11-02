@@ -21,6 +21,13 @@ void DecalUI::Update()
 		
 		Ptr<CTexture> pDecalTex = pDecal->GetDecalTexture();
 		Ptr<CTexture> pEmissiveTex = pDecal->GetEmissiveTexture();
+		bool decalEnabled = pDecal->GetDecalEnabled();
+
+		if (ImGui::Checkbox("Decal", &decalEnabled))
+		{
+			pDecal->ToggleDecalMode(decalEnabled);
+		}
+		ImGui::SetItemTooltip(u8"ON: µ¥Ä®\nOFF: ¹ß±¤");
 
 		if (ParamUI::InputTexture(pDecalTex, "DecalTex", this, (DELEGATE_1)&DecalUI::SelectDecalTexture))
 		{
@@ -29,9 +36,12 @@ void DecalUI::Update()
 
 		if (ParamUI::InputTexture(pEmissiveTex, "EmissiveTex", this, (DELEGATE_1)&DecalUI::SelectEmissiveTexture))
 		{
-			pDecal->SetDecalTexture((CTexture*)pEmissiveTex.Get());
+			pDecal->SetEmissiveTexture((CTexture*)pEmissiveTex.Get());
 		}
 
+		float& emissiveMul = pDecal->GetEmissionMultiplierRef();
+		ImGui::SetNextItemWidth(100.f);
+		ImGui::SliderFloat(u8"°è¼ö", &emissiveMul, 0.1f, 5.0f, "%.2f");
 	}
 }
 

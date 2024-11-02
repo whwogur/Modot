@@ -3,6 +3,7 @@
 #include "CLevelMgr.h"
 #include "CAssetMgr.h"
 #include "CLevel.h"
+#include "CTransform.h"
 CRenderComponent::CRenderComponent(COMPONENT_TYPE _Type)
 	: CComponent(_Type)
 	, m_Mesh(nullptr)
@@ -53,6 +54,13 @@ Ptr<CMaterial> CRenderComponent::GetDynamicMaterial()
 	m_Mtrl = m_DynamicMtrl = m_SharedMtrl->Clone();
 
 	return m_Mtrl;
+}
+
+void CRenderComponent::RenderShadow()
+{
+	// 재질은 ShadowMapMtrl 로 이미 Bind 되어있는걸 사용
+	Transform()->Bind();
+	GetMesh()->Render();
 }
 
 void CRenderComponent::SaveDataToFile(FILE* _File)

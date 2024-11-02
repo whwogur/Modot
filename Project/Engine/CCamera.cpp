@@ -123,8 +123,9 @@ void CCamera::SortGameObject()
 
 			// 절두체 검사를 진행 함, 실패 함
 			if (RenderComp->ChecksFrustum()
+				&& vecObjects[j]->Transform()->GetFrustumCulling()
 				&& m_Frustum->FrustumCheck(vecObjects[j]->Transform()->GetWorldPos()
-												  , vecObjects[j]->Transform()->GetWorldScale().x / 2.f) == false)
+												  , vecObjects[j]->Transform()->GetBoundRadius()) == false)
 			{
 				continue;
 			}
@@ -241,6 +242,48 @@ void CCamera::ClearVec()
 	m_vecParticles.clear();
 	m_vecPostProcess.clear();
 	m_vecUI.clear();
+}
+
+void CCamera::SortShadows()
+{
+	CLevel* pLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		if (false == (m_LayerCheck & (1 << i)))
+		{
+			continue;
+		}
+		CLayer* pLayer = pLevel->GetLayer(i);
+		const std::vector<CGameObject*>& vecObjects = pLayer->GetObjects();
+		for (const auto& pShadowObj : vecObjects)
+		{
+			if (nullptr == pShadowObj->GetRenderComponent()
+				|| nullptr == pShadowObj->GetRenderComponent()->GetMesh()
+				|| nullptr == pShadowObj->GetRenderComponent()->GetMaterial()
+				|| nullptr == pShadowObj->GetRenderComponent()->GetMaterial()->GetShader())
+			{
+				continue;
+			}
+
+			if (pShadowObj->GetRenderComponent()->ChecksFrustum()
+				&& false == m_Frustum->FrustumCheck(pShadowObj->Transform()->GetWorldPos()
+					, pShadowObj->Transform()->GetWorldScale().x / 2.f))
+			{
+				continue;
+			}
+			m_vecShadow.push_back(pShadowObj);
+		}
+	}
+}
+
+void CCamera::RenderShadowMap()
+{
+	for (const auto& pShadowObj : m_vecShadow)
+	{
+		pShadowObj->GetRenderComponent()->RenderShadow();
+	}
+
+	m_vecShadow.clear();
 }
 
 void CCamera::RenderEffect()
