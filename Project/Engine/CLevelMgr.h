@@ -14,7 +14,7 @@ public:
 	bool IsDirty() { return m_Dirty; }
 public:
 	void SetLevelDirty();
-	void Run();
+	void Tick();
 
 private:
 	bool ChangeLevel(CLevel* _NextLevel);

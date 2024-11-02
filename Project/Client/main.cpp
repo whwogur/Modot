@@ -84,7 +84,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         else
         {
             MD_PROFILE_BEGIN_SESSION("Runtime", "Profile-Runtime.json");
-            CEngine::GetInst()->Run();
+            CEngine::GetInst()->Tick();
 #ifdef _DEBUG
             CEditorMgr::GetInst()->Tick();
 #endif
