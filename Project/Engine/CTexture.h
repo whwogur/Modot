@@ -8,8 +8,8 @@ public:
     CTexture();
     ~CTexture();
 public:
-    virtual int Load(const wstring& _FilePath);
-    virtual int Save(const wstring& _FilePath);
+    virtual int Load(const wstring& _RelativePath) override;
+    virtual int Save(const wstring& _RelativePath) override;
    
     int Create(UINT _Width, UINT _Height, DXGI_FORMAT _PixelFormat, UINT _Flags, D3D11_USAGE _Usage = D3D11_USAGE_DEFAULT);
     int Create(WRL::ComPtr<ID3D11Texture2D> _Tex2D);

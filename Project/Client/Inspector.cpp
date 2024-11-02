@@ -17,7 +17,7 @@ Inspector::Inspector()
 	, m_arrComUI{}
 	, m_arrAssetUI{}
 {
-	m_IconTexture = CAssetMgr::GetInst()->Load<CTexture>(L"ComponentIcons", L"texture\\ComponentIcons.png");
+	m_IconTexture = CAssetMgr::GetInst()->Load<CTexture>(L"ComponentIcons", L"texture\\Engine\\ComponentIcons.png");
 }
 
 Inspector::~Inspector()

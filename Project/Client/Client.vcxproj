@@ -111,6 +111,7 @@
     <ClInclude Include="EditorLogger.h" />
     <ClInclude Include="EditorViewport.h" />
     <ClInclude Include="Light3DUI.h" />
+    <ClInclude Include="ModotHelpers.h" />
     <ClInclude Include="RigidBodyUI.h" />
     <ClInclude Include="ScriptUI.h" />
     <ClInclude Include="CTestLevel.h" />
@@ -181,6 +182,7 @@
     <ClCompile Include="EditorLogger.cpp" />
     <ClCompile Include="EditorViewport.cpp" />
     <ClCompile Include="Light3DUI.cpp" />
+    <ClCompile Include="ModotHelpers.cpp" />
     <ClCompile Include="RigidBodyUI.cpp" />
     <ClCompile Include="ScriptUI.cpp" />
     <ClCompile Include="CTestLevel.cpp" />

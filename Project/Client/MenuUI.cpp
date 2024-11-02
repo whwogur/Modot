@@ -49,7 +49,7 @@ void MenuUI::Update()
 
 void MenuUI::Init()
 {
-	m_LogoTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Modot_Logo");
+	m_LogoTex = CAssetMgr::GetInst()->Load<CTexture>(L"Modot_Logo", L"texture\\Engine\\Modot_Logo.png");
 }
 
 void MenuUI::File()

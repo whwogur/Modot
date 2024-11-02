@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Collider2DUI.h"
 
+#include "ModotHelpers.h"
 #include <Engine/CCollider2D.h>
 Collider2DUI::Collider2DUI()
 	: ComponentUI(COMPONENT_TYPE::COLLIDER2D)
@@ -23,8 +24,8 @@ void Collider2DUI::Update()
 			Vec3& vScale = pCollider->GetScaleRef();
 			bool& bIndependent = pCollider->GetIndependetScaleRef();
 
-			DrawVec3Control("Offset", vOffset, 0.0f, 80.0f);
-			DrawVec3Control("Scale", vScale, 0.0f, 80.0f);
+			ModotHelpers::DrawVec3Control("Offset", vOffset, 0.0f, 80.0f);
+			ModotHelpers::DrawVec3Control("Scale", vScale, 0.0f, 80.0f);
 			ImGui::Checkbox("Independent Scale", &bIndependent);
 		}
 	}
