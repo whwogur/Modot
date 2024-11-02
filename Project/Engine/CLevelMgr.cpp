@@ -33,7 +33,7 @@ void CLevelMgr::SetLevelDirty()
 	CTaskMgr::GetInst()->AddTask(tTask{ TASK_TYPE::LEVEL_SETDIRTY });
 }
 
-void CLevelMgr::Run()
+void CLevelMgr::Tick()
 {
 	MD_PROFILE_FUNCTION();
 	m_Dirty = false;

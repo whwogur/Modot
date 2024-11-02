@@ -62,7 +62,7 @@ int CEngine::Init(HWND _wnd, POINT _ptResolution, OBJECT_SAVE _SaveFunc, OBJECT_
 }
 
 
-void CEngine::Run()
+void CEngine::Tick()
 {
 	MD_PROFILE_FUNCTION();
 	m_FMODSystem->update();
@@ -70,7 +70,7 @@ void CEngine::Run()
 	CKeyMgr::GetInst()->Tick();
 	CTimeMgr::GetInst()->Tick();
 	CAssetMgr::GetInst()->Tick();
-	CLevelMgr::GetInst()->Run();
+	CLevelMgr::GetInst()->Tick();
 	CCollisionMgr::GetInst()->Tick();
 	// Render
 	CRenderMgr::GetInst()->Tick();

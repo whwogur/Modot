@@ -12,7 +12,7 @@ public:
 	FMOD::System* GetFMODSystem() { return m_FMODSystem; }
 public:
 	int Init(HWND _wnd, POINT _ptResolution, OBJECT_SAVE _SaveFunc, OBJECT_LOAD _Func);
-	void Run();
+	void Tick();
 	void ChangeWindowScale(UINT _Width, UINT _Height);
 
 private:
