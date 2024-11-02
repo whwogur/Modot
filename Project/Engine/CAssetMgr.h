@@ -30,7 +30,10 @@ public:
 	void GetAssetNames(ASSET_TYPE _Type, std::vector<string>& _vecOut);
 	const map<wstring, Ptr<CAsset>>& GetAssets(ASSET_TYPE _Type) { return m_mapAsset[(UINT)_Type]; }
 	bool IsDirty() const { return m_Dirty; }
-	
+
+	void AsyncReloadContents();
+	float GetLoadingProgress() { return m_CompletedThread / (float)m_listThreads.size(); }
+	bool IsAssetLoading() const { return m_listThreads.size() != m_CompletedThread; }
 private:
 	void CreateEngineMesh();
 	void CreateEngineMaterial();
@@ -53,10 +56,19 @@ private:
 	tMeshData MakeCapsule(const float _Radius, const float _WaistHeight, const int _SliceCnt);
 	tMeshData MakeCube();
 
+	void FindAssetName(const wstring& _FolderPath, const wstring& _Filter);
+	void LoadAsset(const path& _Path);
+	void Reload();
+	void ThreadRelease();
 private:
 	friend class CTaskMgr;
 	map<wstring, Ptr<CAsset>> m_mapAsset[(UINT)ASSET_TYPE::END];
+	std::vector<wstring> m_vecAssetPath;
 	bool m_Dirty;
+
+	std::list<std::thread> m_listThreads = {};
+	std::mutex m_Mutex;
+	UINT m_CompletedThread = 0;
 };
 
 template<typename T>

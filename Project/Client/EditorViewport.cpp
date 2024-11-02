@@ -9,6 +9,7 @@
 #include "ImGui/imgui_internal.h"
 #include "CEditorCameraScript.h"
 #include "TreeUI.h"
+#include "ModotHelpers.h"
 
 #include <Engine/CCamera.h>
 #include <Engine/CLevel.h>
@@ -118,6 +119,21 @@ void EditorViewport::Update()
     {
         m_GizmoActive = !m_GizmoActive;
         m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+    }
+
+    if (CAssetMgr::GetInst()->IsAssetLoading())
+    {
+        ImGui::Begin("Asset Loading", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoDocking);
+
+        const float prog = CAssetMgr::GetInst()->GetLoadingProgress();
+        const ImU32 spinnerCol = ImGui::GetColorU32(ImVec4{ 0.2f, 0.45f, 0.811f, 1.0f });
+        const ImU32 barCol = ImGui::GetColorU32(ImVec4{ 0.32f, 0.37f, 0.88f, 1.0f });
+
+        ImGui::SameLine(ImGui::GetContentRegionAvail().x / 2);
+        ModotHelpers::Spinner("##spinner", 15, 6, spinnerCol);
+        ModotHelpers::BufferingBar("##buffer_bar", prog, ImVec2(300, 12), barCol, spinnerCol);
+
+        ImGui::End();
     }
 }
 

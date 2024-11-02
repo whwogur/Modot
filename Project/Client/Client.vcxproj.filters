@@ -269,6 +269,9 @@
     <ClInclude Include="TexturePreview.h">
       <Filter>Editor\EditorUI\Modal\TexturePreview</Filter>
     </ClInclude>
+    <ClInclude Include="ModotHelpers.h">
+      <Filter>Editor\EditorUI\Modal\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -473,6 +476,9 @@
     </ClCompile>
     <ClCompile Include="TexturePreview.cpp">
       <Filter>Editor\EditorUI\Modal\TexturePreview</Filter>
+    </ClCompile>
+    <ClCompile Include="ModotHelpers.cpp">
+      <Filter>Editor\EditorUI\Modal\Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

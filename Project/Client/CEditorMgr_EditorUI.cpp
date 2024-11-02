@@ -166,12 +166,10 @@ void CEditorMgr::ObserveContents()
 
     if (dwStatus == WAIT_OBJECT_0)
     {
-        // Content 폴더에 있는 모든 에셋과 메모리에 로딩되어있는 에셋을 동기화
-        Content* pContent = (Content*)FindEditorUI("Content");
-        pContent->Reload();
-
         // 다시 대기
         FindNextChangeNotification(m_Sentinel);
+
+        CAssetMgr::GetInst()->AsyncReloadContents();
     }
 }
 
