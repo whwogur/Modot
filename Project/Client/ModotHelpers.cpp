@@ -3,7 +3,7 @@
 
 #include <ImGui/imgui_internal.h>
 
-bool ModotHelpers::Spinner(const char* _Label, float _Radius, int _Thickness, const ImU32& _Color)
+bool ModotHelpers::FilledSpinner(const char* _Label, float _Radius, int _Thickness, const ImU32& _Color)
 {
 	ImGuiWindow* window = ImGui::GetCurrentWindow();
 	if (window->SkipItems)
@@ -143,4 +143,40 @@ void ModotHelpers::DrawVec3Control(const string& label, Vec3& values, float rese
 	ImGui::Columns(1);
 
 	ImGui::PopID();
+}
+
+void ModotHelpers::LoadingIndicatorCircle(const char* _Label, const float _IndicatorRadius, const ImVec4& _MainColor, const ImVec4& _BackdropColor, const int _CircleCount, const float _Speed) {
+
+	ImGuiWindow* window = ImGui::GetCurrentWindow();
+	if (window->SkipItems) 
+	{
+		return;
+	}
+
+	ImGuiContext& g = *GImGui;
+	const ImGuiID id = window->GetID(_Label);
+
+	const ImVec2 pos = window->DC.CursorPos;
+	const float circle_radius = _IndicatorRadius / 15.0f;
+	const float updated_indicator_radius = _IndicatorRadius - 4.0f * circle_radius;
+	const ImRect bb(pos, ImVec2(pos.x + _IndicatorRadius * 2.0f, pos.y + _IndicatorRadius * 2.0f));
+	ImGui::ItemSize(bb);
+	if (!ImGui::ItemAdd(bb, id)) {
+		return;
+	}
+	const float t = g.Time;
+	const auto degree_offset = 2.0f * IM_PI / _CircleCount;
+	for (int i = 0; i < _CircleCount; ++i) {
+		const auto x = updated_indicator_radius * std::sin(degree_offset * i);
+		const auto y = updated_indicator_radius * std::cos(degree_offset * i);
+		const auto growth = (((0.0f) >(std::sin(t * _Speed - i * degree_offset))) ? (0.0f) : (std::sin(t * _Speed - i * degree_offset)));
+		ImVec4 color;
+		color.x = _MainColor.x * growth + _BackdropColor.x * (1.0f - growth);
+		color.y = _MainColor.y * growth + _BackdropColor.y * (1.0f - growth);
+		color.z = _MainColor.z * growth + _BackdropColor.z * (1.0f - growth);
+		color.w = 1.0f;
+		window->DrawList->AddCircleFilled(ImVec2(pos.x + _IndicatorRadius + x,
+			pos.y + _IndicatorRadius - y),
+			circle_radius + growth * circle_radius, ImGui::GetColorU32(color));
+	}
 }
