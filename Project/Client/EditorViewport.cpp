@@ -130,8 +130,8 @@ void EditorViewport::Update()
         const ImU32 barCol = ImGui::GetColorU32(ImVec4{ 0.32f, 0.37f, 0.88f, 1.0f });
 
         ImGui::SameLine(ImGui::GetContentRegionAvail().x / 2);
-        ModotHelpers::Spinner("##spinner", 15, 6, spinnerCol);
-        ModotHelpers::BufferingBar("##buffer_bar", prog, ImVec2(300, 12), barCol, spinnerCol);
+
+        ModotHelpers::LoadingIndicatorCircle("##spinner", 30.f, { 0.5f, 0.8f, 1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, 10, 10.f);
 
         ImGui::End();
     }

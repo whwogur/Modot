@@ -190,6 +190,9 @@
     <ClInclude Include="CBoundingSphere.h">
       <Filter>Component\Transform\Bounding</Filter>
     </ClInclude>
+    <ClInclude Include="CLandscape.h">
+      <Filter>Component\RenderComponent\Landscape</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -358,6 +361,9 @@
     <ClCompile Include="CBoundingSphere.cpp">
       <Filter>Component\Transform\Bounding</Filter>
     </ClCompile>
+    <ClCompile Include="CLandscape.cpp">
+      <Filter>Component\RenderComponent\Landscape</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -522,6 +528,9 @@
     <Filter Include="Component\Transform\Bounding">
       <UniqueIdentifier>{63ecd7cd-8556-4aee-af65-1829e2ec975d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\RenderComponent\Landscape">
+      <UniqueIdentifier>{ce3c3d70-7484-40fe-bf34-5cdb1f21bf95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -581,6 +590,9 @@
       <Filter>Shader\GraphicShader</Filter>
     </FxCompile>
     <FxCompile Include="shadowmap.fx">
+      <Filter>Shader\GraphicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="landscape.fx">
       <Filter>Shader\GraphicShader</Filter>
     </FxCompile>
   </ItemGroup>

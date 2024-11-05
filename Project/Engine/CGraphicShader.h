@@ -18,12 +18,14 @@ class CGraphicShader :
 {
 public:
     CGraphicShader();
-    ~CGraphicShader();
+    ~CGraphicShader() = default;
 public:
     int CreateVertexShader(const wstring& _RelativePath, const string& _FuncName);
     int CreatePixelShader(const wstring& _RelativePath, const string& _FuncName);
     int CreateGeometryShader(const wstring& _RelativePath, const string& _FuncName);
-
+    int CreateHullShader(const wstring& _RelativePath, const string& _FuncName);
+    int CreateDomainShader(const wstring& _RelativePath, const string& _FuncName);
+    
     void SetDomain(SHADER_DOMAIN _Domain) { m_Domain = _Domain; }
     void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology) { m_Topology = _Topology; }
     void SetRSType(RS_TYPE _Type) { m_RSType = _Type; }
@@ -44,25 +46,29 @@ public:
     void Bind();
 
 private:
-    WRL::ComPtr<ID3DBlob>			    m_VSBlob;
-    WRL::ComPtr<ID3DBlob>			    m_GSBlob;
-    WRL::ComPtr<ID3DBlob>			    m_PSBlob;
+    WRL::ComPtr<ID3DBlob>			        m_VSBlob;
+    WRL::ComPtr<ID3DBlob>			        m_HSBlob;
+    WRL::ComPtr<ID3DBlob>			        m_DSBlob;
+    WRL::ComPtr<ID3DBlob>			        m_GSBlob;
+    WRL::ComPtr<ID3DBlob>			        m_PSBlob;
 
-    WRL::ComPtr<ID3D11VertexShader>     m_VS;
-    WRL::ComPtr<ID3D11GeometryShader>	m_GS;
-    WRL::ComPtr<ID3D11PixelShader>	    m_PS;
+    WRL::ComPtr<ID3D11VertexShader>         m_VS;
+    WRL::ComPtr<ID3D11HullShader>           m_HS;
+    WRL::ComPtr<ID3D11DomainShader>         m_DS;
+    WRL::ComPtr<ID3D11GeometryShader>	    m_GS;
+    WRL::ComPtr<ID3D11PixelShader>	        m_PS;
 
-    WRL::ComPtr<ID3D11InputLayout>      m_Layout;
+    WRL::ComPtr<ID3D11InputLayout>          m_Layout;
 
-    D3D11_PRIMITIVE_TOPOLOGY            m_Topology;
-    RS_TYPE                             m_RSType;
-    DS_TYPE                             m_DSType;
-    BS_TYPE                             m_BSType;
+    D3D11_PRIMITIVE_TOPOLOGY                m_Topology;
+    RS_TYPE                                 m_RSType;
+    DS_TYPE                                 m_DSType;
+    BS_TYPE                                 m_BSType;
 
-    SHADER_DOMAIN                       m_Domain;
+    SHADER_DOMAIN                           m_Domain;
 
     // Shader Parameter
-    std::vector<tScalarParam>                m_ScalarParam;
-    std::vector<tTexParam>                   m_TexParam;
+    std::vector<tScalarParam>               m_ScalarParam;
+    std::vector<tTexParam>                  m_TexParam;
 };
 
