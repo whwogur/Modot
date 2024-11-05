@@ -372,6 +372,19 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetBSType(BS_TYPE::DEFAULT);
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_SHADOWMAP);
 	AddAsset(L"DirLightShadowMap", pShader);
+
+	// LandScape Shader
+	pShader = new CGraphicShader;
+	pShader->CreateVertexShader(L"shader\\landscape.fx", "VS_LandScape");
+	pShader->CreateHullShader(L"shader\\landscape.fx", "HS_LandScape");
+	pShader->CreateDomainShader(L"shader\\landscape.fx", "DS_LandScape");
+	pShader->CreatePixelShader(L"shader\\landscape.fx", "PS_LandScape");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
+	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
+	AddAsset(L"LandScapeShader", pShader);
 }
 
 #include "CParticleTickCS.h"
@@ -462,6 +475,11 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"DirLightShadowMap"));
 	AddAsset(L"DirLightShadowMapMtrl", pMtrl);
+
+	// LandScapeMtrl
+	pMtrl = new CMaterial(true);
+	pMtrl->SetShader(FindAsset<CGraphicShader>(L"LandScapeShader"));
+	AddAsset(L"LandScapeMtrl", pMtrl);
 }
 
 void CAssetMgr::LoadSound()
@@ -640,7 +658,7 @@ tMeshData CAssetMgr::MakeRect()
 		meshData.vertices.emplace_back(v);
 	}
 	meshData.indices = {
-		0, 2, 3, 2, 0, 1,
+		2, 0, 1, 0, 2, 3
 	};
 
 	return meshData;
