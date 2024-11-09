@@ -8,6 +8,7 @@ public:
     CCameraControl();
     ~CCameraControl() = default;
 
+    virtual void Begin() override;
     virtual void Tick() override;
     virtual void SaveToFile(FILE* _File) override;
     virtual void LoadFromFile(FILE* _File) override;

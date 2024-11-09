@@ -24,6 +24,7 @@ void CEditorMgr::CreateEditorObject()
 	pEditorCamera->Camera()->SetLayer(31, false);
 	pEditorCamera->Camera()->SetFar(10000.f);
 	pEditorCamera->Camera()->SetProjType(PERSPECTIVE);
+	pEditorCamera->Camera()->SetFrustumDebug(false);
 
 	pEditorCamera->Transform()->SetRelativePos(Vec3(0.f, 0.f, -1000.f));
 	m_vecEditorObject.push_back(pEditorCamera);

@@ -286,6 +286,11 @@ void CCamera::RenderShadowMap()
 	m_vecShadow.clear();
 }
 
+void CCamera::SetFrustumDebug(bool _b)
+{
+	m_Frustum->SetDebug(_b);
+}
+
 void CCamera::RenderEffect()
 {
 	// EffectMRT ·Î º¯°æ

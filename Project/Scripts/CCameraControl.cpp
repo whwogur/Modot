@@ -6,6 +6,11 @@ CCameraControl::CCameraControl()
 {
 }
 
+void CCameraControl::Begin()
+{
+	Camera()->SetFrustumDebug(false);
+}
+
 void CCameraControl::Tick()
 {
 	if (PROJ_TYPE::ORTHOGRAPHIC == Camera()->GetProjType())
