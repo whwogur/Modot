@@ -76,7 +76,7 @@ PS_OUT PS_DirLight(VS_OUT _in)
             && 0.f < vShadowMapUV.y && vShadowMapUV.y < 1.f)
         {
             // 광원시점에서 기록된 깊이값과, 투영된 깊이 비교
-            if (fDist + 0.00001f < vProjPos.z)
+            if (fDist + 0.002f < vProjPos.z)
             {
                 bShadow = true;
             }
