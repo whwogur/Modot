@@ -26,6 +26,7 @@ void CLandscape::Render()
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_0, m_TessLevel);
 	// 지형에 적용시킬 높이맵
 	GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, m_HeightMap);
+	GetMaterial()->SetTexParam(TEX_PARAM::TEX_1, m_Albedo);
 
 	// 재질 바인딩
 	GetMaterial()->Bind();
