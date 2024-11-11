@@ -14,3 +14,4 @@
 #include "CTextRender.h"
 #include "CSkyBox.h"
 #include "CDecal.h"
+#include "CLandscape.h"

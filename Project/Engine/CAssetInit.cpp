@@ -383,6 +383,10 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->SetDSType(DS_TYPE::LESS);
 	pShader->SetBSType(BS_TYPE::DEFAULT);
 	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
+	pShader->AddTexParam(TEX_PARAM::TEX_0, "HeightMap");
+	pShader->AddScalarParam(SCALAR_PARAM::INT_0, "Face X");
+	pShader->AddScalarParam(SCALAR_PARAM::INT_1, "Face Z");
+	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_0, "Tesselation Level");
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
 	AddAsset(L"LandScapeShader", pShader);
 }

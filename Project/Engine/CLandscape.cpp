@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CLandscape.h"
 #include "CAssetMgr.h"
+#include "CTransform.h"
 
 CLandscape::CLandscape()
 	: CRenderComponent(COMPONENT_TYPE::LANDSCAPE)
@@ -16,9 +17,24 @@ void CLandscape::FinalTick()
 
 void CLandscape::Render()
 {
+	Transform()->Bind();
+	//GetMaterial()->GetShader()->SetRSType(RS_TYPE::WIRE_FRAME);
+	
+	// 지형의 면 개수
+	GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_0, m_FaceX);
+	GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_1, m_FaceZ);
+	GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_0, m_TessLevel);
+	// 지형에 적용시킬 높이맵
+	GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, m_HeightMap);
+
+	// 재질 바인딩
+	GetMaterial()->Bind();
+
+	// 렌더링
+	GetMesh()->Render();
 }
 
-void CLandscape::SetFace(UINT _X, UINT _Z)
+void CLandscape::SetFace(int _X, int _Z)
 {
 	m_FaceX = _X;
 	m_FaceZ = _Z;
@@ -40,6 +56,7 @@ void CLandscape::CreateMesh()
 			vecVtx.emplace_back(v);
 		}
 	}
+
 	std::vector<UINT> vecIdx;
 	for (UINT Row = 0; Row < m_FaceZ; ++Row)
 	{
@@ -54,9 +71,9 @@ void CLandscape::CreateMesh()
 			// 1--2 
 			//  \ |
 			//    0
+			vecIdx.push_back((Row * (m_FaceX + 1)) + Col + 1);
 			vecIdx.push_back((Row * (m_FaceX + 1)) + Col + m_FaceX + 1);
 			vecIdx.push_back((Row * (m_FaceX + 1)) + Col + m_FaceX + 1 + 1);
-			vecIdx.push_back((Row * (m_FaceX + 1)) + Col + 1);
 		}
 	}
 

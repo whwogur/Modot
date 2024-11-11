@@ -196,7 +196,10 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 		return;
 	}
 	case COMPONENT_TYPE::LANDSCAPE:
-		break;
+		CLandscape* pLandscape = new CLandscape;
+		AddComponent(pLandscape);
+		CLevelMgr::GetInst()->SetLevelDirty();
+		return;
 
 	}
 	MD_ENGINE_ERROR(L"아직 구현하지 않은 컴포넌트");
