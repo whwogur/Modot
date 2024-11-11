@@ -20,10 +20,10 @@ void LandscapeUI::Update()
 			{
 				pLandscape->SetFace(m_Face[0], m_Face[1]);
 			}
-			ImGui::InputInt2("Face X / Z", m_Face, ImGuiInputTextFlags_AllowTabInput);
+			ImGui::InputInt2("X / Z", m_Face, ImGuiInputTextFlags_AllowTabInput);
 			// TESSLEVEL
 			float tessLv = pLandscape->GetTessLevel();
-			if (ImGui::DragFloat("TessLevel", &tessLv, 0.5f, 1.0f, 5.f, "%.1f"))
+			if (ImGui::DragFloat("TessLevel", &tessLv, 0.5f, 1.0f, 30.f, "%.1f"))
 			{
 				pLandscape->SetTessLevel(tessLv);
 			}

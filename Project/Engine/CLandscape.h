@@ -14,7 +14,6 @@ public:
 
     int GetFaceX() const { return m_FaceX; }
     int GetFaceZ() const { return m_FaceZ; }
-    std::pair<int, int> GetFaceXZ() { return std::make_pair(m_FaceX, m_FaceZ); }
 
     float GetTessLevel() const { return m_TessLevel; }
 
