@@ -272,6 +272,9 @@
     <ClInclude Include="ModotHelpers.h">
       <Filter>Editor\EditorUI\Modal\Util</Filter>
     </ClInclude>
+    <ClInclude Include="LandscapeUI.h">
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -479,6 +482,9 @@
     </ClCompile>
     <ClCompile Include="ModotHelpers.cpp">
       <Filter>Editor\EditorUI\Modal\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="LandscapeUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

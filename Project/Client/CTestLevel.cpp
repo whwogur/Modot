@@ -4,8 +4,8 @@
 #include <Engine/CLevelMgr.h>
 //#include <Engine/CLevel.h>
 //#include <Engine/CLayer.h>
-//#include <Engine/CGameObject.h>
 //#include <Engine/components.h>
+//#include <Engine/CGameObject.h>
 
 #include "CLevelSaveLoad.h"
 
@@ -24,5 +24,6 @@ void CTestLevel::CreateTestLevel()
 	//pLevel->GetLayer(13)->SetName(L"Menu");
 
 	//pLevel->SetName(L"ParticleFactory");
+
 	ChangeLevel(pLevel, LEVEL_STATE::STOP);
 }

@@ -20,6 +20,7 @@
 #include "TextRenderUI.h"
 #include "SkyBoxUI.h"
 #include "DecalUI.h"
+#include "LandscapeUI.h"
 
 #include "MeshUI.h"
 #include "MeshDataUI.h"
@@ -102,6 +103,10 @@ void Inspector::CreateComponentUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::DECAL] = new DecalUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::DECAL]->SetName("DecalUI");
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::DECAL]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::LANDSCAPE] = new LandscapeUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::LANDSCAPE]->SetName("LandscapeUI");
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::LANDSCAPE]);
 }
 
 void Inspector::CreateScriptUI(UINT _Count)

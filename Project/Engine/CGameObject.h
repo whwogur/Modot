@@ -59,6 +59,7 @@ public:
     GET_COMPONENT(TextRender, TEXTRENDER);
     GET_COMPONENT(SkyBox, SKYBOX);
     GET_COMPONENT(Decal, DECAL);
+    GET_COMPONENT(Landscape, LANDSCAPE);
 public:
     void Begin();
     void Tick();
