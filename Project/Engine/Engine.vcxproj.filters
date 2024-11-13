@@ -193,6 +193,7 @@
     <ClInclude Include="CLandscape.h">
       <Filter>Component\RenderComponent\Landscape</Filter>
     </ClInclude>
+    <ClInclude Include="CHeightmapCS.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -364,6 +365,10 @@
     <ClCompile Include="CLandscape.cpp">
       <Filter>Component\RenderComponent\Landscape</Filter>
     </ClCompile>
+    <ClCompile Include="CHeightmapCS.cpp" />
+    <ClCompile Include="CLandscape_Init.cpp">
+      <Filter>Component\RenderComponent\Landscape</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -531,6 +536,9 @@
     <Filter Include="Component\RenderComponent\Landscape">
       <UniqueIdentifier>{ce3c3d70-7484-40fe-bf34-5cdb1f21bf95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06. Asset\Shader\ComputeShader\Heightmap">
+      <UniqueIdentifier>{f7145fba-482d-486a-b9ba-6b93e1c78a49}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -594,6 +602,9 @@
     </FxCompile>
     <FxCompile Include="landscape.fx">
       <Filter>Shader\GraphicShader</Filter>
+    </FxCompile>
+    <FxCompile Include="heightmap.fx">
+      <Filter>Shader\ComputeShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
