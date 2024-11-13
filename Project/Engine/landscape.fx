@@ -11,7 +11,6 @@
 #define FaceX               g_int_0
 #define FaceZ               g_int_1
 #define HeightMap           g_tex_0
-#define ALBEDO_TEXURE       g_tex_1
 // ================
 
 struct VS_IN
@@ -176,12 +175,9 @@ struct PS_OUT
 PS_OUT PS_LandScape(DS_OUT _in)
 {
     PS_OUT output = (PS_OUT) 0.f;
+
     
-    if (g_btex_1)
-        output.vAlbedo = ALBEDO_TEXURE.Sample(g_AniWrapSampler, _in.vUV);
-    else
-        output.vAlbedo = float4(1.f, 0.f, 1.f, 1.f);
-    
+    output.vAlbedo      = float4(1.f, 0.f, 1.f, 1.f);
     output.vNormal      = float4(_in.vViewNormal, 1.f);
     output.vPosition    = float4(_in.vViewPos, 1.f);
     

@@ -38,13 +38,6 @@ void LandscapeUI::Update()
 			{
 				pLandscape->SetHeightMap(heightmapTex);
 			}
-
-			// Albedo
-			Ptr<CTexture> albedoTex = pLandscape->GetAlbedo();
-			if (ParamUI::InputTexture(albedoTex, "Albedo"))
-			{
-				pLandscape->SetAlbedo(albedoTex);
-			}
 		}
 	}
 }
