@@ -76,6 +76,8 @@ public:
     virtual void LoadFromFile(FILE* _File) override;
     
     void SetActive(bool _b) { m_Active = _b; }
+
+    void SetFrustumDebug(bool _b);
 private:
     void SortGameObject();
     void RenderDeferred();

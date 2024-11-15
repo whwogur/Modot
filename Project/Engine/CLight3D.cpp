@@ -45,6 +45,7 @@ void CLight3D::SetLightType(LIGHT_TYPE _Type)
 		m_Cam->Camera()->SetLayerAll();
 		m_Cam->Camera()->SetLayer(31, false);
 		m_Cam->Camera()->SetScale(1.f);
+		m_Cam->Camera()->SetFrustumDebug(false);
 		// 8192, 8192 해상도 ShadowMap 생성
 		Ptr<CTexture> pShadowMap = new CTexture;
 		pShadowMap->Create(8192, 8192, DXGI_FORMAT_R32_FLOAT, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE);

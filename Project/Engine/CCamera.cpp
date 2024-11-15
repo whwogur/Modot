@@ -50,7 +50,7 @@ CCamera::CCamera(const CCamera& _Other)
 
 void CCamera::Begin()
 {
-	// Ä«¸Þ¶ó¸¦ µî·Ï
+	// ì¹´ë©”ë¼ë¥¼ ë“±ë¡
 	if (-1 != m_Priority)
 	{
 		CRenderMgr::GetInst()->RegisterCamera(this, m_Priority);
@@ -59,7 +59,7 @@ void CCamera::Begin()
 
 void CCamera::FinalTick()
 {
-	// View Çà·Ä °è»ê
+	// View í–‰ë ¬ ê³„ì‚°
 	Matrix matTrans = XMMatrixTranslation(-Transform()->GetRelativePos().x, -Transform()->GetRelativePos().y, -Transform()->GetRelativePos().z);
 
 	Matrix matRot;
@@ -74,7 +74,7 @@ void CCamera::FinalTick()
 	m_matView = matTrans * matRot;
 
 
-	// Projection Space Åõ¿µ ÁÂÇ¥°è (NDC)
+	// Projection Space íˆ¬ì˜ ì¢Œí‘œê³„ (NDC)
 	if (PROJ_TYPE::ORTHOGRAPHIC == m_ProjType)
 	{
 		// Orthographic
@@ -87,7 +87,7 @@ void CCamera::FinalTick()
 		m_matProj = XMMatrixPerspectiveFovLH(m_FOV, m_AspectRatio, 1.f, m_Far);
 	}
 
-	// ¿ªÇà·Ä °è»ê
+	// ì—­í–‰ë ¬ ê³„ì‚°
 	m_matViewInv = XMMatrixInverse(nullptr, m_matView);
 	m_matProjInv = XMMatrixInverse(nullptr, m_matProj);
 
@@ -121,7 +121,7 @@ void CCamera::SortGameObject()
 				continue;
 			}
 
-			// ÀýµÎÃ¼ °Ë»ç¸¦ ÁøÇà ÇÔ, ½ÇÆÐ ÇÔ
+			// ì ˆë‘ì²´ ê²€ì‚¬ë¥¼ ì§„í–‰ í•¨, ì‹¤íŒ¨ í•¨
 			if (RenderComp->ChecksFrustum()
 				&& vecObjects[j]->Transform()->GetFrustumCulling()
 				&& m_Frustum->FrustumCheck(vecObjects[j]->Transform()->GetWorldPos()
@@ -288,37 +288,42 @@ void CCamera::RenderShadowMap()
 
 void CCamera::CalculateRay()
 {
-	//// ViewPort Á¤º¸
+	//// ViewPort ì •ë³´
 	//CMRT* pSwapChainMRT = CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN);
 	//if (nullptr == pSwapChainMRT)
 	//	return;
 
 	//const D3D11_VIEWPORT& VP = pSwapChainMRT->GetViewPortRef();
 
-	//// ÇöÀç ¸¶¿ì½º ÁÂÇ¥
+	//// í˜„ìž¬ ë§ˆìš°ìŠ¤ ì¢Œí‘œ
 	//Vec2 vMousePos = CKeyMgr::GetInst()->GetMousePos();
 	
 	const Vec2& vMousePos = CRenderMgr::GetInst()->GetEditorMousePos();
 	const Vec2& ViewportSize = CRenderMgr::GetInst()->GetEditorViewportSize();
 
-	// ¸¶¿ì½º¸¦ ÇâÇÏ´Â Á÷¼±Àº Ä«¸Þ¶ó À§Ä¡¸¦ Áö³­´Ù.
+	// ë§ˆìš°ìŠ¤ë¥¼ í–¥í•˜ëŠ” ì§ì„ ì€ ì¹´ë©”ë¼ ìœ„ì¹˜ë¥¼ ì§€ë‚œë‹¤.
 	m_Ray.vStart = Transform()->GetWorldPos();
-	// View °ø°£ »ó¿¡¼­ Ä«¸Þ¶ó¿¡¼­ ¸¶¿ì½º ¹æÇâÀ» ÇâÇÏ´Â ¹æÇâº¤ÅÍ¸¦ ±¸ÇÑ´Ù.
-	//  - ¸¶¿ì½º°¡ ÀÖ´Â ÁÂÇ¥¸¦ -1 ~ 1 »çÀÌÀÇ Á¤±ÔÈ­µÈ ÁÂÇ¥·Î ¹Ù²Û´Ù.
-	//  - Åõ¿µÇà·ÄÀÇ _11, _22 ¿¡ ÀÖ´Â °ªÀº Near Æò¸é»ó¿¡¼­ Near °ªÀ» °¡·Î ¼¼·Î ±æÀÌ·Î ³ª´«°ª
-	//  - ½ÇÁ¦ ViewSpace »ó¿¡¼­ÀÇ Near Æò¸í»ó¿¡¼­ ¸¶¿ì½º°¡ ÀÖ´Â ÁöÁ¡À» ÇâÇÏ´Â À§Ä¡¸¦ ±¸ÇÏ±â À§ÇØ¼­ ºñÀ²À» ³ª´©¾î¼­ 
-	//  - ½ÇÁ¦ Near Æò¸é»ó¿¡¼­ ¸¶¿ì½º°¡ ÇâÇÏ´Â À§Ä¡¸¦ ÁÂÇ¥¸¦ ±¸ÇÔ
+	// View ê³µê°„ ìƒì—ì„œ ì¹´ë©”ë¼ì—ì„œ ë§ˆìš°ìŠ¤ ë°©í–¥ì„ í–¥í•˜ëŠ” ë°©í–¥ë²¡í„°ë¥¼ êµ¬í•œë‹¤.
+	//  - ë§ˆìš°ìŠ¤ê°€ ìžˆëŠ” ì¢Œí‘œë¥¼ -1 ~ 1 ì‚¬ì´ì˜ ì •ê·œí™”ëœ ì¢Œí‘œë¡œ ë°”ê¾¼ë‹¤.
+	//  - íˆ¬ì˜í–‰ë ¬ì˜ _11, _22 ì— ìžˆëŠ” ê°’ì€ Near í‰ë©´ìƒì—ì„œ Near ê°’ì„ ê°€ë¡œ ì„¸ë¡œ ê¸¸ì´ë¡œ ë‚˜ëˆˆê°’
+	//  - ì‹¤ì œ ViewSpace ìƒì—ì„œì˜ Near í‰ëª…ìƒì—ì„œ ë§ˆìš°ìŠ¤ê°€ ìžˆëŠ” ì§€ì ì„ í–¥í•˜ëŠ” ìœ„ì¹˜ë¥¼ êµ¬í•˜ê¸° ìœ„í•´ì„œ ë¹„ìœ¨ì„ ë‚˜ëˆ„ì–´ì„œ 
+	//  - ì‹¤ì œ Near í‰ë©´ìƒì—ì„œ ë§ˆìš°ìŠ¤ê°€ í–¥í•˜ëŠ” ìœ„ì¹˜ë¥¼ ì¢Œí‘œë¥¼ êµ¬í•¨
 	m_Ray.vDir.x = ((vMousePos.x * 2.f / ViewportSize.x) - 1.f) / m_matProj._11;
 	m_Ray.vDir.y = -((vMousePos.y * 2.f / ViewportSize.y) - 1.f) / m_matProj._22;
 	m_Ray.vDir.z = 1.f;
-	// ¹æÇâ º¤ÅÍ¿¡ ViewMatInv ¸¦ Àû¿ë, ¿ùµå»ó¿¡¼­ÀÇ ¹æÇâÀ» ¾Ë¾Æ³½´Ù.
+	// ë°©í–¥ ë²¡í„°ì— ViewMatInv ë¥¼ ì ìš©, ì›”ë“œìƒì—ì„œì˜ ë°©í–¥ì„ ì•Œì•„ë‚¸ë‹¤.
 	m_Ray.vDir = XMVector3TransformNormal(m_Ray.vDir, m_matViewInv);
 	m_Ray.vDir.Normalize();
+
+void CCamera::SetFrustumDebug(bool _b)
+{
+	m_Frustum->SetDebug(_b);
+
 }
 
 void CCamera::RenderEffect()
 {
-	// EffectMRT ·Î º¯°æ
+	// EffectMRT ë¡œ ë³€ê²½
 	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::EFFECT)->Clear();
 	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::EFFECT)->SetOM();
 
@@ -337,7 +342,7 @@ void CCamera::RenderEffect()
 	pBlurMtrl->Bind();
 	pRectMesh->Render_Particle(2);
 
-	// ¿ø·¡ ·»´õÅ¸°Ù(SwapChainMRT) ·Î º¯°æ	
+	// ì›ëž˜ ë Œë”íƒ€ê²Ÿ(SwapChainMRT) ë¡œ ë³€ê²½	
 	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN)->SetOM();
 
 	Ptr<CMaterial> pEffectMergeMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"EffectMergeMtrl");
