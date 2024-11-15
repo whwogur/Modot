@@ -70,7 +70,7 @@ void EditorViewport::Update()
 
     // Viewport에서의 마우스 위치 등록
     ImVec2 viewportPos = ImGui::GetCursorScreenPos();
-    m_ViewportMousePos = Vec2(ImGui::GetIO().MousePos.x - viewportPos.x, ImGui::GetIO().MousePos.y - viewportPos.y);
+    CRenderMgr::GetInst()->SetEditorMousePos(Vec2(ImGui::GetIO().MousePos.x - viewportPos.x, ImGui::GetIO().MousePos.y - viewportPos.y));
 
     // 상태 확인
     m_ViewportFocused = ImGui::IsWindowFocused();
@@ -78,7 +78,7 @@ void EditorViewport::Update()
 
     // 크기 등록
     ImVec2 viewportSize = ImGui::GetContentRegionAvail();
-    m_ViewportSize = Vec2(viewportSize.x, viewportSize.y);
+    CRenderMgr::GetInst()->SetEditorViewportSize(Vec2(viewportSize.x, viewportSize.y));
 
     // 렌더링
     Ptr<CTexture> pCopyTex = CRenderMgr::GetInst()->GetRenderTargetCopy();

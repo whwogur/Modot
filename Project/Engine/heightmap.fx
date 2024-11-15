@@ -6,13 +6,12 @@
 #include "struct.fx"
 
 RWTexture2D<float> HeightMapTex : register(u0);
-
+StructuredBuffer<tRaycastOut> BrushPos : register(t20);
 
 #define WIDTH           g_int_0
 #define HEIGHT          g_int_1
 
 #define vBrushScale     g_vec2_0
-#define vBrushPos       g_vec2_1
 
 #define HasBrushTex     g_btex_0
 #define BRUSH_TEX       g_tex_0
@@ -24,6 +23,7 @@ void CS_HeightMap(int3 _ID : SV_DispatchThreadID)
     if (WIDTH <= _ID.x || HEIGHT <= _ID.y)
         return;
     
+    float2 vBrushPos = BrushPos[0].Location;
     float2 vScale = vBrushScale * float2(WIDTH, HEIGHT);
     
     float2 vCenter = float2(WIDTH, HEIGHT) * vBrushPos;
@@ -40,13 +40,13 @@ void CS_HeightMap(int3 _ID : SV_DispatchThreadID)
     {
         float2 vBrushUV = (_ID.xy - vLeftTop) / vScale;
         float Alpha = BRUSH_TEX.SampleLevel(g_AniWrapSampler, vBrushUV, 0).a;
-        HeightMapTex[_ID.xy].r += Alpha * g_EngineDT * 3.f;
+        HeightMapTex[_ID.xy].r += Alpha * g_EngineDT * 0.5f;
     }
     else
     {
         float Cos = cos((distance(vCenter, _ID.xy) / (vScale.x * 0.5f)) * PI * 0.5f);
         Cos = saturate(Cos);
-        HeightMapTex[_ID.xy].r += Cos * g_EngineDT * 3.f;
+        HeightMapTex[_ID.xy].r += Cos * g_EngineDT * 0.5f;
     }
 }
 

@@ -50,7 +50,7 @@ CCamera::CCamera(const CCamera& _Other)
 
 void CCamera::Begin()
 {
-	// ī�޶� ���
+	// 카메라를 등록
 	if (-1 != m_Priority)
 	{
 		CRenderMgr::GetInst()->RegisterCamera(this, m_Priority);
@@ -59,7 +59,7 @@ void CCamera::Begin()
 
 void CCamera::FinalTick()
 {
-	// View ��� ���
+	// View 행렬 계산
 	Matrix matTrans = XMMatrixTranslation(-Transform()->GetRelativePos().x, -Transform()->GetRelativePos().y, -Transform()->GetRelativePos().z);
 
 	Matrix matRot;
@@ -74,7 +74,7 @@ void CCamera::FinalTick()
 	m_matView = matTrans * matRot;
 
 
-	// Projection Space ���� ��ǥ�� (NDC)
+	// Projection Space 투영 좌표계 (NDC)
 	if (PROJ_TYPE::ORTHOGRAPHIC == m_ProjType)
 	{
 		// Orthographic
@@ -87,7 +87,7 @@ void CCamera::FinalTick()
 		m_matProj = XMMatrixPerspectiveFovLH(m_FOV, m_AspectRatio, 1.f, m_Far);
 	}
 
-	// ����� ���
+	// 역행렬 계산
 	m_matViewInv = XMMatrixInverse(nullptr, m_matView);
 	m_matProjInv = XMMatrixInverse(nullptr, m_matProj);
 
@@ -121,7 +121,7 @@ void CCamera::SortGameObject()
 				continue;
 			}
 
-			// ����ü �˻縦 ���� ��, ���� ��
+			// 절두체 검사를 진행 함, 실패 함
 			if (RenderComp->ChecksFrustum()
 				&& vecObjects[j]->Transform()->GetFrustumCulling()
 				&& m_Frustum->FrustumCheck(vecObjects[j]->Transform()->GetWorldPos()
@@ -286,14 +286,44 @@ void CCamera::RenderShadowMap()
 	m_vecShadow.clear();
 }
 
+void CCamera::CalculateRay()
+{
+	//// ViewPort 정보
+	//CMRT* pSwapChainMRT = CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN);
+	//if (nullptr == pSwapChainMRT)
+	//	return;
+
+	//const D3D11_VIEWPORT& VP = pSwapChainMRT->GetViewPortRef();
+
+	//// 현재 마우스 좌표
+	//Vec2 vMousePos = CKeyMgr::GetInst()->GetMousePos();
+	
+	const Vec2& vMousePos = CRenderMgr::GetInst()->GetEditorMousePos();
+	const Vec2& ViewportSize = CRenderMgr::GetInst()->GetEditorViewportSize();
+
+	// 마우스를 향하는 직선은 카메라 위치를 지난다.
+	m_Ray.vStart = Transform()->GetWorldPos();
+	// View 공간 상에서 카메라에서 마우스 방향을 향하는 방향벡터를 구한다.
+	//  - 마우스가 있는 좌표를 -1 ~ 1 사이의 정규화된 좌표로 바꾼다.
+	//  - 투영행렬의 _11, _22 에 있는 값은 Near 평면상에서 Near 값을 가로 세로 길이로 나눈값
+	//  - 실제 ViewSpace 상에서의 Near 평명상에서 마우스가 있는 지점을 향하는 위치를 구하기 위해서 비율을 나누어서 
+	//  - 실제 Near 평면상에서 마우스가 향하는 위치를 좌표를 구함
+	m_Ray.vDir.x = ((vMousePos.x * 2.f / ViewportSize.x) - 1.f) / m_matProj._11;
+	m_Ray.vDir.y = -((vMousePos.y * 2.f / ViewportSize.y) - 1.f) / m_matProj._22;
+	m_Ray.vDir.z = 1.f;
+	// 방향 벡터에 ViewMatInv 를 적용, 월드상에서의 방향을 알아낸다.
+	m_Ray.vDir = XMVector3TransformNormal(m_Ray.vDir, m_matViewInv);
+	m_Ray.vDir.Normalize();
+
 void CCamera::SetFrustumDebug(bool _b)
 {
 	m_Frustum->SetDebug(_b);
+
 }
 
 void CCamera::RenderEffect()
 {
-	// EffectMRT �� ����
+	// EffectMRT 로 변경
 	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::EFFECT)->Clear();
 	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::EFFECT)->SetOM();
 
@@ -312,7 +342,7 @@ void CCamera::RenderEffect()
 	pBlurMtrl->Bind();
 	pRectMesh->Render_Particle(2);
 
-	// ���� ����Ÿ��(SwapChainMRT) �� ����	
+	// 원래 렌더타겟(SwapChainMRT) 로 변경	
 	CRenderMgr::GetInst()->GetMRT(MRT_TYPE::SWAPCHAIN)->SetOM();
 
 	Ptr<CMaterial> pEffectMergeMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"EffectMergeMtrl");

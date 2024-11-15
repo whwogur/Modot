@@ -232,3 +232,9 @@ struct tParticleModule
 	// Module On / Off
 	int		Module[(UINT)PARTICLE_MODULE::END];
 };
+
+struct tRay
+{
+	Vec3 vStart;
+	Vec3 vDir;
+};
