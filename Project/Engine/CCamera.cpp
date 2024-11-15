@@ -297,7 +297,7 @@ void CCamera::CalculateRay()
 
 	//// 현재 마우스 좌표
 	//Vec2 vMousePos = CKeyMgr::GetInst()->GetMousePos();
-	
+
 	const Vec2& vMousePos = CRenderMgr::GetInst()->GetEditorMousePos();
 	const Vec2& ViewportSize = CRenderMgr::GetInst()->GetEditorViewportSize();
 
@@ -315,10 +315,11 @@ void CCamera::CalculateRay()
 	m_Ray.vDir = XMVector3TransformNormal(m_Ray.vDir, m_matViewInv);
 	m_Ray.vDir.Normalize();
 
+}
+
 void CCamera::SetFrustumDebug(bool _b)
 {
 	m_Frustum->SetDebug(_b);
-
 }
 
 void CCamera::RenderEffect()
