@@ -25,8 +25,8 @@ private:
 	bool            m_ViewportFocused = false;
 	bool            m_ViewportHovered = false;
 
-	Vec2            m_ViewportSize = {};
-	Vec2            m_ViewportMousePos = {};
+	/*Vec2            m_ViewportSize = {};
+	Vec2            m_ViewportMousePos = {};*/
 
 	bool            m_GizmoActive = false;
 	int             m_GizmoType = 0;

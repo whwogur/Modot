@@ -4,6 +4,10 @@
 #include "CTransform.h"
 #include "CKeyMgr.h"
 
+#include "CCamera.h"
+#include "CRenderMgr.h"
+#include "CStructuredBuffer.h"
+
 CLandscape::CLandscape()
 	: CRenderComponent(COMPONENT_TYPE::LANDSCAPE)
 {
@@ -22,12 +26,16 @@ void CLandscape::FinalTick()
 
 	if (m_IsHeightMapCreated && KEY_PRESSED(KEY::LBTN))
 	{
-		// 높이맵 설정
-		m_HeightmapCS->SetBrushPos(Vec2(0.5f, 0.5f));
-		m_HeightmapCS->SetBrushScale(m_BrushScale);
-		m_HeightmapCS->SetHeightMap(m_Heightmap);
-		m_HeightmapCS->SetBrushTex(m_vecBrush[m_BrushIdx]);
-		m_HeightmapCS->Execute();
+		RayCast();
+		if (m_Out.Success)
+		{
+			// 높이맵 설정
+			m_HeightmapCS->SetBrushPos(m_RaycastOut);
+			m_HeightmapCS->SetBrushScale(m_BrushScale);
+			m_HeightmapCS->SetHeightMap(m_Heightmap);
+			m_HeightmapCS->SetBrushTex(m_vecBrush[m_BrushIdx]);
+			m_HeightmapCS->Execute();
+		}
 	}
 }
 
@@ -64,4 +72,41 @@ void CLandscape::SaveToFile(FILE* _File)
 
 void CLandscape::LoadFromFile(FILE* _File)
 {
+}
+
+int CLandscape::RayCast()
+{
+	// 현재 시점 카메라 가져오기
+	CCamera* pCam = CRenderMgr::GetInst()->GetMainCamera();
+	if (nullptr == pCam)
+		return false;
+	// 구조화버퍼 클리어
+	m_Out = {};
+	m_Out.Distance = 0xffffffff;
+	m_RaycastOut->SetData(&m_Out);
+	
+	// 카메라가 시점에서 마우스를 향하는 Ray 정보를 가져옴
+	tRay ray = pCam->GetRayRef();
+
+	// LandScape 의 WorldInv 행렬 가져옴
+	const Matrix& matWorldInv = Transform()->GetWorldMatInv();
+
+	// 월드 기준 Ray 정보를 LandScape 의 Local 공간으로 데려감
+	ray.vStart = XMVector3TransformCoord(ray.vStart, matWorldInv);
+	ray.vDir = XMVector3TransformNormal(ray.vDir, matWorldInv);
+	ray.vDir.Normalize();
+
+	// Raycast 컴퓨트 쉐이더에 필요한 데이터 전달
+	m_RaycastCS->SetRayInfo(ray);
+	m_RaycastCS->SetFace(m_FaceX, m_FaceZ);
+	m_RaycastCS->SetOutBuffer(m_RaycastOut);
+	m_RaycastCS->SetHeightMap(m_Heightmap);
+
+	// 컴퓨트쉐이더 실행
+	m_RaycastCS->Execute();
+
+	// 결과 확인
+	m_RaycastOut->GetData(&m_Out);
+
+	return m_Out.Success;
 }

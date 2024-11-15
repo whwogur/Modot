@@ -37,6 +37,13 @@ public:
     bool& GetDebugRenderRef() { return m_DebugRender; }
     Ptr<CTexture> GetRenderTargetCopy() { return m_RenderTargetCopy; }
     CMRT* GetMRT(MRT_TYPE _Type) { return m_arrMRT[(UINT)_Type].get(); }
+
+    // EditorViewport
+    void SetEditorMousePos(const Vec2& _Pos) { m_EditorMousePos = _Pos; }
+    void SetEditorViewportSize(const Vec2& _Size) { m_EditorViewportSize = _Size; }
+
+    const Vec2& GetEditorMousePos() { return m_EditorMousePos; }
+    const Vec2& GetEditorViewportSize() { return m_EditorViewportSize; }
 public:
     void Init();
     void Tick();
@@ -68,6 +75,9 @@ private:
     Ptr<CTexture>                                           m_SwapChainRenderTarget;
     Ptr<CMesh>                                              m_RectMesh;
     Ptr<CMaterial>                                          m_MergeMtrl;
-    // TEXT
+
     bool                                                    m_DebugRender = true;
+
+    Vec2    m_EditorMousePos = {};
+    Vec2    m_EditorViewportSize = {};
 };

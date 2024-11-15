@@ -63,6 +63,12 @@ public:
     Matrix& GetcamProjRef() { return m_matProj; }
     Matrix& GetcamViewInvRef() { return m_matViewInv; }
     Matrix& GetcamProjInvRef() { return m_matProjInv; }
+
+    tRay& GetRayRef()
+    {  
+        CalculateRay(); 
+        return m_Ray; 
+    }
 public:
     virtual void Begin() override;
     virtual void FinalTick() override;
@@ -85,6 +91,8 @@ private:
 
     void SortShadows();
     void RenderShadowMap();
+
+    void CalculateRay();
 private:
     friend class CRenderMgr;
     friend class CLight3D;
@@ -97,6 +105,8 @@ private:
     float                           m_Far;
     float                           m_FOV;
     float                           m_ProjectionScale;
+
+    tRay                            m_Ray;
 
     bool                            m_Active = true;
     std::vector<CGameObject*>       m_vecDeferred;

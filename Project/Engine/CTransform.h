@@ -34,6 +34,7 @@ public:
     OBJECT_DIR GetObjectDir() const { return m_RelativeScale.x > 0 ? OBJECT_DIR::RIGHT : OBJECT_DIR::LEFT; }
 
     Matrix& GetWorldMat() { return m_matWorld; }
+    Matrix& GetWorldMatInv() { return m_matWorldInv; }
     Matrix& GetTransformationMat() { return m_matTransformation; }
 
     Vec3 GetRelativePos() { return m_RelativePos; }
@@ -46,7 +47,7 @@ public:
     Vec3& GetRelativeRotationRef() { return m_RelativeRotation; }
     Vec3 GetRelativeDir(DIR _Type) { return m_RelativeDir[_Type]; }
     Vec3 GetWorldDir(DIR _Type) { return m_WorldDir[_Type]; }
-
+    
     CTransform& operator = (const CTransform& _Other);
 
     bool GetFrustumCulling() const{ return m_UseFrustumCulling; }

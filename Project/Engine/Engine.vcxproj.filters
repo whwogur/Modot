@@ -193,7 +193,12 @@
     <ClInclude Include="CLandscape.h">
       <Filter>Component\RenderComponent\Landscape</Filter>
     </ClInclude>
-    <ClInclude Include="CHeightmapCS.h" />
+    <ClInclude Include="CHeightmapCS.h">
+      <Filter>06. Asset\Shader\ComputeShader\Heightmap</Filter>
+    </ClInclude>
+    <ClInclude Include="CRaycastCS.h">
+      <Filter>06. Asset\Shader\ComputeShader\Raycast</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -365,9 +370,14 @@
     <ClCompile Include="CLandscape.cpp">
       <Filter>Component\RenderComponent\Landscape</Filter>
     </ClCompile>
-    <ClCompile Include="CHeightmapCS.cpp" />
     <ClCompile Include="CLandscape_Init.cpp">
       <Filter>Component\RenderComponent\Landscape</Filter>
+    </ClCompile>
+    <ClCompile Include="CHeightmapCS.cpp">
+      <Filter>06. Asset\Shader\ComputeShader\Heightmap</Filter>
+    </ClCompile>
+    <ClCompile Include="CRaycastCS.cpp">
+      <Filter>06. Asset\Shader\ComputeShader\Raycast</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -539,6 +549,9 @@
     <Filter Include="06. Asset\Shader\ComputeShader\Heightmap">
       <UniqueIdentifier>{f7145fba-482d-486a-b9ba-6b93e1c78a49}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06. Asset\Shader\ComputeShader\Raycast">
+      <UniqueIdentifier>{f7a0c0ec-242f-4a30-846f-ace0003d28a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -604,6 +617,9 @@
       <Filter>Shader\GraphicShader</Filter>
     </FxCompile>
     <FxCompile Include="heightmap.fx">
+      <Filter>Shader\ComputeShader</Filter>
+    </FxCompile>
+    <FxCompile Include="raycast.fx">
       <Filter>Shader\ComputeShader</Filter>
     </FxCompile>
   </ItemGroup>

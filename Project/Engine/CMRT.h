@@ -14,6 +14,9 @@ public:
     void SetOM();
 
     Ptr<CTexture> GetRT(int _Idx) { return m_arrRT[_Idx]; }
+
+    const D3D11_VIEWPORT& GetViewPortRef() { return m_Viewport; }
+
     void Clear() { ClearRT(); ClearDS(); }
     void ClearRT();
     void ClearDS();
