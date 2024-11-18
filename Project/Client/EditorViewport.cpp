@@ -71,14 +71,17 @@ void EditorViewport::Update()
     // Viewport에서의 마우스 위치 등록
     ImVec2 viewportPos = ImGui::GetCursorScreenPos();
     CRenderMgr::GetInst()->SetEditorMousePos(Vec2(ImGui::GetIO().MousePos.x - viewportPos.x, ImGui::GetIO().MousePos.y - viewportPos.y));
-
-    // 상태 확인
-    m_ViewportFocused = ImGui::IsWindowFocused();
-    m_ViewportHovered = ImGui::IsWindowHovered();
+    CRenderMgr::GetInst()->SetViewportFocused(ImGui::IsWindowFocused());
+    CRenderMgr::GetInst()->SetViewportHovered(ImGui::IsWindowHovered());
 
     // 크기 등록
     ImVec2 viewportSize = ImGui::GetContentRegionAvail();
-    CRenderMgr::GetInst()->SetEditorViewportSize(Vec2(viewportSize.x, viewportSize.y));
+    if (fabs(viewportSize.x - m_Size.x) > 1e-6f || fabs(viewportSize.y - m_Size.y) > 1e-6f)
+    {
+        m_Size.x = viewportSize.x;
+        m_Size.y = viewportSize.y;
+        CRenderMgr::GetInst()->SetEditorViewportSize(Vec2(viewportSize.x, viewportSize.y));
+    }
 
     // 렌더링
     Ptr<CTexture> pCopyTex = CRenderMgr::GetInst()->GetRenderTargetCopy();
@@ -115,7 +118,7 @@ void EditorViewport::Update()
 
     ImGui::End();
 
-    if (KEY_TAP(KEY::G) && m_ViewportFocused)
+    if (KEY_TAP(KEY::G) && ImGui::IsWindowFocused())
     {
         m_GizmoActive = !m_GizmoActive;
         m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
@@ -147,7 +150,7 @@ void EditorViewport::RenderGizmo()
     if (nullptr == pCam)
         return;
 
-    if (m_ViewportFocused)
+    if (ImGui::IsWindowFocused())
     {
         if (KEY_TAP(KEY::Z))
             m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;

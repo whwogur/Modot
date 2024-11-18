@@ -1,15 +1,10 @@
 #include "pch.h"
 #include "CEditorCameraScript.h"
-#include "CEditorMgr.h"
+#include <Engine/CRenderMgr.h>
 
 CEditorCameraScript::CEditorCameraScript()
 	: CScript(-1)
 	, m_Speed(500.f)
-{
-
-}
-
-CEditorCameraScript::~CEditorCameraScript()
 {
 
 }
@@ -29,7 +24,7 @@ void CEditorCameraScript::Tick()
 
 	if (KEY_TAP(KEY::P))
 	{
-		if (CEditorMgr::GetInst()->IsViewportFocused() && CEditorMgr::GetInst()->IsViewportHovered())
+		if (CRenderMgr::GetInst()->IsViewportFocused() && CRenderMgr::GetInst()->IsViewportHovered())
 		{
 			if (PROJ_TYPE::ORTHOGRAPHIC == Camera()->GetProjType())
 				Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
@@ -147,12 +142,12 @@ void CEditorCameraScript::PerspectiveMove()
 			CKeyMgr::GetInst()->MouseCapture(false);
 		}
 
-		if (KEY_TAP(KEY::_7))
+		/*if (KEY_TAP(KEY::_7))
 		{
 			const Vec3& camPos = Transform()->GetRelativePosRef();
 			string temp = std::to_string(camPos.x) +" , " + std::to_string(camPos.y) + " , " + std::to_string(camPos.z);
 			EDITOR_TRACE(u8"에디터 카메라 위치 :");
 			EDITOR_TRACE(temp);
-		}
+		}*/
 	}
 }

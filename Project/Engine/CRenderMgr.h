@@ -41,9 +41,13 @@ public:
     // EditorViewport
     void SetEditorMousePos(const Vec2& _Pos) { m_EditorMousePos = _Pos; }
     void SetEditorViewportSize(const Vec2& _Size) { m_EditorViewportSize = _Size; }
+    void SetViewportFocused(bool _b) { m_ViewportFocused = _b; }
+    void SetViewportHovered(bool _b) { m_ViewportHovered = _b; }
 
     const Vec2& GetEditorMousePos() { return m_EditorMousePos; }
     const Vec2& GetEditorViewportSize() { return m_EditorViewportSize; }
+    const bool IsViewportFocused() const { return m_ViewportFocused; }
+    const bool IsViewportHovered() const { return m_ViewportHovered; }
 public:
     void Init();
     void Tick();
@@ -78,6 +82,9 @@ private:
 
     bool                                                    m_DebugRender = true;
 
-    Vec2    m_EditorMousePos = {};
-    Vec2    m_EditorViewportSize = {};
+    // Editor Viewport
+    Vec2            m_EditorMousePos = {};
+    Vec2            m_EditorViewportSize = {};
+    bool            m_ViewportFocused = false;
+    bool            m_ViewportHovered = false;
 };

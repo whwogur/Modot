@@ -24,9 +24,6 @@ public:
 
     void SetTargetObject(CGameObject* _Target);
 
-    const bool IsViewportFocused() const; 
-    const bool IsViewportHovered() const;
-
     void SetThemeMoonlight();
     void SetThemeMicrosoft();
     void SetThemeUnrealEngine();
