@@ -118,7 +118,7 @@ void EditorViewport::Update()
 
     ImGui::End();
 
-    if (KEY_TAP(KEY::G) && ImGui::IsWindowFocused())
+    if (KEY_TAP(KEY::G) && CRenderMgr::GetInst()->IsViewportHovered())
     {
         m_GizmoActive = !m_GizmoActive;
         m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
