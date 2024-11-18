@@ -27,13 +27,14 @@ void LandscapeUI::Update()
 				pLandscape->SetFace(m_Face[0], m_Face[1]);
 			}
 
-			// TESSLEVEL
-			float tessLv = pLandscape->GetTessLevel();
-			ImGui::SetNextItemWidth(100.f);
-			if (ImGui::DragFloat("TessLevel", &tessLv, 0.5f, 1.0f, 30.f, "%.1f"))
-			{
-				pLandscape->SetTessLevel(tessLv);
-			}
+			//// TESSLEVEL
+			//float tessLv = pLandscape->GetTessLevel();
+			//ImGui::SetNextItemWidth(100.f);
+			//if (ImGui::DragFloat("TessLevel", &tessLv, 0.5f, 1.0f, 30.f, "%.1f"))
+			//{
+			//	pLandscape->SetTessLevel(tessLv);
+			//}
+			
 			// Heightmap
 			Ptr<CTexture> heightmapTex = pLandscape->GetHeightMap();
 			if (ParamUI::InputTexture(heightmapTex, "Heightmap"))

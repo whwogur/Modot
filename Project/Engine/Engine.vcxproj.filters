@@ -199,6 +199,9 @@
     <ClInclude Include="CRaycastCS.h">
       <Filter>06. Asset\Shader\ComputeShader\Raycast</Filter>
     </ClInclude>
+    <ClInclude Include="CWeightMapCS.h">
+      <Filter>06. Asset\Shader\ComputeShader\Weightmap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -379,6 +382,9 @@
     <ClCompile Include="CRaycastCS.cpp">
       <Filter>06. Asset\Shader\ComputeShader\Raycast</Filter>
     </ClCompile>
+    <ClCompile Include="CWeightMapCS.cpp">
+      <Filter>06. Asset\Shader\ComputeShader\Weightmap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -552,6 +558,9 @@
     <Filter Include="06. Asset\Shader\ComputeShader\Raycast">
       <UniqueIdentifier>{f7a0c0ec-242f-4a30-846f-ace0003d28a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06. Asset\Shader\ComputeShader\Weightmap">
+      <UniqueIdentifier>{adb7d14d-18e7-4081-a14c-2e254f3f2460}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -620,6 +629,9 @@
       <Filter>Shader\ComputeShader</Filter>
     </FxCompile>
     <FxCompile Include="raycast.fx">
+      <Filter>Shader\ComputeShader</Filter>
+    </FxCompile>
+    <FxCompile Include="weightmap.fx">
       <Filter>Shader\ComputeShader</Filter>
     </FxCompile>
   </ItemGroup>

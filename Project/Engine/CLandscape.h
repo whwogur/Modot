@@ -1,13 +1,27 @@
 #pragma once
 #include "CRenderComponent.h"
-#include "CHeightmapCS.h"
 #include "CRaycastCS.h"
+
+#include "CHeightmapCS.h"
+#include "CWeightMapCS.h"
 
 struct tRaycastOut
 {
     Vec2    Location;
     UINT    Distance;
     int     Success;
+};
+
+enum LANDSCAPE_MODE
+{
+    NONE,
+    HEIGHTMAP,
+    SPLAT,
+};
+
+struct tWeight8
+{
+    float arrWeight[8];
 };
 
 class CLandscape :
@@ -19,7 +33,6 @@ public:
     ~CLandscape() = default;
 public:
     void SetFace(int _X, int _Z);
-    void SetTessLevel(float _TessLv) { m_TessLevel = _TessLv; }
     void AddBrushTexture(Ptr<CTexture> _BrushTex) { m_vecBrush.push_back(_BrushTex); }
     void SetHeightMap(Ptr<CTexture> _HeightMap) { m_Heightmap = _HeightMap;  m_IsHeightMapCreated = false; }
     void CreateHeightMap(UINT _Width, UINT _Height);
@@ -27,7 +40,6 @@ public:
     int GetFaceX() const { return m_FaceX; }
     int GetFaceZ() const { return m_FaceZ; }
 
-    float GetTessLevel() const { return m_TessLevel; }
     Ptr<CTexture> GetHeightMap() { return m_Heightmap; }
     
     bool GetWireframeEnabled() const { return m_WireFrame; }
@@ -46,11 +58,29 @@ private:
     void CreateTextureAndStructuredBuffer();
 
 private:
-    int                                             m_FaceX = 1;
-    int                                             m_FaceZ = 1;
+    int                                             m_FaceX = 10;
+    int                                             m_FaceZ = 10;
 
-    float                                           m_TessLevel = 8.f;
+    // Tessellation
+    float                                           m_MinLevel = 0.f;
+    float                                           m_MaxLevel = 4.f;
+    float                                           m_MinLevelRange = 2000.f;
+    float                                           m_MaxLevelRange = 6000.f;
+
     bool                                            m_WireFrame = false;
+
+    // Weightmap
+    Ptr<CTexture>                                   m_ColorTex = nullptr;
+    Ptr<CTexture>                                   m_NormalTex = nullptr;
+    Ptr<CWeightMapCS>                               m_WeightmapCS = nullptr;
+
+    std::shared_ptr<CStructuredBuffer>              m_Weightmap = nullptr;
+    UINT                                            m_WeightWidth = 0;
+    UINT                                            m_WeightHeight = 0;
+    int                                             m_WeightIdx;
+
+    LANDSCAPE_MODE                                  m_Mode;
+
     // Heightmap
     Ptr<CTexture>                                   m_Heightmap;
     Ptr<CHeightmapCS>                               m_HeightmapCS;
