@@ -37,6 +37,8 @@ void CLandscape::CreateMesh()
 			v.vNormal = Vec3(0.f, 1.f, 0.f);
 			v.vTangent = Vec3(1.f, 0.f, 0.f);
 			v.vBinormal = Vec3(0.f, 0.f, -1.f);
+			v.vUV = Vec2((float)Col, (float)m_FaceZ - Row);
+
 			vecVtx.emplace_back(v);
 		}
 	}
@@ -83,6 +85,14 @@ void CLandscape::CreateComputeShader()
 		m_RaycastCS = new CRaycastCS;
 		CAssetMgr::GetInst()->AddAsset<CComputeShader>(L"RaycastCS", m_RaycastCS.Get());
 	}
+
+	// WeightMapCS 생성
+	m_WeightmapCS = (CWeightMapCS*)CAssetMgr::GetInst()->FindAsset<CComputeShader>(L"WeightMapCS").Get();
+	if (nullptr == m_WeightmapCS)
+	{
+		m_WeightmapCS = new CWeightMapCS;
+		CAssetMgr::GetInst()->AddAsset<CComputeShader>(L"WeightMapCS", m_WeightmapCS.Get());
+	}
 }
 
 void CLandscape::CreateTextureAndStructuredBuffer()
@@ -90,6 +100,16 @@ void CLandscape::CreateTextureAndStructuredBuffer()
 	// Raycast 결과를 받는 용도의 구조화버퍼
 	m_RaycastOut = std::make_shared<CStructuredBuffer>();
 	m_RaycastOut->Create(sizeof(tRaycastOut), 1, SB_TYPE::SRV_UAV, true);
+
+	// LandScape 용 텍스쳐 로딩
+	m_ColorTex = CAssetMgr::GetInst()->Load<CTexture>(L"LS_Color", L"texture\\LandScape\\LS_Color.dds");
+	m_NormalTex = CAssetMgr::GetInst()->Load<CTexture>(L"LS_Normal", L"texture\\LandScape\\LS_Color.dds");
+	
+	// 가중치 WeightMap 용 StructuredBuffer
+	m_Weightmap = std::make_shared<CStructuredBuffer>();
+	m_WeightWidth = 1024;
+	m_WeightHeight = 1024;
+	m_Weightmap->Create(sizeof(tWeight8), m_WeightWidth * m_WeightHeight, SB_TYPE::SRV_UAV, true, nullptr);
 }
 
 void CLandscape::CreateHeightMap(UINT _Width, UINT _Height)

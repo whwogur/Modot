@@ -33,6 +33,7 @@ public:
     UINT Width() const { return m_Desc.Width; }
     UINT Height() const { return m_Desc.Height; }
     bool IsCubeMap() const { return m_Desc.MiscFlags & D3D11_RESOURCE_MISC_TEXTURECUBE; }
+    UINT GetArraySize() { return m_Desc.ArraySize; }
 
 private:
     WRL::ComPtr<ID3D11RenderTargetView>         m_RTV;

@@ -24,18 +24,37 @@ void CLandscape::FinalTick()
 			m_BrushIdx = 0;
 	}
 
-	if (CRenderMgr::GetInst()->IsViewportHovered() &&
-		m_IsHeightMapCreated && KEY_PRESSED(KEY::LBTN))
+	if (m_Mode == LANDSCAPE_MODE::HEIGHTMAP)
 	{
-		RayCast();
-		if (m_Out.Success)
+		if (CRenderMgr::GetInst()->IsViewportHovered() &&
+			m_IsHeightMapCreated && KEY_PRESSED(KEY::LBTN))
 		{
-			// 높이맵 설정
-			m_HeightmapCS->SetBrushPos(m_RaycastOut);
-			m_HeightmapCS->SetBrushScale(m_BrushScale);
-			m_HeightmapCS->SetHeightMap(m_Heightmap);
-			m_HeightmapCS->SetBrushTex(m_vecBrush[m_BrushIdx]);
-			m_HeightmapCS->Execute();
+			RayCast();
+			if (m_Out.Success)
+			{
+				// 높이맵 설정
+				m_HeightmapCS->SetBrushPos(m_RaycastOut);
+				m_HeightmapCS->SetBrushScale(m_BrushScale);
+				m_HeightmapCS->SetHeightMap(m_Heightmap);
+				m_HeightmapCS->SetBrushTex(m_vecBrush[m_BrushIdx]);
+				m_HeightmapCS->Execute();
+			}
+		}
+	}
+	else if (m_Mode == LANDSCAPE_MODE::SPLAT)
+	{
+		if (KEY_PRESSED(KEY::LBTN) && m_WeightWidth != 0 && m_WeightHeight != 0)
+		{
+			if (m_Out.Success)
+			{
+				m_WeightmapCS->SetBrushPos(m_RaycastOut.get());
+				m_WeightmapCS->SetWeightMap(m_Weightmap.get());
+				m_WeightmapCS->SetBrushScale(m_BrushScale);
+				m_WeightmapCS->SetBrushTex(m_vecBrush[m_BrushIdx]);
+				m_WeightmapCS->SetWeightIdx(m_WeightIdx);
+				m_WeightmapCS->SetWeightMapWidthHeight(m_WeightWidth, m_WeightHeight);
+				m_WeightmapCS->Execute();
+			}
 		}
 	}
 }
@@ -56,15 +75,40 @@ void CLandscape::Render()
 	// 지형의 면 개수
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_0,		m_FaceX);
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_1,		m_FaceZ);
-	GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_0,	m_TessLevel);
+	
+	// 지형 모드
+	GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_2, (int)m_Mode);
+	// 텍스쳐 배열 개수
+	GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_3, (int)m_ColorTex->GetArraySize());
+	// 테셀레이션 레벨
+	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, Vec4(m_MinLevel, m_MaxLevel, m_MinLevelRange, m_MaxLevelRange));
+	// 카메라 월드 위치
+	CCamera* pCam = CRenderMgr::GetInst()->GetMainCamera();
+	GetMaterial()->SetScalarParam(VEC4_1, pCam->Transform()->GetWorldPos());
+
 	// 지형에 적용시킬 높이맵
 	GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, m_Heightmap);
+
+	// 지형 색상 및 노말 텍스쳐
+	GetMaterial()->SetTexParam(TEX_PARAM::TEXARR_0, m_ColorTex);
+	GetMaterial()->SetTexParam(TEX_PARAM::TEXARR_1, m_NormalTex);
+	// Brush 정보
+	GetMaterial()->SetTexParam(TEX_PARAM::TEX_1, m_vecBrush[m_BrushIdx]);
+	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_0, m_BrushScale);
+	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_1, m_Out.Location);
+	GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_0, (float)m_Out.Success);
+	// 가중치 해상도
+	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_2, Vec2(m_WeightWidth, m_WeightHeight));
+	// WeightMap 바인딩
+	m_Weightmap->Bind(20);
 
 	// 재질 바인딩
 	GetMaterial()->Bind();
 
 	// 렌더링
 	GetMesh()->Render();
+
+	m_Weightmap->Clear(20);
 }
 
 void CLandscape::SetFace(int _X, int _Z)
