@@ -1,5 +1,7 @@
 #pragma once
 #include "ComponentUI.h"
+#include "LandscapePalette.h"
+
 class LandscapeUI :
     public ComponentUI
 {
@@ -9,8 +11,9 @@ public:
 
 public:
     virtual void Update() override;
-
 private:
-    int     m_Face[2] = { 1, 1 }; // X Z¼ø
+    std::unique_ptr<LandscapePalette>   m_Palette;
+
+    int     m_Face[2] = { 10, 10 };
 };
 

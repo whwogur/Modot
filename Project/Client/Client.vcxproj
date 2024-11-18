@@ -110,6 +110,7 @@
     <ClInclude Include="DecalUI.h" />
     <ClInclude Include="EditorLogger.h" />
     <ClInclude Include="EditorViewport.h" />
+    <ClInclude Include="LandscapePalette.h" />
     <ClInclude Include="LandscapeUI.h" />
     <ClInclude Include="Light3DUI.h" />
     <ClInclude Include="ModotHelpers.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="DecalUI.cpp" />
     <ClCompile Include="EditorLogger.cpp" />
     <ClCompile Include="EditorViewport.cpp" />
+    <ClCompile Include="LandscapePalette.cpp" />
     <ClCompile Include="LandscapeUI.cpp" />
     <ClCompile Include="Light3DUI.cpp" />
     <ClCompile Include="ModotHelpers.cpp" />

@@ -17,43 +17,38 @@ CLandscape::CLandscape()
 
 void CLandscape::FinalTick()
 {
-	if (KEY_TAP(KEY::_6))
+	if (m_EditEnable && CRenderMgr::GetInst()->IsViewportHovered())
 	{
-		++m_BrushIdx;
-		if (m_vecBrush.size() <= m_BrushIdx)
-			m_BrushIdx = 0;
-	}
-
-	if (m_Mode == LANDSCAPE_MODE::HEIGHTMAP)
-	{
-		if (CRenderMgr::GetInst()->IsViewportHovered() &&
-			m_IsHeightMapCreated && KEY_PRESSED(KEY::LBTN))
+		RayCast();
+		if (m_Mode == LANDSCAPE_MODE::HEIGHTMAP)
 		{
-			RayCast();
-			if (m_Out.Success)
+			if (m_IsHeightMapCreated && KEY_PRESSED(KEY::LBTN))
 			{
-				// 높이맵 설정
-				m_HeightmapCS->SetBrushPos(m_RaycastOut);
-				m_HeightmapCS->SetBrushScale(m_BrushScale);
-				m_HeightmapCS->SetHeightMap(m_Heightmap);
-				m_HeightmapCS->SetBrushTex(m_vecBrush[m_BrushIdx]);
-				m_HeightmapCS->Execute();
+				if (m_Out.Success)
+				{
+					// 높이맵 설정
+					m_HeightmapCS->SetBrushPos(m_RaycastOut);
+					m_HeightmapCS->SetBrushScale(m_BrushScale);
+					m_HeightmapCS->SetHeightMap(m_Heightmap);
+					m_HeightmapCS->SetBrushTex(m_vecBrush[m_BrushIdx]);
+					m_HeightmapCS->Execute();
+				}
 			}
 		}
-	}
-	else if (m_Mode == LANDSCAPE_MODE::SPLAT)
-	{
-		if (KEY_PRESSED(KEY::LBTN) && m_WeightWidth != 0 && m_WeightHeight != 0)
+		else if (m_Mode == LANDSCAPE_MODE::SPLAT)
 		{
-			if (m_Out.Success)
+			if (KEY_PRESSED(KEY::LBTN) && m_WeightWidth != 0 && m_WeightHeight != 0)
 			{
-				m_WeightmapCS->SetBrushPos(m_RaycastOut.get());
-				m_WeightmapCS->SetWeightMap(m_Weightmap.get());
-				m_WeightmapCS->SetBrushScale(m_BrushScale);
-				m_WeightmapCS->SetBrushTex(m_vecBrush[m_BrushIdx]);
-				m_WeightmapCS->SetWeightIdx(m_WeightIdx);
-				m_WeightmapCS->SetWeightMapWidthHeight(m_WeightWidth, m_WeightHeight);
-				m_WeightmapCS->Execute();
+				if (m_Out.Success)
+				{
+					m_WeightmapCS->SetBrushPos(m_RaycastOut.get());
+					m_WeightmapCS->SetWeightMap(m_Weightmap.get());
+					m_WeightmapCS->SetBrushScale(m_BrushScale);
+					m_WeightmapCS->SetBrushTex(m_vecBrush[m_BrushIdx]);
+					m_WeightmapCS->SetWeightIdx(m_WeightIdx);
+					m_WeightmapCS->SetWeightMapWidthHeight(m_WeightWidth, m_WeightHeight);
+					m_WeightmapCS->Execute();
+				}
 			}
 		}
 	}
@@ -84,7 +79,7 @@ void CLandscape::Render()
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, Vec4(m_MinLevel, m_MaxLevel, m_MinLevelRange, m_MaxLevelRange));
 	// 카메라 월드 위치
 	CCamera* pCam = CRenderMgr::GetInst()->GetMainCamera();
-	GetMaterial()->SetScalarParam(VEC4_1, pCam->Transform()->GetWorldPos());
+	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_1, pCam->Transform()->GetWorldPos());
 
 	// 지형에 적용시킬 높이맵
 	GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, m_Heightmap);
@@ -92,13 +87,16 @@ void CLandscape::Render()
 	// 지형 색상 및 노말 텍스쳐
 	GetMaterial()->SetTexParam(TEX_PARAM::TEXARR_0, m_ColorTex);
 	GetMaterial()->SetTexParam(TEX_PARAM::TEXARR_1, m_NormalTex);
+
 	// Brush 정보
 	GetMaterial()->SetTexParam(TEX_PARAM::TEX_1, m_vecBrush[m_BrushIdx]);
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_0, m_BrushScale);
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_1, m_Out.Location);
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_0, (float)m_Out.Success);
+
 	// 가중치 해상도
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_2, Vec2(m_WeightWidth, m_WeightHeight));
+
 	// WeightMap 바인딩
 	m_Weightmap->Bind(20);
 

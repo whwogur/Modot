@@ -11,6 +11,7 @@ RWStructuredBuffer<tRaycastOut> m_OutBuffer : register(u0);
 #define FACE_Z          g_int_1
 #define RayStart        g_vec4_0.xyz
 #define RayDir          g_vec4_1.xyz
+
 [numthreads(32, 32, 1)]
 void CS_Raycast(uint3 _ID : SV_DispatchThreadID)
 {

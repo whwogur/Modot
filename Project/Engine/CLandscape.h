@@ -44,6 +44,19 @@ public:
     
     bool GetWireframeEnabled() const { return m_WireFrame; }
     void SetWireframeEnabled(bool _b);
+
+    LANDSCAPE_MODE GetMode() const { return m_Mode; }
+    void SetMode(LANDSCAPE_MODE _Mode) { m_Mode = _Mode; }
+
+    UINT GetBrushIdx() const { return m_BrushIdx; }
+    void SetBrushIdx(UINT _Idx) { m_BrushIdx = _Idx; }
+
+    int GetWeightIdx() const { return m_WeightIdx; }
+    void SetWeightIdx(int _Idx) { m_WeightIdx = _Idx; }
+
+    bool& GetEditEnableRef() { return m_EditEnable; }
+    void SetEdit(bool _b) { m_EditEnable = _b; }
+    bool GetEditEnable() const { return m_EditEnable; }
 public:
     virtual void Init() override;
     virtual void FinalTick() override;
@@ -64,10 +77,11 @@ private:
     // Tessellation
     float                                           m_MinLevel = 0.f;
     float                                           m_MaxLevel = 4.f;
-    float                                           m_MinLevelRange = 2000.f;
-    float                                           m_MaxLevelRange = 6000.f;
+    float                                           m_MinLevelRange = 6000.f;
+    float                                           m_MaxLevelRange = 2000.f;
 
     bool                                            m_WireFrame = false;
+    bool                                            m_EditEnable = false;
 
     // Weightmap
     Ptr<CTexture>                                   m_ColorTex = nullptr;
@@ -89,7 +103,7 @@ private:
     // Brush
     Vec2                                            m_BrushScale = { 0.2f, 0.2f };
     std::vector<Ptr<CTexture>>                      m_vecBrush;
-    UINT                                            m_BrushIdx = -1;
+    UINT                                            m_BrushIdx = 0;
 
     // Raycasting
     Ptr<CRaycastCS>                                 m_RaycastCS;

@@ -20,11 +20,14 @@
 #define MAX_RANGE           g_vec4_0.w
 
 #define CAM_POS             g_vec4_1.xyz
+
 #define COLOR_TEX           g_texarr_0
 #define NORMAL_TEX          g_texarr_1
 #define HasColorTex         g_btexarr_0
 #define HasNormalTex        g_btexarr_1
+
 #define TEXTURE_ARRSIZE     g_int_3
+
 #define HeightMap           g_tex_0
 #define IsShowBrush         g_btex_1 && g_float_0
 #define BRUSH_TEX           g_tex_1
@@ -75,7 +78,7 @@ struct TessFactor
 TessFactor PatchConstantFunc(InputPatch<VS_OUT, 3> _in, uint _PatchIdx : SV_PrimitiveID)
 {
     TessFactor output = (TessFactor) 0.f;
-    
+        
     // 위, 아래
     output.arrEdge[0] = GetTessFactor(MIN_LEVEL, MAX_LEVEL
                                     , MIN_RANGE, MAX_RANGE, CAM_POS
@@ -95,7 +98,7 @@ TessFactor PatchConstantFunc(InputPatch<VS_OUT, 3> _in, uint _PatchIdx : SV_Prim
     output.Inside = GetTessFactor(MIN_LEVEL, MAX_LEVEL
                                 , MIN_RANGE, MAX_RANGE, CAM_POS
                                 , (_in[0].vWorldPos + _in[1].vWorldPos + _in[2].vWorldPos) / 3.f);
-    
+   
     return output;
 }
 
@@ -223,14 +226,14 @@ PS_OUT PS_LandScape(DS_OUT _in)
         float2 BrushLT = BrushPos - (BrushScale * 0.5f);
         
         // 지형 기준, 픽셀의 위치 구하기
-        float2 vBrusUV = _in.vUV / float2(FaceX, FaceZ);
-        vBrusUV = (vBrusUV - BrushLT) / BrushScale;
+        float2 vBrushUV = _in.vUV / float2(FaceX, FaceZ);
+        vBrushUV = (vBrushUV - BrushLT) / BrushScale;
         
-        if (0.f <= vBrusUV.x && vBrusUV.x <= 1.f
-            && 0.f <= vBrusUV.y && vBrusUV.y <= 1.f)
+        if (0.f <= vBrushUV.x && vBrushUV.x <= 1.f
+            && 0.f <= vBrushUV.y && vBrushUV.y <= 1.f)
         {
-            float BrushAlpha = BRUSH_TEX.Sample(g_LinearClampSampler, vBrusUV).a;
-            float3 BrushColor = float3(0.8f, 0.8f, 0.f);
+            float BrushAlpha = BRUSH_TEX.Sample(g_LinearClampSampler, vBrushUV).a;
+            float3 BrushColor = float3(0.4f, 0.4f, 0.7f);
             
             vBrush.rgb = (vBrush.rgb * (1 - BrushAlpha)) + (BrushColor * BrushAlpha);
         }

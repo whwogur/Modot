@@ -67,6 +67,48 @@
     <Filter Include="Editor\EditorUI\Modal\TexturePreview">
       <UniqueIdentifier>{337d90f6-8813-4c6a-9680-4bae86cd51ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\EditorUI\ComponentUI\Animator2D">
+      <UniqueIdentifier>{dbc15f93-6def-4635-9198-3c177942cc1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ComponentUI\Camera">
+      <UniqueIdentifier>{9d16b334-3c6e-41ab-86b3-9e88e5d8552f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ComponentUI\Collider">
+      <UniqueIdentifier>{3f98777f-9a16-4d83-86f4-c9bb10edfb1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ComponentUI\Decal">
+      <UniqueIdentifier>{21bc4ea0-cbab-4eb2-9573-ab2a39cc8702}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ComponentUI\Landscape">
+      <UniqueIdentifier>{ba83204d-262c-49ce-beac-7c6dc7fc7cb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ComponentUI\Light">
+      <UniqueIdentifier>{b380b380-c47d-4ab3-9290-6ce2f32390c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ComponentUI\Mesh">
+      <UniqueIdentifier>{ee97f328-173d-4525-ba86-8fe21c8275e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ComponentUI\ParticleSystem">
+      <UniqueIdentifier>{adcf2559-5689-4dac-822c-6839a293144e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ComponentUI\RigidBody">
+      <UniqueIdentifier>{0133d55f-7e8a-44ff-8c9e-226e907ee374}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ComponentUI\Script">
+      <UniqueIdentifier>{1ed2bc47-22ca-44dc-87ff-eaae4cd34723}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ComponentUI\Skybox">
+      <UniqueIdentifier>{f642131b-eb65-4ccf-9230-ca98da2ad756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ComponentUI\Text">
+      <UniqueIdentifier>{0514a936-5e04-4ab8-bb1c-3d4760c54f65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ComponentUI\Tilemap">
+      <UniqueIdentifier>{38a63e7c-7637-4ae9-8cb2-f1f9c16873f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ComponentUI\Transform">
+      <UniqueIdentifier>{a28c62b3-e62e-4f5c-9a81-7910fae8b651}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -88,27 +130,6 @@
     <ClInclude Include="ComponentUI.h">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleSystemUI.h">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformUI.h">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshRenderUI.h">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraUI.h">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Animator2DUI.h">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClInclude>
-    <ClInclude Include="TilemapUI.h">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Light2DUI.h">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClInclude>
     <ClInclude Include="TreeUI.h">
       <Filter>Editor\EditorUI\TreeUI</Filter>
     </ClInclude>
@@ -120,9 +141,6 @@
     </ClInclude>
     <ClInclude Include="AnimationUI.h">
       <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider2DUI.h">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
     <ClInclude Include="MaterialUI.h">
       <Filter>Editor\EditorUI\AssetUI</Filter>
@@ -196,12 +214,6 @@
     <ClInclude Include="ImGui\IconsFontAwesome4.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="ScriptUI.h">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClInclude>
-    <ClInclude Include="RigidBodyUI.h">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClInclude>
     <ClInclude Include="TilemapEditor.h">
       <Filter>Editor\EditorUI\Modal</Filter>
     </ClInclude>
@@ -226,18 +238,6 @@
     </ClInclude>
     <ClInclude Include="CPlayerManager.h">
       <Filter>Editor\TestLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="TextRenderUI.h">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Light3DUI.h">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClInclude>
-    <ClInclude Include="SkyBoxUI.h">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClInclude>
-    <ClInclude Include="DecalUI.h">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClInclude>
     <ClInclude Include="EditorViewport.h">
       <Filter>Editor\Viewport</Filter>
@@ -272,8 +272,53 @@
     <ClInclude Include="ModotHelpers.h">
       <Filter>Editor\EditorUI\Modal\Util</Filter>
     </ClInclude>
+    <ClInclude Include="Animator2DUI.h">
+      <Filter>Editor\EditorUI\ComponentUI\Animator2D</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraUI.h">
+      <Filter>Editor\EditorUI\ComponentUI\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider2DUI.h">
+      <Filter>Editor\EditorUI\ComponentUI\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="DecalUI.h">
+      <Filter>Editor\EditorUI\ComponentUI\Decal</Filter>
+    </ClInclude>
     <ClInclude Include="LandscapeUI.h">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI\Landscape</Filter>
+    </ClInclude>
+    <ClInclude Include="Light2DUI.h">
+      <Filter>Editor\EditorUI\ComponentUI\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Light3DUI.h">
+      <Filter>Editor\EditorUI\ComponentUI\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderUI.h">
+      <Filter>Editor\EditorUI\ComponentUI\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBoxUI.h">
+      <Filter>Editor\EditorUI\ComponentUI\Skybox</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystemUI.h">
+      <Filter>Editor\EditorUI\ComponentUI\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptUI.h">
+      <Filter>Editor\EditorUI\ComponentUI\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBodyUI.h">
+      <Filter>Editor\EditorUI\ComponentUI\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderUI.h">
+      <Filter>Editor\EditorUI\ComponentUI\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMapUI.h">
+      <Filter>Editor\EditorUI\ComponentUI\Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformUI.h">
+      <Filter>Editor\EditorUI\ComponentUI\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="LandscapePalette.h">
+      <Filter>Editor\EditorUI\ComponentUI\Landscape</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -296,27 +341,6 @@
     <ClCompile Include="ComponentUI.cpp">
       <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleSystemUI.cpp">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClCompile>
-    <ClCompile Include="TransformUI.cpp">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshRenderUI.cpp">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraUI.cpp">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Animator2DUI.cpp">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClCompile>
-    <ClCompile Include="TilemapUI.cpp">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Light2DUI.cpp">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClCompile>
     <ClCompile Include="TreeUI.cpp">
       <Filter>Editor\EditorUI\TreeUI</Filter>
     </ClCompile>
@@ -328,9 +352,6 @@
     </ClCompile>
     <ClCompile Include="AnimationUI.cpp">
       <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider2DUI.cpp">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
     <ClCompile Include="MaterialUI.cpp">
       <Filter>Editor\EditorUI\AssetUI</Filter>
@@ -404,12 +425,6 @@
     <ClCompile Include="CTestLevel.cpp">
       <Filter>Editor\TestLevel</Filter>
     </ClCompile>
-    <ClCompile Include="ScriptUI.cpp">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClCompile>
-    <ClCompile Include="RigidBodyUI.cpp">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClCompile>
     <ClCompile Include="TilemapEditor.cpp">
       <Filter>Editor\EditorUI\Modal</Filter>
     </ClCompile>
@@ -434,18 +449,6 @@
     </ClCompile>
     <ClCompile Include="CPlayerManager.cpp">
       <Filter>Editor\TestLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="TextRenderUI.cpp">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Light3DUI.cpp">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClCompile>
-    <ClCompile Include="SkyBoxUI.cpp">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
-    </ClCompile>
-    <ClCompile Include="DecalUI.cpp">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
     </ClCompile>
     <ClCompile Include="EditorViewport.cpp">
       <Filter>Editor\Viewport</Filter>
@@ -483,8 +486,53 @@
     <ClCompile Include="ModotHelpers.cpp">
       <Filter>Editor\EditorUI\Modal\Util</Filter>
     </ClCompile>
+    <ClCompile Include="Animator2DUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI\Animator2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider2DUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="DecalUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI\Decal</Filter>
+    </ClCompile>
     <ClCompile Include="LandscapeUI.cpp">
-      <Filter>Editor\EditorUI\ComponentUI</Filter>
+      <Filter>Editor\EditorUI\ComponentUI\Landscape</Filter>
+    </ClCompile>
+    <ClCompile Include="Light2DUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Light3DUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBoxUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI\Skybox</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystemUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBodyUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRenderUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMapUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI\Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="LandscapePalette.cpp">
+      <Filter>Editor\EditorUI\ComponentUI\Landscape</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
