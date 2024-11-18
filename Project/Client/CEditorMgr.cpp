@@ -76,17 +76,6 @@ void CEditorMgr::SetTargetObject(CGameObject* _Target)
 	m_Viewport->SetTargetObject(_Target);
 }
 
-const bool CEditorMgr::IsViewportFocused() const
-{
-	return m_Viewport->IsViewportFocused();
-}
-
-const bool CEditorMgr::IsViewportHovered() const
-{
-	return m_Viewport->IsViewportHovered();
-}
-
-
 void CEditorMgr::SetThemeMoonlight()
 {
 	ImGuiStyle& style = ImGui::GetStyle();

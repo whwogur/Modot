@@ -19,6 +19,7 @@ void LandscapeUI::Update()
 		{
 			
 			// FACE X/ Z
+			ImGui::SetNextItemWidth(100.f);
 			ImGui::InputInt2("X / Z", m_Face, ImGuiInputTextFlags_AllowTabInput);
 			ImGui::SameLine();
 			if (ImGui::Button(u8"적용"))
@@ -28,6 +29,7 @@ void LandscapeUI::Update()
 
 			// TESSLEVEL
 			float tessLv = pLandscape->GetTessLevel();
+			ImGui::SetNextItemWidth(100.f);
 			if (ImGui::DragFloat("TessLevel", &tessLv, 0.5f, 1.0f, 30.f, "%.1f"))
 			{
 				pLandscape->SetTessLevel(tessLv);
@@ -37,6 +39,15 @@ void LandscapeUI::Update()
 			if (ParamUI::InputTexture(heightmapTex, "Heightmap"))
 			{
 				pLandscape->SetHeightMap(heightmapTex);
+			}
+
+			bool wireFrameEnabled = pLandscape->GetWireframeEnabled();
+
+			ImGui::TextColored(HEADER_1, u8"와이어프레임");
+			ImGui::SameLine();
+			if (ImGui::Checkbox("##LandscapeWirefrema", &wireFrameEnabled))
+			{
+				pLandscape->SetWireframeEnabled(wireFrameEnabled);
 			}
 		}
 	}

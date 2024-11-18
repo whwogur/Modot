@@ -24,7 +24,8 @@ void CLandscape::FinalTick()
 			m_BrushIdx = 0;
 	}
 
-	if (m_IsHeightMapCreated && KEY_PRESSED(KEY::LBTN))
+	if (CRenderMgr::GetInst()->IsViewportHovered() &&
+		m_IsHeightMapCreated && KEY_PRESSED(KEY::LBTN))
 	{
 		RayCast();
 		if (m_Out.Success)
@@ -39,11 +40,19 @@ void CLandscape::FinalTick()
 	}
 }
 
+void CLandscape::SetWireframeEnabled(bool _b)
+{
+	if (m_WireFrame == _b)
+		return;
+
+	m_WireFrame = _b;
+	m_WireFrame ? GetMaterial()->GetShader()->SetRSType(RS_TYPE::WIRE_FRAME) : GetMaterial()->GetShader()->SetRSType(RS_TYPE::CULL_BACK);
+}
+
 void CLandscape::Render()
 {
 	Transform()->Bind();
-	//GetMaterial()->GetShader()->SetRSType(RS_TYPE::WIRE_FRAME);
-	
+
 	// 지형의 면 개수
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_0,		m_FaceX);
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_1,		m_FaceZ);

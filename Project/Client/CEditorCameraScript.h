@@ -6,7 +6,7 @@ class CEditorCameraScript :
 {
 public:
     CEditorCameraScript();
-    ~CEditorCameraScript();
+    ~CEditorCameraScript() = default;
     CLONE(CEditorCameraScript);
 public:
     virtual void Tick() override;

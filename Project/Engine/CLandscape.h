@@ -29,7 +29,9 @@ public:
 
     float GetTessLevel() const { return m_TessLevel; }
     Ptr<CTexture> GetHeightMap() { return m_Heightmap; }
-
+    
+    bool GetWireframeEnabled() const { return m_WireFrame; }
+    void SetWireframeEnabled(bool _b);
 public:
     virtual void Init() override;
     virtual void FinalTick() override;
@@ -48,7 +50,7 @@ private:
     int                                             m_FaceZ = 1;
 
     float                                           m_TessLevel = 8.f;
-
+    bool                                            m_WireFrame = false;
     // Heightmap
     Ptr<CTexture>                                   m_Heightmap;
     Ptr<CHeightmapCS>                               m_HeightmapCS;

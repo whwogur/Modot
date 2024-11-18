@@ -1,5 +1,6 @@
 #include "spch.h"
 #include "CCameraControl.h"
+#include <Engine/CRenderMgr.h>
 
 CCameraControl::CCameraControl()
 	: CScript(SCRIPT_TYPE::CAMERACONTROL)
@@ -26,7 +27,7 @@ void CCameraControl::Tick()
 
 	if (KEY_TAP(KEY::P))
 	{
-		if (CEditorMgr::GetInst()->IsViewportFocused() && CEditorMgr::GetInst()->IsViewportHovered())
+		if (CRenderMgr::GetInst()->IsViewportFocused() && CRenderMgr::GetInst()->IsViewportHovered())
 		{
 			if (PROJ_TYPE::ORTHOGRAPHIC == Camera()->GetProjType())
 				Camera()->SetProjType(PROJ_TYPE::PERSPECTIVE);
