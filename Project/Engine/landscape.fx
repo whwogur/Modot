@@ -16,8 +16,8 @@
 
 #define MIN_LEVEL           g_vec4_0.x
 #define MAX_LEVEL           g_vec4_0.y
-#define MIN_RANGE           g_vec4_0.z
-#define MAX_RANGE           g_vec4_0.w
+#define MIN_THRESHOLD       g_vec4_0.z
+#define MAX_THRESHOLD       g_vec4_0.w
 
 #define CAM_POS             g_vec4_1.xyz
 
@@ -83,22 +83,22 @@ TessFactor PatchConstantFunc(InputPatch<VS_OUT, 3> _in, uint _PatchIdx : SV_Prim
         
     // À§, ¾Æ·¡
     output.arrEdge[0] = GetTessFactor(MIN_LEVEL, MAX_LEVEL
-                                    , MIN_RANGE, MAX_RANGE, CAM_POS
+                                    , MIN_THRESHOLD, MAX_THRESHOLD, CAM_POS
                                     , (_in[1].vWorldPos + _in[2].vWorldPos) * 0.5f);
     
     // ÁÂ, ¿ì
     output.arrEdge[1] = GetTessFactor(MIN_LEVEL, MAX_LEVEL
-                                    , MIN_RANGE, MAX_RANGE, CAM_POS
+                                    , MIN_THRESHOLD, MAX_THRESHOLD, CAM_POS
                                     , (_in[0].vWorldPos + _in[2].vWorldPos) * 0.5f);
     
     // ºøº¯
     output.arrEdge[2] = GetTessFactor(MIN_LEVEL, MAX_LEVEL
-                                    , MIN_RANGE, MAX_RANGE, CAM_POS
+                                    , MIN_THRESHOLD, MAX_THRESHOLD, CAM_POS
                                     , (_in[0].vWorldPos + _in[1].vWorldPos) * 0.5f);
     
     // »ï°¢Çü Áß½É
     output.Inside = GetTessFactor(MIN_LEVEL, MAX_LEVEL
-                                , MIN_RANGE, MAX_RANGE, CAM_POS
+                                , MIN_THRESHOLD, MAX_THRESHOLD, CAM_POS
                                 , (_in[0].vWorldPos + _in[1].vWorldPos + _in[2].vWorldPos) / 3.f);
     
     return output;

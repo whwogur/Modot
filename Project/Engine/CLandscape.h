@@ -75,10 +75,10 @@ private:
     int                                             m_FaceZ = 10;
 
     // Tessellation
-    float                                           m_MinLevel = 0.f;
-    float                                           m_MaxLevel = 4.f;
-    float                                           m_MinLevelRange = 4000.f;
-    float                                           m_MaxLevelRange = 2000.f;
+    float                                           m_MinLevel = 0;
+    float                                           m_MaxLevel = 4;
+    float                                           m_MinThreshold = 2000.f;
+    float                                           m_MaxThreshold = 700.f;
 
     bool                                            m_WireFrame = false;
     bool                                            m_EditEnable = false;

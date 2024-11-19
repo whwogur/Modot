@@ -79,7 +79,7 @@ void CLandscape::Render()
 	// 텍스쳐 배열 개수
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_3, (int)m_ColorTex->GetArraySize());
 	// 테셀레이션 레벨
-	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, Vec4(m_MinLevel, m_MaxLevel, m_MinLevelRange, m_MaxLevelRange));
+	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, Vec4(m_MinLevel, m_MaxLevel, m_MinThreshold, m_MaxThreshold));
 	// 카메라 월드 위치
 	CCamera* pCam = CRenderMgr::GetInst()->GetMainCamera();
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_1, pCam->Transform()->GetWorldPos());
