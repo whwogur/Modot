@@ -16,17 +16,20 @@
 
 #define MIN_LEVEL           g_vec4_0.x
 #define MAX_LEVEL           g_vec4_0.y
-#define MIN_RANGE           g_vec4_0.z
-#define MAX_RANGE           g_vec4_0.w
+#define MIN_THRESHOLD       g_vec4_0.z
+#define MAX_THRESHOLD       g_vec4_0.w
 
 #define CAM_POS             g_vec4_1.xyz
+
 #define COLOR_TEX           g_texarr_0
 #define NORMAL_TEX          g_texarr_1
 #define HasColorTex         g_btexarr_0
 #define HasNormalTex        g_btexarr_1
+
 #define TEXTURE_ARRSIZE     g_int_3
+
 #define HeightMap           g_tex_0
-#define IsShowBrush         g_btex_1 && g_float_0
+#define BrushEnabled        g_btex_1 && g_float_0
 #define BRUSH_TEX           g_tex_1
 #define BrushScale          g_vec2_0
 #define BrushPos            g_vec2_1
@@ -43,6 +46,7 @@ struct VS_IN
     float3 vBinormal    : BINORMAL;
     float2 vUV          : TEXCOORD;
 };
+
 struct VS_OUT
 {
     float3 vLocalPos    : POSITION;
@@ -52,6 +56,7 @@ struct VS_OUT
     float3 vBinormal    : BINORMAL;
     float2 vUV          : TEXCOORD;
 };
+
 VS_OUT VS_LandScape(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
@@ -75,25 +80,25 @@ struct TessFactor
 TessFactor PatchConstantFunc(InputPatch<VS_OUT, 3> _in, uint _PatchIdx : SV_PrimitiveID)
 {
     TessFactor output = (TessFactor) 0.f;
-    
+        
     // 위, 아래
     output.arrEdge[0] = GetTessFactor(MIN_LEVEL, MAX_LEVEL
-                                    , MIN_RANGE, MAX_RANGE, CAM_POS
+                                    , MIN_THRESHOLD, MAX_THRESHOLD, CAM_POS
                                     , (_in[1].vWorldPos + _in[2].vWorldPos) * 0.5f);
     
     // 좌, 우
     output.arrEdge[1] = GetTessFactor(MIN_LEVEL, MAX_LEVEL
-                                    , MIN_RANGE, MAX_RANGE, CAM_POS
+                                    , MIN_THRESHOLD, MAX_THRESHOLD, CAM_POS
                                     , (_in[0].vWorldPos + _in[2].vWorldPos) * 0.5f);
     
     // 빗변
     output.arrEdge[2] = GetTessFactor(MIN_LEVEL, MAX_LEVEL
-                                    , MIN_RANGE, MAX_RANGE, CAM_POS
+                                    , MIN_THRESHOLD, MAX_THRESHOLD, CAM_POS
                                     , (_in[0].vWorldPos + _in[1].vWorldPos) * 0.5f);
     
     // 삼각형 중심
     output.Inside = GetTessFactor(MIN_LEVEL, MAX_LEVEL
-                                , MIN_RANGE, MAX_RANGE, CAM_POS
+                                , MIN_THRESHOLD, MAX_THRESHOLD, CAM_POS
                                 , (_in[0].vWorldPos + _in[1].vWorldPos + _in[2].vWorldPos) / 3.f);
     
     return output;
@@ -107,9 +112,10 @@ struct HS_OUT
     float3 vBinormal : BINORMAL;
     float2 vUV       : TEXCOORD;
 };
+
 [domain("tri")]
-//[partitioning("integer")]
-[partitioning("fractional_odd")]
+[partitioning("integer")]
+//[partitioning("fractional_odd")]
 [outputtopology("triangle_cw")]
 [outputcontrolpoints(3)]
 [patchconstantfunc("PatchConstantFunc")]
@@ -144,27 +150,27 @@ DS_OUT DS_LandScape(OutputPatch<HS_OUT, 3> _in, float3 _Weight : SV_DomainLocati
 {
     HS_OUT input = (HS_OUT) 0.f;
     DS_OUT output = (DS_OUT) 0.f;
-    
+
     for (int i = 0; i < 3; ++i)
     {
-        input.vLocalPos += _in[i].vLocalPos * _Weight[i];
-        input.vNormal += _in[i].vNormal * _Weight[i];
-        input.vTangent += _in[i].vTangent * _Weight[i];
-        input.vBinormal += _in[i].vBinormal * _Weight[i];
-        input.vUV += _in[i].vUV * _Weight[i];
+        input.vLocalPos     += _in[i].vLocalPos     * _Weight[i];
+        input.vNormal       += _in[i].vNormal       * _Weight[i];
+        input.vTangent      += _in[i].vTangent      * _Weight[i];
+        input.vBinormal     += _in[i].vBinormal     * _Weight[i];
+        input.vUV           += _in[i].vUV           * _Weight[i];
     }
-            
+
     // 높이맵이 있다면
     if (g_btex_0)
     {
         float2 vHeightMapUV = float2(input.vLocalPos.x / (float) FaceX
                                     , 1.f - (input.vLocalPos.z / (float) FaceZ));
-        
+
         input.vLocalPos.y = HeightMap.SampleLevel(g_AniWrapSampler, vHeightMapUV, 0).x;
-        
+
         // 패치 분할레벨을 정점 간격으로 잡는다.
         float fLocalStep = 1.f / _PatchTessFactor.Inside;
-                
+
         float3 arrUDLR[4] =
         {
             float3(input.vLocalPos.x, 0.f, input.vLocalPos.z + fLocalStep),
@@ -172,33 +178,33 @@ DS_OUT DS_LandScape(OutputPatch<HS_OUT, 3> _in, float3 _Weight : SV_DomainLocati
             float3(input.vLocalPos.x - fLocalStep, 0.f, input.vLocalPos.z),
             float3(input.vLocalPos.x + fLocalStep, 0.f, input.vLocalPos.z)
         };
-        
+
         for (int i = 0; i < 4; ++i)
         {
             float2 vUV      = float2(arrUDLR[i].x / (float) FaceX, 1.f - (arrUDLR[i].z / (float) FaceZ));
             arrUDLR[i].y    = HeightMap.SampleLevel(g_AniWrapSampler, vUV, 0).x;
-            arrUDLR[i]      = mul(float4(arrUDLR[i], 1.f), matWorld).xyz;
+            arrUDLR[i]      = mul(float4(arrUDLR[i].xyz, 1.f), matWorld).xyz;
         }
-        
+
         float3 vTangent         = normalize(arrUDLR[3] - arrUDLR[2]);
         float3 vBinormal        = normalize(arrUDLR[1] - arrUDLR[0]);
         float3 vNormal          = cross(vTangent, vBinormal);
-                
-        output.vViewTangent     = normalize(mul(float4(vTangent, 0.f), matView));
-        output.vViewBinormal    = normalize(mul(float4(vBinormal, 0.f), matView));
-        output.vViewNormal      = normalize(mul(float4(vNormal, 0.f), matView));
+
+        output.vViewTangent     = normalize(mul(float4(vTangent, 0.f), matView)).xyz;
+        output.vViewBinormal    = normalize(mul(float4(vBinormal, 0.f), matView)).xyz;
+        output.vViewNormal      = normalize(mul(float4(vNormal, 0.f), matView)).xyz;
     }
     else
     {
-        output.vViewNormal      = normalize(mul(float4(input.vNormal, 0.f), matWV));
-        output.vViewTangent     = normalize(mul(float4(input.vTangent, 0.f), matWV));
-        output.vViewBinormal    = normalize(mul(float4(input.vBinormal, 0.f), matWV));
+        output.vViewNormal      = normalize(mul(float4(input.vNormal, 0.f), matWV)).xyz;
+        output.vViewTangent     = normalize(mul(float4(input.vTangent, 0.f), matWV)).xyz;
+        output.vViewBinormal    = normalize(mul(float4(input.vBinormal, 0.f), matWV)).xyz;
     }
-    
+
     output.Position = mul(float4(input.vLocalPos, 1.f), matWVP);
-    output.vViewPos = mul(float4(input.vLocalPos, 1.f), matWV);
+    output.vViewPos = mul(float4(input.vLocalPos, 1.f), matWV).xyz;
     output.vUV = input.vUV;
-    
+
     return output;
 }
 
@@ -217,20 +223,21 @@ PS_OUT PS_LandScape(DS_OUT _in)
 
     float4 vBrush = (float4) 0.f;
     
-    if (IsShowBrush && MODE)
+    if (BrushEnabled && MODE)
     {
         // Brush LeftTop 좌표
         float2 BrushLT = BrushPos - (BrushScale * 0.5f);
         
         // 지형 기준, 픽셀의 위치 구하기
-        float2 vBrusUV = _in.vUV / float2(FaceX, FaceZ);
-        vBrusUV = (vBrusUV - BrushLT) / BrushScale;
+        float2 vBrushUV = _in.vUV / float2(FaceX, FaceZ);
+        vBrushUV = (vBrushUV - BrushLT) / BrushScale;
         
-        if (0.f <= vBrusUV.x && vBrusUV.x <= 1.f
-            && 0.f <= vBrusUV.y && vBrusUV.y <= 1.f)
+        if (0.f <= vBrushUV.x && vBrushUV.x <= 1.f
+            && 0.f <= vBrushUV.y && vBrushUV.y <= 1.f)
         {
-            float BrushAlpha = BRUSH_TEX.Sample(g_LinearClampSampler, vBrusUV).a;
-            float3 BrushColor = float3(0.8f, 0.8f, 0.f);
+            float4 BrushSample = BRUSH_TEX.Sample(g_LinearClampSampler, vBrushUV);
+            float BrushAlpha = BrushSample.a;
+            float3 BrushColor = MODE == 1 ? float3(0.3f, 0.8f, 0.4f) : float3(0.6f, 0.4f, 0.4f);
             
             vBrush.rgb = (vBrush.rgb * (1 - BrushAlpha)) + (BrushColor * BrushAlpha);
         }
@@ -242,10 +249,6 @@ PS_OUT PS_LandScape(DS_OUT _in)
     
     if (HasColorTex)
     {
-        // 편미분
-        //float2 derivX = ddx(_in.vUV);
-        //float2 derivY = ddy(_in.vUV);
-        
         float2 vFullUV = _in.vUV / float2(FaceX, FaceZ);
         int2 vColRow = vFullUV * WEIGHT_RESOLUTION;
         int WeightMapIdx = WEIGHT_RESOLUTION.x * vColRow.y + vColRow.x;
@@ -273,7 +276,7 @@ PS_OUT PS_LandScape(DS_OUT _in)
         
         if (MaxIdx != -1)
         {
-            float3 vNormal = NORMAL_TEX.Sample(g_AniWrapSampler, float3(_in.vUV, MaxIdx));
+            float3 vNormal = NORMAL_TEX.Sample(g_AniWrapSampler, float3(_in.vUV, MaxIdx)).xyz;
             vNormal = vNormal * 2.f - 1.f;
         
             float3x3 Rot =

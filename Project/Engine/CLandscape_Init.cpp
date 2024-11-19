@@ -17,8 +17,8 @@ void CLandscape::Init()
 	// LandScape 용 텍스쳐 생성 및 로딩
 	CreateTextureAndStructuredBuffer();
 	
-	//AddBrushTexture(CAssetMgr::GetInst()->FindAsset<CTexture>(L"Soft"));
-	AddBrushTexture(CAssetMgr::GetInst()->Load<CTexture>(L"Soft", L"texture\\Engine\\Brush\\Soft.png"));
+	AddBrushTexture(CAssetMgr::GetInst()->Load<CTexture>(L"brush0", L"texture\\Engine\\Brush\\brush0.png"));
+	AddBrushTexture(CAssetMgr::GetInst()->Load<CTexture>(L"brush1", L"texture\\Engine\\Brush\\brush1.png"));
 	
 	// TODO
 	CreateHeightMap(1024, 1024);
@@ -33,11 +33,11 @@ void CLandscape::CreateMesh()
 	{
 		for (UINT Col = 0; Col < m_FaceX + 1; ++Col)
 		{
-			v.vPos = Vec3((float)Col, 0.f, (float)Row);
-			v.vNormal = Vec3(0.f, 1.f, 0.f);
-			v.vTangent = Vec3(1.f, 0.f, 0.f);
+			v.vPos		= Vec3((float)Col, 0.f, (float)Row);
+			v.vNormal	= Vec3(0.f, 1.f, 0.f);
+			v.vTangent	= Vec3(1.f, 0.f, 0.f);
 			v.vBinormal = Vec3(0.f, 0.f, -1.f);
-			v.vUV = Vec2((float)Col, (float)m_FaceZ - Row);
+			v.vUV		= Vec2((float)Col, (float)m_FaceZ - Row);
 
 			vecVtx.emplace_back(v);
 		}

@@ -386,7 +386,9 @@ void CAssetMgr::CreateEngineGraphicShader()
 	pShader->AddTexParam(TEX_PARAM::TEX_0, "HeightMap");
 	pShader->AddScalarParam(SCALAR_PARAM::INT_0, "Face X");
 	pShader->AddScalarParam(SCALAR_PARAM::INT_1, "Face Z");
-	pShader->AddScalarParam(SCALAR_PARAM::FLOAT_0, "Tesselation Level");
+	pShader->AddScalarParam(SCALAR_PARAM::VEC4_0, "Tess");
+	pShader->AddScalarParam(SCALAR_PARAM::VEC4_1, "CamWorldPos");
+	
 	pShader->SetDomain(SHADER_DOMAIN::DOMAIN_DEFERRED);
 	AddAsset(L"LandScapeShader", pShader);
 }
