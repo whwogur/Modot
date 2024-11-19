@@ -33,11 +33,11 @@ void CLandscape::CreateMesh()
 	{
 		for (UINT Col = 0; Col < m_FaceX + 1; ++Col)
 		{
-			v.vPos = Vec3((float)Col, 0.f, (float)Row);
-			v.vNormal = Vec3(0.f, 1.f, 0.f);
-			v.vTangent = Vec3(1.f, 0.f, 0.f);
+			v.vPos		= Vec3((float)Col, 0.f, (float)Row);
+			v.vNormal	= Vec3(0.f, 1.f, 0.f);
+			v.vTangent	= Vec3(1.f, 0.f, 0.f);
 			v.vBinormal = Vec3(0.f, 0.f, -1.f);
-			v.vUV = Vec2((float)Col, (float)m_FaceZ - Row);
+			v.vUV		= Vec2((float)Col, (float)m_FaceZ - Row);
 
 			vecVtx.emplace_back(v);
 		}

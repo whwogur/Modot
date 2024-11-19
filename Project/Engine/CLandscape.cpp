@@ -17,6 +17,9 @@ CLandscape::CLandscape()
 
 void CLandscape::FinalTick()
 {
+	if (m_Mode == LANDSCAPE_MODE::NONE)
+		return;
+
 	if (m_EditEnable && CRenderMgr::GetInst()->IsViewportHovered())
 	{
 		RayCast();
@@ -27,7 +30,7 @@ void CLandscape::FinalTick()
 				if (m_Out.Success)
 				{
 					// ³ôÀÌ¸Ê ¼³Á¤
-					m_HeightmapCS->SetBrushPos(m_RaycastOut);
+					m_HeightmapCS->SetBrushPos(m_RaycastOut.get());
 					m_HeightmapCS->SetBrushScale(m_BrushScale);
 					m_HeightmapCS->SetHeightMap(m_Heightmap);
 					m_HeightmapCS->SetBrushTex(m_vecBrush[m_BrushIdx]);
@@ -60,7 +63,7 @@ void CLandscape::SetWireframeEnabled(bool _b)
 		return;
 
 	m_WireFrame = _b;
-	m_WireFrame ? GetMaterial()->GetShader()->SetRSType(RS_TYPE::WIRE_FRAME) : GetMaterial()->GetShader()->SetRSType(RS_TYPE::CULL_BACK);
+	m_WireFrame ? GetMaterial()->GetShader()->SetRSType(RS_TYPE::WIRE_FRAME) : GetMaterial()->GetShader()->SetRSType(RS_TYPE::CULL_NONE);
 }
 
 void CLandscape::Render()

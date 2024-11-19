@@ -77,7 +77,7 @@ private:
     // Tessellation
     float                                           m_MinLevel = 0.f;
     float                                           m_MaxLevel = 4.f;
-    float                                           m_MinLevelRange = 10000.f;
+    float                                           m_MinLevelRange = 4000.f;
     float                                           m_MaxLevelRange = 2000.f;
 
     bool                                            m_WireFrame = false;

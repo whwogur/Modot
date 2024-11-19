@@ -7,11 +7,6 @@ CHeightmapCS::CHeightmapCS()
 {
 }
 
-void CHeightmapCS::SetBrushPos(std::shared_ptr<CStructuredBuffer> _Buffer)
-{
-    m_RaycastOut = _Buffer;
-}
-
 int CHeightmapCS::Bind()
 {
     if (nullptr == m_HeightMapTex)
