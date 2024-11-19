@@ -4,16 +4,11 @@
 #include <Engine/CAssetMgr.h>
 #include <ImGui/imgui.h>
 
-LandscapePalette::LandscapePalette()
-{
-	
-}
-
 void LandscapePalette::Update(CLandscape* _Target)
 {
     bool editEnabled = _Target->GetEditEnable();
 
-	ImGui::Begin(u8"지형 편집", &editEnabled, ImGuiWindowFlags_NoDocking);
+	ImGui::Begin("##LandscapePalette", &editEnabled, ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar);
 	LANDSCAPE_MODE mode = _Target->GetMode();
 
     if (mode == LANDSCAPE_MODE::SPLAT)
@@ -51,6 +46,7 @@ void LandscapePalette::Update(CLandscape* _Target)
     {
     case LANDSCAPE_MODE::HEIGHTMAP:
     {
+        ImGui::TextColored(HEADER_2, "Heightmap Brush");
         UINT idx = _Target->GetBrushIdx();
         for (int i = 0; i < BRUSHCOUNT; ++i)
         {
@@ -68,6 +64,7 @@ void LandscapePalette::Update(CLandscape* _Target)
     }
     case LANDSCAPE_MODE::SPLAT:
     {
+        ImGui::TextColored(HEADER_2, "Color Brush");
         int idx = _Target->GetWeightIdx();
         for (int i = 0; i < ALBEDOCOUNT; ++i)
         {

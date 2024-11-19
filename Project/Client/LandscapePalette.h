@@ -8,7 +8,7 @@ constexpr const int BUTTONSPERROW = 5;
 class LandscapePalette
 {
 public:
-	LandscapePalette();
+	LandscapePalette() = default;
 	~LandscapePalette() = default;
 
 public:

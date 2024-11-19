@@ -55,6 +55,7 @@ struct VS_OUT
     float3 vBinormal    : BINORMAL;
     float2 vUV          : TEXCOORD;
 };
+
 VS_OUT VS_LandScape(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;

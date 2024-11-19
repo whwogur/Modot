@@ -52,20 +52,49 @@ void CFrustum::FinalTick()
 
 	if (m_Debug)
 	{
-		DrawDebugLine(arrWorld[0], arrWorld[1], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
-		DrawDebugLine(arrWorld[1], arrWorld[2], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
-		DrawDebugLine(arrWorld[2], arrWorld[3], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
-		DrawDebugLine(arrWorld[3], arrWorld[0], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
+		// 고정된 크기의 작은 프러스텀
+		const float nearDist = 0.5f;
+		const float farDist = 1.0f;
+		const float width = 0.5f;
+		const float height = 0.5f;
 
-		DrawDebugLine(arrWorld[4], arrWorld[5], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
-		DrawDebugLine(arrWorld[5], arrWorld[6], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
-		DrawDebugLine(arrWorld[6], arrWorld[7], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
-		DrawDebugLine(arrWorld[7], arrWorld[4], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
+		Vec3 smallFrustum[8] = {
+			{ -width,  height, nearDist },
+			{  width,  height, nearDist },
+			{  width, -height, nearDist },
+			{ -width, -height, nearDist },
+			{ -width,  height, farDist },
+			{  width,  height, farDist },
+			{  width, -height, farDist },
+			{ -width, -height, farDist }
+		};
 
-		DrawDebugLine(arrWorld[0], arrWorld[4], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
-		DrawDebugLine(arrWorld[1], arrWorld[5], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
-		DrawDebugLine(arrWorld[2], arrWorld[6], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
-		DrawDebugLine(arrWorld[3], arrWorld[7], { 1.f, 1.f, 0.f, 1.f }, 0.f, true);
+		// 월드 변환
+		Vec3 smallWorld[8];
+		for (int i = 0; i < 8; ++i)
+		{
+			smallWorld[i] = XMVector3TransformCoord(smallFrustum[i], matInv);
+		}
+
+		const Vec4 debugColor = { 1.f, 1.f, 0.f, 1.f };
+
+		// Near Plane
+		DrawDebugLine(smallWorld[0], smallWorld[1], debugColor, 0.f, true);
+		DrawDebugLine(smallWorld[1], smallWorld[2], debugColor, 0.f, true);
+		DrawDebugLine(smallWorld[2], smallWorld[3], debugColor, 0.f, true);
+		DrawDebugLine(smallWorld[3], smallWorld[0], debugColor, 0.f, true);
+
+		// Far Plane
+		DrawDebugLine(smallWorld[4], smallWorld[5], debugColor, 0.f, true);
+		DrawDebugLine(smallWorld[5], smallWorld[6], debugColor, 0.f, true);
+		DrawDebugLine(smallWorld[6], smallWorld[7], debugColor, 0.f, true);
+		DrawDebugLine(smallWorld[7], smallWorld[4], debugColor, 0.f, true);
+
+		// 연결선
+		DrawDebugLine(smallWorld[0], smallWorld[4], debugColor, 0.f, true);
+		DrawDebugLine(smallWorld[1], smallWorld[5], debugColor, 0.f, true);
+		DrawDebugLine(smallWorld[2], smallWorld[6], debugColor, 0.f, true);
+		DrawDebugLine(smallWorld[3], smallWorld[7], debugColor, 0.f, true);
 	}
 }
 
