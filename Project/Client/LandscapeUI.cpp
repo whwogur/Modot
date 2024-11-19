@@ -19,10 +19,17 @@ void LandscapeUI::Update()
 		CLandscape* pLandscape = GetTargetObject()->Landscape();
 		if (pLandscape != nullptr)
 		{
+			ImGui::NewLine();
 			bool& editEnabled = pLandscape->GetEditEnableRef();
 
 			ToggleButton(u8"지형 편집", &editEnabled);
 			ImGui::SetItemTooltip(u8"지형 편집 활성화");
+			ImGui::SameLine();
+			if (editEnabled)
+				ImGui::TextColored({ 0.8f, 0.2f, 0.2f, 1.f }, u8"팔레트 ON");
+			else
+				ImGui::TextColored(HEADER_2, u8"팔레트 OFF");
+
 			// FACE X/ Z
 			ImGui::SetNextItemWidth(100.f);
 			ImGui::InputInt2("X / Z", m_Face, ImGuiInputTextFlags_AllowTabInput);

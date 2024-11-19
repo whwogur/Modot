@@ -183,26 +183,26 @@ DS_OUT DS_LandScape(OutputPatch<HS_OUT, 3> _in, float3 _Weight : SV_DomainLocati
         {
             float2 vUV      = float2(arrUDLR[i].x / (float) FaceX, 1.f - (arrUDLR[i].z / (float) FaceZ));
             arrUDLR[i].y    = HeightMap.SampleLevel(g_AniWrapSampler, vUV, 0).x;
-            arrUDLR[i]      = mul(float4(arrUDLR[i], 1.f), matWorld).xyz;
+            arrUDLR[i]      = mul(float4(arrUDLR[i].xyz, 1.f), matWorld).xyz;
         }
 
         float3 vTangent         = normalize(arrUDLR[3] - arrUDLR[2]);
         float3 vBinormal        = normalize(arrUDLR[1] - arrUDLR[0]);
         float3 vNormal          = cross(vTangent, vBinormal);
 
-        output.vViewTangent     = normalize(mul(float4(vTangent, 0.f), matView));
-        output.vViewBinormal    = normalize(mul(float4(vBinormal, 0.f), matView));
-        output.vViewNormal      = normalize(mul(float4(vNormal, 0.f), matView));
+        output.vViewTangent     = normalize(mul(float4(vTangent, 0.f), matView)).xyz;
+        output.vViewBinormal    = normalize(mul(float4(vBinormal, 0.f), matView)).xyz;
+        output.vViewNormal      = normalize(mul(float4(vNormal, 0.f), matView)).xyz;
     }
     else
     {
-        output.vViewNormal      = normalize(mul(float4(input.vNormal, 0.f), matWV));
-        output.vViewTangent     = normalize(mul(float4(input.vTangent, 0.f), matWV));
-        output.vViewBinormal    = normalize(mul(float4(input.vBinormal, 0.f), matWV));
+        output.vViewNormal      = normalize(mul(float4(input.vNormal, 0.f), matWV)).xyz;
+        output.vViewTangent     = normalize(mul(float4(input.vTangent, 0.f), matWV)).xyz;
+        output.vViewBinormal    = normalize(mul(float4(input.vBinormal, 0.f), matWV)).xyz;
     }
 
     output.Position = mul(float4(input.vLocalPos, 1.f), matWVP);
-    output.vViewPos = mul(float4(input.vLocalPos, 1.f), matWV);
+    output.vViewPos = mul(float4(input.vLocalPos, 1.f), matWV).xyz;
     output.vUV = input.vUV;
 
     return output;
@@ -235,7 +235,8 @@ PS_OUT PS_LandScape(DS_OUT _in)
         if (0.f <= vBrushUV.x && vBrushUV.x <= 1.f
             && 0.f <= vBrushUV.y && vBrushUV.y <= 1.f)
         {
-            float BrushAlpha = BRUSH_TEX.Sample(g_LinearClampSampler, vBrushUV).a;
+            float4 BrushSample = BRUSH_TEX.Sample(g_LinearClampSampler, vBrushUV);
+            float BrushAlpha = BrushSample.a;
             float3 BrushColor = float3(0.3f, 0.8f, 0.4f);
             
             vBrush.rgb = (vBrush.rgb * (1 - BrushAlpha)) + (BrushColor * BrushAlpha);
@@ -275,7 +276,7 @@ PS_OUT PS_LandScape(DS_OUT _in)
         
         if (MaxIdx != -1)
         {
-            float3 vNormal = NORMAL_TEX.Sample(g_AniWrapSampler, float3(_in.vUV, MaxIdx));
+            float3 vNormal = NORMAL_TEX.Sample(g_AniWrapSampler, float3(_in.vUV, MaxIdx)).xyz;
             vNormal = vNormal * 2.f - 1.f;
         
             float3x3 Rot =

@@ -71,14 +71,14 @@ private:
     void CreateTextureAndStructuredBuffer();
 
 private:
-    int                                             m_FaceX = 10;
-    int                                             m_FaceZ = 10;
+    int                                             m_FaceX = 20;
+    int                                             m_FaceZ = 20;
 
     // Tessellation
     float                                           m_MinLevel = 0;
     float                                           m_MaxLevel = 4;
-    float                                           m_MinThreshold = 2000.f;
-    float                                           m_MaxThreshold = 700.f;
+    float                                           m_MinThreshold = 1500.f;
+    float                                           m_MaxThreshold = 500.f;
 
     bool                                            m_WireFrame = false;
     bool                                            m_EditEnable = false;
