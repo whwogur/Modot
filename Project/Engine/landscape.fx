@@ -237,7 +237,7 @@ PS_OUT PS_LandScape(DS_OUT _in)
         {
             float4 BrushSample = BRUSH_TEX.Sample(g_LinearClampSampler, vBrushUV);
             float BrushAlpha = BrushSample.a;
-            float3 BrushColor = float3(0.3f, 0.8f, 0.4f);
+            float3 BrushColor = MODE == 1 ? float3(0.3f, 0.8f, 0.4f) : float3(0.6f, 0.4f, 0.4f);
             
             vBrush.rgb = (vBrush.rgb * (1 - BrushAlpha)) + (BrushColor * BrushAlpha);
         }

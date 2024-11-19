@@ -3,6 +3,7 @@
 #include <Engine/CLandscape.h>
 #include <Engine/CAssetMgr.h>
 #include <ImGui/imgui.h>
+constexpr const ImVec4 UICOLOR(0.05f, 0.15f, 0.33f, 0.7f);
 
 void LandscapePalette::Update(CLandscape* _Target)
 {
@@ -13,7 +14,7 @@ void LandscapePalette::Update(CLandscape* _Target)
 
     if (mode == LANDSCAPE_MODE::SPLAT)
     {
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.05f, 0.15f, 0.33f, 0.7f));
+        ImGui::PushStyleColor(ImGuiCol_Button, UICOLOR);
     }
     if (ImGui::Button(ICON_FA_PAINT_BRUSH, { 25, 25 }))
     {
@@ -27,9 +28,10 @@ void LandscapePalette::Update(CLandscape* _Target)
     ImGui::SameLine();
     if (mode == LANDSCAPE_MODE::HEIGHTMAP)
     {
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.05f, 0.15f, 0.33f, 0.7f));
+        ImGui::PushStyleColor(ImGuiCol_Button, UICOLOR);
     }
-    if (ImGui::Button(ICON_FA_ARROWS_V, { 25, 25 }))
+
+    if (ImGui::Button(ICON_FA_AREA_CHART, { 25, 25 }))
     {
         _Target->SetMode(LANDSCAPE_MODE::HEIGHTMAP);
     }
@@ -38,53 +40,35 @@ void LandscapePalette::Update(CLandscape* _Target)
         ImGui::PopStyleColor();
     }
 
+    ImGui::NewLine();
+    ImGui::SeparatorText(u8"브러쉬");
+    UINT brushIdx = _Target->GetBrushIdx();
+    for (int i = 0; i < BRUSHCOUNT; ++i)
+    {
+        if (ImGui::ImageButton(m_BrushPalette[i]->GetSRV().Get(), { ICONSIZE, ICONSIZE }, { 0, 0 }, { 1, 1 }, 1, brushIdx == i ? UICOLOR : ImVec4(0.f, 0.f, 0.f, 0.f)))
+        {
+            _Target->SetBrushIdx(i);
+        }
+
+        if ((i + 1) % BUTTONSPERROW != 0) {
+            ImGui::SameLine();
+        }
+    }
 
     ImGui::NewLine();
-    ImGui::NewLine();
-
-    switch (mode)
+    ImGui::SeparatorText(u8"지형 Albedo");
+    int weightIdx = _Target->GetWeightIdx();
+    for (int i = 0; i < ALBEDOCOUNT; ++i)
     {
-    case LANDSCAPE_MODE::HEIGHTMAP:
-    {
-        ImGui::TextColored(HEADER_2, "Heightmap Brush");
-        UINT idx = _Target->GetBrushIdx();
-        for (int i = 0; i < BRUSHCOUNT; ++i)
+        if (ImGui::ImageButton(m_AlbedoPalette[i]->GetSRV().Get(), { ICONSIZE, ICONSIZE }, { 0, 0 }, { 1, 1 }, 2, weightIdx == i ? UICOLOR : ImVec4(0.f, 0.f, 0.f, 0.f)))
         {
-            if (ImGui::ImageButton(m_BrushPalette[i]->GetSRV().Get(), { ICONSIZE, ICONSIZE }, { 0, 0 }, { 1, 1 }, 1, idx == i ? ImVec4(HEADER_2) : ImVec4(0.f, 0.f, 0.f, 0.f)))
-            {
-                _Target->SetBrushIdx(i);
-            }
-
-            // 버튼 정렬: 지정된 수만큼 출력 후 줄바꿈
-            if ((i + 1) % BUTTONSPERROW != 0) {
-                ImGui::SameLine();
-            }
+            _Target->SetWeightIdx(i);
         }
-        break;
-    }
-    case LANDSCAPE_MODE::SPLAT:
-    {
-        ImGui::TextColored(HEADER_2, "Color Brush");
-        int idx = _Target->GetWeightIdx();
-        for (int i = 0; i < ALBEDOCOUNT; ++i)
-        {
-            if (ImGui::ImageButton(m_AlbedoPalette[i]->GetSRV().Get(), { ICONSIZE, ICONSIZE }, { 0, 0 }, { 1, 1 }, 1, idx == i ? ImVec4(HEADER_2) : ImVec4(0.f, 0.f, 0.f, 0.f)))
-            {
-                _Target->SetWeightIdx(i);
-            }
 
-            if ((i + 1) % BUTTONSPERROW != 0) {
-                ImGui::SameLine();
-            }
+        if ((i + 1) % BUTTONSPERROW != 0) {
+            ImGui::SameLine();
         }
-        break;
     }
-    case LANDSCAPE_MODE::NONE:
-    {
-        break;
-    }
-    }
-
 
 	ImGui::End();
 }
