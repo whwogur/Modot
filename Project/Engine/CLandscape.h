@@ -4,6 +4,8 @@
 
 #include "CHeightmapCS.h"
 #include "CWeightMapCS.h"
+constexpr const float MINBRUSHSCALE = 0.05f;
+constexpr const float MAXBRUSHSCALE = 0.2f;
 
 struct tRaycastOut
 {
