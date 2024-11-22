@@ -278,7 +278,7 @@ void TilemapEditor::Edit(UINT vecTileIdx, UINT oldImgIdx, UINT newImgIdx)
 {
     if (m_TilemapToBeEdited[vecTileIdx].ImgIdx != newImgIdx)
     {
-        m_EditHistory.push_back(std::make_pair(vecTileIdx, oldImgIdx));
+        m_EditHistory.emplace_back(vecTileIdx, oldImgIdx);
 
         m_TilemapToBeEdited[vecTileIdx].ImgIdx = newImgIdx;
     }

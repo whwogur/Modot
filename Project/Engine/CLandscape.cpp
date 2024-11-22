@@ -23,6 +23,15 @@ void CLandscape::FinalTick()
 	if (m_EditEnable && CRenderMgr::GetInst()->IsViewportHovered())
 	{
 		RayCast();
+		if (KEY_PRESSED(KEY::_7) && (m_BrushScale.x < MAXBRUSHSCALE))
+		{
+			m_BrushScale += 0.01f;
+		}
+		else if (KEY_PRESSED(KEY::_6) && (m_BrushScale.x > MINBRUSHSCALE))
+		{
+			m_BrushScale -= 0.01f;
+		}
+
 		if (m_Mode == LANDSCAPE_MODE::HEIGHTMAP)
 		{
 			if (m_IsHeightMapCreated && KEY_PRESSED(KEY::LBTN))
@@ -97,6 +106,10 @@ void CLandscape::Render()
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_1, m_Out.Location);
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_0, (float)m_Out.Success);
 
+	if(KEY_PRESSED(KEY::LBTN))
+		GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_1, 1.f);
+	else
+		GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_1, -1.f);
 	// 가중치 해상도
 	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_2, Vec2(m_WeightWidth, m_WeightHeight));
 

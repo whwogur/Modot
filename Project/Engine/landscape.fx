@@ -34,7 +34,7 @@
 #define BrushScale          g_vec2_0
 #define BrushPos            g_vec2_1
 StructuredBuffer<tWeight8> WEIGHT_MAP : register(t20);
-
+#define Click               g_float_1
 #define WEIGHT_RESOLUTION   g_vec2_2
 // ================
 
@@ -237,7 +237,7 @@ PS_OUT PS_LandScape(DS_OUT _in)
         {
             float4 BrushSample = BRUSH_TEX.Sample(g_LinearClampSampler, vBrushUV);
             float BrushAlpha = BrushSample.a;
-            float3 BrushColor = MODE == 1 ? float3(0.3f, 0.8f, 0.4f) : float3(0.6f, 0.4f, 0.4f);
+            float3 BrushColor = Click > 0 ? float3(0.8f, 0.4f, 0.4f) : float3(0.3f, 0.8f, 0.4f);
             
             vBrush.rgb = (vBrush.rgb * (1 - BrushAlpha)) + (BrushColor * BrushAlpha);
         }

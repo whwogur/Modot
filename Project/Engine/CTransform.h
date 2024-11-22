@@ -2,12 +2,6 @@
 #include "CComponent.h"
 #include "CBoundingSphere.h"
 
-enum class OBJECT_DIR
-{
-    LEFT,
-    RIGHT,
-};
-
 class CTransform :
     public CComponent
 {
@@ -30,8 +24,6 @@ public:
     void SetRelativePos(float x, float y, float z) { m_RelativePos = Vec3(x, y, z); }
     void SetRelativeScale(float x, float y, float z) { m_RelativeScale = Vec3(x, y, z); }
     void SetRelativeRotation(float x, float y, float z) { m_RelativeRotation = Vec3(x, y, z); }
-    void SetDir(OBJECT_DIR _Dir);
-    OBJECT_DIR GetObjectDir() const { return m_RelativeScale.x > 0 ? OBJECT_DIR::RIGHT : OBJECT_DIR::LEFT; }
 
     Matrix& GetWorldMat() { return m_matWorld; }
     Matrix& GetWorldMatInv() { return m_matWorldInv; }

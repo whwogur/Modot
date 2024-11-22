@@ -1,7 +1,7 @@
 #pragma once
 class CLandscape;
 
-constexpr const int BRUSHCOUNT = 2;
+constexpr const int BRUSHCOUNT = 3;
 constexpr const float ICONSIZE = 50.f;
 constexpr const int ALBEDOCOUNT = 7;
 constexpr const int BUTTONSPERROW = 5;
