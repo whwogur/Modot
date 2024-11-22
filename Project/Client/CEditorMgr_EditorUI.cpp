@@ -161,15 +161,20 @@ void CEditorMgr::CreateEditorUI()
 
 void CEditorMgr::ObserveContents()
 {
-    // 지정된 상황이 발생했는지 확인
-    DWORD dwStatus = WaitForSingleObject(m_Sentinel, 0);
+    static auto lastCheckTime = std::chrono::steady_clock::now();
+    auto now = std::chrono::steady_clock::now();
+    if (std::chrono::duration_cast<std::chrono::milliseconds>(now - lastCheckTime).count() < 1'0000) {
+        return;
+    }
+    lastCheckTime = now;
 
+    DWORD dwStatus = WaitForSingleObject(m_Sentinel, 0);
     if (dwStatus == WAIT_OBJECT_0)
     {
-        // 다시 대기
-        FindNextChangeNotification(m_Sentinel);
-
+        EditorWarn("Filesystem altered");
+        EditorTrace("Reloading contents...");
         CAssetMgr::GetInst()->AsyncReloadContents();
+        FindNextChangeNotification(m_Sentinel);
     }
 }
 
