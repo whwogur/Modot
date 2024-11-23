@@ -33,14 +33,14 @@ CParticleSystem::CParticleSystem()
 	m_Module.vSpawnColor = Vec4(0.24f, 0.67f, 0.87f, 1.f);
 	m_Module.MinLife = 1.f;
 	m_Module.MaxLife = 5.f;
-	m_Module.vSpawnMinScale = Vec3(100.f, 100.f, 1.f);
-	m_Module.vSpawnMaxScale = Vec3(100.f, 100.f, 1.f);
+	m_Module.vSpawnMinScale = Vec3(200.f, 200.f, 200.f);
+	m_Module.vSpawnMaxScale = Vec3(200.f, 200.f, 200.f);
 
 	m_Module.SpawnShape = 1;
 	m_Module.SpawnShapeScale.x = 500.f;
 
 	m_Module.BlockSpawnShape = 1;
-	m_Module.BlockSpawnShapeScale.x = 0.f;
+	m_Module.BlockSpawnShapeScale.x = 600.f;
 
 	m_Module.SpaceType = 1; // Local Space 
 

@@ -13,6 +13,7 @@ TilemapEditor::TilemapEditor()
 void TilemapEditor::Init()
 {
     UseHorizontalScroll(true);
+    m_EditHistory.reserve(sizeof(std::pair<UINT, UINT>) * 100);
 }
 
 void TilemapEditor::Update()// 정리 필요..;
