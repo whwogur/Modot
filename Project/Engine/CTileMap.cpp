@@ -15,7 +15,7 @@ CTileMap::CTileMap()
 	, m_TileAtlas(nullptr)
 {
 	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"TileMapMtrl"));
+	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"TileMapMtrl"), 0);
 	m_Buffer = std::make_shared<CStructuredBuffer>();
 }
 
@@ -51,14 +51,14 @@ void CTileMap::Render()
 	m_Buffer->SetData(m_vecTileInfo.data(), sizeof(tTileInfo) * m_Row * m_Col);
 	m_Buffer->Bind(15);
 
-	GetMaterial()->SetTexParam(TEX_0, m_TileAtlas);
-	GetMaterial()->SetScalarParam(INT_1, m_AtlasMaxRow);
-	GetMaterial()->SetScalarParam(INT_2, m_AtlasMaxCol);
-	GetMaterial()->SetScalarParam(VEC2_1, Vec2(m_Col, m_Row));
-	GetMaterial()->SetScalarParam(VEC2_0, m_AtlasTileSliceUV);
-	GetMaterial()->Bind();
+	GetMaterial(0)->SetTexParam(TEX_0, m_TileAtlas);
+	GetMaterial(0)->SetScalarParam(INT_1, m_AtlasMaxRow);
+	GetMaterial(0)->SetScalarParam(INT_2, m_AtlasMaxCol);
+	GetMaterial(0)->SetScalarParam(VEC2_1, Vec2(m_Col, m_Row));
+	GetMaterial(0)->SetScalarParam(VEC2_0, m_AtlasTileSliceUV);
+	GetMaterial(0)->Bind();
 	Transform()->Bind();
-	GetMesh()->Render();
+	GetMesh()->Render(0);
 }
 
 void CTileMap::SetRowCol(UINT _Row, UINT _Col)

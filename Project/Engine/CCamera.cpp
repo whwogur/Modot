@@ -115,8 +115,8 @@ void CCamera::SortGameObject()
 				continue;
 
 			if ( nullptr == RenderComp->GetMesh() ||
-				 nullptr == RenderComp->GetMaterial() ||
-				 nullptr == RenderComp->GetMaterial()->GetShader())
+				nullptr == RenderComp->GetMaterial(0) ||
+				nullptr == RenderComp->GetMaterial(0)->GetShader())
 			{
 				continue;
 			}
@@ -130,7 +130,7 @@ void CCamera::SortGameObject()
 				continue;
 			}
 
-			Ptr<CGraphicShader> pShader = RenderComp->GetMaterial()->GetShader();
+			Ptr<CGraphicShader> pShader = vecObjects[j]->GetRenderComponent()->GetMaterial(0)->GetShader();
 			SHADER_DOMAIN Domain = pShader->GetDomain();
 
 			switch (Domain)
@@ -259,8 +259,8 @@ void CCamera::SortShadows()
 		{
 			if (nullptr == pShadowObj->GetRenderComponent()
 				|| nullptr == pShadowObj->GetRenderComponent()->GetMesh()
-				|| nullptr == pShadowObj->GetRenderComponent()->GetMaterial()
-				|| nullptr == pShadowObj->GetRenderComponent()->GetMaterial()->GetShader())
+				|| nullptr == pShadowObj->GetRenderComponent()->GetMaterial(0)
+				|| nullptr == pShadowObj->GetRenderComponent()->GetMaterial(0)->GetShader())
 			{
 				continue;
 			}
@@ -350,7 +350,7 @@ void CCamera::RenderEffect()
 	pEffectMergeMtrl->SetTexParam(TEX_0, CRenderMgr::GetInst()->GetMRT(MRT_TYPE::EFFECT)->GetRT(0));
 	pEffectMergeMtrl->SetTexParam(TEX_1, CRenderMgr::GetInst()->GetMRT(MRT_TYPE::EFFECT_BLUR)->GetRT(0));
 	pEffectMergeMtrl->Bind();
-	pRectMesh->Render();
+	pRectMesh->Render(0);
 }
 
 void CCamera::SaveToFile(FILE* _File)

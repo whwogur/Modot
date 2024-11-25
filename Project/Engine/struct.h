@@ -145,14 +145,24 @@ struct tParticle
 	float	RotationSpeed;
 };
 
+// Material °è¼ö
+struct tMtrlData
+{
+	Vec4 vDiff;
+	Vec4 vSpec;
+	Vec4 vAmb;
+	Vec4 vEmv;
+};
+
 struct tMtrlConst
 {
-	int		iArr[4];
-	float	fArr[4];
-	Vec2	v2Arr[4];
-	Vec4	v4Arr[4];
-	Matrix	matArr[4];
-	int		btex[TEX_PARAM::END + 2];
+	tMtrlData	mtrl;
+	int			iArr[4];
+	float		fArr[4];
+	Vec2		v2Arr[4];
+	Vec4		v4Arr[4];
+	Matrix		matArr[4];
+	int			btex[TEX_PARAM::END + 2];
 };
 
 struct tSpriteInfo

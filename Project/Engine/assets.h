@@ -10,3 +10,4 @@
 #include "CComputeShader.h"
 #include "CPrefab.h"
 #include "CSound.h"
+#include "CMeshData.h"

@@ -7,6 +7,7 @@ class CAsset :
     template<typename T>
     friend class Ptr;
     friend class CAssetMgr;
+    friend class CFBXLoader;
 public:
     CAsset(ASSET_TYPE _Type);
     CAsset(const CAsset& _Other);

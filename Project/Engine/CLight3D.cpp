@@ -82,7 +82,7 @@ void CLight3D::Render()
 	m_LightMtrl->SetScalarParam(SCALAR_PARAM::MAT_0, m_Cam->Camera()->GetcamViewRef() * m_Cam->Camera()->GetcamProjRef());
 	m_LightMtrl->SetTexParam(TEX_PARAM::TEX_2, m_ShadowMapMRT->GetRT(0));
 	m_LightMtrl->Bind();
-	m_VolumeMesh->Render();
+	m_VolumeMesh->Render(0);
 }
 
 void CLight3D::CreateShadowMap()

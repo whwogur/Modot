@@ -266,7 +266,7 @@ PS_OUT PS_LandScape(DS_OUT _in)
             
             if (0.f != Weight)
             {
-                //vColor += COLOR_TEX.SampleLevel(g_sam_0, float3(_in.vUV, i), 5.f) * Weight;
+                //vColor += COLOR_TEX.SampleLevel(g_sam_0, float3(_in.vUV, i), 5) * Weight;
                 vColor += COLOR_TEX.SampleGrad(g_AniWrapSampler, float3(_in.vUV, i), derivX * 0.5f, derivY * 0.5f) * Weight;
 
             }
@@ -281,7 +281,7 @@ PS_OUT PS_LandScape(DS_OUT _in)
         
         if (MaxIdx != -1)
         {
-             //float3 vNormal = NORMAL_TEX.SampleLevel(g_sam_0, float3(_in.vUV, MaxIdx), 0.f);
+             //float3 vNormal = NORMAL_TEX.SampleLevel(g_sam_0, float3(_in.vUV, MaxIdx), 5);
             float3 vNormal = NORMAL_TEX.SampleGrad(g_AniWrapSampler, float3(_in.vUV, MaxIdx), derivX * 0.5f, derivY * 0.5f);
 
             vNormal = vNormal * 2.f - 1.f;

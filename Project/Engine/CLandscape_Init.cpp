@@ -11,7 +11,7 @@ void CLandscape::Init()
 	CreateMesh();
 	// LandScape 전용 재질 참조
 	Ptr<CMaterial> pMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"LandScapeMtrl");
-	SetMaterial(pMtrl);
+	SetMaterial(pMtrl, 0);
 	// LandScape 전용 컴퓨트 셰이더
 	CreateComputeShader();
 	// LandScape 용 텍스쳐 생성 및 로딩

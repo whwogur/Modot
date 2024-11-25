@@ -15,7 +15,6 @@ void CRenderMgr::Init()
 	m_DebugObject = std::make_unique<CGameObject>();
 	m_DebugObject->AddComponent(new CTransform);
 	m_DebugObject->AddComponent(new CMeshRender);
-	m_DebugObject->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DebugShapeMtrl"));
 
 	CreateMRT();
 	CreateMaterial();

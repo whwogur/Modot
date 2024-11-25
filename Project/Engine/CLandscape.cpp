@@ -72,7 +72,7 @@ void CLandscape::SetWireframeEnabled(bool _b)
 		return;
 
 	m_WireFrame = _b;
-	m_WireFrame ? GetMaterial()->GetShader()->SetRSType(RS_TYPE::WIRE_FRAME) : GetMaterial()->GetShader()->SetRSType(RS_TYPE::CULL_NONE);
+	m_WireFrame ? GetMaterial(0)->GetShader()->SetRSType(RS_TYPE::WIRE_FRAME) : GetMaterial(0)->GetShader()->SetRSType(RS_TYPE::CULL_NONE);
 }
 
 void CLandscape::Render()
@@ -80,47 +80,47 @@ void CLandscape::Render()
 	Transform()->Bind();
 
 	// 지형의 면 개수
-	GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_0,		m_FaceX);
-	GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_1,		m_FaceZ);
+	GetMaterial(0)->SetScalarParam(SCALAR_PARAM::INT_0,		m_FaceX);
+	GetMaterial(0)->SetScalarParam(SCALAR_PARAM::INT_1,		m_FaceZ);
 	
 	// 지형 모드
-	GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_2, (int)m_Mode);
+	GetMaterial(0)->SetScalarParam(SCALAR_PARAM::INT_2, (int)m_Mode);
 	// 텍스쳐 배열 개수
-	GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_3, (int)m_ColorTex->GetArraySize());
+	GetMaterial(0)->SetScalarParam(SCALAR_PARAM::INT_3, (int)m_ColorTex->GetArraySize());
 	// 테셀레이션 레벨
-	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_0, Vec4(m_MinLevel, m_MaxLevel, m_MinThreshold, m_MaxThreshold));
+	GetMaterial(0)->SetScalarParam(SCALAR_PARAM::VEC4_0, Vec4(m_MinLevel, m_MaxLevel, m_MinThreshold, m_MaxThreshold));
 	// 카메라 월드 위치
 	CCamera* pCam = CRenderMgr::GetInst()->GetMainCamera();
-	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC4_1, pCam->Transform()->GetWorldPos());
+	GetMaterial(0)->SetScalarParam(SCALAR_PARAM::VEC4_1, pCam->Transform()->GetWorldPos());
 
 	// 지형에 적용시킬 높이맵
-	GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, m_Heightmap);
+	GetMaterial(0)->SetTexParam(TEX_PARAM::TEX_0, m_Heightmap);
 
 	// 지형 색상 및 노말 텍스쳐
-	GetMaterial()->SetTexParam(TEX_PARAM::TEXARR_0, m_ColorTex);
-	GetMaterial()->SetTexParam(TEX_PARAM::TEXARR_1, m_NormalTex);
+	GetMaterial(0)->SetTexParam(TEX_PARAM::TEXARR_0, m_ColorTex);
+	GetMaterial(0)->SetTexParam(TEX_PARAM::TEXARR_1, m_NormalTex);
 
 	// Brush 정보
-	GetMaterial()->SetTexParam(TEX_PARAM::TEX_1, m_vecBrush[m_BrushIdx]);
-	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_0, m_BrushScale);
-	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_1, m_Out.Location);
-	GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_0, (float)m_Out.Success);
+	GetMaterial(0)->SetTexParam(TEX_PARAM::TEX_1, m_vecBrush[m_BrushIdx]);
+	GetMaterial(0)->SetScalarParam(SCALAR_PARAM::VEC2_0, m_BrushScale);
+	GetMaterial(0)->SetScalarParam(SCALAR_PARAM::VEC2_1, m_Out.Location);
+	GetMaterial(0)->SetScalarParam(SCALAR_PARAM::FLOAT_0, (float)m_Out.Success);
 
 	if(KEY_PRESSED(KEY::LBTN))
-		GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_1, 1.f);
+		GetMaterial(0)->SetScalarParam(SCALAR_PARAM::FLOAT_1, 1.f);
 	else
-		GetMaterial()->SetScalarParam(SCALAR_PARAM::FLOAT_1, -1.f);
+		GetMaterial(0)->SetScalarParam(SCALAR_PARAM::FLOAT_1, -1.f);
 	// 가중치 해상도
-	GetMaterial()->SetScalarParam(SCALAR_PARAM::VEC2_2, Vec2(m_WeightWidth, m_WeightHeight));
+	GetMaterial(0)->SetScalarParam(SCALAR_PARAM::VEC2_2, Vec2(m_WeightWidth, m_WeightHeight));
 
 	// WeightMap 바인딩
 	m_Weightmap->Bind(20);
 
 	// 재질 바인딩
-	GetMaterial()->Bind();
+	GetMaterial(0)->Bind();
 
 	// 렌더링
-	GetMesh()->Render();
+	GetMesh()->Render(0);
 
 	m_Weightmap->Clear(20);
 }
@@ -130,7 +130,7 @@ void CLandscape::SetFace(int _X, int _Z)
 	m_FaceX = _X;
 	m_FaceZ = _Z;
 	CreateMesh();
-	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"LandScapeMtrl"));
+	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"LandScapeMtrl"), 0);
 }
 
 void CLandscape::SaveToFile(FILE* _File)

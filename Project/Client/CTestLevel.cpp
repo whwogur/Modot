@@ -11,7 +11,7 @@
 
 void CTestLevel::CreateTestLevel()
 {
-	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\3dTEST.lv");
+	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\NewLevel.lv");
 	//pLevel->GetLayer(0)->SetName(L"Default");
 	//CPlayerManager::GetInst()->Init();
 	/*pLevel->GetLayer(5)->SetName(L"PlayerAttack");

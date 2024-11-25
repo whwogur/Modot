@@ -13,13 +13,13 @@ public:
 
 
 public:
-	bool operator ==(Ptr<T> _Other) { return Asset == _Other.Asset; }
+	bool operator ==(Ptr<T> _Other) const { return Asset == _Other.Asset; }
 
-	bool operator ==(T* _Other) { return Asset == _Other; }
+	bool operator ==(T* _Other) const { return Asset == _Other; }
 
-	bool operator != (Ptr<T> _Other) { return Asset != _Other.Asset; }
+	bool operator != (Ptr<T> _Other) const { return Asset != _Other.Asset; }
 
-	bool operator !=(T* _Other) { return Asset != _Other; }
+	bool operator !=(T* _Other) const { return Asset != _Other; }
 
 	bool operator !() { return !Asset; }
 

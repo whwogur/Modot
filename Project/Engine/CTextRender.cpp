@@ -12,7 +12,7 @@ CTextRender::CTextRender()
 	: CRenderComponent(COMPONENT_TYPE::TEXTRENDER)
 {
     SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-    SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
+    SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"), 0);
 }
 
 void CTextRender::FinalTick()

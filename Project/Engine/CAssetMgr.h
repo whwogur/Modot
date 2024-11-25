@@ -25,6 +25,7 @@ public:
 		, D3D11_USAGE _Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT);
 
 	Ptr<CTexture> CreateTexture(wstring _strKey, WRL::ComPtr<ID3D11Texture2D> _Tex2D);
+	Ptr<CMeshData> LoadFBX(const wstring& _strPath);
 
 public:
 	void GetAssetNames(ASSET_TYPE _Type, std::vector<string>& _vecOut);
