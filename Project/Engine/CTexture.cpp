@@ -57,6 +57,94 @@ void CTexture::Clear_CS_UAV()
 	CONTEXT->CSSetUnorderedAccessViews(m_LastBoundRegNum, 1, &pUAV, &i);
 }
 
+int CTexture::CreateArrayTexture(const std::vector<Ptr<CTexture>>& _vecTex)
+{
+	m_Desc = _vecTex[0]->GetDesc();
+	m_Desc.ArraySize = (UINT)_vecTex.size();
+	m_Desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE;
+	m_Desc.MipLevels = 1;
+
+	if (FAILED(DEVICE->CreateTexture2D(&m_Desc, nullptr, m_Tex2D.GetAddressOf())))
+	{
+		MD_ENGINE_ERROR(L"텍스쳐 배열 생성 실패");
+		return E_FAIL;
+	}
+
+	// 원본 각 텍스쳐를 생성된 배열 텍스쳐의 각 칸으로 복사시킨다.
+	for (size_t i = 0; i < _vecTex.size(); ++i)
+	{
+		UINT Offset = D3D11CalcSubresource(0, i, 1);
+		CONTEXT->UpdateSubresource(m_Tex2D.Get(), Offset, nullptr
+			, _vecTex[i]->GetPixels()
+			, _vecTex[i]->GetRowPitch()
+			, _vecTex[i]->GetSlicePitch());
+	}
+
+	// Shader Resrouce View 생성
+	D3D11_SHADER_RESOURCE_VIEW_DESC tSRVDesc = {};
+	tSRVDesc.Format = m_Desc.Format;
+	tSRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
+	tSRVDesc.Texture2DArray.MipLevels = 1;
+	tSRVDesc.Texture2DArray.MostDetailedMip = 0;
+	tSRVDesc.Texture2DArray.ArraySize = m_Desc.ArraySize;
+	if (FAILED(DEVICE->CreateShaderResourceView(m_Tex2D.Get(), &tSRVDesc, m_SRV.GetAddressOf())))
+	{
+		MD_ENGINE_ERROR(L"텍스쳐 배열 SRV 생성 실패");
+		return E_FAIL;
+	}
+	return S_OK;
+}
+
+int CTexture::GenerateMip(UINT _Level)
+{
+	// CubeTexture 는 Mipmap 생성 금지
+	assert(false == m_Desc.MiscFlags & D3D11_SRV_DIMENSION_TEXTURECUBE);
+	m_Tex2D = nullptr;
+	m_RTV = nullptr;
+	m_DSV = nullptr;
+	m_SRV = nullptr;
+	m_UAV = nullptr;
+
+	m_Desc.MipLevels = _Level;
+	m_Desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	m_Desc.MiscFlags |= D3D11_RESOURCE_MISC_GENERATE_MIPS;
+	if (FAILED(DEVICE->CreateTexture2D(&m_Desc, nullptr, m_Tex2D.GetAddressOf())))
+	{
+		return E_FAIL;
+	}
+	for (UINT i = 0; i < m_Desc.ArraySize; ++i)
+	{
+		UINT iSubIdx = D3D11CalcSubresource(0, i, m_Desc.MipLevels);
+		CONTEXT->UpdateSubresource(m_Tex2D.Get(), iSubIdx, nullptr
+			, m_Image.GetImage(0, i, 0)->pixels
+			, m_Image.GetImage(0, i, 0)->rowPitch
+			, m_Image.GetImage(0, i, 0)->slicePitch);
+	}
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc = {};
+	if (2 <= m_Desc.ArraySize)
+	{
+		SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
+		SRVDesc.Texture2DArray.ArraySize = m_Desc.ArraySize;
+		SRVDesc.Texture2DArray.MipLevels = m_Desc.MipLevels;
+		SRVDesc.Texture2DArray.MostDetailedMip = 0;
+	}
+	else
+	{
+		SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		SRVDesc.Texture2D.MipLevels = m_Desc.MipLevels;
+		SRVDesc.Texture2D.MostDetailedMip = 0;
+	}
+	if (FAILED(DEVICE->CreateShaderResourceView(m_Tex2D.Get(), &SRVDesc, m_SRV.GetAddressOf())))
+	{
+		MD_ENGINE_ERROR(L"밉맵 생성 실패");
+		return E_FAIL;
+	}
+	CONTEXT->GenerateMips(m_SRV.Get());
+
+	return S_OK;
+}
+
 int CTexture::Load(const wstring& _RelativePath)
 {
 	wstring strPath = CPathMgr::GetInst()->GetContentPath();

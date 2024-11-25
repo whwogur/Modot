@@ -249,6 +249,9 @@ PS_OUT PS_LandScape(DS_OUT _in)
     
     if (HasColorTex)
     {
+        float2 derivX = ddx(_in.vUV);
+        float2 derivY = ddy(_in.vUV);
+        
         float2 vFullUV = _in.vUV / float2(FaceX, FaceZ);
         int2 vColRow = vFullUV * WEIGHT_RESOLUTION;
         int WeightMapIdx = WEIGHT_RESOLUTION.x * vColRow.y + vColRow.x;
@@ -263,7 +266,9 @@ PS_OUT PS_LandScape(DS_OUT _in)
             
             if (0.f != Weight)
             {
-                vColor += COLOR_TEX.Sample(g_AniWrapSampler, float3(_in.vUV, i)) * Weight;
+                //vColor += COLOR_TEX.SampleLevel(g_sam_0, float3(_in.vUV, i), 5.f) * Weight;
+                vColor += COLOR_TEX.SampleGrad(g_AniWrapSampler, float3(_in.vUV, i), derivX * 0.5f, derivY * 0.5f) * Weight;
+
             }
                         
             // 제일 높았던 가중치를 기록
@@ -276,7 +281,9 @@ PS_OUT PS_LandScape(DS_OUT _in)
         
         if (MaxIdx != -1)
         {
-            float3 vNormal = NORMAL_TEX.Sample(g_AniWrapSampler, float3(_in.vUV, MaxIdx)).xyz;
+             //float3 vNormal = NORMAL_TEX.SampleLevel(g_sam_0, float3(_in.vUV, MaxIdx), 0.f);
+            float3 vNormal = NORMAL_TEX.SampleGrad(g_AniWrapSampler, float3(_in.vUV, MaxIdx), derivX * 0.5f, derivY * 0.5f);
+
             vNormal = vNormal * 2.f - 1.f;
         
             float3x3 Rot =
