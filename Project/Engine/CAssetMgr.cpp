@@ -198,8 +198,8 @@ void CAssetMgr::LoadAsset(const path& _Path)
 
 	if (ext == L".mesh")
 		CAssetMgr::GetInst()->Load<CMesh>(Key, _Path);
-	//else if (ext == L".mdat")
-		//CAssetMgr::GetInst()->Load<CMeshData>(_Path, _Path);
+	else if (ext == L".mdat")
+		CAssetMgr::GetInst()->Load<CMeshData>(Key, _Path);
 	else if (ext == L".mtrl")
 		CAssetMgr::GetInst()->Load<CMaterial>(Key, _Path);
 	else if (ext == L".png" || ext == L".jpg" || ext == L".jpeg" || ext == L".bmp" || ext == L".dds" || ext == L".tga"

@@ -22,8 +22,14 @@ void CMeshRender::Render()
 		CAnimator2D::Clear();
 
 	Transform()->Bind();
-	GetMaterial(0)->Bind();
-	GetMesh()->Render(0);
+	for (UINT i = 0; i < GetMesh()->GetSubsetCount(); ++i)
+	{
+		// 재질 바인딩(재질 상수, 쉐이더 등등)
+		if (!GetMaterial(i))
+			continue;
+		GetMaterial(i)->Bind();
+		GetMesh()->Render(i);
+	}
 
 	//for (UINT i = 0; i < GetMesh()->GetSubsetCount(); ++i)
 	//{

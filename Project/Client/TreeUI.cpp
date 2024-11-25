@@ -92,6 +92,11 @@ void TreeNode::Update()
 			prefix = ICON_FA_OBJECT_GROUP" ";
 			break;
 		}
+		case NodeDataType::CHONK:
+		{
+			prefix = ICON_FA_CUBES" ";
+			break;
+		}
 		}
 	}
 	
