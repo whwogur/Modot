@@ -11,7 +11,7 @@ struct Vtx
 	Vec3	vBinormal;  // Á¾¹ý¼±
 };
 
-struct tMeshData
+struct tPrimitiveInfo
 {
 	std::vector<Vtx> vertices;
 	std::vector<UINT> indices;

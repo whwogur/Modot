@@ -25,6 +25,7 @@ CGameObject* CMeshData::Instantiate()
 	}
 	return pNewObj;
 }
+
 CMeshData* CMeshData::LoadFromFBX(const wstring& _RelativePath)
 {
 	wstring strFullPath = CPathMgr::GetInst()->GetContentPath();
