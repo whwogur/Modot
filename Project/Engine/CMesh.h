@@ -32,7 +32,7 @@ public:
 
 private:
     WRL::ComPtr<ID3D11Buffer>       m_VB;
-    D3D11_BUFFER_DESC               m_VBDesc;
+    D3D11_BUFFER_DESC               m_VBDesc = {};
     UINT                            m_VtxCount;
     Vtx*                            m_VtxSysMem;
     

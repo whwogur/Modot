@@ -39,9 +39,7 @@ CMeshData* CMeshData::LoadFromFBX(const wstring& _RelativePath)
 	// AssetMgr 에 메쉬 등록
 	if (nullptr != pMesh)
 	{
-		wstring strMeshKey = L"mesh\\";
-		strMeshKey += path(strFullPath).stem();
-		strMeshKey += L".mesh";
+		wstring strMeshKey = path(strFullPath).stem();
 		CAssetMgr::GetInst()->AddAsset<CMesh>(strMeshKey, pMesh);
 		// 메시를 실제 파일로 저장
 		pMesh->Save(strMeshKey);
@@ -51,7 +49,8 @@ CMeshData* CMeshData::LoadFromFBX(const wstring& _RelativePath)
 	for (UINT i = 0; i < loader.GetContainer(0).vecMtrl.size(); ++i)
 	{
 		// 예외처리 (material 이름이 입력 안되어있을 수도 있다.)
-		Ptr<CMaterial> pMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(loader.GetContainer(0).vecMtrl[i].strMtrlName);
+		const auto& temp = loader.GetContainer(0).vecMtrl[i].strMtrlName;
+		Ptr<CMaterial> pMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(temp);
 		assert(pMtrl.Get());
 		vecMtrl.push_back(pMtrl);
 	}

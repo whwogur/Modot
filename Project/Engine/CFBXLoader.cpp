@@ -459,7 +459,7 @@ void CFBXLoader::CreateMaterial()
 			strPath += strMtrlName + L".mtrl";
 
 			// 재질 이름
-			m_vecContainer[i].vecMtrl[j].strMtrlName = strPath;
+			m_vecContainer[i].vecMtrl[j].strMtrlName = strMtrlName;
 
 			// 이미 로딩된 재질이면 로딩된 것을 사용
 			Ptr<CMaterial> pMaterial = CAssetMgr::GetInst()->FindAsset<CMaterial>(strPath);
@@ -468,7 +468,6 @@ void CFBXLoader::CreateMaterial()
 
 			pMaterial = new CMaterial;
 
-			// 상대경로가 곧 키
 			pMaterial->SetKey(strMtrlName);
 			pMaterial->SetRelativePath(strPath);
 
@@ -479,17 +478,17 @@ void CFBXLoader::CreateMaterial()
 			if (NULL != pTex)
 				pMaterial->SetTexParam(TEX_PARAM::TEX_0, pTex);
 
-			strTexKey = m_vecContainer[i].vecMtrl[j].strNormal;
+			strTexKey = path(m_vecContainer[i].vecMtrl[j].strNormal).stem();
 			pTex = CAssetMgr::GetInst()->FindAsset<CTexture>(strTexKey);
 			if (NULL != pTex)
 				pMaterial->SetTexParam(TEX_PARAM::TEX_1, pTex);
 
-			strTexKey = m_vecContainer[i].vecMtrl[j].strSpec;
+			strTexKey = path(m_vecContainer[i].vecMtrl[j].strSpec).stem();
 			pTex = CAssetMgr::GetInst()->FindAsset<CTexture>(strTexKey);
 			if (NULL != pTex)
 				pMaterial->SetTexParam(TEX_PARAM::TEX_2, pTex);
 
-			strTexKey = m_vecContainer[i].vecMtrl[j].strEmis;
+			strTexKey = path(m_vecContainer[i].vecMtrl[j].strEmis).stem();
 			pTex = CAssetMgr::GetInst()->FindAsset<CTexture>(strTexKey);
 			if (NULL != pTex)
 				pMaterial->SetTexParam(TEX_PARAM::TEX_3, pTex);
@@ -501,7 +500,7 @@ void CFBXLoader::CreateMaterial()
 				, m_vecContainer[i].vecMtrl[j].tMtrl.vEmv);
 
 			CAssetMgr::GetInst()->AddAsset<CMaterial>(pMaterial->GetKey(), pMaterial.Get());
-			pMaterial->Save(CPathMgr::GetInst()->GetContentPath() + strPath);
+			pMaterial->Save(strPath);
 		}
 	}
 }

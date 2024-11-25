@@ -50,11 +50,11 @@ void Light3DUI::Update()
 
 		ImGui::Text("Light Color");
 		ImGui::SameLine(140);
-		ImGui::ColorEdit3("##LightColor", info.light.Color, ImGuiColorEditFlags_InputRGB | ImGuiColorEditFlags_NoAlpha | ImGuiColorEditFlags_DisplayHSV);
+		ImGui::ColorEdit3("##LightColor", info.light.Color, ImGuiColorEditFlags_InputRGB | ImGuiColorEditFlags_NoAlpha);
 
 		ImGui::Text("Light Ambient");
 		ImGui::SameLine(140);
-		ImGui::ColorEdit3("##LightAmbient", info.light.Ambient, ImGuiColorEditFlags_InputRGB | ImGuiColorEditFlags_NoAlpha | ImGuiColorEditFlags_DisplayHSV);
+		ImGui::ColorEdit3("##LightAmbient", info.light.Ambient, ImGuiColorEditFlags_InputRGB | ImGuiColorEditFlags_NoAlpha);
 
 		ImGui::Text("Specular Coefficient");
 		ImGui::SameLine(140);
