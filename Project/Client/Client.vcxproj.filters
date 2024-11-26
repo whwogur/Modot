@@ -85,9 +85,6 @@
     <Filter Include="Editor\EditorUI\ComponentUI\Light">
       <UniqueIdentifier>{b380b380-c47d-4ab3-9290-6ce2f32390c4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor\EditorUI\ComponentUI\Mesh">
-      <UniqueIdentifier>{ee97f328-173d-4525-ba86-8fe21c8275e3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Editor\EditorUI\ComponentUI\ParticleSystem">
       <UniqueIdentifier>{adcf2559-5689-4dac-822c-6839a293144e}</UniqueIdentifier>
     </Filter>
@@ -111,6 +108,9 @@
     </Filter>
     <Filter Include="Editor\EditorUI\ComponentUI\Animator3D">
       <UniqueIdentifier>{534ff986-8c6d-42b5-b7a0-0ee1f7404a28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ComponentUI\MeshRender">
+      <UniqueIdentifier>{ee97f328-173d-4525-ba86-8fe21c8275e3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -297,7 +297,7 @@
       <Filter>Editor\EditorUI\ComponentUI\Light</Filter>
     </ClInclude>
     <ClInclude Include="MeshRenderUI.h">
-      <Filter>Editor\EditorUI\ComponentUI\Mesh</Filter>
+      <Filter>Editor\EditorUI\ComponentUI\MeshRender</Filter>
     </ClInclude>
     <ClInclude Include="SkyBoxUI.h">
       <Filter>Editor\EditorUI\ComponentUI\Skybox</Filter>
@@ -514,7 +514,7 @@
       <Filter>Editor\EditorUI\ComponentUI\Light</Filter>
     </ClCompile>
     <ClCompile Include="MeshRenderUI.cpp">
-      <Filter>Editor\EditorUI\ComponentUI\Mesh</Filter>
+      <Filter>Editor\EditorUI\ComponentUI\MeshRender</Filter>
     </ClCompile>
     <ClCompile Include="SkyBoxUI.cpp">
       <Filter>Editor\EditorUI\ComponentUI\Skybox</Filter>

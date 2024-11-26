@@ -70,14 +70,15 @@ CMeshData* CMeshData::LoadFromFBX(const wstring& _RelativePath)
 	for (UINT i = 0; i < loader.GetContainer(0).vecMtrl.size(); ++i)
 	{
 		// 예외처리 (material 이름이 입력 안되어있을 수도 있다.)
-		const auto& temp = loader.GetContainer(0).vecMtrl[i].strMtrlName;
-		Ptr<CMaterial> pMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(temp);
+		Ptr<CMaterial> pMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(loader.GetContainer(0).vecMtrl[i].strMtrlName);
 		assert(pMtrl.Get());
-		vecMtrl.push_back(pMtrl);
+		vecMtrl.emplace_back(pMtrl);
 	}
+
 	CMeshData* pMeshData = new CMeshData(true);
 	pMeshData->m_pMesh = pMesh;
 	pMeshData->m_vecMtrl = vecMtrl;
+
 	return pMeshData;
 }
 
@@ -95,8 +96,6 @@ int CMeshData::Save(const wstring& _RelativePath)
 	UINT iMtrlCount = (UINT)m_vecMtrl.size();
 	fwrite(&iMtrlCount, sizeof(UINT), 1, pFile);
 	UINT i = 0;
-	wstring strMtrlPath = CPathMgr::GetInst()->GetContentPath();
-	strMtrlPath += L"material\\";
 	for (; i < iMtrlCount; ++i)
 	{
 		if (nullptr == m_vecMtrl[i])
@@ -127,7 +126,7 @@ int CMeshData::Load(const wstring& _RelativePath)
 	for (UINT i = 0; i < iMtrlCount; ++i)
 	{
 		UINT idx = -1;
-		fread(&idx, 4, 1, pFile);
+		fread(&idx, sizeof(size_t), 1, pFile);
 		if (idx == -1)
 			break;
 

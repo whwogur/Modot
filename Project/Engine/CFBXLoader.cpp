@@ -134,7 +134,7 @@ void CFBXLoader::LoadMeshDataFromNode(FbxNode* _pNode)
 
 void CFBXLoader::LoadMesh(FbxMesh* _pFbxMesh)
 {
-	m_vecContainer.push_back(tContainer{});
+	m_vecContainer.emplace_back(tContainer{});
 	tContainer& Container = m_vecContainer[m_vecContainer.size() - 1];
 
 	string strName = _pFbxMesh->GetName();
@@ -462,7 +462,7 @@ void CFBXLoader::CreateMaterial()
 			m_vecContainer[i].vecMtrl[j].strMtrlName = strMtrlName;
 
 			// 이미 로딩된 재질이면 로딩된 것을 사용
-			Ptr<CMaterial> pMaterial = CAssetMgr::GetInst()->FindAsset<CMaterial>(strPath);
+			Ptr<CMaterial> pMaterial = CAssetMgr::GetInst()->FindAsset<CMaterial>(strMtrlName);
 			if (nullptr != pMaterial)
 				continue;
 
@@ -566,7 +566,7 @@ void CFBXLoader::LoadAnimationClip()
 
 
 
-		m_vecAnimClip.push_back(pAnimClip);
+		m_vecAnimClip.emplace_back(pAnimClip);
 	}
 }
 

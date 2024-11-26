@@ -39,5 +39,5 @@ protected:
 private:
     Ptr<CMesh>              m_Mesh;
     std::vector<tMtrlSet>   m_vecMtrls;
-    bool                    m_FrustumCheck; // 절두체 체크를 받을것인지 말것인지
+    bool                    m_FrustumCheck = false; // 절두체 체크를 받을것인지 말것인지
 };

@@ -86,6 +86,7 @@ Ptr<CMeshData> CAssetMgr::LoadFBX(const wstring& _RelPath)
 
 	AddAsset<CMeshData>(strFileName, pMeshData.Get());
 	pMeshData->Save(strRelPath);
+
 	return pMeshData;
 }
 

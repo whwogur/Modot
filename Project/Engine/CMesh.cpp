@@ -33,14 +33,17 @@ CMesh* CMesh::CreateFromContainer(CFBXLoader& _loader)
 {
 	const tContainer* container = &_loader.GetContainer(0);
 	UINT iVtxCount = (UINT)container->vecPos.size();
+
 	D3D11_BUFFER_DESC tVtxDesc = {};
 	tVtxDesc.ByteWidth = sizeof(Vtx) * iVtxCount;
 	tVtxDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	tVtxDesc.Usage = D3D11_USAGE_DEFAULT;
 	if (D3D11_USAGE_DYNAMIC == tVtxDesc.Usage)
 		tVtxDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
 	D3D11_SUBRESOURCE_DATA tSub = {};
 	tSub.pSysMem = malloc(tVtxDesc.ByteWidth);
+
 	Vtx* pSys = (Vtx*)tSub.pSysMem;
 	for (UINT i = 0; i < iVtxCount; ++i)
 	{
@@ -53,15 +56,18 @@ CMesh* CMesh::CreateFromContainer(CFBXLoader& _loader)
 		pSys[i].vWeights = container->vecWeights[i];
 		pSys[i].vIndices = container->vecIndices[i];
 	}
+
 	WRL::ComPtr<ID3D11Buffer> pVB = NULL;
 	if (FAILED(DEVICE->CreateBuffer(&tVtxDesc, &tSub, pVB.GetAddressOf())))
 	{
 		return NULL;
 	}
+
 	CMesh* pMesh = new CMesh;
 	pMesh->m_VB = pVB;
 	pMesh->m_VBDesc = tVtxDesc;
 	pMesh->m_VtxSysMem = pSys;
+
 	// 인덱스 정보
 	UINT iIdxBufferCount = (UINT)container->vecIdx.size();
 	D3D11_BUFFER_DESC tIdxDesc = {};
@@ -87,7 +93,7 @@ CMesh* CMesh::CreateFromContainer(CFBXLoader& _loader)
 		info.pIdxSysMem = pSysMem;
 		info.pIB = pIB;
 
-		pMesh->m_vecIdxInfo.push_back(info);
+		pMesh->m_vecIdxInfo.emplace_back(info);
 	}
 
 	// Animation3D
@@ -220,7 +226,7 @@ int CMesh::Create(Vtx* _VtxSysMem, UINT _VtxCount, UINT* _IdxSysMem, UINT _IdxCo
 	IndexInfo.pIdxSysMem = new UINT[IndexInfo.iIdxCount];
 	memcpy(IndexInfo.pIdxSysMem, _IdxSysMem, sizeof(UINT) * IndexInfo.iIdxCount);
 
-	m_vecIdxInfo.push_back(IndexInfo);
+	m_vecIdxInfo.emplace_back(IndexInfo);
 
 	return S_OK;
 }
@@ -317,20 +323,20 @@ int CMesh::Save(const wstring& _RelativePath)
 
 int CMesh::Load(const wstring& _RelativePath)
 {
-	SetRelativePath(_RelativePath);
 	wstring fullPath = CPathMgr::GetInst()->GetContentPath() + _RelativePath;
 
 	// 읽기모드로 파일열기
 	FILE* pFile = nullptr;
 	_wfopen_s(&pFile, fullPath.c_str(), L"rb");
 	// 키값, 상대경로
-	wstring strName, strKey, strRelativePath = _RelativePath;
+	wstring strName, strKey, strRelativePath;
 	LoadWString(strName, pFile);
 	LoadWString(strKey, pFile);
 	LoadWString(strRelativePath, pFile);
 	SetName(strName);
 	SetKey(strKey);
 	SetRelativePath(_RelativePath);
+
 	// 정점데이터
 	UINT iByteSize = 0;
 	fread(&iByteSize, sizeof(int), 1, pFile);
@@ -346,6 +352,7 @@ int CMesh::Load(const wstring& _RelativePath)
 	{
 		assert(nullptr);
 	}
+
 	// 인덱스 정보
 	UINT iMtrlCount = 0;
 	fread(&iMtrlCount, sizeof(int), 1, pFile);
@@ -362,7 +369,7 @@ int CMesh::Load(const wstring& _RelativePath)
 		{
 			assert(nullptr);
 		}
-		m_vecIdxInfo.push_back(info);
+		m_vecIdxInfo.emplace_back(info);
 	}
 
 	// Animation3D 정보 읽기
