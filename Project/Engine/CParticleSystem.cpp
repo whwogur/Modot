@@ -15,7 +15,7 @@ CParticleSystem::CParticleSystem()
 {
 	// Mesh / Material 
 	SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"PointMesh"));
-	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"ParticleRenderMtrl"));
+	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"ParticleRenderMtrl"), 0);
 
 	m_ParticleTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Default-Particle");
 	m_TickCS = (CParticleTickCS*)CAssetMgr::GetInst()->FindAsset<CComputeShader>(L"ParticleTickCS").Get();
@@ -108,13 +108,6 @@ CParticleSystem::CParticleSystem(const CParticleSystem& _Other)
 	m_ModuleBuffer = std::make_shared<CStructuredBuffer>(*_Other.m_ModuleBuffer);
 }
 
-void CParticleSystem::SetParticleTexture(Ptr<CTexture> _Tex)
-{
-	m_ParticleTex = _Tex;
-	Ptr<CMaterial> pMat = GetSharedMtrl();
-	pMat->SetTexParam(TEX_0, _Tex);
-}
-
 void CParticleSystem::SetParticleModule(const tParticleModule& _Mod)
 {
 	m_Module = _Mod;
@@ -146,8 +139,8 @@ void CParticleSystem::Render()
 	m_ModuleBuffer->Bind(21);	// t21
 
 	// 재질정보 바인딩
-	GetMaterial()->SetTexParam(TEX_0, m_ParticleTex);
-	GetMaterial()->Bind();
+	GetMaterial(0)->SetTexParam(TEX_0, m_ParticleTex);
+	GetMaterial(0)->Bind();
 
 	// 렌더링
 	GetMesh()->Render_Particle(m_MaxParticleCount);

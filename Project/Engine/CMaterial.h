@@ -2,6 +2,7 @@
 #include "CAsset.h"
 #include "Ptr.h"
 #include "CTexture.h"
+#include "CGraphicShader.h"
 
 class CMaterial :
     public CAsset
@@ -18,6 +19,25 @@ public:
     void* GetScalarParam(SCALAR_PARAM _Param);
     Ptr<CTexture> GetTexParam(TEX_PARAM _Param) { return m_arrTex[(UINT)_Param]; }
 
+    void SetMaterialCoefficient(Vec4 _vDiff, Vec4 _vSpec, Vec4 _vAmb, Vec4 _vEmis)
+    {
+        m_Const.mtrl.vDiff = _vDiff;
+        m_Const.mtrl.vAmb = _vAmb;
+        m_Const.mtrl.vSpec = _vSpec;
+        m_Const.mtrl.vEmv = _vEmis;
+    }
+
+    void operator =(const CMaterial& _OtherMtrl)
+    {
+        SetName(_OtherMtrl.GetName());
+
+        m_Const = _OtherMtrl.m_Const;
+        for (UINT i = 0; i < (UINT)TEX_PARAM::END; ++i)
+        {
+            m_arrTex[i] = _OtherMtrl.m_arrTex[i];
+        }
+        m_Shader = _OtherMtrl.m_Shader;
+    }
 public:
     void SetShader(Ptr<CGraphicShader> _Shader) { m_Shader = _Shader; }
     Ptr<CGraphicShader> GetShader() { return m_Shader; }

@@ -85,12 +85,14 @@ void Content::RenewContent()
 		for (const auto& pair : mapAsset)
 		{
 			NodeDataType temp = NodeDataType::TEXTURE;
-			if (i == 6 || i == 7)
+			if (i == (UINT)ASSET_TYPE::GRAPHIC_SHADER || i == (UINT)ASSET_TYPE::COMPUTE_SHADER)
 				temp = NodeDataType::CODE;
-			else if (i == 3)
+			else if (i == (UINT)ASSET_TYPE::PREFAB)
 				temp = NodeDataType::PREFAB;
-			else if (i == 5)
+			else if (i == (UINT)ASSET_TYPE::SOUND)
 				temp = NodeDataType::SOUND;
+			else if (i == (UINT)ASSET_TYPE::MESH_DATA)
+				temp = NodeDataType::CHONK;
 			m_Tree->AddNode(pNode, string(pair.first.begin(), pair.first.end()), (DWORD_PTR)pair.second.Get(), temp);
 		}
 	}

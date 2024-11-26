@@ -27,29 +27,29 @@ void CSkyBox::FinalTick()
 void CSkyBox::Render()
 {
 	Transform()->Bind();
-	GetMaterial()->SetScalarParam(SCALAR_PARAM::INT_0, (int)m_Type);
+	GetMaterial(0)->SetScalarParam(SCALAR_PARAM::INT_0, (int)m_Type);
 	
 	if (m_SkyBoxTex.Get() != nullptr)
 	{
 		if (m_Type == SKYBOX_TYPE::SPHERE)
 		{
 			if (!m_SkyBoxTex->IsCubeMap())
-				GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, m_SkyBoxTex);
+				GetMaterial(0)->SetTexParam(TEX_PARAM::TEX_0, m_SkyBoxTex);
 			else
-				GetMaterial()->SetTexParam(TEX_PARAM::TEX_0, nullptr);
+				GetMaterial(0)->SetTexParam(TEX_PARAM::TEX_0, nullptr);
 		}
 
 		else if (m_Type == SKYBOX_TYPE::CUBE)
 		{
 			if (m_SkyBoxTex->IsCubeMap())
-				GetMaterial()->SetTexParam(TEX_PARAM::TEXCUBE_0, m_SkyBoxTex);
+				GetMaterial(0)->SetTexParam(TEX_PARAM::TEXCUBE_0, m_SkyBoxTex);
 			else
-				GetMaterial()->SetTexParam(TEX_PARAM::TEXCUBE_0, nullptr);
+				GetMaterial(0)->SetTexParam(TEX_PARAM::TEXCUBE_0, nullptr);
 		}
 	}
 	
-	GetMaterial()->Bind();
-	GetMesh()->Render();
+	GetMaterial(0)->Bind();
+	GetMesh()->Render(0);
 }
 
 void CSkyBox::RenderShadow()
@@ -77,5 +77,5 @@ void CSkyBox::SetSkyBoxType(SKYBOX_TYPE _Type)
 	else if (SKYBOX_TYPE::CUBE == m_Type)
 		SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"CubeMesh"));
 	
-	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"SkyBoxMtrl"));
+	SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"SkyBoxMtrl"), 0);
 }

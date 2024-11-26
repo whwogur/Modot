@@ -11,7 +11,7 @@ struct Vtx
 	Vec3	vBinormal;  // 종법선
 };
 
-struct tMeshData
+struct tPrimitiveInfo
 {
 	std::vector<Vtx> vertices;
 	std::vector<UINT> indices;
@@ -96,6 +96,14 @@ struct tLightInfo
 	int			Padding[3];
 };
 
+struct tPixel
+{
+	BYTE b;
+	BYTE g;
+	BYTE r;
+	BYTE a;
+};
+
 struct tTransform
 {
 	Matrix matWorld;
@@ -137,14 +145,24 @@ struct tParticle
 	float	RotationSpeed;
 };
 
+// Material 계수
+struct tMtrlData
+{
+	Vec4 vDiff;
+	Vec4 vSpec;
+	Vec4 vAmb;
+	Vec4 vEmv;
+};
+
 struct tMtrlConst
 {
-	int		iArr[4];
-	float	fArr[4];
-	Vec2	v2Arr[4];
-	Vec4	v4Arr[4];
-	Matrix	matArr[4];
-	int		btex[TEX_PARAM::END + 2];
+	tMtrlData	mtrl;
+	int			iArr[4];
+	float		fArr[4];
+	Vec2		v2Arr[4];
+	Vec4		v4Arr[4];
+	Matrix		matArr[4];
+	int			btex[TEX_PARAM::END + 2];
 };
 
 struct tSpriteInfo

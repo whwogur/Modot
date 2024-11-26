@@ -24,7 +24,8 @@ public:
 		, DXGI_FORMAT _Format, UINT _Flags
 		, D3D11_USAGE _Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT);
 
-	Ptr<CTexture> CreateTexture(wstring _strKey, WRL::ComPtr<ID3D11Texture2D> _Tex2D);
+	Ptr<CTexture> CreateTexture(const wstring& _strKey, WRL::ComPtr<ID3D11Texture2D> _Tex2D);
+	Ptr<CMeshData> LoadFBX(const wstring& _RelPath);
 
 public:
 	void GetAssetNames(ASSET_TYPE _Type, std::vector<string>& _vecOut);
@@ -44,17 +45,17 @@ private:
 	void LoadSound();
 
 private:
-	tMeshData MakeCone(const float _Radius, const float _Height);
-	tMeshData MakeCircle(const float _Radius, const int _SliceCnt);
-	tMeshData MakePoint();
-	tMeshData MakeRect();
-	tMeshData MakeRectDebug();
-	tMeshData MakeRectGrid(const int _SliceCnt, const int _StackCnt);
-	tMeshData MakeCircleDebug(const float _Radius, const int _SliceCnt);
-	tMeshData MakeSphere(const float _Radius, const int _SliceCnt, const int _StackCnt);
-	tMeshData MakeCylinder(const float _BotRadius, const float _TopRadius, float _Height, int _SliceCnt);
-	tMeshData MakeCapsule(const float _Radius, const float _WaistHeight, const int _SliceCnt);
-	tMeshData MakeCube();
+	tPrimitiveInfo MakeCone(const float _Radius, const float _Height);
+	tPrimitiveInfo MakeCircle(const float _Radius, const int _SliceCnt);
+	tPrimitiveInfo MakePoint();
+	tPrimitiveInfo MakeRect();
+	tPrimitiveInfo MakeRectDebug();
+	tPrimitiveInfo MakeRectGrid(const int _SliceCnt, const int _StackCnt);
+	tPrimitiveInfo MakeCircleDebug(const float _Radius, const int _SliceCnt);
+	tPrimitiveInfo MakeSphere(const float _Radius, const int _SliceCnt, const int _StackCnt);
+	tPrimitiveInfo MakeCylinder(const float _BotRadius, const float _TopRadius, float _Height, int _SliceCnt);
+	tPrimitiveInfo MakeCapsule(const float _Radius, const float _WaistHeight, const int _SliceCnt);
+	tPrimitiveInfo MakeCube();
 
 	void FindAssetName(const wstring& _FolderPath, const wstring& _Filter);
 	void LoadAsset(const path& _Path);

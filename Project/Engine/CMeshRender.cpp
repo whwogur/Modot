@@ -10,27 +10,36 @@ CMeshRender::CMeshRender()
 {
 }
 
-CMeshRender::~CMeshRender()
-{
-}
-
 void CMeshRender::FinalTick()
 {
 }
 
 void CMeshRender::Render()
 {
-	if (!GetMesh() || !GetMaterial() || !GetMaterial()->GetShader())
-		return;
-
 	if (Animator2D() != nullptr)
 		Animator2D()->Bind();
 	else
 		CAnimator2D::Clear();
 
 	Transform()->Bind();
-	GetMaterial()->Bind();
-	GetMesh()->Render();
+	for (UINT i = 0; i < GetMesh()->GetSubsetCount(); ++i)
+	{
+		// 재질 바인딩(재질 상수, 쉐이더 등등)
+		if (!GetMaterial(i))
+			continue;
+		GetMaterial(i)->Bind();
+		GetMesh()->Render(i);
+	}
+
+	//for (UINT i = 0; i < GetMesh()->GetSubsetCount(); ++i)
+	//{
+	//	// 재질 바인딩(재질 상수, 쉐이더 등등)
+	//	if (!GetMaterial(i))
+	//		continue;
+	//	GetMaterial(i)->Binding();
+	//	// 버텍스버퍼, 인덱스버퍼 바인딩 및 렌더링 호출
+	//	GetMesh()->Render(i);
+	//}
 }
 
 void CMeshRender::SaveToFile(FILE* _File)

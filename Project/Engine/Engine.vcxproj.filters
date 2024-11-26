@@ -199,6 +199,12 @@
     <ClInclude Include="CWeightMapCS.h">
       <Filter>06. Asset\Shader\ComputeShader\Weightmap</Filter>
     </ClInclude>
+    <ClInclude Include="CFBXLoader.h">
+      <Filter>04. Manager\FBXLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="CMeshData.h">
+      <Filter>06. Asset\MeshData</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -379,6 +385,12 @@
     <ClCompile Include="CWeightMapCS.cpp">
       <Filter>06. Asset\Shader\ComputeShader\Weightmap</Filter>
     </ClCompile>
+    <ClCompile Include="CFBXLoader.cpp">
+      <Filter>04. Manager\FBXLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="CMeshData.cpp">
+      <Filter>06. Asset\MeshData</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -551,6 +563,12 @@
     </Filter>
     <Filter Include="06. Asset\Shader\ComputeShader\Weightmap">
       <UniqueIdentifier>{adb7d14d-18e7-4081-a14c-2e254f3f2460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Manager\FBXLoader">
+      <UniqueIdentifier>{08c2dcbd-5601-45f1-b98a-23f7a55a2af7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Asset\MeshData">
+      <UniqueIdentifier>{98be0b3d-71de-427b-89e9-70b112fa48ea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -136,7 +136,7 @@ void CAssetMgr::CreateEngineMesh()
 	//   Cone
 	// =========
 	{
-		tMeshData meshData = MakeCone(0.5f, 1.f);
+		tPrimitiveInfo meshData = MakeCone(0.5f, 1.f);
 		Ptr<CMesh> pMesh = new CMesh();
 		pMesh->SetEngineAsset();
 		pMesh->Create(meshData.vertices.data(), (UINT)meshData.vertices.size(), meshData.indices.data(), (UINT)meshData.indices.size());
@@ -493,9 +493,9 @@ void CAssetMgr::LoadSound()
 	
 }
 
-tMeshData CAssetMgr::MakeCone(const float _Radius, const float _Height)
+tPrimitiveInfo CAssetMgr::MakeCone(const float _Radius, const float _Height)
 {
-	tMeshData meshData;
+	tPrimitiveInfo meshData;
 	Vtx v;
 
 	// Top
@@ -537,7 +537,7 @@ tMeshData CAssetMgr::MakeCone(const float _Radius, const float _Height)
 		}
 	}
 
-	tMeshData circle2D = MakeCircle(_Radius, iSliceCount);
+	tPrimitiveInfo circle2D = MakeCircle(_Radius, iSliceCount);
 	{
 		int offset = int(meshData.vertices.size());
 
@@ -557,9 +557,9 @@ tMeshData CAssetMgr::MakeCone(const float _Radius, const float _Height)
 	return meshData;
 }
 
-tMeshData CAssetMgr::MakeCircle(const float _Radius, const int _SliceCnt)
+tPrimitiveInfo CAssetMgr::MakeCircle(const float _Radius, const int _SliceCnt)
 {
-	tMeshData meshData;
+	tPrimitiveInfo meshData;
 	Vtx v;
 
 	// 중심 점
@@ -596,9 +596,9 @@ tMeshData CAssetMgr::MakeCircle(const float _Radius, const int _SliceCnt)
 	return meshData;
 }
 
-tMeshData CAssetMgr::MakePoint()
+tPrimitiveInfo CAssetMgr::MakePoint()
 {
-	tMeshData meshData;
+	tPrimitiveInfo meshData;
 	Vtx v;
 	v.vPos = Vec3(0.f, 0.f, 0.f);
 	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
@@ -615,7 +615,7 @@ tMeshData CAssetMgr::MakePoint()
 	return meshData;
 }
 
-tMeshData CAssetMgr::MakeRect()
+tPrimitiveInfo CAssetMgr::MakeRect()
 {
 	std::vector<Vec3> positions;
 	std::vector<Vec3> colors;
@@ -646,7 +646,7 @@ tMeshData CAssetMgr::MakeRect()
 	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
 	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
 
-	tMeshData meshData;
+	tPrimitiveInfo meshData;
 
 	for (size_t i = 0; i < positions.size(); i++)
 	{
@@ -670,7 +670,7 @@ tMeshData CAssetMgr::MakeRect()
 	return meshData;
 }
 
-tMeshData CAssetMgr::MakeRectDebug()
+tPrimitiveInfo CAssetMgr::MakeRectDebug()
 {
 	std::vector<Vec3> positions;
 	std::vector<Vec3> colors;
@@ -701,7 +701,7 @@ tMeshData CAssetMgr::MakeRectDebug()
 	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
 	tangents.emplace_back(Vec3(1.0f, 0.0f, 0.0f));
 
-	tMeshData meshData;
+	tPrimitiveInfo meshData;
 
 	for (size_t i = 0; i < positions.size(); i++)
 	{
@@ -724,9 +724,9 @@ tMeshData CAssetMgr::MakeRectDebug()
 	return meshData;
 }
 
-tMeshData CAssetMgr::MakeCircleDebug(const float radius, const int numSlices)
+tPrimitiveInfo CAssetMgr::MakeCircleDebug(const float radius, const int numSlices)
 {
-	tMeshData meshData;
+	tPrimitiveInfo meshData;
 	Vtx v;
 
 	// 중심
@@ -761,9 +761,9 @@ tMeshData CAssetMgr::MakeCircleDebug(const float radius, const int numSlices)
 	return meshData;
 }
 
-tMeshData CAssetMgr::MakeRectGrid(const int _SliceCnt, const int _StackCnt)
+tPrimitiveInfo CAssetMgr::MakeRectGrid(const int _SliceCnt, const int _StackCnt)
 {
-	tMeshData meshData;
+	tPrimitiveInfo meshData;
 
 	float dx = 2.0f / _SliceCnt;
 	float dy = 2.0f / _StackCnt;
@@ -805,7 +805,7 @@ tMeshData CAssetMgr::MakeRectGrid(const int _SliceCnt, const int _StackCnt)
 	return meshData;
 }
 
-tMeshData CAssetMgr::MakeSphere(const float _Radius, const int _SliceCnt, const int _StackCnt)
+tPrimitiveInfo CAssetMgr::MakeSphere(const float _Radius, const int _SliceCnt, const int _StackCnt)
 {
 	const float fStackAngle = XM_PI / _StackCnt;
 	const float fSliceAngle = XM_2PI / _SliceCnt;
@@ -813,7 +813,7 @@ tMeshData CAssetMgr::MakeSphere(const float _Radius, const int _SliceCnt, const 
 	const float fUVXStep = 1.f / (float)_SliceCnt;
 	const float fUVYStep = 1.f / (float)_StackCnt;
 
-	tMeshData meshData;
+	tPrimitiveInfo meshData;
 	Vtx v;
 
 	// Top
@@ -907,11 +907,11 @@ tMeshData CAssetMgr::MakeSphere(const float _Radius, const int _SliceCnt, const 
 	return meshData;
 }
 
-tMeshData CAssetMgr::MakeCylinder(const float _BotRadius, const float _TopRadius, float _Height, int _SliceCnt)
+tPrimitiveInfo CAssetMgr::MakeCylinder(const float _BotRadius, const float _TopRadius, float _Height, int _SliceCnt)
 {
 	const float dTheta = -XM_2PI / float(_SliceCnt);
 
-	tMeshData meshData;
+	tPrimitiveInfo meshData;
 
 	for (int i = 0; i <= _SliceCnt; i++)
 	{
@@ -951,10 +951,10 @@ tMeshData CAssetMgr::MakeCylinder(const float _BotRadius, const float _TopRadius
 	return meshData;
 }
 
-tMeshData CAssetMgr::MakeCapsule(const float _Radius, const float _WaistHeight, const int _SliceCnt)
+tPrimitiveInfo CAssetMgr::MakeCapsule(const float _Radius, const float _WaistHeight, const int _SliceCnt)
 {
-	tMeshData topSphere = MakeSphere(_Radius, _SliceCnt, _SliceCnt / 2);
-	tMeshData bottomSphere = MakeSphere(_Radius, _SliceCnt, _SliceCnt / 2);
+	tPrimitiveInfo topSphere = MakeSphere(_Radius, _SliceCnt, _SliceCnt / 2);
+	tPrimitiveInfo bottomSphere = MakeSphere(_Radius, _SliceCnt, _SliceCnt / 2);
 
 	// 상단과 하단을 y축 방향으로 이동시켜서 캡슐의 상단과 하단에 배치
 	for (auto& vertex : topSphere.vertices)
@@ -964,10 +964,10 @@ tMeshData CAssetMgr::MakeCapsule(const float _Radius, const float _WaistHeight, 
 		vertex.vPos.y -= _WaistHeight;
 
 	// Cylinder
-	tMeshData cylinder = MakeCylinder(_Radius, _Radius, 2.0f * _WaistHeight, _SliceCnt);
+	tPrimitiveInfo cylinder = MakeCylinder(_Radius, _Radius, 2.0f * _WaistHeight, _SliceCnt);
 
 	// 상단 + 하단 + 원기둥
-	tMeshData capsule;
+	tPrimitiveInfo capsule;
 	capsule.vertices.insert(capsule.vertices.end(), topSphere.vertices.begin(), topSphere.vertices.end());
 	capsule.vertices.insert(capsule.vertices.end(), bottomSphere.vertices.begin(), bottomSphere.vertices.end());
 	capsule.vertices.insert(capsule.vertices.end(), cylinder.vertices.begin(), cylinder.vertices.end());
@@ -983,7 +983,7 @@ tMeshData CAssetMgr::MakeCapsule(const float _Radius, const float _WaistHeight, 
 	return capsule;
 }
 
-tMeshData CAssetMgr::MakeCube()
+tPrimitiveInfo CAssetMgr::MakeCube()
 {
 	std::vector<Vec3> positions;
 	std::vector<Vec3> colors;
@@ -1123,7 +1123,7 @@ tMeshData CAssetMgr::MakeCube()
 	tangents.emplace_back(Vec3(0.0f, 0.0f, 1.0f));
 	tangents.emplace_back(Vec3(0.0f, 0.0f, 1.0f));
 
-	tMeshData meshData;
+	tPrimitiveInfo meshData;
 	for (size_t i = 0; i < positions.size(); i++)
 	{
 		Vtx v;

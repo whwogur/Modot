@@ -24,16 +24,22 @@ public:
     void Clear_CS_UAV();
 public:
     WRL::ComPtr<ID3D11Texture2D>             GetTex2D() { return m_Tex2D; }
-    WRL::ComPtr<ID3D11RenderTargetView>      GetRTV() { return m_RTV; }
-    WRL::ComPtr<ID3D11DepthStencilView>      GetDSV() { return m_DSV; }
-    WRL::ComPtr<ID3D11ShaderResourceView>    GetSRV() { return m_SRV; }
-    WRL::ComPtr<ID3D11UnorderedAccessView>   GetUAV() { return m_UAV; }
+    WRL::ComPtr<ID3D11RenderTargetView>      GetRTV()   { return m_RTV; }
+    WRL::ComPtr<ID3D11DepthStencilView>      GetDSV()   { return m_DSV; }
+    WRL::ComPtr<ID3D11ShaderResourceView>    GetSRV()   { return m_SRV; }
+    WRL::ComPtr<ID3D11UnorderedAccessView>   GetUAV()   { return m_UAV; }
     const D3D11_TEXTURE2D_DESC& GetDesc() { return m_Desc; }
+    const TexMetadata& GetMetaData() { return m_Image.GetMetadata(); }
+    tPixel* GetPixels() { return (tPixel*)m_Image.GetPixels(); }
+    size_t GetRowPitch() { return m_Image.GetImages()->rowPitch; }
+    size_t GetSlicePitch() { return m_Image.GetImages()->slicePitch; }
 public:
     UINT Width() const { return m_Desc.Width; }
     UINT Height() const { return m_Desc.Height; }
     bool IsCubeMap() const { return m_Desc.MiscFlags & D3D11_RESOURCE_MISC_TEXTURECUBE; }
     UINT GetArraySize() { return m_Desc.ArraySize; }
+    int CreateArrayTexture(const std::vector<Ptr<CTexture>>& _vecTex);
+    int GenerateMip(UINT _Level);
 
 private:
     WRL::ComPtr<ID3D11RenderTargetView>         m_RTV;

@@ -69,7 +69,7 @@ void MeshRenderUI::Update()
 				pListUI->SetActive(true);
 			}
 
-			Ptr<CMaterial> pMtrl = pMeshRender->GetMaterial();
+			Ptr<CMaterial> pMtrl = pMeshRender->GetMaterial(0);
 
 			string MtrlName;
 			if (pMtrl.Get())
@@ -90,7 +90,7 @@ void MeshRenderUI::Update()
 					Ptr<CAsset> pAsset = (CAsset*)pNode->GetData();
 					if (ASSET_TYPE::MATERIAL == pAsset->GetAssetType())
 					{
-						pMeshRender->SetMaterial((CMaterial*)pAsset.Get());
+						pMeshRender->SetMaterial((CMaterial*)pAsset.Get(), 0);
 					}
 				}
 
@@ -144,7 +144,7 @@ void MeshRenderUI::SelectMaterial(DWORD_PTR _ListUI)
 
 	if ("None" == strName)
 	{
-		pMeshRender->SetMaterial(nullptr);
+		pMeshRender->SetMaterial(nullptr, 0);
 		return;
 	}
 
@@ -154,5 +154,5 @@ void MeshRenderUI::SelectMaterial(DWORD_PTR _ListUI)
 
 	assert(pMtrl.Get());
 
-	pMeshRender->SetMaterial(pMtrl);
+	pMeshRender->SetMaterial(pMtrl, 0);
 }

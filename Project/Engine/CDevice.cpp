@@ -393,6 +393,8 @@ int CDevice::CreateSamplerState()
     Desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
     Desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
     Desc.Filter = D3D11_FILTER_ANISOTROPIC; // 이방성 필터링
+    Desc.MinLOD = 0;
+    Desc.MaxLOD = 10.f;
 
     if (FAILED(DEVICE->CreateSamplerState(&Desc, m_Sampler[0].GetAddressOf())))
     {

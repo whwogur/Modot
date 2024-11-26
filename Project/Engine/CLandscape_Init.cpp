@@ -11,7 +11,7 @@ void CLandscape::Init()
 	CreateMesh();
 	// LandScape 전용 재질 참조
 	Ptr<CMaterial> pMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"LandScapeMtrl");
-	SetMaterial(pMtrl);
+	SetMaterial(pMtrl, 0);
 	// LandScape 전용 컴퓨트 셰이더
 	CreateComputeShader();
 	// LandScape 용 텍스쳐 생성 및 로딩
@@ -104,7 +104,9 @@ void CLandscape::CreateTextureAndStructuredBuffer()
 	// LandScape 용 텍스쳐 로딩
 	m_ColorTex = CAssetMgr::GetInst()->Load<CTexture>(L"LS_Color", L"texture\\LandScape\\LS_Color.dds");
 	m_NormalTex = CAssetMgr::GetInst()->Load<CTexture>(L"LS_Normal", L"texture\\LandScape\\LS_Color.dds");
-	
+	m_ColorTex->GenerateMip(6);
+	m_NormalTex->GenerateMip(6);
+
 	// 가중치 WeightMap 용 StructuredBuffer
 	m_Weightmap = std::make_shared<CStructuredBuffer>();
 	m_WeightWidth = 1024;

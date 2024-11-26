@@ -1,6 +1,12 @@
 #pragma once
 #include "CComponent.h"
 
+struct tMtrlSet
+{
+    Ptr<CMaterial>  pSharedMtrl;    // 공유 메테리얼
+    Ptr<CMaterial>  pDynamicMtrl;   // 공유 메테리얼의 복사본    
+    Ptr<CMaterial>  pCurMtrl;       // 현재 사용 할 메테리얼
+};
 
 class CRenderComponent :
     public CComponent
@@ -10,15 +16,14 @@ public:
     CRenderComponent(const CRenderComponent& _Other);
     virtual ~CRenderComponent() = default;
 public:
-    void SetMesh(Ptr<CMesh> _Mesh) { m_Mesh = _Mesh; }
-    void SetMaterial(Ptr<CMaterial> _Mtrl);
-
+    void SetMesh(Ptr<CMesh> _Mesh);
     Ptr<CMesh> GetMesh() { return m_Mesh; }
-    Ptr<CMaterial> GetMaterial() { return m_Mtrl; }
-    Ptr<CMaterial> GetSharedMtrl();
 
-    Ptr<CMaterial> GetDynamicMaterial();
-
+    void SetMaterial(Ptr<CMaterial> _Mtrl, UINT _idx);
+    Ptr<CMaterial> GetMaterial(UINT _idx);
+    Ptr<CMaterial> GetSharedMaterial(UINT _idx);
+    Ptr<CMaterial> GetDynamicMaterial(UINT _idx);
+    UINT GetMaterialCount() { return (UINT)m_vecMtrls.size(); }
     // 절두체 체크를 받을 것인지
     void SetFrustumCheck(bool _Check) { m_FrustumCheck = _Check; }
     // 절두체 체크 받는지 확인
@@ -32,10 +37,7 @@ protected:
     void LoadDataFromFile(FILE* _File);
     
 private:
-    Ptr<CMesh>          m_Mesh;
-
-    Ptr<CMaterial>      m_Mtrl;         // 현재 사용중인 재질
-    Ptr<CMaterial>      m_SharedMtrl;   // 공유 재질(마스터)
-    Ptr<CMaterial>      m_DynamicMtrl;  // 임시 재질
-    bool                m_FrustumCheck; // 절두체 체크를 받을것인지 말것인지
+    Ptr<CMesh>              m_Mesh;
+    std::vector<tMtrlSet>   m_vecMtrls;
+    bool                    m_FrustumCheck; // 절두체 체크를 받을것인지 말것인지
 };

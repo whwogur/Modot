@@ -54,7 +54,7 @@ Ptr<CTexture> CAssetMgr::CreateTexture(wstring _strKey, UINT _Width, UINT _Heigh
 	return pTexture;
 }
 
-Ptr<CTexture> CAssetMgr::CreateTexture(wstring _strKey, WRL::ComPtr<ID3D11Texture2D> _Tex2D)
+Ptr<CTexture> CAssetMgr::CreateTexture(const wstring& _strKey, WRL::ComPtr<ID3D11Texture2D> _Tex2D)
 {
 	// 중복키 검사
 	Ptr<CTexture> pTexture = FindAsset<CTexture>(_strKey);
@@ -68,6 +68,24 @@ Ptr<CTexture> CAssetMgr::CreateTexture(wstring _strKey, WRL::ComPtr<ID3D11Textur
 	m_mapAsset[(UINT)ASSET_TYPE::TEXTURE].insert(make_pair(_strKey, pTexture.Get()));
 
 	return pTexture;
+}
+
+Ptr<CMeshData> CAssetMgr::LoadFBX(const wstring& _RelPath)
+{
+	wstring strFileName = path(_RelPath).stem();
+	wstring strRelPath = L"meshdata\\";
+	strRelPath += strFileName + L".mdat";
+
+	Ptr<CMeshData> pMeshData = FindAsset<CMeshData>(strFileName);
+	if (nullptr != pMeshData)
+		return pMeshData;
+	pMeshData = CMeshData::LoadFromFBX(_RelPath);
+	pMeshData->SetKey(strFileName);
+	pMeshData->SetRelativePath(strRelPath);
+	m_mapAsset[(UINT)ASSET_TYPE::MESH_DATA].insert(make_pair(strFileName, pMeshData.Get()));
+	
+	pMeshData->Save(strRelPath);
+	return pMeshData;
 }
 
 void CAssetMgr::GetAssetNames(ASSET_TYPE _Type, std::vector<string>& _vecOut)
@@ -180,8 +198,8 @@ void CAssetMgr::LoadAsset(const path& _Path)
 
 	if (ext == L".mesh")
 		CAssetMgr::GetInst()->Load<CMesh>(Key, _Path);
-	//else if (ext == L".mdat")
-		//CAssetMgr::GetInst()->Load<CMeshData>(_Path, _Path);
+	else if (ext == L".mdat")
+		CAssetMgr::GetInst()->Load<CMeshData>(Key, _Path);
 	else if (ext == L".mtrl")
 		CAssetMgr::GetInst()->Load<CMaterial>(Key, _Path);
 	else if (ext == L".png" || ext == L".jpg" || ext == L".jpeg" || ext == L".bmp" || ext == L".dds" || ext == L".tga"

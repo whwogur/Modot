@@ -7,7 +7,7 @@ class CMeshRender :
 {
 public:
     CMeshRender();
-    ~CMeshRender();
+    ~CMeshRender() = default;
     CLONE(CMeshRender);
 public:
     virtual void FinalTick() override;

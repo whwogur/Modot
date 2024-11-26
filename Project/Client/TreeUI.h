@@ -8,6 +8,7 @@ enum class NodeDataType
     SOUND,
     CODE,
     PREFAB,
+    CHONK,
     END,
 };
 

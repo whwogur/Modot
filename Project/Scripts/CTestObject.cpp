@@ -12,7 +12,7 @@ CTestObject::CTestObject()
 
 void CTestObject::Begin()
 {
-	MeshRender()->GetDynamicMaterial();
+	MeshRender()->GetDynamicMaterial(0);
 }
 
 void CTestObject::Tick()
@@ -26,9 +26,9 @@ void CTestObject::Tick()
 		rotRef.y += scaleRef.y / 100.f * DT;
 	}
 	
-	MeshRender()->GetDynamicMaterial()->SetTexParam(TEX_0, m_AlbedoTex);
-	MeshRender()->GetDynamicMaterial()->SetTexParam(TEX_1, m_NormalTex);
-	MeshRender()->GetDynamicMaterial()->SetTexParam(TEXCUBE_0, m_SkyboxTex);
+	MeshRender()->GetDynamicMaterial(0)->SetTexParam(TEX_0, m_AlbedoTex);
+	MeshRender()->GetDynamicMaterial(0)->SetTexParam(TEX_1, m_NormalTex);
+	MeshRender()->GetDynamicMaterial(0)->SetTexParam(TEXCUBE_0, m_SkyboxTex);
 }
 
 void CTestObject::SaveToFile(FILE* _File)
