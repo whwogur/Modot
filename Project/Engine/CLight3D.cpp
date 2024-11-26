@@ -55,6 +55,7 @@ void CLight3D::SetLightType(LIGHT_TYPE _Type)
 		// MRT 생성
 		if (m_ShadowMapMRT == nullptr)
 			m_ShadowMapMRT = std::make_unique<CMRT>();
+
 		m_ShadowMapMRT->Create(1, &pShadowMap, pShdowMapDepth);
 		Vec4 vClearColor = Vec4(-1.f, 0.f, 0.f, 0.f);
 		m_ShadowMapMRT->SetClearColor(&vClearColor, true);
@@ -70,10 +71,12 @@ void CLight3D::SetLightType(LIGHT_TYPE _Type)
 		m_LightMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"SpotLightMtrl");
 	}
 }
+
 void CLight3D::SetRadius(float _Radius)
 {
 	m_Info.Radius = _Radius;
 }
+
 void CLight3D::Render()
 {
 	Transform()->Bind();
@@ -96,9 +99,11 @@ void CLight3D::CreateShadowMap()
 	g_Trans.matProj = m_Cam->Camera()->GetcamProjRef();
 	g_Trans.matViewInv = m_Cam->Camera()->GetcamViewInvRef();
 	g_Trans.matProjInv = m_Cam->Camera()->GetcamProjInvRef();
+
 	// MRT 설정
 	m_ShadowMapMRT->Clear();
 	m_ShadowMapMRT->SetOM();
+
 	// ShdowMap Mtrl Binding
 	m_ShadowMapMtrl->Bind();
 	m_Cam->Camera()->SortShadows();
@@ -114,10 +119,10 @@ void CLight3D::FinalTick()
 	// 광원의 위치설정
 	if (m_Info.Type == LIGHT_TYPE::DIRECTIONAL)
 	{
-		Transform()->SetRelativePos(m_TargetPos -m_Info.WorldDir * 3000.f);
+		Transform()->SetRelativePos(m_TargetPos -m_Info.WorldDir * 10000.f);
 	}
 
-	Transform()->SetRelativeScale(Vec3(m_Info.Radius * 2.f, m_Info.Radius * 2.f, m_Info.Radius * 2.f));
+	Transform()->SetRelativeScale(m_Info.Radius * 2.f, m_Info.Radius * 2.f, m_Info.Radius * 2.f);
 	m_LightIdx = CRenderMgr::GetInst()->RegisterLight3D(this);
 	// DebugShape
 	if (m_Info.Type == LIGHT_TYPE::POINT)

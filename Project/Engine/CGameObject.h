@@ -60,6 +60,7 @@ public:
     GET_COMPONENT(SkyBox, SKYBOX);
     GET_COMPONENT(Decal, DECAL);
     GET_COMPONENT(Landscape, LANDSCAPE);
+    GET_COMPONENT(Animator3D, ANIMATOR3D);
 public:
     void Begin();
     void Tick();

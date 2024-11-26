@@ -109,6 +109,9 @@
     <Filter Include="Editor\EditorUI\ComponentUI\Transform">
       <UniqueIdentifier>{a28c62b3-e62e-4f5c-9a81-7910fae8b651}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\EditorUI\ComponentUI\Animator3D">
+      <UniqueIdentifier>{534ff986-8c6d-42b5-b7a0-0ee1f7404a28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -319,6 +322,9 @@
     </ClInclude>
     <ClInclude Include="LandscapePalette.h">
       <Filter>Editor\EditorUI\ComponentUI\Landscape</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator3DUI.h">
+      <Filter>Editor\EditorUI\ComponentUI\Animator3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -533,6 +539,9 @@
     </ClCompile>
     <ClCompile Include="LandscapePalette.cpp">
       <Filter>Editor\EditorUI\ComponentUI\Landscape</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator3DUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI\Animator3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

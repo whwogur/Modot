@@ -14,6 +14,7 @@
 #include "CameraUI.h"
 #include "MeshRenderUI.h"
 #include "Animator2DUI.h"
+#include "Animator3DUI.h"
 #include "TileMapUI.h"
 #include "ParticleSystemUI.h"
 #include "RigidBodyUI.h"
@@ -107,6 +108,10 @@ void Inspector::CreateComponentUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::LANDSCAPE] = new LandscapeUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::LANDSCAPE]->SetName("LandscapeUI");
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::LANDSCAPE]);
+
+	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR3D] = new Animator3DUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR3D]->SetName("Animator3DUI");
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::ANIMATOR3D]);
 }
 
 void Inspector::CreateScriptUI(UINT _Count)

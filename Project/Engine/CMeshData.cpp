@@ -6,6 +6,8 @@
 #include "CTransform.h"
 #include "CMeshRender.h"
 #include "CFBXLoader.h"
+#include "CAnimator3D.h"
+
 CMeshData::CMeshData(bool _Engine)
 	: CAsset(ASSET_TYPE::MESH_DATA)
 {
@@ -19,10 +21,21 @@ CGameObject* CMeshData::Instantiate()
 	pNewObj->AddComponent(new CTransform);
 	pNewObj->AddComponent(new CMeshRender);
 	pNewObj->MeshRender()->SetMesh(m_pMesh);
+
 	for (UINT i = 0; i < m_vecMtrl.size(); ++i)
 	{
 		pNewObj->MeshRender()->SetMaterial(m_vecMtrl[i], i);
 	}
+
+	// Animation 파트 추가
+	if (!m_pMesh->IsAnimMesh())
+		return pNewObj;
+
+	CAnimator3D* pAnimator = new CAnimator3D;
+	pNewObj->AddComponent(pAnimator);
+	pAnimator->SetBones(m_pMesh->GetBones());
+	pAnimator->SetAnimClip(m_pMesh->GetAnimClip());
+
 	return pNewObj;
 }
 
@@ -30,9 +43,11 @@ CMeshData* CMeshData::LoadFromFBX(const wstring& _RelativePath)
 {
 	wstring strFullPath = CPathMgr::GetInst()->GetContentPath();
 	strFullPath += _RelativePath;
+
 	CFBXLoader loader;
 	loader.init();
 	loader.LoadFbx(strFullPath);
+
 	// 메쉬 가져오기
 	CMesh* pMesh = nullptr;
 	pMesh = CMesh::CreateFromContainer(loader);
@@ -40,7 +55,8 @@ CMeshData* CMeshData::LoadFromFBX(const wstring& _RelativePath)
 	if (nullptr != pMesh)
 	{
 		wstring strMeshKey = path(strFullPath).stem();
-		CAssetMgr::GetInst()->AddAsset<CMesh>(strMeshKey, pMesh);
+		strMeshKey += L"Mesh";
+		pMesh->SetRelativePath(L"mesh\\" + strMeshKey + L".mesh");
 
 		if (!CAssetMgr::GetInst()->FindAsset<CMesh>(strMeshKey))
 		{

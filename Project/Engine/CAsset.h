@@ -23,9 +23,10 @@ public:
     virtual int Load(const wstring& _FilePath) = 0;
     virtual int Save(const wstring& _RelativePath) = 0;
 
+public:
+    void SetRelativePath(const wstring& _path) { m_RelativePath = _path; }
 protected:
     void SetKey(const wstring& _Key) { m_Key = _Key; }
-    void SetRelativePath(const wstring& _path) { m_RelativePath = _path; }
     void SetEngineAsset() { m_EngineAsset = true; }
 private:
     void AddRef() { ++m_RefCount; }

@@ -205,6 +205,12 @@
     <ClInclude Include="CMeshData.h">
       <Filter>06. Asset\MeshData</Filter>
     </ClInclude>
+    <ClInclude Include="CAnimation3DShader.h">
+      <Filter>06. Asset\Shader\ComputeShader\Animation3D</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimator3D.h">
+      <Filter>Component\Animator3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -391,6 +397,12 @@
     <ClCompile Include="CMeshData.cpp">
       <Filter>06. Asset\MeshData</Filter>
     </ClCompile>
+    <ClCompile Include="CAnimation3DShader.cpp">
+      <Filter>06. Asset\Shader\ComputeShader\Animation3D</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimator3D.cpp">
+      <Filter>Component\Animator3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Default">
@@ -570,6 +582,12 @@
     <Filter Include="06. Asset\MeshData">
       <UniqueIdentifier>{98be0b3d-71de-427b-89e9-70b112fa48ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06. Asset\Shader\ComputeShader\Animation3D">
+      <UniqueIdentifier>{8f21b8a3-5451-4286-a77a-727ab5c7bc5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Animator3D">
+      <UniqueIdentifier>{d431c078-6b18-4e8d-8d49-c67c5744d499}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -638,6 +656,9 @@
       <Filter>Shader\ComputeShader</Filter>
     </FxCompile>
     <FxCompile Include="weightmap.fx">
+      <Filter>Shader\ComputeShader</Filter>
+    </FxCompile>
+    <FxCompile Include="animation.fx">
       <Filter>Shader\ComputeShader</Filter>
     </FxCompile>
   </ItemGroup>

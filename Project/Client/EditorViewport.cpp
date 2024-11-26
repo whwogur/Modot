@@ -100,14 +100,29 @@ void EditorViewport::Update()
             TreeNode** ppNode = (TreeNode**)payload->Data;
             TreeNode* pNode = *ppNode;
 
-            Ptr<CPrefab> pPrefab = (CPrefab*)pNode->GetData();
-            if (pPrefab != nullptr)
+            CAsset* pAsset = reinterpret_cast<CAsset*>(pNode->GetData());
+            if (pAsset->GetAssetType() == ASSET_TYPE::PREFAB)
             {
+                Ptr<CPrefab> pPrefab = (CPrefab*)pAsset;
                 CGameObject* pInstantiatedObj = pPrefab->Instantiate();
                 if (pInstantiatedObj != nullptr)
                 {
                     const wstring& objName = pInstantiatedObj->GetName();
                     pInstantiatedObj->SetName(objName);
+                    CreateObject(pInstantiatedObj, 0);
+                }
+            }
+            else if (pAsset->GetAssetType() == ASSET_TYPE::MESH_DATA)
+            {
+                Ptr<CMeshData> pMeshData = (CMeshData*)pAsset;
+                CGameObject* pInstantiatedObj = pMeshData->Instantiate();
+                if (pInstantiatedObj != nullptr)
+                {
+                    const wstring& objName = pMeshData->GetKey();
+                    pInstantiatedObj->SetName(objName);
+                    pInstantiatedObj->Transform()->SetRelativePos(0.f, 0.f, 0.f);
+                    pInstantiatedObj->Transform()->SetRelativeScale(200.f, 200.f, 200.f);
+
                     CreateObject(pInstantiatedObj, 0);
                 }
             }

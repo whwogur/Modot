@@ -32,7 +32,7 @@ void Light3DUI::Update()
 
 				if (ImGui::Selectable(items[i], is_selected))
 				{
-					Type = (LIGHT_TYPE)i;
+					pLight->SetLightType((LIGHT_TYPE)i);
 				}
 
 				// Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
@@ -41,8 +41,6 @@ void Light3DUI::Update()
 			}
 			ImGui::EndCombo();
 		}
-
-		pLight->SetLightType(Type);
 
 
 		// 광원 색상정보	

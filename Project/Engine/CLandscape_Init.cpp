@@ -19,6 +19,7 @@ void CLandscape::Init()
 	
 	AddBrushTexture(CAssetMgr::GetInst()->Load<CTexture>(L"brush0", L"texture\\Engine\\Brush\\brush0.png"));
 	AddBrushTexture(CAssetMgr::GetInst()->Load<CTexture>(L"brush1", L"texture\\Engine\\Brush\\brush1.png"));
+	AddBrushTexture(CAssetMgr::GetInst()->Load<CTexture>(L"brush2", L"texture\\Engine\\Brush\\brush2.png"));
 	
 	// TODO
 	CreateHeightMap(1024, 1024);
