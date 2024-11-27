@@ -33,6 +33,8 @@ int CGraphicShader::CreateVertexShader(const wstring& _RelativePath, const strin
 			MD_ENGINE_TRACE((char*)m_ErrBlob->GetBufferPointer());
 		else
 			MD_ENGINE_TRACE(L"에러 번호 : {0}", GetLastError());
+		
+		return E_FAIL;
 	}
 
 

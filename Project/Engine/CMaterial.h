@@ -41,9 +41,11 @@ public:
 
     void SetUsingAnim3D(bool _bTrue) { m_Const.arrAnimData[0] = (int)_bTrue; }
     void SetBoneCount(int _iBoneCount) { m_Const.arrAnimData[1] = _iBoneCount; }
+
 public:
     void SetShader(Ptr<CGraphicShader> _Shader) { m_Shader = _Shader; }
     Ptr<CGraphicShader> GetShader() { return m_Shader; }
+
 public:
     void Bind();
     

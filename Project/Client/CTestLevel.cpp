@@ -46,7 +46,7 @@ void CTestLevel::CreateTestLevel()
 		//pSkyBox->SkyBox()->SetSkyBoxTexture(pSkyBoxTex);
 		//pSkyBox->SkyBox()->SetSkyBoxType(CUBE);		
 		
-		Ptr<CTexture> pSkyBoxTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Sky02");
+		Ptr<CTexture> pSkyBoxTex = CAssetMgr::GetInst()->Load<CTexture>(L"Sky02", L"texture\\Skybox\\Sky02.jpg");
 		pSkyBox->SkyBox()->SetSkyBoxTexture(pSkyBoxTex);
 		pSkyBox->SkyBox()->SetSkyBoxType(SPHERE);
 		
@@ -73,10 +73,15 @@ void CTestLevel::CreateTestLevel()
 		Ptr<CMeshData> pMeshData = nullptr;
 		CGameObject* pObj = nullptr;
 		
-		//pMeshData = CAssetMgr::GetInst()->LoadFBX(L"fbx\\Monster.fbx");
+		//pMeshData = CAssetMgr::GetInst()->LoadFBX(L"fbx\\House.fbx");
+		pMeshData = CAssetMgr::GetInst()->Load<CMeshData>(L"House", L"meshdata\\House.mdat");
+		pObj = pMeshData->Instantiate();
+		pObj->SetName(L"House");
+
+		/*pMeshData = CAssetMgr::GetInst()->LoadFBX(L"fbx\\Monster.fbx");
 		pMeshData = CAssetMgr::GetInst()->Load<CMeshData>(L"Monster", L"meshdata\\Monster.mdat");
 		pObj = pMeshData->Instantiate();
-		pObj->SetName(L"Monster");
+		pObj->SetName(L"Monster");*/
 		
 		pObj->Transform()->SetRelativePos(Vec3(200.f, 0.f, 200.f));
 		pObj->Transform()->SetRelativeScale(Vec3(5.f, 5.f, 5.f));

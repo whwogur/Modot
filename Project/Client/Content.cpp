@@ -63,11 +63,6 @@ void Content::Update()
 	}
 }
 
-void Content::Init()
-{
-	CAssetMgr::GetInst()->LoadContents();
-}
-
 void Content::RenewContent()
 {
 	// 트리의 내용을 전부 제거

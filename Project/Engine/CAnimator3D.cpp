@@ -30,9 +30,11 @@ CAnimator3D::~CAnimator3D()
 	if (nullptr != m_pBoneFinalMatBuffer)
 		delete m_pBoneFinalMatBuffer;
 }
+
 void CAnimator3D::FinalTick()
 {
 	m_dCurTime = 0.f;
+
 	// 현재 재생중인 Clip 의 시간을 진행한다.
 	m_vecClipUpdateTime[m_iCurClip] += EngineDT;
 
@@ -58,6 +60,7 @@ void CAnimator3D::FinalTick()
 	// 컴퓨트 쉐이더 연산여부
 	m_bFinalMatUpdate = false;
 }
+
 void CAnimator3D::SetAnimClip(const std::vector<tMTAnimClip>* _vecAnimClip)
 {
 	m_pVecClip = _vecAnimClip;
@@ -80,6 +83,7 @@ void CAnimator3D::Bind()
 		pUpdateShader->SetFrameDataBuffer(pMesh->GetBoneFrameDataBuffer());
 		pUpdateShader->SetOffsetMatBuffer(pMesh->GetBoneInverseBuffer());
 		pUpdateShader->SetOutputBuffer(m_pBoneFinalMatBuffer);
+
 		UINT iBoneCount = (UINT)m_pVecBones->size();
 		pUpdateShader->SetBoneCount(iBoneCount);
 		pUpdateShader->SetFrameIndex(m_iFrameIdx);
@@ -91,6 +95,7 @@ void CAnimator3D::Bind()
 
 		m_bFinalMatUpdate = true;
 	}
+
 	// t17 레지스터에 최종행렬 데이터(구조버퍼) 바인딩		
 	m_pBoneFinalMatBuffer->Bind(17);
 }
@@ -98,6 +103,7 @@ void CAnimator3D::Bind()
 void CAnimator3D::ClearData()
 {
 	m_pBoneFinalMatBuffer->Clear(17);
+
 	UINT iMtrlCount = MeshRender()->GetMaterialCount();
 	Ptr<CMaterial> pMtrl = nullptr;
 
@@ -119,6 +125,7 @@ void CAnimator3D::check_mesh(Ptr<CMesh> _pMesh)
 		m_pBoneFinalMatBuffer->Create(sizeof(Matrix), iBoneCount, SB_TYPE::SRV_UAV, false, nullptr);
 	}
 }
+
 void CAnimator3D::SaveToFile(FILE* _File)
 {
 }

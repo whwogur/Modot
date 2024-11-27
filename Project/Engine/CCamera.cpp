@@ -257,20 +257,22 @@ void CCamera::SortShadows()
 		const std::vector<CGameObject*>& vecObjects = pLayer->GetObjects();
 		for (const auto& pShadowObj : vecObjects)
 		{
-			if (nullptr == pShadowObj->GetRenderComponent()
-				|| nullptr == pShadowObj->GetRenderComponent()->GetMesh()
-				|| nullptr == pShadowObj->GetRenderComponent()->GetMaterial(0)
-				|| nullptr == pShadowObj->GetRenderComponent()->GetMaterial(0)->GetShader())
+			CRenderComponent* pRenderComp = pShadowObj->GetRenderComponent();
+			if (nullptr == pRenderComp
+				|| nullptr == pRenderComp->GetMesh()
+				|| nullptr == pRenderComp->GetMaterial(0)
+				|| nullptr == pRenderComp->GetMaterial(0)->GetShader())
 			{
 				continue;
 			}
 
-			if (pShadowObj->GetRenderComponent()->ChecksFrustum()
+			if (pRenderComp->ChecksFrustum()
 				&& false == m_Frustum->FrustumCheck(pShadowObj->Transform()->GetWorldPos()
 					, pShadowObj->Transform()->GetWorldScale().x / 2.f))
 			{
 				continue;
 			}
+
 			m_vecShadow.push_back(pShadowObj);
 		}
 	}

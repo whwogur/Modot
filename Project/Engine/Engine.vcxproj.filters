@@ -59,10 +59,10 @@
       <Filter>07. GameObject</Filter>
     </ClInclude>
     <ClInclude Include="CComponent.h">
-      <Filter>Component</Filter>
+      <Filter>08. Component</Filter>
     </ClInclude>
     <ClInclude Include="components.h">
-      <Filter>Component</Filter>
+      <Filter>08. Component</Filter>
     </ClInclude>
     <ClInclude Include="Ptr.h">
       <Filter>06. Asset</Filter>
@@ -95,19 +95,19 @@
       <Filter>06. Asset\Texture</Filter>
     </ClInclude>
     <ClInclude Include="CRenderComponent.h">
-      <Filter>Component\RenderComponent</Filter>
+      <Filter>08. Component\RenderComponent</Filter>
     </ClInclude>
     <ClInclude Include="CSkyBox.h">
-      <Filter>Component\RenderComponent\Skybox</Filter>
+      <Filter>08. Component\RenderComponent\Skybox</Filter>
     </ClInclude>
     <ClInclude Include="CParticleSystem.h">
-      <Filter>Component\RenderComponent\ParticleSystem</Filter>
+      <Filter>08. Component\RenderComponent\ParticleSystem</Filter>
     </ClInclude>
     <ClInclude Include="CMeshRender.h">
-      <Filter>Component\RenderComponent\MeshRender</Filter>
+      <Filter>08. Component\RenderComponent\MeshRender</Filter>
     </ClInclude>
     <ClInclude Include="CTextRender.h">
-      <Filter>Component\RenderComponent\TextRender</Filter>
+      <Filter>08. Component\RenderComponent\TextRender</Filter>
     </ClInclude>
     <ClInclude Include="CAnimation.h">
       <Filter>06. Asset\Animation</Filter>
@@ -149,46 +149,46 @@
       <Filter>04. Manager\RenderManager\MultipleRenderTarget</Filter>
     </ClInclude>
     <ClInclude Include="CTileMap.h">
-      <Filter>Component\RenderComponent\Tilemap</Filter>
+      <Filter>08. Component\RenderComponent\Tilemap</Filter>
     </ClInclude>
     <ClInclude Include="CRigidBody.h">
-      <Filter>Component\RigidBody2D</Filter>
+      <Filter>08. Component\RigidBody2D</Filter>
     </ClInclude>
     <ClInclude Include="CAnimator2D.h">
-      <Filter>Component\Animator2D</Filter>
+      <Filter>08. Component\Animator2D</Filter>
     </ClInclude>
     <ClInclude Include="CCamera.h">
-      <Filter>Component\Camera</Filter>
+      <Filter>08. Component\Camera</Filter>
     </ClInclude>
     <ClInclude Include="CCollider2D.h">
-      <Filter>Component\Collider2D</Filter>
+      <Filter>08. Component\Collider2D</Filter>
     </ClInclude>
     <ClInclude Include="CLight2D.h">
-      <Filter>Component\Light2D</Filter>
+      <Filter>08. Component\Light2D</Filter>
     </ClInclude>
     <ClInclude Include="CLight3D.h">
-      <Filter>Component\Light3D</Filter>
+      <Filter>08. Component\Light3D</Filter>
     </ClInclude>
     <ClInclude Include="CTransform.h">
-      <Filter>Component\Transform</Filter>
+      <Filter>08. Component\Transform</Filter>
     </ClInclude>
     <ClInclude Include="CScript.h">
-      <Filter>Component\Script</Filter>
+      <Filter>08. Component\Script</Filter>
     </ClInclude>
     <ClInclude Include="CLayer.h">
       <Filter>05. Level\Layer</Filter>
     </ClInclude>
     <ClInclude Include="CDecal.h">
-      <Filter>Component\RenderComponent\Decal</Filter>
+      <Filter>08. Component\RenderComponent\Decal</Filter>
     </ClInclude>
     <ClInclude Include="CFrustum.h">
-      <Filter>Component\Camera\Frustum</Filter>
+      <Filter>08. Component\Camera\Frustum</Filter>
     </ClInclude>
     <ClInclude Include="CBoundingSphere.h">
-      <Filter>Component\Transform\Bounding</Filter>
+      <Filter>08. Component\Transform\Bounding</Filter>
     </ClInclude>
     <ClInclude Include="CLandscape.h">
-      <Filter>Component\RenderComponent\Landscape</Filter>
+      <Filter>08. Component\RenderComponent\Landscape</Filter>
     </ClInclude>
     <ClInclude Include="CHeightmapCS.h">
       <Filter>06. Asset\Shader\ComputeShader\Heightmap</Filter>
@@ -209,7 +209,7 @@
       <Filter>06. Asset\Shader\ComputeShader\Animation3D</Filter>
     </ClInclude>
     <ClInclude Include="CAnimator3D.h">
-      <Filter>Component\Animator3D</Filter>
+      <Filter>08. Component\Animator3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -247,7 +247,7 @@
       <Filter>07. GameObject</Filter>
     </ClCompile>
     <ClCompile Include="CComponent.cpp">
-      <Filter>Component</Filter>
+      <Filter>08. Component</Filter>
     </ClCompile>
     <ClCompile Include="extern.cpp" />
     <ClCompile Include="CMaterial.cpp">
@@ -278,19 +278,19 @@
       <Filter>06. Asset\Texture</Filter>
     </ClCompile>
     <ClCompile Include="CRenderComponent.cpp">
-      <Filter>Component\RenderComponent</Filter>
+      <Filter>08. Component\RenderComponent</Filter>
     </ClCompile>
     <ClCompile Include="CSkyBox.cpp">
-      <Filter>Component\RenderComponent\Skybox</Filter>
+      <Filter>08. Component\RenderComponent\Skybox</Filter>
     </ClCompile>
     <ClCompile Include="CParticleSystem.cpp">
-      <Filter>Component\RenderComponent\ParticleSystem</Filter>
+      <Filter>08. Component\RenderComponent\ParticleSystem</Filter>
     </ClCompile>
     <ClCompile Include="CMeshRender.cpp">
-      <Filter>Component\RenderComponent\MeshRender</Filter>
+      <Filter>08. Component\RenderComponent\MeshRender</Filter>
     </ClCompile>
     <ClCompile Include="CTextRender.cpp">
-      <Filter>Component\RenderComponent\TextRender</Filter>
+      <Filter>08. Component\RenderComponent\TextRender</Filter>
     </ClCompile>
     <ClCompile Include="CAnimation.cpp">
       <Filter>06. Asset\Animation</Filter>
@@ -338,49 +338,49 @@
       <Filter>04. Manager\RenderManager</Filter>
     </ClCompile>
     <ClCompile Include="CTileMap.cpp">
-      <Filter>Component\RenderComponent\Tilemap</Filter>
+      <Filter>08. Component\RenderComponent\Tilemap</Filter>
     </ClCompile>
     <ClCompile Include="CRigidBody.cpp">
-      <Filter>Component\RigidBody2D</Filter>
+      <Filter>08. Component\RigidBody2D</Filter>
     </ClCompile>
     <ClCompile Include="CAnimator2D.cpp">
-      <Filter>Component\Animator2D</Filter>
+      <Filter>08. Component\Animator2D</Filter>
     </ClCompile>
     <ClCompile Include="CCamera.cpp">
-      <Filter>Component\Camera</Filter>
+      <Filter>08. Component\Camera</Filter>
     </ClCompile>
     <ClCompile Include="CCollider2D.cpp">
-      <Filter>Component\Collider2D</Filter>
+      <Filter>08. Component\Collider2D</Filter>
     </ClCompile>
     <ClCompile Include="CLight2D.cpp">
-      <Filter>Component\Light2D</Filter>
+      <Filter>08. Component\Light2D</Filter>
     </ClCompile>
     <ClCompile Include="CLight3D.cpp">
-      <Filter>Component\Light3D</Filter>
+      <Filter>08. Component\Light3D</Filter>
     </ClCompile>
     <ClCompile Include="CTransform.cpp">
-      <Filter>Component\Transform</Filter>
+      <Filter>08. Component\Transform</Filter>
     </ClCompile>
     <ClCompile Include="CScript.cpp">
-      <Filter>Component\Script</Filter>
+      <Filter>08. Component\Script</Filter>
     </ClCompile>
     <ClCompile Include="CLayer.cpp">
       <Filter>05. Level\Layer</Filter>
     </ClCompile>
     <ClCompile Include="CDecal.cpp">
-      <Filter>Component\RenderComponent\Decal</Filter>
+      <Filter>08. Component\RenderComponent\Decal</Filter>
     </ClCompile>
     <ClCompile Include="CFrustum.cpp">
-      <Filter>Component\Camera\Frustum</Filter>
+      <Filter>08. Component\Camera\Frustum</Filter>
     </ClCompile>
     <ClCompile Include="CBoundingSphere.cpp">
-      <Filter>Component\Transform\Bounding</Filter>
+      <Filter>08. Component\Transform\Bounding</Filter>
     </ClCompile>
     <ClCompile Include="CLandscape.cpp">
-      <Filter>Component\RenderComponent\Landscape</Filter>
+      <Filter>08. Component\RenderComponent\Landscape</Filter>
     </ClCompile>
     <ClCompile Include="CLandscape_Init.cpp">
-      <Filter>Component\RenderComponent\Landscape</Filter>
+      <Filter>08. Component\RenderComponent\Landscape</Filter>
     </ClCompile>
     <ClCompile Include="CHeightmapCS.cpp">
       <Filter>06. Asset\Shader\ComputeShader\Heightmap</Filter>
@@ -401,7 +401,7 @@
       <Filter>06. Asset\Shader\ComputeShader\Animation3D</Filter>
     </ClCompile>
     <ClCompile Include="CAnimator3D.cpp">
-      <Filter>Component\Animator3D</Filter>
+      <Filter>08. Component\Animator3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -441,9 +441,6 @@
     <Filter Include="06. Asset\Mesh">
       <UniqueIdentifier>{f1afad9d-bf6c-4dc5-b252-234c9a0abc0b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component">
-      <UniqueIdentifier>{5ebb3e06-804f-4b56-b031-eaecfd721cb8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="06. Asset\Material">
       <UniqueIdentifier>{7a1eec37-53aa-4ce5-9f89-9ac5397a0eb7}</UniqueIdentifier>
     </Filter>
@@ -470,21 +467,6 @@
     </Filter>
     <Filter Include="06. Asset\Texture">
       <UniqueIdentifier>{d6f162aa-a841-45ef-bfdf-5d0c839c8d0a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\RenderComponent">
-      <UniqueIdentifier>{dad05c7f-0e34-4e57-bbc7-e5f3b7adb613}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\RenderComponent\Skybox">
-      <UniqueIdentifier>{f43cd4bc-57d3-4dce-aeb2-1f7dd9ec0a68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\RenderComponent\ParticleSystem">
-      <UniqueIdentifier>{b1183885-1ed9-49fc-9812-740892dd1508}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\RenderComponent\MeshRender">
-      <UniqueIdentifier>{a7647a19-5a74-4a28-86f6-bb9af561c34e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\RenderComponent\TextRender">
-      <UniqueIdentifier>{6e9c7542-7a43-486a-a6dd-f70deb4d7303}</UniqueIdentifier>
     </Filter>
     <Filter Include="06. Asset\Animation">
       <UniqueIdentifier>{331a9fec-4f2e-403d-a6ab-7fe4c7bf4657}</UniqueIdentifier>
@@ -525,47 +507,8 @@
     <Filter Include="04. Manager\RenderManager\MultipleRenderTarget">
       <UniqueIdentifier>{ad18af7c-92d2-4595-a345-16eb6cb932f1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\RenderComponent\Tilemap">
-      <UniqueIdentifier>{f73f3ff2-2ba5-43d8-b128-e1bc8690d773}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Camera">
-      <UniqueIdentifier>{7817ef73-27f4-42ef-8bca-bf016032c770}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Animator2D">
-      <UniqueIdentifier>{b0451349-210a-44b6-aaa3-1f9a91b28301}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Collider2D">
-      <UniqueIdentifier>{8478b68f-224c-4270-b785-a43ac381d843}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Light2D">
-      <UniqueIdentifier>{f7885eee-937a-402d-8000-dab889dd4c6c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Light3D">
-      <UniqueIdentifier>{e205eabd-2306-4514-ac0d-525d881f4a03}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\RigidBody2D">
-      <UniqueIdentifier>{471b9b4e-32c9-4e57-8858-610244077d39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Script">
-      <UniqueIdentifier>{225e82df-2731-4ae9-957a-7bbf75687f02}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Transform">
-      <UniqueIdentifier>{c35617f4-cb62-45d8-8058-fc79e1ceb5dd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="05. Level\Layer">
       <UniqueIdentifier>{2ef89d13-1eec-45b0-96b0-daffb5bed09d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\RenderComponent\Decal">
-      <UniqueIdentifier>{17155765-ef7c-4515-90eb-ee7c7c1d5327}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Camera\Frustum">
-      <UniqueIdentifier>{34137d29-8585-4933-ad0b-084f6b8d74e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Transform\Bounding">
-      <UniqueIdentifier>{63ecd7cd-8556-4aee-af65-1829e2ec975d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\RenderComponent\Landscape">
-      <UniqueIdentifier>{ce3c3d70-7484-40fe-bf34-5cdb1f21bf95}</UniqueIdentifier>
     </Filter>
     <Filter Include="06. Asset\Shader\ComputeShader\Heightmap">
       <UniqueIdentifier>{f7145fba-482d-486a-b9ba-6b93e1c78a49}</UniqueIdentifier>
@@ -585,7 +528,64 @@
     <Filter Include="06. Asset\Shader\ComputeShader\Animation3D">
       <UniqueIdentifier>{8f21b8a3-5451-4286-a77a-727ab5c7bc5d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Animator3D">
+    <Filter Include="08. Component">
+      <UniqueIdentifier>{5ebb3e06-804f-4b56-b031-eaecfd721cb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\RenderComponent">
+      <UniqueIdentifier>{dad05c7f-0e34-4e57-bbc7-e5f3b7adb613}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\RenderComponent\Skybox">
+      <UniqueIdentifier>{f43cd4bc-57d3-4dce-aeb2-1f7dd9ec0a68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\RenderComponent\ParticleSystem">
+      <UniqueIdentifier>{b1183885-1ed9-49fc-9812-740892dd1508}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\RenderComponent\MeshRender">
+      <UniqueIdentifier>{a7647a19-5a74-4a28-86f6-bb9af561c34e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\RenderComponent\TextRender">
+      <UniqueIdentifier>{6e9c7542-7a43-486a-a6dd-f70deb4d7303}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\RenderComponent\Tilemap">
+      <UniqueIdentifier>{f73f3ff2-2ba5-43d8-b128-e1bc8690d773}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\RenderComponent\Decal">
+      <UniqueIdentifier>{17155765-ef7c-4515-90eb-ee7c7c1d5327}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\RenderComponent\Landscape">
+      <UniqueIdentifier>{ce3c3d70-7484-40fe-bf34-5cdb1f21bf95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\Camera">
+      <UniqueIdentifier>{7817ef73-27f4-42ef-8bca-bf016032c770}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\Camera\Frustum">
+      <UniqueIdentifier>{34137d29-8585-4933-ad0b-084f6b8d74e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\Animator2D">
+      <UniqueIdentifier>{b0451349-210a-44b6-aaa3-1f9a91b28301}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\Collider2D">
+      <UniqueIdentifier>{8478b68f-224c-4270-b785-a43ac381d843}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\Light2D">
+      <UniqueIdentifier>{f7885eee-937a-402d-8000-dab889dd4c6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\Light3D">
+      <UniqueIdentifier>{e205eabd-2306-4514-ac0d-525d881f4a03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\RigidBody2D">
+      <UniqueIdentifier>{471b9b4e-32c9-4e57-8858-610244077d39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\Script">
+      <UniqueIdentifier>{225e82df-2731-4ae9-957a-7bbf75687f02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\Transform">
+      <UniqueIdentifier>{c35617f4-cb62-45d8-8058-fc79e1ceb5dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\Transform\Bounding">
+      <UniqueIdentifier>{63ecd7cd-8556-4aee-af65-1829e2ec975d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\Animator3D">
       <UniqueIdentifier>{d431c078-6b18-4e8d-8d49-c67c5744d499}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

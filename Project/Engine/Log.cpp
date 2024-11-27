@@ -8,8 +8,8 @@ namespace Modot {
 
 	void Log::Init()
 	{
-		spdlog::set_pattern("%^[%T] %n: %v%$");
-		s_EngineLogger = spdlog::stdout_color_mt("Engine#");
+		spdlog::set_pattern("%^ %T %n[%l]: %v%$");
+		s_EngineLogger = spdlog::stdout_color_mt("Modot");
 		s_EngineLogger->set_level(spdlog::level::trace);
 	}
 }

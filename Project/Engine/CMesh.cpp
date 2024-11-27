@@ -47,14 +47,14 @@ CMesh* CMesh::CreateFromContainer(CFBXLoader& _loader)
 	Vtx* pSys = (Vtx*)tSub.pSysMem;
 	for (UINT i = 0; i < iVtxCount; ++i)
 	{
-		pSys[i].vPos = container->vecPos[i];
-		pSys[i].vUV = container->vecUV[i];
-		pSys[i].vColor = Vec4(1.f, 0.f, 1.f, 1.f);
-		pSys[i].vNormal = container->vecNormal[i];
-		pSys[i].vTangent = container->vecTangent[i];
-		pSys[i].vBinormal = container->vecBinormal[i];
-		pSys[i].vWeights = container->vecWeights[i];
-		pSys[i].vIndices = container->vecIndices[i];
+		pSys[i].vPos		= container->vecPos[i];
+		pSys[i].vUV			= container->vecUV[i];
+		pSys[i].vColor		= Vec4(1.f, 0.f, 1.f, 1.f);
+		pSys[i].vNormal		= container->vecNormal[i];
+		pSys[i].vTangent	= container->vecTangent[i];
+		pSys[i].vBinormal	= container->vecBinormal[i];
+		pSys[i].vWeights	= container->vecWeights[i];
+		pSys[i].vIndices	= container->vecIndices[i];
 	}
 
 	WRL::ComPtr<ID3D11Buffer> pVB = NULL;
@@ -105,11 +105,11 @@ CMesh* CMesh::CreateFromContainer(CFBXLoader& _loader)
 	for (UINT i = 0; i < vecBone.size(); ++i)
 	{
 		tMTBone bone = {};
-		bone.iDepth = vecBone[i]->iDepth;
-		bone.iParentIndx = vecBone[i]->iParentIndx;
-		bone.matBone = GetMatrixFromFbxMatrix(vecBone[i]->matBone);
-		bone.matOffset = GetMatrixFromFbxMatrix(vecBone[i]->matOffset);
-		bone.strBoneName = vecBone[i]->strBoneName;
+		bone.iDepth			= vecBone[i]->iDepth;
+		bone.iParentIndx	= vecBone[i]->iParentIndx;
+		bone.matBone		= GetMatrixFromFbxMatrix(vecBone[i]->matBone);
+		bone.matOffset		= GetMatrixFromFbxMatrix(vecBone[i]->matOffset);
+		bone.strBoneName	= vecBone[i]->strBoneName;
 
 		for (UINT j = 0; j < vecBone[i]->vecKeyFrame.size(); ++j)
 		{
@@ -140,14 +140,14 @@ CMesh* CMesh::CreateFromContainer(CFBXLoader& _loader)
 	for (UINT i = 0; i < vecAnimClip.size(); ++i)
 	{
 		tMTAnimClip tClip = {};
-		tClip.strAnimName = vecAnimClip[i]->strName;
-		tClip.dStartTime = vecAnimClip[i]->tStartTime.GetSecondDouble();
-		tClip.dEndTime = vecAnimClip[i]->tEndTime.GetSecondDouble();
-		tClip.dTimeLength = tClip.dEndTime - tClip.dStartTime;
-		tClip.iStartFrame = (int)vecAnimClip[i]->tStartTime.GetFrameCount(vecAnimClip[i]->eMode);
-		tClip.iEndFrame = (int)vecAnimClip[i]->tEndTime.GetFrameCount(vecAnimClip[i]->eMode);
-		tClip.iFrameLength = tClip.iEndFrame - tClip.iStartFrame;
-		tClip.eMode = vecAnimClip[i]->eMode;
+		tClip.strAnimName	= vecAnimClip[i]->strName;
+		tClip.dStartTime	= vecAnimClip[i]->tStartTime.GetSecondDouble();
+		tClip.dEndTime		= vecAnimClip[i]->tEndTime.GetSecondDouble();
+		tClip.dTimeLength	= tClip.dEndTime - tClip.dStartTime;
+		tClip.iStartFrame	= (int)vecAnimClip[i]->tStartTime.GetFrameCount(vecAnimClip[i]->eMode);
+		tClip.iEndFrame		= (int)vecAnimClip[i]->tEndTime.GetFrameCount(vecAnimClip[i]->eMode);
+		tClip.iFrameLength	= tClip.iEndFrame - tClip.iStartFrame;
+		tClip.eMode			= vecAnimClip[i]->eMode;
 
 		pMesh->m_vecAnimClip.emplace_back(tClip);
 	}
