@@ -70,18 +70,19 @@ void CTestLevel::CreateTestLevel()
 		
 		pLevel->AddObject(0, pObject);
 		
-		//Ptr<CMeshData> pMeshData = nullptr;
-		//CGameObject* pObj = nullptr;
-		//
-		//pMeshData = CAssetMgr::GetInst()->LoadFBX(L"fbx\\House.fbx");
-		//pMeshData = CAssetMgr::GetInst()->FindAsset<CMeshData>(L"House");
-		//pObj = pMeshData->Instantiate();
-		//pObj->SetName(L"House");
-		//
-		//pObj->Transform()->SetRelativePos(Vec3(0.f, 150.f, 100.f));
-		//pObj->Transform()->SetRelativeScale(Vec3(1.f, 1.f, 1.f));
-		//
-		//pLevel->AddObject(0, pObj);
+		Ptr<CMeshData> pMeshData = nullptr;
+		CGameObject* pObj = nullptr;
+		
+		//pMeshData = CAssetMgr::GetInst()->LoadFBX(L"fbx\\Monster.fbx");
+		pMeshData = CAssetMgr::GetInst()->Load<CMeshData>(L"Monster", L"meshdata\\Monster.mdat");
+		pObj = pMeshData->Instantiate();
+		pObj->SetName(L"Monster");
+		
+		pObj->Transform()->SetRelativePos(Vec3(200.f, 0.f, 200.f));
+		pObj->Transform()->SetRelativeScale(Vec3(5.f, 5.f, 5.f));
+		pObj->Transform()->SetRelativeRotation(0.f, XM_PI / 2.f, 0.f);
+		
+		pLevel->AddObject(0, pObj);
 	}
 
 	ChangeLevel(pLevel, LEVEL_STATE::STOP);

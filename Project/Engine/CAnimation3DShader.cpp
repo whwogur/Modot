@@ -12,6 +12,7 @@ int CAnimation3DShader::Bind()
 	m_pFrameDataBuffer->Bind_CS_SRV(16);	// t16
 	m_pOffsetMatBuffer->Bind_CS_SRV(17);	// t17
 	m_pOutputBuffer->Bind_CS_UAV(0);		// u0
+
 	return S_OK;
 }
 void CAnimation3DShader::CalcGroupNum()
@@ -26,6 +27,7 @@ void CAnimation3DShader::Clear()
 	m_pFrameDataBuffer->Clear_CS_SRV();
 	m_pOffsetMatBuffer->Clear_CS_SRV();
 	m_pOutputBuffer->Clear_CS_UAV();
+
 	m_pFrameDataBuffer = nullptr;
 	m_pOffsetMatBuffer = nullptr;
 	m_pOutputBuffer = nullptr;

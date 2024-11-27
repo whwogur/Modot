@@ -32,6 +32,7 @@ void CMeshRender::Render()
 		{
 			if (nullptr == GetMaterial(i))
 				continue;
+
 			GetMaterial(i)->SetUsingAnim3D(true); // Animation Mesh ¾Ë¸®±â
 			GetMaterial(i)->SetBoneCount(Animator3D()->GetBoneCount());
 		}

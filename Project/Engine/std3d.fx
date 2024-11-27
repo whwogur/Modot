@@ -37,15 +37,15 @@ VS_OUT VS_Std3D(VS_IN _in)
               , _in.vWeights, _in.vIndices, 0);
     }
     
-    output.vPosition = mul(float4(_in.vPos, 1.f), matWVP);
-    output.vUV = _in.vUV;
+    output.vPosition        = mul(float4(_in.vPos, 1.f), matWVP);
+    output.vUV              = _in.vUV;
     
     // Á¤Á¡ÀÇ ViewSpace ÁÂÇ¥
-    output.vViewPos = mul(float4(_in.vPos, 1.f), matWV).xyz;
+    output.vViewPos         = mul(float4(_in.vPos, 1.f), matWV).xyz;
     
-    output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), matWV).xyz);
-    output.vViewNormal = normalize(mul(float4(_in.vNormal, 0.f), matWV).xyz);
-    output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), matWV).xyz);
+    output.vViewTangent     = normalize(mul(float4(_in.vTangent, 0.f), matWV).xyz);
+    output.vViewNormal      = normalize(mul(float4(_in.vNormal, 0.f), matWV).xyz);
+    output.vViewBinormal    = normalize(mul(float4(_in.vBinormal, 0.f), matWV).xyz);
     
     return output;
 }

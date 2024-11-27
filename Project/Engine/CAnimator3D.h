@@ -39,6 +39,6 @@ private:
     int							    m_iFrameIdx = 0;                // 클립의 현재 프레임
     int							    m_iNextFrameIdx = 0;            // 클립의 다음 프레임
     float						    m_fRatio = 0.f;	                // 프레임 사이 비율
-    CStructuredBuffer*              m_pBoneFinalMatBuffer = nullptr;// 특정 프레임의 최종 행렬
+    CStructuredBuffer*              m_pBoneFinalMatBuffer;          // 특정 프레임의 최종 행렬
     bool						    m_bFinalMatUpdate = false;      // 최종행렬 연산 수행여부
 };

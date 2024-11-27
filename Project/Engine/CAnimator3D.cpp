@@ -35,6 +35,7 @@ void CAnimator3D::FinalTick()
 	m_dCurTime = 0.f;
 	// 현재 재생중인 Clip 의 시간을 진행한다.
 	m_vecClipUpdateTime[m_iCurClip] += EngineDT;
+
 	if (m_vecClipUpdateTime[m_iCurClip] >= m_pVecClip->at(m_iCurClip).dTimeLength)
 	{
 		m_vecClipUpdateTime[m_iCurClip] = 0.f;
@@ -50,8 +51,10 @@ void CAnimator3D::FinalTick()
 		m_iNextFrameIdx = m_iFrameIdx;	// 끝이면 현재 인덱스를 유지
 	else
 		m_iNextFrameIdx = m_iFrameIdx + 1;
+
 	// 프레임간의 시간에 따른 비율을 구해준다.
 	m_fRatio = (float)(dFrameIdx - (double)m_iFrameIdx);
+
 	// 컴퓨트 쉐이더 연산여부
 	m_bFinalMatUpdate = false;
 }
@@ -70,6 +73,7 @@ void CAnimator3D::Bind()
 	{
 		// Animation3D Update Compute Shader
 		CAnimation3DShader* pUpdateShader = (CAnimation3DShader*)CAssetMgr::GetInst()->FindAsset<CComputeShader>(L"Animation3DUpdateCS").Get();
+
 		// Bone Data
 		Ptr<CMesh> pMesh = MeshRender()->GetMesh();
 		check_mesh(pMesh);
@@ -81,23 +85,28 @@ void CAnimator3D::Bind()
 		pUpdateShader->SetFrameIndex(m_iFrameIdx);
 		pUpdateShader->SetNextFrameIdx(m_iNextFrameIdx);
 		pUpdateShader->SetFrameRatio(m_fRatio);
+
 		// 업데이트 쉐이더 실행
 		pUpdateShader->Execute();
+
 		m_bFinalMatUpdate = true;
 	}
 	// t17 레지스터에 최종행렬 데이터(구조버퍼) 바인딩		
 	m_pBoneFinalMatBuffer->Bind(17);
 }
+
 void CAnimator3D::ClearData()
 {
 	m_pBoneFinalMatBuffer->Clear(17);
 	UINT iMtrlCount = MeshRender()->GetMaterialCount();
 	Ptr<CMaterial> pMtrl = nullptr;
+
 	for (UINT i = 0; i < iMtrlCount; ++i)
 	{
 		pMtrl = MeshRender()->GetSharedMaterial(i);
 		if (nullptr == pMtrl)
 			continue;
+
 		pMtrl->SetUsingAnim3D(false); // Animation Mesh 알리기
 		pMtrl->SetBoneCount(0);
 	}
