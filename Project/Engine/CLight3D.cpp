@@ -119,7 +119,7 @@ void CLight3D::FinalTick()
 	// 광원의 위치설정
 	if (m_Info.Type == LIGHT_TYPE::DIRECTIONAL)
 	{
-		Transform()->SetRelativePos(m_TargetPos -m_Info.WorldDir * 10000.f);
+		Transform()->SetRelativePos(-m_Info.WorldDir * 10000.f);
 	}
 
 	Transform()->SetRelativeScale(m_Info.Radius * 2.f, m_Info.Radius * 2.f, m_Info.Radius * 2.f);
