@@ -11,6 +11,8 @@ struct VS_IN
     float3 vTangent         : TANGENT;
     float3 vNormal          : NORMAL;
     float3 vBinormal        : BINORMAL;
+    float4 vWeights         : BLENDWEIGHT;
+    float4 vIndices         : BLENDINDICES;
 };
 
 struct VS_OUT
@@ -28,16 +30,22 @@ struct VS_OUT
 VS_OUT VS_Std3D(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
-        
-    output.vPosition = mul(float4(_in.vPos, 1.f), matWVP);
-    output.vUV = _in.vUV;
+    
+    if (g_iAnim)
+    {
+        Skinning(_in.vPos, _in.vTangent, _in.vBinormal, _in.vNormal
+              , _in.vWeights, _in.vIndices, 0);
+    }
+    
+    output.vPosition        = mul(float4(_in.vPos, 1.f), matWVP);
+    output.vUV              = _in.vUV;
     
     // Á¤Á¡ÀÇ ViewSpace ÁÂÇ¥
-    output.vViewPos = mul(float4(_in.vPos, 1.f), matWV).xyz;
+    output.vViewPos         = mul(float4(_in.vPos, 1.f), matWV).xyz;
     
-    output.vViewTangent = normalize(mul(float4(_in.vTangent, 0.f), matWV).xyz);
-    output.vViewNormal = normalize(mul(float4(_in.vNormal, 0.f), matWV).xyz);
-    output.vViewBinormal = normalize(mul(float4(_in.vBinormal, 0.f), matWV).xyz);
+    output.vViewTangent     = normalize(mul(float4(_in.vTangent, 0.f), matWV).xyz);
+    output.vViewNormal      = normalize(mul(float4(_in.vNormal, 0.f), matWV).xyz);
+    output.vViewBinormal    = normalize(mul(float4(_in.vBinormal, 0.f), matWV).xyz);
     
     return output;
 }

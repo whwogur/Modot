@@ -8,6 +8,5 @@ public:
 
 public:
 	static void CreateTestLevel();
-	static void CreateDefaultLevel();
 };
 

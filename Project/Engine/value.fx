@@ -61,7 +61,9 @@ cbuffer MATERIAL : register(b1)
     int g_btexarr_0;
     int g_btexarr_1;
 
-    int2 mtrlpadding;
+    // 3D Animation 정보
+    int g_iAnim;
+    int g_iBoneCount;
 }
 
 cbuffer SPRITE_INFO : register(b2)
@@ -82,7 +84,7 @@ cbuffer GLOBAL_DATA : register(b3)
     float   g_Time;
     float   g_EngineTime;
 
-    // 렌더링을 할때의 카메라(시점)의 월드 위치 DISCARD IF NOT NECCESSARY
+    // 렌더링을 할때의 카메라(시점)의 월드 위치
     float4 g_CamWorldPos;
     
     // 렌더타겟의 해상도 정보
@@ -113,5 +115,8 @@ Texture2D g_AtlasTex : register(t10);
 
 StructuredBuffer<tLightInfo> g_Light2D : register(t11);
 StructuredBuffer<tLightInfo> g_Light3D : register(t12);
+
+// Animation3D Bone Matrix Buffer
+StructuredBuffer<Matrix> g_arrBoneMat : register(t17);
 #endif
 

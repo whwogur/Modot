@@ -193,6 +193,19 @@ void DrawDebugCone(const Matrix& _matWorld, const Vec4& _Color, float _Life, boo
 	CRenderMgr::GetInst()->AddDebugShapeInfo(info);
 }
 
+Matrix GetMatrixFromFbxMatrix(FbxAMatrix& _mat)
+{
+	Matrix mat;
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 4; ++j)
+		{
+			mat.m[i][j] = (float)_mat.Get(i, j);
+		}
+	}
+	return mat;
+}
+
 void SaveWString(const wstring& _String, FILE* _File)
 {
 	size_t len = _String.length();

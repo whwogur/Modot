@@ -40,57 +40,73 @@ int CGraphicShader::CreateVertexShader(const wstring& _RelativePath, const strin
 							 , m_VSBlob->GetBufferSize(), nullptr, m_VS.GetAddressOf());
 
 	// Layout »ý¼º
-	D3D11_INPUT_ELEMENT_DESC Element[6] = {};
+	D3D11_INPUT_ELEMENT_DESC Element[8] = {};
 
-	Element[0].AlignedByteOffset = 0;
-	Element[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	Element[0].InputSlot = 0;
-	Element[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	Element[0].InstanceDataStepRate = 0;
-	Element[0].SemanticName = "POSITION";
-	Element[0].SemanticIndex = 0;
+	Element[0].AlignedByteOffset		= 0;
+	Element[0].Format					= DXGI_FORMAT_R32G32B32_FLOAT;
+	Element[0].InputSlot				= 0;
+	Element[0].InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
+	Element[0].InstanceDataStepRate		= 0;
+	Element[0].SemanticName				= "POSITION";
+	Element[0].SemanticIndex			= 0;
 
-	Element[1].AlignedByteOffset = 12;
-	Element[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	Element[1].InputSlot = 0;
-	Element[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	Element[1].InstanceDataStepRate = 0;
-	Element[1].SemanticName = "COLOR";
-	Element[1].SemanticIndex = 0;
+	Element[1].AlignedByteOffset		= 12;
+	Element[1].Format					= DXGI_FORMAT_R32G32B32A32_FLOAT;
+	Element[1].InputSlot				= 0;
+	Element[1].InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
+	Element[1].InstanceDataStepRate		= 0;
+	Element[1].SemanticName				= "COLOR";
+	Element[1].SemanticIndex			= 0;
 
-	Element[2].AlignedByteOffset = 28;
-	Element[2].Format = DXGI_FORMAT_R32G32_FLOAT;
-	Element[2].InputSlot = 0;
-	Element[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	Element[2].InstanceDataStepRate = 0;
-	Element[2].SemanticName = "TEXCOORD";
-	Element[2].SemanticIndex = 0;
+	Element[2].AlignedByteOffset		= 28;
+	Element[2].Format					= DXGI_FORMAT_R32G32_FLOAT;
+	Element[2].InputSlot				= 0;
+	Element[2].InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
+	Element[2].InstanceDataStepRate		= 0;
+	Element[2].SemanticName				= "TEXCOORD";
+	Element[2].SemanticIndex			= 0;
 
-	Element[3].AlignedByteOffset = 36;
-	Element[3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	Element[3].InputSlot = 0;
-	Element[3].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	Element[3].InstanceDataStepRate = 0;
-	Element[3].SemanticName = "TANGENT";
-	Element[3].SemanticIndex = 0;
+	Element[3].AlignedByteOffset		= 36;
+	Element[3].Format					= DXGI_FORMAT_R32G32B32_FLOAT;
+	Element[3].InputSlot				= 0;
+	Element[3].InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
+	Element[3].InstanceDataStepRate		= 0;
+	Element[3].SemanticName				= "TANGENT";
+	Element[3].SemanticIndex			= 0;
 
-	Element[4].AlignedByteOffset = 48;
-	Element[4].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	Element[4].InputSlot = 0;
-	Element[4].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	Element[4].InstanceDataStepRate = 0;
-	Element[4].SemanticName = "NORMAL";
-	Element[4].SemanticIndex = 0;
+	Element[4].AlignedByteOffset		= 48;
+	Element[4].Format					= DXGI_FORMAT_R32G32B32_FLOAT;
+	Element[4].InputSlot				= 0;
+	Element[4].InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
+	Element[4].InstanceDataStepRate		= 0;
+	Element[4].SemanticName				= "NORMAL";
+	Element[4].SemanticIndex			= 0;
 
-	Element[5].AlignedByteOffset = 60;
-	Element[5].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	Element[5].InputSlot = 0;
-	Element[5].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	Element[5].InstanceDataStepRate = 0;
-	Element[5].SemanticName = "BINORMAL";
-	Element[5].SemanticIndex = 0;
+	Element[5].AlignedByteOffset		= 60;
+	Element[5].Format					= DXGI_FORMAT_R32G32B32_FLOAT;
+	Element[5].InputSlot				= 0;
+	Element[5].InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
+	Element[5].InstanceDataStepRate		= 0;
+	Element[5].SemanticName				= "BINORMAL";
+	Element[5].SemanticIndex			= 0;
 
-	DEVICE->CreateInputLayout(Element, 6
+	Element[6].SemanticName				= "BLENDWEIGHT";
+	Element[6].SemanticIndex			= 0;
+	Element[6].AlignedByteOffset		= 72;
+	Element[6].Format					= DXGI_FORMAT_R32G32B32A32_FLOAT;
+	Element[6].InputSlot				= 0;
+	Element[6].InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
+	Element[6].InstanceDataStepRate		= 0;
+
+	Element[7].SemanticName				= "BLENDINDICES";
+	Element[7].SemanticIndex			= 0;
+	Element[7].AlignedByteOffset		= 88;
+	Element[7].Format					= DXGI_FORMAT_R32G32B32A32_FLOAT;
+	Element[7].InputSlot				= 0;
+	Element[7].InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
+	Element[7].InstanceDataStepRate		= 0;
+
+	DEVICE->CreateInputLayout(Element, 8
 							, m_VSBlob->GetBufferPointer()
 							, m_VSBlob->GetBufferSize()
 							, m_Layout.GetAddressOf());

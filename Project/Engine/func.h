@@ -16,6 +16,8 @@ void DrawDebugSphere(const Matrix& _matWorld,const Vec4& _Color, float _Life, bo
 void DrawDebugLine(const Vec3& _Start,const Vec3& _End,const Vec4& _Color, float _Life, bool _DepthTest);
 void DrawDebugCone(const Matrix& _matWorld, const Vec4& _Color, float _Life, bool _DepthTest);
 
+Matrix GetMatrixFromFbxMatrix(FbxAMatrix& _mat);
+
 void SaveWString(const wstring& _String, FILE* _File);
 void LoadWString(wstring& _String, FILE* _File);
 wstring ToWstring(const string& str);

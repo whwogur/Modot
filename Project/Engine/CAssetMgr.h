@@ -33,6 +33,7 @@ public:
 	bool IsDirty() const { return m_Dirty; }
 
 	void AsyncReloadContents();
+	void LoadContents();
 	float GetLoadingProgress() { return m_CompletedThread / (float)m_listThreads.size(); }
 	bool IsAssetLoading() const { return m_listThreads.size() != m_CompletedThread; }
 private:
@@ -59,7 +60,7 @@ private:
 
 	void FindAssetName(const wstring& _FolderPath, const wstring& _Filter);
 	void LoadAsset(const path& _Path);
-	void Reload();
+	void AsyncReloadFunc();
 	void ThreadRelease();
 private:
 	friend class CTaskMgr;

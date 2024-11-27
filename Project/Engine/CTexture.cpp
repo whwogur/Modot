@@ -122,6 +122,7 @@ int CTexture::GenerateMip(UINT _Level)
 	}
 
 	D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc = {};
+
 	if (2 <= m_Desc.ArraySize)
 	{
 		SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
@@ -135,11 +136,13 @@ int CTexture::GenerateMip(UINT _Level)
 		SRVDesc.Texture2D.MipLevels = m_Desc.MipLevels;
 		SRVDesc.Texture2D.MostDetailedMip = 0;
 	}
+
 	if (FAILED(DEVICE->CreateShaderResourceView(m_Tex2D.Get(), &SRVDesc, m_SRV.GetAddressOf())))
 	{
 		MD_ENGINE_ERROR(L"¹Ó¸Ê »ý¼º ½ÇÆÐ");
 		return E_FAIL;
 	}
+
 	CONTEXT->GenerateMips(m_SRV.Get());
 
 	return S_OK;
@@ -205,9 +208,31 @@ int CTexture::Load(const wstring& _RelativePath)
 	return S_OK;
 }
 
-int CTexture::Save(const wstring& _FilePath)
+int CTexture::Save(const wstring& _RelativePath)
 {
-	return 0;
+	// GPU -> System
+	CaptureTexture(DEVICE, CONTEXT, m_Tex2D.Get(), m_Image);
+	// System -> File
+	wstring fullPath = CPathMgr::GetInst()->GetContentPath() + _RelativePath;
+	SetRelativePath(_RelativePath);
+	HRESULT hr = E_FAIL;
+	if (1 == m_Image.GetMetadata().arraySize)
+	{
+		// png, jpg, jpeg, bmp, 
+		hr = SaveToWICFile(*m_Image.GetImages()
+			, WIC_FLAGS_NONE
+			, GetWICCodec(WICCodecs::WIC_CODEC_PNG)
+			, fullPath.c_str());
+	}
+	else
+	{
+		hr = SaveToDDSFile(m_Image.GetImages()
+			, m_Image.GetMetadata().arraySize
+			, m_Image.GetMetadata()
+			, DDS_FLAGS_NONE
+			, fullPath.c_str());
+	}
+	return hr;
 }
 
 

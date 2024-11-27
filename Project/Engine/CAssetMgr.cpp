@@ -79,12 +79,14 @@ Ptr<CMeshData> CAssetMgr::LoadFBX(const wstring& _RelPath)
 	Ptr<CMeshData> pMeshData = FindAsset<CMeshData>(strFileName);
 	if (nullptr != pMeshData)
 		return pMeshData;
+
 	pMeshData = CMeshData::LoadFromFBX(_RelPath);
 	pMeshData->SetKey(strFileName);
 	pMeshData->SetRelativePath(strRelPath);
-	m_mapAsset[(UINT)ASSET_TYPE::MESH_DATA].insert(make_pair(strFileName, pMeshData.Get()));
-	
+
+	AddAsset<CMeshData>(strFileName, pMeshData.Get());
 	pMeshData->Save(strRelPath);
+
 	return pMeshData;
 }
 
@@ -109,10 +111,54 @@ void CAssetMgr::DeleteAsset(ASSET_TYPE _Type, const wstring& _Key)
 
 void CAssetMgr::AsyncReloadContents()
 {
-	m_listThreads.push_back(std::thread(&CAssetMgr::Reload, this));
+	m_listThreads.push_back(std::thread(&CAssetMgr::AsyncReloadFunc, this));
 }
 
-void CAssetMgr::Reload()
+void CAssetMgr::LoadContents()
+{
+	// Content 폴더에 있는 에셋파일들의 경로를 전부 알아낸다.
+	wstring ContentPath = CPathMgr::GetInst()->GetContentPath();
+	FindAssetName(ContentPath, L"*.*");
+
+	for (const auto& path : m_vecAssetPath)
+	{
+		LoadAsset(path);
+	}
+
+	const wstring& strContentPath = CPathMgr::GetInst()->GetContentPath();
+
+	for (UINT i = 0; i < (UINT)ASSET_TYPE::END; ++i)
+	{
+		const map<wstring, Ptr<CAsset>>& mapAsset = CAssetMgr::GetInst()->GetAssets((ASSET_TYPE)i);
+		for (const auto& pair : mapAsset)
+		{
+			// 엔진에서 제작한 에셋은 원래 원본파일이 없기때문에 넘어간다.
+			if (pair.second->IsEngineAsset())
+				continue;
+			const wstring& strRelativePath = pair.second->GetRelativePath();
+
+			if (false == std::filesystem::exists(strContentPath + strRelativePath))
+			{
+				if (pair.second->GetRefCount() <= 1)
+				{
+					// 에셋 삭제요청
+					CTaskMgr::GetInst()->AddTask(tTask{ TASK_TYPE::DEL_ASSET, (DWORD_PTR)pair.second.Get(), });
+				}
+				else
+				{
+					int ret = MessageBox(nullptr, L"다른 곳에서 참조되고 있을 수 있습니다.\n에셋을 삭제하시겠습니까?", L"에셋 삭제 에러", MB_YESNO);
+					if (ret == IDYES)
+					{
+						// 에셋 삭제요청
+						CTaskMgr::GetInst()->AddTask(tTask{ TASK_TYPE::DEL_ASSET, (DWORD_PTR)pair.second.Get(), });
+					}
+				}
+			}
+		}
+	}
+}
+
+void CAssetMgr::AsyncReloadFunc()
 {
 	std::scoped_lock lock(m_Mutex);
 

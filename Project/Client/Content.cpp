@@ -65,7 +65,7 @@ void Content::Update()
 
 void Content::Init()
 {
-	CAssetMgr::GetInst()->AsyncReloadContents();
+	CAssetMgr::GetInst()->LoadContents();
 }
 
 void Content::RenewContent()

@@ -6,7 +6,6 @@
 #include "CTransform.h"
 CRenderComponent::CRenderComponent(COMPONENT_TYPE _Type)
 	: CComponent(_Type)
-	, m_FrustumCheck(true)
 {
 }
 

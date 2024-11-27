@@ -134,7 +134,7 @@ void CFBXLoader::LoadMeshDataFromNode(FbxNode* _pNode)
 
 void CFBXLoader::LoadMesh(FbxMesh* _pFbxMesh)
 {
-	m_vecContainer.push_back(tContainer{});
+	m_vecContainer.emplace_back(tContainer{});
 	tContainer& Container = m_vecContainer[m_vecContainer.size() - 1];
 
 	string strName = _pFbxMesh->GetName();
@@ -425,14 +425,15 @@ void CFBXLoader::LoadTexture()
 				}
 
 				path_dest = CPathMgr::GetInst()->GetRelativePath(path_dest);
-				CAssetMgr::GetInst()->Load<CTexture>(path_dest, path_dest);
+				wstring assetKey = path_dest.stem();
+				CAssetMgr::GetInst()->Load<CTexture>(assetKey, path_dest);
 
 				switch (k)
 				{
-				case 0: m_vecContainer[i].vecMtrl[j].strDiff = path_dest; break;
-				case 1: m_vecContainer[i].vecMtrl[j].strNormal = path_dest; break;
-				case 2: m_vecContainer[i].vecMtrl[j].strSpec = path_dest; break;
-				case 3: m_vecContainer[i].vecMtrl[j].strEmis = path_dest; break;
+				case 0: m_vecContainer[i].vecMtrl[j].strDiff = assetKey; break;
+				case 1: m_vecContainer[i].vecMtrl[j].strNormal = assetKey; break;
+				case 2: m_vecContainer[i].vecMtrl[j].strSpec = assetKey; break;
+				case 3: m_vecContainer[i].vecMtrl[j].strEmis = assetKey; break;
 				}
 			}
 		}
@@ -462,7 +463,7 @@ void CFBXLoader::CreateMaterial()
 			m_vecContainer[i].vecMtrl[j].strMtrlName = strMtrlName;
 
 			// 이미 로딩된 재질이면 로딩된 것을 사용
-			Ptr<CMaterial> pMaterial = CAssetMgr::GetInst()->FindAsset<CMaterial>(strPath);
+			Ptr<CMaterial> pMaterial = CAssetMgr::GetInst()->FindAsset<CMaterial>(strMtrlName);
 			if (nullptr != pMaterial)
 				continue;
 
@@ -566,7 +567,7 @@ void CFBXLoader::LoadAnimationClip()
 
 
 
-		m_vecAnimClip.push_back(pAnimClip);
+		m_vecAnimClip.emplace_back(pAnimClip);
 	}
 }
 
