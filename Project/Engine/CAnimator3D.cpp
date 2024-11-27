@@ -113,7 +113,7 @@ void CAnimator3D::ClearData()
 		if (nullptr == pMtrl)
 			continue;
 
-		pMtrl->SetUsingAnim3D(false); // Animation Mesh 알리기
+		pMtrl->SetUsingAnim3D(0); // Animation Mesh 알리기
 		pMtrl->SetBoneCount(0);
 	}
 }

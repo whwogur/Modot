@@ -39,7 +39,7 @@ public:
         m_Shader = _OtherMtrl.m_Shader;
     }
 
-    void SetUsingAnim3D(bool _bTrue) { m_Const.arrAnimData[0] = (int)_bTrue; }
+    void SetUsingAnim3D(int _IntAsBool) { m_Const.arrAnimData[0] = _IntAsBool; }
     void SetBoneCount(int _iBoneCount) { m_Const.arrAnimData[1] = _iBoneCount; }
 
 public:
