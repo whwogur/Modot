@@ -16,10 +16,13 @@ public:
     void SetAnimClip(const std::vector<tMTAnimClip>* _vecAnimClip);
     void SetClipTime(int _iClipIdx, float _fTime) { m_vecClipUpdateTime[_iClipIdx] = _fTime; }
     CStructuredBuffer* GetFinalBoneMat() { return m_pBoneFinalMatBuffer; }
-    UINT GetBoneCount() { return (UINT)m_pVecBones->size(); }
     void ClearData();
     void Bind();
 
+public:
+    UINT GetBoneCount() { return (UINT)m_pVecBones->size(); }
+    const std::vector<tMTAnimClip>* GetClips() { return m_pVecClip; }
+    const std::vector<tMTBone>* GetBones() { return m_pVecBones; }
 public:
     virtual void FinalTick() override;
     virtual void SaveToFile(FILE* _File) override;
