@@ -81,8 +81,12 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
     if (g_btex_1)
     {
         float3 vNormal = NORMAL_TEXTURE.Sample(g_AniWrapSampler, _in.vUV).xyz;
+        // 추출한 값의 범위를 0 ~ 1 에서 -1 ~ 1 로 변경
         vNormal = vNormal * 2.f - 1.f;
-                
+        
+        // 표면 좌표계(Tagent Space) 기준 방향을 ViewSpace 적용시키기 위해서
+        // 적용시킬 곳의 표면 정보(Tan, Bi, Norn) 이 필요하다.
+        // 표면정보로 회전 행렬을 구성한다.
         float3x3 matRot =
         {
             _in.vViewTangent,
@@ -90,6 +94,7 @@ PS_OUT PS_Std3D_Deferred(VS_OUT _in)
             _in.vViewNormal    
         };
         
+        // TangentSpace 방향 정보를 적용시킬 표면의 좌표계로 가져온다.
         output.vNormal = float4(mul(vNormal, matRot), 1.f);
     }
     

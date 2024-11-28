@@ -10,6 +10,7 @@ CAnimator3D::CAnimator3D()
 {
 	m_pBoneFinalMatBuffer = new CStructuredBuffer;
 }
+
 CAnimator3D::CAnimator3D(const CAnimator3D& _Other)
 	: m_pVecBones(_Other.m_pVecBones)
 	, m_pVecClip(_Other.m_pVecClip)
@@ -25,6 +26,7 @@ CAnimator3D::CAnimator3D(const CAnimator3D& _Other)
 {
 	m_pBoneFinalMatBuffer = new CStructuredBuffer;
 }
+
 CAnimator3D::~CAnimator3D()
 {
 	if (nullptr != m_pBoneFinalMatBuffer)
@@ -80,6 +82,7 @@ void CAnimator3D::Bind()
 		// Bone Data
 		Ptr<CMesh> pMesh = MeshRender()->GetMesh();
 		check_mesh(pMesh);
+
 		pUpdateShader->SetFrameDataBuffer(pMesh->GetBoneFrameDataBuffer());
 		pUpdateShader->SetOffsetMatBuffer(pMesh->GetBoneInverseBuffer());
 		pUpdateShader->SetOutputBuffer(m_pBoneFinalMatBuffer);

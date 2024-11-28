@@ -68,12 +68,12 @@ cbuffer MATERIAL : register(b1)
 
 cbuffer SPRITE_INFO : register(b2)
 {
-    float2 LeftTopUV;
-    float2 SliceUV;
-    float2 BackGroundUV;
-    float2 OffsetUV;
-    int UseAnimator2D;
-    int3 SpriteInfoPadding;
+    float2  LeftTopUV;
+    float2  SliceUV;
+    float2  BackGroundUV;
+    float2  OffsetUV;
+    int     UseAnimator2D;
+    int3    SpriteInfoPadding;
 }
 
 cbuffer GLOBAL_DATA : register(b3)
@@ -85,7 +85,7 @@ cbuffer GLOBAL_DATA : register(b3)
     float   g_EngineTime;
 
     // 렌더링을 할때의 카메라(시점)의 월드 위치
-    float4 g_CamWorldPos;
+    float4  g_CamWorldPos;
     
     // 렌더타겟의 해상도 정보
     float2  g_Resolution;
@@ -94,21 +94,21 @@ cbuffer GLOBAL_DATA : register(b3)
     int     g_Light3DCount;
 }
 
-SamplerState g_AniWrapSampler : register(s0); // 이방성 필터 샘플러
-SamplerState g_PointWrapSampler : register(s1); // 포인트 필터 샘플러
-SamplerState g_LinearClampSampler : register(s2);
-SamplerState g_LinearWrapSampler : register(s3);
+SamplerState g_AniWrapSampler       : register(s0); // 이방성 필터 샘플러
+SamplerState g_PointWrapSampler     : register(s1); // 포인트 필터 샘플러
+SamplerState g_LinearClampSampler   : register(s2);
+SamplerState g_LinearWrapSampler    : register(s3);
 
-Texture2D       g_tex_0 : register(t0);
-Texture2D       g_tex_1 : register(t1);
-Texture2D       g_tex_2 : register(t2);
-Texture2D       g_tex_3 : register(t3);
-Texture2D       g_tex_4 : register(t4);
-Texture2D       g_tex_5 : register(t5);
-TextureCube     g_texcube_0 : register(t6);
-TextureCube     g_texcube_1 : register(t7);
-Texture2DArray  g_texarr_0 : register(t8);
-Texture2DArray  g_texarr_1 : register(t9);
+Texture2D       g_tex_0             : register(t0);
+Texture2D       g_tex_1             : register(t1);
+Texture2D       g_tex_2             : register(t2);
+Texture2D       g_tex_3             : register(t3);
+Texture2D       g_tex_4             : register(t4);
+Texture2D       g_tex_5             : register(t5);
+TextureCube     g_texcube_0         : register(t6);
+TextureCube     g_texcube_1         : register(t7);
+Texture2DArray  g_texarr_0          : register(t8);
+Texture2DArray  g_texarr_1          : register(t9);
 
 
 Texture2D g_AtlasTex : register(t10);

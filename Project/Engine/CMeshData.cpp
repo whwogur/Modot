@@ -22,11 +22,11 @@ CGameObject* CMeshData::Instantiate()
 	pNewObj->AddComponent(new CMeshRender);
 	pNewObj->MeshRender()->SetMesh(m_pMesh);
 
-	MD_ENGINE_WARN(L"메쉬 데이터 {0} 인스턴스화", GetKey());
+	MD_ENGINE_WARN(L"mdat \"{0}\" 인스턴스화", GetKey());
 	for (UINT i = 0; i < m_vecMtrl.size(); ++i)
 	{
-		MD_ENGINE_TRACE(L"=== #{0}: {1} ===", std::to_wstring(i), m_vecMtrl[i]->GetKey());
-		MD_ENGINE_TRACE(L"셰이더 {0}", m_vecMtrl[i]->GetShader()->GetKey());
+		MD_ENGINE_TRACE(L"=== #{0}: \"{1}\" ===", std::to_wstring(i), m_vecMtrl[i]->GetKey());
+		MD_ENGINE_TRACE(L"셰이더 \"{0}\"", m_vecMtrl[i]->GetShader()->GetKey());
 		
 		pNewObj->MeshRender()->SetMaterial(m_vecMtrl[i], i);
 	}
@@ -113,13 +113,13 @@ int CMeshData::Save(const wstring& _RelativePath)
 		SaveAssetRef(m_vecMtrl[i], pFile);
 		MD_ENGINE_TRACE(m_vecMtrl[i]->GetKey());
 		if (m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_0) != nullptr)
-			MD_ENGINE_TRACE(L"Tex0 - ", m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_0)->GetKey());
+			MD_ENGINE_TRACE(L"Tex0 - {0}저장", m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_0)->GetKey());
 		if (m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_1) != nullptr)
-			MD_ENGINE_TRACE(L"Tex1 - ", m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_1)->GetKey());
+			MD_ENGINE_TRACE(L"Tex1 - {0}저장", m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_1)->GetKey());
 		if (m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_2) != nullptr)
-			MD_ENGINE_TRACE(L"Tex2 - ", m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_2)->GetKey());
+			MD_ENGINE_TRACE(L"Tex2 - {0}저장", m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_2)->GetKey());
 		if (m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_3) != nullptr)
-			MD_ENGINE_TRACE(L"Tex3 - ", m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_3)->GetKey());
+			MD_ENGINE_TRACE(L"Tex3 - {0}저장", m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_3)->GetKey());
 	}
 	i = -1; // 마감 값
 	fwrite(&i, sizeof(UINT), 1, pFile);
@@ -155,13 +155,13 @@ int CMeshData::Load(const wstring& _RelativePath)
 		LoadAssetRef(pMtrl, pFile);
 		MD_ENGINE_TRACE(pMtrl->GetKey());
 		if (pMtrl->GetTexParam(TEX_PARAM::TEX_0) != nullptr)
-			MD_ENGINE_TRACE(L"Tex0 - {0}",pMtrl->GetTexParam(TEX_PARAM::TEX_0)->GetKey());
+			MD_ENGINE_TRACE(L"Tex0 - {0}로드",pMtrl->GetTexParam(TEX_PARAM::TEX_0)->GetKey());
 		if (pMtrl->GetTexParam(TEX_PARAM::TEX_1) != nullptr)
-			MD_ENGINE_TRACE(L"Tex1 - {0}", pMtrl->GetTexParam(TEX_PARAM::TEX_1)->GetKey());
+			MD_ENGINE_TRACE(L"Tex1 - {0}로드", pMtrl->GetTexParam(TEX_PARAM::TEX_1)->GetKey());
 		if (pMtrl->GetTexParam(TEX_PARAM::TEX_2) != nullptr)
-			MD_ENGINE_TRACE(L"Tex2 - {0}", pMtrl->GetTexParam(TEX_PARAM::TEX_2)->GetKey());
+			MD_ENGINE_TRACE(L"Tex2 - {0}로드", pMtrl->GetTexParam(TEX_PARAM::TEX_2)->GetKey());
 		if (pMtrl->GetTexParam(TEX_PARAM::TEX_3) != nullptr)
-			MD_ENGINE_TRACE(L"Tex3 - {0}", pMtrl->GetTexParam(TEX_PARAM::TEX_3)->GetKey());
+			MD_ENGINE_TRACE(L"Tex3 - {0}로드", pMtrl->GetTexParam(TEX_PARAM::TEX_3)->GetKey());
 
 		m_vecMtrl[i] = pMtrl;
 	}

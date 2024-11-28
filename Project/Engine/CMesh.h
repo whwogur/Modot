@@ -33,6 +33,7 @@ public:
     UINT GetBoneCount() { return (UINT)m_vecBones.size(); }
     const std::vector<tMTAnimClip>* GetAnimClip() { return &m_vecAnimClip; }
     bool IsAnimMesh() { return !m_vecAnimClip.empty(); }
+
     CStructuredBuffer* GetBoneFrameDataBuffer() { return m_pBoneFrameData; }    // 전체 본 프레임 정보
     CStructuredBuffer* GetBoneInverseBuffer() { return  m_pBoneInverse; }	    // 각 Bone 의 Inverse 행렬
 

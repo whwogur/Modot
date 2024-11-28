@@ -135,7 +135,7 @@ void CFBXLoader::LoadMeshDataFromNode(FbxNode* _pNode)
 
 void CFBXLoader::LoadMesh(FbxMesh* _pFbxMesh)
 {
-	m_vecContainer.emplace_back(tContainer{});
+	m_vecContainer.push_back(tContainer{});
 	tContainer& Container = m_vecContainer[m_vecContainer.size() - 1];
 
 	string strName = _pFbxMesh->GetName();
@@ -579,7 +579,7 @@ void CFBXLoader::LoadAnimationClip()
 
 
 
-		m_vecAnimClip.emplace_back(pAnimClip);
+		m_vecAnimClip.push_back(pAnimClip);
 	}
 }
 
