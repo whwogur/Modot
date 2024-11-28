@@ -3,13 +3,14 @@
 #include <Engine/CLandscape.h>
 #include <Engine/CAssetMgr.h>
 #include <ImGui/imgui.h>
-constexpr const ImVec4 UICOLOR(0.05f, 0.15f, 0.33f, 0.7f);
+#include "ModotHelpers.h"
+constexpr const ImVec4 UICOLOR(0.05f, 0.2f, 0.45f, 1.f);
 
 void LandscapePalette::Update(CLandscape* _Target)
 {
     bool editEnabled = _Target->GetEditEnable();
 
-	ImGui::Begin("##LandscapePalette", &editEnabled, ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar);
+	ImGui::Begin("##LandscapePalette", &editEnabled, ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar);
 	LANDSCAPE_MODE mode = _Target->GetMode();
 
     if (mode == LANDSCAPE_MODE::SPLAT)
@@ -42,6 +43,7 @@ void LandscapePalette::Update(CLandscape* _Target)
 
     ImGui::NewLine();
     ImGui::SeparatorText(u8"브러쉬");
+    ImGui::NewLine();
     UINT brushIdx = _Target->GetBrushIdx();
     for (int i = 0; i < BRUSHCOUNT; ++i)
     {
@@ -55,21 +57,29 @@ void LandscapePalette::Update(CLandscape* _Target)
         }
     }
 
-    ImGui::NewLine();
-    ImGui::SeparatorText(u8"지형 Albedo");
-    int weightIdx = _Target->GetWeightIdx();
-    for (int i = 0; i < ALBEDOCOUNT; ++i)
-    {
-        if (ImGui::ImageButton(m_AlbedoPalette[i]->GetSRV().Get(), { ICONSIZE, ICONSIZE }, { 0, 0 }, { 1, 1 }, 2, weightIdx == i ? UICOLOR : ImVec4(0.f, 0.f, 0.f, 0.f)))
-        {
-            _Target->SetWeightIdx(i);
-        }
+    auto& [x, y] = _Target->GetBrushScaleRef();
+    ModotHelpers::VSliderFloat("X##BrushScaleX", { 20.f, 60.f }, &x, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
+    ImGui::SameLine();
+    ModotHelpers::VSliderFloat("Y##BrushScaleY", { 20.f, 60.f }, &y, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
 
-        if ((i + 1) % BUTTONSPERROW != 0) {
-            ImGui::SameLine();
+    if (mode == LANDSCAPE_MODE::SPLAT)
+    {
+        ImGui::NewLine();
+        ImGui::SeparatorText(u8"지형");
+        int weightIdx = _Target->GetWeightIdx();
+        for (int i = 0; i < ALBEDOCOUNT; ++i)
+        {
+            if (ImGui::ImageButton(m_AlbedoPalette[i]->GetSRV().Get(), { ICONSIZE, ICONSIZE }, { 0, 0 }, { 1, 1 }, 2, weightIdx == i ? UICOLOR : ImVec4(0.f, 0.f, 0.f, 0.f)))
+            {
+                _Target->SetWeightIdx(i);
+            }
+
+            if ((i + 1) % BUTTONSPERROW != 0) {
+                ImGui::SameLine();
+            }
         }
     }
-
+    
 	ImGui::End();
 }
 

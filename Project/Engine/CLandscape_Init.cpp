@@ -30,9 +30,9 @@ void CLandscape::CreateMesh()
 {
 	Vtx v;
 	std::vector<Vtx> vecVtx;
-	for (UINT Row = 0; Row < m_FaceZ + 1; ++Row)
+	for (UINT Row = 0; Row < UINT(m_FaceZ + 1); ++Row)
 	{
-		for (UINT Col = 0; Col < m_FaceX + 1; ++Col)
+		for (UINT Col = 0; Col < UINT(m_FaceX + 1); ++Col)
 		{
 			v.vPos		= Vec3((float)Col, 0.f, (float)Row);
 			v.vNormal	= Vec3(0.f, 1.f, 0.f);
@@ -45,9 +45,9 @@ void CLandscape::CreateMesh()
 	}
 
 	std::vector<UINT> vecIdx;
-	for (UINT Row = 0; Row < m_FaceZ; ++Row)
+	for (UINT Row = 0; Row < UINT(m_FaceZ); ++Row)
 	{
-		for (UINT Col = 0; Col < m_FaceX; ++Col)
+		for (UINT Col = 0; Col < UINT(m_FaceX); ++Col)
 		{
 			// 0
 			// | \

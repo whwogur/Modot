@@ -255,7 +255,7 @@ PS_OUT PS_LandScape(DS_OUT _in)
         float2 vFullUV = _in.vUV / float2(FaceX, FaceZ);
         int2 vColRow = vFullUV * WEIGHT_RESOLUTION;
         int WeightMapIdx = WEIGHT_RESOLUTION.x * vColRow.y + vColRow.x;
-        vColor = (float4) 0.7f;
+        vColor = (float4) 0.f;
         
         int MaxIdx = -1;
         float WeightMax = 0.f;

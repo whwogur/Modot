@@ -27,10 +27,10 @@ void ParticleSystemUI::Update()
 				if (curTex == nullptr)
 					curTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Checkerboard");
 
-				/*ImGui::SameLine(80);
+				ImGui::SameLine(80);
 				ImGui::Image(curTex.Get()->GetSRV().Get(), { 150, 150 });
 				ImGui::SetItemTooltip(u8"공유 텍스처");
-				if (ImGui::BeginDragDropTarget())
+				/*if (ImGui::BeginDragDropTarget())
 				{
 					const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
 					if (payload)

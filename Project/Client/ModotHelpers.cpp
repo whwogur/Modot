@@ -180,3 +180,62 @@ void ModotHelpers::LoadingIndicatorCircle(const char* _Label, const float _Indic
 			circle_radius + growth * circle_radius, ImGui::GetColorU32(color));
 	}
 }
+
+bool ModotHelpers::VSliderScalar(const char* label, const ImVec2& size, ImGuiDataType data_type, void* p_data, const void* p_min, const void* p_max, const char* format, ImGuiSliderFlags flags)
+{
+	using namespace ImGui;
+	ImGuiWindow* window = GetCurrentWindow();
+	if (window->SkipItems)
+		return false;
+
+	ImGuiContext& g = *GImGui;
+	const ImGuiStyle& style = g.Style;
+	const ImGuiID id = window->GetID(label);
+
+	const ImVec2 label_size = CalcTextSize(label, NULL, true);
+	const ImRect frame_bb(window->DC.CursorPos, ImVec2(window->DC.CursorPos.x + size.x, window->DC.CursorPos.y + size.y));
+	const ImVec2 temp(label_size.x > 0.0f ? style.ItemInnerSpacing.x + label_size.x : 0.0f, 0.0f);
+	const ImRect bb(frame_bb.Min, ImVec2(frame_bb.Max.x + temp.x, frame_bb.Max.y + temp.y));
+
+	ItemSize(bb, style.FramePadding.y);
+	if (!ItemAdd(frame_bb, id))
+		return false;
+
+	// Default format string when passing NULL
+	if (format == NULL)
+		format = DataTypeGetInfo(data_type)->PrintFmt;
+
+	const bool hovered = ItemHoverable(frame_bb, id, g.LastItemData.InFlags);
+	const bool clicked = hovered && IsMouseClicked(0, ImGuiInputFlags_None, id);
+	if (clicked || g.NavActivateId == id)
+	{
+		if (clicked)
+			SetKeyOwner(ImGuiKey_MouseLeft, id);
+		SetActiveID(id, window);
+		SetFocusID(id, window);
+		FocusWindow(window);
+		g.ActiveIdUsingNavDirMask |= (1 << ImGuiDir_Up) | (1 << ImGuiDir_Down);
+	}
+
+	// Draw frame
+	const ImU32 frame_col = GetColorU32(g.ActiveId == id ? ImGuiCol_FrameBgActive : hovered ? ImGuiCol_FrameBgHovered : ImGuiCol_FrameBg);
+	RenderNavHighlight(frame_bb, id);
+	RenderFrame(frame_bb.Min, frame_bb.Max, frame_col, true, g.Style.FrameRounding);
+
+	// Slider behavior
+	ImRect grab_bb;
+	const bool value_changed = SliderBehavior(frame_bb, id, data_type, p_data, p_min, p_max, format, flags | ImGuiSliderFlags_Vertical, &grab_bb);
+	if (value_changed)
+		MarkItemEdited(id);
+
+	// Render grab
+	if (grab_bb.Max.y > grab_bb.Min.y)
+		window->DrawList->AddRectFilled(grab_bb.Min, grab_bb.Max, GetColorU32(g.ActiveId == id ? ImGuiCol_SliderGrabActive : ImGuiCol_SliderGrab), style.GrabRounding);
+
+	return value_changed;
+}
+
+bool ModotHelpers::VSliderFloat(const char* label, const ImVec2& size, float* v, float v_min, float v_max, const char* format, ImGuiSliderFlags flags)
+{
+	return VSliderScalar(label, size, ImGuiDataType_Float, v, &v_min, &v_max, format, flags);
+}

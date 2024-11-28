@@ -222,8 +222,12 @@ bool ParamUI::InputTexture(Ptr<CTexture>& _CurTex, const string& _Desc
 {
 	Ptr<CTexture> CurTex = _CurTex;
 
+	ImVec2 cRA = ImGui::GetContentRegionAvail();
+	ImGui::NewLine();
+	ImGui::SameLine(cRA.x * 0.3f);
 	ImGui::TextColored({0.2f, 0.55f, 0.78f, 1.0f}, _Desc.c_str());
-	ImGui::SameLine(120);
+	ImGui::NewLine();
+	ImGui::SameLine(cRA.x * 0.2f);
 
 	// ¿ÃπÃ¡ˆ
 	ImVec2 uv_min = ImVec2(0.0f, 0.0f);
@@ -235,7 +239,7 @@ bool ParamUI::InputTexture(Ptr<CTexture>& _CurTex, const string& _Desc
 
 	ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 	ImVec4 border_col = ImVec4(0.7f, 0.7f, 0.7f, 1.0f);
-	ImGui::Image(TexID, ImVec2(150, 150), uv_min, uv_max, tint_col, border_col);
+	ImGui::Image(TexID, { 250.f , 250.f }, uv_min, uv_max, tint_col, border_col);
 
 	if (ImGui::BeginDragDropTarget())
 	{
