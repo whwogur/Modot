@@ -13,6 +13,8 @@ CMeshRender::CMeshRender()
 
 void CMeshRender::FinalTick()
 {
+	if (Animator3D())
+		Animator3D()->ClearData();
 }
 
 void CMeshRender::Render()

@@ -125,30 +125,19 @@ int CStructuredBuffer::Create(UINT _ElementSize, UINT _ElementCount,
 void CStructuredBuffer::SetData(void* _pData, UINT _DataSize)
 {
 	// 입력데이터가 구조화버퍼 크기보다 작아야한다.
-	assert(_DataSize <= m_Desc.ByteWidth);		
+	assert(_DataSize <= m_Desc.ByteWidth);
 
 	if (0 == _DataSize)
 	{
 		_DataSize = m_Desc.ByteWidth;
 	}
 
-	if (false == m_SysMemMove)
-	{
-		D3D11_MAPPED_SUBRESOURCE tMapSub = {};
-		CONTEXT->Map(m_SB.Get(), 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &tMapSub);
-		memcpy(tMapSub.pData, _pData, _DataSize);
-		CONTEXT->Unmap(m_SB.Get(), 0);
-	}
+	D3D11_MAPPED_SUBRESOURCE tMapSub = {};
+	CONTEXT->Map(m_SB_Write.Get(), 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &tMapSub);
+	memcpy(tMapSub.pData, _pData, _DataSize);
+	CONTEXT->Unmap(m_SB_Write.Get(), 0);
 
-	else
-	{
-		D3D11_MAPPED_SUBRESOURCE tMapSub = {};
-		CONTEXT->Map(m_SB_Write.Get(), 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &tMapSub);
-		memcpy(tMapSub.pData, _pData, _DataSize);
-		CONTEXT->Unmap(m_SB_Write.Get(), 0);
-
-		CONTEXT->CopyResource(m_SB.Get(), m_SB_Write.Get());
-	}
+	CONTEXT->CopyResource(m_SB.Get(), m_SB_Write.Get());
 }
 
 void CStructuredBuffer::GetData(void* _pData, UINT _DataSize)
