@@ -68,16 +68,17 @@ public:
     void Render();
 
 private:
-    CComponent*                 m_arrCom[(UINT)COMPONENT_TYPE::END];
-    CRenderComponent*           m_RenderCom;
-    CGameObject*                m_Parent;
-    int                         m_LayerIdx; // 소속 레이어의 인덱스 번호
-
-    std::vector<CScript*>            m_vecScript;
-    std::vector<CGameObject*>        m_vecChildren;
-    bool                        m_Dead;
-    bool                        m_Disabled;
     friend class CLevel;
     friend class CLayer;
     friend class CTaskMgr;
+
+    CComponent*                         m_arrCom[(UINT)COMPONENT_TYPE::END];
+    CRenderComponent*                   m_RenderCom;
+    CGameObject*                        m_Parent;
+    int                                 m_LayerIdx; // 소속 레이어의 인덱스 번호
+
+    std::vector<CScript*>               m_vecScript;
+    std::vector<CGameObject*>           m_vecChildren;
+    bool                                m_Dead;
+    bool                                m_Disabled;
 };

@@ -22,12 +22,16 @@ CGameObject* CMeshData::Instantiate()
 	pNewObj->AddComponent(new CMeshRender);
 	pNewObj->MeshRender()->SetMesh(m_pMesh);
 
+	MD_ENGINE_WARN(L"mdat \"{0}\" 인스턴스화", GetKey());
 	for (UINT i = 0; i < m_vecMtrl.size(); ++i)
 	{
+		MD_ENGINE_TRACE(L"=== #{0}: \"{1}\" ===", std::to_wstring(i), m_vecMtrl[i]->GetKey());
+		MD_ENGINE_TRACE(L"셰이더 \"{0}\"", m_vecMtrl[i]->GetShader()->GetKey());
+		
 		pNewObj->MeshRender()->SetMaterial(m_vecMtrl[i], i);
 	}
 
-	// Animation 파트 추가
+	// Animation
 	if (!m_pMesh->IsAnimMesh())
 		return pNewObj;
 
@@ -91,6 +95,8 @@ int CMeshData::Save(const wstring& _RelativePath)
 	FILE* pFile = nullptr;
 	errno_t err = _wfopen_s(&pFile, strFilePath.c_str(), L"wb");
 	assert(pFile);
+
+	MD_ENGINE_INFO(L"메쉬 데이터 저장");
 	// Mesh Key 저장	
 	// Mesh Data 저장
 	SaveAssetRef(m_pMesh, pFile);
@@ -105,6 +111,15 @@ int CMeshData::Save(const wstring& _RelativePath)
 		// Material 인덱스, Key, Path 저장
 		fwrite(&i, sizeof(UINT), 1, pFile);
 		SaveAssetRef(m_vecMtrl[i], pFile);
+		MD_ENGINE_TRACE(m_vecMtrl[i]->GetKey());
+		if (m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_0) != nullptr)
+			MD_ENGINE_TRACE(L"Tex0 - {0}저장", m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_0)->GetKey());
+		if (m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_1) != nullptr)
+			MD_ENGINE_TRACE(L"Tex1 - {0}저장", m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_1)->GetKey());
+		if (m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_2) != nullptr)
+			MD_ENGINE_TRACE(L"Tex2 - {0}저장", m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_2)->GetKey());
+		if (m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_3) != nullptr)
+			MD_ENGINE_TRACE(L"Tex3 - {0}저장", m_vecMtrl[i]->GetTexParam(TEX_PARAM::TEX_3)->GetKey());
 	}
 	i = -1; // 마감 값
 	fwrite(&i, sizeof(UINT), 1, pFile);
@@ -128,6 +143,7 @@ int CMeshData::Load(const wstring& _RelativePath)
 	UINT iMtrlCount = 0;
 	fread(&iMtrlCount, sizeof(UINT), 1, pFile);
 	m_vecMtrl.resize(iMtrlCount);
+	MD_ENGINE_INFO(L"메쉬 데이터 로딩");
 	for (UINT i = 0; i < iMtrlCount; ++i)
 	{
 		UINT idx = -1;
@@ -137,6 +153,16 @@ int CMeshData::Load(const wstring& _RelativePath)
 
 		Ptr<CMaterial> pMtrl;
 		LoadAssetRef(pMtrl, pFile);
+		MD_ENGINE_TRACE(pMtrl->GetKey());
+		if (pMtrl->GetTexParam(TEX_PARAM::TEX_0) != nullptr)
+			MD_ENGINE_TRACE(L"Tex0 - {0}로드",pMtrl->GetTexParam(TEX_PARAM::TEX_0)->GetKey());
+		if (pMtrl->GetTexParam(TEX_PARAM::TEX_1) != nullptr)
+			MD_ENGINE_TRACE(L"Tex1 - {0}로드", pMtrl->GetTexParam(TEX_PARAM::TEX_1)->GetKey());
+		if (pMtrl->GetTexParam(TEX_PARAM::TEX_2) != nullptr)
+			MD_ENGINE_TRACE(L"Tex2 - {0}로드", pMtrl->GetTexParam(TEX_PARAM::TEX_2)->GetKey());
+		if (pMtrl->GetTexParam(TEX_PARAM::TEX_3) != nullptr)
+			MD_ENGINE_TRACE(L"Tex3 - {0}로드", pMtrl->GetTexParam(TEX_PARAM::TEX_3)->GetKey());
+
 		m_vecMtrl[i] = pMtrl;
 	}
 	fclose(pFile);

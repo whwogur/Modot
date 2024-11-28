@@ -225,7 +225,7 @@ CComponent* CLevelSaveLoad::GetComponent(COMPONENT_TYPE _Type)
 		return new CAnimator2D;
 
 	case COMPONENT_TYPE::ANIMATOR3D:
-		break;
+		return new CAnimator3D;
 
 	case COMPONENT_TYPE::TEXTRENDER:
 		return new CTextRender;

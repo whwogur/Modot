@@ -11,7 +11,6 @@ public:
 
 public:
     virtual void Update() override;
-    virtual void Init() override;
 private:
     void RenewContent();
 

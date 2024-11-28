@@ -144,7 +144,12 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 		return;
 	}
 	case COMPONENT_TYPE::ANIMATOR3D:
-		break;
+	{
+		CAnimator3D* animator3d = new CAnimator3D;
+		AddComponent(animator3d);
+		CLevelMgr::GetInst()->SetLevelDirty();
+		return;
+	}
 	case COMPONENT_TYPE::TEXTRENDER:
 	{
 		CTextRender* textRender = new CTextRender;
@@ -202,7 +207,9 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 		return;
 
 	}
-	MD_ENGINE_ERROR(L"아직 구현하지 않은 컴포넌트");
+	string strComp = ToString(_Type);
+	wstring wstrComp(strComp.begin(), strComp.end());
+	MD_ENGINE_ERROR(L"Add {0} Via UI 에러", wstrComp);
 }
 
 void CGameObject::AddChild(CGameObject* _ChildObject)

@@ -15,6 +15,7 @@ int CAnimation3DShader::Bind()
 
 	return S_OK;
 }
+
 void CAnimation3DShader::CalcGroupNum()
 {
 	UINT GroupX = (m_Const.iArr[0] / m_ThreadPerGroupX) + 1;

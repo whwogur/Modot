@@ -167,7 +167,7 @@ struct tFrameTrans
 
 StructuredBuffer<tFrameTrans> g_arrFrameTrans : register(t16);
 StructuredBuffer<matrix> g_arrInverse : register(t17);
-RWStructuredBuffer<matrix> g_arrFinelMat : register(u0);
+RWStructuredBuffer<matrix> g_arrFinalMat : register(u0);
 // ===========================
 // Animation3D Compute Shader
 #define BoneCount   g_int_0
@@ -200,6 +200,6 @@ void CS_Animation3D(int3 _iThreadIdx : SV_DispatchThreadID)
     matrix matInverse = transpose(g_arrInverse[_iThreadIdx.x]);
     
     // 구조화버퍼에 결과값 저장
-    g_arrFinelMat[_iThreadIdx.x] = mul(matInverse, matBone);
+    g_arrFinalMat[_iThreadIdx.x] = mul(matInverse, matBone);
 }
 #endif

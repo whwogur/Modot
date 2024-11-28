@@ -33,7 +33,7 @@ void CMeshRender::Render()
 			if (nullptr == GetMaterial(i))
 				continue;
 
-			GetMaterial(i)->SetUsingAnim3D(true); // Animation Mesh 알리기
+			GetMaterial(i)->SetUsingAnim3D(1); // Animation Mesh 알리기
 			GetMaterial(i)->SetBoneCount(Animator3D()->GetBoneCount());
 		}
 	}

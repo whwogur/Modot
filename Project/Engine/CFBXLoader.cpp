@@ -53,6 +53,7 @@ void CFBXLoader::init()
 
 void CFBXLoader::LoadFbx(const wstring& _strPath)
 {
+	MD_ENGINE_TRACE(L"FBXLoader::LoadFbx 호출 - {0}", _strPath);
 	m_vecContainer.clear();
 
 	m_pImporter = FbxImporter::Create(m_pManager, "");
@@ -134,7 +135,7 @@ void CFBXLoader::LoadMeshDataFromNode(FbxNode* _pNode)
 
 void CFBXLoader::LoadMesh(FbxMesh* _pFbxMesh)
 {
-	m_vecContainer.emplace_back(tContainer{});
+	m_vecContainer.push_back(tContainer{});
 	tContainer& Container = m_vecContainer[m_vecContainer.size() - 1];
 
 	string strName = _pFbxMesh->GetName();
@@ -222,13 +223,13 @@ void CFBXLoader::LoadMaterial(FbxSurfaceMaterial* _pMtrlSur)
 		, FbxSurfaceMaterial::sEmissiveFactor);
 
 	// Texture Name
-	tMtrlInfo.strDiff = GetMtrlTextureName(_pMtrlSur, FbxSurfaceMaterial::sDiffuse);
+	tMtrlInfo.strDiff	= GetMtrlTextureName(_pMtrlSur, FbxSurfaceMaterial::sDiffuse);
 	tMtrlInfo.strNormal = GetMtrlTextureName(_pMtrlSur, FbxSurfaceMaterial::sNormalMap);
-	tMtrlInfo.strSpec = GetMtrlTextureName(_pMtrlSur, FbxSurfaceMaterial::sSpecular);
-	tMtrlInfo.strEmis = GetMtrlTextureName(_pMtrlSur, FbxSurfaceMaterial::sEmissive);
+	tMtrlInfo.strSpec	= GetMtrlTextureName(_pMtrlSur, FbxSurfaceMaterial::sSpecular);
+	tMtrlInfo.strEmis	= GetMtrlTextureName(_pMtrlSur, FbxSurfaceMaterial::sEmissive);
 
 
-	m_vecContainer.back().vecMtrl.push_back(tMtrlInfo);
+	m_vecContainer.back().vecMtrl.emplace_back(tMtrlInfo);
 }
 
 void CFBXLoader::GetTangent(FbxMesh* _pMesh
@@ -388,9 +389,9 @@ wstring CFBXLoader::GetMtrlTextureName(FbxSurfaceMaterial* _pSurface, const char
 
 void CFBXLoader::LoadTexture()
 {
-	path path_content = CPathMgr::GetInst()->GetContentPath();
+	const wstring& path_content = CPathMgr::GetInst()->GetContentPath();
 
-	path path_fbx_texture = path_content.wstring() + L"texture\\FBXTexture\\";
+	path path_fbx_texture = path_content + L"texture\\FBXTexture\\";
 	if (false == exists(path_fbx_texture))
 	{
 		create_directory(path_fbx_texture);
@@ -405,10 +406,10 @@ void CFBXLoader::LoadTexture()
 		for (UINT j = 0; j < m_vecContainer[i].vecMtrl.size(); ++j)
 		{
 			std::vector<path> vecPath;
-			vecPath.push_back(m_vecContainer[i].vecMtrl[j].strDiff.c_str());
-			vecPath.push_back(m_vecContainer[i].vecMtrl[j].strNormal.c_str());
-			vecPath.push_back(m_vecContainer[i].vecMtrl[j].strSpec.c_str());
-			vecPath.push_back(m_vecContainer[i].vecMtrl[j].strEmis.c_str());
+			vecPath.emplace_back(m_vecContainer[i].vecMtrl[j].strDiff.c_str());
+			vecPath.emplace_back(m_vecContainer[i].vecMtrl[j].strNormal.c_str());
+			vecPath.emplace_back(m_vecContainer[i].vecMtrl[j].strSpec.c_str());
+			vecPath.emplace_back(m_vecContainer[i].vecMtrl[j].strEmis.c_str());
 
 			for (size_t k = 0; k < vecPath.size(); ++k)
 			{
@@ -454,7 +455,7 @@ void CFBXLoader::CreateMaterial()
 			// Material 이름짓기
 			strMtrlName = m_vecContainer[i].vecMtrl[j].strMtrlName;
 			if (strMtrlName.empty())
-				strMtrlName = path(m_vecContainer[i].vecMtrl[j].strDiff).stem();
+				strMtrlName = m_vecContainer[i].vecMtrl[j].strDiff;
 
 			strPath = L"material\\";
 			strPath += strMtrlName + L".mtrl";
@@ -473,27 +474,38 @@ void CFBXLoader::CreateMaterial()
 			pMaterial->SetRelativePath(strPath);
 
 			pMaterial->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicShader>(L"Std3D_DeferredShader"));
-
+			MD_ENGINE_INFO(L"FBXLoader 재질 {0} 생성중", strMtrlName);
 			wstring strTexKey = m_vecContainer[i].vecMtrl[j].strDiff;
-			Ptr<CTexture> pTex = CAssetMgr::GetInst()->FindAsset<CTexture>(strTexKey);
-			if (NULL != pTex)
+			Ptr<CTexture> pTex = nullptr;
+			if (!strTexKey.empty())
+			{
+				pTex = CAssetMgr::GetInst()->Load<CTexture>(strTexKey, L"texture\\FBXTexture\\" + strTexKey);
+				MD_ENGINE_TRACE(strTexKey);
 				pMaterial->SetTexParam(TEX_PARAM::TEX_0, pTex);
-
-			strTexKey = path(m_vecContainer[i].vecMtrl[j].strNormal).stem();
-			pTex = CAssetMgr::GetInst()->FindAsset<CTexture>(strTexKey);
-			if (NULL != pTex)
+			}
+			strTexKey = m_vecContainer[i].vecMtrl[j].strNormal;
+			if (!strTexKey.empty())
+			{
+				pTex = CAssetMgr::GetInst()->Load<CTexture>(strTexKey, L"texture\\FBXTexture\\" + strTexKey);
+				MD_ENGINE_TRACE(strTexKey);
 				pMaterial->SetTexParam(TEX_PARAM::TEX_1, pTex);
 
-			strTexKey = path(m_vecContainer[i].vecMtrl[j].strSpec).stem();
-			pTex = CAssetMgr::GetInst()->FindAsset<CTexture>(strTexKey);
-			if (NULL != pTex)
+			}
+			strTexKey = m_vecContainer[i].vecMtrl[j].strSpec;
+			if (!strTexKey.empty())
+			{
+				pTex = CAssetMgr::GetInst()->Load<CTexture>(strTexKey, L"texture\\FBXTexture\\" + strTexKey);
+				MD_ENGINE_TRACE(strTexKey);
 				pMaterial->SetTexParam(TEX_PARAM::TEX_2, pTex);
-
-			strTexKey = path(m_vecContainer[i].vecMtrl[j].strEmis).stem();
-			pTex = CAssetMgr::GetInst()->FindAsset<CTexture>(strTexKey);
-			if (NULL != pTex)
+			}
+			strTexKey = m_vecContainer[i].vecMtrl[j].strEmis;
+			if (!strTexKey.empty())
+			{
+				pTex = CAssetMgr::GetInst()->Load<CTexture>(strTexKey, L"texture\\FBXTexture\\" + strTexKey);
+				MD_ENGINE_TRACE(strTexKey);
 				pMaterial->SetTexParam(TEX_PARAM::TEX_3, pTex);
-
+			}
+			
 			pMaterial->SetMaterialCoefficient(
 				  m_vecContainer[i].vecMtrl[j].tMtrl.vDiff
 				, m_vecContainer[i].vecMtrl[j].tMtrl.vSpec
@@ -567,7 +579,7 @@ void CFBXLoader::LoadAnimationClip()
 
 
 
-		m_vecAnimClip.emplace_back(pAnimClip);
+		m_vecAnimClip.push_back(pAnimClip);
 	}
 }
 

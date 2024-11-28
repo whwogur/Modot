@@ -85,6 +85,8 @@ Ptr<CMeshData> CAssetMgr::LoadFBX(const wstring& _RelPath)
 	pMeshData->SetRelativePath(strRelPath);
 
 	AddAsset<CMeshData>(strFileName, pMeshData.Get());
+	MD_ENGINE_INFO(L"FBX 로딩 후 {0} 데이터 저장 호출...", pMeshData->GetKey());
+	MD_ENGINE_TRACE(L"상대경로 - {0}", strRelPath);
 	pMeshData->Save(strRelPath);
 
 	return pMeshData;
