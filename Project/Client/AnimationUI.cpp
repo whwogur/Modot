@@ -2,7 +2,7 @@
 #include "AnimationUI.h"
 #include "CAnimation.h"
 #include "CEditorMgr.h"
-#include "AnimationEditor.h"
+#include "Animation2DEditor.h"
 #include "CAssetMgr.h"
 #include "TreeUI.h"
 AnimationUI::AnimationUI()
@@ -26,7 +26,7 @@ void AnimationUI::Update()
 	ImGui::SameLine(ImGui::GetContentRegionAvail().x - 100);
 	if (ImGui::Button(ICON_FA_PENCIL, { 40, 25 }))
 	{
-		AnimationEditor* editor = static_cast<AnimationEditor*>(CEditorMgr::GetInst()->FindEditorUI("AnimationEditor"));
+		Animation2DEditor* editor = static_cast<Animation2DEditor*>(CEditorMgr::GetInst()->FindEditorUI("Animation2DEditor"));
 		editor->SetAnimation(anim);
 		editor->Refresh();
 		editor->SetActive(true);

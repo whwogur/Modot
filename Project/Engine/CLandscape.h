@@ -4,8 +4,6 @@
 
 #include "CHeightmapCS.h"
 #include "CWeightMapCS.h"
-constexpr const float MINBRUSHSCALE = 0.05f;
-constexpr const float MAXBRUSHSCALE = 0.2f;
 
 struct tRaycastOut
 {
@@ -59,6 +57,13 @@ public:
     bool& GetEditEnableRef() { return m_EditEnable; }
     void SetEdit(bool _b) { m_EditEnable = _b; }
     bool GetEditEnable() const { return m_EditEnable; }
+
+    Vec2& GetBrushScaleRef() { return m_BrushScale;  }
+
+    float& GetTessMaxLvRef() { return m_MaxLevel; }
+    float& GetTessMinLvRef() { return m_MinLevel; }
+    float& GetTessMaxThresholdRef() { return m_MaxThreshold; }
+    float& GetTessMinThresholdRef() { return m_MinThreshold; }
 public:
     virtual void Init() override;
     virtual void FinalTick() override;

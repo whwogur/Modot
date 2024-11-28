@@ -106,6 +106,7 @@ void Inspector::CreateComponentUI()
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::DECAL]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::LANDSCAPE] = new LandscapeUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::LANDSCAPE]->Init();
 	m_arrComUI[(UINT)COMPONENT_TYPE::LANDSCAPE]->SetName("LandscapeUI");
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::LANDSCAPE]);
 

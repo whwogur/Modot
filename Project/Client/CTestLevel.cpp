@@ -46,7 +46,7 @@ void CTestLevel::CreateTestLevel()
 		//pSkyBox->SkyBox()->SetSkyBoxTexture(pSkyBoxTex);
 		//pSkyBox->SkyBox()->SetSkyBoxType(CUBE);		
 		
-		Ptr<CTexture> pSkyBoxTex = CAssetMgr::GetInst()->Load<CTexture>(L"Sky02", L"texture\\Skybox\\Sky02.jpg");
+		Ptr<CTexture> pSkyBoxTex = CAssetMgr::GetInst()->Load<CTexture>(L"Sky01", L"texture\\Skybox\\Sky01.png");
 		pSkyBox->SkyBox()->SetSkyBoxTexture(pSkyBoxTex);
 		pSkyBox->SkyBox()->SetSkyBoxType(SPHERE);
 		
@@ -64,7 +64,7 @@ void CTestLevel::CreateTestLevel()
 		
 		pObject->Light3D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
 		pObject->Light3D()->SetLightColor(Vec3(0.9f, 0.9f, 0.9f));
-		pObject->Light3D()->SetLightAmbient(Vec3(0.f, 0.f, 0.f));
+		pObject->Light3D()->SetLightAmbient(Vec3(0.3f, 0.3f, 0.3f));
 		pObject->Light3D()->SetSpecularCoefficient(0.3f);
 		pObject->Light3D()->SetRadius(400.f);
 		

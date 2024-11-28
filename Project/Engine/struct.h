@@ -290,6 +290,7 @@ struct tMTBone
 	Matrix						matBone;
 	std::vector<tMTKeyFrame>	vecKeyFrame;
 };
+
 struct tMTAnimClip
 {
 	wstring						strAnimName;

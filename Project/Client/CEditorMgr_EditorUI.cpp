@@ -20,7 +20,7 @@
 #include "HierarchyView.h"
 #include "FileBrowser.h"
 #include "TexturePreview.h"
-#include "AnimationEditor.h"
+#include "Animation2DEditor.h"
 #include "SE_AtlasView.h"
 #include "SE_Detail.h"
 #include "SpriteEditor.h"
@@ -37,7 +37,7 @@ void CEditorMgr::InitImGui()
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     const wstring& wcontentPath = CPathMgr::GetInst()->GetContentPath();
     string iconContentPath = string(wcontentPath.begin(), wcontentPath.end()) + "font\\fontawesome-webfont.ttf";
-    string defaultContentPath = string(wcontentPath.begin(), wcontentPath.end()) + "font\\LINESeedKR-Bd.ttf";
+    string defaultContentPath = string(wcontentPath.begin(), wcontentPath.end()) + "font\\GodoM.ttf";
     io.Fonts->AddFontFromFileTTF(defaultContentPath.c_str(), 14.0f, NULL, io.Fonts->GetGlyphRangesKorean());
     
     ImFontConfig config;
@@ -53,8 +53,8 @@ void CEditorMgr::InitImGui()
 
     //SetThemeMicrosoft();
     //SetThemeMoonlight();
-    //SetThemeUnrealEngine();
-    SetThemeFutureDark();
+    SetThemeUnrealEngine();
+    //SetThemeFutureDark();
 
     ImGuiStyle& style = ImGui::GetStyle();
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -102,7 +102,6 @@ void CEditorMgr::CreateEditorUI()
 
     // Menu
     pUI = new MenuUI;
-    pUI->Init();
     pUI->SetName("MainMenu");
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
@@ -112,9 +111,9 @@ void CEditorMgr::CreateEditorUI()
     pUI->SetName("FileBrowser");
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
-    // AnimationEditor
-    pUI = new AnimationEditor;
-    pUI->SetName("AnimationEditor");
+    // Animation2DEditor
+    pUI = new Animation2DEditor;
+    pUI->SetName("Animation2DEditor");
     pUI->SetActive(false);
     pUI->SetDockable(false);
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));

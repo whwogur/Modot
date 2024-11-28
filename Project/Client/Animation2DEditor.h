@@ -1,12 +1,12 @@
 #pragma once
 #include "EditorUI.h"
 
-class AnimationEditor :
+class Animation2DEditor :
     public EditorUI
 {
 public:
-    AnimationEditor();
-    ~AnimationEditor() = default;
+    Animation2DEditor();
+    ~Animation2DEditor() = default;
 
 public:
     virtual void Update() override;

@@ -23,14 +23,6 @@ void CLandscape::FinalTick()
 	if (m_EditEnable && CRenderMgr::GetInst()->IsViewportHovered())
 	{
 		RayCast();
-		if (KEY_PRESSED(KEY::_7) && (m_BrushScale.x < MAXBRUSHSCALE))
-		{
-			m_BrushScale += 0.01f;
-		}
-		else if (KEY_PRESSED(KEY::_6) && (m_BrushScale.x > MINBRUSHSCALE))
-		{
-			m_BrushScale -= 0.01f;
-		}
 
 		if (m_Mode == LANDSCAPE_MODE::HEIGHTMAP)
 		{

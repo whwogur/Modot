@@ -91,7 +91,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AnimationEditor.h" />
+    <ClInclude Include="Animation2DEditor.h" />
+    <ClInclude Include="Animation3DEditor.h" />
     <ClInclude Include="Animator3DUI.h" />
     <ClInclude Include="AssetUI.h" />
     <ClInclude Include="CameraUI.h" />
@@ -111,7 +112,6 @@
     <ClInclude Include="DecalUI.h" />
     <ClInclude Include="EditorLogger.h" />
     <ClInclude Include="EditorViewport.h" />
-    <ClInclude Include="LandscapePalette.h" />
     <ClInclude Include="LandscapeUI.h" />
     <ClInclude Include="Light3DUI.h" />
     <ClInclude Include="ModotHelpers.h" />
@@ -165,7 +165,8 @@
     <ClInclude Include="TreeUI.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AnimationEditor.cpp" />
+    <ClCompile Include="Animation2DEditor.cpp" />
+    <ClCompile Include="Animation3DEditor.cpp" />
     <ClCompile Include="Animator3DUI.cpp" />
     <ClCompile Include="AssetUI.cpp" />
     <ClCompile Include="CameraUI.cpp" />
@@ -185,7 +186,6 @@
     <ClCompile Include="DecalUI.cpp" />
     <ClCompile Include="EditorLogger.cpp" />
     <ClCompile Include="EditorViewport.cpp" />
-    <ClCompile Include="LandscapePalette.cpp" />
     <ClCompile Include="LandscapeUI.cpp" />
     <ClCompile Include="Light3DUI.cpp" />
     <ClCompile Include="ModotHelpers.cpp" />

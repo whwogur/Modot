@@ -112,6 +112,12 @@
     <Filter Include="Editor\EditorUI\ComponentUI\MeshRender">
       <UniqueIdentifier>{ee97f328-173d-4525-ba86-8fe21c8275e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\EditorUI\Modal\AnimationEditor\2D">
+      <UniqueIdentifier>{c8e01a48-a4cb-40d2-a53d-eaa9c4efac3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\Modal\AnimationEditor\3D">
+      <UniqueIdentifier>{ff7235c4-b387-41f7-89f3-9a74df8f2499}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -266,9 +272,6 @@
     <ClInclude Include="CollisionCheck.h">
       <Filter>Editor\EditorUI\Modal\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationEditor.h">
-      <Filter>Editor\EditorUI\Modal\AnimationEditor</Filter>
-    </ClInclude>
     <ClInclude Include="TexturePreview.h">
       <Filter>Editor\EditorUI\Modal\TexturePreview</Filter>
     </ClInclude>
@@ -320,11 +323,14 @@
     <ClInclude Include="TransformUI.h">
       <Filter>Editor\EditorUI\ComponentUI\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="LandscapePalette.h">
-      <Filter>Editor\EditorUI\ComponentUI\Landscape</Filter>
-    </ClInclude>
     <ClInclude Include="Animator3DUI.h">
       <Filter>Editor\EditorUI\ComponentUI\Animator3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation2DEditor.h">
+      <Filter>Editor\EditorUI\Modal\AnimationEditor\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation3DEditor.h">
+      <Filter>Editor\EditorUI\Modal\AnimationEditor\3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -483,9 +489,6 @@
     <ClCompile Include="CollisionCheck.cpp">
       <Filter>Editor\EditorUI\Modal\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationEditor.cpp">
-      <Filter>Editor\EditorUI\Modal\AnimationEditor</Filter>
-    </ClCompile>
     <ClCompile Include="TexturePreview.cpp">
       <Filter>Editor\EditorUI\Modal\TexturePreview</Filter>
     </ClCompile>
@@ -537,11 +540,14 @@
     <ClCompile Include="TransformUI.cpp">
       <Filter>Editor\EditorUI\ComponentUI\Transform</Filter>
     </ClCompile>
-    <ClCompile Include="LandscapePalette.cpp">
-      <Filter>Editor\EditorUI\ComponentUI\Landscape</Filter>
-    </ClCompile>
     <ClCompile Include="Animator3DUI.cpp">
       <Filter>Editor\EditorUI\ComponentUI\Animator3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation2DEditor.cpp">
+      <Filter>Editor\EditorUI\Modal\AnimationEditor\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation3DEditor.cpp">
+      <Filter>Editor\EditorUI\Modal\AnimationEditor\3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

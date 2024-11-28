@@ -135,7 +135,7 @@ void CFBXLoader::LoadMeshDataFromNode(FbxNode* _pNode)
 
 void CFBXLoader::LoadMesh(FbxMesh* _pFbxMesh)
 {
-	m_vecContainer.push_back(tContainer{});
+	m_vecContainer.emplace_back(tContainer{});
 	tContainer& Container = m_vecContainer[m_vecContainer.size() - 1];
 
 	string strName = _pFbxMesh->GetName();
@@ -746,7 +746,7 @@ void CFBXLoader::LoadKeyframeTransform(FbxNode* _pNode, FbxCluster* _pCluster
 		tFrame.dTime = tTime.GetSecondDouble();
 		tFrame.matTransform = matCurTrans;
 
-		m_vecBone[_iBoneIdx]->vecKeyFrame.push_back(tFrame);
+		m_vecBone[_iBoneIdx]->vecKeyFrame.emplace_back(tFrame);
 	}
 }
 
@@ -796,7 +796,7 @@ void CFBXLoader::LoadWeightsAndIndices(FbxCluster* _pCluster
 
 		int iVtxIdx = _pCluster->GetControlPointIndices()[i];
 
-		_pContainer->vecWI[iVtxIdx].push_back(tWI);
+		_pContainer->vecWI[iVtxIdx].emplace_back(tWI);
 	}
 }
 
