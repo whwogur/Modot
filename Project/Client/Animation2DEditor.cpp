@@ -1,5 +1,5 @@
 ﻿#include "pch.h"
-#include "AnimationEditor.h"
+#include "Animation2DEditor.h"
 #include <numeric>
 #include "ImGui/imgui_neo_internal.h"
 #include "ImGui/imgui_neo_sequencer.h"
@@ -9,13 +9,13 @@
 #include "SpriteEditor.h"
 #include "TreeUI.h"
 
-AnimationEditor::AnimationEditor()
+Animation2DEditor::Animation2DEditor()
 	: m_Animation(nullptr)
     , m_Play(false)
 {
 }
 
-void AnimationEditor::Update()
+void Animation2DEditor::Update()
 {
     static bool newAnimSaved = false;
     if (ImGui::BeginDragDropTarget())
@@ -231,7 +231,7 @@ void AnimationEditor::Update()
     }
 }
 
-void AnimationEditor::Refresh()
+void Animation2DEditor::Refresh()
 {
     m_CurrentFrame = 0;
     m_StartFrame = 0;

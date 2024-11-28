@@ -227,7 +227,7 @@ bool ParamUI::InputTexture(Ptr<CTexture>& _CurTex, const string& _Desc
 	ImGui::SameLine(cRA.x * 0.3f);
 	ImGui::TextColored({0.2f, 0.55f, 0.78f, 1.0f}, _Desc.c_str());
 	ImGui::NewLine();
-	ImGui::SameLine(cRA.x * 0.2f);
+	ImGui::SameLine(cRA.x * 0.14f);
 
 	// ¿ÃπÃ¡ˆ
 	ImVec2 uv_min = ImVec2(0.0f, 0.0f);

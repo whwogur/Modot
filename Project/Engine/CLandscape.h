@@ -59,6 +59,11 @@ public:
     bool GetEditEnable() const { return m_EditEnable; }
 
     Vec2& GetBrushScaleRef() { return m_BrushScale;  }
+
+    float& GetTessMaxLvRef() { return m_MaxLevel; }
+    float& GetTessMinLvRef() { return m_MinLevel; }
+    float& GetTessMaxThresholdRef() { return m_MaxThreshold; }
+    float& GetTessMinThresholdRef() { return m_MinThreshold; }
 public:
     virtual void Init() override;
     virtual void FinalTick() override;

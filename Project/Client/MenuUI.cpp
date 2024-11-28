@@ -14,7 +14,7 @@
 #include "CEditorMgr.h"
 #include "Inspector.h"
 #include "SpriteEditor.h"
-#include "AnimationEditor.h"
+#include "Animation2DEditor.h"
 #include "TilemapEditor.h"
 #include "CLevelSaveLoad.h"
 #include "MaterialUI.h"
@@ -28,8 +28,6 @@ void MenuUI::Tick()
 
 	if (ImGui::BeginMainMenuBar())
 	{
-		ImGui::Image(m_LogoTex->GetSRV().Get(), { 25 ,25 });
-
 		File();
 		Tools();
 		Assets();
@@ -45,11 +43,6 @@ void MenuUI::Tick()
 
 void MenuUI::Update()
 {
-}
-
-void MenuUI::Init()
-{
-	m_LogoTex = CAssetMgr::GetInst()->Load<CTexture>(L"Modot_Logo", L"texture\\Engine\\Modot_Logo.png");
 }
 
 void MenuUI::File()
@@ -129,7 +122,7 @@ void MenuUI::Tools()
 
 		if (ImGui::MenuItem(u8"애니메이션 에디터", " Alt + A"))
 		{
-			AnimationEditor* animEditor = static_cast<AnimationEditor*>(CEditorMgr::GetInst()->FindEditorUI("AnimationEditor"));
+			Animation2DEditor* animEditor = static_cast<Animation2DEditor*>(CEditorMgr::GetInst()->FindEditorUI("Animation2DEditor"));
 			animEditor->SetActive(true);
 		}
 
