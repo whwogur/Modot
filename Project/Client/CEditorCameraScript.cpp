@@ -142,12 +142,11 @@ void CEditorCameraScript::PerspectiveMove()
 			CKeyMgr::GetInst()->MouseCapture(false);
 		}
 
-		/*if (KEY_TAP(KEY::_7))
+		/*#include "CEditorMgr.h"
+		if (KEY_TAP(KEY::_7))
 		{
-			const Vec3& camPos = Transform()->GetRelativePosRef();
-			string temp = std::to_string(camPos.x) +" , " + std::to_string(camPos.y) + " , " + std::to_string(camPos.z);
-			EDITOR_TRACE(u8"에디터 카메라 위치 :");
-			EDITOR_TRACE(temp);
+			const Matrix& camWM = Transform()->GetWorldMat();
+			EDITOR_TRACE(MatrixToString(camWM).c_str());
 		}*/
 	}
 }

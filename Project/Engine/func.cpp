@@ -241,3 +241,20 @@ std::string ToString(const std::wstring& wstr)
 	WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &str[0], size_needed, NULL, NULL);
 	return str;
 }
+
+std::string MatrixToString(const Matrix& matrix)
+{
+	std::ostringstream oss;
+
+	for (int row = 0; row < 4; ++row)
+	{
+		for (int col = 0; col < 4; ++col)
+		{
+			oss << matrix.m[row][col];
+			if (row != 3 || col != 3)
+				oss << ", ";
+		}
+	}
+
+	return oss.str();
+}

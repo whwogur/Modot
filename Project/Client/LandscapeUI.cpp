@@ -70,7 +70,7 @@ void LandscapeUI::Update()
 				ImGui::EndTabItem();
 			}
 
-			if (ImGui::BeginTabItem(ICON_FA_PAINT_BRUSH" HM"))
+			if (ImGui::BeginTabItem(ICON_FA_AREA_CHART" HM"))
 			{
 				editEnabled = true;
 				pLandscape->SetMode(LANDSCAPE_MODE::HEIGHTMAP);
@@ -84,7 +84,7 @@ void LandscapeUI::Update()
 				ImGui::EndTabItem();
 			}
 			
-			if (ImGui::BeginTabItem(ICON_FA_AREA_CHART" WM"))
+			if (ImGui::BeginTabItem(ICON_FA_PAINT_BRUSH" WM"))
 			{
 				editEnabled = true;
 				pLandscape->SetMode(LANDSCAPE_MODE::SPLAT);
@@ -144,9 +144,9 @@ void LandscapeUI::BrushSettings(CLandscape* _Landscape)
 	}
 
 	auto& [x, y] = _Landscape->GetBrushScaleRef();
-	ModotHelpers::VSliderFloat("X##BrushScaleX", { 20.f, 60.f }, &x, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
+	ModotHelpers::VSliderFloat("X##BrushScaleX", { 10.f, 60.f }, &x, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
 	ImGui::SetItemTooltip(u8"x 크기");
 	ImGui::SameLine();
-	ModotHelpers::VSliderFloat("Y##BrushScaleY", { 20.f, 60.f }, &y, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
+	ModotHelpers::VSliderFloat("Y##BrushScaleY", { 10.f, 60.f }, &y, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
 	ImGui::SetItemTooltip(u8"y 크기");
 }

@@ -124,6 +124,7 @@ void CEditorMgr::CreateEditorUI()
     pUI->SetName("Animation3DEditor");
     pUI->SetActive(false);
     pUI->SetDockable(false);
+    pUI->Init();
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
     // SE_AtlasView

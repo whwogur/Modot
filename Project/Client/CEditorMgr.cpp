@@ -439,7 +439,8 @@ void CEditorMgr::SetThemeFutureDark()
 
 void CEditorMgr::ImGuiTick()
 {
-	m_Viewport->Update();
+	if (m_VPEnable)
+		m_Viewport->Update();
 
     for (const auto& pair : m_mapUI)
     {

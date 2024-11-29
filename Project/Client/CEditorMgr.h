@@ -28,6 +28,8 @@ public:
     void SetThemeMicrosoft();
     void SetThemeUnrealEngine();
     void SetThemeFutureDark();
+
+    void EnableViewport(bool _b) { m_VPEnable = _b; }
 private:
     void CreateEditorObject();
     void EditorObjectUpdate();
@@ -44,6 +46,8 @@ private:
     std::unique_ptr<EditorLogger>   m_Logger = nullptr;
     std::unique_ptr<EditorViewport> m_Viewport = nullptr;
     HANDLE                          m_Sentinel = nullptr;
+
+    bool                            m_VPEnable = true;
 };
 
 #ifdef _DEBUG
