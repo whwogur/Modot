@@ -9,5 +9,8 @@ public:
 
 public:
     virtual void Update() override;
+
+private:
+    CGameObject*    m_Target = nullptr;
 };
 

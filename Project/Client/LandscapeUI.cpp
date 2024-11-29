@@ -19,57 +19,15 @@ void LandscapeUI::Update()
 		CLandscape* pLandscape = GetTargetObject()->Landscape();
 		if (pLandscape != nullptr)
 		{
-			LANDSCAPE_MODE mode = pLandscape->GetMode();
-
 			ImGui::NewLine();
 			bool& editEnabled = pLandscape->GetEditEnableRef();
 
 			ImGui::BeginTabBar("##LandscapeUITab");
-			if (ImGui::TabItemButton(ICON_FA_SNOWFLAKE_O))
+				
+			if (ImGui::BeginTabItem(ICON_FA_SNOWFLAKE_O" Info"))
 			{
 				editEnabled = false;
 				pLandscape->SetMode(LANDSCAPE_MODE::NONE);
-			}
-			if (ImGui::TabItemButton(ICON_FA_PAINT_BRUSH))
-			{
-				editEnabled = true;
-				pLandscape->SetMode(LANDSCAPE_MODE::HEIGHTMAP);
-			}
-			if (ImGui::TabItemButton(ICON_FA_AREA_CHART))
-			{
-				editEnabled = true;
-				pLandscape->SetMode(LANDSCAPE_MODE::SPLAT);
-			}
-			ImGui::EndTabBar();
-
-			if (mode == LANDSCAPE_MODE::HEIGHTMAP || mode == LANDSCAPE_MODE::SPLAT)
-			{
-				ImGui::NewLine();
-				ImGui::SeparatorText(u8"브러쉬");
-				ImGui::NewLine();
-				UINT brushIdx = pLandscape->GetBrushIdx();
-				for (int i = 0; i < BRUSHCOUNT; ++i)
-				{
-					if (ImGui::ImageButton(m_BrushPalette[i]->GetSRV().Get(), { ICONSIZE, ICONSIZE }, { 0, 0 }, { 1, 1 }, 1, brushIdx == i ? UICOLOR : ImVec4(0.f, 0.f, 0.f, 0.f)))
-					{
-						pLandscape->SetBrushIdx(i);
-					}
-
-					if ((i + 1) % BUTTONSPERROW != 0) {
-						ImGui::SameLine();
-					}
-				}
-
-				auto& [x, y] = pLandscape->GetBrushScaleRef();
-				ModotHelpers::VSliderFloat("X##BrushScaleX", { 20.f, 60.f }, &x, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
-				ImGui::SameLine();
-				ModotHelpers::VSliderFloat("Y##BrushScaleY", { 20.f, 60.f }, &y, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
-			}
-
-			switch (mode)
-			{
-			case LANDSCAPE_MODE::NONE:
-			{
 				float& maxLv = pLandscape->GetTessMaxLvRef();
 				float& minLv = pLandscape->GetTessMinLvRef();
 				float& maxLvThreshold = pLandscape->GetTessMaxThresholdRef();
@@ -109,19 +67,28 @@ void LandscapeUI::Update()
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(100.f);
 				ImGui::InputFloat("max##TessThreshold", &maxLvThreshold, 0, 0, "%.1f");
-				break;
+				ImGui::EndTabItem();
 			}
-			case LANDSCAPE_MODE::HEIGHTMAP:
+
+			if (ImGui::BeginTabItem(ICON_FA_PAINT_BRUSH" HM"))
 			{
+				editEnabled = true;
+				pLandscape->SetMode(LANDSCAPE_MODE::HEIGHTMAP);
+				BrushSettings(pLandscape);
 				Ptr<CTexture> heightmapTex = pLandscape->GetHeightMap();
+				ImGui::SeparatorText(u8"높이맵 상태");
 				if (ParamUI::InputTexture(heightmapTex, "Heightmap"))
 				{
 					pLandscape->SetHeightMap(heightmapTex);
 				}
-				break;
+				ImGui::EndTabItem();
 			}
-			case LANDSCAPE_MODE::SPLAT:
+			
+			if (ImGui::BeginTabItem(ICON_FA_AREA_CHART" WM"))
 			{
+				editEnabled = true;
+				pLandscape->SetMode(LANDSCAPE_MODE::SPLAT);
+				BrushSettings(pLandscape);
 				ImGui::NewLine();
 				ImGui::SeparatorText(u8"지형");
 				int weightIdx = pLandscape->GetWeightIdx();
@@ -136,10 +103,10 @@ void LandscapeUI::Update()
 						ImGui::SameLine();
 					}
 				}
-				break;
+				ImGui::EndTabItem();
 			}
-			}
-			
+				
+			ImGui::EndTabBar();
 		}
 	}
 }
@@ -156,4 +123,30 @@ void LandscapeUI::Init()
 	m_BrushPalette[0] = CAssetMgr::GetInst()->Load<CTexture>(L"brush0", L"texture\\Engine\\Brush\\brush0.png");
 	m_BrushPalette[1] = CAssetMgr::GetInst()->Load<CTexture>(L"brush1", L"texture\\Engine\\Brush\\brush1.png");
 	m_BrushPalette[2] = CAssetMgr::GetInst()->Load<CTexture>(L"brush2", L"texture\\Engine\\Brush\\brush2.png");
+}
+
+void LandscapeUI::BrushSettings(CLandscape* _Landscape)
+{
+	ImGui::NewLine();
+	ImGui::SeparatorText(u8"브러쉬");
+	ImGui::NewLine();
+	UINT brushIdx = _Landscape->GetBrushIdx();
+	for (int i = 0; i < BRUSHCOUNT; ++i)
+	{
+		if (ImGui::ImageButton(m_BrushPalette[i]->GetSRV().Get(), { ICONSIZE, ICONSIZE }, { 0, 0 }, { 1, 1 }, 1, brushIdx == i ? UICOLOR : ImVec4(0.f, 0.f, 0.f, 0.f)))
+		{
+			_Landscape->SetBrushIdx(i);
+		}
+
+		if ((i + 1) % BUTTONSPERROW != 0) {
+			ImGui::SameLine();
+		}
+	}
+
+	auto& [x, y] = _Landscape->GetBrushScaleRef();
+	ModotHelpers::VSliderFloat("X##BrushScaleX", { 20.f, 60.f }, &x, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
+	ImGui::SetItemTooltip(u8"x 크기");
+	ImGui::SameLine();
+	ModotHelpers::VSliderFloat("Y##BrushScaleY", { 20.f, 60.f }, &y, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
+	ImGui::SetItemTooltip(u8"y 크기");
 }

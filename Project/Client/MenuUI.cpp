@@ -15,6 +15,7 @@
 #include "Inspector.h"
 #include "SpriteEditor.h"
 #include "Animation2DEditor.h"
+#include "Animation3DEditor.h"
 #include "TilemapEditor.h"
 #include "CLevelSaveLoad.h"
 #include "MaterialUI.h"
@@ -120,11 +121,23 @@ void MenuUI::Tools()
 			spriteEditor->Toggle();
 		}
 
-		if (ImGui::MenuItem(u8"애니메이션 에디터", " Alt + A"))
+		if (ImGui::BeginMenu(u8"애니메이션 에디터", " Alt + A"))
 		{
-			Animation2DEditor* animEditor = static_cast<Animation2DEditor*>(CEditorMgr::GetInst()->FindEditorUI("Animation2DEditor"));
-			animEditor->SetActive(true);
+			if (ImGui::MenuItem(u8"2D애니메이션"))
+			{
+				Animation2DEditor* animEditor = static_cast<Animation2DEditor*>(CEditorMgr::GetInst()->FindEditorUI("Animation2DEditor"));
+				animEditor->SetActive(true);
+			}
+
+			if (ImGui::MenuItem(u8"3D애니메이션"))
+			{
+				Animation3DEditor* animEditor = static_cast<Animation3DEditor*>(CEditorMgr::GetInst()->FindEditorUI("Animation3DEditor"));
+				animEditor->SetActive(true);
+			}
+
+			ImGui::EndMenu();
 		}
+		
 
 		if (ImGui::MenuItem(u8"레이어 관리", " Alt + C"))
 		{
