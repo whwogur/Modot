@@ -8,6 +8,7 @@
 #include <Engine/CGameObject.h>
 #include <Engine/CMesh.h>
 #include <Engine/CAnimator3D.h>
+#include <Engine/CTransform.h>
 
 #include <Engine/CScript.h>
 #include "CEditorCameraScript.h"
@@ -59,8 +60,10 @@ void Animation3DEditor::Update()
 		Ptr<CTexture> rtTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"AlbedoTargetTex"); // TEMP
 		if (rtTex != nullptr)
 		{
-			ImGui::Image(rtTex->GetSRV().Get(), { ANIMPREVIEW_SIZE, ANIMPREVIEW_SIZE });
+			ImGui::Image(rtTex->GetSRV().Get(), { ANIMPREVIEW_SIZE, ANIMPREVIEW_SIZE }, { 0, 0 }, { 1, 1 }, {1, 1, 1, 1}, HEADER_2);
 		}
+
+		RenderSequencer();
 	}
 }
 
@@ -74,16 +77,19 @@ void Animation3DEditor::SetTarget(CGameObject* _Target)
 {
 	EDITOR_TRACE("Setting Target");
 	m_Target = _Target;
-	// 에디터 카메라와 타겟의 현재 상태(월드행렬)을 복사해놓는다
+	// 에디터 카메라와 현재 상태(월드행렬)을 복사해놓는다
 	m_OriginalMatCam = m_EditorCam->Transform()->GetWorldMat();
-	m_OriginalMatTarget = _Target->Transform()->GetWorldMat();
 
-	// 카메라와 타겟을 지정 위치로 옮긴다
-	m_EditorCam->Transform()->SetWorldMatrix(m_DesignatedMatCam);
-	_Target->Transform()->SetWorldMatrix(m_DesignatedMatTarget);
+	const Matrix& targetWM = _Target->Transform()->GetWorldMat();
+	Vec3 desiredPos = GetOffsetPosition(targetWM, 300.f);
+	Matrix lookAtWM = MakeLookAtWorldMatrix(targetWM, desiredPos);
 
-	// 뷰포트는 렌더링 안하게 하자
+	// 카메라를 목표 앞으로 옮긴다
+	SetWorldPosition(m_EditorCam->Transform(), lookAtWM);
+
+	// 뷰포트는 렌더링 안하게
 	CEditorMgr::GetInst()->EnableViewport(false);
+
 	// 레이어 설정
 	_Target->DetachFromLayer();
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
@@ -97,8 +103,7 @@ void Animation3DEditor::LetGoOfTarget()
 {
 	EDITOR_TRACE("Letting go...");
 	// 원복
-	m_EditorCam->Transform()->SetWorldMatrix(m_OriginalMatCam);
-	m_Target->Transform()->SetWorldMatrix(m_OriginalMatTarget);
+	SetWorldPosition(m_EditorCam->Transform(), m_OriginalMatCam);
 	m_Target = nullptr;
 
 	m_EditorCam->Camera()->SetLayerAll();
@@ -107,5 +112,37 @@ void Animation3DEditor::LetGoOfTarget()
 	CEditorMgr::GetInst()->EnableViewport(true);
 
 	memset(&m_OriginalMatCam, 0, sizeof(Matrix));
-	memset(&m_OriginalMatTarget, 0, sizeof(Matrix));
+}
+
+void Animation3DEditor::SetWorldPosition(CTransform* _Transform, const Matrix& _Mat)
+{
+	_Transform->SetRelativeScale(ExtractScale(_Mat));
+	_Transform->SetRelativeRotation(ExtractRotation(_Mat));
+	_Transform->SetRelativePos(ExtractPosition(_Mat));
+}
+
+void Animation3DEditor::RenderSequencer()
+{
+	ImGui::Begin("Clips##3DAnimSequencer", 0);
+
+	std::vector<tMTAnimClip> a = *m_Target->Animator3D()->GetClips();
+	
+	if (!a.empty())
+	{
+		string test = u8"클립 개수: " + std::to_string(a.size());
+		if (ImGui::BeginCombo("##Clips", test.c_str()))
+		{
+			for (const auto& clip : a)
+			{
+				const string strName(clip.strAnimName.begin(), clip.strAnimName.end());
+				ImGui::Selectable(strName.c_str());
+			}
+
+
+			ImGui::EndCombo();
+		}
+	}
+	
+	ImGui::SeparatorText(u8"클립 정보");
+	ImGui::End();
 }

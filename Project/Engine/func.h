@@ -24,6 +24,14 @@ wstring ToWstring(const string& str);
 string ToString(const wstring& wstr);
 string MatrixToString(const Matrix& matrix);
 
+Matrix MakeLookAtWorldMatrix(const Matrix& _Mat, const Vec3& _Pos);
+Vec3 GetOffsetPosition(const Matrix& _Mat, float _Distance);
+Matrix MakeLookAtWorldMatrix(const Matrix& _Mat, float _Distance);
+
+Vec3 ExtractScale(const Matrix& _Mat);
+Vec3 ExtractRotation(const Matrix& _Mat);
+Vec3 ExtractPosition(const Matrix& _Mat);
+
 template<typename T, int _Size>
 void Delete_Array(T(&_arr)[_Size])
 {

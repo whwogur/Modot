@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CEditorCameraScript.h"
 #include <Engine/CRenderMgr.h>
-
+#include "CEditorMgr.h"
 CEditorCameraScript::CEditorCameraScript()
 	: CScript(-1)
 	, m_Speed(500.f)
@@ -142,11 +142,11 @@ void CEditorCameraScript::PerspectiveMove()
 			CKeyMgr::GetInst()->MouseCapture(false);
 		}
 
-		/*#include "CEditorMgr.h"
+		
 		if (KEY_TAP(KEY::_7))
 		{
 			const Matrix& camWM = Transform()->GetWorldMat();
 			EDITOR_TRACE(MatrixToString(camWM).c_str());
-		}*/
+		}
 	}
 }
