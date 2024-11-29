@@ -4,6 +4,7 @@ constexpr const int ANIMLAYER = 30;
 constexpr const float ANIMPREVIEW_SIZE = 350.f;
 class CEditorCameraScript;
 class CTransform;
+struct tMTAnimClip;
 
 class Animation3DEditor :
     public EditorUI
@@ -24,10 +25,13 @@ public:
 private:
     void SetWorldPosition(CTransform* _Transform, const Matrix& _Mat);
     void RenderSequencer();
+    void RenderPreview();
 private:
     CGameObject*            m_Target = nullptr;
     CEditorCameraScript*    m_EditorCam = nullptr;
+    tMTAnimClip             m_TargetClip = {};
 
+    std::vector<int32_t>       m_Frames = {};
     Matrix                  m_OriginalMatCam = {};
 };
 

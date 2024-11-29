@@ -18,7 +18,11 @@ public:
     CStructuredBuffer* GetFinalBoneMat() { return m_pBoneFinalMatBuffer; }
     void ClearData();
     void Bind();
+    
+    int GetFrameCount() const { return m_iFrameCount; }
+    void SetFrameCount(int _Cnt) { m_iFrameCount = _Cnt; }
 
+    int GetFrameIdx() const { return m_iFrameIdx; }
 public:
     UINT GetBoneCount() { return (UINT)m_pVecBones->size(); }
     const std::vector<tMTAnimClip>* GetClips() { return m_pVecClip; }

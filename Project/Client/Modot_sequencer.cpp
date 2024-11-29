@@ -524,19 +524,12 @@ namespace Modot
             window->DC.CursorPos = prevWindowCursor;
         }
 
-        //if (startFrameVal < 0)
-        //    startFrameVal = (int32_t) *start;
-//
-        //if (endFrameVal < 0)
-        //    endFrameVal = (int32_t) *end;
 
         if (endFrameVal <= startFrameVal)
             endFrameVal = (int32_t) *end;
 
         *start = startFrameVal;
         *end = endFrameVal;
-
-        //drawList->AddText(startFrameTextCursor + ImVec2{frameNumberBorderSize.x, 0} - ImVec2{numberTextWidth,0},IM_COL32_WHITE,numberText);
 
         //Background
         drawList->AddRectFilled(bb.Min, bb.Max,
@@ -660,6 +653,37 @@ namespace Modot
 
             drawList->AddText(sliderCenter - overlaySize / 2.0f, IM_COL32_WHITE, overlayTextBuffer);
         }
+    }
+
+    static void processZoom(ModotSequencerInternalData& context, const ImVec2& cursor,
+            FrameIndexType* start,
+            FrameIndexType* end)
+    {
+        const auto& imStyle = GetStyle();
+        ImGuiWindow* window = GetCurrentWindow();
+
+
+        FrameIndexType startFrameVal = *start;
+        FrameIndexType endFrameVal = *end;
+
+        if (endFrameVal <= startFrameVal)
+            endFrameVal = (int32_t)*end;
+
+        *start = startFrameVal;
+        *end = endFrameVal;
+
+        const auto totalFrames = (*end - *start);
+
+        const auto viewWidth = (uint32_t)((float)totalFrames / context.Zoom);
+
+        SetKeyOwner(ImGuiKey_MouseWheelY, GetItemID());
+        const float currentScroll = GetIO().MouseWheel;
+
+        context.Zoom = ImClamp(context.Zoom + float(currentScroll) * 0.3f, 1.0f, (float)viewWidth);
+        const auto newZoomWidth = (FrameIndexType)ceil((float)totalFrames / (context.Zoom));
+
+        if (*start + context.OffsetFrame + newZoomWidth > *end)
+            context.OffsetFrame = ImMax(0U, totalFrames - viewWidth);
     }
 
     static void processSelection(ModotSequencerInternalData& context)
@@ -908,7 +932,6 @@ namespace Modot
         if (realSize.y <= 0.0f)
             realSize.y = ImMax(4.0f, context.FilledHeight);
 
-        const bool showZoom = !(flags & ModotSequencerFlags_HideZoom);
         const bool headerAlwaysVisible = (flags & ModotSequencerFlags_AlwaysShowHeader);
         context.SelectionEnabled = (flags & ModotSequencerFlags_EnableSelection);
         context.DraggingEnabled = context.SelectionEnabled && (flags & ModotSequencerFlags_Selection_EnableDragging);
@@ -917,9 +940,7 @@ namespace Modot
         context.TopLeftCursor = headerAlwaysVisible ? cursorBasePos : cursor;
 
         // If Zoom is shown, we offset it by height of Zoom bar + padding
-        context.TopBarStartCursor = showZoom ? context.TopLeftCursor +
-                                               ImVec2{0, calculateZoomBarHeight()}
-                                             : context.TopLeftCursor;
+        context.TopBarStartCursor = context.TopLeftCursor;
         context.StartFrame = *startFrame;
         context.EndFrame = *endFrame;
         context.Size = realSize;
@@ -935,46 +956,37 @@ namespace Modot
         const float topCut = abs(context.TopLeftCursor.y - cursor.y);
         backgroundSize.y = backgroundSize.y - (topCut);
 
-        RenderModotSequencerBackground(ImVec4(0.03921568766236305f, 0.03921568766236305f, 0.03921568766236305f, 1.0f), context.TopLeftCursor,
+        RenderModotSequencerBackground(style.Colors[ModotSequencerCol_Bg], context.TopLeftCursor,
                                      backgroundSize,
                                      drawList, style.SequencerRounding);
 
+       RenderModotSequencerTopBarBackground(style.Colors[ModotSequencerCol_TopBarBg],
+                                          context.TopBarStartCursor, context.TopBarSize,
+                                          drawList, style.SequencerRounding);
+       
+       
+       RenderModotSequencerTopBarOverlay(context.Zoom, context.ValuesWidth, context.StartFrame, context.EndFrame,
+                                       context.OffsetFrame,
+                                       context.TopBarStartCursor, context.TopBarSize, drawList,
+                                       style.TopBarShowFrameLines, style.TopBarShowFrameTexts, style.MaxSizePerTick);
 
-        RenderModotSequencerTopBarBackground(ImVec4(0.05882352963089943f, 0.05882352963089943f, 0.05882352963089943f, 0.9399999976158142f),
-                                           context.TopBarStartCursor, context.TopBarSize,
-                                           drawList, style.SequencerRounding);
-
-
-        RenderModotSequencerTopBarOverlay(context.Zoom, context.ValuesWidth, context.StartFrame, context.EndFrame,
-                                        context.OffsetFrame,
-                                        context.TopBarStartCursor, context.TopBarSize, drawList,
-                                        style.TopBarShowFrameLines, style.TopBarShowFrameTexts, style.MaxSizePerTick);
-
-        if (showZoom)
-            processAndRenderZoom(context, context.TopLeftCursor, flags & ModotSequencerFlags_AllowLengthChanging,
-                                 startFrame, endFrame);
+       processZoom(context, context.TopLeftCursor, startFrame, endFrame);
 
         if (context.Size.y < context.FilledHeight)
             context.Size.y = context.FilledHeight;
 
-        context.FilledHeight = context.TopBarSize.y + style.TopBarSpacing +
-                               (showZoom ? calculateZoomBarHeight() : 0.0f);
+        context.FilledHeight = context.TopBarSize.y + style.TopBarSpacing;
 
         context.StartValuesCursor = cursor + ImVec2{0, context.TopBarSize.y + style.TopBarSpacing};
-        if (showZoom)
-            context.StartValuesCursor = context.StartValuesCursor + ImVec2{0, calculateZoomBarHeight()};
+        
+        context.StartValuesCursor = context.StartValuesCursor;
         context.ValuesCursor = context.StartValuesCursor;
 
         processCurrentFrame(frame, context);
 
-        //if (enableSelection)
-        //processSelection(context);
-
         const auto clipMin = context.TopBarStartCursor + ImVec2(0, context.TopBarSize.y);
 
-        drawList->PushClipRect(clipMin,
-                               clipMin + backgroundSize - ImVec2(0, context.TopBarSize.y) -
-                               ImVec2{0, GetFontSize() * style.ZoomHeightScale}, true);
+        drawList->PushClipRect(clipMin, clipMin + backgroundSize , true);
 
         return true;
     }
@@ -1363,11 +1375,11 @@ ModotSequencerStyle::ModotSequencerStyle()
 
     Colors[ModotSequencerCol_FramePointerLine]           = ImVec4{0.98f, 0.98f, 0.98f, 0.8f};
 
-    Colors[ModotSequencerCol_ZoomBarBg]                  = ImVec4{0.59f, 0.59f, 0.59f, 0.90f};
-    Colors[ModotSequencerCol_ZoomBarSlider]              = ImVec4{0.8f, 0.8f, 0.8f, 0.60f};
-    Colors[ModotSequencerCol_ZoomBarSliderHovered]       = ImVec4{0.98f, 0.98f, 0.98f, 0.80f};
-    Colors[ModotSequencerCol_ZoomBarSliderEnds]          = ImVec4{0.59f, 0.59f, 0.59f, 0.90f};
-    Colors[ModotSequencerCol_ZoomBarSliderEndsHovered]   = ImVec4{0.93f, 0.93f, 0.93f, 0.93f};
+    Colors[ModotSequencerCol_ZoomBarBg]                  = ImVec4{0.01f, 0.02f, 0.02f, 0.90f};
+    Colors[ModotSequencerCol_ZoomBarSlider]              = ImVec4{0.0f, 0.2f, 0.77f, 0.60f};
+    Colors[ModotSequencerCol_ZoomBarSliderHovered]       = ImVec4{0.1f, 0.3f, 0.889f, 0.80f};
+    Colors[ModotSequencerCol_ZoomBarSliderEnds]          = ImVec4{ 0.0f, 0.2f, 0.77f, 0.60f };
+    Colors[ModotSequencerCol_ZoomBarSliderEndsHovered]   = ImVec4{ 0.1f, 0.3f, 0.889f, 0.80f };
 
     Colors[ModotSequencerCol_SelectionBorder]            = ImVec4{0.98f, 0.706f, 0.322f, 0.61f};
     Colors[ModotSequencerCol_Selection]                  = ImVec4{0.98f, 0.706f, 0.322f, 0.33f};

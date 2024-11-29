@@ -22,7 +22,7 @@ void SaveWString(const wstring& _String, FILE* _File);
 void LoadWString(wstring& _String, FILE* _File);
 wstring ToWstring(const string& str);
 string ToString(const wstring& wstr);
-string MatrixToString(const Matrix& matrix);
+string MatrixToString(const Matrix& matrix, int precision);
 
 Matrix MakeLookAtWorldMatrix(const Matrix& _Mat, const Vec3& _Pos);
 Vec3 GetOffsetPosition(const Matrix& _Mat, float _Distance);

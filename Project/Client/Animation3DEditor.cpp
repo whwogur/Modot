@@ -14,6 +14,8 @@
 #include "CEditorCameraScript.h"
 
 #include "CEditorMgr.h"
+#include <Modot_sequencer.h>
+#include <numeric>
 Animation3DEditor::Animation3DEditor()
 {
 }
@@ -57,12 +59,7 @@ void Animation3DEditor::Update()
 	}
 	else
 	{
-		Ptr<CTexture> rtTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"AlbedoTargetTex"); // TEMP
-		if (rtTex != nullptr)
-		{
-			ImGui::Image(rtTex->GetSRV().Get(), { ANIMPREVIEW_SIZE, ANIMPREVIEW_SIZE }, { 0, 0 }, { 1, 1 }, {1, 1, 1, 1}, HEADER_2);
-		}
-
+		RenderPreview();
 		RenderSequencer();
 	}
 }
@@ -112,6 +109,7 @@ void Animation3DEditor::LetGoOfTarget()
 	CEditorMgr::GetInst()->EnableViewport(true);
 
 	memset(&m_OriginalMatCam, 0, sizeof(Matrix));
+	memset(&m_TargetClip, 0, sizeof(tMTAnimClip));
 }
 
 void Animation3DEditor::SetWorldPosition(CTransform* _Transform, const Matrix& _Mat)
@@ -123,7 +121,7 @@ void Animation3DEditor::SetWorldPosition(CTransform* _Transform, const Matrix& _
 
 void Animation3DEditor::RenderSequencer()
 {
-	ImGui::Begin("Clips##3DAnimSequencer", 0);
+	ImGui::Begin("Clips##3DAnimSequencer", 0, ImGuiWindowFlags_AlwaysAutoResize);
 
 	std::vector<tMTAnimClip> a = *m_Target->Animator3D()->GetClips();
 	
@@ -135,14 +133,48 @@ void Animation3DEditor::RenderSequencer()
 			for (const auto& clip : a)
 			{
 				const string strName(clip.strAnimName.begin(), clip.strAnimName.end());
-				ImGui::Selectable(strName.c_str());
+				if (ImGui::Selectable(strName.c_str()))
+				{
+					m_TargetClip = clip;
+					m_Frames.reserve(clip.iEndFrame);
+					std::iota(m_Frames.begin(), m_Frames.end(), 0);
+				}
 			}
-
-
 			ImGui::EndCombo();
 		}
 	}
 	
 	ImGui::SeparatorText(u8"클립 정보");
+
+	if (m_TargetClip.dTimeLength)
+	{
+		static int frameIdx = m_Target->Animator3D()->GetFrameIdx();
+		if (Modot::BeginModotSequencer(u8"애니메이션", &frameIdx, &m_TargetClip.iStartFrame, &m_TargetClip.iEndFrame, {0, 0}))
+		{
+			if (Modot::BeginModotTimeline(u8"키프레임", m_Frames))
+			{
+				Modot::EndModotTimeLine();
+			}
+
+			if (Modot::BeginModotTimeline(u8"테스트", m_Frames))
+			{
+				Modot::EndModotTimeLine();
+			}
+			Modot::EndModotSequencer();
+		}
+	}
+	ImGui::End();
+}
+
+void Animation3DEditor::RenderPreview()
+{
+	ImGui::Begin("Preview##Animation3D");
+
+	Ptr<CTexture> rtTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"AlbedoTargetTex"); // TEMP
+	if (rtTex != nullptr)
+	{
+		ImGui::Image(rtTex->GetSRV().Get(), { ANIMPREVIEW_SIZE, ANIMPREVIEW_SIZE }, { 0, 0 }, { 1, 1 }, { 1, 1, 1, 1 }, HEADER_2);
+	}
+
 	ImGui::End();
 }

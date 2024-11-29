@@ -242,19 +242,23 @@ std::string ToString(const std::wstring& wstr)
 	return str;
 }
 
-std::string MatrixToString(const Matrix& matrix)
+std::string MatrixToString(const Matrix& matrix, int precision)
 {
 	std::ostringstream oss;
+	oss.precision(precision);
+	oss << std::fixed;
 
+	
 	for (int row = 0; row < 4; ++row)
 	{
+		oss << "[";
 		for (int col = 0; col < 4; ++col)
 		{
 			oss << matrix.m[row][col];
 			if (row != 3 || col != 3)
 				oss << ", ";
 		}
-		oss << "\n";
+		oss << "]\n";
 	}
 
 	return oss.str();

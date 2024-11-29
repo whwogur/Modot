@@ -146,7 +146,8 @@ void CEditorCameraScript::PerspectiveMove()
 		if (KEY_TAP(KEY::_7))
 		{
 			const Matrix& camWM = Transform()->GetWorldMat();
-			EDITOR_TRACE(MatrixToString(camWM).c_str());
+			string temp("EditorCamera WorldMat:\n" + MatrixToString(camWM, 2));
+			EDITOR_TRACE(temp.c_str());
 		}
 	}
 }

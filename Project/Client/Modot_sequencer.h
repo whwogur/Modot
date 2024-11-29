@@ -16,7 +16,7 @@ enum ModotSequencerFlags_
     ModotSequencerFlags_None                 = 0     ,
     ModotSequencerFlags_AllowLengthChanging  = 1 << 0, // Allows changing length of sequence
     ModotSequencerFlags_EnableSelection      = 1 << 1, // Enables selection of keyframes
-    ModotSequencerFlags_HideZoom             = 1 << 2, // Disables zoom bar
+    //ModotSequencerFlags_HideZoom             = 1 << 2, // Disables zoom bar
     //ModotSequencerFlags_PH                 = 1 << 3, // PLACEHOLDER
     ModotSequencerFlags_AlwaysShowHeader     = 1 << 4, // Enables overlay header, keeping it visible when scrolling
 
@@ -70,7 +70,7 @@ enum ModotSequencerCol_
 };
 
 struct ModotSequencerStyle {
-    float       SequencerRounding       = 1.f;                 // Corner rounding around whole sequencer
+    float       SequencerRounding       = 0.f;                 // Corner rounding around whole sequencer
     float       TopBarHeight            = 0.0f;                 // Value <= 0.0f = Height is calculated by FontSize + FramePadding.y * 2.0f
     bool        TopBarShowFrameLines    = true;                 // Show line for every frame in top bar
     bool        TopBarShowFrameTexts    = true;                 // Show frame number every 10th frame
@@ -109,7 +109,7 @@ namespace Modot {
     IMGUI_API bool BeginModotGroup(const char* label, bool* open = nullptr);
     IMGUI_API void EndModotGroup();
 
-    IMGUI_API bool BeginModotTimeline(const char* label,FrameIndexType ** keyframes, uint32_t keyframeCount, bool * open = nullptr, ModotTimelineFlags flags = ModotTimelineFlags_None);
+    IMGUI_API bool BeginModotTimeline(const char* label, FrameIndexType** keyframes, uint32_t keyframeCount, bool * open = nullptr, ModotTimelineFlags flags = ModotTimelineFlags_None);
     IMGUI_API void EndModotTimeLine(); //Call only when BeginModotTimeline() returns true!!
 
     // Fully customizable timeline with per key callback
