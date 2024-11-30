@@ -59,6 +59,7 @@ void Animation3DEditor::Update()
 	}
 	else
 	{
+		//RenderCardinalDirections(); // 해도 나중에
 		RenderPreview();
 		RenderSequencer();
 	}
@@ -68,6 +69,10 @@ void Animation3DEditor::Deactivate()
 {
 	if (m_Target != nullptr)
 		LetGoOfTarget();
+
+	EditorUI* menuUI = CEditorMgr::GetInst()->FindEditorUI("MainMenu"); // 애니메이션 에디터 실행 중 PLAY / PAUSE 누를까봐 한건데, 나중에 다른방식으로 막을 것
+	if (menuUI != nullptr)
+		menuUI->SetActive(true);
 }
 
 void Animation3DEditor::SetTarget(CGameObject* _Target)
@@ -92,13 +97,23 @@ void Animation3DEditor::SetTarget(CGameObject* _Target)
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
 	pCurLevel->AddObject(ANIMLAYER, _Target, true);
 
+	// target Front Right 가져와서 세팅
+	//m_TargetFront = m_Target->Transform()->GetRelativeDir(DIR::FRONT);
+	//m_TargetRight = m_Target->Transform()->GetRelativeDir(DIR::RIGHT);
+
 	m_EditorCam->Camera()->ClearLayerAll();
 	m_EditorCam->Camera()->SetLayer(ANIMLAYER, true);
+
+	EditorUI* menuUI = CEditorMgr::GetInst()->FindEditorUI("MainMenu");
+	if (menuUI != nullptr)
+		menuUI->SetActive(false);
 }
 
 void Animation3DEditor::LetGoOfTarget()
 {
 	EDITOR_TRACE("Letting go...");
+	if (!m_Target->Animator3D()->IsPlayingAnim())
+		m_Target->Animator3D()->ResumeAnimation(); // TEMP
 	// 원복
 	SetWorldPosition(m_EditorCam->Transform(), m_OriginalMatCam);
 	m_Target = nullptr;
@@ -123,31 +138,48 @@ void Animation3DEditor::RenderSequencer()
 {
 	ImGui::Begin("Clips##3DAnimSequencer", 0, ImGuiWindowFlags_AlwaysAutoResize);
 
-	std::vector<tMTAnimClip> a = *m_Target->Animator3D()->GetClips();
-	
-	if (!a.empty())
+	if (!m_TargetClip.dEndTime)
 	{
-		string test = u8"클립 개수: " + std::to_string(a.size());
-		if (ImGui::BeginCombo("##Clips", test.c_str()))
+		std::vector<tMTAnimClip> a = *m_Target->Animator3D()->GetClips();
+		if (!a.empty())
 		{
-			for (const auto& clip : a)
+			string test = u8"클립 개수: " + std::to_string(a.size());
+			if (ImGui::BeginCombo("##Clips", test.c_str()))
 			{
-				const string strName(clip.strAnimName.begin(), clip.strAnimName.end());
-				if (ImGui::Selectable(strName.c_str()))
+				for (const auto& clip : a)
 				{
-					m_TargetClip = clip;
-					m_Frames.reserve(clip.iEndFrame);
-					std::iota(m_Frames.begin(), m_Frames.end(), 0);
+					const string strName(clip.strAnimName.begin(), clip.strAnimName.end());
+					if (ImGui::Selectable(strName.c_str()))
+					{
+						m_TargetClip = clip;
+						m_Frames.resize(clip.iEndFrame);
+						std::iota(m_Frames.begin(), m_Frames.end(), 0);
+					}
 				}
+				ImGui::EndCombo();
 			}
-			ImGui::EndCombo();
 		}
 	}
-	
-	ImGui::SeparatorText(u8"클립 정보");
-
-	if (m_TargetClip.dTimeLength)
+	else
 	{
+		if (m_Target->Animator3D()->IsPlayingAnim())
+		{
+			if (ImGui::Button(ICON_FA_PAUSE"##Anim3DPause", { 22, 22 }))
+			{
+				m_Target->Animator3D()->PauseAnimation();
+			}
+		}
+		else
+		{
+			if (ImGui::Button(ICON_FA_PLAY"##Anim3DPlay", { 22, 22 }))
+			{
+				m_Target->Animator3D()->ResumeAnimation();
+			}
+		}
+
+
+
+		ImGui::SeparatorText(u8"클립 정보");
 		static int frameIdx = m_Target->Animator3D()->GetFrameIdx();
 		if (Modot::BeginModotSequencer(u8"애니메이션", &frameIdx, &m_TargetClip.iStartFrame, &m_TargetClip.iEndFrame, {0, 0}))
 		{
@@ -178,3 +210,11 @@ void Animation3DEditor::RenderPreview()
 
 	ImGui::End();
 }
+
+//void Animation3DEditor::RenderCardinalDirections()
+//{
+//	const Vec3& targetPos = m_Target->Transform()->GetRelativePosRef();
+//	
+//	DrawDebugLine(targetPos - m_TargetFront * 100.f, targetPos + m_TargetFront * 100.f, {1.f, 1.f, 1.f, 1.f}, 0.f, true);
+//	DrawDebugLine(targetPos - m_TargetRight * 100.f, targetPos + m_TargetRight * 100.f, {1.f, 1.f, 1.f, 1.f}, 0.f, true);
+//}

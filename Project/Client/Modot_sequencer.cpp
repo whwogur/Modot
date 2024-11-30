@@ -413,9 +413,15 @@ namespace Modot
         {
 
             ImColor color = getKeyframeColor(context, hovered, inSelection);
+            float rectWaist = currentTimelineHeight / 2.f;
 
-            drawList->AddCircleFilled(pos + ImVec2{0, currentTimelineHeight / 2.f}, currentTimelineHeight / 3.0f,
-                                      color, 4);
+            float centerX = pos.x;
+            float centerY = pos.y + rectWaist;
+
+            ImVec2 p_min(centerX - rectWaist * 0.25f, centerY - rectWaist);
+            ImVec2 p_max(centerX + rectWaist * 0.25f, centerY + rectWaist);
+
+            drawList->AddRectFilled(p_min, p_max, color, 0.0f);
         }
 
         context.IsLastKeyframeHovered = hovered;
@@ -1369,9 +1375,9 @@ ModotSequencerStyle::ModotSequencerStyle()
     Colors[ModotSequencerCol_FramePointerPressed]        = ImVec4{0.11f, 0.22f, 0.77f, 1.00f};
 
     Colors[ModotSequencerCol_Keyframe]                   = ImVec4{0.59f, 0.59f, 0.59f, 0.50f};
-    Colors[ModotSequencerCol_KeyframeHovered]            = ImVec4{0.98f, 0.39f, 0.36f, 1.00f};
-    Colors[ModotSequencerCol_KeyframePressed]            = ImVec4{0.98f, 0.39f, 0.36f, 1.00f};
-    Colors[ModotSequencerCol_KeyframeSelected]           = ImVec4{0.32f, 0.23f, 0.98f, 1.00f};
+    Colors[ModotSequencerCol_KeyframeHovered]            = ImVec4{0.36f, 0.39f, 0.98f, 1.00f};
+    Colors[ModotSequencerCol_KeyframePressed]            = ImVec4{0.36f, 0.39f, 0.98f, 1.00f};
+    Colors[ModotSequencerCol_KeyframeSelected]           = ImVec4{0.98f, 0.23f, 0.32f, 1.00f};
 
     Colors[ModotSequencerCol_FramePointerLine]           = ImVec4{0.98f, 0.98f, 0.98f, 0.8f};
 

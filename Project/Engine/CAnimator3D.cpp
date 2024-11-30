@@ -35,32 +35,35 @@ CAnimator3D::~CAnimator3D()
 
 void CAnimator3D::FinalTick()
 {
-	m_dCurTime = 0.f;
-
-	// 현재 재생중인 Clip 의 시간을 진행한다.
-	m_vecClipUpdateTime[m_iCurClip] += EngineDT;
-
-	if (m_vecClipUpdateTime[m_iCurClip] >= m_pVecClip->at(m_iCurClip).dTimeLength)
+	if (!m_bPause)
 	{
-		m_vecClipUpdateTime[m_iCurClip] = 0.f;
+		m_dCurTime = 0.f;
+
+		// 현재 재생중인 Clip 의 시간을 진행한다.
+		m_vecClipUpdateTime[m_iCurClip] += EngineDT;
+
+		if (m_vecClipUpdateTime[m_iCurClip] >= m_pVecClip->at(m_iCurClip).dTimeLength)
+		{
+			m_vecClipUpdateTime[m_iCurClip] = 0.f;
+		}
+		m_dCurTime = m_pVecClip->at(m_iCurClip).dStartTime + m_vecClipUpdateTime[m_iCurClip];
+
+		// 현재 프레임 인덱스 구하기
+		double dFrameIdx = m_dCurTime * (double)m_iFrameCount;
+		m_iFrameIdx = (int)(dFrameIdx);
+
+		// 다음 프레임 인덱스
+		if (m_iFrameIdx >= m_pVecClip->at(0).iFrameLength - 1)
+			m_iNextFrameIdx = m_iFrameIdx;	// 끝이면 현재 인덱스를 유지
+		else
+			m_iNextFrameIdx = m_iFrameIdx + 1;
+
+		// 프레임간의 시간에 따른 비율을 구해준다.
+		m_fRatio = (float)(dFrameIdx - (double)m_iFrameIdx);
+
+		// 컴퓨트 쉐이더 연산여부
+		m_bFinalMatUpdate = false;
 	}
-	m_dCurTime = m_pVecClip->at(m_iCurClip).dStartTime + m_vecClipUpdateTime[m_iCurClip];
-
-	// 현재 프레임 인덱스 구하기
-	double dFrameIdx = m_dCurTime * (double)m_iFrameCount;
-	m_iFrameIdx = (int)(dFrameIdx);
-
-	// 다음 프레임 인덱스
-	if (m_iFrameIdx >= m_pVecClip->at(0).iFrameLength - 1)
-		m_iNextFrameIdx = m_iFrameIdx;	// 끝이면 현재 인덱스를 유지
-	else
-		m_iNextFrameIdx = m_iFrameIdx + 1;
-
-	// 프레임간의 시간에 따른 비율을 구해준다.
-	m_fRatio = (float)(dFrameIdx - (double)m_iFrameIdx);
-
-	// 컴퓨트 쉐이더 연산여부
-	m_bFinalMatUpdate = false;
 }
 
 void CAnimator3D::SetAnimClip(const std::vector<tMTAnimClip>* _vecAnimClip)

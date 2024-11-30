@@ -23,6 +23,10 @@ public:
     void SetFrameCount(int _Cnt) { m_iFrameCount = _Cnt; }
 
     int GetFrameIdx() const { return m_iFrameIdx; }
+
+    void PauseAnimation() { m_bPause = true; m_bFinalMatUpdate = true; }
+    void ResumeAnimation() { m_bPause = false;}
+    bool IsPlayingAnim() const { return !m_bPause; }
 public:
     UINT GetBoneCount() { return (UINT)m_pVecBones->size(); }
     const std::vector<tMTAnimClip>* GetClips() { return m_pVecClip; }
@@ -48,4 +52,5 @@ private:
     float						    m_fRatio = 0.f;	                // 프레임 사이 비율
     CStructuredBuffer*              m_pBoneFinalMatBuffer = nullptr;          // 특정 프레임의 최종 행렬
     bool						    m_bFinalMatUpdate = false;      // 최종행렬 연산 수행여부
+    bool                            m_bPause = false;
 };

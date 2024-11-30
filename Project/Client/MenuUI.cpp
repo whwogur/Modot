@@ -217,7 +217,6 @@ void MenuUI::OutputInfo()
 	// Info
 	float contentRegionAvailable = ImGui::GetContentRegionAvail().x;
 	LEVEL_STATE state = CLevelMgr::GetInst()->GetCurrentLevel()->GetState();
-	string whichCamera;
 	ImVec4 color;
 	UINT FPS = CTimeMgr::GetInst()->GetFPSRecord();
 	char buffer[30];
@@ -228,15 +227,13 @@ void MenuUI::OutputInfo()
 
 	if (state == LEVEL_STATE::PLAY)
 	{
-		whichCamera = ICON_FA_CAMERA_RETRO " MAINCAM";
-
-		ImGui::SameLine(contentRegionAvailable / 2);
+		ImGui::SameLine(contentRegionAvailable * 0.5f);
 		if (ImGui::Button(ICON_FA_PAUSE, { 22, 22 }))
 		{
 			ChangeLevelState(LEVEL_STATE::PAUSE);
 			EDITOR_TRACE("Paused");
 		}
-		ImGui::SameLine(contentRegionAvailable / 2 + 30);
+		ImGui::SameLine(contentRegionAvailable * 0.5f + 30);
 		if (ImGui::Button(ICON_FA_STOP, { 22, 22 }))
 		{
 			const wstring& lvName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
@@ -249,17 +246,16 @@ void MenuUI::OutputInfo()
 			pInspector->SetTargetAsset(nullptr);
 		}
 
-		color = { 0.45f, 0.55f, 0.88f, 1.0f };
+		color = HEADER_1;
 	}
 	else if (state == LEVEL_STATE::PAUSE)
 	{
-		whichCamera = ICON_FA_PAUSE" PAUSED";
-		ImGui::SameLine(contentRegionAvailable / 2);
+		ImGui::SameLine(contentRegionAvailable * 0.5f);
 		if (ImGui::Button(ICON_FA_PLAY, { 22, 22 }))
 		{
 			ChangeLevelState(LEVEL_STATE::PLAY);
 		}
-		ImGui::SameLine(contentRegionAvailable / 2 + 30);
+		ImGui::SameLine(contentRegionAvailable * 0.5f + 30);
 		if (ImGui::Button(ICON_FA_STOP, { 22, 22 }))
 		{
 			const wstring& lvName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
@@ -276,8 +272,7 @@ void MenuUI::OutputInfo()
 	}
 	else
 	{
-		whichCamera = ICON_FA_CAMERA_RETRO " EDITORCAM";
-		ImGui::SameLine(contentRegionAvailable / 2);
+		ImGui::SameLine(contentRegionAvailable * 0.5f);
 		if (ImGui::Button(ICON_FA_PLAY, { 22, 22 }))
 		{
 			ChangeLevelState(LEVEL_STATE::PLAY);
@@ -289,9 +284,6 @@ void MenuUI::OutputInfo()
 	}
 
 	ImGui::SameLine(contentRegionAvailable);
-
-	ImGui::TextColored(color, whichCamera.c_str());
-	ImGui::SameLine();
 	ImGui::TextColored(color, buffer);
 }
 

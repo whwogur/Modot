@@ -26,6 +26,7 @@ private:
     void SetWorldPosition(CTransform* _Transform, const Matrix& _Mat);
     void RenderSequencer();
     void RenderPreview();
+    //void RenderCardinalDirections();
 private:
     CGameObject*            m_Target = nullptr;
     CEditorCameraScript*    m_EditorCam = nullptr;
@@ -33,5 +34,7 @@ private:
 
     std::vector<int32_t>       m_Frames = {};
     Matrix                  m_OriginalMatCam = {};
+
+    //Vec3                    m_TargetFront, m_TargetRight = {};
 };
 
