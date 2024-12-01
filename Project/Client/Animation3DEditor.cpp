@@ -125,6 +125,7 @@ void Animation3DEditor::LetGoOfTarget()
 
 	memset(&m_OriginalMatCam, 0, sizeof(Matrix));
 	memset(&m_TargetClip, 0, sizeof(tMTAnimClip));
+	m_CurrentIdx = 0;
 }
 
 void Animation3DEditor::SetWorldPosition(CTransform* _Transform, const Matrix& _Mat)
@@ -180,18 +181,30 @@ void Animation3DEditor::RenderSequencer()
 
 
 		ImGui::SeparatorText(u8"클립 정보");
-		static int frameIdx = m_Target->Animator3D()->GetFrameIdx();
-		if (Modot::BeginModotSequencer(u8"애니메이션", &frameIdx, &m_TargetClip.iStartFrame, &m_TargetClip.iEndFrame, {0, 0}))
+		if (Modot::BeginModotSequencer(u8"애니메이션", &m_CurrentIdx, &m_TargetClip.iStartFrame, &m_TargetClip.iEndFrame, {0, 0}, ModotSequencerFlags_EnableSelection | ModotSequencerFlags_Selection_EnableDragging | ModotSequencerFlags_Selection_EnableDeletion))
 		{
 			if (Modot::BeginModotTimeline(u8"키프레임", m_Frames))
 			{
+				
+				if (KEY_TAP(KEY::_7))
+				{
+					uint32_t kfSize = Modot::GetModotKeyframeSelectionSize();
+					//Modot::GetModotKeyframeSelection(m_Selected);
+					EDITOR_TRACE(std::to_string(kfSize));
+					//EDITOR_TRACE(std::to_string(m_Selected[0]) + "~" + std::to_string(m_Selected[kfSize - 1]));
+				}
+				
+
 				Modot::EndModotTimeLine();
 			}
+				
+			
 
-			if (Modot::BeginModotTimeline(u8"테스트", m_Frames))
+			/*if (Modot::BeginModotTimeline(u8"테스트", m_Frames))
 			{
 				Modot::EndModotTimeLine();
 			}
+			*/
 			Modot::EndModotSequencer();
 		}
 	}

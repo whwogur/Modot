@@ -121,7 +121,7 @@ void EditorViewport::Update()
                     const wstring& objName = pMeshData->GetKey();
                     pInstantiatedObj->SetName(objName);
                     pInstantiatedObj->Transform()->SetRelativePos(0.f, 0.f, 0.f);
-                    pInstantiatedObj->Transform()->SetRelativeScale(200.f, 200.f, 200.f);
+                    pInstantiatedObj->Transform()->SetRelativeScale(3.f, 3.f, 3.f);
 
                     CreateObject(pInstantiatedObj, 0);
                 }

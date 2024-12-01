@@ -707,8 +707,8 @@ namespace Modot
         const auto windowWorkRect = GetCurrentWindow()->ClipRect;
 
         const auto sequencerWorkRect = ImRect{
-                context.TopBarStartCursor + ImVec2{context.ValuesWidth, context.TopBarSize.y},
-                context.TopBarStartCursor + context.Size - ImVec2{0, context.TopBarSize.y}};
+                context.TopBarStartCursor + ImVec2{context.ValuesWidth, 10.f},
+                context.TopBarStartCursor + context.Size - ImVec2{0, 10.f}};
 
         if (IsMouseDown(ImGuiMouseButton_Left) && windowWorkRect.Contains(GetMousePos()) &&
             sequencerWorkRect.Contains(GetMousePos()))

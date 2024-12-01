@@ -136,7 +136,6 @@ namespace Modot {
     IMGUI_API uint32_t GetModotKeyframeSelectionSize();
     IMGUI_API void GetModotKeyframeSelection(FrameIndexType  * selection);
 
-
     // Sets currently selected timeline inside BeginModotSequencer scope
     IMGUI_API void SetSelectedTimeline(const char* timelineLabel);
 

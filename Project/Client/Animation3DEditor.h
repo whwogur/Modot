@@ -33,8 +33,9 @@ private:
     tMTAnimClip             m_TargetClip = {};
 
     std::vector<int32_t>       m_Frames = {};
+    int32_t*                m_Selected = nullptr;
     Matrix                  m_OriginalMatCam = {};
-
+    int32_t                     m_CurrentIdx = 0;
     //Vec3                    m_TargetFront, m_TargetRight = {};
 };
 

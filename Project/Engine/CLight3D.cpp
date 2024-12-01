@@ -127,7 +127,7 @@ void CLight3D::FinalTick()
 	}
 
 	Transform()->SetRelativeScale(m_Info.Radius * 2.f, m_Info.Radius * 2.f, m_Info.Radius * 2.f);
-	m_LightIdx = CRenderMgr::GetInst()->RegisterLight3D(this);
+	m_LightIdx = (int)CRenderMgr::GetInst()->RegisterLight3D(this);
 	// DebugShape
 	if (m_Info.Type == LIGHT_TYPE::POINT)
 	{

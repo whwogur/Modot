@@ -48,7 +48,7 @@ void MenuUI::Update()
 
 void MenuUI::File()
 {
-	if (ImGui::BeginMenu(ICON_FA_FILE " File"))
+	if (ImGui::BeginMenu("File"))
 	{
 		if (ImGui::MenuItem(u8"새 레벨", " Ctrl + N"))
 		{
@@ -107,7 +107,7 @@ void MenuUI::File()
 
 void MenuUI::Tools()
 {
-	if (ImGui::BeginMenu(ICON_FA_WRENCH " Tools"))
+	if (ImGui::BeginMenu(" Tools"))
 	{
 		if (ImGui::MenuItem(u8"타일맵 에디터", " Alt + T"))
 		{
@@ -156,7 +156,7 @@ void MenuUI::Tools()
 
 void MenuUI::Assets()
 {
-	if (ImGui::BeginMenu(ICON_FA_SUITCASE " Assets"))
+	if (ImGui::BeginMenu("Assets"))
 	{
 		if (ImGui::MenuItem(ICON_FA_FLOPPY_O " Save Material"))
 		{
@@ -180,7 +180,7 @@ void MenuUI::Assets()
 
 void MenuUI::External()
 {
-	if (ImGui::BeginMenu(ICON_FA_GLOBE " External"))
+	if (ImGui::BeginMenu("External"))
 	{
 		if (ImGui::MenuItem(ICON_FA_GITHUB_SQUARE " Github"))
 		{

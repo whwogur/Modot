@@ -75,6 +75,7 @@ void CAnimator3D::SetAnimClip(const std::vector<tMTAnimClip>* _vecAnimClip)
 	fTime += 1.f;
 	m_vecClipUpdateTime[0] = fTime;*/
 }
+
 void CAnimator3D::Bind()
 {
 	if (!m_bFinalMatUpdate)
