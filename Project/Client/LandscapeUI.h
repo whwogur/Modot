@@ -4,6 +4,7 @@ constexpr const int BRUSHCOUNT = 3;
 constexpr const float ICONSIZE = 50.f;
 constexpr const int WEIGHTCOUNT = 7;
 constexpr const int BUTTONSPERROW = 5;
+class CLandscape;
 class LandscapeUI :
     public ComponentUI
 {
@@ -14,9 +15,11 @@ public:
 public:
     virtual void Update() override;
     virtual void Init() override;
+
+private:
+    void BrushSettings(CLandscape* _Landscape);
 private:
     int             m_Face[2] = { 10, 10 };
     Ptr<CTexture>	m_WeightPalette[WEIGHTCOUNT] = {};
     Ptr<CTexture>	m_BrushPalette[BRUSHCOUNT] = {};
 };
-

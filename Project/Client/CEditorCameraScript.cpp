@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CEditorCameraScript.h"
 #include <Engine/CRenderMgr.h>
-
+#include "CEditorMgr.h"
 CEditorCameraScript::CEditorCameraScript()
 	: CScript(-1)
 	, m_Speed(500.f)
@@ -142,12 +142,12 @@ void CEditorCameraScript::PerspectiveMove()
 			CKeyMgr::GetInst()->MouseCapture(false);
 		}
 
-		/*if (KEY_TAP(KEY::_7))
+		
+		if (KEY_TAP(KEY::_7))
 		{
-			const Vec3& camPos = Transform()->GetRelativePosRef();
-			string temp = std::to_string(camPos.x) +" , " + std::to_string(camPos.y) + " , " + std::to_string(camPos.z);
-			EDITOR_TRACE(u8"에디터 카메라 위치 :");
-			EDITOR_TRACE(temp);
-		}*/
+			const Matrix& camWM = Transform()->GetWorldMat();
+			string temp("EditorCamera WorldMat:\n" + MatrixToString(camWM, 2));
+			EDITOR_TRACE(temp.c_str());
+		}
 	}
 }

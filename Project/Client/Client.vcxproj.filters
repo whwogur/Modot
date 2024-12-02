@@ -118,6 +118,12 @@
     <Filter Include="Editor\EditorUI\Modal\AnimationEditor\3D">
       <UniqueIdentifier>{ff7235c4-b387-41f7-89f3-9a74df8f2499}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\EditorUI\Modal\Util\Modot">
+      <UniqueIdentifier>{a64e5f6c-799c-421c-9f67-892b42889b2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\Modal\Util\Modot\Sequencer">
+      <UniqueIdentifier>{be38762a-ec5c-4c43-99e4-0a643f5c3ee0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -211,12 +217,6 @@
     <ClInclude Include="ImGui\ImGuizmo.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="ImGui\imgui_neo_internal.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_neo_sequencer.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
     <ClInclude Include="CTestLevel.h">
       <Filter>Editor\TestLevel</Filter>
     </ClInclude>
@@ -275,9 +275,6 @@
     <ClInclude Include="TexturePreview.h">
       <Filter>Editor\EditorUI\Modal\TexturePreview</Filter>
     </ClInclude>
-    <ClInclude Include="ModotHelpers.h">
-      <Filter>Editor\EditorUI\Modal\Util</Filter>
-    </ClInclude>
     <ClInclude Include="Animator2DUI.h">
       <Filter>Editor\EditorUI\ComponentUI\Animator2D</Filter>
     </ClInclude>
@@ -331,6 +328,15 @@
     </ClInclude>
     <ClInclude Include="Animation3DEditor.h">
       <Filter>Editor\EditorUI\Modal\AnimationEditor\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="ModotHelpers.h">
+      <Filter>Editor\EditorUI\Modal\Util\Modot</Filter>
+    </ClInclude>
+    <ClInclude Include="Modot_sequencer.h">
+      <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer</Filter>
+    </ClInclude>
+    <ClInclude Include="Modot_sequencer_internal.h">
+      <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -428,12 +434,6 @@
     <ClCompile Include="ImGui\ImGuizmo.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="ImGui\imgui_neo_internal.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_neo_sequencer.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="CTestLevel.cpp">
       <Filter>Editor\TestLevel</Filter>
     </ClCompile>
@@ -492,9 +492,6 @@
     <ClCompile Include="TexturePreview.cpp">
       <Filter>Editor\EditorUI\Modal\TexturePreview</Filter>
     </ClCompile>
-    <ClCompile Include="ModotHelpers.cpp">
-      <Filter>Editor\EditorUI\Modal\Util</Filter>
-    </ClCompile>
     <ClCompile Include="Animator2DUI.cpp">
       <Filter>Editor\EditorUI\ComponentUI\Animator2D</Filter>
     </ClCompile>
@@ -548,6 +545,15 @@
     </ClCompile>
     <ClCompile Include="Animation3DEditor.cpp">
       <Filter>Editor\EditorUI\Modal\AnimationEditor\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="ModotHelpers.cpp">
+      <Filter>Editor\EditorUI\Modal\Util\Modot</Filter>
+    </ClCompile>
+    <ClCompile Include="Modot_sequencer.cpp">
+      <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer</Filter>
+    </ClCompile>
+    <ClCompile Include="Modot_sequencer_internal.cpp">
+      <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

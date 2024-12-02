@@ -230,7 +230,7 @@ bool ModotHelpers::VSliderScalar(const char* label, const ImVec2& size, ImGuiDat
 
 	// Render grab
 	if (grab_bb.Max.y > grab_bb.Min.y)
-		window->DrawList->AddRectFilled(grab_bb.Min, grab_bb.Max, GetColorU32(g.ActiveId == id ? ImGuiCol_SliderGrabActive : ImGuiCol_SliderGrab), style.GrabRounding);
+		window->DrawList->AddRectFilled(grab_bb.Min, grab_bb.Max, GetColorU32(g.ActiveId == id ? ImVec4(0.f, 0.33f, 0.22f, 1.f) : ImVec4(0.1f, 0.53f, 0.32f, 1.f)), 2.f);
 
 	return value_changed;
 }
@@ -238,4 +238,81 @@ bool ModotHelpers::VSliderScalar(const char* label, const ImVec2& size, ImGuiDat
 bool ModotHelpers::VSliderFloat(const char* label, const ImVec2& size, float* v, float v_min, float v_max, const char* format, ImGuiSliderFlags flags)
 {
 	return VSliderScalar(label, size, ImGuiDataType_Float, v, &v_min, &v_max, format, flags);
+}
+
+bool ModotHelpers::HSliderScalar(const char* label, ImGuiDataType data_type, void* p_data, const void* p_min, const void* p_max, const char* format, ImGuiSliderFlags flags)
+{
+	using namespace ImGui;
+	ImGuiWindow* window = GetCurrentWindow();
+	if (window->SkipItems)
+		return false;
+
+	ImGuiContext& g = *GImGui;
+	const ImGuiStyle& style = g.Style;
+	const ImGuiID id = window->GetID(label);
+	const float w = CalcItemWidth();
+
+	const ImVec2 label_size = CalcTextSize(label, NULL, true);
+	const ImRect frame_bb(window->DC.CursorPos, ImVec2(window->DC.CursorPos.x + w, window->DC.CursorPos.y + label_size.y + style.FramePadding.y));
+	const ImRect total_bb(frame_bb.Min, ImVec2(frame_bb.Max.x + (label_size.x > 0.0f ? style.ItemInnerSpacing.x + label_size.x : 0.0f), frame_bb.Max.y));
+
+	const bool temp_input_allowed = (flags & ImGuiSliderFlags_NoInput) == 0;
+	ItemSize(total_bb, style.FramePadding.y);
+	if (!ItemAdd(total_bb, id, &frame_bb, temp_input_allowed ? ImGuiItemFlags_Inputable : 0))
+		return false;
+
+	// Default format string when passing NULL
+	if (format == NULL)
+		format = DataTypeGetInfo(data_type)->PrintFmt;
+
+	const bool hovered = ItemHoverable(frame_bb, id, g.LastItemData.InFlags);
+	bool temp_input_is_active = temp_input_allowed && TempInputIsActive(id);
+	if (!temp_input_is_active)
+	{
+		// Tabbing or CTRL-clicking on Slider turns it into an input box
+		const bool clicked = hovered && IsMouseClicked(0, ImGuiInputFlags_None, id);
+		const bool make_active = (clicked || g.NavActivateId == id);
+		if (make_active && clicked)
+			SetKeyOwner(ImGuiKey_MouseLeft, id);
+		if (make_active && temp_input_allowed)
+			if ((clicked && g.IO.KeyCtrl) || (g.NavActivateId == id && (g.NavActivateFlags & ImGuiActivateFlags_PreferInput)))
+				temp_input_is_active = true;
+
+		if (make_active && !temp_input_is_active)
+		{
+			SetActiveID(id, window);
+			SetFocusID(id, window);
+			FocusWindow(window);
+			g.ActiveIdUsingNavDirMask |= (1 << ImGuiDir_Left) | (1 << ImGuiDir_Right);
+		}
+	}
+
+	if (temp_input_is_active)
+	{
+		// Only clamp CTRL+Click input when ImGuiSliderFlags_AlwaysClamp is set
+		const bool is_clamp_input = (flags & ImGuiSliderFlags_AlwaysClamp) != 0;
+		return TempInputScalar(frame_bb, id, label, data_type, p_data, format, is_clamp_input ? p_min : NULL, is_clamp_input ? p_max : NULL);
+	}
+
+	// Draw frame
+	const ImU32 frame_col = GetColorU32(g.ActiveId == id ? ImGuiCol_FrameBgActive : hovered ? ImGuiCol_FrameBgHovered : ImGuiCol_FrameBg);
+	RenderNavHighlight(frame_bb, id);
+	RenderFrame(frame_bb.Min, frame_bb.Max, frame_col, true, g.Style.FrameRounding);
+
+	// Slider behavior
+	ImRect grab_bb;
+	const bool value_changed = SliderBehavior(frame_bb, id, data_type, p_data, p_min, p_max, format, flags, &grab_bb);
+	if (value_changed)
+		MarkItemEdited(id);
+
+	// Render grab
+	if (grab_bb.Max.x > grab_bb.Min.x)
+		window->DrawList->AddRectFilled(grab_bb.Min, grab_bb.Max, GetColorU32(g.ActiveId == id ? ImVec4(0.f, 0.33f, 0.22f, 1.f) : ImVec4(0.1f, 0.53f, 0.32f, 1.f)), 3.141592f);
+
+	return value_changed;
+}
+
+bool ModotHelpers::HSliderFloat(const char* label, float* v, float v_min, float v_max, const char* format, ImGuiSliderFlags flags)
+{
+	return HSliderScalar(label, ImGuiDataType_Float, v, &v_min, &v_max, format, flags);
 }

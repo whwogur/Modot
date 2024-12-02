@@ -21,6 +21,7 @@
 #include "FileBrowser.h"
 #include "TexturePreview.h"
 #include "Animation2DEditor.h"
+#include "Animation3DEditor.h"
 #include "SE_AtlasView.h"
 #include "SE_Detail.h"
 #include "SpriteEditor.h"
@@ -53,8 +54,8 @@ void CEditorMgr::InitImGui()
 
     //SetThemeMicrosoft();
     //SetThemeMoonlight();
-    SetThemeUnrealEngine();
-    //SetThemeFutureDark();
+    //SetThemeUnrealEngine();
+    SetThemeFutureDark();
 
     ImGuiStyle& style = ImGui::GetStyle();
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -116,6 +117,13 @@ void CEditorMgr::CreateEditorUI()
     pUI->SetName("Animation2DEditor");
     pUI->SetActive(false);
     pUI->SetDockable(false);
+    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
+
+    // Animation3DEditor
+    pUI = new Animation3DEditor;
+    pUI->SetName("Animation3DEditor");
+    pUI->SetActive(false);
+    pUI->Init();
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
     // SE_AtlasView

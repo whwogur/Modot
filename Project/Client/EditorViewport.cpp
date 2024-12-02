@@ -121,7 +121,7 @@ void EditorViewport::Update()
                     const wstring& objName = pMeshData->GetKey();
                     pInstantiatedObj->SetName(objName);
                     pInstantiatedObj->Transform()->SetRelativePos(0.f, 0.f, 0.f);
-                    pInstantiatedObj->Transform()->SetRelativeScale(200.f, 200.f, 200.f);
+                    pInstantiatedObj->Transform()->SetRelativeScale(3.f, 3.f, 3.f);
 
                     CreateObject(pInstantiatedObj, 0);
                 }
@@ -249,8 +249,8 @@ void EditorViewport::EditorCameraSlider()
         CEditorCameraScript* eCamScript = (CEditorCameraScript*)vecScript[0];
         float& camSpeed = eCamScript->GetCamSpeedRef();
 
-        ImGui::SetNextItemWidth(100.f);
-        ImGui::DragFloat("##EditorCamSpeedSlider", &camSpeed, 5.f, 100.f, 1000.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+        ImGui::SetNextItemWidth(150);
+        ModotHelpers::HSliderFloat("##EditorCamSpeedSlider", &camSpeed, 100.f, 1000.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
         ImGui::SetItemTooltip(u8"에디터 카메라 속도 조절");
     }
 }

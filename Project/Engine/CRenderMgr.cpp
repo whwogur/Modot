@@ -224,18 +224,18 @@ void CRenderMgr::Render(CCamera* _Cam)
 
 	m_MergeMtrl->Bind();
 	m_RectMesh->Render(0);
-	// =================
-	// FORWARD RENDERING
-	// =================
-	// 
-	// 분류된 물체들 렌더링
+	//// =================
+	//// FORWARD RENDERING
+	//// =================
+	//// 
+	//// 분류된 물체들 렌더링
 	_Cam->RenderOpaque();
-	_Cam->RenderMasked();
-	_Cam->RenderEffect();
-	_Cam->RenderTransparent();
-	_Cam->RenderParticle();
+	//_Cam->RenderMasked();
+	//_Cam->RenderEffect();
+	//_Cam->RenderTransparent();
+	//_Cam->RenderParticle();
 	_Cam->RenderPostprocess();
-	_Cam->RenderUI();
+	//_Cam->RenderUI();
 	// 정리
 	_Cam->ClearVec();
 }

@@ -300,6 +300,6 @@ struct tMTAnimClip
 	double						dStartTime;
 	double						dEndTime;
 	double						dTimeLength;
-	float						fUpdateTime; // ¿Ã∞≈ æ»æ∏
+	int							iTitleIndex;
 	FbxTime::EMode				eMode;
 };

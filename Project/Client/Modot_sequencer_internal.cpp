@@ -1,15 +1,13 @@
-//
-// Created by Matty on 2022-01-28.
-//
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 
-#include "imgui_neo_internal.h"
-#include "imgui_internal.h"
+#include "Modot_sequencer_internal.h"
+#include <ImGui/imgui_internal.h>
 #include <cstdint>
 
-namespace ImGui {
-    void RenderNeoSequencerBackground(const ImVec4 &color, const ImVec2 & cursor, const ImVec2 &size, ImDrawList * drawList, float sequencerRounding) {
+namespace Modot {
+    using namespace ImGui;
+    void RenderModotSequencerBackground(const ImVec4 &color, const ImVec2 & cursor, const ImVec2 &size, ImDrawList * drawList, float sequencerRounding) {
         if(!drawList) drawList = ImGui::GetWindowDrawList();
 
         const ImRect area = {cursor, cursor + size};
@@ -17,7 +15,7 @@ namespace ImGui {
         drawList->AddRectFilled(area.Min, area.Max, ColorConvertFloat4ToU32(color), sequencerRounding);
     }
 
-    void RenderNeoSequencerTopBarBackground(const ImVec4 &color, const ImVec2 &cursor, const ImVec2 &size,
+    void RenderModotSequencerTopBarBackground(const ImVec4 &color, const ImVec2 &cursor, const ImVec2 &size,
                                             ImDrawList *drawList, float sequencerRounding) {
         if(!drawList) drawList = ImGui::GetWindowDrawList();
 
@@ -27,7 +25,7 @@ namespace ImGui {
     }
 
     void
-    RenderNeoSequencerTopBarOverlay(float zoom, float valuesWidth,uint32_t startFrame, uint32_t endFrame, uint32_t offsetFrame, const ImVec2 &cursor, const ImVec2 &size,
+    RenderModotSequencerTopBarOverlay(float zoom, float valuesWidth,uint32_t startFrame, uint32_t endFrame, uint32_t offsetFrame, const ImVec2 &cursor, const ImVec2 &size,
                                     ImDrawList *drawList, bool drawFrameLines,
                                     bool drawFrameText, float maxPixelsPerTick) {
         if(!drawList) drawList = ImGui::GetWindowDrawList();
@@ -88,7 +86,7 @@ namespace ImGui {
         }
     }
 
-    void RenderNeoTimelineLabel(const char * label,const ImVec2 & cursor,const ImVec2 & size, const ImVec4& color,bool isGroup, bool isOpen, ImDrawList *drawList)
+    void RenderModotTimelineLabel(const char * label,const ImVec2 & cursor,const ImVec2 & size, const ImVec4& color,bool isGroup, bool isOpen, ImDrawList *drawList)
     {
         const auto& imStyle = GetStyle();
 
@@ -104,7 +102,7 @@ namespace ImGui {
         drawList->AddText(c,ColorConvertFloat4ToU32(color),label, FindRenderedTextEnd(label));
     }
 
-    void RenderNeoTimelinesBorder(const ImVec4 &color, const ImVec2 &cursor, const ImVec2 &size, ImDrawList *drawList,
+    void RenderModotTimelinesBorder(const ImVec4 &color, const ImVec2 &cursor, const ImVec2 &size, ImDrawList *drawList,
                                   float rounding, float borderSize)
     {
         if(!drawList) drawList = ImGui::GetWindowDrawList();
@@ -112,7 +110,7 @@ namespace ImGui {
         drawList->AddRect(cursor,cursor + size,ColorConvertFloat4ToU32(color),rounding, 0, borderSize);
     }
 
-    void RenderNeoTimelane(bool selected,const ImVec2 & cursor, const ImVec2& size, const ImVec4& highlightColor, ImDrawList *drawList) {
+    void RenderModotTimelane(bool selected,const ImVec2 & cursor, const ImVec2& size, const ImVec4& highlightColor, ImDrawList *drawList) {
         if(!drawList) drawList = ImGui::GetWindowDrawList();
 
         if(selected) {
@@ -142,7 +140,7 @@ namespace ImGui {
         return Vec2Pair{ center, center + ImVec2{0, timelineHeight} };
     }
 
-    void RenderNeoSequencerCurrentFrame(const ImVec4 &color, const ImVec4 &topColor, const ImRect &pointerBB,
+    void RenderModotSequencerCurrentFrame(const ImVec4 &color, const ImVec4 &topColor, const ImRect &pointerBB,
                                                float timelineHeight, float lineWidth, ImDrawList *drawList) {
         if(!drawList) drawList = ImGui::GetWindowDrawList();
 
@@ -152,7 +150,7 @@ namespace ImGui {
 
         drawList->PopClipRect();
 
-        { //Top pointer has custom shape, we have to create it
+        {
             const auto size = pointerBB.GetSize();
             ImVec2 pts[5];
             pts[0] = pointerBB.Min;
