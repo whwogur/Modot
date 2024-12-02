@@ -150,7 +150,7 @@ namespace Modot {
 
         drawList->PopClipRect();
 
-        { //Top pointer has custom shape, we have to create it
+        {
             const auto size = pointerBB.GetSize();
             ImVec2 pts[5];
             pts[0] = pointerBB.Min;

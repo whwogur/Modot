@@ -27,6 +27,7 @@ public:
     void PauseAnimation() { m_bPause = true; m_bFinalMatUpdate = true; }
     void ResumeAnimation() { m_bPause = false;}
     bool IsPlayingAnim() const { return !m_bPause; }
+    std::vector<string>& GetTitlesRef() { return m_AnimTitles; }
 public:
     UINT GetBoneCount() { return (UINT)m_pVecBones->size(); }
     const std::vector<tMTAnimClip>* GetClips() { return m_pVecClip; }
@@ -42,6 +43,7 @@ private:
 private:
     const std::vector<tMTBone>*             m_pVecBones = nullptr;
     const std::vector<tMTAnimClip>*         m_pVecClip = nullptr;
+    std::vector<string>                     m_AnimTitles = {};
     std::vector<float>				        m_vecClipUpdateTime;
     std::vector<Matrix>				        m_vecFinalBoneMat;              // 텍스쳐에 전달할 최종 행렬정보
     std::unordered_map<std::string, UINT>   m_AnimationLookupHash = {};

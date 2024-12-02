@@ -23,4 +23,3 @@ private:
     Ptr<CTexture>	m_WeightPalette[WEIGHTCOUNT] = {};
     Ptr<CTexture>	m_BrushPalette[BRUSHCOUNT] = {};
 };
-

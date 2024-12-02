@@ -47,7 +47,7 @@ namespace Modot
 
         float ValuesWidth               = 32.0f;    // Width of biggest label in timeline, used for offset of timeline
 
-        float FilledHeight              = 0.0f;     // Height of whole sequencer
+        float FilledHeight              = 100.0f;     // Height of whole sequencer
 
         float Zoom = 1.0f;
 
@@ -67,7 +67,7 @@ namespace Modot
         bool HoldingZoomSlider          = false;
 
         //Selection
-        ImVector<ImGuiID> Selection; // Contains ids of keyframes
+        ImVector<ImGuiID> Selection;    // Contains ids of keyframes
         ImVec2 SelectionMouseStart      = {0, 0};
         SelectionState StateOfSelection = SelectionState::Idle;
         ImVec2 DraggingMouseStart       = {0, 0};
@@ -161,11 +161,11 @@ namespace Modot
 
         const auto hovered = ItemHoverable(pointerRect, GetCurrentWindow()->GetID("##_top_selector_neo"),0);
 
-        context.CurrentFrameColor = GetStyleModotSequencerColorVec4(ModotSequencerCol_FramePointer);
+        context.CurrentFrameColor = GetStyleSequencerColorVec4(ModotSequencerCol_FramePointer);
 
         if (hovered)
         {
-            context.CurrentFrameColor = GetStyleModotSequencerColorVec4(ModotSequencerCol_FramePointerHovered);
+            context.CurrentFrameColor = GetStyleSequencerColorVec4(ModotSequencerCol_FramePointerHovered);
         }
 
         if (context.HoldingCurrentFrame)
@@ -185,7 +185,7 @@ namespace Modot
 
                 const auto finalFrame = (FrameIndexType) round(frameViewVal) + context.OffsetFrame;
 
-                context.CurrentFrameColor = GetStyleModotSequencerColorVec4(ModotSequencerCol_FramePointerPressed);
+                context.CurrentFrameColor = GetStyleSequencerColorVec4(ModotSequencerCol_FramePointerPressed);
 
                 *frame = finalFrame;
             }
@@ -193,14 +193,14 @@ namespace Modot
             if (!IsMouseDown(ImGuiMouseButton_Left))
             {
                 context.HoldingCurrentFrame = false;
-                context.CurrentFrameColor = GetStyleModotSequencerColorVec4(ModotSequencerCol_FramePointer);
+                context.CurrentFrameColor = GetStyleSequencerColorVec4(ModotSequencerCol_FramePointer);
             }
         }
 
         if (hovered && IsMouseDown(ImGuiMouseButton_Left) && !context.HoldingCurrentFrame)
         {
             context.HoldingCurrentFrame = true;
-            context.CurrentFrameColor = GetStyleModotSequencerColorVec4(ModotSequencerCol_FramePointerPressed);
+            context.CurrentFrameColor = GetStyleSequencerColorVec4(ModotSequencerCol_FramePointerPressed);
         }
 
         context.CurrentFrame = *frame;
@@ -216,13 +216,13 @@ namespace Modot
     {
         if (inSelection)
         {
-            return ColorConvertFloat4ToU32(GetStyleModotSequencerColorVec4(ModotSequencerCol_KeyframeSelected));
+            return ColorConvertFloat4ToU32(GetStyleSequencerColorVec4(ModotSequencerCol_KeyframeSelected));
         }
 
         return hovered ?
                ColorConvertFloat4ToU32(
-                       GetStyleModotSequencerColorVec4(ModotSequencerCol_KeyframeHovered)) :
-               ColorConvertFloat4ToU32(GetStyleModotSequencerColorVec4(ModotSequencerCol_Keyframe));
+                       GetStyleSequencerColorVec4(ModotSequencerCol_KeyframeHovered)) :
+               ColorConvertFloat4ToU32(GetStyleSequencerColorVec4(ModotSequencerCol_Keyframe));
     }
 
     static void addKeyframeToDeleteData(int32_t value, ModotSequencerInternalData& context, const ImGuiID timelineId)
@@ -460,7 +460,7 @@ namespace Modot
         const auto drawList = ImGui::GetWindowDrawList();
 
         RenderModotSequencerCurrentFrame(
-                GetStyleModotSequencerColorVec4(ModotSequencerCol_FramePointerLine),
+                GetStyleSequencerColorVec4(ModotSequencerCol_FramePointerLine),
                 context.CurrentFrameColor,
                 bb,
                 context.Size.y - context.TopBarSize.y,
@@ -539,7 +539,7 @@ namespace Modot
 
         //Background
         drawList->AddRectFilled(bb.Min, bb.Max,
-                                ColorConvertFloat4ToU32(GetStyleModotSequencerColorVec4(ModotSequencerCol_ZoomBarBg)),
+                                ColorConvertFloat4ToU32(GetStyleSequencerColorVec4(ModotSequencerCol_ZoomBarBg)),
                                 10.0f);
 
         const auto baseWidth = bb.GetSize().x -
@@ -639,11 +639,11 @@ namespace Modot
 
         if (res)
         {
-            auto sliderColor = GetStyleModotSequencerColorVec4(ModotSequencerCol_ZoomBarSlider);
+            auto sliderColor = GetStyleSequencerColorVec4(ModotSequencerCol_ZoomBarSlider);
 
             if (IsItemHovered())
             {
-                sliderColor = GetStyleModotSequencerColorVec4(ModotSequencerCol_ZoomBarSliderHovered);
+                sliderColor = GetStyleSequencerColorVec4(ModotSequencerCol_ZoomBarSliderHovered);
             }
 
             //Render bar
@@ -734,7 +734,8 @@ namespace Modot
                     break;
                 }
             }
-        } else
+        }
+        else
         {
             switch (context.StateOfSelection)
             {
@@ -878,18 +879,18 @@ namespace Modot
 
     ////////////////////////////////////
 
-    const ImVec4& GetStyleModotSequencerColorVec4(ModotSequencerCol idx)
+    const ImVec4& GetStyleSequencerColorVec4(ModotSequencerCol idx)
     {
-        return GetModotSequencerStyle().Colors[idx];
+        return GetSequencerStyle().Colors[idx];
     }
 
-    ModotSequencerStyle& GetModotSequencerStyle()
+    ModotSequencerStyle& GetSequencerStyle()
     {
         return style;
     }
 
     bool
-    BeginModotSequencer(const char* idin, FrameIndexType* frame, FrameIndexType* startFrame, FrameIndexType* endFrame,
+    BeginSequencer(const char* idin, FrameIndexType* frame, FrameIndexType* startFrame, FrameIndexType* endFrame,
                       const ImVec2& size,
                       ModotSequencerFlags flags)
     {
@@ -997,7 +998,7 @@ namespace Modot
         return true;
     }
 
-    void EndModotSequencer()
+    void EndSequencer()
     {
         IM_ASSERT(inSequencer && "Called end sequencer when BeginSequencer didnt return true or wasn't called at all!");
         IM_ASSERT(sequencerData.count(currentSequencer) != 0 && "Ended sequencer has no context!");
@@ -1029,31 +1030,31 @@ namespace Modot
         EndChild();
     }
 
-    IMGUI_API bool BeginModotGroup(const char* label, bool* open)
+    IMGUI_API bool BeginGroup(const char* label, bool* open)
     {
-        return BeginModotTimeline(label, nullptr, 0, open, ModotTimelineFlags_Group);
+        return BeginTimeline(label, nullptr, 0, open, ModotTimelineFlags_Group);
     }
 
-    IMGUI_API void EndModotGroup()
+    IMGUI_API void EndGroup()
     {
-        return EndModotTimeLine();
+        return EndTimeLine();
     }
 
 #ifdef __cplusplus
 
     bool
-    BeginModotTimeline(const char* label, std::vector<int32_t>& keyframes, bool* open, ModotTimelineFlags flags)
+    BeginTimeline(const char* label, std::vector<int32_t>& keyframes, bool* open, ModotTimelineFlags flags)
     {
         std::vector<int32_t*> c_keyframes{keyframes.size()};
         for (uint32_t i = 0; i < keyframes.size(); i++)
             c_keyframes[i] = &keyframes[i];
 
-        return BeginModotTimeline(label, c_keyframes.data(), uint32_t(c_keyframes.size()), open, flags);
+        return BeginTimeline(label, c_keyframes.data(), uint32_t(c_keyframes.size()), open, flags);
     }
 
 #endif
 
-    void PushModotSequencerStyleColor(ModotSequencerCol idx, ImU32 col)
+    void PushSequencerStyleColor(ModotSequencerCol idx, ImU32 col)
     {
         ImGuiColorMod backup;
         backup.Col = idx;
@@ -1062,7 +1063,7 @@ namespace Modot
         style.Colors[idx] = ColorConvertU32ToFloat4(col);
     }
 
-    void PushModotSequencerStyleColor(ModotSequencerCol idx, const ImVec4& col)
+    void PushSequencerStyleColor(ModotSequencerCol idx, const ImVec4& col)
     {
         ImGuiColorMod backup;
         backup.Col = idx;
@@ -1071,7 +1072,7 @@ namespace Modot
         style.Colors[idx] = col;
     }
 
-    void PopModotSequencerStyleColor(int count)
+    void PopSequencerStyleColor(int count)
     {
         while (count > 0)
         {
@@ -1100,7 +1101,7 @@ namespace Modot
         context.SelectedTimeline = timelineID;
     }
 
-    bool IsModotTimelineSelected(ModotTimelineIsSelectedFlags flags)
+    bool IsTimelineSelected(ModotTimelineIsSelectedFlags flags)
     {
         IM_ASSERT(inSequencer && "Not in active sequencer!");
         auto& context = sequencerData[currentSequencer];
@@ -1120,7 +1121,7 @@ namespace Modot
                context.SelectedTimeline == openTimeline;
     }
 
-    bool BeginModotTimelineEx(const char* label, bool* open, ModotTimelineFlags flags)
+    bool BeginTimelineEx(const char* label, bool* open, ModotTimelineFlags flags)
     {
         IM_ASSERT(inSequencer && "Not in active sequencer!");
 
@@ -1163,7 +1164,7 @@ namespace Modot
             RenderModotTimelane(id == context.SelectedTimeline,
                               context.ValuesCursor + ImVec2{context.ValuesWidth, 0},
                               ImVec2{context.Size.x - context.ValuesWidth, currentTimelineHeight},
-                              GetStyleModotSequencerColorVec4(ModotSequencerCol_SelectedTimeline));
+                              GetStyleSequencerColorVec4(ModotSequencerCol_SelectedTimeline));
 
             ImVec4 color = GetStyleColorVec4(ImGuiCol_Text);
             if (IsItemHovered()) color.w *= 0.7f;
@@ -1196,10 +1197,10 @@ namespace Modot
         return result;
     }
 
-    bool BeginModotTimeline(const char* label, FrameIndexType** keyframes, uint32_t keyframeCount, bool* open,
+    bool BeginTimeline(const char* label, FrameIndexType** keyframes, uint32_t keyframeCount, bool* open,
                           ModotTimelineFlags flags)
     {
-        if (!BeginModotTimelineEx(label, open, flags))
+        if (!BeginTimelineEx(label, open, flags))
             return false;
 
         for (uint32_t i = 0; i < keyframeCount; i++)
@@ -1210,7 +1211,7 @@ namespace Modot
         return true;
     }
 
-    void EndModotTimeLine()
+    void EndTimeLine()
     {
         IM_ASSERT(inSequencer && "Not in active sequencer!");
 
@@ -1267,7 +1268,15 @@ namespace Modot
         return context.IsLastKeyframeRightClicked;
     }
 
-    void ModotClearSelection()
+    FrameIndexType GetCurrentFrame()
+    {
+        IM_ASSERT(inSequencer && "Not in active sequencer!");
+        auto& context = sequencerData[currentSequencer];
+
+        return context.CurrentFrame;
+    }
+
+    void ClearSelection()
     {
         IM_ASSERT(inSequencer && "Not in active sequencer!");
         auto& context = sequencerData[currentSequencer];
@@ -1276,7 +1285,7 @@ namespace Modot
         context.SelectionData.resize(0);
     }
 
-    bool ModotIsSelecting()
+    bool IsSelecting()
     {
         IM_ASSERT(inSequencer && "Not in active sequencer!");
         auto& context = sequencerData[currentSequencer];
@@ -1284,7 +1293,7 @@ namespace Modot
         return context.StateOfSelection == SelectionState::Selecting;
     }
 
-    bool ModotHasSelection()
+    bool HasSelection()
     {
         IM_ASSERT(inSequencer && "Not in active sequencer!");
         auto& context = sequencerData[currentSequencer];
@@ -1292,7 +1301,7 @@ namespace Modot
         return !context.Selection.empty();
     }
 
-    bool ModotIsDraggingSelection()
+    bool IsDraggingSelection()
     {
         IM_ASSERT(inSequencer && "Not in active sequencer!");
         auto& context = sequencerData[currentSequencer];
@@ -1300,7 +1309,7 @@ namespace Modot
         return context.StateOfSelection == SelectionState::Dragging;
     }
 
-    uint32_t GetModotKeyframeSelectionSize()
+    uint32_t GetKeyframeSelectionSize()
     {
         IM_ASSERT(inSequencer && "Not in active sequencer!");
         auto& context = sequencerData[currentSequencer];
@@ -1353,12 +1362,12 @@ namespace Modot
         return context.IsSelectionRightClicked;
     }
 
-    bool ModotCanDeleteSelection()
+    bool CanDeleteSelection()
     {
         IM_ASSERT(inSequencer && "Not in active sequencer!");
         auto& context = sequencerData[currentSequencer];
 
-        return context.DeleteEnabled && ModotHasSelection() && !ModotIsSelecting() && !ModotIsDraggingSelection();
+        return context.DeleteEnabled && HasSelection() && !IsSelecting() && !IsDraggingSelection();
     }
 }
 

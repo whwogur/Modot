@@ -2,6 +2,7 @@
 #include "EditorUI.h"
 constexpr const int ANIMLAYER = 30;
 constexpr const float ANIMPREVIEW_SIZE = 350.f;
+constexpr const char* staticString[] = { u8"Ω√¿€: ", u8"≥°: ", u8"CurrentFrame: " };
 class CEditorCameraScript;
 class CTransform;
 struct tMTAnimClip;
@@ -32,10 +33,14 @@ private:
     CEditorCameraScript*    m_EditorCam = nullptr;
     tMTAnimClip             m_TargetClip = {};
 
-    std::vector<int32_t>       m_Frames = {};
-    int32_t*                m_Selected = nullptr;
+    std::vector<int32_t>    m_Frames = {};
     Matrix                  m_OriginalMatCam = {};
-    int32_t                     m_CurrentIdx = 0;
-    //Vec3                    m_TargetFront, m_TargetRight = {};
+    int32_t                 m_CurrentIdx = 0;
+    
+    int m_SelectionStart    = -1;
+    int m_SelectionEnd      = -1;
+    uint32_t                m_SelectedFramesCnt = 0;
+    char m_CharBuffer[255] = {};
+    //Vec3                  m_TargetFront, m_TargetRight = {};
 };
 

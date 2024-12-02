@@ -18,4 +18,4 @@ namespace Modot {
     IMGUI_API float GetPerFrameWidth(float totalSizeX, float valuesWidth, uint32_t endFrame, uint32_t startFrame, float zoom);
 }
 
-#endif //IMGUI_NEO_INTERNAL_H
+#endif
