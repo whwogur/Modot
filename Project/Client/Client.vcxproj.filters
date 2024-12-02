@@ -124,6 +124,9 @@
     <Filter Include="Editor\EditorUI\Modal\Util\Modot\Sequencer">
       <UniqueIdentifier>{be38762a-ec5c-4c43-99e4-0a643f5c3ee0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\EditorUI\Modal\Util\Modot\Sequencer\ImSequencer">
+      <UniqueIdentifier>{30fbb482-c1e3-40b2-9613-eb9f9bd02480}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -332,11 +335,12 @@
     <ClInclude Include="ModotHelpers.h">
       <Filter>Editor\EditorUI\Modal\Util\Modot</Filter>
     </ClInclude>
-    <ClInclude Include="Modot_sequencer.h">
-      <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer</Filter>
+    <ClInclude Include="ImSequencer.h">
+      <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer\ImSequencer</Filter>
     </ClInclude>
-    <ClInclude Include="Modot_sequencer_internal.h">
-      <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer</Filter>
+    <ClInclude Include="ModotSequencer.h" />
+    <ClInclude Include="ImCurveEdit.h">
+      <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer\ImSequencer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -549,11 +553,12 @@
     <ClCompile Include="ModotHelpers.cpp">
       <Filter>Editor\EditorUI\Modal\Util\Modot</Filter>
     </ClCompile>
-    <ClCompile Include="Modot_sequencer.cpp">
-      <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer</Filter>
+    <ClCompile Include="ImSequencer.cpp">
+      <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer\ImSequencer</Filter>
     </ClCompile>
-    <ClCompile Include="Modot_sequencer_internal.cpp">
-      <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer</Filter>
+    <ClCompile Include="ModotSequencer.cpp" />
+    <ClCompile Include="ImCurveEdit.cpp">
+      <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer\ImSequencer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

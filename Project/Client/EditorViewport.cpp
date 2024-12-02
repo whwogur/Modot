@@ -149,7 +149,7 @@ void EditorViewport::Update()
 
         ImGui::SameLine(ImGui::GetContentRegionAvail().x / 2);
 
-        ModotHelpers::LoadingIndicatorCircle("##spinner", 30.f, { 0.5f, 0.8f, 1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, 10, 10.f);
+        Modot::ModotHelpers::LoadingIndicatorCircle("##spinner", 30.f, { 0.5f, 0.8f, 1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, 10, 10.f);
 
         ImGui::End();
     }
@@ -250,7 +250,7 @@ void EditorViewport::EditorCameraSlider()
         float& camSpeed = eCamScript->GetCamSpeedRef();
 
         ImGui::SetNextItemWidth(150);
-        ModotHelpers::HSliderFloat("##EditorCamSpeedSlider", &camSpeed, 100.f, 1000.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+        Modot::ModotHelpers::HSliderFloat("##EditorCamSpeedSlider", &camSpeed, 100.f, 1000.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
         ImGui::SetItemTooltip(u8"에디터 카메라 속도 조절");
     }
 }

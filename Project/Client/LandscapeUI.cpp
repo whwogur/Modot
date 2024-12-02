@@ -144,9 +144,9 @@ void LandscapeUI::BrushSettings(CLandscape* _Landscape)
 	}
 
 	auto& [x, y] = _Landscape->GetBrushScaleRef();
-	ModotHelpers::VSliderFloat("X##BrushScaleX", { 10.f, 60.f }, &x, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
+	Modot::ModotHelpers::VSliderFloat("X##BrushScaleX", { 10.f, 60.f }, &x, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
 	ImGui::SetItemTooltip(u8"x 크기");
 	ImGui::SameLine();
-	ModotHelpers::VSliderFloat("Y##BrushScaleY", { 10.f, 60.f }, &y, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
+	Modot::ModotHelpers::VSliderFloat("Y##BrushScaleY", { 10.f, 60.f }, &y, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
 	ImGui::SetItemTooltip(u8"y 크기");
 }

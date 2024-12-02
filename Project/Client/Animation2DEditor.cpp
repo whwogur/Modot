@@ -1,8 +1,6 @@
 ﻿#include "pch.h"
 #include "Animation2DEditor.h"
 #include <numeric>
-#include "Modot_sequencer_internal.h"
-#include "Modot_sequencer.h"
 #include "CTimeMgr.h"
 #include "CAssetMgr.h"
 #include "CEditorMgr.h"
@@ -17,7 +15,8 @@ Animation2DEditor::Animation2DEditor()
 
 void Animation2DEditor::Update()
 {
-    static bool newAnimSaved = false;
+#pragma region UNDER CONSTRUCTION
+    /*static bool newAnimSaved = false;
     if (ImGui::BeginDragDropTarget())
     {
         const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
@@ -190,17 +189,7 @@ void Animation2DEditor::Update()
         ImGui::DragFloat("FPS", &m_FPS, 1.0f, 0.1f, 60.f, "%.1f", 0);
         ImGui::SetItemTooltip(u8"애니메이션 재생 속도 조절");
         ImGui::NewLine();
-        if (Modot::BeginModotSequencer(u8"애니메이션", &m_CurrentFrame, &m_StartFrame, &m_EndFrame, {0, 0})) {
-            
-                std::vector<Modot::FrameIndexType> keys(m_EndFrame);
-                std::iota(keys.begin(), keys.end(), 0);
-
-                if (Modot::BeginModotTimeline(u8"KeyFrames", keys))
-                {
-                    Modot::EndModotTimeLine();
-                }
-                Modot::EndModotSequencer();
-        }
+        
 
 
         if (newAnimSaved)
@@ -228,7 +217,8 @@ void Animation2DEditor::Update()
             m_Animation = temp;
             Refresh();
         }
-    }
+    }*/
+#pragma endregion
 }
 
 void Animation2DEditor::Refresh()

@@ -14,8 +14,6 @@
 #include "CEditorCameraScript.h"
 
 #include "CEditorMgr.h"
-#include <Modot_sequencer.h>
-#include <numeric>
 Animation3DEditor::Animation3DEditor()
 {
 }
@@ -26,6 +24,9 @@ void Animation3DEditor::Init()
 	MD_ENGINE_ASSERT(L"에디터 카메라 스크립트 미아", !vecScripts.empty());
 
 	m_EditorCam = static_cast<CEditorCameraScript*>(vecScripts[0]); // 에디터 카메라스크립트 맨 앞쪽에 있도록
+	m_Sequencer = std::make_unique<Modot::ModotSequencer>();
+	m_Sequencer->Add(0);
+	m_Sequencer->Add(1);
 }
 
 void Animation3DEditor::Update()
@@ -125,7 +126,6 @@ void Animation3DEditor::LetGoOfTarget()
 
 	memset(&m_OriginalMatCam, 0, sizeof(Matrix));
 	memset(&m_TargetClip, 0, sizeof(tMTAnimClip));
-	m_CurrentIdx = 0;
 }
 
 void Animation3DEditor::SetWorldPosition(CTransform* _Transform, const Matrix& _Mat)
@@ -153,8 +153,6 @@ void Animation3DEditor::RenderSequencer()
 					if (ImGui::Selectable(strName.c_str()))
 					{
 						m_TargetClip = clip;
-						m_Frames.resize(clip.iEndFrame);
-						std::iota(m_Frames.begin(), m_Frames.end(), 0);
 					}
 				}
 				ImGui::EndCombo();
@@ -178,34 +176,29 @@ void Animation3DEditor::RenderSequencer()
 			}
 		}
 
-
-
 		ImGui::SeparatorText(u8"클립 정보");
-		if (Modot::BeginModotSequencer(u8"애니메이션", &m_CurrentIdx, &m_TargetClip.iStartFrame, &m_TargetClip.iEndFrame, {0, 0}, ModotSequencerFlags_EnableSelection | ModotSequencerFlags_Selection_EnableDragging | ModotSequencerFlags_Selection_EnableDeletion))
+		// let's create the sequencer
+		static int selectedEntry = -1;
+		static int firstFrame = 0;
+		static int frameMin = 0;
+		static int frameMax = 200;
+		static bool expanded = true;
+		static int currentFrame = 100;
+
+		ImGui::PushItemWidth(130);
+		ImGui::InputInt("Frame Min", &frameMin);
+		ImGui::SameLine();
+		ImGui::InputInt("Frame ", &currentFrame);
+		ImGui::SameLine();
+		ImGui::InputInt("Frame Max", &frameMax);
+		ImGui::PopItemWidth();
+		Sequencer(m_Sequencer.get(), &currentFrame, &expanded, &selectedEntry, &firstFrame, ImSequencer::SEQUENCER_EDIT_STARTEND | ImSequencer::SEQUENCER_ADD | ImSequencer::SEQUENCER_DEL | ImSequencer::SEQUENCER_COPYPASTE | ImSequencer::SEQUENCER_CHANGE_FRAME);
+		// add a UI to edit that particular item
+		if (selectedEntry != -1)
 		{
-			if (Modot::BeginModotTimeline(u8"키프레임", m_Frames))
-			{
-				
-				if (KEY_TAP(KEY::_7))
-				{
-					uint32_t kfSize = Modot::GetModotKeyframeSelectionSize();
-					//Modot::GetModotKeyframeSelection(m_Selected);
-					EDITOR_TRACE(std::to_string(kfSize));
-					//EDITOR_TRACE(std::to_string(m_Selected[0]) + "~" + std::to_string(m_Selected[kfSize - 1]));
-				}
-				
-
-				Modot::EndModotTimeLine();
-			}
-				
-			
-
-			/*if (Modot::BeginModotTimeline(u8"테스트", m_Frames))
-			{
-				Modot::EndModotTimeLine();
-			}
-			*/
-			Modot::EndModotSequencer();
+			const Modot::ModotSequenceItem& item = m_Sequencer->GetItemRef(selectedEntry);
+			ImGui::Text("I am a %s, please edit me", SequencerItemTypeNames[item.Type]);
+			// switch (type) ....
 		}
 	}
 	ImGui::End();

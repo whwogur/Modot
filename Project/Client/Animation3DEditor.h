@@ -1,5 +1,6 @@
 #pragma once
 #include "EditorUI.h"
+#include "ModotSequencer.h"
 constexpr const int ANIMLAYER = 30;
 constexpr const float ANIMPREVIEW_SIZE = 350.f;
 class CEditorCameraScript;
@@ -28,14 +29,12 @@ private:
     void RenderPreview();
     //void RenderCardinalDirections();
 private:
-    CGameObject*            m_Target = nullptr;
-    CEditorCameraScript*    m_EditorCam = nullptr;
-    tMTAnimClip             m_TargetClip = {};
+    CGameObject*                                m_Target = nullptr;
+    CEditorCameraScript*                        m_EditorCam = nullptr;
+    tMTAnimClip                                 m_TargetClip = {};
 
-    std::vector<int32_t>       m_Frames = {};
-    int32_t*                m_Selected = nullptr;
-    Matrix                  m_OriginalMatCam = {};
-    int32_t                     m_CurrentIdx = 0;
-    //Vec3                    m_TargetFront, m_TargetRight = {};
+    Matrix                                      m_OriginalMatCam = {};
+
+    std::unique_ptr<Modot::ModotSequencer>      m_Sequencer;
 };
 
