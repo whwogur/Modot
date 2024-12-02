@@ -112,9 +112,12 @@
     <ClInclude Include="DecalUI.h" />
     <ClInclude Include="EditorLogger.h" />
     <ClInclude Include="EditorViewport.h" />
+    <ClInclude Include="ImCurveEdit.h" />
     <ClInclude Include="LandscapeUI.h" />
     <ClInclude Include="Light3DUI.h" />
     <ClInclude Include="ModotHelpers.h" />
+    <ClInclude Include="ImSequencer.h" />
+    <ClInclude Include="ModotSequencer.h" />
     <ClInclude Include="RigidBodyUI.h" />
     <ClInclude Include="ScriptUI.h" />
     <ClInclude Include="CTestLevel.h" />
@@ -122,8 +125,6 @@
     <ClInclude Include="GraphicShaderUI.h" />
     <ClInclude Include="ImGui\IconsFontAwesome4.h" />
     <ClInclude Include="ImGui\ImGuizmo.h" />
-    <ClInclude Include="ImGui\imgui_neo_internal.h" />
-    <ClInclude Include="ImGui\imgui_neo_sequencer.h" />
     <ClInclude Include="Light2DUI.h" />
     <ClInclude Include="ListUI.h" />
     <ClInclude Include="MaterialUI.h" />
@@ -186,23 +187,24 @@
     <ClCompile Include="DecalUI.cpp" />
     <ClCompile Include="EditorLogger.cpp" />
     <ClCompile Include="EditorViewport.cpp" />
+    <ClCompile Include="ImCurveEdit.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="LandscapeUI.cpp" />
     <ClCompile Include="Light3DUI.cpp" />
     <ClCompile Include="ModotHelpers.cpp" />
+    <ClCompile Include="ImSequencer.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ModotSequencer.cpp" />
     <ClCompile Include="RigidBodyUI.cpp" />
     <ClCompile Include="ScriptUI.cpp" />
     <ClCompile Include="CTestLevel.cpp" />
     <ClCompile Include="FileBrowser.cpp" />
     <ClCompile Include="GraphicShaderUI.cpp" />
     <ClCompile Include="ImGui\ImGuizmo.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_neo_internal.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_neo_sequencer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>

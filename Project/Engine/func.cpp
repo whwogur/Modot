@@ -241,3 +241,106 @@ std::string ToString(const std::wstring& wstr)
 	WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &str[0], size_needed, NULL, NULL);
 	return str;
 }
+
+std::string MatrixToString(const Matrix& matrix, int precision)
+{
+	std::ostringstream oss;
+	oss.precision(precision);
+	oss << std::fixed;
+
+	
+	for (int row = 0; row < 4; ++row)
+	{
+		oss << "[";
+		for (int col = 0; col < 4; ++col)
+		{
+			oss << matrix.m[row][col];
+			if (row != 3 || col != 3)
+				oss << ", ";
+		}
+		oss << "]\n";
+	}
+
+	return oss.str();
+}
+
+Matrix MakeLookAtWorldMatrix(const Matrix& _Mat, const Vec3& _Pos)
+{
+	// 대상 위치
+	Vec3 targetPosition(_Mat._41, _Mat._42, _Mat._43);
+
+	// 방향 벡터
+	Vec3 direction = _Pos - targetPosition;
+	direction.Normalize();
+
+	Vec3 up(0.f, 1.f, 0.f);
+
+	// Right, Forward 벡터 계산
+	Vec3 right = up.Cross(direction);
+	right.Normalize();
+	up = direction.Cross(right); // Up 벡터 재계산 (직교 보장)
+
+	// LookAt 행렬 생성 (회전 부분)
+	Matrix rotationMatrix(
+		right.x, up.x, direction.x, 0.0f,
+		right.y, up.y, direction.y, 0.0f,
+		right.z, up.z, direction.z, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f
+	);
+
+	// 위치 변환 (Translation)
+	Matrix translationMatrix(Matrix::CreateTranslation(_Pos));
+
+	// 최종 월드 행렬 조합
+	return rotationMatrix * translationMatrix;
+}
+
+Vec3 GetOffsetPosition(const Matrix& _Mat, float _Distance)
+{
+	// Forward 벡터 추출 (_31, _32, _33)
+	Vec3 forward(_Mat._31, _Mat._32, _Mat._33);
+	forward.Normalize();
+
+	// Forward 방향으로 거리만큼 떨어진 위치 계산
+	Vec3 targetPosition(_Mat._41, _Mat._42, _Mat._43);
+	Vec3 offsetPosition = targetPosition + (forward * _Distance);
+
+	return offsetPosition;
+}
+
+Matrix MakeLookAtWorldMatrix(const Matrix& _Mat, float _Distance)
+{
+	Vec3 offsetPosition = GetOffsetPosition(_Mat, _Distance);
+
+	return MakeLookAtWorldMatrix(_Mat, offsetPosition);
+}
+
+Vec3 ExtractScale(const Matrix& _Mat)
+{
+	return {
+		XMVectorGetX(XMVector3Length(XMLoadFloat3(reinterpret_cast<const XMFLOAT3*>(&_Mat._11)))),
+		XMVectorGetX(XMVector3Length(XMLoadFloat3(reinterpret_cast<const XMFLOAT3*>(&_Mat._21)))),
+		XMVectorGetX(XMVector3Length(XMLoadFloat3(reinterpret_cast<const XMFLOAT3*>(&_Mat._31))))
+	};
+}
+
+Vec3 ExtractRotation(const Matrix& _Mat)
+{
+	XMFLOAT3 scale = ExtractScale(_Mat);
+	Matrix rotMatrix = _Mat;
+	rotMatrix._11 /= scale.x; rotMatrix._12 /= scale.x; rotMatrix._13 /= scale.x;
+	rotMatrix._21 /= scale.y; rotMatrix._22 /= scale.y; rotMatrix._23 /= scale.y;
+	rotMatrix._31 /= scale.z; rotMatrix._32 /= scale.z; rotMatrix._33 /= scale.z;
+
+	// 오일러 각도 추출
+	float pitch = atan2(-rotMatrix._31, sqrt(rotMatrix._32 * rotMatrix._32 + rotMatrix._33 * rotMatrix._33));
+	float yaw = atan2(rotMatrix._21, rotMatrix._11);
+	float roll = atan2(rotMatrix._32, rotMatrix._33);
+
+	return { pitch, yaw, roll };
+}
+
+Vec3 ExtractPosition(const Matrix& _Mat)
+{
+	return { _Mat._41, _Mat._42, _Mat._43 };
+}

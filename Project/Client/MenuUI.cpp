@@ -15,6 +15,7 @@
 #include "Inspector.h"
 #include "SpriteEditor.h"
 #include "Animation2DEditor.h"
+#include "Animation3DEditor.h"
 #include "TilemapEditor.h"
 #include "CLevelSaveLoad.h"
 #include "MaterialUI.h"
@@ -47,7 +48,7 @@ void MenuUI::Update()
 
 void MenuUI::File()
 {
-	if (ImGui::BeginMenu(ICON_FA_FILE " File"))
+	if (ImGui::BeginMenu("File"))
 	{
 		if (ImGui::MenuItem(u8"새 레벨", " Ctrl + N"))
 		{
@@ -106,7 +107,7 @@ void MenuUI::File()
 
 void MenuUI::Tools()
 {
-	if (ImGui::BeginMenu(ICON_FA_WRENCH " Tools"))
+	if (ImGui::BeginMenu(" Tools"))
 	{
 		if (ImGui::MenuItem(u8"타일맵 에디터", " Alt + T"))
 		{
@@ -120,11 +121,23 @@ void MenuUI::Tools()
 			spriteEditor->Toggle();
 		}
 
-		if (ImGui::MenuItem(u8"애니메이션 에디터", " Alt + A"))
+		if (ImGui::BeginMenu(u8"애니메이션 에디터", " Alt + A"))
 		{
-			Animation2DEditor* animEditor = static_cast<Animation2DEditor*>(CEditorMgr::GetInst()->FindEditorUI("Animation2DEditor"));
-			animEditor->SetActive(true);
+			if (ImGui::MenuItem(u8"2D애니메이션"))
+			{
+				Animation2DEditor* animEditor = static_cast<Animation2DEditor*>(CEditorMgr::GetInst()->FindEditorUI("Animation2DEditor"));
+				animEditor->SetActive(true);
+			}
+
+			if (ImGui::MenuItem(u8"3D애니메이션"))
+			{
+				Animation3DEditor* animEditor = static_cast<Animation3DEditor*>(CEditorMgr::GetInst()->FindEditorUI("Animation3DEditor"));
+				animEditor->SetActive(true);
+			}
+
+			ImGui::EndMenu();
 		}
+		
 
 		if (ImGui::MenuItem(u8"레이어 관리", " Alt + C"))
 		{
@@ -143,7 +156,7 @@ void MenuUI::Tools()
 
 void MenuUI::Assets()
 {
-	if (ImGui::BeginMenu(ICON_FA_SUITCASE " Assets"))
+	if (ImGui::BeginMenu("Assets"))
 	{
 		if (ImGui::MenuItem(ICON_FA_FLOPPY_O " Save Material"))
 		{
@@ -167,7 +180,7 @@ void MenuUI::Assets()
 
 void MenuUI::External()
 {
-	if (ImGui::BeginMenu(ICON_FA_GLOBE " External"))
+	if (ImGui::BeginMenu("External"))
 	{
 		if (ImGui::MenuItem(ICON_FA_GITHUB_SQUARE " Github"))
 		{
@@ -204,7 +217,6 @@ void MenuUI::OutputInfo()
 	// Info
 	float contentRegionAvailable = ImGui::GetContentRegionAvail().x;
 	LEVEL_STATE state = CLevelMgr::GetInst()->GetCurrentLevel()->GetState();
-	string whichCamera;
 	ImVec4 color;
 	UINT FPS = CTimeMgr::GetInst()->GetFPSRecord();
 	char buffer[30];
@@ -215,15 +227,13 @@ void MenuUI::OutputInfo()
 
 	if (state == LEVEL_STATE::PLAY)
 	{
-		whichCamera = ICON_FA_CAMERA_RETRO " MAINCAM";
-
-		ImGui::SameLine(contentRegionAvailable / 2);
+		ImGui::SameLine(contentRegionAvailable * 0.5f);
 		if (ImGui::Button(ICON_FA_PAUSE, { 22, 22 }))
 		{
 			ChangeLevelState(LEVEL_STATE::PAUSE);
 			EDITOR_TRACE("Paused");
 		}
-		ImGui::SameLine(contentRegionAvailable / 2 + 30);
+		ImGui::SameLine(contentRegionAvailable * 0.5f + 30);
 		if (ImGui::Button(ICON_FA_STOP, { 22, 22 }))
 		{
 			const wstring& lvName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
@@ -236,17 +246,16 @@ void MenuUI::OutputInfo()
 			pInspector->SetTargetAsset(nullptr);
 		}
 
-		color = { 0.45f, 0.55f, 0.88f, 1.0f };
+		color = HEADER_1;
 	}
 	else if (state == LEVEL_STATE::PAUSE)
 	{
-		whichCamera = ICON_FA_PAUSE" PAUSED";
-		ImGui::SameLine(contentRegionAvailable / 2);
+		ImGui::SameLine(contentRegionAvailable * 0.5f);
 		if (ImGui::Button(ICON_FA_PLAY, { 22, 22 }))
 		{
 			ChangeLevelState(LEVEL_STATE::PLAY);
 		}
-		ImGui::SameLine(contentRegionAvailable / 2 + 30);
+		ImGui::SameLine(contentRegionAvailable * 0.5f + 30);
 		if (ImGui::Button(ICON_FA_STOP, { 22, 22 }))
 		{
 			const wstring& lvName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
@@ -263,8 +272,7 @@ void MenuUI::OutputInfo()
 	}
 	else
 	{
-		whichCamera = ICON_FA_CAMERA_RETRO " EDITORCAM";
-		ImGui::SameLine(contentRegionAvailable / 2);
+		ImGui::SameLine(contentRegionAvailable * 0.5f);
 		if (ImGui::Button(ICON_FA_PLAY, { 22, 22 }))
 		{
 			ChangeLevelState(LEVEL_STATE::PLAY);
@@ -276,9 +284,6 @@ void MenuUI::OutputInfo()
 	}
 
 	ImGui::SameLine(contentRegionAvailable);
-
-	ImGui::TextColored(color, whichCamera.c_str());
-	ImGui::SameLine();
 	ImGui::TextColored(color, buffer);
 }
 

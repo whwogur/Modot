@@ -24,8 +24,8 @@ void Collider2DUI::Update()
 			Vec3& vScale = pCollider->GetScaleRef();
 			bool& bIndependent = pCollider->GetIndependetScaleRef();
 
-			ModotHelpers::DrawVec3Control("Offset", vOffset, 0.0f, 80.0f);
-			ModotHelpers::DrawVec3Control("Scale", vScale, 0.0f, 80.0f);
+			Modot::ModotHelpers::DrawVec3Control("Offset", vOffset, 0.0f, 80.0f);
+			Modot::ModotHelpers::DrawVec3Control("Scale", vScale, 0.0f, 80.0f);
 			ImGui::Checkbox("Independent Scale", &bIndependent);
 		}
 	}

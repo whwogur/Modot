@@ -20,6 +20,7 @@ void CEditorMgr::CreateEditorObject()
 	pEditorCamera->AddComponent(new CCamera);
 	pEditorCamera->AddComponent(new CEditorCameraScript);
 
+	pEditorCamera->Transform()->SetRelativeScale(1, 1, 1);
 	pEditorCamera->Camera()->SetLayerAll();
 	pEditorCamera->Camera()->SetLayer(31, false);
 	pEditorCamera->Camera()->SetFar(10000.f);
