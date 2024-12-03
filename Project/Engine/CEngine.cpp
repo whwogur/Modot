@@ -13,7 +13,7 @@
 #include "CCollisionMgr.h"
 #include "CTaskMgr.h"
 #include "CFontMgr.h"
-
+#include "CInstancingBuffer.h"
 #include "../Client/CPlayerManager.h" // 응애 ㅠ
 CEngine::CEngine()
 	: m_hWnd(nullptr)
@@ -54,6 +54,8 @@ int CEngine::Init(HWND _wnd, POINT _ptResolution, OBJECT_SAVE _SaveFunc, OBJECT_
 	CAssetMgr::GetInst()->Init();
 	CRenderMgr::GetInst()->Init();
 	CFontMgr::GetInst()->Init();
+	CInstancingBuffer::GetInst()->Init();
+
 	// Prefab Function 등록
 	CPrefab::g_ObjectSaveFunc = _SaveFunc;
 	CPrefab::g_ObjectLoadFunc = _Func;

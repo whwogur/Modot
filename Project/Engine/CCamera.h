@@ -83,14 +83,14 @@ private:
     void SortGameObject();
     void RenderDeferred();
     void RenderDecal();
-    void RenderOpaque();
-    void RenderMasked();
+    void RenderForward();
     void RenderEffect();
     void RenderTransparent();
     void RenderParticle();
     void RenderPostprocess();
     void RenderUI();
-    void ClearVec();
+
+    void Clear();
 
     void SortShadows();
     void RenderShadowMap();
@@ -102,7 +102,12 @@ private:
     int                             m_Priority;
     UINT                            m_LayerCheck; // 원하는 레이머나 카메라에 찍히도록
     PROJ_TYPE                       m_ProjType;
-    Matrix                          m_matView, m_matProj, m_matViewInv, m_matProjInv;
+
+    Matrix                          m_matView;
+    Matrix                          m_matProj;
+    Matrix                          m_matViewInv;
+    Matrix                          m_matProjInv;
+
     float                           m_Width, m_Height;
     float                           m_AspectRatio;
     float                           m_Far;
@@ -112,10 +117,13 @@ private:
     tRay                            m_Ray;
 
     bool                            m_Active = true;
-    std::vector<CGameObject*>       m_vecDeferred;
+
+    // 물체 분류
+    map<ULONG64, std::vector<tInstObj>>		m_mapInstGroup_D;	// Deferred
+    map<ULONG64, std::vector<tInstObj>>		m_mapInstGroup_F;	// Foward ( Opaque, Mask )	
+    map<INT_PTR, std::vector<tInstObj>>		m_mapSingleObj;		// Single Object
+
     std::vector<CGameObject*>       m_vecDecal;
-    std::vector<CGameObject*>       m_vecOpaque;        // 불투명
-    std::vector<CGameObject*>       m_vecMasked;        // 불투명, 투명
     std::vector<CGameObject*>       m_vecTransparent;   // 투명, 반투명
     std::vector<CGameObject*>       m_vecEffect;
     std::vector<CGameObject*>       m_vecParticles;     // 투명, 반투명, 입자 타입

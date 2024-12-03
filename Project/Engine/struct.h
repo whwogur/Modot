@@ -303,3 +303,36 @@ struct tMTAnimClip
 	int							iTitleIndex;
 	FbxTime::EMode				eMode;
 };
+
+// ===========
+// Instancing
+// ===========
+union uInstID
+{
+	struct
+	{
+		UINT iMesh;
+		WORD iMtrl;
+		WORD iMtrlIdx;
+	}; ULONG64 llID;
+};
+
+class CGameObject;
+struct tInstObj
+{
+	tInstObj() = default;
+	tInstObj(CGameObject* _pObj, UINT _iMtrlIdx)
+		: pObj(_pObj)
+		, iMtrlIdx(_iMtrlIdx)
+	{}
+
+	CGameObject* pObj = nullptr;
+	UINT		 iMtrlIdx = 0;
+};
+struct tInstancingData
+{
+	Matrix matWorld;
+	Matrix matWV;
+	Matrix matWVP;
+	int    iRowIdx;
+};

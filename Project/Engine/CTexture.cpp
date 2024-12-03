@@ -73,11 +73,11 @@ int CTexture::CreateArrayTexture(const std::vector<Ptr<CTexture>>& _vecTex)
 	// 원본 각 텍스쳐를 생성된 배열 텍스쳐의 각 칸으로 복사시킨다.
 	for (size_t i = 0; i < _vecTex.size(); ++i)
 	{
-		UINT Offset = D3D11CalcSubresource(0, i, 1);
+		UINT Offset = D3D11CalcSubresource(0, static_cast<UINT>(i), 1);
 		CONTEXT->UpdateSubresource(m_Tex2D.Get(), Offset, nullptr
-			, _vecTex[i]->GetPixels()
-			, _vecTex[i]->GetRowPitch()
-			, _vecTex[i]->GetSlicePitch());
+			, _vecTex[static_cast<UINT>(i)]->GetPixels()
+			, _vecTex[static_cast<UINT>(i)]->GetRowPitch()
+			, _vecTex[static_cast<UINT>(i)]->GetSlicePitch());
 	}
 
 	// Shader Resrouce View 생성
@@ -98,20 +98,23 @@ int CTexture::CreateArrayTexture(const std::vector<Ptr<CTexture>>& _vecTex)
 int CTexture::GenerateMip(UINT _Level)
 {
 	// CubeTexture 는 Mipmap 생성 금지
-	assert(false == m_Desc.MiscFlags & D3D11_SRV_DIMENSION_TEXTURECUBE);
+	MD_ENGINE_ASSERT(0 == m_Desc.MiscFlags & D3D11_SRV_DIMENSION_TEXTURECUBE, L"CubeTexture에 밉맵 생성 시도함");
+
 	m_Tex2D = nullptr;
-	m_RTV = nullptr;
-	m_DSV = nullptr;
-	m_SRV = nullptr;
-	m_UAV = nullptr;
+	m_RTV	= nullptr;
+	m_DSV	= nullptr;
+	m_SRV	= nullptr;
+	m_UAV	= nullptr;
 
 	m_Desc.MipLevels = _Level;
 	m_Desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 	m_Desc.MiscFlags |= D3D11_RESOURCE_MISC_GENERATE_MIPS;
+
 	if (FAILED(DEVICE->CreateTexture2D(&m_Desc, nullptr, m_Tex2D.GetAddressOf())))
 	{
 		return E_FAIL;
 	}
+
 	for (UINT i = 0; i < m_Desc.ArraySize; ++i)
 	{
 		UINT iSubIdx = D3D11CalcSubresource(0, i, m_Desc.MipLevels);

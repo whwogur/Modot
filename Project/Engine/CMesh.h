@@ -21,8 +21,11 @@ public:
     static CMesh* CreateFromContainer(CFBXLoader& _loader);
     int Create(Vtx* _VtxSysMem, UINT _VtxCount, UINT* _IdxSysMem, UINT _IdxCount);
     void Bind(UINT _Subset);
+    void BindInstance(UINT _iSubset);
+
     void Render(UINT _Subset);
     void Render_Particle(UINT _Count);
+    void RenderInstance(UINT _iSubset);
 
     UINT GetVertexCount() { return m_VtxCount; }
     UINT GetSubsetCount() { return (UINT)m_vecIdxInfo.size(); }

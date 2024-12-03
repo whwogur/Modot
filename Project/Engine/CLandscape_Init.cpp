@@ -17,9 +17,9 @@ void CLandscape::Init()
 	// LandScape 용 텍스쳐 생성 및 로딩
 	CreateTextureAndStructuredBuffer();
 	
-	AddBrushTexture(CAssetMgr::GetInst()->Load<CTexture>(L"brush0", L"texture\\Engine\\Brush\\brush0.png"));
-	AddBrushTexture(CAssetMgr::GetInst()->Load<CTexture>(L"brush1", L"texture\\Engine\\Brush\\brush1.png"));
-	AddBrushTexture(CAssetMgr::GetInst()->Load<CTexture>(L"brush2", L"texture\\Engine\\Brush\\brush2.png"));
+	AddBrushTexture(CAssetMgr::GetInst()->FindAsset<CTexture>(L"brush0"));
+	AddBrushTexture(CAssetMgr::GetInst()->FindAsset<CTexture>(L"brush1"));
+	AddBrushTexture(CAssetMgr::GetInst()->FindAsset<CTexture>(L"brush2"));
 	
 	// TODO
 	CreateHeightMap(1024, 1024);

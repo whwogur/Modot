@@ -97,6 +97,16 @@ Ptr<CMaterial> CRenderComponent::GetDynamicMaterial(UINT _idx)
 	return m_vecMtrls[_idx].pCurMtrl;
 }
 
+ULONG64 CRenderComponent::GetInstID(UINT _iMtrlIdx)
+{
+	if (m_Mesh == nullptr || m_vecMtrls[_iMtrlIdx].pCurMtrl == nullptr)
+		return 0;
+
+	uInstID id{ (UINT)m_Mesh->GetID(), (WORD)m_vecMtrls[_iMtrlIdx].pCurMtrl->GetID(), (WORD)_iMtrlIdx };
+
+	return id.llID;
+}
+
 void CRenderComponent::RenderShadow()
 {
 	// 재질은 ShadowMapMtrl 로 이미 Bind 되어있는걸 사용
@@ -107,6 +117,11 @@ void CRenderComponent::RenderShadow()
 	{
 		GetMesh()->Render(i);
 	}
+}
+
+void CRenderComponent::Render(UINT _iSubset)
+{
+	Render();
 }
 
 void CRenderComponent::SaveDataToFile(FILE* _File)

@@ -51,14 +51,14 @@ void TransformUI::Update()
 
 		if (bFrustumCull)
 		{
-			std::shared_ptr<CBoundingSphere>& pBoundingSphere = pTrans->GetBoundingSphere();
+			std::weak_ptr<CBoundingSphere> pBoundingSphere = pTrans->GetBoundingSphere();
 
-			if (pBoundingSphere != nullptr)
+			if (pBoundingSphere.lock() != nullptr)
 			{
-				float fRadius = pBoundingSphere->GetRadius();
+				float fRadius = pBoundingSphere.lock()->GetRadius();
 				if (ImGui::DragFloat("Radius", &fRadius, 1.f, 0.f, 0.f, "%.1f"))
 				{
-					pBoundingSphere->SetRadius(fRadius);
+					pBoundingSphere.lock()->SetRadius(fRadius);
 				}
 			}
 		}

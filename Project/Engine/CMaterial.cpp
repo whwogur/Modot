@@ -80,6 +80,30 @@ void CMaterial::Bind()
 	m_Shader->Bind();
 }
 
+void CMaterial::BindInstance()
+{
+	// 텍스쳐 바인딩
+	for (UINT i = 0; i < TEX_PARAM::END; ++i)
+	{
+		if (nullptr == m_arrTex[i])
+		{
+			CTexture::Clear(i);
+			m_Const.btex[i] = false;
+			continue;
+		}
+
+		m_arrTex[i]->Bind(i);
+		m_Const.btex[i] = true;
+	}
+
+	// 상수 데이터 바인딩
+	if (nullptr != m_Shader.Get())
+		m_Shader->BindInstance();
+	CConstBuffer* pMtrlCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::MATERIAL);
+	pMtrlCB->SetData(&m_Const);
+	pMtrlCB->Bind();
+}
+
 int CMaterial::Save(const wstring& _RelativePath)
 {
 	SetRelativePath(_RelativePath);

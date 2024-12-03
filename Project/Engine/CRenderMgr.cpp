@@ -227,17 +227,15 @@ void CRenderMgr::Render(CCamera* _Cam)
 	//// =================
 	//// FORWARD RENDERING
 	//// =================
-	//// 
-	//// 분류된 물체들 렌더링
-	_Cam->RenderOpaque();
-	//_Cam->RenderMasked();
-	//_Cam->RenderEffect();
-	//_Cam->RenderTransparent();
-	//_Cam->RenderParticle();
+	_Cam->RenderEffect();
+	_Cam->RenderTransparent();
+	_Cam->RenderParticle();
 	_Cam->RenderPostprocess();
-	//_Cam->RenderUI();
+	
+	_Cam->RenderUI();
+	
 	// 정리
-	_Cam->ClearVec();
+	_Cam->Clear();
 }
 
 void CRenderMgr::Render_Sub(CCamera* _Cam)

@@ -14,7 +14,7 @@ CStructuredBuffer::CStructuredBuffer()
 int CStructuredBuffer::Create(UINT _ElementSize, UINT _ElementCount,
 	SB_TYPE _Type, bool _SysMemMove, void* _InitData)
 {
-	MD_ENGINE_ASSERT(L"16바이트 정렬 되지 않음", 0 == (_ElementSize % 16));
+	MD_ENGINE_ASSERT(0 == (_ElementSize % 16), L"16바이트 정렬 되지 않음");
 
 	m_Type = _Type;
 

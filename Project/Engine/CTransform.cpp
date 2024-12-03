@@ -144,10 +144,12 @@ void CTransform::SetFrustumCulling(bool _Cull)
 		rComp->SetFrustumCheck(_Cull);
 }
 
-std::shared_ptr<CBoundingSphere>& CTransform::GetBoundingSphere()
+std::weak_ptr<CBoundingSphere> CTransform::GetBoundingSphere()
 {
-	if (m_UseFrustumCulling && m_BoundingSphere != nullptr)
-		return m_BoundingSphere;
+	if (!m_UseFrustumCulling)
+		return std::weak_ptr<CBoundingSphere>();
+
+	return m_BoundingSphere;
 }
 
 void CTransform::SaveToFile(FILE* _File)

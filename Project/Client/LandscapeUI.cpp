@@ -117,12 +117,12 @@ void LandscapeUI::Init()
 	for (int i = 0; i < WEIGHTCOUNT; ++i)
 	{
 		textureName = L"ground" + std::to_wstring(i) + L"_albedo";
-		m_WeightPalette[i] = CAssetMgr::GetInst()->Load<CTexture>(textureName, L"texture\\LandScape\\" + textureName + L".TGA");
+		m_WeightPalette[i] = CAssetMgr::GetInst()->FindAsset<CTexture>(textureName/*, L"texture\\LandScape\\" + textureName + L".TGA"*/);
 	}
 
-	m_BrushPalette[0] = CAssetMgr::GetInst()->Load<CTexture>(L"brush0", L"texture\\Engine\\Brush\\brush0.png");
-	m_BrushPalette[1] = CAssetMgr::GetInst()->Load<CTexture>(L"brush1", L"texture\\Engine\\Brush\\brush1.png");
-	m_BrushPalette[2] = CAssetMgr::GetInst()->Load<CTexture>(L"brush2", L"texture\\Engine\\Brush\\brush2.png");
+	m_BrushPalette[0] = CAssetMgr::GetInst()->FindAsset<CTexture>(L"brush0");
+	m_BrushPalette[1] = CAssetMgr::GetInst()->FindAsset<CTexture>(L"brush1");
+	m_BrushPalette[2] = CAssetMgr::GetInst()->FindAsset<CTexture>(L"brush2");
 }
 
 void LandscapeUI::BrushSettings(CLandscape* _Landscape)

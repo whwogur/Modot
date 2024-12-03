@@ -4,6 +4,7 @@
 #include "CDevice.h"
 #include "CPathMgr.h"
 #include "CStructuredBuffer.h"
+#include "CInstancingBuffer.h"
 
 CMesh::CMesh()
 	: CAsset(ASSET_TYPE::MESH)
@@ -256,6 +257,19 @@ void CMesh::Bind(UINT _Subset)
 	CONTEXT->IASetIndexBuffer(m_vecIdxInfo[_Subset].pIB.Get(), DXGI_FORMAT_R32_UINT, 0);
 }
 
+void CMesh::BindInstance(UINT _iSubset)
+{
+	if (_iSubset >= m_vecIdxInfo.size())
+		assert(nullptr);
+
+	ID3D11Buffer* arrBuffer[2]	= { m_VB.Get(), CInstancingBuffer::GetInst()->GetBuffer().Get() };
+	UINT		  iStride[2]	= { sizeof(Vtx), sizeof(tInstancingData) };
+	UINT		  iOffset[2]	= { 0, 0 };
+
+	CONTEXT->IASetVertexBuffers(0, 2, arrBuffer, iStride, iOffset);
+	CONTEXT->IASetIndexBuffer(m_vecIdxInfo[_iSubset].pIB.Get(), DXGI_FORMAT_R32_UINT, 0);
+}
+
 void CMesh::Render(UINT _Subset)
 {
 	Bind(_Subset);
@@ -269,6 +283,14 @@ void CMesh::Render_Particle(UINT _Count)
 	Bind(0);
 
 	CONTEXT->DrawIndexedInstanced(m_vecIdxInfo[0].iIdxCount, _Count, 0, 0, 0);
+}
+
+void CMesh::RenderInstance(UINT _iSubset)
+{
+	BindInstance(_iSubset);
+
+	CONTEXT->DrawIndexedInstanced(m_vecIdxInfo[_iSubset].iIdxCount
+		, CInstancingBuffer::GetInst()->GetInstanceCount(), 0, 0, 0);
 }
 
 int CMesh::Save(const wstring& _RelativePath)
@@ -374,10 +396,7 @@ int CMesh::Load(const wstring& _RelativePath)
 	D3D11_SUBRESOURCE_DATA tSubData = {};
 	tSubData.pSysMem = m_VtxSysMem;
 
-	if (FAILED(DEVICE->CreateBuffer(&tDesc, &tSubData, m_VB.GetAddressOf())))
-	{
-		MD_ENGINE_ASSERT(L"메쉬 로딩 중 정점버퍼 생성 실패", nullptr);
-	}
+	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateBuffer(&tDesc, &tSubData, m_VB.GetAddressOf())), L"메쉬 로딩 중 정점버퍼 생성 실패");
 
 	// 인덱스 정보
 	UINT iMtrlCount = 0;

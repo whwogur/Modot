@@ -48,7 +48,7 @@ public:
 
 public:
     void Bind();
-    
+    void BindInstance();
 public:
     virtual int Load(const wstring& _RelativePath) override;
     virtual int Save(const wstring& _RelativePath) override;

@@ -70,12 +70,6 @@
     <ClInclude Include="CMaterial.h">
       <Filter>06. Asset\Material</Filter>
     </ClInclude>
-    <ClInclude Include="CConstBuffer.h">
-      <Filter>03. Device\Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="CStructuredBuffer.h">
-      <Filter>03. Device\Buffer</Filter>
-    </ClInclude>
     <ClInclude Include="CGraphicShader.h">
       <Filter>06. Asset\Shader\GraphicShader</Filter>
     </ClInclude>
@@ -211,6 +205,18 @@
     <ClInclude Include="CAnimator3D.h">
       <Filter>08. Component\Animator3D</Filter>
     </ClInclude>
+    <ClInclude Include="CCopyBoneCS.h">
+      <Filter>06. Asset\Shader\ComputeShader\CopyBones</Filter>
+    </ClInclude>
+    <ClInclude Include="CConstBuffer.h">
+      <Filter>03. Device\Buffer\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="CStructuredBuffer.h">
+      <Filter>03. Device\Buffer\StructuredBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="CInstancingBuffer.h">
+      <Filter>03. Device\Buffer\InstancingBuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -255,12 +261,6 @@
     </ClCompile>
     <ClCompile Include="func.cpp">
       <Filter>01. Header</Filter>
-    </ClCompile>
-    <ClCompile Include="CConstBuffer.cpp">
-      <Filter>03. Device\Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="CStructuredBuffer.cpp">
-      <Filter>03. Device\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="CGraphicShader.cpp">
       <Filter>06. Asset\Shader\GraphicShader</Filter>
@@ -402,6 +402,18 @@
     </ClCompile>
     <ClCompile Include="CAnimator3D.cpp">
       <Filter>08. Component\Animator3D</Filter>
+    </ClCompile>
+    <ClCompile Include="CCopyBoneCS.cpp">
+      <Filter>06. Asset\Shader\ComputeShader\CopyBones</Filter>
+    </ClCompile>
+    <ClCompile Include="CConstBuffer.cpp">
+      <Filter>03. Device\Buffer\ConstantBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="CStructuredBuffer.cpp">
+      <Filter>03. Device\Buffer\StructuredBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="CInstancingBuffer.cpp">
+      <Filter>03. Device\Buffer\InstancingBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -588,6 +600,18 @@
     <Filter Include="08. Component\Animator3D">
       <UniqueIdentifier>{d431c078-6b18-4e8d-8d49-c67c5744d499}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06. Asset\Shader\ComputeShader\CopyBones">
+      <UniqueIdentifier>{e398b230-71a1-45fd-b4d6-618615d9129f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Device\Buffer\ConstantBuffer">
+      <UniqueIdentifier>{dacf31a5-5c44-4140-93c5-3ef64d547875}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Device\Buffer\StructuredBuffer">
+      <UniqueIdentifier>{ff7f09d8-7a75-4ad1-9a41-7824e52c4f21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Device\Buffer\InstancingBuffer">
+      <UniqueIdentifier>{34f34e57-2180-4221-9883-28af94d02d94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -659,6 +683,9 @@
       <Filter>Shader\ComputeShader</Filter>
     </FxCompile>
     <FxCompile Include="animation.fx">
+      <Filter>Shader\ComputeShader</Filter>
+    </FxCompile>
+    <FxCompile Include="copybone.fx">
       <Filter>Shader\ComputeShader</Filter>
     </FxCompile>
   </ItemGroup>

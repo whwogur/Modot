@@ -44,7 +44,7 @@ public:
 
     bool GetFrustumCulling() const{ return m_UseFrustumCulling; }
     void SetFrustumCulling(bool _Cull);
-    std::shared_ptr<CBoundingSphere>& GetBoundingSphere();
+    std::weak_ptr<CBoundingSphere> GetBoundingSphere();
     float GetBoundRadius()
     {
         if (m_UseFrustumCulling == false)

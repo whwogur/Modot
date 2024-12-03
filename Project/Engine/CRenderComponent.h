@@ -24,6 +24,7 @@ public:
     Ptr<CMaterial> GetSharedMaterial(UINT _idx);
     Ptr<CMaterial> GetDynamicMaterial(UINT _idx);
     UINT GetMaterialCount() { return (UINT)m_vecMtrls.size(); }
+    ULONG64 GetInstID(UINT _iMtrlIdx);
     // 절두체 체크를 받을 것인지
     void SetFrustumCheck(bool _Check) { m_FrustumCheck = _Check; }
     // 절두체 체크 받는지 확인
@@ -32,6 +33,7 @@ public:
     virtual void FinalTick() = 0;
     virtual void Render() = 0;
     virtual void RenderShadow();
+    virtual void Render(UINT _iSubset);
 protected:
     void SaveDataToFile(FILE* _File);
     void LoadDataFromFile(FILE* _File);
