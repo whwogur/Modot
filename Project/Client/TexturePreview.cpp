@@ -35,7 +35,7 @@ void TexturePreview::Update()
 	}
 	else
 	{
-		if (ImGui::Button(ICON_FA_PLUS, { m_TexSizeX, m_TexSizeY }))
+		if (ImGui::Button(ICON_FA_PLUS "##Tex1", { m_TexSizeX, m_TexSizeY }))
 		{
 			m_SelectedContext = &m_Tex1;
 
@@ -67,7 +67,7 @@ void TexturePreview::Update()
 	}
 	else
 	{
-		if (ImGui::Button(ICON_FA_PLUS, { m_TexSizeX, m_TexSizeY }))
+		if (ImGui::Button(ICON_FA_PLUS "##Tex2", { m_TexSizeX, m_TexSizeY }))
 		{
 			m_SelectedContext = &m_Tex2;
 
@@ -99,7 +99,7 @@ void TexturePreview::Update()
 	}
 	else
 	{
-		if (ImGui::Button(ICON_FA_PLUS, { m_TexSizeX, m_TexSizeY }))
+		if (ImGui::Button(ICON_FA_PLUS "##Tex3", { m_TexSizeX, m_TexSizeY }))
 		{
 			m_SelectedContext = &m_Tex3;
 
@@ -131,7 +131,7 @@ void TexturePreview::Update()
 	}
 	else
 	{
-		if (ImGui::Button(ICON_FA_PLUS, { m_TexSizeX, m_TexSizeY }))
+		if (ImGui::Button(ICON_FA_PLUS "##Tex4", { m_TexSizeX, m_TexSizeY }))
 		{
 			m_SelectedContext = &m_Tex4;
 

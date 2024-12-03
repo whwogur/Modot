@@ -97,24 +97,25 @@ void FileBrowser::Update()
 	ImGui::SetItemTooltip(u8"파일 검색");
 
 	ImGui::Columns(columnCount, 0, false);
-	for (auto& listNode : m_List)
+	for (size_t i = 0; i < m_List.size(); ++i)
 	{
-		Ptr<CTexture> icon = listNode.second ? m_DirectoryIcon : 
-			listNode.first.extension() == ".png" || listNode.first.extension() == ".tga" || listNode.first.extension() == ".TGA" ?
-			CAssetMgr::GetInst()->FindAsset<CTexture>(listNode.first.stem()) : m_FileIcon;
+		Ptr<CTexture> icon = m_List[i].second ? m_DirectoryIcon :
+			m_List[i].first.extension() == ".png" || m_List[i].first.extension() == ".tga" || m_List[i].first.extension() == ".TGA" ?
+			CAssetMgr::GetInst()->FindAsset<CTexture>(m_List[i].first.stem()) : m_FileIcon;
 
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
-		ImGui::ImageButton("##IconThumbnail", (ImTextureID)icon->GetSRV().Get(), {thumbnailSize, thumbnailSize}, {1, 0}, {0, 1});
+		string nameNum = "##IconThumbnail" + std::to_string(i);
+		ImGui::ImageButton(nameNum.c_str(), (ImTextureID)icon->GetSRV().Get(), {thumbnailSize, thumbnailSize}, {1, 0}, {0, 1});
 		ImGui::PopStyleColor();
 
-		if (ImGui::BeginPopupContextWindow(listNode.first.string().c_str(), ImGuiPopupFlags_MouseButtonRight))
+		if (ImGui::BeginPopupContextWindow(m_List[i].first.string().c_str(), ImGuiPopupFlags_MouseButtonRight))
 		{
 			if (ImGui::MenuItem(u8"삭제"))
 			{
 				const wstring& wstrPath = CPathMgr::GetInst()->GetContentPath();
 				string toBeErased(wstrPath.begin(), wstrPath.end());
-				toBeErased += listNode.first.string();
-				
+				toBeErased += m_List[i].first.string();
+
 				std::filesystem::remove(toBeErased);
 				Refresh();
 			}
@@ -124,17 +125,17 @@ void FileBrowser::Update()
 
 		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 		{
-			if (listNode.second)
+			if (m_List[i].second)
 			{
-				m_CurrentDirectory /= listNode.first.filename();
+				m_CurrentDirectory /= m_List[i].first.filename();
 				Refresh();
 				return;
 			}
 			else
 			{
 				//const string ext = listNode.first.extension().string();
-				path relPath = listNode.first;
-				path extention = listNode.first.extension();
+				path relPath = m_List[i].first;
+				path extention = m_List[i].first.extension();
 
 				//MD_ENGINE_TRACE(ext);
 				if (extention == L".lv")
@@ -142,7 +143,7 @@ void FileBrowser::Update()
 					//MD_ENGINE_TRACE(relPath.c_str());
 					//MD_ENGINE_TRACE(extention.c_str());
 					CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(relPath.wstring());
-					ChangeLevel(pLoadedLevel, LEVEL_STATE::PLAY);		
+					ChangeLevel(pLoadedLevel, LEVEL_STATE::PLAY);
 					Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
 					pInspector->SetTargetObject(nullptr);
 					pInspector->SetTargetAsset(nullptr);
@@ -163,13 +164,13 @@ void FileBrowser::Update()
 
 		if (ImGui::BeginDragDropSource())
 		{
-			if (!listNode.second)
+			if (!m_List[i].second)
 			{
-				std::filesystem::path ext = listNode.first.extension();
-				std::filesystem::path stem = listNode.first.stem();
+				std::filesystem::path ext = m_List[i].first.extension();
+				std::filesystem::path stem = m_List[i].first.stem();
 				if (ext == ".png" || ext == ".tga" || ext == ".TGA")
 				{
-					auto* pElem = &listNode;
+					auto* pElem = &m_List[i];
 
 					ImGui::SetDragDropPayload("FileBrowser", pElem, sizeof(std::pair<std::filesystem::path, bool>), ImGuiCond_Once);
 					ImGui::Image((ImTextureID)icon->GetSRV().Get(), { 100, 100 });
@@ -177,7 +178,7 @@ void FileBrowser::Update()
 
 				if (ext == ".dds")
 				{
-					auto* pElem = &listNode;
+					auto* pElem = &m_List[i];
 
 					ImGui::SetDragDropPayload("FileBrowser", pElem, sizeof(std::pair<std::filesystem::path, bool>), ImGuiCond_Once);
 					ImGui::Text(stem.string().c_str());
@@ -186,13 +187,12 @@ void FileBrowser::Update()
 
 			ImGui::EndDragDropSource();
 		}
-		
-		std::string filenameString = listNode.first.filename().string();
+
+		std::string filenameString = m_List[i].first.filename().string();
 		ImGui::TextWrapped(filenameString.c_str());
 
 		ImGui::NextColumn();
 	}
-
 	ImGui::Columns(1);
 }
 
