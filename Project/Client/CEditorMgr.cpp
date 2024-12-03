@@ -48,7 +48,6 @@ void CEditorMgr::Init()
 
 void CEditorMgr::Tick()
 {
-
     EditorObjectUpdate();
 
     ImGuiRun();

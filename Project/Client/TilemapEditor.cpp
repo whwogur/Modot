@@ -98,7 +98,7 @@ void TilemapEditor::Update()// 정리 필요..;
                 ImGui::SetCursorPosX(m_ImageButtonPos.x + j * (ButtonSize + 7));
                 ImGui::SetCursorPosY(m_ImageButtonPos.y + i * (ButtonSize + 7));
                 strIdx = "##AtlasSelectButton" + std::to_string(sIdx);
-                if (ImGui::ImageButton(strIdx.c_str(), atlasTex->GetSRV().Get(),
+                if (ImGui::ImageButton(strIdx.c_str(), (ImTextureID)atlasTex->GetSRV().Get(),
                     ImVec2(ButtonSize, ButtonSize),
                     ImVec2(uvX * j, uvY * i),
                     ImVec2(uvX * (j + 1), uvY * (i + 1))))
@@ -188,7 +188,7 @@ void TilemapEditor::Update()// 정리 필요..;
                 int tileX = tileIdx % maxAtlasCol;
                 int tileY = tileIdx / maxAtlasCol;
 
-                ImGui::Image(atlasTex->GetSRV().Get(),
+                ImGui::Image((ImTextureID)atlasTex->GetSRV().Get(),
                     ImVec2(previewTileSize, previewTileSize),
                     ImVec2(tileX * sliceUV.x, tileY * sliceUV.y),
                     ImVec2((tileX + 1) * sliceUV.x, (tileY + 1) * sliceUV.y),
@@ -230,7 +230,7 @@ void TilemapEditor::Update()// 정리 필요..;
     {
         ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, u8"선택된 타일맵 없음");
 
-        ImGui::Image(m_ImageNotFound->GetSRV().Get(), { 820, 400 });
+        ImGui::Image((ImTextureID)m_ImageNotFound->GetSRV().Get(), { 820, 400 });
         if (ImGui::BeginDragDropTarget())
         {
             const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HierarchyViewTree");

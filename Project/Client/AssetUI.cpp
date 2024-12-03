@@ -29,7 +29,7 @@ void AssetUI::Title()
 	ImGui::PushID((int)m_Type);
 	float vUV_0 = (1 / (float)ASSET_TYPE::END) * (m_Type == ASSET_TYPE::MESH ? 0 : (UINT)m_Type - 1);
 	float vUV_1 = (1 / (float)ASSET_TYPE::END) * ((UINT)m_Type);
-	ImGui::Image((void*)m_AssetIcons.Get()->GetSRV().Get(), { 28, 28 }, { vUV_0, 0 }, { vUV_1, 1 });
+	ImGui::Image((ImTextureID)(void*)m_AssetIcons.Get()->GetSRV().Get(), { 28, 28 }, { vUV_0, 0 }, { vUV_1, 1 });
 	ImGui::SameLine();
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
 	float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
@@ -37,7 +37,7 @@ void AssetUI::Title()
 	if (m_Asset->IsEngineAsset())
 	{
 		ImGui::SameLine();
-		ImGui::Image(m_LogoTex->GetSRV().Get(), { 20 ,20 });
+		ImGui::Image((ImTextureID)m_LogoTex->GetSRV().Get(), { 20 ,20 });
 	}
 	ImGui::PopStyleVar();
 	ImGui::PopID();

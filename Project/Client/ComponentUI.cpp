@@ -41,7 +41,7 @@ void ComponentUI::Title()
 	}
 
 	ImGui::SameLine();
-	ImGui::Image((void*)m_IconTexture.Get()->GetSRV().Get(), { ICON_SIZE, ICON_SIZE }, {vUV_0, 0}, {vUV_1, 1});
+	ImGui::Image((ImTextureID)(void*)m_IconTexture.Get()->GetSRV().Get(), { ICON_SIZE, ICON_SIZE }, {vUV_0, 0}, {vUV_1, 1});
 	ImGui::SameLine();
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
 	float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;

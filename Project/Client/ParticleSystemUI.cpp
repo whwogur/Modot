@@ -28,7 +28,7 @@ void ParticleSystemUI::Update()
 					curTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Checkerboard");
 
 				ImGui::SameLine(80);
-				ImGui::Image(curTex.Get()->GetSRV().Get(), { 150, 150 });
+				ImGui::Image((ImTextureID)curTex.Get()->GetSRV().Get(), { 150, 150 });
 				ImGui::SetItemTooltip(u8"공유 텍스처");
 				/*if (ImGui::BeginDragDropTarget())
 				{

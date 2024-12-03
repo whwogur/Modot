@@ -123,7 +123,7 @@ void Animation2DEditor::Update()
             Vec2 tempLT = vecSprite[i]->GetLeftTopUV();
             Vec2 tempRB = vecSprite[i]->GetSliceUV();
             ImGui::SameLine(vecOffset);
-            if (ImGui::ImageButton(vecSprite[i]->GetAtlasTexture()->GetSRV().Get(), { 40, 50 }, { tempLT.x, tempLT.y }, { tempLT.x + tempRB.x, tempLT.y + tempRB.y }, -1, m_CurrentFrame == i ? ImVec4(1, 1, 1, 1) : ImVec4(0, 0, 0, 0), { 1, 1, 1, 1 }))
+            if (ImGui::ImageButton("##VecSpritePreview", (ImTextureID)vecSprite[i]->GetAtlasTexture()->GetSRV().Get(), {40, 50}, {tempLT.x, tempLT.y}, {tempLT.x + tempRB.x, tempLT.y + tempRB.y}, ImVec4(0, 0, 0, 0), m_CurrentFrame == i ? ImVec4(1, 1, 1, 1) : ImVec4(0, 0, 0, 0)))
             {
                 vecSprite.erase(vecSprite.begin() + i);
                 Refresh();
@@ -139,7 +139,7 @@ void Animation2DEditor::Update()
         }
 
         ImGui::SameLine(700);
-        ImGui::Image(curSprite->GetAtlasTexture().Get()->GetSRV().Get(), { 150, 150 }, { LeftTop.x, LeftTop.y }, { LeftTop.x + Slice.x, LeftTop.y + Slice.y });
+        ImGui::Image((ImTextureID)curSprite->GetAtlasTexture().Get()->GetSRV().Get(), { 150, 150 }, { LeftTop.x, LeftTop.y }, { LeftTop.x + Slice.x, LeftTop.y + Slice.y });
 
         ImGui::NewLine();
         ImGui::SameLine(700);

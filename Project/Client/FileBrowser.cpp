@@ -104,7 +104,7 @@ void FileBrowser::Update()
 			CAssetMgr::GetInst()->FindAsset<CTexture>(listNode.first.stem()) : m_FileIcon;
 
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
-		ImGui::ImageButton((ImTextureID)icon->GetSRV().Get(), { thumbnailSize, thumbnailSize }, { 1, 0 }, { 0, 1 });
+		ImGui::ImageButton("##IconThumbnail", (ImTextureID)icon->GetSRV().Get(), {thumbnailSize, thumbnailSize}, {1, 0}, {0, 1});
 		ImGui::PopStyleColor();
 
 		if (ImGui::BeginPopupContextWindow(listNode.first.string().c_str(), ImGuiPopupFlags_MouseButtonRight))
@@ -172,7 +172,7 @@ void FileBrowser::Update()
 					auto* pElem = &listNode;
 
 					ImGui::SetDragDropPayload("FileBrowser", pElem, sizeof(std::pair<std::filesystem::path, bool>), ImGuiCond_Once);
-					ImGui::Image(icon->GetSRV().Get(), { 100, 100 });
+					ImGui::Image((ImTextureID)icon->GetSRV().Get(), { 100, 100 });
 				}
 
 				if (ext == ".dds")

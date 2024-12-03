@@ -47,6 +47,6 @@ void SkyBoxUI::Update()
 			}
 		}
 		else
-			ImGui::Image(m_NullTexture->GetSRV().Get(), { 150, 150 });
+			ImGui::Image((ImTextureID)m_NullTexture->GetSRV().Get(), { 150, 150 });
 	}
 }

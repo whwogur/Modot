@@ -25,7 +25,7 @@ void SpriteUI::Update()
 	const Vec2& OffsetUV = pSprite->GetOffsetUVRef();
 	ImGui::NewLine();
 	ImGui::SameLine(95);
-	ImGui::Image(pSprite->GetAtlasTexture()->GetSRV().Get(), { 150, 150 }, { LT.x, LT.y }, { LT.x + RB.x, LT.y + RB.y }, { 1, 1, 1, 1 }, { 1, 1, 1, 1 });
+	ImGui::Image((ImTextureID)pSprite->GetAtlasTexture()->GetSRV().Get(), { 150, 150 }, { LT.x, LT.y }, { LT.x + RB.x, LT.y + RB.y }, { 1, 1, 1, 1 }, { 1, 1, 1, 1 });
 	ImGui::NewLine();
 	ImGui::NewLine();
 	

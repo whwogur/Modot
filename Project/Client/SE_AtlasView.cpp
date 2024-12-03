@@ -30,7 +30,7 @@ void SE_AtlasView::Update()
 	// 실제 해상도 대비 출력 Image 의 비율
 	m_Ratio = (m_WidthSize * m_WheelScale) / m_AtlasTex->Width();
 
-	ImGui::Image(m_AtlasTex->GetSRV().Get(), ImVec2((m_WidthSize * m_WheelScale), m_AtlasTex->Height() * m_Ratio)
+	ImGui::Image((ImTextureID)m_AtlasTex->GetSRV().Get(), ImVec2((m_WidthSize * m_WheelScale), m_AtlasTex->Height() * m_Ratio)
 		, uv_min, uv_max, tint_col, border_col);
 	ImageRectMin = ImGui::GetItemRectMin();
 	if (ImGui::BeginDragDropTarget())

@@ -168,7 +168,7 @@ void Inspector::Update()
 		{
 			float vUV_0 = (1 / (float)COMPONENT_TYPE::END) * (UINT)i;
 			float vUV_1 = (1 / (float)COMPONENT_TYPE::END) * ((UINT)i + 1);
-			ImGui::Image((void*)m_IconTexture.Get()->GetSRV().Get(), { 15, 15 }, { vUV_0, 0 }, { vUV_1, 1 });
+			ImGui::Image((ImTextureID)(void*)m_IconTexture.Get()->GetSRV().Get(), { 15, 15 }, { vUV_0, 0 }, { vUV_1, 1 });
 			ImGui::SameLine(30);
 			if (ImGui::Selectable(ToString((COMPONENT_TYPE)i)))
 			{

@@ -20,7 +20,7 @@ void TexturePreview::Update()
 
 	if (m_Tex1 != nullptr)
 	{
-		if (ImGui::ImageButton(m_Tex1->GetSRV().Get(), { m_TexSizeX, m_TexSizeY }, { 0, 0 }, { 1, 1 }))
+		if (ImGui::ImageButton("##Tex1", (ImTextureID)m_Tex1->GetSRV().Get(), {m_TexSizeX, m_TexSizeY}, {0, 0}, {1, 1}))
 		{
 			m_SelectedContext = &m_Tex1;
 
@@ -52,7 +52,7 @@ void TexturePreview::Update()
 	ImGui::SameLine();
 	if (m_Tex2 != nullptr)
 	{
-		if (ImGui::ImageButton(m_Tex2->GetSRV().Get(), { m_TexSizeX, m_TexSizeY }, { 0, 0 }, { 1, 1 }))
+		if (ImGui::ImageButton("##Tex2", (ImTextureID)m_Tex2->GetSRV().Get(), {m_TexSizeX, m_TexSizeY}, {0, 0}, {1, 1}))
 		{
 			m_SelectedContext = &m_Tex2;
 
@@ -84,7 +84,7 @@ void TexturePreview::Update()
 	ImGui::SameLine();
 	if (m_Tex3 != nullptr)
 	{
-		if (ImGui::ImageButton(m_Tex3->GetSRV().Get(), { m_TexSizeX, m_TexSizeY }, { 0, 0 }, { 1, 1 }))
+		if (ImGui::ImageButton("##Tex3", (ImTextureID)m_Tex3->GetSRV().Get(), {m_TexSizeX, m_TexSizeY}, {0, 0}, {1, 1}))
 		{
 			m_SelectedContext = &m_Tex3;
 
@@ -116,7 +116,7 @@ void TexturePreview::Update()
 	ImGui::SameLine();
 	if (m_Tex4 != nullptr)
 	{
-		if (ImGui::ImageButton(m_Tex4->GetSRV().Get(), { m_TexSizeX, m_TexSizeY }, { 0, 0 }, { 1, 1 }))
+		if (ImGui::ImageButton("##Tex4", (ImTextureID)m_Tex4->GetSRV().Get(), ImVec2(m_TexSizeX, m_TexSizeY), {0, 0}, {1, 1}))
 		{
 			m_SelectedContext = &m_Tex4;
 

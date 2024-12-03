@@ -85,7 +85,7 @@ void EditorViewport::Update()
 
     // ·»´õ¸µ
     Ptr<CTexture> pCopyTex = CRenderMgr::GetInst()->GetRenderTargetCopy();
-    ImGui::Image((void*)pCopyTex->GetSRV().Get(), viewportSize);
+    ImGui::Image((ImTextureID)(void*)pCopyTex->GetSRV().Get(), viewportSize);
 
     // ImGuizmo
     if (m_GizmoActive)

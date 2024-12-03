@@ -15,7 +15,7 @@ ScriptUI::ScriptUI()
 
 void ScriptUI::Update()
 {
-	ImGui::Image((void*)m_IconTexture.Get()->GetSRV().Get(), { ICON_SIZE, ICON_SIZE });
+	ImGui::Image((ImTextureID)(void*)m_IconTexture.Get()->GetSRV().Get(), { ICON_SIZE, ICON_SIZE });
 	ImGui::SameLine(ICON_SIZE + 3);
 	wstring strScriptName = CScriptMgr::GetScriptName(m_Script);
 

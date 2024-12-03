@@ -18,7 +18,7 @@ void TextureUI::Update()
 	static float thumbnailSize = 100.0f;
 	ImGui::SetNextItemWidth(100.f);
 	ImGui::SliderFloat(ICON_FA_SEARCH_PLUS, &thumbnailSize, 64.0f, 512.0f, "%.1f", ImGuiSliderFlags_NoInput);
-	ImGui::Image(pTexture->GetSRV().Get(), { thumbnailSize ,thumbnailSize }, {0, 0}, {1, 1}, {1, 1, 1, 1}, HEADER_2);
+	ImGui::Image((ImTextureID)pTexture->GetSRV().Get(), { thumbnailSize ,thumbnailSize }, {0, 0}, {1, 1}, {1, 1, 1, 1}, HEADER_2);
 
 	// 텍스쳐 이름
 	OutputAssetName();

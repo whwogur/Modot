@@ -233,13 +233,13 @@ bool ParamUI::InputTexture(Ptr<CTexture>& _CurTex, const string& _Desc
 	ImVec2 uv_min = ImVec2(0.0f, 0.0f);
 	ImVec2 uv_max = ImVec2(1.0f, 1.0f);
 
-	ImTextureID TexID = nullptr;
+	ImTextureID TexID;
 	if (nullptr != CurTex)
-		TexID = CurTex->GetSRV().Get();
+		TexID = (ImTextureID)CurTex->GetSRV().Get();
 
 	ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 	ImVec4 border_col = ImVec4(0.7f, 0.7f, 0.7f, 1.0f);
-	ImGui::Image(TexID, { 250.f , 250.f }, uv_min, uv_max, tint_col, border_col);
+	ImGui::Image((ImTextureID)TexID, { 250.f , 250.f }, uv_min, uv_max, tint_col, border_col);
 
 	if (ImGui::BeginDragDropTarget())
 	{
@@ -316,11 +316,11 @@ bool ParamUI::InputSprite(Ptr<CSprite>& _CurSprite, const string& _Desc, EditorU
 	ImVec2 uv_min = ImVec2(ltUV.x, ltUV.y);
 	ImVec2 uv_max = ImVec2(rbUV.x, rbUV.y);
 
-	ImTextureID TexID = nullptr;
+	ImTextureID TexID;
 	if (nullptr != atlasTex)
-		TexID = atlasTex->GetSRV().Get();
+		TexID = (ImTextureID)atlasTex->GetSRV().Get();
 
-	ImGui::Image(TexID, ImVec2(150, 150), uv_min, uv_max);
+	ImGui::Image((ImTextureID)TexID, ImVec2(150, 150), uv_min, uv_max);
 
 	if (ImGui::BeginDragDropTarget())
 	{

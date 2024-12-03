@@ -205,7 +205,7 @@ bool ModotHelpers::VSliderScalar(const char* label, const ImVec2& size, ImGuiDat
 	if (format == NULL)
 		format = DataTypeGetInfo(data_type)->PrintFmt;
 
-	const bool hovered = ItemHoverable(frame_bb, id, g.LastItemData.InFlags);
+	const bool hovered = ItemHoverable(frame_bb, id, g.LastItemData.ItemFlags);
 	const bool clicked = hovered && IsMouseClicked(0, ImGuiInputFlags_None, id);
 	if (clicked || g.NavActivateId == id)
 	{
@@ -265,7 +265,7 @@ bool ModotHelpers::HSliderScalar(const char* label, ImGuiDataType data_type, voi
 	if (format == NULL)
 		format = DataTypeGetInfo(data_type)->PrintFmt;
 
-	const bool hovered = ItemHoverable(frame_bb, id, g.LastItemData.InFlags);
+	const bool hovered = ItemHoverable(frame_bb, id, g.LastItemData.ItemFlags);
 	bool temp_input_is_active = temp_input_allowed && TempInputIsActive(id);
 	if (!temp_input_is_active)
 	{

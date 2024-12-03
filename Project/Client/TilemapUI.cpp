@@ -65,7 +65,7 @@ void TileMapUI::Update()
 			ImVec4 border_col = ImVec4(0.4f, 0.8f, 0.45f, 1.0f);
 			ImGui::NewLine();
 			ImGui::SameLine(95);
-			ImGui::Image(pTexture->GetSRV().Get(), ImVec2(200, 200), uv_min, uv_max, { 1, 1, 1, 1 }, border_col);
+			ImGui::Image((ImTextureID)pTexture->GetSRV().Get(), ImVec2(200, 200), uv_min, uv_max, { 1, 1, 1, 1 }, border_col);
 
 			// 텍스쳐 이름
 			string Name = string(pTexture->GetKey().begin(), pTexture->GetKey().end());
