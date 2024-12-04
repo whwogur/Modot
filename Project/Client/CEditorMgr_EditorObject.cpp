@@ -14,6 +14,9 @@ void CEditorMgr::CreateEditorObject()
 	m_Logger = std::make_unique<EditorLogger>();
 	m_Viewport = std::make_unique<EditorViewport>();
 
+	//=============
+	// 에디터 카메라
+	//=============
 	CGameObject* pEditorCamera = new CGameObjectEx;
 	pEditorCamera->SetName(L"EditorCamera");
 	pEditorCamera->AddComponent(new CTransform);
@@ -26,7 +29,7 @@ void CEditorMgr::CreateEditorObject()
 	pEditorCamera->Camera()->SetFar(10000.f);
 	pEditorCamera->Camera()->SetProjType(PERSPECTIVE);
 	pEditorCamera->Camera()->SetFrustumDebug(false);
-
+	
 	pEditorCamera->Transform()->SetRelativePos(Vec3(0.f, 0.f, -1000.f));
 	m_vecEditorObject.push_back(pEditorCamera);
 

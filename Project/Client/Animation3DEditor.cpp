@@ -109,16 +109,17 @@ void Animation3DEditor::SetTarget(CGameObject* _Target)
 	CEditorMgr::GetInst()->EnableViewport(false);
 	
 	// 레이어 설정
-	_Target->DetachFromLayer();
+	m_TargetOriginLayer = m_Target->GetLayerIdx();
+	m_Target->DetachFromLayer();
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
-	pCurLevel->AddObject(ANIMLAYER, _Target, true);
+	pCurLevel->AddObject(30, m_Target, true);
 	
 	// target Front Right 가져와서 세팅
 	//m_TargetFront = m_Target->Transform()->GetRelativeDir(DIR::FRONT);
 	//m_TargetRight = m_Target->Transform()->GetRelativeDir(DIR::RIGHT);
 
 	m_EditorCam->Camera()->ClearLayerAll();
-	m_EditorCam->Camera()->SetLayer(ANIMLAYER, true);
+	m_EditorCam->Camera()->SetLayer(30, true);
 	
 	EditorUI* menuUI = CEditorMgr::GetInst()->FindEditorUI("MainMenu"); // 애니메이션 에디터 실행 중 PLAY / PAUSE 누를까봐 한건데, 나중에 다른방식으로 막을 것
 	if (menuUI != nullptr)
@@ -130,6 +131,11 @@ void Animation3DEditor::LetGoOfTarget()
 	EDITOR_TRACE("Letting go...");
 	if (!m_Target->Animator3D()->IsPlayingAnim())
 		m_Target->Animator3D()->ResumeAnimation(); // TEMP
+
+	m_Target->DetachFromLayer();
+	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+	pCurLevel->AddObject(m_TargetOriginLayer, m_Target, true);
+
 	// 원복
 	SetWorldPosition(m_EditorCam->Transform(), m_OriginalMatCam);
 	m_Target = nullptr;

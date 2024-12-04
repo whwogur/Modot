@@ -1,6 +1,5 @@
 #pragma once
 #include "EditorUI.h"
-constexpr const int ANIMLAYER = 30;
 constexpr const float ANIMPREVIEW_SIZE = 350.f;
 constexpr const char* staticString[] = { u8"Ω√¿€: ", u8"≥°: ", u8"CurrentFrame: " };
 class CEditorCameraScript;
@@ -30,6 +29,7 @@ private:
     //void RenderCardinalDirections();
 private:
     CGameObject*                    m_Target = nullptr;
+    int                             m_TargetOriginLayer = 0;
     CEditorCameraScript*            m_EditorCam = nullptr;
     tMTAnimClip                     m_TargetClip = {};
 
