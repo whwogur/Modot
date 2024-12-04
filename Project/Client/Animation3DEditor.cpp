@@ -61,11 +61,15 @@ void Animation3DEditor::Update()
 	{
 		if (m_Target->Animator3D() != nullptr)
 		{
-			m_CurrentIdx = m_Target->Animator3D()->GetFrameIdx();
+			m_CurrentFrameIdx = m_Target->Animator3D()->GetFrameIdx();
+			//RenderCardinalDirections(); // 해도 나중에
+			RenderPreview();
+			RenderSequencer();
 		}
-		//RenderCardinalDirections(); // 해도 나중에
-		RenderPreview();
-		RenderSequencer();
+		else
+		{
+			ImGui::Text(u8"해당 오브젝트는 애니메이터가 없음");
+		}
 	}
 }
 
@@ -87,30 +91,38 @@ void Animation3DEditor::SetTarget(CGameObject* _Target)
 	m_OriginalMatCam = m_EditorCam->Transform()->GetWorldMat();
 
 	const Matrix& targetWM = _Target->Transform()->GetWorldMat();
-	Vec3 desiredPos = GetOffsetPosition(targetWM, 300.f);
-	Matrix lookAtWM = MakeLookAtWorldMatrix(targetWM, desiredPos);
+	Vec3 desiredPos;
+	GetOffsetPosition(targetWM, 300.f, &desiredPos);
+	
+	EDITOR_TRACE("setting camera pos...");
+	EDITOR_TRACE(std::to_string(desiredPos.x));
+	EDITOR_TRACE(std::to_string(desiredPos.y));
+	EDITOR_TRACE(std::to_string(desiredPos.z));
+
+	Matrix lookAtWM;
+	MakeLookAtWorldMatrix(targetWM, desiredPos, &lookAtWM);
 
 	// 카메라를 목표 앞으로 옮긴다
 	SetWorldPosition(m_EditorCam->Transform(), lookAtWM);
 
-// 뷰포트는 렌더링 안하게
-CEditorMgr::GetInst()->EnableViewport(false);
+	// 뷰포트는 렌더링 안하게
+	CEditorMgr::GetInst()->EnableViewport(false);
+	
+	// 레이어 설정
+	_Target->DetachFromLayer();
+	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+	pCurLevel->AddObject(ANIMLAYER, _Target, true);
+	
+	// target Front Right 가져와서 세팅
+	//m_TargetFront = m_Target->Transform()->GetRelativeDir(DIR::FRONT);
+	//m_TargetRight = m_Target->Transform()->GetRelativeDir(DIR::RIGHT);
 
-// 레이어 설정
-_Target->DetachFromLayer();
-CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
-pCurLevel->AddObject(ANIMLAYER, _Target, true);
-
-// target Front Right 가져와서 세팅
-//m_TargetFront = m_Target->Transform()->GetRelativeDir(DIR::FRONT);
-//m_TargetRight = m_Target->Transform()->GetRelativeDir(DIR::RIGHT);
-
-m_EditorCam->Camera()->ClearLayerAll();
-m_EditorCam->Camera()->SetLayer(ANIMLAYER, true);
-
-EditorUI* menuUI = CEditorMgr::GetInst()->FindEditorUI("MainMenu");
-if (menuUI != nullptr)
-menuUI->SetActive(false);
+	m_EditorCam->Camera()->ClearLayerAll();
+	m_EditorCam->Camera()->SetLayer(ANIMLAYER, true);
+	
+	EditorUI* menuUI = CEditorMgr::GetInst()->FindEditorUI("MainMenu"); // 애니메이션 에디터 실행 중 PLAY / PAUSE 누를까봐 한건데, 나중에 다른방식으로 막을 것
+	if (menuUI != nullptr)
+		menuUI->SetActive(false);
 }
 
 void Animation3DEditor::LetGoOfTarget()
@@ -129,7 +141,7 @@ void Animation3DEditor::LetGoOfTarget()
 
 	memset(&m_OriginalMatCam, 0, sizeof(Matrix));
 	memset(&m_TargetClip, 0, sizeof(tMTAnimClip));
-	m_CurrentIdx = 0;
+	m_CurrentFrameIdx = 0;
 }
 
 void Animation3DEditor::SetWorldPosition(CTransform* _Transform, const Matrix& _Mat)
@@ -143,27 +155,29 @@ void Animation3DEditor::RenderSequencer()
 {
 	ImGui::Begin("Clips##3DAnimSequencer", 0, ImGuiWindowFlags_AlwaysAutoResize);
 
+	std::vector<tMTAnimClip> vecClips = *m_Target->Animator3D()->GetClips();
+	if (!vecClips.empty())
+	{
+		string test = u8"클립 개수: " + std::to_string(vecClips.size());
+		if (ImGui::BeginCombo("##Clips", test.c_str()))
+		{
+			for (const auto& clip : vecClips)
+			{
+				const string strName(clip.strAnimName.begin(), clip.strAnimName.end());
+				if (ImGui::Selectable(strName.c_str()))
+				{
+					m_TargetClip = clip;
+					m_Frames.resize(clip.iEndFrame);
+					std::iota(m_Frames.begin(), m_Frames.end(), 0);
+				}
+			}
+			ImGui::EndCombo();
+		}
+	}
+
 	if (!m_TargetClip.dEndTime)
 	{
-		std::vector<tMTAnimClip> a = *m_Target->Animator3D()->GetClips();
-		if (!a.empty())
-		{
-			string test = u8"클립 개수: " + std::to_string(a.size());
-			if (ImGui::BeginCombo("##Clips", test.c_str()))
-			{
-				for (const auto& clip : a)
-				{
-					const string strName(clip.strAnimName.begin(), clip.strAnimName.end());
-					if (ImGui::Selectable(strName.c_str()))
-					{
-						m_TargetClip = clip;
-						m_Frames.resize(clip.iEndFrame);
-						std::iota(m_Frames.begin(), m_Frames.end(), 0);
-					}
-				}
-				ImGui::EndCombo();
-			}
-		}
+		
 	}
 	else
 	{
@@ -184,38 +198,11 @@ void Animation3DEditor::RenderSequencer()
 
 
 		ImGui::Text(staticString[2]); ImGui::SameLine();
-		ImGui::Text(std::to_string(m_CurrentIdx).c_str());
+		ImGui::Text(std::to_string(m_CurrentFrameIdx).c_str());
 
-		ImGui::Text(staticString[0]); ImGui::SameLine();
-		ImGui::Text(std::to_string(m_CurrentIdx).c_str());
-		ImGui::SameLine();
-		ImGui::Text(staticString[1]); ImGui::SameLine();
-		ImGui::Text(std::to_string(m_CurrentIdx).c_str());
-		if(ImGui::Button("Start"))
-		{
-			m_SelectionStart = m_CurrentIdx;
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("End"))
-		{
-			m_SelectionEnd = m_CurrentIdx;
-		}
-
-		if (m_SelectionStart > -1 && m_SelectionEnd > -1)
-		{
-			ImGui::InputText("##AnimTitleInput", m_CharBuffer, sizeof(m_CharBuffer));
-			if (ImGui::Button(u8"SaveAnim"))
-			{
-				auto& titles = m_Target->Animator3D()->GetTitlesRef();
-				titles.emplace_back(m_CharBuffer);
-				memset(m_CharBuffer, 0, sizeof(m_CharBuffer));
-
-				m_SelectionStart = -1;
-				m_SelectionEnd = -1;
-			}
-		}
 		ImGui::SeparatorText(u8"클립 정보");
-		if (Modot::BeginSequencer(u8"애니메이션", &m_CurrentIdx, &m_TargetClip.iStartFrame, &m_TargetClip.iEndFrame, {0, 0}, ModotSequencerFlags_EnableSelection))
+
+		if (Modot::BeginSequencer(u8"애니메이션", &m_CurrentFrameIdx, &m_TargetClip.iStartFrame, &m_TargetClip.iEndFrame, {0, 0}, ModotSequencerFlags_EnableSelection))
 		{
 			if (Modot::BeginTimeline(u8"키프레임", m_Frames))
 			{
@@ -235,7 +222,7 @@ void Animation3DEditor::RenderPreview()
 	Ptr<CTexture> rtTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"AlbedoTargetTex"); // TEMP
 	if (rtTex != nullptr)
 	{
-		ImGui::Image((ImTextureID)rtTex->GetSRV().Get(), { ANIMPREVIEW_SIZE, ANIMPREVIEW_SIZE }, { 0, 0 }, { 1, 1 }, { 1, 1, 1, 1 }, HEADER_2);
+		ImGui::Image((ImTextureID)rtTex->GetSRV().Get(), { ANIMPREVIEW_SIZE, ANIMPREVIEW_SIZE }, { 1, 1 }, { 0, 0 }, { 1, 1, 1, 1 }, HEADER_2); // 응애
 	}
 
 	ImGui::End();

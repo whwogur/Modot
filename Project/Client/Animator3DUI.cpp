@@ -39,7 +39,7 @@ void Animator3DUI::Update()
 							EDITOR_TRACE("EndFrame");
 							EDITOR_TRACE(std::to_string(clip.iEndFrame));
 							EDITOR_TRACE("TitleIndex");
-							EDITOR_TRACE(std::to_string(clip.iTitleIndex));
+							EDITOR_TRACE(std::to_string(clip.iMultipleClips));
 							EDITOR_TRACE("TimeLength");
 							EDITOR_TRACE(std::to_string(clip.dTimeLength));
 							EDITOR_TRACE("StartTime");

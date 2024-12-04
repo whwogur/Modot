@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CEditorCameraScript.h"
 #include <Engine/CRenderMgr.h>
+#include <Engine/CLevelMgr.h>
 #include "CEditorMgr.h"
 CEditorCameraScript::CEditorCameraScript()
 	: CScript(-1)
@@ -148,6 +149,10 @@ void CEditorCameraScript::PerspectiveMove()
 			const Matrix& camWM = Transform()->GetWorldMat();
 			string temp("EditorCamera WorldMat:\n" + MatrixToString(camWM, 2));
 			EDITOR_TRACE(temp.c_str());
+
+			const Matrix& objWM = CLevelMgr::GetInst()->FindObjectByName(L"Monster")->Transform()->GetWorldMat();
+			string temp2("Monster WorldMat:\n" + MatrixToString(objWM, 2));
+			EDITOR_TRACE(temp2.c_str());
 		}
 	}
 }

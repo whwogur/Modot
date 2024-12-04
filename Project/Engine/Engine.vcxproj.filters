@@ -612,6 +612,21 @@
     <Filter Include="03. Device\Buffer\InstancingBuffer">
       <UniqueIdentifier>{34f34e57-2180-4221-9883-28af94d02d94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader\ComputeShader\Animation">
+      <UniqueIdentifier>{ef34fc95-3596-4e21-86f5-f9f9db8e94a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\ComputeShader\Heightmap">
+      <UniqueIdentifier>{7057deef-bf8d-4338-bfed-b23a9f75c209}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\ComputeShader\Particle">
+      <UniqueIdentifier>{c8a3432b-bb69-41bb-afd8-5c33d7603091}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\ComputeShader\Raycast">
+      <UniqueIdentifier>{7eef9055-68c2-4488-b936-abba4342f82c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\ComputeShader\Weightmap">
+      <UniqueIdentifier>{0b360c43-c1e8-44ad-b63d-6d65f7be613d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -646,9 +661,6 @@
     <FxCompile Include="particle.fx">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="particletick.fx">
-      <Filter>Shader\ComputeShader</Filter>
-    </FxCompile>
     <FxCompile Include="std3d.fx">
       <Filter>Shader\GraphicShader</Filter>
     </FxCompile>
@@ -673,20 +685,23 @@
     <FxCompile Include="landscape.fx">
       <Filter>Shader\GraphicShader</Filter>
     </FxCompile>
-    <FxCompile Include="heightmap.fx">
-      <Filter>Shader\ComputeShader</Filter>
-    </FxCompile>
-    <FxCompile Include="raycast.fx">
-      <Filter>Shader\ComputeShader</Filter>
-    </FxCompile>
-    <FxCompile Include="weightmap.fx">
-      <Filter>Shader\ComputeShader</Filter>
-    </FxCompile>
     <FxCompile Include="animation.fx">
-      <Filter>Shader\ComputeShader</Filter>
+      <Filter>Shader\ComputeShader\Animation</Filter>
     </FxCompile>
     <FxCompile Include="copybone.fx">
-      <Filter>Shader\ComputeShader</Filter>
+      <Filter>Shader\ComputeShader\Animation</Filter>
+    </FxCompile>
+    <FxCompile Include="heightmap.fx">
+      <Filter>Shader\ComputeShader\Heightmap</Filter>
+    </FxCompile>
+    <FxCompile Include="particletick.fx">
+      <Filter>Shader\ComputeShader\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="raycast.fx">
+      <Filter>Shader\ComputeShader\Raycast</Filter>
+    </FxCompile>
+    <FxCompile Include="weightmap.fx">
+      <Filter>Shader\ComputeShader\Weightmap</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

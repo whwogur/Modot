@@ -24,9 +24,9 @@ wstring ToWstring(const string& str);
 string ToString(const wstring& wstr);
 string MatrixToString(const Matrix& matrix, int precision);
 
-Matrix MakeLookAtWorldMatrix(const Matrix& _Mat, const Vec3& _Pos);
-Vec3 GetOffsetPosition(const Matrix& _Mat, float _Distance);
-Matrix MakeLookAtWorldMatrix(const Matrix& _Mat, float _Distance);
+void MakeLookAtWorldMatrix(const Matrix& _Mat, const Vec3& _Pos, Matrix* _Container);
+void GetOffsetPosition(const Matrix& _Mat, float _Distance, Vec3* _Container);
+void MakeLookAtWorldMatrix(const Matrix& _Mat, float _Distance, Matrix* _Container);
 
 Vec3 ExtractScale(const Matrix& _Mat);
 Vec3 ExtractRotation(const Matrix& _Mat);

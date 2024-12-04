@@ -239,10 +239,11 @@ void CCamera::RenderDeferred()
 					= m_mapSingleObj.find((INT_PTR)pair.second[i].pObj);
 
 				if (iter != m_mapSingleObj.end())
-					iter->second.push_back(pair.second[i]);
+					iter->second.emplace_back(pair.second[i]);
 				else
 				{
-					m_mapSingleObj.insert(make_pair((INT_PTR)pair.second[i].pObj, std::vector<tInstObj>{pair.second[i]}));
+					m_mapSingleObj.emplace((INT_PTR)pair.second[i].pObj, std::vector<tInstObj>{pair.second[i]});
+					
 				}
 			}
 			continue;
@@ -362,6 +363,11 @@ void CCamera::RenderUI()
 
 void CCamera::Clear()
 {
+	// 이전 프레임 분류정보 제거
+	m_mapInstGroup_D.clear();
+	m_mapInstGroup_F.clear();
+	m_mapSingleObj.clear();
+
 	m_vecDecal.clear();
 	m_vecTransparent.clear();
 	m_vecEffect.clear();

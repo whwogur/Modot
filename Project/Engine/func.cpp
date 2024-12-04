@@ -264,21 +264,25 @@ std::string MatrixToString(const Matrix& matrix, int precision)
 	return oss.str();
 }
 
-Matrix MakeLookAtWorldMatrix(const Matrix& _Mat, const Vec3& _Pos)
+void MakeLookAtWorldMatrix(const Matrix& _Mat, const Vec3& _Pos, Matrix* _Container)
 {
 	// 대상 위치
 	Vec3 targetPosition(_Mat._41, _Mat._42, _Mat._43);
 
-	// 방향 벡터
-	Vec3 direction = _Pos - targetPosition;
+	// 방향 벡터 (Forward)
+	Vec3 direction = targetPosition - _Pos;
 	direction.Normalize();
 
+	// 상향 벡터 (Up)
 	Vec3 up(0.f, 1.f, 0.f);
 
-	// Right, Forward 벡터 계산
+	// Right 벡터 계산
 	Vec3 right = up.Cross(direction);
 	right.Normalize();
-	up = direction.Cross(right); // Up 벡터 재계산 (직교 보장)
+
+	// Up 벡터 재계산 (정확한 직교화)
+	up = direction.Cross(right);
+	up.Normalize();
 
 	// LookAt 행렬 생성 (회전 부분)
 	Matrix rotationMatrix(
@@ -292,10 +296,10 @@ Matrix MakeLookAtWorldMatrix(const Matrix& _Mat, const Vec3& _Pos)
 	Matrix translationMatrix(Matrix::CreateTranslation(_Pos));
 
 	// 최종 월드 행렬 조합
-	return rotationMatrix * translationMatrix;
+	*_Container = rotationMatrix * translationMatrix;
 }
 
-Vec3 GetOffsetPosition(const Matrix& _Mat, float _Distance)
+void GetOffsetPosition(const Matrix& _Mat, float _Distance, Vec3* _Container)
 {
 	// Forward 벡터 추출 (_31, _32, _33)
 	Vec3 forward(_Mat._31, _Mat._32, _Mat._33);
@@ -303,16 +307,16 @@ Vec3 GetOffsetPosition(const Matrix& _Mat, float _Distance)
 
 	// Forward 방향으로 거리만큼 떨어진 위치 계산
 	Vec3 targetPosition(_Mat._41, _Mat._42, _Mat._43);
-	Vec3 offsetPosition = targetPosition + (forward * _Distance);
 
-	return offsetPosition;
+	*_Container = targetPosition + (forward * _Distance);
 }
 
-Matrix MakeLookAtWorldMatrix(const Matrix& _Mat, float _Distance)
+void MakeLookAtWorldMatrix(const Matrix& _Mat, float _Distance, Matrix* _Container)
 {
-	Vec3 offsetPosition = GetOffsetPosition(_Mat, _Distance);
+	Vec3 offsetPosition;
+	GetOffsetPosition(_Mat, _Distance, &offsetPosition);
 
-	return MakeLookAtWorldMatrix(_Mat, offsetPosition);
+	MakeLookAtWorldMatrix(_Mat, offsetPosition, _Container);
 }
 
 Vec3 ExtractScale(const Matrix& _Mat)

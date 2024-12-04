@@ -300,7 +300,7 @@ struct tMTAnimClip
 	double						dStartTime;
 	double						dEndTime;
 	double						dTimeLength;
-	int							iTitleIndex;
+	int							iMultipleClips = 0; // 0: 한 클립에 애니메이션 하나 1: 한 클립에 애니메이션 여러개
 	FbxTime::EMode				eMode;
 };
 

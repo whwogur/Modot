@@ -2,7 +2,7 @@
 #include "MenuUI.h"
 #include "CEditorMgr.h"
 #include "CTimeMgr.h"
-#include "CLevelMgr.h"
+#include <Engine/CLevelMgr.h>
 #include <Engine/CAssetMgr.h>
 #include <Engine/assets.h>
 #include <Scripts/CScriptMgr.h>
@@ -11,7 +11,6 @@
 #include <Engine/CLevel.h>
 #include <Engine/CRenderMgr.h>
 
-#include "CEditorMgr.h"
 #include "Inspector.h"
 #include "SpriteEditor.h"
 #include "Animation2DEditor.h"
@@ -20,8 +19,8 @@
 #include "CLevelSaveLoad.h"
 #include "MaterialUI.h"
 #include "CollisionCheck.h"
-#include "CPlayerManager.h"
 #include "CEditorCameraScript.h"
+
 void MenuUI::Tick()
 {
 	if (!IsActive())
@@ -107,7 +106,7 @@ void MenuUI::File()
 
 void MenuUI::Tools()
 {
-	if (ImGui::BeginMenu(" Tools"))
+	if (ImGui::BeginMenu("Tools"))
 	{
 		if (ImGui::MenuItem(u8"타일맵 에디터", " Alt + T"))
 		{

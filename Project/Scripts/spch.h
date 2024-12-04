@@ -13,7 +13,6 @@
 #include <Engine/global.h>
 #include <Engine/CEngine.h>
 #include "CScriptMgr.h"
-#include "../Client/CPlayerManager.h"
 
 #define PLAY_BGM(SOUND) CPlayerManager::GetInst()->PlayBGM(SOUND)
 #define PLAY_EFFECT(SOUND) CPlayerManager::GetInst()->PlayEffect(SOUND)

@@ -108,12 +108,12 @@
     <ClInclude Include="Content.h" />
     <ClInclude Include="Animator2DUI.h" />
     <ClInclude Include="AnimationUI.h" />
-    <ClInclude Include="CPlayerManager.h" />
     <ClInclude Include="DecalUI.h" />
     <ClInclude Include="EditorLogger.h" />
     <ClInclude Include="EditorViewport.h" />
     <ClInclude Include="LandscapeUI.h" />
     <ClInclude Include="Light3DUI.h" />
+    <ClInclude Include="MaterialEditor.h" />
     <ClInclude Include="ModotHelpers.h" />
     <ClInclude Include="Modot_sequencer.h" />
     <ClInclude Include="Modot_sequencer_internal.h" />
@@ -182,12 +182,12 @@
     <ClCompile Include="Content.cpp" />
     <ClCompile Include="Animator2DUI.cpp" />
     <ClCompile Include="AnimationUI.cpp" />
-    <ClCompile Include="CPlayerManager.cpp" />
     <ClCompile Include="DecalUI.cpp" />
     <ClCompile Include="EditorLogger.cpp" />
     <ClCompile Include="EditorViewport.cpp" />
     <ClCompile Include="LandscapeUI.cpp" />
     <ClCompile Include="Light3DUI.cpp" />
+    <ClCompile Include="MaterialEditor.cpp" />
     <ClCompile Include="ModotHelpers.cpp" />
     <ClCompile Include="Modot_sequencer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>

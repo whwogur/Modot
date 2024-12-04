@@ -445,5 +445,5 @@ void CEditorMgr::ImGuiTick()
     {
         pair.second->Tick();
     }
-	m_Logger->Draw("Log");
+	m_Logger->Draw(ICON_FA_TERMINAL" Console");
 }

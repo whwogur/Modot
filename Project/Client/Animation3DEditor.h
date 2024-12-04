@@ -29,17 +29,15 @@ private:
     void RenderPreview();
     //void RenderCardinalDirections();
 private:
-    CGameObject*            m_Target = nullptr;
-    CEditorCameraScript*    m_EditorCam = nullptr;
-    tMTAnimClip             m_TargetClip = {};
+    CGameObject*                    m_Target = nullptr;
+    CEditorCameraScript*            m_EditorCam = nullptr;
+    tMTAnimClip                     m_TargetClip = {};
 
-    std::vector<int32_t>    m_Frames = {};
-    Matrix                  m_OriginalMatCam = {};
-    int32_t                 m_CurrentIdx = 0;
-    
-    int m_SelectionStart    = -1;
-    int m_SelectionEnd      = -1;
-    uint32_t                m_SelectedFramesCnt = 0;
+    std::vector<int32_t>            m_Frames = {};
+    Matrix                          m_OriginalMatCam = {};
+    int32_t                         m_CurrentFrameIdx = 0;
+
+    uint32_t                        m_SelectedFramesCnt = 0;
     char m_CharBuffer[255] = {};
     //Vec3                  m_TargetFront, m_TargetRight = {};
 };

@@ -27,6 +27,19 @@ public:
         m_Const.mtrl.vEmv = _vEmis;
     }
 
+    void GetMaterialCoefficient(Vec4* _vDiff, Vec4* _vSpec, Vec4* _vAmb, Vec4* _vEmis)
+    {
+        *_vDiff = m_Const.mtrl.vDiff;
+        *_vAmb = m_Const.mtrl.vAmb;
+        *_vSpec = m_Const.mtrl.vSpec;
+        *_vEmis = m_Const.mtrl.vEmv;
+    }
+
+    Vec4& GetDiffRef() { return m_Const.mtrl.vDiff; }
+    Vec4& GetAmbRef() { return m_Const.mtrl.vAmb; }
+    Vec4& GetSpecRef() { return m_Const.mtrl.vSpec; }
+    Vec4& GetEmiRef() { return m_Const.mtrl.vEmv; }
+
     void operator =(const CMaterial& _OtherMtrl)
     {
         SetName(_OtherMtrl.GetName());

@@ -14,7 +14,7 @@
 #include "CTaskMgr.h"
 #include "CFontMgr.h"
 #include "CInstancingBuffer.h"
-#include "../Client/CPlayerManager.h" // ¿¿æ÷ §–
+
 CEngine::CEngine()
 	: m_hWnd(nullptr)
 	, m_ptResolution{}

@@ -19,7 +19,7 @@ private:
 	Ptr<CTexture> m_Tex4 = nullptr;
 
 	Ptr<CTexture>* m_SelectedContext = nullptr;
-	float			m_TexSizeX = 225.f;
-	float			m_TexSizeY = 150.f;
+	float			m_TexSizeX = 250.f;
+	float			m_TexSizeY = 170.f;
 };
 

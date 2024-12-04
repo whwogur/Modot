@@ -334,7 +334,7 @@ int CMesh::Save(const wstring& _RelativePath)
 		fwrite(&m_vecAnimClip[i].dEndTime, sizeof(double), 1, pFile);
 		fwrite(&m_vecAnimClip[i].dTimeLength, sizeof(double), 1, pFile);
 		fwrite(&m_vecAnimClip[i].eMode, sizeof(int), 1, pFile);
-		fwrite(&m_vecAnimClip[i].iTitleIndex, sizeof(int), 1, pFile);
+		fwrite(&m_vecAnimClip[i].iMultipleClips, sizeof(int), 1, pFile);
 		fwrite(&m_vecAnimClip[i].iStartFrame, sizeof(int), 1, pFile);
 		fwrite(&m_vecAnimClip[i].iEndFrame, sizeof(int), 1, pFile);
 		fwrite(&m_vecAnimClip[i].iFrameLength, sizeof(int), 1, pFile);
@@ -429,7 +429,7 @@ int CMesh::Load(const wstring& _RelativePath)
 		fread(&tClip.dEndTime, sizeof(double), 1, pFile);
 		fread(&tClip.dTimeLength, sizeof(double), 1, pFile);
 		fread(&tClip.eMode, sizeof(int), 1, pFile);
-		fread(&tClip.iTitleIndex, sizeof(int), 1, pFile);
+		fread(&tClip.iMultipleClips, sizeof(int), 1, pFile);
 		fread(&tClip.iStartFrame, sizeof(int), 1, pFile);
 		fread(&tClip.iEndFrame, sizeof(int), 1, pFile);
 		fread(&tClip.iFrameLength, sizeof(int), 1, pFile);

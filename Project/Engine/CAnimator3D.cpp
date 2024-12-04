@@ -18,7 +18,7 @@ CAnimator3D::CAnimator3D(const CAnimator3D& _Other)
 	, m_dCurTime(_Other.m_dCurTime)
 	, m_iFrameCount(_Other.m_iFrameCount)
 	, m_pBoneFinalMatBuffer(nullptr)
-	, m_bFinalMatUpdate(false)
+	, m_bFinalMatUpdated(false)
 	, m_iFrameIdx(_Other.m_iFrameIdx)
 	, m_iNextFrameIdx(_Other.m_iNextFrameIdx)
 	, m_fRatio(_Other.m_fRatio)
@@ -53,7 +53,7 @@ void CAnimator3D::FinalTick()
 		m_iFrameIdx = (int)(dFrameIdx);
 
 		// 다음 프레임 인덱스
-		if (m_iFrameIdx >= m_pVecClip->at(0).iFrameLength - 1)
+		if (m_iFrameIdx >= m_pVecClip->at(m_iCurClip).iFrameLength - 1)
 			m_iNextFrameIdx = m_iFrameIdx;	// 끝이면 현재 인덱스를 유지
 		else
 			m_iNextFrameIdx = m_iFrameIdx + 1;
@@ -62,7 +62,7 @@ void CAnimator3D::FinalTick()
 		m_fRatio = (float)(dFrameIdx - (double)m_iFrameIdx);
 
 		// 컴퓨트 쉐이더 연산여부
-		m_bFinalMatUpdate = false;
+		m_bFinalMatUpdated = false;
 	}
 }
 
@@ -78,7 +78,7 @@ void CAnimator3D::SetAnimClip(const std::vector<tMTAnimClip>* _vecAnimClip)
 
 void CAnimator3D::Bind()
 {
-	if (!m_bFinalMatUpdate)
+	if (!m_bFinalMatUpdated)
 	{
 		// Animation3D Update Compute Shader
 		CAnimation3DShader* pUpdateShader = (CAnimation3DShader*)CAssetMgr::GetInst()->FindAsset<CComputeShader>(L"Animation3DUpdateCS").Get();
@@ -100,7 +100,7 @@ void CAnimator3D::Bind()
 		// 업데이트 쉐이더 실행
 		pUpdateShader->Execute();
 
-		m_bFinalMatUpdate = true;
+		m_bFinalMatUpdated = true;
 	}
 
 	// t17 레지스터에 최종행렬 데이터(구조버퍼) 바인딩		

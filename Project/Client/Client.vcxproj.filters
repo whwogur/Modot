@@ -61,9 +61,6 @@
     <Filter Include="Editor\EditorUI\Modal\AnimationEditor">
       <UniqueIdentifier>{3232e88b-4cad-4c11-85a8-b3d8ea5dd31c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor\EditorUI\MainMenu\TexturePreview">
-      <UniqueIdentifier>{e7d41de0-5e16-4aa4-a732-db1894dfe15a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Editor\EditorUI\Modal\TexturePreview">
       <UniqueIdentifier>{337d90f6-8813-4c6a-9680-4bae86cd51ed}</UniqueIdentifier>
     </Filter>
@@ -124,6 +121,54 @@
     <Filter Include="Editor\EditorUI\Modal\Util\Modot\Sequencer">
       <UniqueIdentifier>{be38762a-ec5c-4c43-99e4-0a643f5c3ee0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\EditorUI\AssetUI\Animation2D">
+      <UniqueIdentifier>{6108503d-5795-4a57-be01-faf28ddb9532}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\AssetUI\ComputeShader">
+      <UniqueIdentifier>{00467c60-ac7d-4461-8196-1657bbd8b6b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\AssetUI\GraphicShader">
+      <UniqueIdentifier>{137a3573-e4b1-4f5e-a9dc-665b9b9f051f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\AssetUI\Material">
+      <UniqueIdentifier>{22c6b089-345f-49a1-8929-d0259fb0d75d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\AssetUI\MeshData">
+      <UniqueIdentifier>{75955de1-dcba-4845-a9af-5e1c5fa120db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\AssetUI\Mesh">
+      <UniqueIdentifier>{e78aa14f-79a8-407e-a5ea-767cbea4c242}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\AssetUI\Prefab">
+      <UniqueIdentifier>{81d8f44b-6b3f-49eb-b30f-c6df3746da36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\AssetUI\Sound">
+      <UniqueIdentifier>{7a38c4c8-f886-4fa0-9677-1c5967a69e7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\AssetUI\Sprite">
+      <UniqueIdentifier>{1c6fb510-20e5-4f4e-98e5-ad5d65cd2ef4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\AssetUI\Texture">
+      <UniqueIdentifier>{fd42c8c2-e8a7-4e5a-86d0-651ebc0690cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\Modal\TilemapEditor">
+      <UniqueIdentifier>{4aa59c73-5d2f-4edd-a348-89e6255a9f19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\Modal\Logger">
+      <UniqueIdentifier>{79e73397-f76e-44c1-b309-a97ad767f242}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\Modal\Util\Modot\ParamUI">
+      <UniqueIdentifier>{a57c8681-3748-4493-9c0c-bac0b9878968}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorObject">
+      <UniqueIdentifier>{e9183d9a-ba53-4b29-9156-a5ecb89cd08d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorObject\EditorScript">
+      <UniqueIdentifier>{616e7840-c1a8-44b0-a99e-90fdbe479292}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\Modal\MaterialEditor">
+      <UniqueIdentifier>{724a5330-65fa-4b41-bc76-e0b6c79985ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -151,43 +196,7 @@
     <ClInclude Include="AssetUI.h">
       <Filter>Editor\EditorUI\AssetUI</Filter>
     </ClInclude>
-    <ClInclude Include="ComputeShaderUI.h">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationUI.h">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClInclude>
-    <ClInclude Include="MaterialUI.h">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicShaderUI.h">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshDataUI.h">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshUI.h">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClInclude>
-    <ClInclude Include="PrefabUI.h">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundUI.h">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteUI.h">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureUI.h">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClInclude>
     <ClInclude Include="CEditorMgr.h">
-      <Filter>Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="CEditorCameraScript.h">
-      <Filter>Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="CGameObjectEx.h">
       <Filter>Editor</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imconfig.h">
@@ -223,9 +232,6 @@
     <ClInclude Include="ImGui\IconsFontAwesome4.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="TilemapEditor.h">
-      <Filter>Editor\EditorUI\Modal</Filter>
-    </ClInclude>
     <ClInclude Include="CLevelSaveLoad.h" />
     <ClInclude Include="SpriteEditor.h">
       <Filter>Editor\EditorUI\Modal\SpriteEditor</Filter>
@@ -238,15 +244,6 @@
     </ClInclude>
     <ClInclude Include="SE_Sub.h">
       <Filter>Editor\EditorUI\Modal\SpriteEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="ParamUI.h">
-      <Filter>Editor\EditorUI\Modal\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorLogger.h">
-      <Filter>Editor\EditorUI\Modal\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlayerManager.h">
-      <Filter>Editor\TestLevel</Filter>
     </ClInclude>
     <ClInclude Include="EditorViewport.h">
       <Filter>Editor\Viewport</Filter>
@@ -338,6 +335,54 @@
     <ClInclude Include="Modot_sequencer_internal.h">
       <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationUI.h">
+      <Filter>Editor\EditorUI\AssetUI\Animation2D</Filter>
+    </ClInclude>
+    <ClInclude Include="ComputeShaderUI.h">
+      <Filter>Editor\EditorUI\AssetUI\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicShaderUI.h">
+      <Filter>Editor\EditorUI\AssetUI\GraphicShader</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshDataUI.h">
+      <Filter>Editor\EditorUI\AssetUI\MeshData</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshUI.h">
+      <Filter>Editor\EditorUI\AssetUI\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialUI.h">
+      <Filter>Editor\EditorUI\AssetUI\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="PrefabUI.h">
+      <Filter>Editor\EditorUI\AssetUI\Prefab</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundUI.h">
+      <Filter>Editor\EditorUI\AssetUI\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureUI.h">
+      <Filter>Editor\EditorUI\AssetUI\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteUI.h">
+      <Filter>Editor\EditorUI\AssetUI\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="TilemapEditor.h">
+      <Filter>Editor\EditorUI\Modal\TilemapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorLogger.h">
+      <Filter>Editor\EditorUI\Modal\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="ParamUI.h">
+      <Filter>Editor\EditorUI\Modal\Util\Modot\ParamUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CEditorCameraScript.h">
+      <Filter>Editor\EditorObject\EditorScript</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameObjectEx.h">
+      <Filter>Editor\EditorObject</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialEditor.h">
+      <Filter>Editor\EditorUI\Modal\MaterialEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -365,49 +410,10 @@
     <ClCompile Include="AssetUI.cpp">
       <Filter>Editor\EditorUI\AssetUI</Filter>
     </ClCompile>
-    <ClCompile Include="ComputeShaderUI.cpp">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimationUI.cpp">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClCompile>
-    <ClCompile Include="MaterialUI.cpp">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicShaderUI.cpp">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshDataUI.cpp">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshUI.cpp">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClCompile>
-    <ClCompile Include="PrefabUI.cpp">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundUI.cpp">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteUI.cpp">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureUI.cpp">
-      <Filter>Editor\EditorUI\AssetUI</Filter>
-    </ClCompile>
     <ClCompile Include="CEditorMgr_EditorUI.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
-    <ClCompile Include="CEditorMgr_EditorObject.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
     <ClCompile Include="CEditorMgr.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="CEditorCameraScript.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="CGameObjectEx.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -437,9 +443,6 @@
     <ClCompile Include="CTestLevel.cpp">
       <Filter>Editor\TestLevel</Filter>
     </ClCompile>
-    <ClCompile Include="TilemapEditor.cpp">
-      <Filter>Editor\EditorUI\Modal</Filter>
-    </ClCompile>
     <ClCompile Include="CLevelSaveLoad.cpp" />
     <ClCompile Include="SpriteEditor.cpp">
       <Filter>Editor\EditorUI\Modal\SpriteEditor</Filter>
@@ -452,15 +455,6 @@
     </ClCompile>
     <ClCompile Include="SE_Sub.cpp">
       <Filter>Editor\EditorUI\Modal\SpriteEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="ParamUI.cpp">
-      <Filter>Editor\EditorUI\Modal\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorLogger.cpp">
-      <Filter>Editor\EditorUI\Modal\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlayerManager.cpp">
-      <Filter>Editor\TestLevel</Filter>
     </ClCompile>
     <ClCompile Include="EditorViewport.cpp">
       <Filter>Editor\Viewport</Filter>
@@ -554,6 +548,57 @@
     </ClCompile>
     <ClCompile Include="Modot_sequencer_internal.cpp">
       <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI\Animation2D</Filter>
+    </ClCompile>
+    <ClCompile Include="ComputeShaderUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicShaderUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI\GraphicShader</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshDataUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI\MeshData</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="PrefabUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI\Prefab</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteUI.cpp">
+      <Filter>Editor\EditorUI\AssetUI\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="TilemapEditor.cpp">
+      <Filter>Editor\EditorUI\Modal\TilemapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorLogger.cpp">
+      <Filter>Editor\EditorUI\Modal\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="ParamUI.cpp">
+      <Filter>Editor\EditorUI\Modal\Util\Modot\ParamUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CEditorCameraScript.cpp">
+      <Filter>Editor\EditorObject\EditorScript</Filter>
+    </ClCompile>
+    <ClCompile Include="CEditorMgr_EditorObject.cpp">
+      <Filter>Editor\EditorObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameObjectEx.cpp">
+      <Filter>Editor\EditorObject</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialEditor.cpp">
+      <Filter>Editor\EditorUI\Modal\MaterialEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

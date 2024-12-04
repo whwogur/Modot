@@ -16,10 +16,6 @@ void CAssetMgr::Init()
 
 	CreateEngineMaterial();
 
-	//LoadFBX(L"fbx\\Monster.fbx");
-	//LoadFBX(L"fbx\\House.fbx");
-	//Load<CMeshData>(L"Monster", L"meshdata\\Monster.mdat");
-	//Load<CMeshData>(L"House", L"meshdata\\House.mdat");
 	LoadSound();
 }
 
