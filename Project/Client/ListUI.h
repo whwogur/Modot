@@ -1,5 +1,6 @@
 #pragma once
 #include "EditorUI.h"
+#include "CTool.h"
 
 class ListUI :
     public EditorUI
@@ -16,6 +17,11 @@ public:
         m_UI = _UI;
         m_MemFunc = _Func;
     }
+    void AddDelegate(CTool* _Tool, TOOLFUNC_1 _Func)
+    {
+        m_Tool = _Tool;
+        m_ToolFunc = _Func;
+    }
 
     string GetSelectName() { return m_SelectedName; }
 public:
@@ -29,4 +35,7 @@ private:
     string          m_SelectedName;
     EditorUI*       m_UI;
     DELEGATE_1      m_MemFunc;
+
+    CTool*          m_Tool;
+    TOOLFUNC_1      m_ToolFunc;
 };

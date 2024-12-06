@@ -76,8 +76,13 @@ void CTestLevel::CreateTestLevel()
 		//pMeshData = CAssetMgr::GetInst()->Load<CMeshData>(L"House", L"meshdata\\House.mdat");
 		//pObj = pMeshData->Instantiate();
 		//pObj->SetName(L"House");
+
+		//CAssetMgr::GetInst()->LoadFBX(L"fbx\\Dragon.fbx");
+		//pMeshData = CAssetMgr::GetInst()->Load<CMeshData>(L"Dragon", L"meshdata\\Dragon.mdat");
+		//pObj = pMeshData->Instantiate();
+		//pObj->SetName(L"Dragon");
 		
-		//pMeshData = CAssetMgr::GetInst()->LoadFBX(L"fbx\\Monster.fbx");
+		//CAssetMgr::GetInst()->LoadFBX(L"fbx\\Monster.fbx");
 		//pMeshData = CAssetMgr::GetInst()->Load<CMeshData>(L"Monster", L"meshdata\\Monster.mdat");
 		//pObj = pMeshData->Instantiate();
 		//pObj->SetName(L"Monster");

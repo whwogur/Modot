@@ -1,5 +1,5 @@
 #pragma once
-#include "EditorUI.h"
+#include "CTool.h"
 constexpr const float ANIMPREVIEW_SIZE = 350.f;
 constexpr const char* staticString[] = { u8"Ω√¿€: ", u8"≥°: ", u8"CurrentFrame: " };
 class CEditorCameraScript;
@@ -7,7 +7,7 @@ class CTransform;
 struct tMTAnimClip;
 
 class Animation3DEditor :
-    public EditorUI
+    public CTool
 {
 public:
     Animation3DEditor();
@@ -25,7 +25,6 @@ public:
 private:
     void SetWorldPosition(CTransform* _Transform, const Matrix& _Mat);
     void RenderSequencer();
-    void RenderPreview();
     //void RenderCardinalDirections();
 private:
     CGameObject*                    m_Target = nullptr;

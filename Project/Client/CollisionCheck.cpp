@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CollisionCheck.h"
+#include "ImGui/imgui.h"
 #include <Engine/CCollisionMgr.h>
 #include <Engine/CLevelMgr.h>
 #include <Engine/CLevel.h>
@@ -37,7 +38,7 @@ void CollisionCheck::Update()
 		ImGui::NewLine();
 	}
 
-	ImGui::Begin(ICON_FA_LIST_OL" Layer List", 0);
+	ImGui::BeginChild(ICON_FA_LIST_OL" Layer List");
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
 		string layerName = ICON_FA_PENCIL"##" + std::to_string(i) + m_LayerNames[i];
@@ -51,7 +52,7 @@ void CollisionCheck::Update()
 		
 		ImGui::SetItemTooltip(u8"이름 편집");
 	}
-	ImGui::End();
+	ImGui::EndChild();
 
 	if (m_Edit)
 	{

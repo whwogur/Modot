@@ -23,7 +23,7 @@ void AnimationUI::Update()
 	string animName = string(anim->GetKey().begin(), anim->GetKey().end());
 	strcpy_s(m_AnimationName, sizeof(m_AnimationName), animName.c_str());
 
-	ImGui::SameLine(ImGui::GetContentRegionAvail().x - 100);
+	/*ImGui::SameLine(ImGui::GetContentRegionAvail().x - 100);
 	if (ImGui::Button(ICON_FA_PENCIL, { 40, 25 }))
 	{
 		Animation2DEditor* editor = static_cast<Animation2DEditor*>(CEditorMgr::GetInst()->FindEditorUI("Animation2DEditor"));
@@ -31,7 +31,7 @@ void AnimationUI::Update()
 		editor->Refresh();
 		editor->SetActive(true);
 	}
-	ImGui::SetItemTooltip(u8"애니메이션 에디터를 엽니다");
+	ImGui::SetItemTooltip(u8"애니메이션 에디터를 엽니다");*/
 
 	const std::vector<Ptr<CSprite>>& vecSprites = anim->GetSpritesCRef();
 

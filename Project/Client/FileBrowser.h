@@ -1,7 +1,7 @@
 #pragma once
-#include "EditorUI.h"
+#include "CTool.h"
 class FileBrowser :
-    public EditorUI
+    public CTool
 {
 public:
     FileBrowser();

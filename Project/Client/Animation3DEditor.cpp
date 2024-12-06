@@ -63,7 +63,6 @@ void Animation3DEditor::Update()
 		{
 			m_CurrentFrameIdx = m_Target->Animator3D()->GetFrameIdx();
 			//RenderCardinalDirections(); // 해도 나중에
-			RenderPreview();
 			RenderSequencer();
 		}
 		else
@@ -77,10 +76,6 @@ void Animation3DEditor::Deactivate()
 {
 	if (m_Target != nullptr)
 		LetGoOfTarget();
-
-	EditorUI* menuUI = CEditorMgr::GetInst()->FindEditorUI("MainMenu"); // 애니메이션 에디터 실행 중 PLAY / PAUSE 누를까봐 한건데, 나중에 다른방식으로 막을 것
-	if (menuUI != nullptr)
-		menuUI->SetActive(true);
 }
 
 void Animation3DEditor::SetTarget(CGameObject* _Target)
@@ -104,9 +99,6 @@ void Animation3DEditor::SetTarget(CGameObject* _Target)
 
 	// 카메라를 목표 앞으로 옮긴다
 	SetWorldPosition(m_EditorCam->Transform(), lookAtWM);
-
-	// 뷰포트는 렌더링 안하게
-	CEditorMgr::GetInst()->EnableViewport(false);
 	
 	// 레이어 설정
 	m_TargetOriginLayer = m_Target->GetLayerIdx();
@@ -120,10 +112,6 @@ void Animation3DEditor::SetTarget(CGameObject* _Target)
 
 	m_EditorCam->Camera()->ClearLayerAll();
 	m_EditorCam->Camera()->SetLayer(30, true);
-	
-	EditorUI* menuUI = CEditorMgr::GetInst()->FindEditorUI("MainMenu"); // 애니메이션 에디터 실행 중 PLAY / PAUSE 누를까봐 한건데, 나중에 다른방식으로 막을 것
-	if (menuUI != nullptr)
-		menuUI->SetActive(false);
 }
 
 void Animation3DEditor::LetGoOfTarget()
@@ -159,22 +147,22 @@ void Animation3DEditor::SetWorldPosition(CTransform* _Transform, const Matrix& _
 
 void Animation3DEditor::RenderSequencer()
 {
-	ImGui::Begin("Clips##3DAnimSequencer", 0, ImGuiWindowFlags_AlwaysAutoResize);
-
-	std::vector<tMTAnimClip> vecClips = *m_Target->Animator3D()->GetClips();
+	std::vector<tMTAnimClip> vecClips = *(m_Target->Animator3D()->GetClips());
 	if (!vecClips.empty())
 	{
 		string test = u8"클립 개수: " + std::to_string(vecClips.size());
 		if (ImGui::BeginCombo("##Clips", test.c_str()))
 		{
-			for (const auto& clip : vecClips)
+			for (size_t i = 0; i < vecClips.size(); ++i)
 			{
-				const string strName(clip.strAnimName.begin(), clip.strAnimName.end());
+				const string strName(vecClips[i].strAnimName.begin(), vecClips[i].strAnimName.end());
 				if (ImGui::Selectable(strName.c_str()))
 				{
-					m_TargetClip = clip;
-					m_Frames.resize(clip.iEndFrame);
+					m_CurrentFrameIdx = 0;
+					m_TargetClip = vecClips[i];
+					m_Frames.resize(vecClips[i].iEndFrame - vecClips[i].iStartFrame);
 					std::iota(m_Frames.begin(), m_Frames.end(), 0);
+					m_Target->Animator3D()->SetClipIdx(i);
 				}
 			}
 			ImGui::EndCombo();
@@ -218,21 +206,8 @@ void Animation3DEditor::RenderSequencer()
 			Modot::EndSequencer();
 		}
 	}
-	ImGui::End();
 }
 
-void Animation3DEditor::RenderPreview()
-{
-	ImGui::Begin("Preview##Animation3D");
-
-	Ptr<CTexture> rtTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"AlbedoTargetTex"); // TEMP
-	if (rtTex != nullptr)
-	{
-		ImGui::Image((ImTextureID)rtTex->GetSRV().Get(), { ANIMPREVIEW_SIZE, ANIMPREVIEW_SIZE }, { 1, 1 }, { 0, 0 }, { 1, 1, 1, 1 }, HEADER_2); // 응애
-	}
-
-	ImGui::End();
-}
 
 //void Animation3DEditor::RenderCardinalDirections()
 //{

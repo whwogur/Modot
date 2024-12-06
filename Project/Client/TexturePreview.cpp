@@ -29,7 +29,7 @@ void TexturePreview::Update()
 			std::vector<string> vecTexNames;
 			CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::TEXTURE, vecTexNames);
 			pListUI->AddList(vecTexNames);
-			pListUI->AddDelegate(this, (DELEGATE_1)&TexturePreview::ChangeTexture);
+			pListUI->AddDelegate(this, (TOOLFUNC_1)&TexturePreview::ChangeTexture);
 			pListUI->SetActive(true);
 		}
 	}
@@ -44,7 +44,7 @@ void TexturePreview::Update()
 			std::vector<string> vecTexNames;
 			CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::TEXTURE, vecTexNames);
 			pListUI->AddList(vecTexNames);
-			pListUI->AddDelegate(this, (DELEGATE_1)&TexturePreview::ChangeTexture);
+			pListUI->AddDelegate(this, (TOOLFUNC_1)&TexturePreview::ChangeTexture);
 			pListUI->SetActive(true);
 		}
 	}
@@ -61,7 +61,7 @@ void TexturePreview::Update()
 			std::vector<string> vecTexNames;
 			CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::TEXTURE, vecTexNames);
 			pListUI->AddList(vecTexNames);
-			pListUI->AddDelegate(this, (DELEGATE_1)&TexturePreview::ChangeTexture);
+			pListUI->AddDelegate(this, (TOOLFUNC_1)&TexturePreview::ChangeTexture);
 			pListUI->SetActive(true);
 		}
 	}
@@ -76,7 +76,7 @@ void TexturePreview::Update()
 			std::vector<string> vecTexNames;
 			CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::TEXTURE, vecTexNames);
 			pListUI->AddList(vecTexNames);
-			pListUI->AddDelegate(this, (DELEGATE_1)&TexturePreview::ChangeTexture);
+			pListUI->AddDelegate(this, (TOOLFUNC_1)&TexturePreview::ChangeTexture);
 			pListUI->SetActive(true);
 		}
 	}
@@ -93,7 +93,7 @@ void TexturePreview::Update()
 			std::vector<string> vecTexNames;
 			CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::TEXTURE, vecTexNames);
 			pListUI->AddList(vecTexNames);
-			pListUI->AddDelegate(this, (DELEGATE_1)&TexturePreview::ChangeTexture);
+			pListUI->AddDelegate(this, (TOOLFUNC_1)&TexturePreview::ChangeTexture);
 			pListUI->SetActive(true);
 		}
 	}
@@ -108,7 +108,7 @@ void TexturePreview::Update()
 			std::vector<string> vecTexNames;
 			CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::TEXTURE, vecTexNames);
 			pListUI->AddList(vecTexNames);
-			pListUI->AddDelegate(this, (DELEGATE_1)&TexturePreview::ChangeTexture);
+			pListUI->AddDelegate(this, (TOOLFUNC_1)&TexturePreview::ChangeTexture);
 			pListUI->SetActive(true);
 		}
 	}
@@ -125,7 +125,7 @@ void TexturePreview::Update()
 			std::vector<string> vecTexNames;
 			CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::TEXTURE, vecTexNames);
 			pListUI->AddList(vecTexNames);
-			pListUI->AddDelegate(this, (DELEGATE_1)&TexturePreview::ChangeTexture);
+			pListUI->AddDelegate(this, (TOOLFUNC_1)&TexturePreview::ChangeTexture);
 			pListUI->SetActive(true);
 		}
 	}
@@ -140,7 +140,7 @@ void TexturePreview::Update()
 			std::vector<string> vecTexNames;
 			CAssetMgr::GetInst()->GetAssetNames(ASSET_TYPE::TEXTURE, vecTexNames);
 			pListUI->AddList(vecTexNames);
-			pListUI->AddDelegate(this, (DELEGATE_1)&TexturePreview::ChangeTexture);
+			pListUI->AddDelegate(this, (TOOLFUNC_1)&TexturePreview::ChangeTexture);
 			pListUI->SetActive(true);
 		}
 	}

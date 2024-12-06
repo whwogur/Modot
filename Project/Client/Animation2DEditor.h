@@ -1,8 +1,8 @@
 #pragma once
-#include "EditorUI.h"
+#include "CTool.h"
 
 class Animation2DEditor :
-    public EditorUI
+    public CTool
 {
 public:
     Animation2DEditor();
@@ -10,6 +10,7 @@ public:
 
 public:
     virtual void Update() override;
+    virtual void Init() override {};
 
 public:
     void SetAnimation(Ptr<CAnimation> _Anim) { m_Animation = _Anim; }

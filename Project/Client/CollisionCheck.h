@@ -1,8 +1,8 @@
 #pragma once
-#include "EditorUI.h"
+#include "CTool.h"
 
 class CollisionCheck :
-    public EditorUI
+    public CTool
 {
 public:
     CollisionCheck();
@@ -11,6 +11,7 @@ public:
 public:
     virtual void Update() override;
     virtual void Activate() override;
+    virtual void Init() override {};
 private:
     void Refresh();
     void EditLayerName();

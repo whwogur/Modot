@@ -1,8 +1,8 @@
 #pragma once
-#include "EditorUI.h"
+#include "CTool.h"
 
 class TexturePreview
-	: public EditorUI
+	: public CTool
 {
 public:
 	TexturePreview() = default;
@@ -10,6 +10,7 @@ public:
 
 public:
 	virtual void Update() override;
+	virtual void Init() override {};
 	void ChangeTexture();
 	
 private:

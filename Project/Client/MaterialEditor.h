@@ -1,9 +1,9 @@
 #pragma once
-#include "EditorUI.h"
+#include "CTool.h"
 constexpr const int MAX_SELECTEDMAT = 5;
 
 class MaterialEditor :
-    public EditorUI
+    public CTool
 {
 public:
     MaterialEditor();

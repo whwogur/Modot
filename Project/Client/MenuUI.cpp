@@ -120,7 +120,7 @@ void MenuUI::Tools()
 			spriteEditor->Toggle();
 		}
 
-		if (ImGui::BeginMenu(u8"애니메이션 에디터", " Alt + A"))
+		/*if (ImGui::BeginMenu(u8"애니메이션 에디터", " Alt + A"))
 		{
 			if (ImGui::MenuItem(u8"2D애니메이션"))
 			{
@@ -135,14 +135,14 @@ void MenuUI::Tools()
 			}
 
 			ImGui::EndMenu();
-		}
+		}*/
 		
 
-		if (ImGui::MenuItem(u8"레이어 관리", " Alt + C"))
+		/*if (ImGui::MenuItem(u8"레이어 관리", " Alt + C"))
 		{
 			CollisionCheck* animEditor = static_cast<CollisionCheck*>(CEditorMgr::GetInst()->FindEditorUI(ICON_FA_CHECK_SQUARE_O" CollisionCheck"));
 			animEditor->SetActive(true);
-		}
+		}*/
 
 		if (ImGui::MenuItem(u8"텍스처 툴", " Alt + P"))
 		{

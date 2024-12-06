@@ -557,11 +557,6 @@ void CFBXLoader::LoadAnimationClip()
 	{
 		FbxAnimStack* pAnimStack = m_pScene->FindMember<FbxAnimStack>(m_arrAnimName[i]->Buffer());
 
-
-		//FbxAnimEvaluator* pevaluator = m_pScene->GetAnimationEvaluator();
-		//m_pScene->SetCurrentAnimationStack();
-
-
 		if (!pAnimStack)
 			continue;
 
@@ -576,8 +571,6 @@ void CFBXLoader::LoadAnimationClip()
 
 		pAnimClip->eMode = m_pScene->GetGlobalSettings().GetTimeMode();
 		pAnimClip->llTimeLength = pAnimClip->tEndTime.GetFrameCount(pAnimClip->eMode) - pAnimClip->tStartTime.GetFrameCount(pAnimClip->eMode);
-
-
 
 		m_vecAnimClip.push_back(pAnimClip);
 	}

@@ -39,6 +39,8 @@ CGameObject* CMeshData::Instantiate()
 	pNewObj->AddComponent(pAnimator);
 
 	pAnimator->SetBones(m_pMesh->GetBones());
+	const std::vector<tMTAnimClip>* temp = m_pMesh->GetAnimClip();
+
 	pAnimator->SetAnimClip(m_pMesh->GetAnimClip());
 
 	return pNewObj;

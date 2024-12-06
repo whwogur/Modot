@@ -68,8 +68,9 @@ void CAnimator3D::FinalTick()
 
 void CAnimator3D::SetAnimClip(const std::vector<tMTAnimClip>* _vecAnimClip)
 {
+	m_vecClipUpdateTime.resize(_vecAnimClip->size());
 	m_pVecClip = _vecAnimClip;
-	m_vecClipUpdateTime.resize(m_pVecClip->size());
+
 	//// 테스트 코드
 	//static float fTime = 0.f;
 	//fTime += 1.f;

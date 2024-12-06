@@ -18,15 +18,11 @@
 #include "ListUI.h"
 #include "Content.h"
 #include "HierarchyView.h"
-#include "FileBrowser.h"
-#include "TexturePreview.h"
-#include "Animation2DEditor.h"
-#include "Animation3DEditor.h"
+#include "TilemapEditor.h"
 #include "SE_AtlasView.h"
 #include "SE_Detail.h"
 #include "SpriteEditor.h"
-#include "TilemapEditor.h"
-#include "CollisionCheck.h"
+#include "ToolBox.h"
 #include <ImGui/imgui_internal.h>
 #include <ImGui/ImGuizmo.h>
 #include <TreeUI.h>
@@ -106,26 +102,6 @@ void CEditorMgr::CreateEditorUI()
     pUI->SetName("MainMenu");
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
-    // FileBrowser
-    pUI = new FileBrowser;
-    pUI->Init();
-    pUI->SetName("FileBrowser");
-    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
-
-    // Animation2DEditor
-    pUI = new Animation2DEditor;
-    pUI->SetName("Animation2DEditor");
-    pUI->SetActive(false);
-    pUI->SetDockable(false);
-    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
-
-    // Animation3DEditor
-    pUI = new Animation3DEditor;
-    pUI->SetName("Animation3DEditor");
-    pUI->SetActive(false);
-    pUI->Init();
-    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
-
     // SE_AtlasView
     pUI = new SE_AtlasView;
     pUI->Init();
@@ -145,24 +121,17 @@ void CEditorMgr::CreateEditorUI()
     pUI->SetActive(false);
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
-    // TilemapEditor
+    // SpriteEditor
     pUI = new TilemapEditor;
     pUI->SetName("TilemapEditor");
     pUI->Init();
     pUI->SetActive(false);
-    pUI->SetTransparent(true);
-    pUI->SetDockable(false);
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 
-    pUI = new CollisionCheck;
-    pUI->SetName(ICON_FA_CHECK_SQUARE_O" CollisionCheck");
-    pUI->SetActive(false);
-    m_mapUI.insert(make_pair(pUI->GetName(), pUI));
-
-    // FileBrowser
-    pUI = new TexturePreview;
-    pUI->UseHorizontalScroll(true);
-    pUI->SetName(ICON_FA_PICTURE_O" Texture Preview");
+    pUI = new ToolBox;
+    pUI->SetName("ToolBox");
+    pUI->Init();
+    pUI->SetActive(true);
     m_mapUI.insert(make_pair(pUI->GetName(), pUI));
 }
 

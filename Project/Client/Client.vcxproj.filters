@@ -31,9 +31,6 @@
     <Filter Include="Editor\EditorUI\Modal\SpriteEditor">
       <UniqueIdentifier>{26008389-e181-4a34-b5d8-e0b5bd69acdc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor\EditorUI\Modal\Util">
-      <UniqueIdentifier>{11ddf1b5-fe19-43fb-b5db-c73257e41210}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Editor\Viewport">
       <UniqueIdentifier>{c20cf685-f358-40e7-be45-590ca4dd8aba}</UniqueIdentifier>
     </Filter>
@@ -115,12 +112,6 @@
     <Filter Include="Editor\EditorUI\Modal\AnimationEditor\3D">
       <UniqueIdentifier>{ff7235c4-b387-41f7-89f3-9a74df8f2499}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor\EditorUI\Modal\Util\Modot">
-      <UniqueIdentifier>{a64e5f6c-799c-421c-9f67-892b42889b2a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Editor\EditorUI\Modal\Util\Modot\Sequencer">
-      <UniqueIdentifier>{be38762a-ec5c-4c43-99e4-0a643f5c3ee0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Editor\EditorUI\AssetUI\Animation2D">
       <UniqueIdentifier>{6108503d-5795-4a57-be01-faf28ddb9532}</UniqueIdentifier>
     </Filter>
@@ -157,9 +148,6 @@
     <Filter Include="Editor\EditorUI\Modal\Logger">
       <UniqueIdentifier>{79e73397-f76e-44c1-b309-a97ad767f242}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor\EditorUI\Modal\Util\Modot\ParamUI">
-      <UniqueIdentifier>{a57c8681-3748-4493-9c0c-bac0b9878968}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Editor\EditorObject">
       <UniqueIdentifier>{e9183d9a-ba53-4b29-9156-a5ecb89cd08d}</UniqueIdentifier>
     </Filter>
@@ -168,6 +156,24 @@
     </Filter>
     <Filter Include="Editor\EditorUI\Modal\MaterialEditor">
       <UniqueIdentifier>{724a5330-65fa-4b41-bc76-e0b6c79985ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ToolBox">
+      <UniqueIdentifier>{2fe26918-222c-4648-8392-bf1cb22a5c6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Util">
+      <UniqueIdentifier>{11ddf1b5-fe19-43fb-b5db-c73257e41210}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Util\Modot">
+      <UniqueIdentifier>{a64e5f6c-799c-421c-9f67-892b42889b2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Util\Modot\Sequencer">
+      <UniqueIdentifier>{be38762a-ec5c-4c43-99e4-0a643f5c3ee0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Util\Modot\ParamUI">
+      <UniqueIdentifier>{a57c8681-3748-4493-9c0c-bac0b9878968}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ToolBox\Tool">
+      <UniqueIdentifier>{c331595b-5c8a-48f0-9c95-2b155cf1e5a1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -327,13 +333,13 @@
       <Filter>Editor\EditorUI\Modal\AnimationEditor\3D</Filter>
     </ClInclude>
     <ClInclude Include="ModotHelpers.h">
-      <Filter>Editor\EditorUI\Modal\Util\Modot</Filter>
+      <Filter>Editor\Util\Modot</Filter>
     </ClInclude>
     <ClInclude Include="Modot_sequencer.h">
-      <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer</Filter>
+      <Filter>Editor\Util\Modot\Sequencer</Filter>
     </ClInclude>
     <ClInclude Include="Modot_sequencer_internal.h">
-      <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer</Filter>
+      <Filter>Editor\Util\Modot\Sequencer</Filter>
     </ClInclude>
     <ClInclude Include="AnimationUI.h">
       <Filter>Editor\EditorUI\AssetUI\Animation2D</Filter>
@@ -372,7 +378,7 @@
       <Filter>Editor\EditorUI\Modal\Logger</Filter>
     </ClInclude>
     <ClInclude Include="ParamUI.h">
-      <Filter>Editor\EditorUI\Modal\Util\Modot\ParamUI</Filter>
+      <Filter>Editor\Util\Modot\ParamUI</Filter>
     </ClInclude>
     <ClInclude Include="CEditorCameraScript.h">
       <Filter>Editor\EditorObject\EditorScript</Filter>
@@ -382,6 +388,12 @@
     </ClInclude>
     <ClInclude Include="MaterialEditor.h">
       <Filter>Editor\EditorUI\Modal\MaterialEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolBox.h">
+      <Filter>Editor\EditorUI\ToolBox</Filter>
+    </ClInclude>
+    <ClInclude Include="CTool.h">
+      <Filter>Editor\EditorUI\ToolBox\Tool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -541,13 +553,13 @@
       <Filter>Editor\EditorUI\Modal\AnimationEditor\3D</Filter>
     </ClCompile>
     <ClCompile Include="ModotHelpers.cpp">
-      <Filter>Editor\EditorUI\Modal\Util\Modot</Filter>
+      <Filter>Editor\Util\Modot</Filter>
     </ClCompile>
     <ClCompile Include="Modot_sequencer.cpp">
-      <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer</Filter>
+      <Filter>Editor\Util\Modot\Sequencer</Filter>
     </ClCompile>
     <ClCompile Include="Modot_sequencer_internal.cpp">
-      <Filter>Editor\EditorUI\Modal\Util\Modot\Sequencer</Filter>
+      <Filter>Editor\Util\Modot\Sequencer</Filter>
     </ClCompile>
     <ClCompile Include="AnimationUI.cpp">
       <Filter>Editor\EditorUI\AssetUI\Animation2D</Filter>
@@ -586,7 +598,7 @@
       <Filter>Editor\EditorUI\Modal\Logger</Filter>
     </ClCompile>
     <ClCompile Include="ParamUI.cpp">
-      <Filter>Editor\EditorUI\Modal\Util\Modot\ParamUI</Filter>
+      <Filter>Editor\Util\Modot\ParamUI</Filter>
     </ClCompile>
     <ClCompile Include="CEditorCameraScript.cpp">
       <Filter>Editor\EditorObject\EditorScript</Filter>
@@ -599,6 +611,12 @@
     </ClCompile>
     <ClCompile Include="MaterialEditor.cpp">
       <Filter>Editor\EditorUI\Modal\MaterialEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBox.cpp">
+      <Filter>Editor\EditorUI\ToolBox</Filter>
+    </ClCompile>
+    <ClCompile Include="CTool.cpp">
+      <Filter>Editor\EditorUI\ToolBox\Tool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
