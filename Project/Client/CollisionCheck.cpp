@@ -15,44 +15,54 @@ CollisionCheck::CollisionCheck()
 
 void CollisionCheck::Update()
 {
-	for (UINT i = 0; i < MAX_LAYER; ++i)
+	ImGui::BeginTabBar("Collision##CollisionCheck");
+	if (ImGui::BeginTabItem("Matrix##CollisionCheck"))
 	{
-		if (m_LayerNames[i].empty()) 
-			continue;
-		ImGui::TextColored(HEADER_2, m_LayerNames[i].c_str());
-		ImGui::SameLine(150);
-		for (UINT j = i; j < MAX_LAYER; ++j)
+		for (UINT i = 0; i < MAX_LAYER; ++i)
 		{
-			if (m_LayerNames[j].empty())
+			if (m_LayerNames[i].empty())
 				continue;
-			
-			bool col = m_CollisionCheck[i] & (1 << j);
-			if (ImGui::Checkbox(("##CollisionCheck" + std::to_string(i) + "_" + std::to_string(j)).c_str(), &col))
+			ImGui::TextColored(HEADER_2, m_LayerNames[i].c_str());
+			ImGui::SameLine(150);
+			for (UINT j = i; j < MAX_LAYER; ++j)
 			{
-				CCollisionMgr::GetInst()->CollisionCheck(i, j);
-				Refresh();
+				if (m_LayerNames[j].empty())
+					continue;
+
+				bool col = m_CollisionCheck[i] & (1 << j);
+				if (ImGui::Checkbox(("##CollisionCheck" + std::to_string(i) + "_" + std::to_string(j)).c_str(), &col))
+				{
+					CCollisionMgr::GetInst()->CollisionCheck(i, j);
+					Refresh();
+				}
+				ImGui::SetItemTooltip(m_LayerNames[j].c_str());
+				ImGui::SameLine();
 			}
-			ImGui::SetItemTooltip(m_LayerNames[j].c_str());
-			ImGui::SameLine();
+			ImGui::NewLine();
 		}
-		ImGui::NewLine();
+		ImGui::EndTabItem();
+	}
+	
+
+	if (ImGui::BeginTabItem("LayerList##CollisionCheck"))
+	{
+		for (UINT i = 0; i < MAX_LAYER; ++i)
+		{
+			string layerName = ICON_FA_PENCIL"##" + std::to_string(i) + m_LayerNames[i];
+			ImGui::Text(m_LayerNames[i].c_str());
+			ImGui::SameLine(200);
+			if (ImGui::Button(layerName.c_str()))
+			{
+				m_Selected = i;
+				m_Edit = true;
+			}
+
+			ImGui::SetItemTooltip(u8"이름 편집");
+		}
+		ImGui::EndTabItem();
 	}
 
-	ImGui::BeginChild(ICON_FA_LIST_OL" Layer List");
-	for (UINT i = 0; i < MAX_LAYER; ++i)
-	{
-		string layerName = ICON_FA_PENCIL"##" + std::to_string(i) + m_LayerNames[i];
-		ImGui::Text(m_LayerNames[i].c_str());
-		ImGui::SameLine(200);
-		if (ImGui::Button(layerName.c_str()))
-		{
-			m_Selected = i;
-			m_Edit = true;
-		}
-		
-		ImGui::SetItemTooltip(u8"이름 편집");
-	}
-	ImGui::EndChild();
+	ImGui::EndTabBar();
 
 	if (m_Edit)
 	{
@@ -90,7 +100,8 @@ void CollisionCheck::Refresh()
 
 void CollisionCheck::EditLayerName()
 {
-	ImGui::Begin(ICON_FA_KEYBOARD_O);
+	ImGui::Begin(ICON_FA_KEYBOARD_O, 0, ImGuiWindowFlags_NoDocking);
+	
 	ImGui::TextColored(HEADER_3, u8"레이어 이름을 입력하세요"); ImGui::SameLine(ImGui::GetContentRegionAvail().x - 30.f);
 	if (ImGui::Button(ICON_FA_WINDOW_CLOSE))
 	{
@@ -106,7 +117,7 @@ void CollisionCheck::EditLayerName()
 	if (ImGui::InputText("##NewLayerName", m_Buff, 255, ImGuiInputTextFlags_EnterReturnsTrue))
 	{
 		if (m_Selected < 0)
-			MD_ENGINE_ASSERT(nullptr, L"정신 차리자");
+			MD_ENGINE_ASSERT(nullptr, L"선택된 레이어 없음 에러");
 
 		string strName(m_Buff);
 		m_LayerNames[m_Selected] = strName;
@@ -117,7 +128,5 @@ void CollisionCheck::EditLayerName()
 		m_Edit = false;
 		m_Buff[0] = '\0';
 	}
-
-	
 	ImGui::End();
 }

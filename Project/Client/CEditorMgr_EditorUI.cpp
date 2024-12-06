@@ -48,11 +48,9 @@ void CEditorMgr::InitImGui()
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;     // Enable Docking
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;   // Enable Multi-Viewport / Platform Windows
 
-    //SetThemeMicrosoft();
-    //SetThemeMoonlight();
-    //SetThemeUnrealEngine();
-    SetThemeFutureDark();
-
+    //SetThemePurpleComfy();
+    SetThemeRedDuck();
+    
     ImGuiStyle& style = ImGui::GetStyle();
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {

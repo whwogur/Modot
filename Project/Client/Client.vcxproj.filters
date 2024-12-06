@@ -52,14 +52,8 @@
     <Filter Include="Editor\EditorUI\Modal\FileBrowser">
       <UniqueIdentifier>{096a4d61-abf6-4b31-a8d0-14470924ff5f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor\EditorUI\Modal\Collision">
-      <UniqueIdentifier>{b74ebeb5-91f2-4a6d-a5a9-efa45877f9b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Editor\EditorUI\Modal\AnimationEditor">
       <UniqueIdentifier>{3232e88b-4cad-4c11-85a8-b3d8ea5dd31c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Editor\EditorUI\Modal\TexturePreview">
-      <UniqueIdentifier>{337d90f6-8813-4c6a-9680-4bae86cd51ed}</UniqueIdentifier>
     </Filter>
     <Filter Include="Editor\EditorUI\ComponentUI\Animator2D">
       <UniqueIdentifier>{dbc15f93-6def-4635-9198-3c177942cc1c}</UniqueIdentifier>
@@ -106,12 +100,6 @@
     <Filter Include="Editor\EditorUI\ComponentUI\MeshRender">
       <UniqueIdentifier>{ee97f328-173d-4525-ba86-8fe21c8275e3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor\EditorUI\Modal\AnimationEditor\2D">
-      <UniqueIdentifier>{c8e01a48-a4cb-40d2-a53d-eaa9c4efac3a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Editor\EditorUI\Modal\AnimationEditor\3D">
-      <UniqueIdentifier>{ff7235c4-b387-41f7-89f3-9a74df8f2499}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Editor\EditorUI\AssetUI\Animation2D">
       <UniqueIdentifier>{6108503d-5795-4a57-be01-faf28ddb9532}</UniqueIdentifier>
     </Filter>
@@ -154,9 +142,6 @@
     <Filter Include="Editor\EditorObject\EditorScript">
       <UniqueIdentifier>{616e7840-c1a8-44b0-a99e-90fdbe479292}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor\EditorUI\Modal\MaterialEditor">
-      <UniqueIdentifier>{724a5330-65fa-4b41-bc76-e0b6c79985ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Editor\EditorUI\ToolBox">
       <UniqueIdentifier>{2fe26918-222c-4648-8392-bf1cb22a5c6e}</UniqueIdentifier>
     </Filter>
@@ -174,6 +159,21 @@
     </Filter>
     <Filter Include="Editor\EditorUI\ToolBox\Tool">
       <UniqueIdentifier>{c331595b-5c8a-48f0-9c95-2b155cf1e5a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ToolBox\Tool\MaterialEditor">
+      <UniqueIdentifier>{724a5330-65fa-4b41-bc76-e0b6c79985ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ToolBox\Tool\Collision">
+      <UniqueIdentifier>{b74ebeb5-91f2-4a6d-a5a9-efa45877f9b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ToolBox\Tool\2D">
+      <UniqueIdentifier>{c8e01a48-a4cb-40d2-a53d-eaa9c4efac3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ToolBox\Tool\3D">
+      <UniqueIdentifier>{ff7235c4-b387-41f7-89f3-9a74df8f2499}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ToolBox\Tool\TexturePreview">
+      <UniqueIdentifier>{337d90f6-8813-4c6a-9680-4bae86cd51ed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -273,10 +273,10 @@
       <Filter>Editor\EditorUI\Modal\FileBrowser</Filter>
     </ClInclude>
     <ClInclude Include="CollisionCheck.h">
-      <Filter>Editor\EditorUI\Modal\Collision</Filter>
+      <Filter>Editor\EditorUI\ToolBox\Tool\Collision</Filter>
     </ClInclude>
     <ClInclude Include="TexturePreview.h">
-      <Filter>Editor\EditorUI\Modal\TexturePreview</Filter>
+      <Filter>Editor\EditorUI\ToolBox\Tool\TexturePreview</Filter>
     </ClInclude>
     <ClInclude Include="Animator2DUI.h">
       <Filter>Editor\EditorUI\ComponentUI\Animator2D</Filter>
@@ -327,10 +327,10 @@
       <Filter>Editor\EditorUI\ComponentUI\Animator3D</Filter>
     </ClInclude>
     <ClInclude Include="Animation2DEditor.h">
-      <Filter>Editor\EditorUI\Modal\AnimationEditor\2D</Filter>
+      <Filter>Editor\EditorUI\ToolBox\Tool\2D</Filter>
     </ClInclude>
     <ClInclude Include="Animation3DEditor.h">
-      <Filter>Editor\EditorUI\Modal\AnimationEditor\3D</Filter>
+      <Filter>Editor\EditorUI\ToolBox\Tool\3D</Filter>
     </ClInclude>
     <ClInclude Include="ModotHelpers.h">
       <Filter>Editor\Util\Modot</Filter>
@@ -387,7 +387,7 @@
       <Filter>Editor\EditorObject</Filter>
     </ClInclude>
     <ClInclude Include="MaterialEditor.h">
-      <Filter>Editor\EditorUI\Modal\MaterialEditor</Filter>
+      <Filter>Editor\EditorUI\ToolBox\Tool\MaterialEditor</Filter>
     </ClInclude>
     <ClInclude Include="ToolBox.h">
       <Filter>Editor\EditorUI\ToolBox</Filter>
@@ -493,10 +493,10 @@
       <Filter>Editor\EditorUI\Modal\FileBrowser</Filter>
     </ClCompile>
     <ClCompile Include="CollisionCheck.cpp">
-      <Filter>Editor\EditorUI\Modal\Collision</Filter>
+      <Filter>Editor\EditorUI\ToolBox\Tool\Collision</Filter>
     </ClCompile>
     <ClCompile Include="TexturePreview.cpp">
-      <Filter>Editor\EditorUI\Modal\TexturePreview</Filter>
+      <Filter>Editor\EditorUI\ToolBox\Tool\TexturePreview</Filter>
     </ClCompile>
     <ClCompile Include="Animator2DUI.cpp">
       <Filter>Editor\EditorUI\ComponentUI\Animator2D</Filter>
@@ -547,10 +547,10 @@
       <Filter>Editor\EditorUI\ComponentUI\Animator3D</Filter>
     </ClCompile>
     <ClCompile Include="Animation2DEditor.cpp">
-      <Filter>Editor\EditorUI\Modal\AnimationEditor\2D</Filter>
+      <Filter>Editor\EditorUI\ToolBox\Tool\2D</Filter>
     </ClCompile>
     <ClCompile Include="Animation3DEditor.cpp">
-      <Filter>Editor\EditorUI\Modal\AnimationEditor\3D</Filter>
+      <Filter>Editor\EditorUI\ToolBox\Tool\3D</Filter>
     </ClCompile>
     <ClCompile Include="ModotHelpers.cpp">
       <Filter>Editor\Util\Modot</Filter>
@@ -610,7 +610,7 @@
       <Filter>Editor\EditorObject</Filter>
     </ClCompile>
     <ClCompile Include="MaterialEditor.cpp">
-      <Filter>Editor\EditorUI\Modal\MaterialEditor</Filter>
+      <Filter>Editor\EditorUI\ToolBox\Tool\MaterialEditor</Filter>
     </ClCompile>
     <ClCompile Include="ToolBox.cpp">
       <Filter>Editor\EditorUI\ToolBox</Filter>

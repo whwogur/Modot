@@ -6,6 +6,7 @@
 #include "FileBrowser.h"
 #include "TexturePreview.h"
 #include "MaterialEditor.h"
+#include <ModotHelpers.h>
 
 ToolBox::ToolBox()
 {
@@ -26,7 +27,7 @@ void ToolBox::Init()
     // Animation3DEditor
     m_Tools[(UINT)TOOL_TYPE::ANIM3D] = std::make_unique<Animation3DEditor>();
     m_Tools[(UINT)TOOL_TYPE::ANIM3D]->SetName(ICON_FA_UNIVERSAL_ACCESS" 3D");
-    m_Tools[(UINT)TOOL_TYPE::ANIM2D]->Init();
+    m_Tools[(UINT)TOOL_TYPE::ANIM3D]->Init();
 
     m_Tools[(UINT)TOOL_TYPE::COLLISION] = std::make_unique<CollisionCheck>();
     m_Tools[(UINT)TOOL_TYPE::COLLISION]->SetName(ICON_FA_BOLT" Collision");

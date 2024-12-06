@@ -316,3 +316,22 @@ bool ModotHelpers::HSliderFloat(const char* label, float* v, float v_min, float 
 {
 	return HSliderScalar(label, ImGuiDataType_Float, v, &v_min, &v_max, format, flags);
 }
+
+bool ModotHelpers::BeginTabItem(const char* label, ImGuiID* active_tab, ImVec4 _Color, bool* p_open, ImGuiTabItemFlags flags)
+{
+	ImGuiID id = ImGui::GetID(label);
+	bool wasActive = *active_tab == id;
+
+	if (!wasActive)
+		ImGui::PushStyleColor(ImGuiCol_Text, _Color);
+
+	bool isActive = ImGui::BeginTabItem(label, p_open, flags);
+
+	if (!wasActive)
+		ImGui::PopStyleColor();
+
+	if (isActive)
+		*active_tab = id;
+
+	return isActive;
+}

@@ -217,7 +217,7 @@ void Animation2DEditor::Update()
     else
     {
         ImGui::SetWindowFontScale(1.18f);
-        ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, u8"애니메이션을 선택해주세요!!!");
+        ImGui::TextColored({ 1.0f, 1.0f, 0.0f, 1.0f }, u8"애니메이션을 선택해주세요!!!");
         ImGui::SameLine(800);
         if (ImGui::Button(ICON_FA_DELICIOUS " NEW", { 100, 30 }))
         {

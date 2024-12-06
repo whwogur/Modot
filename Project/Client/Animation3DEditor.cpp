@@ -32,7 +32,7 @@ void Animation3DEditor::Update()
 {
 	if (m_Target == nullptr)
 	{
-		ImGui::TextColored({ 1.f, 0.f, 0.f, 1.f }, u8"선택된 오브젝트 없음");
+		ImGui::TextColored({ 1.f, 1.f, 0.f, 1.f }, u8"선택된 오브젝트 없음");
 		if (ImGui::BeginCombo("##3DAnimCombo", u8"선택"))
 		{
 			CLevel* pLevel = CLevelMgr::GetInst()->GetCurrentLevel();

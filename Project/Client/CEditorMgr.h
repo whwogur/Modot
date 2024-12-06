@@ -28,6 +28,10 @@ public:
     void SetThemeMicrosoft();
     void SetThemeUnrealEngine();
     void SetThemeFutureDark();
+    void SetThemeRedOni();
+    void SetThemeModern();
+    void SetThemeRedDuck();
+    void SetThemePurpleComfy();
 
     void EnableViewport(bool _b) { m_VPEnable = _b; }
 private:
