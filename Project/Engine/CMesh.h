@@ -36,6 +36,7 @@ public:
     UINT GetBoneCount() { return (UINT)m_vecBones.size(); }
     const std::vector<tMTAnimClip>* GetAnimClip() { return &m_vecAnimClip; }
     bool IsAnimMesh() { return !m_vecAnimClip.empty(); }
+    bool IsSkeletalMesh() const { return !m_vecBones.empty(); }
 
     CStructuredBuffer* GetBoneFrameDataBuffer() { return m_pBoneFrameData; }    // 전체 본 프레임 정보
     CStructuredBuffer* GetBoneInverseBuffer() { return  m_pBoneInverse; }	    // 각 Bone 의 Inverse 행렬
@@ -44,7 +45,7 @@ public:
     virtual int Save(const wstring& _RelativePath) override;
 
 private:
-    WRL::ComPtr<ID3D11Buffer>       m_VB;
+    WRL::ComPtr<ID3D11Buffer>       m_VB = {};
     D3D11_BUFFER_DESC               m_VBDesc = {};
     UINT                            m_VtxCount;
     Vtx*                            m_VtxSysMem;

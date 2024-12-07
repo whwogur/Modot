@@ -147,7 +147,7 @@ void Animation3DEditor::SetWorldPosition(CTransform* _Transform, const Matrix& _
 
 void Animation3DEditor::RenderSequencer()
 {
-	std::vector<tMTAnimClip> vecClips = *(m_Target->Animator3D()->GetClips());
+	/*std::vector<tMTAnimClip> vecClips = *(m_Target->Animator3D()->GetClips());
 	if (!vecClips.empty())
 	{
 		string test = u8"클립 개수: " + std::to_string(vecClips.size());
@@ -205,7 +205,7 @@ void Animation3DEditor::RenderSequencer()
 			
 			Modot::EndSequencer();
 		}
-	}
+	}*/
 }
 
 

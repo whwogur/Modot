@@ -31,9 +31,10 @@ VS_OUT VS_Std3D(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
     
+    float4 PrevPos = float4(_in.vPos, 1.f);
     if (g_iAnim)
     {
-        Skinning(_in.vPos, _in.vTangent, _in.vBinormal, _in.vNormal
+        Skinning(_in.vPos, PrevPos.xyz, _in.vTangent, _in.vBinormal, _in.vNormal
               , _in.vWeights, _in.vIndices, 0);
     }
     

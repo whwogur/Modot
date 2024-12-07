@@ -128,6 +128,7 @@ struct tWeight8
 struct tSkinningInfo
 {
     float3 vPos;
+    float3 vPrevPos;
     float3 vTangent;
     float3 vBinormal;
     float3 vNormal;

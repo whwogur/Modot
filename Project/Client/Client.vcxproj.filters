@@ -52,9 +52,6 @@
     <Filter Include="Editor\EditorUI\Modal\FileBrowser">
       <UniqueIdentifier>{096a4d61-abf6-4b31-a8d0-14470924ff5f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor\EditorUI\Modal\AnimationEditor">
-      <UniqueIdentifier>{3232e88b-4cad-4c11-85a8-b3d8ea5dd31c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Editor\EditorUI\ComponentUI\Animator2D">
       <UniqueIdentifier>{dbc15f93-6def-4635-9198-3c177942cc1c}</UniqueIdentifier>
     </Filter>

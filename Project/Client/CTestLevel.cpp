@@ -32,24 +32,24 @@ void CTestLevel::CreateTestLevel()
 		pLevel->AddObject(3, pLandScape);
 		
 		// SkyBox 추가
-		CGameObject* pSkyBox = new CGameObject;
-		pSkyBox->SetName(L"SkyBox");
-		
-		pSkyBox->AddComponent(new CTransform);
-		pSkyBox->AddComponent(new CSkyBox);
-		
-		pSkyBox->Transform()->SetRelativePos(0.f, 0.f, 0.f);
-		pSkyBox->Transform()->SetRelativeScale(1000.f, 1000.f, 1000.f);
-		
-		//Ptr<CTexture> pSkyBoxTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"texture\\skybox\\SkyWater.dds");
+		//CGameObject* pSkyBox = new CGameObject;
+		//pSkyBox->SetName(L"SkyBox");
+		//
+		//pSkyBox->AddComponent(new CTransform);
+		//pSkyBox->AddComponent(new CSkyBox);
+		//
+		//pSkyBox->Transform()->SetRelativePos(0.f, 0.f, 0.f);
+		//pSkyBox->Transform()->SetRelativeScale(1000.f, 1000.f, 1000.f);
+		//
+		////Ptr<CTexture> pSkyBoxTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"texture\\skybox\\SkyWater.dds");
+		////pSkyBox->SkyBox()->SetSkyBoxTexture(pSkyBoxTex);
+		////pSkyBox->SkyBox()->SetSkyBoxType(CUBE);		
+		//
+		//Ptr<CTexture> pSkyBoxTex = CAssetMgr::GetInst()->Load<CTexture>(L"Sky01", L"texture\\Skybox\\Sky01.png");
 		//pSkyBox->SkyBox()->SetSkyBoxTexture(pSkyBoxTex);
-		//pSkyBox->SkyBox()->SetSkyBoxType(CUBE);		
-		
-		Ptr<CTexture> pSkyBoxTex = CAssetMgr::GetInst()->Load<CTexture>(L"Sky01", L"texture\\Skybox\\Sky01.png");
-		pSkyBox->SkyBox()->SetSkyBoxTexture(pSkyBoxTex);
-		pSkyBox->SkyBox()->SetSkyBoxType(SPHERE);
-		
-		pLevel->AddObject(0, pSkyBox);
+		//pSkyBox->SkyBox()->SetSkyBoxType(SPHERE);
+		//
+		//pLevel->AddObject(0, pSkyBox);
 		
 		// 3D 광원 추가
 		CGameObject* pObject = nullptr;
@@ -77,7 +77,7 @@ void CTestLevel::CreateTestLevel()
 		//pObj = pMeshData->Instantiate();
 		//pObj->SetName(L"House");
 
-		//CAssetMgr::GetInst()->LoadFBX(L"fbx\\Dragon.fbx");
+		//CAssetMgr::GetInst()->LoadFBX(L"fbx\\mn_vorc_00_ani.fbx");
 		//pMeshData = CAssetMgr::GetInst()->Load<CMeshData>(L"Dragon", L"meshdata\\Dragon.mdat");
 		//pObj = pMeshData->Instantiate();
 		//pObj->SetName(L"Dragon");

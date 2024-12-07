@@ -18,6 +18,7 @@ CMeshData::CMeshData(bool _Engine)
 CGameObject* CMeshData::Instantiate()
 {
 	CGameObject* pNewObj = new CGameObject;
+	pNewObj->SetName(GetKey());
 	pNewObj->AddComponent(new CTransform);
 	pNewObj->AddComponent(new CMeshRender);
 	pNewObj->MeshRender()->SetMesh(m_pMesh);
@@ -37,11 +38,7 @@ CGameObject* CMeshData::Instantiate()
 
 	CAnimator3D* pAnimator = new CAnimator3D;
 	pNewObj->AddComponent(pAnimator);
-
-	pAnimator->SetBones(m_pMesh->GetBones());
-	const std::vector<tMTAnimClip>* temp = m_pMesh->GetAnimClip();
-
-	pAnimator->SetAnimClip(m_pMesh->GetAnimClip());
+	pAnimator->SetSkeletalMesh(m_pMesh);
 
 	return pNewObj;
 }
@@ -75,14 +72,21 @@ CMeshData* CMeshData::LoadFromFBX(const wstring& _RelativePath)
 	}
 	std::vector<Ptr<CMaterial>> vecMtrl;
 	// 메테리얼 가져오기
-	for (UINT i = 0; i < loader.GetContainer(0).vecMtrl.size(); ++i)
+	for (UINT i = 0; i < (UINT)loader.GetContainerCount(); ++i)
 	{
-		// 예외처리 (material 이름이 입력 안되어있을 수도 있다.)
-		Ptr<CMaterial> pMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(loader.GetContainer(0).vecMtrl[i].strMtrlName);
-		assert(pMtrl.Get());
-		vecMtrl.emplace_back(pMtrl);
+		for (UINT j = 0; j < loader.GetContainer(i).vecMtrl.size(); ++j)
+		{
+			// 예외처리 (material 이름이 입력 안되어있을 수도 있다.)
+			Ptr<CMaterial> pMtrl = CAssetMgr::GetInst()->FindAsset<CMaterial>(loader.GetContainer(i).vecMtrl[j].strMtrlName);
+			if (pMtrl == nullptr)
+			{
+				MD_ENGINE_WARN(L"FBX Loading - 재질 로딩 중 재질 못찾음\n못찾은 재질 : {0}", loader.GetContainer(i).vecMtrl[j].strMtrlName);
+				continue;
+			}
+			vecMtrl.emplace_back(pMtrl);
+		}
 	}
-
+	
 	CMeshData* pMeshData = new CMeshData(true);
 	pMeshData->m_pMesh = pMesh;
 	pMeshData->m_vecMtrl = vecMtrl;
@@ -96,7 +100,7 @@ int CMeshData::Save(const wstring& _RelativePath)
 	wstring strFilePath = CPathMgr::GetInst()->GetContentPath() + _RelativePath;
 	FILE* pFile = nullptr;
 	errno_t err = _wfopen_s(&pFile, strFilePath.c_str(), L"wb");
-	assert(pFile);
+	MD_ENGINE_ASSERT(pFile, L"Failed to Save MeshData - Couldn't Open File");
 
 	MD_ENGINE_INFO(L"메쉬 데이터 저장");
 	// Mesh Key 저장	
@@ -105,6 +109,7 @@ int CMeshData::Save(const wstring& _RelativePath)
 	// material 정보 저장
 	UINT iMtrlCount = (UINT)m_vecMtrl.size();
 	fwrite(&iMtrlCount, sizeof(UINT), 1, pFile);
+
 	UINT i = 0;
 	for (; i < iMtrlCount; ++i)
 	{
@@ -135,7 +140,7 @@ int CMeshData::Load(const wstring& _RelativePath)
 	FILE* pFile = NULL;
 
 	_wfopen_s(&pFile, fullPath.c_str(), L"rb");
-	assert(pFile);
+	MD_ENGINE_ASSERT(pFile, L"Failed to Load Meshadata!");
 
 	// Mesh Load
 	LoadAssetRef(m_pMesh, pFile);
@@ -145,7 +150,9 @@ int CMeshData::Load(const wstring& _RelativePath)
 	UINT iMtrlCount = 0;
 	fread(&iMtrlCount, sizeof(UINT), 1, pFile);
 	m_vecMtrl.resize(iMtrlCount);
+
 	MD_ENGINE_INFO(L"메쉬 데이터 로딩");
+
 	for (UINT i = 0; i < iMtrlCount; ++i)
 	{
 		UINT idx = -1;
@@ -164,7 +171,6 @@ int CMeshData::Load(const wstring& _RelativePath)
 			MD_ENGINE_TRACE(L"Tex2 - {0}로드", pMtrl->GetTexParam(TEX_PARAM::TEX_2)->GetKey());
 		if (pMtrl->GetTexParam(TEX_PARAM::TEX_3) != nullptr)
 			MD_ENGINE_TRACE(L"Tex3 - {0}로드", pMtrl->GetTexParam(TEX_PARAM::TEX_3)->GetKey());
-
 		m_vecMtrl[i] = pMtrl;
 	}
 	fclose(pFile);

@@ -27,10 +27,10 @@ void CMeshRender::Render()
 	Transform()->Bind();
 
 	// Animator3D Binding
-	if (Animator3D())
+	if (Animator3D() && Animator3D()->IsValid())
 	{
 		Animator3D()->Bind();
-		for (UINT i = 0; i < GetMesh()->GetSubsetCount(); ++i)
+		for (UINT i = 0; i < GetMaterialCount(); ++i)
 		{
 			if (nullptr == GetMaterial(i))
 				continue;

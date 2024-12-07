@@ -208,3 +208,9 @@ enum class MRT_TYPE
 
 	END,
 };
+
+enum class DT_OPTIONS
+{
+	SCALE,
+	NONESCALE,
+};

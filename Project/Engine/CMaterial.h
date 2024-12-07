@@ -19,20 +19,13 @@ public:
     void* GetScalarParam(SCALAR_PARAM _Param);
     Ptr<CTexture> GetTexParam(TEX_PARAM _Param) { return m_arrTex[(UINT)_Param]; }
 
-    void SetMaterialCoefficient(Vec4 _vDiff, Vec4 _vSpec, Vec4 _vAmb, Vec4 _vEmis)
+    void SetMaterialCoefficient(const Vec4& _vDiff, const Vec4& _vSpec
+                                            , const Vec4& _vAmb, const Vec4& _vEmis)
     {
         m_Const.mtrl.vDiff = _vDiff;
         m_Const.mtrl.vAmb = _vAmb;
         m_Const.mtrl.vSpec = _vSpec;
         m_Const.mtrl.vEmv = _vEmis;
-    }
-
-    void GetMaterialCoefficient(Vec4* _vDiff, Vec4* _vSpec, Vec4* _vAmb, Vec4* _vEmis)
-    {
-        *_vDiff = m_Const.mtrl.vDiff;
-        *_vAmb = m_Const.mtrl.vAmb;
-        *_vSpec = m_Const.mtrl.vSpec;
-        *_vEmis = m_Const.mtrl.vEmv;
     }
 
     Vec4& GetDiffRef() { return m_Const.mtrl.vDiff; }

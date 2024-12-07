@@ -268,7 +268,8 @@ void CCamera::RenderDeferred()
 			{
 				pair.second[i].pObj->Animator3D()->Bind();
 				tInstData.iRowIdx = iRowIdx++;
-				CInstancingBuffer::GetInst()->AddInstancingBoneMat(pair.second[i].pObj->Animator3D()->GetFinalBoneMat());
+				CInstancingBuffer::GetInst()->AddInstancingBoneMat(pair.second[i].pObj->Animator3D()->GetFinalBoneMat(), 
+					pair.second[i].pObj->Animator3D()->GetPrevFinalBoneMat());
 				bHasAnim3D = true;
 			}
 			else
