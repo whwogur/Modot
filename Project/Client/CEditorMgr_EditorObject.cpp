@@ -7,12 +7,12 @@
 #include "CEditorCameraScript.h"
 #include <Engine/CRenderMgr.h>
 #include "EditorLogger.h"
-#include "EditorViewport.h"
+#include "LevelEditor.h"
 
 void CEditorMgr::CreateEditorObject()
 {
 	m_Logger = std::make_unique<EditorLogger>();
-	m_Viewport = std::make_unique<EditorViewport>();
+	m_LevelEditor = std::make_unique<LevelEditor>();
 
 	//=============
 	// 에디터 카메라

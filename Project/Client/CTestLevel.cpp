@@ -72,7 +72,7 @@ void CTestLevel::CreateTestLevel()
 		//Ptr<CMeshData> pMeshData = nullptr;
 		//CGameObject* pObj = nullptr;
 		
-		//CAssetMgr::GetInst()->LoadFBX(L"fbx\\House.fbx");
+		//CAssetMgr::GetInst()->LoadFBX(L"fbx\\mn_vorc_00_ani.fbx");
 		//pMeshData = CAssetMgr::GetInst()->Load<CMeshData>(L"House", L"meshdata\\House.mdat");
 		//pObj = pMeshData->Instantiate();
 		//pObj->SetName(L"House");
@@ -89,7 +89,6 @@ void CTestLevel::CreateTestLevel()
 		
 		//pObj->Transform()->SetRelativePos(Vec3(200.f, 0.f, 200.f));
 		//pObj->Transform()->SetRelativeScale(Vec3(5.f, 5.f, 5.f));
-		//pObj->Transform()->SetRelativeRotation(0.f, XM_PI / 2.f, 0.f);
 		//
 		//pLevel->AddObject(0, pObj);
 	}

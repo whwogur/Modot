@@ -72,7 +72,7 @@ void CEditorMgr::EditorTrace(const string& _Log)
 
 void CEditorMgr::SetTargetObject(CGameObject* _Target)
 {
-	m_Viewport->SetTargetObject(_Target);
+	m_LevelEditor->SetTargetObject(_Target);
 }
 
 void CEditorMgr::SetThemeMoonlight()
@@ -806,7 +806,7 @@ void CEditorMgr::SetThemePurpleComfy()
 void CEditorMgr::ImGuiTick()
 {
 	if (m_VPEnable)
-		m_Viewport->Update();
+		m_LevelEditor->Update();
 
     for (const auto& pair : m_mapUI)
     {

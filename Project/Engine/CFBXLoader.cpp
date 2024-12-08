@@ -786,9 +786,9 @@ void CFBXLoader::LoadKeyframeTransform(FbxNode* _pNode, FbxCluster* _pCluster
 
 	FbxTime::EMode eTimeMode = m_pScene->GetGlobalSettings().GetTimeMode();
 
-	//// DirectX 축으로 변환하는 회전 행렬
-	//static Matrix OffsetRotmat = XMMatrixRotationX(-XM_PIDIV2) * XMMatrixRotationY(XM_PI);
-	//static FbxAMatrix OffsetRotFbxMat = ConvertToFBXMatrix(OffsetRotmat);
+	// DirectX 축으로 변환하는 회전 행렬
+	static Matrix OffsetRotmat = XMMatrixRotationX(-XM_PIDIV2) * XMMatrixRotationY(XM_PI);
+	static FbxAMatrix OffsetRotFbxMat = ConvertToFBXMatrix(OffsetRotmat);
 
 	for (UINT i = 0; i < m_vecAnimClip.size(); ++i)
 	{
@@ -812,7 +812,7 @@ void CFBXLoader::LoadKeyframeTransform(FbxNode* _pNode, FbxCluster* _pCluster
 			matCurTrans = matReflect * matCurTrans * matReflect;
 
 			tFrame.dTime = tTime.GetSecondDouble();
-			tFrame.matTransform = /*OffsetRotFbxMat **/ matCurTrans;
+			tFrame.matTransform = OffsetRotFbxMat * matCurTrans;
 
 			m_vecBone[_iBoneIdx]->vecKeyFrame.emplace_back(tFrame);
 		}

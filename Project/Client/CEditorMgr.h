@@ -48,7 +48,7 @@ private:
     map<string, EditorUI*>          m_mapUI;
 
     std::unique_ptr<EditorLogger>   m_Logger = nullptr;
-    std::unique_ptr<EditorViewport> m_Viewport = nullptr;
+    std::unique_ptr<EditorViewport> m_LevelEditor = nullptr;
     HANDLE                          m_Sentinel = nullptr;
 
     bool                            m_VPEnable = true;

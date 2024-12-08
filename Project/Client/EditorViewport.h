@@ -3,23 +3,19 @@ class EditorViewport
 {
 public:
 	EditorViewport() = default;
-	~EditorViewport() = default;
+	virtual ~EditorViewport() = default;
 
 public:
-	void Update();
-
+	virtual void Update() = 0;
 public:
-	const bool& GetGizmoActiveRef() const { return m_GizmoActive; }
-	const int& GetGizmoTypeRef() const { return m_GizmoType; }
-
 	void SetTargetObject(CGameObject* _Target) { m_TargetObject = _Target; }
-private:
-	void RenderGizmo();
-	void EditorCameraSlider();
+
+protected:
+	CGameObject* GetTargetObject() { return m_TargetObject; }
+	const Vec2& GetSize() { return m_Size; }
+	void SetSize(const Vec2& _Size) { m_Size = _Size; }
 private:
 	CGameObject*	m_TargetObject = nullptr;
 	Vec2			m_Size = {};
-	bool            m_GizmoActive = false;
-	int             m_GizmoType = 0;
 };
 

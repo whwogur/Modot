@@ -113,8 +113,10 @@
     <ClInclude Include="EditorLogger.h" />
     <ClInclude Include="EditorViewport.h" />
     <ClInclude Include="LandscapeUI.h" />
+    <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="Light3DUI.h" />
     <ClInclude Include="MaterialEditor.h" />
+    <ClInclude Include="ModelEditor.h" />
     <ClInclude Include="ModotHelpers.h" />
     <ClInclude Include="Modot_sequencer.h" />
     <ClInclude Include="Modot_sequencer_internal.h" />
@@ -189,8 +191,10 @@
     <ClCompile Include="EditorLogger.cpp" />
     <ClCompile Include="EditorViewport.cpp" />
     <ClCompile Include="LandscapeUI.cpp" />
+    <ClCompile Include="LevelEditor.cpp" />
     <ClCompile Include="Light3DUI.cpp" />
     <ClCompile Include="MaterialEditor.cpp" />
+    <ClCompile Include="ModelEditor.cpp" />
     <ClCompile Include="ModotHelpers.cpp" />
     <ClCompile Include="Modot_sequencer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>

@@ -172,6 +172,12 @@
     <Filter Include="Editor\EditorUI\ToolBox\Tool\TexturePreview">
       <UniqueIdentifier>{337d90f6-8813-4c6a-9680-4bae86cd51ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\Viewport\LevelEditor">
+      <UniqueIdentifier>{a836382f-f364-46fb-8743-aed91b36c10b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Viewport\ModelEditor">
+      <UniqueIdentifier>{11780cc2-af31-4361-abea-022db0dd09d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -391,6 +397,12 @@
     </ClInclude>
     <ClInclude Include="CTool.h">
       <Filter>Editor\EditorUI\ToolBox\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditor.h">
+      <Filter>Editor\Viewport\LevelEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelEditor.h">
+      <Filter>Editor\Viewport\ModelEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -614,6 +626,12 @@
     </ClCompile>
     <ClCompile Include="CTool.cpp">
       <Filter>Editor\EditorUI\ToolBox\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelEditor.cpp">
+      <Filter>Editor\Viewport\LevelEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelEditor.cpp">
+      <Filter>Editor\Viewport\ModelEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
