@@ -3,14 +3,19 @@
 #include "ImGui/IconsFontAwesome4.h"
 #include "CEditorMgr.h"
 #include "ImGui/imgui.h"
-#include "ImGui/imgui_impl_dx11.h"
-#include "ImGui/imgui_impl_win32.h"
+#include <ImGui/imgui_internal.h>
+#include <ImGui/ImGuizmo.h>
+#include <ImGui/imgui_impl_dx11.h>
+#include <ImGui/imgui_impl_win32.h>
 
 #include <Engine/CDevice.h>
 #include <Engine/CRenderMgr.h>
 
 #include "CAssetMgr.h"
 #include "CPathMgr.h"
+
+#include "EditorLogger.h"
+#include "EditorViewport.h"
 
 #include "Inspector.h"
 #include "ParamUI.h"
@@ -23,9 +28,9 @@
 #include "SE_Detail.h"
 #include "SpriteEditor.h"
 #include "ToolBox.h"
-#include <ImGui/imgui_internal.h>
-#include <ImGui/ImGuizmo.h>
-#include <TreeUI.h>
+
+#include "TreeUI.h"
+
 void CEditorMgr::InitImGui()
 {
     // Setup Dear ImGui context
@@ -163,7 +168,17 @@ void CEditorMgr::ImGuiRun()
 
     ParamUI::ResetID();
 
-    ImGuiTick();
+    if (m_VPEnable)
+        m_LevelEditor->Update();
+
+    for (const auto& pair : m_mapUI)
+    {
+        pair.second->Tick();
+    }
+    m_Logger->Draw(ICON_FA_TERMINAL" Console");
+
+    if (m_VPEnable)
+        m_LevelEditor->LateUpdate();
 
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -176,7 +191,6 @@ void CEditorMgr::ImGuiRun()
     }
 }
 
-
 EditorUI* CEditorMgr::FindEditorUI(const string& _Name)
 {
     map<string, EditorUI*>::iterator iter = m_mapUI.find(_Name);
@@ -187,4 +201,24 @@ EditorUI* CEditorMgr::FindEditorUI(const string& _Name)
     }
 
     return iter->second;
+}
+
+void CEditorMgr::EditorWarn(const string& _Log)
+{
+    m_Logger->AddLog(LOG_CATEGORY[0], _Log.c_str());
+}
+
+void CEditorMgr::EditorError(const string& _Log)
+{
+    m_Logger->AddLog(LOG_CATEGORY[1], _Log.c_str());
+}
+
+void CEditorMgr::EditorTrace(const string& _Log)
+{
+    m_Logger->AddLog(LOG_CATEGORY[2], _Log.c_str());
+}
+
+void CEditorMgr::SetTargetObject(CGameObject* _Target)
+{
+    m_LevelEditor->SetTargetObject(_Target);
 }

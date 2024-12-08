@@ -5,7 +5,6 @@
 #include <Engine/CRenderMgr.h>
 #include <Engine/CEngine.h>
 #include <Engine/CDevice.h>
-#include <Engine/CKeyMgr.h>
 #include <Engine/CPathMgr.h>
 
 #include "CGameObjectEx.h"
@@ -13,20 +12,20 @@
 #include "CEditorCameraScript.h"
 
 #include "ImGui/imgui.h"
+#include "ImGui/imgui_internal.h"
 #include "ImGui/imgui_impl_dx11.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "EditorUI.h"
+
+#include "Inspector.h"
 #include "EditorLogger.h"
-#include "EditorViewport.h"
-#include <Inspector.h>
-#include <ImGui/imgui_internal.h>
+#include "LevelEditor.h"
 CEditorMgr::CEditorMgr()
 {
 }
 
 CEditorMgr::~CEditorMgr()
 {
-	Delete_Vec(m_vecEditorObject);
     Delete_Map(m_mapUI);
     // ImGui Cleanup
     ImGui_ImplDX11_Shutdown();
@@ -48,31 +47,16 @@ void CEditorMgr::Init()
 
 void CEditorMgr::Tick()
 {
-    EditorObjectUpdate();
-
     ImGuiRun();
-
 	ObserveContents();
 }
 
-void CEditorMgr::EditorWarn(const string& _Log)
+void CEditorMgr::CreateEditorObject()
 {
-	m_Logger->AddLog(LOG_CATEGORY[0], _Log.c_str());
-}
-
-void CEditorMgr::EditorError(const string& _Log)
-{
-	m_Logger->AddLog(LOG_CATEGORY[1], _Log.c_str());
-}
-
-void CEditorMgr::EditorTrace(const string& _Log)
-{
-	m_Logger->AddLog(LOG_CATEGORY[2], _Log.c_str());
-}
-
-void CEditorMgr::SetTargetObject(CGameObject* _Target)
-{
-	m_LevelEditor->SetTargetObject(_Target);
+	m_Logger = std::make_unique<EditorLogger>();
+	m_LevelEditor = std::make_unique<LevelEditor>();
+	m_LevelEditor->Init();
+	m_Logger->LogAdapterInfo();
 }
 
 void CEditorMgr::SetThemeMoonlight()
@@ -801,16 +785,4 @@ void CEditorMgr::SetThemePurpleComfy()
 	style.Colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.800000011920929f, 0.800000011920929f, 0.800000011920929f, 0.2000000029802322f);
 	style.Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.800000011920929f, 0.800000011920929f, 0.800000011920929f, 0.3499999940395355f);
 	
-}
-
-void CEditorMgr::ImGuiTick()
-{
-	if (m_VPEnable)
-		m_LevelEditor->Update();
-
-    for (const auto& pair : m_mapUI)
-    {
-        pair.second->Tick();
-    }
-	m_Logger->Draw(ICON_FA_TERMINAL" Console");
 }

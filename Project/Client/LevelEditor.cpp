@@ -1,11 +1,7 @@
 #include "pch.h"
 #include "LevelEditor.h"
 #include "CEditorMgr.h"
-#include "ImGui/imgui.h"
-#include "ImGui/ImGuizmo.h"
-#include "ImGui/imgui_impl_dx11.h"
-#include "ImGui/imgui_impl_win32.h"
-#include "ImGui/imgui_internal.h"
+
 #include "CEditorCameraScript.h"
 #include "TreeUI.h"
 #include "ModotHelpers.h"
@@ -16,9 +12,12 @@
 #include <Engine/CKeyMgr.h>
 #include <Engine/CLevelMgr.h>
 #include <Engine/CTransform.h>
+#include "CGameObjectEx.h"
 
 void LevelEditor::Update()
 {
+    m_LevelEditorCam->Tick();
+
     ImGuiWindowClass window_class;
     window_class.ClassId = ImGui::GetID("Editor Viewport");
     window_class.DockNodeFlagsOverrideSet = 0;
@@ -152,6 +151,38 @@ void LevelEditor::Update()
 
         ImGui::End();
     }
+}
+
+void LevelEditor::LateUpdate()
+{
+    m_LevelEditorCam->FinalTick();
+
+    DrawDebugLine(Vec3(0.f, 0.f, 0.f), Vec3(1000.f, 0.f, 0.f), Vec4(1.f, 0.f, 0.f, 1.f), 0.f, true);
+    DrawDebugLine(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 1000.f, 0.f), Vec4(0.f, 1.f, 0.f, 1.f), 0.f, true);
+    DrawDebugLine(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 0.f, 1000.f), Vec4(0.f, 0.f, 1.f, 1.f), 0.f, true);
+}
+
+void LevelEditor::Init()
+{
+    //=============
+    // 에디터 카메라
+    //=============
+    m_LevelEditorCam = std::make_unique<CGameObjectEx>();
+    m_LevelEditorCam->SetName(L"LevelEditorCamera");
+    m_LevelEditorCam->AddComponent(new CTransform);
+    m_LevelEditorCam->AddComponent(new CCamera);
+    m_LevelEditorCam->AddComponent(new CEditorCameraScript);
+
+    m_LevelEditorCam->Transform()->SetRelativeScale(1, 1, 1);
+    m_LevelEditorCam->Camera()->SetLayerAll();
+    m_LevelEditorCam->Camera()->SetLayer(31, false);
+    m_LevelEditorCam->Camera()->SetFar(10000.f);
+    m_LevelEditorCam->Camera()->SetProjType(PERSPECTIVE);
+    m_LevelEditorCam->Camera()->SetFrustumDebug(false);
+
+    m_LevelEditorCam->Transform()->SetRelativePos(Vec3(0.f, 0.f, -1000.f));
+
+    CRenderMgr::GetInst()->SetEditorCam(m_LevelEditorCam->Camera());
 }
 
 void LevelEditor::RenderGizmo()

@@ -1,4 +1,10 @@
 #pragma once
+#include "ImGui/imgui.h"
+#include "ImGui/ImGuizmo.h"
+#include "ImGui/imgui_impl_dx11.h"
+#include "ImGui/imgui_impl_win32.h"
+#include "ImGui/imgui_internal.h"
+
 class EditorViewport
 {
 public:
@@ -7,6 +13,8 @@ public:
 
 public:
 	virtual void Update() = 0;
+	virtual void LateUpdate() = 0;
+	virtual void Init() {}
 public:
 	void SetTargetObject(CGameObject* _Target) { m_TargetObject = _Target; }
 

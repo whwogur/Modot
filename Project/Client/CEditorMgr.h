@@ -36,7 +36,6 @@ public:
     void EnableViewport(bool _b) { m_VPEnable = _b; }
 private:
     void CreateEditorObject();
-    void EditorObjectUpdate();
     void InitImGui();
     void ImGuiRun();
     void ImGuiTick(); 
@@ -44,7 +43,6 @@ private:
     void ObserveContents();
 
 private:
-    std::vector<CGameObject*>       m_vecEditorObject;
     map<string, EditorUI*>          m_mapUI;
 
     std::unique_ptr<EditorLogger>   m_Logger = nullptr;

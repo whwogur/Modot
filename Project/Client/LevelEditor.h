@@ -11,11 +11,15 @@ public:
     const int& GetGizmoTypeRef() const { return m_GizmoType; }
 
     virtual void Update() override;
+    virtual void LateUpdate() override;
+    virtual void Init() override;
 private:
     void RenderGizmo();
     void EditorCameraSlider();
 private:
-    bool            m_GizmoActive = false;
-    int             m_GizmoType = 0;
+    std::unique_ptr<CGameObject>    m_LevelEditorCam;
+    bool                            m_GizmoActive   = false;
+    ImGuizmo::OPERATION             m_GizmoType     = ImGuizmo::OPERATION::TRANSLATE;
+    ImGuizmo::MODE                  m_GizmoMode     = ImGuizmo::MODE::LOCAL;
 };
 

@@ -239,7 +239,6 @@
     <ClCompile Include="ToolBox.cpp" />
     <ClCompile Include="TransformUI.cpp" />
     <ClCompile Include="EditorUI.cpp" />
-    <ClCompile Include="CEditorMgr_EditorObject.cpp" />
     <ClCompile Include="ImGui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>

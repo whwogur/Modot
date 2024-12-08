@@ -612,9 +612,6 @@
     <ClCompile Include="CEditorCameraScript.cpp">
       <Filter>Editor\EditorObject\EditorScript</Filter>
     </ClCompile>
-    <ClCompile Include="CEditorMgr_EditorObject.cpp">
-      <Filter>Editor\EditorObject</Filter>
-    </ClCompile>
     <ClCompile Include="CGameObjectEx.cpp">
       <Filter>Editor\EditorObject</Filter>
     </ClCompile>
