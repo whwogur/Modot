@@ -11,6 +11,11 @@
 #include <Engine/CLevelMgr.h>
 #include <Engine/CLevel.h>
 #include <ModotHelpers.h>
+
+#include <shobjidl.h>
+#include <shobjidl_core.h>
+#include <comdef.h>
+#include <shlobj_core.h>
 ModelEditor::ModelEditor()
 {
 }
@@ -164,6 +169,75 @@ void ModelEditor::Update()
             ImGui::SameLine(INDENT_1);
             ImGui::Text("%.3f", CurClip.dTimeLength);
 #pragma endregion
+
+            ImGui::SeparatorText(u8"메쉬정보");
+            if (nullptr != pTarget && nullptr != pTarget->Animator3D() && pTarget->Animator3D()->IsValid())
+            {
+                ImGui::Separator();
+                if (m_bMeshSaved)
+                {
+                    ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Button));
+                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_ButtonHovered));
+                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImGui::GetStyleColorVec4(ImGuiCol_ButtonActive));
+                }
+                else
+                {
+                    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
+                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
+                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
+                }
+
+                if (ImGui::Button(ICON_FA_FLOPPY_O))
+                {
+                    Ptr<CMesh> pMesh = pTarget->Animator3D()->GetSkeletalMesh();
+                    if (S_OK == pMesh->Save(pMesh->GetKey()))
+                    {
+                        MessageBox(nullptr, L"Mesh 저장 성공!", L"Save Mesh", MB_ICONASTERISK);
+                        m_bMeshSaved = true;
+                    }
+                    else
+                    {
+                        MessageBox(nullptr, L"Mesh 저장 실패!", L"Save Mesh", MB_ICONHAND);
+                    }
+                }
+                ImGui::PopStyleColor();
+                ImGui::PopStyleColor();
+                ImGui::PopStyleColor();
+
+                ImGui::SameLine();
+                if (ImGui::Button("Import Animation##ModelEditorDetails"))
+                {
+                    std::vector<wstring> vec;
+                    FetchModelDialog(vec, m_RecentPath, { {L"FBX Files", L"*.fbx"} });
+
+                    for (wstring& strPath : vec)
+                    {
+                        std::filesystem::path filePath = strPath;
+
+                        // 경로가 입력되지 않은 경우
+                        if (filePath.empty())
+                        {
+                            m_RecentPath = L"fbx\\";
+                            MessageBox(nullptr, L"경로가 올바르지 않습니다.", L"모델 로딩 실패", MB_ICONHAND);
+                        }
+                        // .fbx 포맷이 아닌 경우
+                        else if (L".fbx" != filePath.extension())
+                        {
+                            MessageBox(nullptr, L"fbx 포맷 파일이 아닙니다.", L"모델 로딩 실패", MB_ICONHAND);
+                        }
+                        // 경로에 Content 폴더가 포함되지 않은 경우
+                        else if (string::npos == wstring(filePath).find(CPathMgr::GetInst()->GetContentPath()))
+                        {
+                            m_RecentPath = L"fbx\\";
+                            MessageBox(nullptr, L"Content 폴더에 존재하는 모델이 아닙니다.", L"모델 로딩 실패", MB_ICONHAND);
+                        }
+                        // FBX 로딩
+                        else
+                        {
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -176,6 +250,7 @@ void ModelEditor::SetViewport(VIEWPORT_TYPE _Type)
     EditorUI* hvTree = CEditorMgr::GetInst()->FindEditorUI("HierarchyView");
     if (hvTree != nullptr)
         hvTree->SetChildActive(false);
+    SetTargetObject(m_ModelObj);
 }
 
 void ModelEditor::Init()
@@ -410,5 +485,82 @@ void ModelEditor::AcceptDragDrop()
             }
         }
         ImGui::EndDragDropTarget();
+    }
+}
+
+void ModelEditor::FetchModelDialog(std::vector<wstring>& _FilesName, const wstring& _RelativePath, const std::vector<std::pair<wstring, wstring>>& filter)
+{
+    WRL::ComPtr<IFileOpenDialog> pFileDialog;
+    HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, static_cast<void**>(&pFileDialog));
+    if (FAILED(hr))
+    {
+        EDITOR_ERROR("Failed to create FileOpenDialog instance");
+        return;
+    }
+
+    DWORD dwOptions;
+    hr = pFileDialog->GetOptions(&dwOptions);
+    if (SUCCEEDED(hr) && !(dwOptions & FOS_ALLOWMULTISELECT))
+    {
+        hr = pFileDialog->SetOptions(dwOptions | FOS_ALLOWMULTISELECT);
+    }
+
+    if (SUCCEEDED(hr))
+    {
+        wstring fullPath = CPathMgr::GetInst()->GetContentPath() + _RelativePath;
+        WRL::ComPtr<IShellItem> pInitialDirItem;
+        hr = SHCreateItemFromParsingName(fullPath.c_str(), NULL, IID_PPV_ARGS(&pInitialDirItem));
+        if (SUCCEEDED(hr))
+        {
+            pFileDialog->SetFolder(pInitialDirItem.Get());
+        }
+    }
+
+    std::vector<COMDLG_FILTERSPEC> fileTypes;
+    for (const auto& f : filter)
+    {
+        fileTypes.push_back({ f.first.c_str(), f.second.c_str() });
+    }
+    hr = pFileDialog->SetFileTypes(static_cast<UINT>(fileTypes.size()), fileTypes.data());
+    if (FAILED(hr))
+    {
+        EDITOR_ERROR("Failed to set file types");
+        return;
+    }
+
+    hr = pFileDialog->Show(NULL);
+    if (FAILED(hr))
+    {
+        if (hr != HRESULT_FROM_WIN32(ERROR_CANCELLED))
+        {
+            EDITOR_ERROR("Failed to open FileOpenDialog");
+        }
+        return;
+    }
+
+    WRL::ComPtr<IShellItemArray> pItems;
+    hr = pFileDialog->GetResults(&pItems);
+    if (SUCCEEDED(hr))
+    {
+        DWORD itemCount;
+        hr = pItems->GetCount(&itemCount);
+        if (SUCCEEDED(hr))
+        {
+            for (DWORD i = 0; i < itemCount; ++i)
+            {
+                WRL::ComPtr<IShellItem> pItem;
+                hr = pItems->GetItemAt(i, &pItem);
+                if (SUCCEEDED(hr))
+                {
+                    PWSTR pszFilePath;
+                    hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
+                    if (SUCCEEDED(hr))
+                    {
+                        _FilesName.emplace_back(pszFilePath);
+                        CoTaskMemFree(pszFilePath);
+                    }
+                }
+            }
+        }
     }
 }

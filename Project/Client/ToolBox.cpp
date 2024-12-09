@@ -39,6 +39,8 @@ void ToolBox::Init()
 
 void ToolBox::Update()
 {
+    ImVec4* colors = ImGui::GetStyle().Colors;
+    ImGui::PushStyleColor(ImGuiCol_Tab, colors[ImGuiCol_ButtonHovered]);
     ImGui::BeginTabBar("##ToolbarTab");
     for (UINT i = 0; i < (UINT)TOOL_TYPE::END; ++i)
     {
@@ -49,4 +51,5 @@ void ToolBox::Update()
         }
     }
     ImGui::EndTabBar();
+    ImGui::PopStyleColor(1);
 }

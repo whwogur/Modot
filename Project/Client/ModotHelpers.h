@@ -23,4 +23,7 @@ public:
 
 	static void ToggleButton(const char* str_id, bool* v);
 	static void ToggleButton(const char* str_id, int* v);
+
+	static wstring OpenFileDialog(const wstring& strRelativePath, const wchar_t* filter);
+	static wstring SaveFileDialog(const wstring& strRelativePath, const wchar_t* filter);
 };

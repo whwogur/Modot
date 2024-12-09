@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "ModotHelpers.h"
-
+#include <Engine/CPathMgr.h> // Open/saveFile
 #include <ImGui/imgui_internal.h>
 
 bool ModotHelpers::FilledSpinner(const char* _Label, float _Radius, int _Thickness, const ImU32& _Color)
@@ -354,9 +354,9 @@ void ModotHelpers::ToggleButton(const char* str_id, bool* v)
 	if (gg.LastActiveId == gg.CurrentWindow->GetID(str_id))// && g.LastActiveIdTimer < ANIM_SPEED)
 		float t_anim = ImSaturate(gg.LastActiveIdTimer / ANIM_SPEED);
 	if (ImGui::IsItemHovered())
-		draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), ImGui::GetColorU32(*v ? ImVec4(0.f, 0.77f, 0.23f, 1.0f) : ImVec4(0.78f, 0.78f, 0.78f, 1.0f)), height * 0.5f);
+		draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), ImGui::GetColorU32(*v ? colors[ImGuiCol_SliderGrab] : ImVec4(0.78f, 0.78f, 0.78f, 1.0f)), height * 0.5f);
 	else
-		draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), ImGui::GetColorU32(*v ? ImVec4(0.f, 0.88f, 0.35f, 1.0f) : ImVec4(0.85f, 0.85f, 0.85f, 1.0f)), height * 0.50f);
+		draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), ImGui::GetColorU32(*v ? colors[ImGuiCol_SliderGrabActive] : ImVec4(0.85f, 0.85f, 0.85f, 1.0f)), height * 0.50f);
 	draw_list->AddCircleFilled(ImVec2(p.x + radius + (*v ? 1 : 0) * (width - radius * 2.0f), p.y + radius), radius - 1.5f, IM_COL32(255, 255, 255, 255));
 }
 
@@ -377,8 +377,57 @@ void ModotHelpers::ToggleButton(const char* str_id, int* v)
 	if (gg.LastActiveId == gg.CurrentWindow->GetID(str_id))// && g.LastActiveIdTimer < ANIM_SPEED)
 		float t_anim = ImSaturate(gg.LastActiveIdTimer / ANIM_SPEED);
 	if (ImGui::IsItemHovered())
-		draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), ImGui::GetColorU32(*v ? ImVec4(0.f, 0.77f, 0.23f, 1.0f) : ImVec4(0.78f, 0.78f, 0.78f, 1.0f)), height * 0.5f);
+		draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), ImGui::GetColorU32(*v ? colors[ImGuiCol_SliderGrab] : ImVec4(0.78f, 0.78f, 0.78f, 1.0f)), height * 0.5f);
 	else
-		draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), ImGui::GetColorU32(*v ? ImVec4(0.f, 0.88f, 0.35f, 1.0f) : ImVec4(0.85f, 0.85f, 0.85f, 1.0f)), height * 0.50f);
+		draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), ImGui::GetColorU32(*v ? colors[ImGuiCol_SliderGrabActive] : ImVec4(0.85f, 0.85f, 0.85f, 1.0f)), height * 0.50f);
 	draw_list->AddCircleFilled(ImVec2(p.x + radius + (*v ? 1 : 0) * (width - radius * 2.0f), p.y + radius), radius - 1.5f, IM_COL32(255, 255, 255, 255));
+}
+
+wstring ModotHelpers::OpenFileDialog(const wstring& strRelativePath, const wchar_t* filter)
+{
+	wchar_t szName[256] = {};
+	OPENFILENAME ofn = {};
+
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = CEngine::GetInst()->GetMainWnd();
+	ofn.lpstrFile = szName;
+	ofn.nMaxFile = sizeof(szName);
+	ofn.lpstrFilter = filter;
+	ofn.nFilterIndex = 0;
+	ofn.lpstrFileTitle = nullptr;
+	ofn.nMaxFileTitle = 0;
+
+	wstring Path = CPathMgr::GetInst()->GetContentPath();
+	Path += strRelativePath;
+	ofn.lpstrInitialDir = Path.c_str();
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+	if (GetOpenFileName(&ofn) == TRUE)
+		return ofn.lpstrFile;
+
+	return wstring();
+}
+
+wstring ModotHelpers::SaveFileDialog(const wstring& strRelativePath, const wchar_t* filter)
+{
+	wchar_t szName[256] = {};
+	OPENFILENAME ofn = {};
+
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = CEngine::GetInst()->GetMainWnd();
+	ofn.lpstrFile = szName;
+	ofn.nMaxFile = sizeof(szName);
+	ofn.lpstrFilter = filter;
+	ofn.nFilterIndex = 0;
+	ofn.lpstrFileTitle = nullptr;
+	ofn.nMaxFileTitle = 0;
+
+	wstring Path = CPathMgr::GetInst()->GetContentPath();
+	Path += strRelativePath;
+	ofn.lpstrInitialDir = Path.c_str();
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+	if (GetSaveFileName(&ofn) == TRUE)
+		return ofn.lpstrFile;
+
+	return wstring();
 }

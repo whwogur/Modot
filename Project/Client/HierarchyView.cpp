@@ -11,6 +11,10 @@
 #include <Engine/CTransform.h>
 #include <Engine/CPrefab.h>
 #include <ModelEditor.h>
+#include <Engine/CMeshRender.h>
+#include <Engine/CAssetMgr.h>
+#include <Engine/CAnimator3D.h>
+
 HierarchyView::HierarchyView()
 {
 	m_Tree = new TreeUI;
@@ -69,19 +73,29 @@ void HierarchyView::Update()
 	}
 	case VIEWPORT_TYPE::MODEL:
 	{
-		ImGui::TextColored(HEADER_2, ICON_FA_USER" ModelName: "); ImGui::SameLine();
-		
 		std::weak_ptr<EditorViewport> pModelVP = CEditorMgr::GetInst()->GetCurViewport();
 		CGameObject* pTarget = pModelVP.lock()->GetTargetObject();
-		if (pTarget != nullptr)
+		Ptr<CMesh> pMesh = pTarget->MeshRender()->GetMesh();
+
+		const wstring& wstrName = pMesh->GetKey();
+		string MeshName(wstrName.begin(), wstrName.end());
+
+		const map<wstring, Ptr<CAsset>>& mapMesh = CAssetMgr::GetInst()->GetAssets(ASSET_TYPE::MESH);
+
+		if (ImGui::BeginCombo("##MeshSelect", MeshName.c_str()))
 		{
-			const wstring& targetName = pTarget->GetName();
-			string strName(targetName.begin(), targetName.end());
-			ImGui::TextColored(HEADER_3, strName.c_str());
-		}
-		else
-		{
-			ImGui::TextColored(ImVec4(1, 1, 1, 1), "None");
+			ImGui::Separator();
+
+			for (const auto& mesh : mapMesh)
+			{
+				const wstring& wstrKey = mesh.second->GetKey();
+				string strName(wstrKey.begin(), wstrKey.end());
+				if (ImGui::Selectable(strName.c_str()))
+				{
+					pTarget->Animator3D()->SetSkeletalMesh((CMesh*)mesh.second.Get());
+				}
+			}
+			ImGui::EndCombo();
 		}
 		break;
 	}
