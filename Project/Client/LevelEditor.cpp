@@ -72,27 +72,7 @@ void LevelEditor::Update()
     DrawDebugLine(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 1000.f, 0.f), Vec4(0.f, 1.f, 0.f, 1.f), 0.f, true);
     DrawDebugLine(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 0.f, 1000.f), Vec4(0.f, 0.f, 1.f, 1.f), 0.f, true);
 
-    // RT Copy
-    CRenderMgr::GetInst()->RenderTargetCopy();
-
-    // Viewport에서의 마우스 위치 등록
-    ImVec2 viewportPos = ImGui::GetCursorScreenPos();
-    CRenderMgr::GetInst()->SetEditorMousePos(Vec2(ImGui::GetIO().MousePos.x - viewportPos.x, ImGui::GetIO().MousePos.y - viewportPos.y));
-    CRenderMgr::GetInst()->SetViewportFocused(ImGui::IsWindowFocused());
-    CRenderMgr::GetInst()->SetViewportHovered(ImGui::IsWindowHovered());
-
-    // 크기 등록
-    ImVec2 viewportSize = ImGui::GetContentRegionAvail();
-    const Vec2& vpSize = GetSize();
-    if (fabs(viewportSize.x - vpSize.x) > 1e-6f || fabs(viewportSize.y - vpSize.y) > 1e-6f)
-    {
-        SetSize(Vec2(viewportSize.x, viewportSize.y));
-        CRenderMgr::GetInst()->SetEditorViewportSize(Vec2(viewportSize.x, viewportSize.y));
-    }
-
-    // 렌더링
-    Ptr<CTexture> pCopyTex = CRenderMgr::GetInst()->GetRenderTargetCopy();
-    ImGui::Image((ImTextureID)(void*)pCopyTex->GetSRV().Get(), viewportSize);
+    DrawRenderTarget();
 
     // ImGuizmo
     if (m_GizmoActive)
@@ -167,8 +147,7 @@ void LevelEditor::Init()
     m_LevelEditorCam->AddComponent(new CEditorCameraScript);
 
     m_LevelEditorCam->Transform()->SetRelativeScale(1, 1, 1);
-    m_LevelEditorCam->Camera()->SetLayerAll();
-    m_LevelEditorCam->Camera()->SetLayer(31, false);
+    m_LevelEditorCam->Camera()->SetLayerGeneral();
     m_LevelEditorCam->Camera()->SetFar(10000.f);
     m_LevelEditorCam->Camera()->SetProjType(PERSPECTIVE);
     m_LevelEditorCam->Camera()->SetFrustumDebug(false);

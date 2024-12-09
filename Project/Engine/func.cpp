@@ -222,26 +222,6 @@ void LoadWString(wstring& _String, FILE* _File)
 	fread((wchar_t*)_String.c_str(), sizeof(wchar_t), len, _File);
 }
 
-std::wstring ToWstring(const std::string& str)
-{
-	if (str.empty()) return std::wstring();
-
-	int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), NULL, 0);
-	std::wstring wstr(size_needed, 0);
-	MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &wstr[0], size_needed);
-	return wstr;
-}
-
-std::string ToString(const std::wstring& wstr)
-{
-	if (wstr.empty()) return std::string();
-
-	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
-	std::string str(size_needed, 0);
-	WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &str[0], size_needed, NULL, NULL);
-	return str;
-}
-
 std::string MatrixToString(const Matrix& matrix, int precision)
 {
 	std::ostringstream oss;

@@ -28,6 +28,7 @@ public:
             m_LayerCheck &= ~(1 << _LayerIdx);
     }
     void SetLayerAll() { m_LayerCheck = 0xffffffff; }
+    void SetLayerGeneral() { m_LayerCheck = 0x000fffff; }
     void ClearLayerAll() { m_LayerCheck = 0x00000000; }
     bool GetLayerCheck(UINT _LayerIdx) { return m_LayerCheck & (1 << _LayerIdx); }
     void SetProjType(PROJ_TYPE _Type) { m_ProjType = _Type; }

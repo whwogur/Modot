@@ -31,6 +31,12 @@ public:
     void PauseAnimation() { m_bPlay = false;}
     void ResumeAnimation() { m_bPlay = true;}
     bool IsPlayingAnim() const { return m_bPlay; }
+    bool IsOnRepeat() const { return m_bRepeat; }
+    void SetRepeat(bool _Repeat) { m_bRepeat = _Repeat; }
+    float GetPlaySpeed() const { return m_fPlaySpeed; }
+    void SetPlaySpeed(float _Speed) { m_fPlaySpeed = _Speed; }
+
+    Ptr<CMesh> GetSkeletalMesh() { return m_SkeletalMesh; }
     bool IsValid() const { return nullptr != m_SkeletalMesh && m_SkeletalMesh->IsSkeletalMesh(); }
 
     UINT GetClipIdx(const wstring& _ClipName);

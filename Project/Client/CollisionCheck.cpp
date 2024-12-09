@@ -122,7 +122,7 @@ void CollisionCheck::EditLayerName()
 		string strName(m_Buff);
 		m_LayerNames[m_Selected] = strName;
 		CLayer* pLayer = CLevelMgr::GetInst()->GetCurrentLevel()->GetLayer(m_Selected);
-		pLayer->SetName(ToWstring(strName));
+		pLayer->SetName(wstring(strName.begin(), strName.end()));
 
 		m_Selected = -1;
 		m_Edit = false;

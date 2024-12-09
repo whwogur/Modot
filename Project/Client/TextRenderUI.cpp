@@ -17,7 +17,8 @@ void TextRenderUI::Update()
         CTextRender* pTextRender = GetTargetObject()->TextRender();
         if (pTextRender != nullptr)
         {
-            std::string previousText = ToString(pTextRender->GetText());
+            const wstring& wstrText = pTextRender->GetText();
+            string previousText(wstrText.begin(), wstrText.end());
             static char buffer[256];
             strcpy_s(buffer, previousText.c_str());
 
@@ -29,7 +30,7 @@ void TextRenderUI::Update()
                     if (previousText != buffer)
                     {
                         previousText = buffer;
-                        pTextRender->SetText(ToWstring(previousText));
+                        pTextRender->SetText(wstring(previousText.begin(), previousText.end()));
                     }
                 }
             }

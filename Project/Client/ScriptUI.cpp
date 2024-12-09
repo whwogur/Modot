@@ -89,7 +89,8 @@ void ScriptUI::Update()
 		}
 		case SCRIPT_PARAM::WSTRING:
 		{
-			std::string previousText = ToString(*(wstring*)vecParam[i].pData);
+			
+			string previousText((*(wstring*)vecParam[i].pData).begin(), (*(wstring*)vecParam[i].pData).end());
 			// 버퍼 재사용을 위해 고정 크기의 배열을 사용
 			static char buffer[1024];
 
@@ -110,7 +111,7 @@ void ScriptUI::Update()
 					else
 					{
 						previousText = newText;
-						(*(wstring*)vecParam[i].pData) = ToWstring(previousText);
+						(*(wstring*)vecParam[i].pData) = wstring(previousText.begin(), previousText.end());
 					}
 				}
 			}

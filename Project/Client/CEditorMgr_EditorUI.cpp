@@ -53,7 +53,6 @@ void CEditorMgr::InitImGui()
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;     // Enable Docking
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;   // Enable Multi-Viewport / Platform Windows
 
-    //SetThemePurpleComfy();
     SetThemeRedDuck();
     
     ImGuiStyle& style = ImGui::GetStyle();
@@ -219,6 +218,5 @@ void CEditorMgr::EditorTrace(const string& _Log)
 
 void CEditorMgr::SetTargetObject(CGameObject* _Target)
 {
-    MD_ENGINE_ASSERT(m_CurViewport == VIEWPORT_TYPE::LEVEL, L"레벨에디터아닌데 타겟변경호출 확인바람");
-    m_arrViewport[(UINT)VIEWPORT_TYPE::LEVEL]->SetTargetObject(_Target);
+    m_arrViewport[(UINT)m_CurViewport]->SetTargetObject(_Target);
 }

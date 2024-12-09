@@ -40,11 +40,7 @@ void TreeNode::Update()
 	string prefix;
 	if (m_vecChildNode.empty())
 	{
-		if (m_Owner->IsHierarchy())
-		{
-			
-		}
-		else
+		if (!m_Owner->IsHierarchy())
 		{
 			prefix = ICON_FA_FILE_IMAGE_O" ";
 		}

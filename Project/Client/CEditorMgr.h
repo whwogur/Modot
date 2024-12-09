@@ -29,7 +29,6 @@ public:
     void SetThemeUnrealEngine();
     void SetThemeFutureDark();
     void SetThemeRedOni();
-    void SetThemeModern();
     void SetThemeRedDuck();
     void SetThemePurpleComfy();
 
@@ -40,6 +39,8 @@ public:
         m_CurViewport = _Type;
         m_arrViewport[(UINT)m_CurViewport]->SetViewport();
     }
+    std::weak_ptr<EditorViewport> GetCurViewport() const { return m_arrViewport[(UINT)m_CurViewport]; }
+    std::weak_ptr<EditorViewport> GetViewport(VIEWPORT_TYPE _Type) const { return m_arrViewport[(UINT)_Type]; }
 private:
     void CreateEditorObject();
     void InitImGui();
@@ -55,7 +56,7 @@ private:
     // Viewport
     bool                            m_VPEnable = true;
     VIEWPORT_TYPE                   m_CurViewport = VIEWPORT_TYPE::LEVEL;
-    std::unique_ptr<EditorViewport> m_arrViewport[(UINT)VIEWPORT_TYPE::END];
+    std::shared_ptr<EditorViewport> m_arrViewport[(UINT)VIEWPORT_TYPE::END];
 };
 
 #ifdef _DEBUG

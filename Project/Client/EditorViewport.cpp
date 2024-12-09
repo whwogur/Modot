@@ -3,6 +3,8 @@
 #include "CAssetMgr.h"
 #include "ModotHelpers.h"
 #include "CEditorMgr.h"
+#include <Engine/CRenderMgr.h>
+
 void EditorViewport::DrawLoadingAssetWindow()
 {
     if (CAssetMgr::GetInst()->IsAssetLoading())
@@ -28,7 +30,7 @@ void EditorViewport::DrawViewportTransitionButtons()
     {
     case VIEWPORT_TYPE::LEVEL:
     {
-        if (ImGui::Button("##ModelEditorTransition"))
+        if (ImGui::Button(ICON_FA_USER"##ModelEditorTransition"))
         {
             CEditorMgr::GetInst()->ChangeViewport(VIEWPORT_TYPE::MODEL);
         }
@@ -45,6 +47,28 @@ void EditorViewport::DrawViewportTransitionButtons()
         break;
     }
     }
+}
 
-    
+void EditorViewport::DrawRenderTarget()
+{
+    // RT Copy
+    CRenderMgr::GetInst()->RenderTargetCopy();
+    // Viewport에서의 마우스 위치 등록
+    ImVec2 viewportPos = ImGui::GetCursorScreenPos();
+    CRenderMgr::GetInst()->SetEditorMousePos(Vec2(ImGui::GetIO().MousePos.x - viewportPos.x, ImGui::GetIO().MousePos.y - viewportPos.y));
+    CRenderMgr::GetInst()->SetViewportFocused(ImGui::IsWindowFocused());
+    CRenderMgr::GetInst()->SetViewportHovered(ImGui::IsWindowHovered());
+
+    // 크기 등록
+    ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+    const Vec2& vpSize = GetSize();
+    if (fabs(viewportSize.x - vpSize.x) > 1e-6f || fabs(viewportSize.y - vpSize.y) > 1e-6f)
+    {
+        SetSize(Vec2(viewportSize.x, viewportSize.y));
+        CRenderMgr::GetInst()->SetEditorViewportSize(Vec2(viewportSize.x, viewportSize.y));
+    }
+
+    // 렌더링
+    Ptr<CTexture> pCopyTex = CRenderMgr::GetInst()->GetRenderTargetCopy();
+    ImGui::Image((ImTextureID)(void*)pCopyTex->GetSRV().Get(), viewportSize);
 }

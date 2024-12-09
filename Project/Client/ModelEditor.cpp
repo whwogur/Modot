@@ -3,7 +3,9 @@
 #include "CGameObjectEx.h"
 #include "CCamera.h"
 #include "CTransform.h"
+#include "TreeUI.h"
 #include "CEditorCameraScript.h"
+
 #include <Engine/CRenderMgr.h>
 #include <Engine/CLevelMgr.h>
 #include <Engine/CLevel.h>
@@ -24,119 +26,149 @@ void ModelEditor::Update()
     window_class.ClassId = ImGui::GetID("Editor Viewport");
     window_class.DockNodeFlagsOverrideSet = 0;
     window_class.DockingAllowUnclassed = true;
-
     ImGui::SetNextWindowClass(&window_class);
-
     ImGui::Begin(ICON_FA_USER" ModelView");
 
-    if (m_GizmoActive)
-    {
-        ImGui::TextColored(m_GizmoType == ImGuizmo::OPERATION::TRANSLATE ? ImVec4(HEADER_2) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_ARROWS); // TRANS
-        ImGui::SetItemTooltip("Translation (Z)");
-        ImGui::SameLine();
-        ImGui::TextColored(m_GizmoType == ImGuizmo::OPERATION::ROTATE ? ImVec4(HEADER_2) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_REFRESH); // Rotate
-        ImGui::SetItemTooltip("Rotation (X)");
-        ImGui::SameLine();
-        ImGui::TextColored(m_GizmoType == ImGuizmo::OPERATION::SCALE ? ImVec4(HEADER_2) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_EXPAND); // SCALE
-        ImGui::SetItemTooltip("Scale (C)");
-        ImGui::SameLine();
-        ImGui::TextColored({ 0.5f, 0.5f, 0.5f, 1 }, ICON_FA_MOUSE_POINTER);
-    }
-    else
-    {
-        ImGui::Text(ICON_FA_ARROWS);
-        ImGui::SetItemTooltip(u8"Translation Z");
-        ImGui::SameLine();
-        ImGui::Text(ICON_FA_REFRESH);
-        ImGui::SetItemTooltip(u8"Rotation X");
-        ImGui::SameLine();
-        ImGui::Text(ICON_FA_EXPAND);
-        ImGui::SetItemTooltip(u8"Scale C");
-        ImGui::SameLine();
-        ImGui::TextColored(ImVec4(HEADER_2), ICON_FA_MOUSE_POINTER);
-    }
-
+    GizmoInfo();
+    ImGui::SameLine();
     DrawViewportTransitionButtons();
 
     m_ModelEditorCam->FinalTick();
 
-    // RT Copy
-    CRenderMgr::GetInst()->RenderTargetCopy();
-
-    // Viewport에서의 마우스 위치 등록
-    ImVec2 viewportPos = ImGui::GetCursorScreenPos();
-    CRenderMgr::GetInst()->SetEditorMousePos(Vec2(ImGui::GetIO().MousePos.x - viewportPos.x, ImGui::GetIO().MousePos.y - viewportPos.y));
-    CRenderMgr::GetInst()->SetViewportFocused(ImGui::IsWindowFocused());
-    CRenderMgr::GetInst()->SetViewportHovered(ImGui::IsWindowHovered());
-
-    // 크기 등록
-    ImVec2 viewportSize = ImGui::GetContentRegionAvail();
-    const Vec2& vpSize = GetSize();
-    if (fabs(viewportSize.x - vpSize.x) > 1e-6f || fabs(viewportSize.y - vpSize.y) > 1e-6f)
-    {
-        SetSize(Vec2(viewportSize.x, viewportSize.y));
-        CRenderMgr::GetInst()->SetEditorViewportSize(Vec2(viewportSize.x, viewportSize.y));
-    }
-
-    // 렌더링
-    Ptr<CTexture> pCopyTex = CRenderMgr::GetInst()->GetRenderTargetCopy();
-    ImGui::Image((ImTextureID)(void*)pCopyTex->GetSRV().Get(), viewportSize);
-
+    DrawRenderTarget();
     //// ImGuizmo
     if (m_GizmoActive)
         RenderGizmo();
 
-    if (KEY_TAP(KEY::G) && CRenderMgr::GetInst()->IsViewportHovered())
-    {
-        m_GizmoActive = !m_GizmoActive;
-        m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
-    }
-
-    //// Drag & Drop
-    //if (ImGui::BeginDragDropTarget())
-    //{
-    //    // Prefab from content browser
-    //    if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree"))
-    //    {
-    //        TreeNode** ppNode = (TreeNode**)payload->Data;
-    //        TreeNode* pNode = *ppNode;
-
-    //        CAsset* pAsset = reinterpret_cast<CAsset*>(pNode->GetData());
-    //        if (pAsset->GetAssetType() == ASSET_TYPE::PREFAB)
-    //        {
-    //            Ptr<CPrefab> pPrefab = (CPrefab*)pAsset;
-    //            CGameObject* pInstantiatedObj = pPrefab->Instantiate();
-    //            if (pInstantiatedObj != nullptr)
-    //            {
-    //                const wstring& objName = pInstantiatedObj->GetName();
-    //                pInstantiatedObj->SetName(objName);
-    //                CreateObject(pInstantiatedObj, 0);
-    //            }
-    //        }
-    //        else if (pAsset->GetAssetType() == ASSET_TYPE::MESH_DATA)
-    //        {
-    //            Ptr<CMeshData> pMeshData = (CMeshData*)pAsset;
-    //            CGameObject* pInstantiatedObj = pMeshData->Instantiate();
-    //            if (pInstantiatedObj != nullptr)
-    //            {
-    //                const wstring& objName = pMeshData->GetKey();
-    //                pInstantiatedObj->SetName(objName);
-    //                pInstantiatedObj->Transform()->SetRelativePos(0.f, 0.f, 0.f);
-    //                pInstantiatedObj->Transform()->SetRelativeScale(3.f, 3.f, 3.f);
-
-    //                CreateObject(pInstantiatedObj, 0);
-    //            }
-    //        }
-    //    }
-    //    ImGui::EndDragDropTarget();
-    //}
-
+    AcceptDragDrop();
     DrawLoadingAssetWindow();
 
     ImGui::End();
 
-   
+    ImGui::Begin("AnimatorControl##Animation3DView");//Temp
 
+    CGameObject* pTarget = GetTargetObject();
+    if (pTarget != nullptr)
+    {
+        CAnimator3D* pAnimator = pTarget->Animator3D();
+        Ptr<CMesh> pSkeletalMesh = pTarget->Animator3D()->GetSkeletalMesh();
+        // Animation
+        if (nullptr != pSkeletalMesh && pAnimator->IsValid())
+        {
+            ImGui::SeparatorText(u8"컨트롤");
+            constexpr static const float fIndent_1 = 120.f;
+            constexpr static const float fIndent_2 = 70.f;
+
+            const std::vector<tMTAnimClip>* vecAnimClip = pSkeletalMesh->GetAnimClip();
+
+            int CurClipIdx = pAnimator->GetCurClipIdx();
+            const tMTAnimClip& CurClip = vecAnimClip->at(CurClipIdx);
+
+            string CurClipName(CurClip.strAnimName.begin(), CurClip.strAnimName.end());
+
+            static ImGuiTextFilter filter;
+            int ChangedClipIdx = -1;
+            ImGui::Text(ICON_FA_FILTER); ImGui::SameLine(fIndent_2);
+            filter.Draw("##AnimationFilter");
+            ImGui::TextColored(HEADER_1, u8"목록 "); ImGui::SameLine(fIndent_2);
+            if (ImGui::BeginCombo("##Anim", CurClipName.c_str()))
+            {
+                ImGui::Separator();
+
+                for (int i = 0; i < vecAnimClip->size(); i++)
+                {
+                    string ClipName(vecAnimClip->at(i).strAnimName.begin(), vecAnimClip->at(i).strAnimName.end());
+                    bool is_selected = (CurClipName == ClipName);
+
+                    if (!filter.PassFilter(ClipName.c_str()))
+                        continue;
+
+                    if (ImGui::Selectable(ClipName.c_str(), is_selected))
+                    {
+                        CurClipName = ClipName;
+                        ChangedClipIdx = i;
+                    }
+
+                    if (is_selected)
+                    {
+                        ImGui::SetItemDefaultFocus();
+                    }
+                }
+                ImGui::EndCombo();
+            }
+
+            if (ChangedClipIdx >= 0)
+            {
+                pAnimator->SetCurClipIdx(ChangedClipIdx);
+            }
+
+            ImGui::TextColored(HEADER_1, u8"프레임:");
+            ImGui::SameLine(fIndent_2);
+            int ClipFrameIdx = pAnimator->GetFrameIdx();
+            if (ImGui::SliderInt("##AnimationFrameIndex", &ClipFrameIdx, 0, CurClip.iFrameLength - 1))
+            {
+                pAnimator->SetFrameIdx(ClipFrameIdx);
+            }
+
+            ImGui::TextColored(HEADER_1, u8"재생속도:"); ImGui::SameLine();
+            float fPlaySpeed = pAnimator->GetPlaySpeed();
+            if (ImGui::DragFloat("##AnimationPlaySpeed", &fPlaySpeed, 0.01f, 0.f, 10.f))
+                pAnimator->SetPlaySpeed(fPlaySpeed);
+
+            // Buttons
+            ImGui::NewLine();
+            ImGui::SameLine(ImGui::GetContentRegionAvail().x * 0.48f);
+            bool bPlaying = pAnimator->IsPlayingAnim();
+            if (bPlaying)
+            {
+                if (ImGui::Button(ICON_FA_PAUSE))
+                    pAnimator->PauseAnimation();
+            }
+            else
+            {
+                if (ImGui::Button(ICON_FA_PLAY))
+                    pAnimator->ResumeAnimation();
+            }
+
+            ImGui::SameLine();
+            bool bRepeat = pAnimator->IsOnRepeat();
+            if (ImGui::Button(bRepeat ? ICON_FA_RANDOM : ICON_FA_REPEAT))
+                pAnimator->SetRepeat(!bRepeat);
+            
+
+#pragma region 애니메이션 정보
+
+            ImGui::SeparatorText(u8"클립 정보");
+            ImGui::NewLine();
+            ImGui::TextColored(HEADER_1, u8"클립이름:");
+            ImGui::SameLine(fIndent_1);
+            ImGui::Text("%s", string(CurClip.strAnimName.begin(), CurClip.strAnimName.end()).c_str());
+            ImGui::TextColored(HEADER_1, u8"클립인덱스:");
+            ImGui::SameLine(fIndent_1);
+            ImGui::Text("#%d", CurClipIdx);
+            ImGui::TextColored(HEADER_1, "FPS:");
+            ImGui::SameLine(fIndent_1);
+            ImGui::Text("%d", (int)pAnimator->GetFrameCount());
+            ImGui::TextColored(HEADER_1, u8"프레임범위:");
+            ImGui::SameLine(fIndent_1);
+            ImGui::Text("%d ~ %d", CurClip.iStartFrame);
+
+            ImGui::TextColored(HEADER_1, u8"프레임 길이:");
+            ImGui::SameLine(fIndent_1);
+            ImGui::Text("%d", CurClip.iFrameLength);
+
+            ImGui::TextColored(HEADER_1, u8"지속시간:");
+            ImGui::SameLine(fIndent_1);
+            ImGui::Text("%.3f ~ %.3f", CurClip.dStartTime, CurClip.dEndTime);
+
+            ImGui::TextColored(HEADER_1, u8"클립길이:");
+            ImGui::SameLine(fIndent_1);
+            ImGui::Text("%.3f", CurClip.dTimeLength);
+#pragma endregion
+        }
+    }
+    
+    ImGui::End();
 }
 
 void ModelEditor::SetViewport()
@@ -170,10 +202,13 @@ void ModelEditor::Init()
     m_LightObj->AddComponent(new CTransform);
     m_LightObj->AddComponent(new CLight3D);
 
-    m_LightObj->Transform()->SetRelativePos(Vec3(100.f, 500.f, 100.f));
-    m_LightObj->Transform()->SetRelativeRotation(Vec3(XM_PIDIV4, XM_PIDIV4, 0.f));
+    m_LightObj->Transform()->SetRelativePos(-100.f, -300.f, 0.f);
+    m_LightObj->Transform()->SetRelativeRotation(XM_PIDIV4, XM_PIDIV4, 0.f);
     m_LightObj->Light3D()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
-    m_LightObj->Light3D()->SetRadius(5.f);
+    m_LightObj->Light3D()->SetLightColor(Vec3(0.9f, 0.9f, 0.9f));
+    m_LightObj->Light3D()->SetLightAmbient(Vec3(0.3f, 0.3f, 0.3f));
+    m_LightObj->Light3D()->SetSpecularCoefficient(0.3f);
+    m_LightObj->Light3D()->SetRadius(400.f);
 
     //===========
     // 스카이박스
@@ -204,7 +239,9 @@ void ModelEditor::Init()
     //============
     Ptr<CMeshData> pMeshData = CAssetMgr::GetInst()->Load<CMeshData>(L"mn_vorc_00_ani", L"meshdata\\mn_vorc_00_ani.mdat");
     m_ModelObj = pMeshData->Instantiate(); // TEST
-
+    m_ModelObj->Transform()->SetRelativePos(Vec3(200.f, 0.f, 200.f));
+    m_ModelObj->Transform()->SetRelativeScale(Vec3(1.f, 1.f, 1.f));
+    m_ModelObj->Transform()->SetRelativeRotation(Vec3(XM_PIDIV4, 0, XM_PIDIV4));
     
     CreateObject(m_ModelObj, LAYER_MODEL);
     CreateObject(m_FloorObj, LAYER_MODEL);
@@ -294,5 +331,82 @@ void ModelEditor::RenderGizmo()
         pTr->SetRelativePos(pTr->GetRelativePos() - vPosOffset);
         pTr->SetRelativeRotation(pTr->GetRelativeRotation() - vRotOffset);
         pTr->SetRelativeScale(pTr->GetRelativeScale() - vScaleOffset);
+    }
+}
+
+void ModelEditor::GizmoInfo()
+{
+    if (m_GizmoActive)
+    {
+        ImGui::TextColored(m_GizmoType == ImGuizmo::OPERATION::TRANSLATE ? ImVec4(HEADER_2) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_ARROWS); // TRANS
+        ImGui::SetItemTooltip("Translation (Z)");
+        ImGui::SameLine();
+        ImGui::TextColored(m_GizmoType == ImGuizmo::OPERATION::ROTATE ? ImVec4(HEADER_2) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_REFRESH); // Rotate
+        ImGui::SetItemTooltip("Rotation (X)");
+        ImGui::SameLine();
+        ImGui::TextColored(m_GizmoType == ImGuizmo::OPERATION::SCALE ? ImVec4(HEADER_2) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_EXPAND); // SCALE
+        ImGui::SetItemTooltip("Scale (C)");
+        ImGui::SameLine();
+        ImGui::TextColored({ 0.5f, 0.5f, 0.5f, 1 }, ICON_FA_MOUSE_POINTER);
+    }
+    else
+    {
+        ImGui::Text(ICON_FA_ARROWS);
+        ImGui::SetItemTooltip(u8"Translation Z");
+        ImGui::SameLine();
+        ImGui::Text(ICON_FA_REFRESH);
+        ImGui::SetItemTooltip(u8"Rotation X");
+        ImGui::SameLine();
+        ImGui::Text(ICON_FA_EXPAND);
+        ImGui::SetItemTooltip(u8"Scale C");
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(HEADER_2), ICON_FA_MOUSE_POINTER);
+    }
+
+    if (KEY_TAP(KEY::G) && CRenderMgr::GetInst()->IsViewportHovered())
+    {
+        m_GizmoActive = !m_GizmoActive;
+        m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+    }
+}
+
+void ModelEditor::AcceptDragDrop()
+{
+    if (ImGui::BeginDragDropTarget())
+    {
+        // Prefab from content browser
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree"))
+        {
+            TreeNode** ppNode = (TreeNode**)payload->Data;
+            TreeNode* pNode = *ppNode;
+
+            CAsset* pAsset = reinterpret_cast<CAsset*>(pNode->GetData());
+            if (pAsset->GetAssetType() == ASSET_TYPE::PREFAB)
+            {
+                Ptr<CPrefab> pPrefab = (CPrefab*)pAsset;
+                CGameObject* pInstantiatedObj = pPrefab->Instantiate();
+                if (pInstantiatedObj != nullptr)
+                {
+                    const wstring& objName = pInstantiatedObj->GetName();
+                    pInstantiatedObj->SetName(objName);
+                    CreateObject(pInstantiatedObj, 0);
+                }
+            }
+            else if (pAsset->GetAssetType() == ASSET_TYPE::MESH_DATA)
+            {
+                Ptr<CMeshData> pMeshData = (CMeshData*)pAsset;
+                CGameObject* pInstantiatedObj = pMeshData->Instantiate();
+                if (pInstantiatedObj != nullptr)
+                {
+                    const wstring& objName = pMeshData->GetKey();
+                    pInstantiatedObj->SetName(objName);
+                    pInstantiatedObj->Transform()->SetRelativePos(0.f, 0.f, 0.f);
+                    pInstantiatedObj->Transform()->SetRelativeScale(3.f, 3.f, 3.f);
+
+                    CreateObject(pInstantiatedObj, 0);
+                }
+            }
+        }
+        ImGui::EndDragDropTarget();
     }
 }

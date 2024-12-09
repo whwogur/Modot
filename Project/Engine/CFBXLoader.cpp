@@ -793,7 +793,7 @@ void CFBXLoader::LoadKeyframeTransform(FbxNode* _pNode, FbxCluster* _pCluster
 	for (UINT i = 0; i < m_vecAnimClip.size(); ++i)
 	{
 		// 애니메이션 설정
-		FbxAnimStack* animStack = m_pScene->FindMember<FbxAnimStack>(ToString(m_vecAnimClip[i]->strName).c_str());
+		FbxAnimStack* animStack = m_pScene->FindMember<FbxAnimStack>(string(m_vecAnimClip[i]->strName.begin(), m_vecAnimClip[i]->strName.end()).c_str());
 		m_pScene->SetCurrentAnimationStack(animStack);
 
 		FbxLongLong llStartFrame = m_vecAnimClip[i]->tStartTime.GetFrameCount(eTimeMode);

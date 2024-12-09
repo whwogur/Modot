@@ -40,7 +40,6 @@ void ToolBox::Init()
 void ToolBox::Update()
 {
     ImGui::BeginTabBar("##ToolbarTab");
-
     for (UINT i = 0; i < (UINT)TOOL_TYPE::END; ++i)
     {
         if (ImGui::BeginTabItem(m_Tools[i]->GetName().c_str()))

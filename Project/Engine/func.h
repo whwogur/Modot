@@ -20,8 +20,6 @@ Matrix GetMatrixFromFbxMatrix(FbxAMatrix& _mat);
 
 void SaveWString(const wstring& _String, FILE* _File);
 void LoadWString(wstring& _String, FILE* _File);
-wstring ToWstring(const string& str);
-string ToString(const wstring& wstr);
 string MatrixToString(const Matrix& matrix, int precision);
 
 void MakeLookAtWorldMatrix(const Matrix& _Mat, const Vec3& _Pos, Matrix* _Container);

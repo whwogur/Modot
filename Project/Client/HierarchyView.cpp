@@ -10,6 +10,7 @@
 #include <Engine/CGameObject.h>
 #include <Engine/CTransform.h>
 #include <Engine/CPrefab.h>
+#include <ModelEditor.h>
 HierarchyView::HierarchyView()
 {
 	m_Tree = new TreeUI;
@@ -38,50 +39,52 @@ HierarchyView::HierarchyView()
 
 void HierarchyView::Update()
 {
-	if (CLevelMgr::GetInst()->IsDirty())
-		RefreshLevel();
-	const wstring& levelName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
-	string strLevelName(levelName.begin(), levelName.end());
-	ImGui::TextColored(HEADER_2, ICON_FA_CHROME" CurLevel: "); ImGui::SameLine();
-	ImGui::TextColored(HEADER_3, strLevelName.c_str());
-
-	if (ImGui::BeginPopupContextWindow(0, 1))
+	VIEWPORT_TYPE vpType = CEditorMgr::GetInst()->GetCurViewportType();
+	switch (vpType)
 	{
-		if (ImGui::MenuItem(u8"새 오브젝트"))
-		{
-			CGameObject* pGameObject = new CGameObject;
-			pGameObject->SetName(L"NewObject");
-			pGameObject->AddComponent(new CTransform);
-			pGameObject->Transform()->SetRelativePos(0.f, 0.f, 0.f);
-			pGameObject->Transform()->SetRelativeScale(100.f, 100.f, 100.f);
-			CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(0, pGameObject);
-		}
-
-		ImGui::EndPopup();
-	}
-
-	if (ImGui::BeginDragDropTarget())
+	case VIEWPORT_TYPE::LEVEL:
 	{
-		const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentTree");
-		if (payload)
-		{
-			TreeNode** ppNode = (TreeNode**)payload->Data;
-			TreeNode* pNode = *ppNode;
+		if (CLevelMgr::GetInst()->IsDirty())
+			RefreshLevel();
+		const wstring& levelName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
+		string strLevelName(levelName.begin(), levelName.end());
+		ImGui::TextColored(HEADER_2, ICON_FA_CHROME" CurLevel: "); ImGui::SameLine();
+		ImGui::TextColored(HEADER_3, strLevelName.c_str());
 
-			Ptr<CPrefab> pPrefab = (CPrefab*)pNode->GetData();
-			if (pPrefab != nullptr)
+		if (ImGui::BeginPopupContextWindow(0, 1))
+		{
+			if (ImGui::MenuItem(u8"새 오브젝트"))
 			{
-				CGameObject* pInstantiatedObj = pPrefab->Instantiate();
-				if (pInstantiatedObj != nullptr)
-				{
-					const wstring& objName = pInstantiatedObj->GetName();
-					pInstantiatedObj->SetName(objName);
-					CreateObject(pInstantiatedObj, 0);
-				}
+				CGameObject* pGameObject = new CGameObject;
+				pGameObject->SetName(L"NewObject");
+				pGameObject->AddComponent(new CTransform);
+				pGameObject->Transform()->SetRelativePos(0.f, 0.f, 0.f);
+				pGameObject->Transform()->SetRelativeScale(100.f, 100.f, 100.f);
+				CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(0, pGameObject);
 			}
-		}
 
-		ImGui::EndDragDropTarget();
+			ImGui::EndPopup();
+		}
+		break;
+	}
+	case VIEWPORT_TYPE::MODEL:
+	{
+		ImGui::TextColored(HEADER_2, ICON_FA_USER" ModelName: "); ImGui::SameLine();
+		
+		std::weak_ptr<EditorViewport> pModelVP = CEditorMgr::GetInst()->GetCurViewport();
+		CGameObject* pTarget = pModelVP.lock()->GetTargetObject();
+		if (pTarget != nullptr)
+		{
+			const wstring& targetName = pTarget->GetName();
+			string strName(targetName.begin(), targetName.end());
+			ImGui::TextColored(HEADER_3, strName.c_str());
+		}
+		else
+		{
+			ImGui::TextColored(ImVec4(1, 1, 1, 1), "None");
+		}
+		break;
+	}
 	}
 }
 
@@ -175,7 +178,17 @@ void HierarchyView::DropExtern(DWORD_PTR _ExternData, DWORD_PTR _DropNode)
 {
 	TreeNode* ContentNode = *((TreeNode**)_ExternData);
 	TreeNode* DropNode = (TreeNode*)_DropNode;
-
+	Ptr<CPrefab> pPrefab = (CPrefab*)DropNode->GetData();
+	if (pPrefab != nullptr)
+	{
+		CGameObject* pInstantiatedObj = pPrefab->Instantiate();
+		if (pInstantiatedObj != nullptr)
+		{
+			const wstring& objName = pInstantiatedObj->GetName();
+			pInstantiatedObj->SetName(objName);
+			CreateObject(pInstantiatedObj, 0);
+		}
+	}
 }
 
 void HierarchyView::GameObjectClicked(DWORD_PTR _Param)
