@@ -19,6 +19,7 @@
 #include "MaterialUI.h"
 #include "CollisionCheck.h"
 #include "CEditorCameraScript.h"
+#include <ModotHelpers.h>
 
 void MenuUI::Tick()
 {
@@ -208,7 +209,7 @@ void MenuUI::OutputInfo()
 {
 	// Debug Toggle
 	bool& bDebug = CRenderMgr::GetInst()->GetDebugRenderRef();
-	ToggleButton("##DebugToggle", &bDebug);
+	ModotHelpers::ToggleButton("##DebugToggle", &bDebug);
 	ImGui::SameLine();
 	ImGui::Text(bDebug ? "Debug ON" : "Debug OFF");
 

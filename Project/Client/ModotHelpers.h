@@ -20,4 +20,7 @@ public:
 	static bool HSliderFloat(const char* label, float* v, float v_min, float v_max, const char* format, ImGuiSliderFlags flags);
 
 	static bool BeginTabItem(const char* label, ImGuiID* active_tab, ImVec4 _Color, bool* p_open = nullptr, ImGuiTabItemFlags flags = 0);
+
+	static void ToggleButton(const char* str_id, bool* v);
+	static void ToggleButton(const char* str_id, int* v);
 };

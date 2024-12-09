@@ -2,6 +2,7 @@
 #include "TilemapEditor.h"
 #include "CAssetMgr.h"
 #include "TreeUI.h"
+#include <ModotHelpers.h>
 
 TilemapEditor::TilemapEditor()
 	: m_Tilemap(nullptr)
@@ -47,7 +48,7 @@ void TilemapEditor::Update()// 정리 필요..;
         ImGui::Begin(ICON_FA_HAND_POINTER_O "##TileAtlasSelector", &bOpen, ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse);
         ImGui::TextColored(HEADER_2, u8"투명");
         ImGui::SameLine();
-        ToggleButton("##TilemapTransparent", &bTransparent);
+        ModotHelpers::ToggleButton("##TilemapTransparent", &bTransparent);
         ImGui::TextColored(HEADER_1, u8"아틀라스 :");
         ImGui::SameLine();
         const map<wstring, Ptr<CAsset>>& pTextures = CAssetMgr::GetInst()->GetAssets(ASSET_TYPE::TEXTURE);

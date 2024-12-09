@@ -173,9 +173,9 @@ void ModelEditor::Update()
 void ModelEditor::SetViewport(VIEWPORT_TYPE _Type)
 {
     ChangeLevelState(LEVEL_STATE::MODEL);
-    EditorUI* hvTree = CEditorMgr::GetInst()->FindEditorUI("HierarchyViewTree");
+    EditorUI* hvTree = CEditorMgr::GetInst()->FindEditorUI("HierarchyView");
     if (hvTree != nullptr)
-        hvTree->SetActive(false);
+        hvTree->SetChildActive(false);
 }
 
 void ModelEditor::Init()

@@ -39,8 +39,14 @@ public:
 	void SetMoveable(bool _Move) { m_Moveable = _Move; }
 	void UseHorizontalScroll(bool _b) { m_HorizontalScroll = _b; }
 	void SetFocus();
-	void ToggleButton(const char* str_id, bool* v);
-	void ToggleButton(const char* str_id, int* v);
+
+	void SetChildActive(bool _b)
+	{
+		for (const auto& child : m_vecChildUI)
+		{
+			child->SetActive(_b);
+		}
+	}
 public:
 	virtual void Init() {}
 	virtual void Tick();

@@ -11,6 +11,7 @@
 #include <Engine/CTransform.h>
 
 #include "CEditorMgr.h"
+#include <ModotHelpers.h>
 CameraUI::CameraUI()
 	: ComponentUI(COMPONENT_TYPE::CAMERA)
     , m_ShowLayerCheck(false)
@@ -30,7 +31,7 @@ void CameraUI::Update()
         CCamera* pCam = GetTargetObject()->Camera();
 
         bool& camActive = pCam->GetActiveRef();
-        ToggleButton("##CamActive", &camActive);
+        ModotHelpers::ToggleButton("##CamActive", &camActive);
         ImGui::SetItemTooltip(u8"카메라 활성화/비활성화");
 
         ImGui::SameLine(250);

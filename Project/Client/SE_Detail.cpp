@@ -7,6 +7,7 @@
 #include "SE_AtlasView.h"
 #include "CAssetMgr.h"
 #include <Engine/CAssetMgr.h>
+#include <ModotHelpers.h>
 
 SE_Detail::SE_Detail()
 {
@@ -28,7 +29,7 @@ void SE_Detail::Update()
 	bool& PrecisionMode = GetOwner()->GetPrecisionRef();
 	ImGui::Text("Precision Mode");
 	ImGui::SameLine();
-	ToggleButton("##PrecisionMode", &PrecisionMode);
+	ModotHelpers::ToggleButton("##PrecisionMode", &PrecisionMode);
 	ImGui::SameLine();
 	ImGui::TextColored({ 0.3f, 0.3f, 0.3f, 1.0f }, " (?)");
 	ImGui::SetItemTooltip(u8"백그라운드 사용하지 않고\n정확하게 uv값 측정");

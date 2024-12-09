@@ -353,12 +353,12 @@ void CEditorMgr::SetThemeFutureDark()
 	style.ChildBorderSize = 1.0f;
 	style.PopupRounding = 0.0f;
 	style.PopupBorderSize = 1.0f;
-	style.FramePadding = ImVec2(5.5f, 5.5f);
-	style.FrameRounding = 5.0f;
+	style.FramePadding = ImVec2(4.f, 3.f);
+	style.FrameRounding = 3.0f;
 	style.FrameBorderSize = 0.0f;
-	style.ItemSpacing = ImVec2(12.0f, 6.0f);
-	style.ItemInnerSpacing = ImVec2(6.0f, 3.0f);
-	style.CellPadding = ImVec2(12.0f, 6.0f);
+	style.ItemSpacing = ImVec2(8.0f, 4.0f);
+	style.ItemInnerSpacing = ImVec2(4.0f, 4.0f);
+	style.CellPadding = ImVec2(4.0f, 3.0f);
 	style.IndentSpacing = 20.0f;
 	style.ColumnsMinSpacing = 6.0f;
 	style.ScrollbarSize = 12.0f;

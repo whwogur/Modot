@@ -135,9 +135,9 @@ void LevelEditor::SetViewport(VIEWPORT_TYPE _Type)
     CRenderMgr::GetInst()->SetEditorCam(m_LevelEditorCam->Camera());
     if (_Type == VIEWPORT_TYPE::MODEL)
     {
-        EditorUI* hvTree = CEditorMgr::GetInst()->FindEditorUI("HierarchyViewTree");
+        EditorUI* hvTree = CEditorMgr::GetInst()->FindEditorUI("HierarchyView");
         if (hvTree != nullptr)
-            hvTree->SetActive(true);
+            hvTree->SetChildActive(true);
     }
 }
 

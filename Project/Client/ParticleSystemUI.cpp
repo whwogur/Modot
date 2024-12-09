@@ -4,6 +4,7 @@
 #include <Engine/CAssetMgr.h>
 #include <Engine/CParticleTickCS.h>
 #include "TreeUI.h"
+#include <ModotHelpers.h>
 static string CSTypeToString[2] = { "Default", "FallingLeaves" };
 
 ParticleSystemUI::ParticleSystemUI()
@@ -58,7 +59,7 @@ void ParticleSystemUI::Update()
 				ImGui::PopStyleColor(3);
 
 				ImGui::SeparatorText(u8"Spawn 모듈");
-				ToggleButton("##sharedSpawnModule", &mod.Module[(UINT)PARTICLE_MODULE::SPAWN]);
+				ModotHelpers::ToggleButton("##sharedSpawnModule", &mod.Module[(UINT)PARTICLE_MODULE::SPAWN]);
 				static int spawnRate = static_cast<int>(mod.SpawnRate);
 				if (ImGui::InputInt("SpawnRate", &spawnRate))
 				{
@@ -96,7 +97,7 @@ void ParticleSystemUI::Update()
 
 
 				ImGui::SeparatorText(u8"Burst 모듈");
-				ToggleButton("##sharedBurstModule", &mod.Module[(UINT)PARTICLE_MODULE::SPAWN_BURST]);
+				ModotHelpers::ToggleButton("##sharedBurstModule", &mod.Module[(UINT)PARTICLE_MODULE::SPAWN_BURST]);
 				static bool burstRepeat = mod.SpawnBurstRepeat == 0 ? false : true;
 				static int burstCount = static_cast<int>(mod.SpawnBurstCount);
 				if (ImGui::Checkbox("Burst Repeat", &burstRepeat))
@@ -110,12 +111,12 @@ void ParticleSystemUI::Update()
 				ImGui::InputFloat("Burst Interval", &mod.SpawnBurstRepeatTime);
 
 				ImGui::SeparatorText(u8"Scale 모듈");
-				ToggleButton("##sharedScaleModule", &mod.Module[(UINT)PARTICLE_MODULE::SCALE]);
+				ModotHelpers::ToggleButton("##sharedScaleModule", &mod.Module[(UINT)PARTICLE_MODULE::SCALE]);
 				ImGui::InputFloat("Start Scale", &mod.StartScale);
 				ImGui::InputFloat("End Scale", &mod.EndScale);
 
 				ImGui::SeparatorText(u8"Velocity 모듈");
-				ToggleButton("##sharedVelocityModule", &mod.Module[(UINT)PARTICLE_MODULE::ADD_VELOCITY]);
+				ModotHelpers::ToggleButton("##sharedVelocityModule", &mod.Module[(UINT)PARTICLE_MODULE::ADD_VELOCITY]);
 				static int velType = static_cast<int>(mod.AddVelocityType);
 				static bool velAlign = mod.VelocityAlignment == 0 ? false : true;
 				if (ImGui::InputInt("Velocity Type", &velType, 0))
@@ -132,18 +133,18 @@ void ParticleSystemUI::Update()
 				}
 
 				ImGui::SeparatorText(u8"Drag 모듈");
-				ToggleButton("##sharedDragModule", &mod.Module[(UINT)PARTICLE_MODULE::DRAG]);
+				ModotHelpers::ToggleButton("##sharedDragModule", &mod.Module[(UINT)PARTICLE_MODULE::DRAG]);
 				ImGui::InputFloat("Dest Norm. Age", &mod.DestNormalizedAge);
 				ImGui::InputFloat("Limit Speed", &mod.LimitSpeed);
 
 
 				ImGui::SeparatorText(u8"Noise 모듈");
-				ToggleButton("##sharedNoiseModule", &mod.Module[(UINT)PARTICLE_MODULE::NOISE_FORCE]);
+				ModotHelpers::ToggleButton("##sharedNoiseModule", &mod.Module[(UINT)PARTICLE_MODULE::NOISE_FORCE]);
 				ImGui::InputFloat("Noise Freq", &mod.NoiseForceTerm);
 				ImGui::InputFloat("Noise Scale", &mod.NoiseForceScale);
 
 				ImGui::SeparatorText(u8"Render 모듈");
-				ToggleButton("##sharedRenderModule", &mod.Module[(UINT)PARTICLE_MODULE::RENDER]);
+				ModotHelpers::ToggleButton("##sharedRenderModule", &mod.Module[(UINT)PARTICLE_MODULE::RENDER]);
 				ImGui::ColorEdit4("End Color", mod.EndColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_HDR | ImGuiColorEditFlags_PickerHueWheel);
 				static bool fadeOut = mod.FadeOut == 0 ? false : true;
 				if (ImGui::Checkbox("Fadeout", &fadeOut))
@@ -153,10 +154,10 @@ void ParticleSystemUI::Update()
 				ImGui::InputFloat("Fade Start Ratio", &mod.FadeOutStartRatio);
 
 				ImGui::SeparatorText(u8"Orbit 모듈");
-				ToggleButton("##sharedRotModule", &mod.Module[(UINT)PARTICLE_MODULE::ORBIT]);
+				ModotHelpers::ToggleButton("##sharedRotModule", &mod.Module[(UINT)PARTICLE_MODULE::ORBIT]);
 				ImGui::InputFloat("Max Rotation", &mod.MaxRotationSpeed);
 				ImGui::SeparatorText(u8"Gyrate");
-				ToggleButton("##sharedGyrate", &mod.Gyrate);
+				ModotHelpers::ToggleButton("##sharedGyrate", &mod.Gyrate);
 				ImGui::InputFloat("Gyrate Speed", &mod.GyrateSpeed);
 			}
 		}
