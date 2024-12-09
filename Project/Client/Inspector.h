@@ -27,13 +27,17 @@ private:
     void CreateAssetUI();
     void CreateScriptUI(UINT _Count);
     void Purge();
-
+    void DrawObjectName();
+    void DrawAddComponent();
+    void DrawLayerManipulationCombo();
 private:
-    CGameObject*                m_TargetObject;
-    ComponentUI*                m_arrComUI[(UINT)COMPONENT_TYPE::END];
+    CGameObject*                    m_TargetObject;
+    ComponentUI*                    m_arrComUI[(UINT)COMPONENT_TYPE::END];
     std::vector<class ScriptUI*>     m_vecScriptUI;
-    Ptr<CAsset>                 m_TargetAsset;
-    Ptr<CTexture>               m_IconTexture;
-    AssetUI*                    m_arrAssetUI[(UINT)ASSET_TYPE::END];
-    char                        m_Namebuffer[255] = {};
+    Ptr<CAsset>                     m_TargetAsset;
+    Ptr<CTexture>                   m_IconTexture;
+    AssetUI*                        m_arrAssetUI[(UINT)ASSET_TYPE::END];
+    char                            m_Namebuffer[255] = {};
+
+    bool                            m_IsPurged = false;
 };

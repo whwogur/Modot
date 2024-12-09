@@ -29,13 +29,13 @@ void LevelEditor::Update()
 
     if (m_GizmoActive)
     {
-        ImGui::TextColored(m_GizmoType == 7 ? ImVec4(HEADER_2) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_ARROWS); // TRANS
+        ImGui::TextColored(m_GizmoType == ImGuizmo::OPERATION::TRANSLATE ? ImVec4(HEADER_2) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_ARROWS); // TRANS
         ImGui::SetItemTooltip("Translation (Z)");
         ImGui::SameLine();
-        ImGui::TextColored(m_GizmoType == 120 ? ImVec4(HEADER_2) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_REFRESH); // RITATE
+        ImGui::TextColored(m_GizmoType == ImGuizmo::OPERATION::ROTATE ? ImVec4(HEADER_2) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_REFRESH); // Rotate
         ImGui::SetItemTooltip("Rotation (X)");
         ImGui::SameLine();
-        ImGui::TextColored(m_GizmoType == 896 ? ImVec4(HEADER_2) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_EXPAND); // SCALE
+        ImGui::TextColored(m_GizmoType == ImGuizmo::OPERATION::SCALE ? ImVec4(HEADER_2) : ImVec4(0.5f, 0.5f, 0.5f, 1), ICON_FA_EXPAND); // SCALE
         ImGui::SetItemTooltip("Scale (C)");
         ImGui::SameLine();
         ImGui::TextColored({ 0.5f, 0.5f, 0.5f, 1 }, ICON_FA_MOUSE_POINTER);
@@ -62,6 +62,15 @@ void LevelEditor::Update()
         ImGui::TextColored(HEADER_1, ICON_FA_VIDEO_CAMERA" Perspective");
 
     EditorCameraSlider();
+
+    ImGui::SameLine();
+    DrawViewportTransitionButtons();
+
+    m_LevelEditorCam->FinalTick();
+
+    DrawDebugLine(Vec3(0.f, 0.f, 0.f), Vec3(1000.f, 0.f, 0.f), Vec4(1.f, 0.f, 0.f, 1.f), 0.f, true);
+    DrawDebugLine(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 1000.f, 0.f), Vec4(0.f, 1.f, 0.f, 1.f), 0.f, true);
+    DrawDebugLine(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 0.f, 1000.f), Vec4(0.f, 0.f, 1.f, 1.f), 0.f, true);
 
     // RT Copy
     CRenderMgr::GetInst()->RenderTargetCopy();
@@ -137,29 +146,13 @@ void LevelEditor::Update()
         m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
     }
 
-    if (CAssetMgr::GetInst()->IsAssetLoading())
-    {
-        ImGui::Begin("Asset Loading", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoDocking);
-
-        const float prog = CAssetMgr::GetInst()->GetLoadingProgress();
-        const ImU32 spinnerCol = ImGui::GetColorU32(ImVec4{ 0.2f, 0.45f, 0.811f, 1.0f });
-        const ImU32 barCol = ImGui::GetColorU32(ImVec4{ 0.32f, 0.37f, 0.88f, 1.0f });
-
-        ImGui::SameLine(ImGui::GetContentRegionAvail().x / 2);
-
-        ModotHelpers::LoadingIndicatorCircle("##spinner", 30.f, { 0.5f, 0.8f, 1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, 10, 10.f);
-
-        ImGui::End();
-    }
+    DrawLoadingAssetWindow();
 }
 
-void LevelEditor::LateUpdate()
+void LevelEditor::SetViewport()
 {
-    m_LevelEditorCam->FinalTick();
-
-    DrawDebugLine(Vec3(0.f, 0.f, 0.f), Vec3(1000.f, 0.f, 0.f), Vec4(1.f, 0.f, 0.f, 1.f), 0.f, true);
-    DrawDebugLine(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 1000.f, 0.f), Vec4(0.f, 1.f, 0.f, 1.f), 0.f, true);
-    DrawDebugLine(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 0.f, 1000.f), Vec4(0.f, 0.f, 1.f, 1.f), 0.f, true);
+    ChangeLevelState(LEVEL_STATE::STOP);
+    CRenderMgr::GetInst()->SetEditorCam(m_LevelEditorCam->Camera());
 }
 
 void LevelEditor::Init()
@@ -182,7 +175,7 @@ void LevelEditor::Init()
 
     m_LevelEditorCam->Transform()->SetRelativePos(Vec3(0.f, 0.f, -1000.f));
 
-    CRenderMgr::GetInst()->SetEditorCam(m_LevelEditorCam->Camera());
+    CRenderMgr::GetInst()->SetEditorCam(m_LevelEditorCam->Camera()); // 에디터 디폴트 뷰포트
 }
 
 void LevelEditor::RenderGizmo()

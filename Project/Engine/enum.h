@@ -173,6 +173,7 @@ enum LEVEL_STATE
 {
 	PLAY,
 	PAUSE,
+	MODEL,
 	STOP,
 };
 

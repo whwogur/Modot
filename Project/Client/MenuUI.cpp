@@ -14,7 +14,6 @@
 #include "Inspector.h"
 #include "SpriteEditor.h"
 #include "Animation2DEditor.h"
-#include "Animation3DEditor.h"
 #include "TilemapEditor.h"
 #include "CLevelSaveLoad.h"
 #include "MaterialUI.h"
@@ -268,6 +267,10 @@ void MenuUI::OutputInfo()
 		}
 
 		color = { 1, 0, 0, 1 };
+	}
+	else if (state == LEVEL_STATE::MODEL)
+	{
+
 	}
 	else
 	{

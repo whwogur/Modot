@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "ToolBox.h"
 #include "Animation2DEditor.h"
-#include "Animation3DEditor.h"
 #include "CollisionCheck.h"
 #include "FileBrowser.h"
 #include "TexturePreview.h"
@@ -23,11 +22,6 @@ void ToolBox::Init()
     m_Tools[(UINT)TOOL_TYPE::ANIM2D] = std::make_unique<Animation2DEditor>();
     m_Tools[(UINT)TOOL_TYPE::ANIM2D]->SetName(ICON_FA_UNIVERSAL_ACCESS" 2D");
     m_Tools[(UINT)TOOL_TYPE::ANIM2D]->Init();
-
-    // Animation3DEditor
-    m_Tools[(UINT)TOOL_TYPE::ANIM3D] = std::make_unique<Animation3DEditor>();
-    m_Tools[(UINT)TOOL_TYPE::ANIM3D]->SetName(ICON_FA_UNIVERSAL_ACCESS" 3D");
-    m_Tools[(UINT)TOOL_TYPE::ANIM3D]->Init();
 
     m_Tools[(UINT)TOOL_TYPE::COLLISION] = std::make_unique<CollisionCheck>();
     m_Tools[(UINT)TOOL_TYPE::COLLISION]->SetName(ICON_FA_BOLT" Collision");

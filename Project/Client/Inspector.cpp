@@ -97,9 +97,35 @@ void Inspector::Update()
 	if (nullptr == m_TargetObject)
 		return;
 
-	// ===========
-	// Object Name
-	// ===========
+	DrawObjectName();
+	DrawLayerManipulationCombo();
+	DrawAddComponent();
+
+	if (m_IsPurged)
+	{
+		Purge();
+		m_IsPurged = false;
+	}
+}
+
+void Inspector::Purge()
+{
+	DeleteObject(m_TargetObject);
+	m_TargetObject = nullptr;
+	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
+	{
+		if (m_arrComUI[i] != nullptr)
+			m_arrComUI[i]->SetActive(false);
+	}
+	for (const auto& scriptUI : m_vecScriptUI)
+	{
+		scriptUI->SetActive(false);
+	}
+}
+
+// ImGui Context 내에서 호출되어야함
+void Inspector::DrawObjectName()
+{
 	ImGui::Text("Object Name");
 	ImGui::SameLine(100);
 	ImGui::SetNextItemWidth(200);
@@ -110,16 +136,37 @@ void Inspector::Update()
 		CLevelMgr::GetInst()->SetLevelDirty();
 	}
 	ImGui::SameLine();
-	static bool isDeleted = false;
 	if (ImGui::Button(ICON_FA_TRASH_O "##DeleteObject", { 30, 30 }))
 	{
-		isDeleted = true;
+		m_IsPurged = true;
 	}
 	ImGui::SetItemTooltip(u8"오브젝트를 삭제합니다");
+}
 
-	// ======
-	// Layer
-	// ======
+// ImGui Context 내에서 호출되어야함
+void Inspector::DrawAddComponent()
+{
+	ImGui::NewLine();
+	if (ImGui::BeginCombo("##ComponentList", "Add Component", ImGuiComboFlags_NoArrowButton | ImGuiComboFlags_WidthFitPreview))
+	{
+		for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
+		{
+			float vUV_0 = (1 / (float)COMPONENT_TYPE::END) * (UINT)i;
+			float vUV_1 = (1 / (float)COMPONENT_TYPE::END) * ((UINT)i + 1);
+			ImGui::Image((ImTextureID)(void*)m_IconTexture.Get()->GetSRV().Get(), { 15, 15 }, { vUV_0, 0 }, { vUV_1, 1 });
+			ImGui::SameLine(30);
+			if (ImGui::Selectable(ToString((COMPONENT_TYPE)i)))
+			{
+				m_TargetObject->AddComponentViaUI(COMPONENT_TYPE(i));
+				m_arrComUI[i]->SetTargetObject(m_TargetObject);
+			}
+		}
+		ImGui::EndCombo();
+	}
+}
+
+void Inspector::DrawLayerManipulationCombo()
+{
 	int LayerIdx = m_TargetObject->GetLayerIdx();
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
 	CLayer* pLayer = pCurLevel->GetLayer(LayerIdx);
@@ -127,7 +174,6 @@ void Inspector::Update()
 
 	ImGui::Text("Layer");
 	ImGui::SameLine(100);
-
 	ImGui::SetNextItemWidth(200);
 	if (ImGui::BeginCombo("##LayerCombo", LayerName.c_str()))
 	{
@@ -152,51 +198,5 @@ void Inspector::Update()
 			}
 		}
 		ImGui::EndCombo();
-	}
-	ImGui::SameLine();
-	if (ImGui::Button(ICON_FA_COG))
-	{
-		EditorUI* pEditor = CEditorMgr::GetInst()->FindEditorUI(ICON_FA_CHECK_SQUARE_O" CollisionCheck");
-		if (pEditor != nullptr)
-			pEditor->SetActive(true);
-	}
-
-	ImGui::NewLine();
-	if (ImGui::BeginCombo("##ComponentList", "Add Component", ImGuiComboFlags_NoArrowButton | ImGuiComboFlags_WidthFitPreview))
-	{
-		for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
-		{
-			float vUV_0 = (1 / (float)COMPONENT_TYPE::END) * (UINT)i;
-			float vUV_1 = (1 / (float)COMPONENT_TYPE::END) * ((UINT)i + 1);
-			ImGui::Image((ImTextureID)(void*)m_IconTexture.Get()->GetSRV().Get(), { 15, 15 }, { vUV_0, 0 }, { vUV_1, 1 });
-			ImGui::SameLine(30);
-			if (ImGui::Selectable(ToString((COMPONENT_TYPE)i)))
-			{
-				m_TargetObject->AddComponentViaUI(COMPONENT_TYPE(i));
-				m_arrComUI[i]->SetTargetObject(m_TargetObject);
-			}
-		}
-		ImGui::EndCombo();
-	}
-
-	if (isDeleted)
-	{
-		Purge();
-		isDeleted = false;
-	}
-}
-
-void Inspector::Purge()
-{
-	DeleteObject(m_TargetObject);
-	m_TargetObject = nullptr;
-	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
-	{
-		if (m_arrComUI[i] != nullptr)
-			m_arrComUI[i]->SetActive(false);
-	}
-	for (const auto& scriptUI : m_vecScriptUI)
-	{
-		scriptUI->SetActive(false);
 	}
 }

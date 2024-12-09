@@ -166,9 +166,6 @@
     <Filter Include="Editor\EditorUI\ToolBox\Tool\2D">
       <UniqueIdentifier>{c8e01a48-a4cb-40d2-a53d-eaa9c4efac3a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor\EditorUI\ToolBox\Tool\3D">
-      <UniqueIdentifier>{ff7235c4-b387-41f7-89f3-9a74df8f2499}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Editor\EditorUI\ToolBox\Tool\TexturePreview">
       <UniqueIdentifier>{337d90f6-8813-4c6a-9680-4bae86cd51ed}</UniqueIdentifier>
     </Filter>
@@ -331,9 +328,6 @@
     </ClInclude>
     <ClInclude Include="Animation2DEditor.h">
       <Filter>Editor\EditorUI\ToolBox\Tool\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation3DEditor.h">
-      <Filter>Editor\EditorUI\ToolBox\Tool\3D</Filter>
     </ClInclude>
     <ClInclude Include="ModotHelpers.h">
       <Filter>Editor\Util\Modot</Filter>
@@ -557,9 +551,6 @@
     </ClCompile>
     <ClCompile Include="Animation2DEditor.cpp">
       <Filter>Editor\EditorUI\ToolBox\Tool\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation3DEditor.cpp">
-      <Filter>Editor\EditorUI\ToolBox\Tool\3D</Filter>
     </ClCompile>
     <ClCompile Include="ModotHelpers.cpp">
       <Filter>Editor\Util\Modot</Filter>

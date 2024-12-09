@@ -21,12 +21,14 @@ class CRenderMgr :
 public:
     void RegisterCamera(CCamera* _Cam, int _CamPriority);
     void SetEditorCam(CCamera* _Cam) { m_EditorCamera = _Cam; }
+    void SetModelCam(CCamera* _Cam) { m_ModelCamera = _Cam; }
     void AddDebugShapeInfo(const tDebugShapeInfo& _Info) { m_DebugShapeList.emplace_back(_Info); }
     void RegisterLight2D(CLight2D* _Light) { m_vecLight2D.push_back(_Light); }
     size_t RegisterLight3D(CLight3D* _Light) { m_vecLight3D.push_back(_Light); return m_vecLight3D.size() - 1; }
     void PostProcessCopy();
     void RenderTargetCopy();
 
+    CCamera* GetModelCamera() { return m_ModelCamera; }
     CCamera* GetEditorCamera() { return m_EditorCamera; }
     CCamera* GetMainCamera();
     CCamera* GetCamera(UINT _Idx)
@@ -64,6 +66,8 @@ private:
 private:
     std::unique_ptr<CMRT>                                   m_arrMRT[(UINT)MRT_TYPE::END];
     CCamera*                                                m_EditorCamera;
+    CCamera*                                                m_ModelCamera;
+
     std::vector<CCamera*>                                   m_vecCam;
     std::list<tDebugShapeInfo>                              m_DebugShapeList;
     std::unique_ptr<CGameObject>                            m_DebugObject;

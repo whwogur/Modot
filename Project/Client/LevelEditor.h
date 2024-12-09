@@ -11,7 +11,7 @@ public:
     const int& GetGizmoTypeRef() const { return m_GizmoType; }
 
     virtual void Update() override;
-    virtual void LateUpdate() override;
+    virtual void SetViewport() override;
     virtual void Init() override;
 private:
     void RenderGizmo();

@@ -20,6 +20,7 @@
 #include "Inspector.h"
 #include "EditorLogger.h"
 #include "LevelEditor.h"
+#include "ModelEditor.h"
 CEditorMgr::CEditorMgr()
 {
 }
@@ -54,8 +55,14 @@ void CEditorMgr::Tick()
 void CEditorMgr::CreateEditorObject()
 {
 	m_Logger = std::make_unique<EditorLogger>();
-	m_LevelEditor = std::make_unique<LevelEditor>();
-	m_LevelEditor->Init();
+	m_arrViewport[(UINT)VIEWPORT_TYPE::LEVEL] = std::make_unique<LevelEditor>();
+	m_arrViewport[(UINT)VIEWPORT_TYPE::MODEL] = std::make_unique<ModelEditor>();
+
+	for (UINT i = 0; i < (UINT)VIEWPORT_TYPE::END; ++i)
+	{
+		m_arrViewport[i]->Init();
+	}
+
 	m_Logger->LogAdapterInfo();
 }
 

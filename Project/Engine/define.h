@@ -10,6 +10,8 @@
 #define CONTEXT CDevice::GetInst()->GetContext()
 
 constexpr UINT MAX_LAYER = 32;
+constexpr UINT LAYER_GENERAL = 20;
+constexpr UINT LAYER_MODEL = 21;
 
 #define DT CTimeMgr::GetInst()->GetDeltaTime()
 #define EngineDT CTimeMgr::GetInst()->GetEngineDeltaTime()

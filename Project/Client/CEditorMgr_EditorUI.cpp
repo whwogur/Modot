@@ -169,16 +169,15 @@ void CEditorMgr::ImGuiRun()
     ParamUI::ResetID();
 
     if (m_VPEnable)
-        m_LevelEditor->Update();
+    {
+        m_arrViewport[(UINT)m_CurViewport]->Update();
+    }
 
     for (const auto& pair : m_mapUI)
     {
         pair.second->Tick();
     }
     m_Logger->Draw(ICON_FA_TERMINAL" Console");
-
-    if (m_VPEnable)
-        m_LevelEditor->LateUpdate();
 
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -220,5 +219,6 @@ void CEditorMgr::EditorTrace(const string& _Log)
 
 void CEditorMgr::SetTargetObject(CGameObject* _Target)
 {
-    m_LevelEditor->SetTargetObject(_Target);
+    MD_ENGINE_ASSERT(m_CurViewport == VIEWPORT_TYPE::LEVEL, L"레벨에디터아닌데 타겟변경호출 확인바람");
+    m_arrViewport[(UINT)VIEWPORT_TYPE::LEVEL]->SetTargetObject(_Target);
 }

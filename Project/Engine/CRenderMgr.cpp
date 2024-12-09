@@ -42,7 +42,10 @@ void CRenderMgr::Tick()
 	RenderStart();
 
 	// Level 이 Play 상태인 경우, Level 내에 있는 카메라 시점으로 렌더링
-	if (pCurLevel->GetState() == LEVEL_STATE::PLAY)
+	LEVEL_STATE lvState = pCurLevel->GetState();
+	switch (lvState)
+	{
+	case LEVEL_STATE::PLAY:
 	{
 		if (m_vecCam[0] != nullptr)
 			Render(m_vecCam[0]);
@@ -54,15 +57,25 @@ void CRenderMgr::Tick()
 
 			Render_Sub(m_vecCam[i]);
 		}
+		break;
 	}
-
-	// Level 이 Stop | Pause 인 경우, Editor 용 카메라 시점으로 렌더링
-	else
+	case LEVEL_STATE::MODEL:
+	{
+		if (nullptr != m_ModelCamera)
+		{
+			Render(m_ModelCamera);
+		}
+		break;
+	}
+	case LEVEL_STATE::PAUSE:
+	case LEVEL_STATE::STOP:
 	{
 		if (nullptr != m_EditorCamera)
 		{
 			Render(m_EditorCamera);
 		}
+		break;
+	}
 	}
 
 	if (m_DebugRender)

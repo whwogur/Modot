@@ -41,25 +41,65 @@ void CLevel::Begin()
 
 void CLevel::Tick()
 {
-	for (int i = 0; i < MAX_LAYER; ++i)
+	switch (m_State)
 	{
-		m_Layer[i]->Tick();
+	case LEVEL_STATE::PLAY:
+	{
+		for (int i = 0; i < LAYER_GENERAL; ++i)
+		{
+			m_Layer[i]->Tick();
+		}
+		break;
+	}
+	case LEVEL_STATE::MODEL:
+	{
+		m_Layer[LAYER_MODEL]->Tick();
+		break;
+	}
 	}
 }
 
 void CLevel::FinalTick()
 {
-	for (int i = 0; i < MAX_LAYER; ++i)
+	switch (m_State)
 	{
-		m_Layer[i]->FinalTick();
+	case LEVEL_STATE::PAUSE:
+	case LEVEL_STATE::STOP:
+	case LEVEL_STATE::PLAY:
+	{
+		for (int i = 0; i < LAYER_GENERAL; ++i)
+		{
+			m_Layer[i]->FinalTick();
+		}
+		break;
+	}
+	case LEVEL_STATE::MODEL:
+	{
+		m_Layer[LAYER_MODEL]->FinalTick();
+		break;
+	}
 	}
 }
 
 void CLevel::ClearObject()
 {
-	for (UINT i = 0; i < MAX_LAYER; ++i)
+	switch (m_State)
 	{
-		m_Layer[i]->ClearObject();
+	case LEVEL_STATE::PAUSE:
+	case LEVEL_STATE::STOP:
+	case LEVEL_STATE::PLAY:
+	{
+		for (int i = 0; i < LAYER_GENERAL; ++i)
+		{
+			m_Layer[i]->ClearObject();
+		}
+		break;
+	}
+	case LEVEL_STATE::MODEL:
+	{
+		m_Layer[LAYER_MODEL]->ClearObject();
+		break;
+	}
 	}
 }
 

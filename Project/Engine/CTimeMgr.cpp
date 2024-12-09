@@ -73,7 +73,9 @@ void CTimeMgr::Tick()
 
 	// Level ¿ë DT
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
-	if (nullptr == pCurLevel || pCurLevel->GetState() != LEVEL_STATE::PLAY)
+	if (nullptr == pCurLevel)
+		m_DeltaTime = 0.f;
+	else if (pCurLevel->GetState() == LEVEL_STATE::STOP || pCurLevel->GetState() == LEVEL_STATE::PAUSE)
 	{
 		m_DeltaTime = 0.f;
 	}

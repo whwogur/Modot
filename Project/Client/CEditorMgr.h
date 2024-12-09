@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Engine/singleton.h>
-
+#include "EditorViewport.h"
 class CGameObject;
 class EditorUI;
 class EditorLogger;
@@ -34,22 +34,28 @@ public:
     void SetThemePurpleComfy();
 
     void EnableViewport(bool _b) { m_VPEnable = _b; }
+    VIEWPORT_TYPE GetCurViewportType() const { return m_CurViewport; }
+    void ChangeViewport(VIEWPORT_TYPE _Type)
+    { 
+        m_CurViewport = _Type;
+        m_arrViewport[(UINT)m_CurViewport]->SetViewport();
+    }
 private:
     void CreateEditorObject();
     void InitImGui();
     void ImGuiRun();
-    void ImGuiTick(); 
     void CreateEditorUI();
     void ObserveContents();
 
 private:
     map<string, EditorUI*>          m_mapUI;
-
     std::unique_ptr<EditorLogger>   m_Logger = nullptr;
-    std::unique_ptr<EditorViewport> m_LevelEditor = nullptr;
     HANDLE                          m_Sentinel = nullptr;
 
+    // Viewport
     bool                            m_VPEnable = true;
+    VIEWPORT_TYPE                   m_CurViewport = VIEWPORT_TYPE::LEVEL;
+    std::unique_ptr<EditorViewport> m_arrViewport[(UINT)VIEWPORT_TYPE::END];
 };
 
 #ifdef _DEBUG

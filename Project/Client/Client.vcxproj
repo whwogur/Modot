@@ -92,7 +92,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Animation2DEditor.h" />
-    <ClInclude Include="Animation3DEditor.h" />
     <ClInclude Include="Animator3DUI.h" />
     <ClInclude Include="AssetUI.h" />
     <ClInclude Include="CameraUI.h" />
@@ -170,7 +169,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation2DEditor.cpp" />
-    <ClCompile Include="Animation3DEditor.cpp" />
     <ClCompile Include="Animator3DUI.cpp" />
     <ClCompile Include="AssetUI.cpp" />
     <ClCompile Include="CameraUI.cpp" />

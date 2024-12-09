@@ -4,7 +4,6 @@ class CTool;
 enum class TOOL_TYPE
 {
     ANIM2D,
-    ANIM3D,
     COLLISION,
     MATERIAL,
     TEXTUREPREVIEW,

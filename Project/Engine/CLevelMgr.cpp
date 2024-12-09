@@ -40,7 +40,8 @@ void CLevelMgr::Tick()
 	if (nullptr == m_CurLevel)
 		return;
 
-	if (m_CurLevel->GetState() == LEVEL_STATE::PLAY)
+	LEVEL_STATE lvState = m_CurLevel->GetState();
+	if (lvState != LEVEL_STATE::STOP && lvState != LEVEL_STATE::PAUSE)
 	{
 		m_CurLevel->Tick();
 	}

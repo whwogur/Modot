@@ -3,7 +3,7 @@
 class CGameObjectEx;
 class CCamera;
 
-class ModelEditor :
+class ModelEditor : // 21
     public EditorViewport
 {
 public:
@@ -11,10 +11,13 @@ public:
     ~ModelEditor();
 public:
     virtual void Update() override;
-    virtual void LateUpdate() override;
+    virtual void SetViewport() override;
     virtual void Init() override;
+
 private:
-    std::unique_ptr<CGameObjectEx>          m_ModelObj;
+    void RenderGizmo(); // 추상화시킬수도?
+private:
+    CGameObject*                            m_ModelObj;
     tMTBone*                                m_SelectedBone;
     CGameObject*                            m_SelectedPreviewObj;
 
@@ -26,19 +29,14 @@ private:
 
     wstring                                 m_RecentPath;
 
-    std::vector<tInstObj>                   m_vecDeferred;
-    std::vector<tInstObj>                   m_vecForward;
-    std::vector<tInstObj>                   m_vecTransparent;
-
-    Ptr<CTexture>                           m_ViewportRTTex;
-
     std::unique_ptr<CGameObjectEx>          m_ModelEditorCam;
-    CGameObjectEx*                          m_LightObj;
-    CGameObjectEx*                          m_SkyBoxObj;
-    CGameObjectEx*                          m_FloorObj;
+    CGameObject*                            m_LightObj;
+    CGameObject*                            m_SkyBoxObj;
+    CGameObject*                            m_FloorObj;
 
     bool                                    m_ViewportFocused;
     bool                                    m_ViewportHovered;
+    bool                                    m_GizmoActive = false;
     ImGuizmo::OPERATION                     m_GizmoType;
     ImGuizmo::MODE                          m_GizmoMode;
 };
