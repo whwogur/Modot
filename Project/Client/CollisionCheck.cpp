@@ -18,13 +18,13 @@ void CollisionCheck::Update()
 	ImGui::BeginTabBar("Collision##CollisionCheck");
 	if (ImGui::BeginTabItem("Matrix##CollisionCheck"))
 	{
-		for (UINT i = 0; i < MAX_LAYER; ++i)
+		for (UINT i = 0; i < LAYER_GENERAL; ++i)
 		{
 			if (m_LayerNames[i].empty())
 				continue;
 			ImGui::TextColored(HEADER_2, m_LayerNames[i].c_str());
 			ImGui::SameLine(150);
-			for (UINT j = i; j < MAX_LAYER; ++j)
+			for (UINT j = i; j < LAYER_GENERAL; ++j)
 			{
 				if (m_LayerNames[j].empty())
 					continue;
@@ -44,20 +44,31 @@ void CollisionCheck::Update()
 	}
 	
 
+	constexpr const static char preFix[] = ICON_FA_PENCIL"##";
 	if (ImGui::BeginTabItem("LayerList##CollisionCheck"))
 	{
-		for (UINT i = 0; i < MAX_LAYER; ++i)
+		if (ImGui::BeginTable("LayerTable", 5, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg))
 		{
-			string layerName = ICON_FA_PENCIL"##" + std::to_string(i) + m_LayerNames[i];
-			ImGui::Text(m_LayerNames[i].c_str());
-			ImGui::SameLine(200);
-			if (ImGui::Button(layerName.c_str()))
+			for (UINT i = 0; i < LAYER_GENERAL; ++i)
 			{
-				m_Selected = i;
-				m_Edit = true;
-			}
+				ImGui::TableNextColumn();
 
-			ImGui::SetItemTooltip(u8"이름 편집");
+				string layerName;
+				layerName = m_LayerNames[i].empty() ? std::to_string(i) + u8" 이름없음" : m_LayerNames[i];
+				ImGui::Text(layerName.c_str());
+				ImGui::SameLine(200);
+				if (ImGui::Button((preFix + layerName).c_str()))
+				{
+					m_Selected = i;
+					m_Edit = true;
+				}
+
+				if (ImGui::IsItemHovered())
+				{
+					ImGui::SetTooltip(u8"이름 편집");
+				}
+			}
+			ImGui::EndTable();
 		}
 		ImGui::EndTabItem();
 	}
@@ -78,7 +89,7 @@ void CollisionCheck::Update()
 
 void CollisionCheck::Activate()
 {
-	for (UINT i = 0; i < MAX_LAYER; ++i)
+	for (UINT i = 0; i < LAYER_GENERAL; ++i)
 	{
 		CLayer* layer = CLevelMgr::GetInst()->GetCurrentLevel()->GetLayer(i);
 		if (!layer->GetName().empty() && layer)
@@ -92,7 +103,7 @@ void CollisionCheck::Activate()
 
 void CollisionCheck::Refresh()
 {
-	for (UINT i = 0; i < MAX_LAYER; ++i)
+	for (UINT i = 0; i < LAYER_GENERAL; ++i)
 	{
 		m_CollisionCheck[i] = CCollisionMgr::GetInst()->GetCollision(i);
 	}

@@ -21,7 +21,7 @@ public:
 
 public:
 	virtual void Update() = 0;
-	virtual void SetViewport() = 0;
+	virtual void SetViewport(VIEWPORT_TYPE _Type) = 0;
 	virtual void Init() {}
 public:
 	void SetTargetObject(CGameObject* _Target) { m_TargetObject = _Target; }

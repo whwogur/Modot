@@ -11,7 +11,7 @@ public:
     ~ModelEditor();
 public:
     virtual void Update() override;
-    virtual void SetViewport() override;
+    virtual void SetViewport(VIEWPORT_TYPE _Type) override;
     virtual void Init() override;
 
 private:

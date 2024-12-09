@@ -36,8 +36,8 @@ public:
     VIEWPORT_TYPE GetCurViewportType() const { return m_CurViewport; }
     void ChangeViewport(VIEWPORT_TYPE _Type)
     { 
+        m_arrViewport[(UINT)_Type]->SetViewport(m_CurViewport);
         m_CurViewport = _Type;
-        m_arrViewport[(UINT)m_CurViewport]->SetViewport();
     }
     std::weak_ptr<EditorViewport> GetCurViewport() const { return m_arrViewport[(UINT)m_CurViewport]; }
     std::weak_ptr<EditorViewport> GetViewport(VIEWPORT_TYPE _Type) const { return m_arrViewport[(UINT)_Type]; }

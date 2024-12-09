@@ -5,6 +5,7 @@
 #include "CTransform.h"
 #include "TreeUI.h"
 #include "CEditorCameraScript.h"
+#include "CEditorMgr.h"
 
 #include <Engine/CRenderMgr.h>
 #include <Engine/CLevelMgr.h>
@@ -56,8 +57,6 @@ void ModelEditor::Update()
         if (nullptr != pSkeletalMesh && pAnimator->IsValid())
         {
             ImGui::SeparatorText(u8"컨트롤");
-            constexpr static const float fIndent_1 = 120.f;
-            constexpr static const float fIndent_2 = 70.f;
 
             const std::vector<tMTAnimClip>* vecAnimClip = pSkeletalMesh->GetAnimClip();
 
@@ -68,9 +67,9 @@ void ModelEditor::Update()
 
             static ImGuiTextFilter filter;
             int ChangedClipIdx = -1;
-            ImGui::Text(ICON_FA_FILTER); ImGui::SameLine(fIndent_2);
+            ImGui::Text(ICON_FA_FILTER); ImGui::SameLine(INDENT_2);
             filter.Draw("##AnimationFilter");
-            ImGui::TextColored(HEADER_1, u8"목록 "); ImGui::SameLine(fIndent_2);
+            ImGui::TextColored(HEADER_1, u8"목록 "); ImGui::SameLine(INDENT_2);
             if (ImGui::BeginCombo("##Anim", CurClipName.c_str()))
             {
                 ImGui::Separator();
@@ -103,7 +102,7 @@ void ModelEditor::Update()
             }
 
             ImGui::TextColored(HEADER_1, u8"프레임:");
-            ImGui::SameLine(fIndent_2);
+            ImGui::SameLine(INDENT_2);
             int ClipFrameIdx = pAnimator->GetFrameIdx();
             if (ImGui::SliderInt("##AnimationFrameIndex", &ClipFrameIdx, 0, CurClip.iFrameLength - 1))
             {
@@ -141,28 +140,28 @@ void ModelEditor::Update()
             ImGui::SeparatorText(u8"클립 정보");
             ImGui::NewLine();
             ImGui::TextColored(HEADER_1, u8"클립이름:");
-            ImGui::SameLine(fIndent_1);
+            ImGui::SameLine(INDENT_1);
             ImGui::Text("%s", string(CurClip.strAnimName.begin(), CurClip.strAnimName.end()).c_str());
             ImGui::TextColored(HEADER_1, u8"클립인덱스:");
-            ImGui::SameLine(fIndent_1);
+            ImGui::SameLine(INDENT_1);
             ImGui::Text("#%d", CurClipIdx);
             ImGui::TextColored(HEADER_1, "FPS:");
-            ImGui::SameLine(fIndent_1);
+            ImGui::SameLine(INDENT_1);
             ImGui::Text("%d", (int)pAnimator->GetFrameCount());
             ImGui::TextColored(HEADER_1, u8"프레임범위:");
-            ImGui::SameLine(fIndent_1);
+            ImGui::SameLine(INDENT_1);
             ImGui::Text("%d ~ %d", CurClip.iStartFrame);
 
             ImGui::TextColored(HEADER_1, u8"프레임 길이:");
-            ImGui::SameLine(fIndent_1);
+            ImGui::SameLine(INDENT_1);
             ImGui::Text("%d", CurClip.iFrameLength);
 
             ImGui::TextColored(HEADER_1, u8"지속시간:");
-            ImGui::SameLine(fIndent_1);
+            ImGui::SameLine(INDENT_1);
             ImGui::Text("%.3f ~ %.3f", CurClip.dStartTime, CurClip.dEndTime);
 
             ImGui::TextColored(HEADER_1, u8"클립길이:");
-            ImGui::SameLine(fIndent_1);
+            ImGui::SameLine(INDENT_1);
             ImGui::Text("%.3f", CurClip.dTimeLength);
 #pragma endregion
         }
@@ -171,9 +170,12 @@ void ModelEditor::Update()
     ImGui::End();
 }
 
-void ModelEditor::SetViewport()
+void ModelEditor::SetViewport(VIEWPORT_TYPE _Type)
 {
     ChangeLevelState(LEVEL_STATE::MODEL);
+    EditorUI* hvTree = CEditorMgr::GetInst()->FindEditorUI("HierarchyViewTree");
+    if (hvTree != nullptr)
+        hvTree->SetActive(false);
 }
 
 void ModelEditor::Init()

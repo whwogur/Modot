@@ -129,10 +129,16 @@ void LevelEditor::Update()
     DrawLoadingAssetWindow();
 }
 
-void LevelEditor::SetViewport()
+void LevelEditor::SetViewport(VIEWPORT_TYPE _Type)
 {
     ChangeLevelState(LEVEL_STATE::STOP);
     CRenderMgr::GetInst()->SetEditorCam(m_LevelEditorCam->Camera());
+    if (_Type == VIEWPORT_TYPE::MODEL)
+    {
+        EditorUI* hvTree = CEditorMgr::GetInst()->FindEditorUI("HierarchyViewTree");
+        if (hvTree != nullptr)
+            hvTree->SetActive(true);
+    }
 }
 
 void LevelEditor::Init()

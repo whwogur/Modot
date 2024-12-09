@@ -240,6 +240,7 @@ void CRenderMgr::Render(CCamera* _Cam)
 	//// =================
 	//// FORWARD RENDERING
 	//// =================
+	_Cam->RenderForward();
 	_Cam->RenderEffect();
 	_Cam->RenderTransparent();
 	_Cam->RenderParticle();
