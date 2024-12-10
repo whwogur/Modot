@@ -169,11 +169,11 @@
     <Filter Include="Editor\EditorUI\ToolBox\Tool\TexturePreview">
       <UniqueIdentifier>{337d90f6-8813-4c6a-9680-4bae86cd51ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor\Viewport\LevelEditor">
-      <UniqueIdentifier>{a836382f-f364-46fb-8743-aed91b36c10b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Editor\Viewport\ModelEditor">
+    <Filter Include="Editor\Viewport\Model">
       <UniqueIdentifier>{11780cc2-af31-4361-abea-022db0dd09d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Viewport\Level">
+      <UniqueIdentifier>{a836382f-f364-46fb-8743-aed91b36c10b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -329,9 +329,6 @@
     <ClInclude Include="Animation2DEditor.h">
       <Filter>Editor\EditorUI\ToolBox\Tool\2D</Filter>
     </ClInclude>
-    <ClInclude Include="ModotHelpers.h">
-      <Filter>Editor\Util\Modot</Filter>
-    </ClInclude>
     <ClInclude Include="Modot_sequencer.h">
       <Filter>Editor\Util\Modot\Sequencer</Filter>
     </ClInclude>
@@ -393,10 +390,13 @@
       <Filter>Editor\EditorUI\ToolBox\Tool</Filter>
     </ClInclude>
     <ClInclude Include="LevelEditor.h">
-      <Filter>Editor\Viewport\LevelEditor</Filter>
+      <Filter>Editor\Viewport\Level</Filter>
     </ClInclude>
     <ClInclude Include="ModelEditor.h">
-      <Filter>Editor\Viewport\ModelEditor</Filter>
+      <Filter>Editor\Viewport\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientStatic.h">
+      <Filter>Editor\Util\Modot</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -552,9 +552,6 @@
     <ClCompile Include="Animation2DEditor.cpp">
       <Filter>Editor\EditorUI\ToolBox\Tool\2D</Filter>
     </ClCompile>
-    <ClCompile Include="ModotHelpers.cpp">
-      <Filter>Editor\Util\Modot</Filter>
-    </ClCompile>
     <ClCompile Include="Modot_sequencer.cpp">
       <Filter>Editor\Util\Modot\Sequencer</Filter>
     </ClCompile>
@@ -616,10 +613,13 @@
       <Filter>Editor\EditorUI\ToolBox\Tool</Filter>
     </ClCompile>
     <ClCompile Include="LevelEditor.cpp">
-      <Filter>Editor\Viewport\LevelEditor</Filter>
+      <Filter>Editor\Viewport\Level</Filter>
     </ClCompile>
     <ClCompile Include="ModelEditor.cpp">
-      <Filter>Editor\Viewport\ModelEditor</Filter>
+      <Filter>Editor\Viewport\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientStatic.cpp">
+      <Filter>Editor\Util\Modot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

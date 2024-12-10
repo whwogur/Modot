@@ -18,57 +18,46 @@ Content::Content()
 	m_Tree->ShowRoot(false); // 루트 보이지 않기
 	m_Tree->EnableDrag(true);
 	m_Tree->AddClickedDelegate(this, (DELEGATE_1)&Content::AssetClicked);
-
+	
+	m_Tree->AddDropDelegate(this, (DELEGATE_2)&Content::DropExtern);
+	m_Tree->SetDropPayLoadName("HierarchyViewTree");
 	// Asset 상태를 Content 의 TreeUI 에 반영
-	RenewContent();
+	BuildContentTree();
 }
 
 void Content::Update()
 {
 	if (CAssetMgr::GetInst()->IsDirty())
 	{
-		RenewContent();
-	}
-
-	if (ImGui::BeginDragDropTarget())
-	{
-		const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HierarchyViewTree");
-		if (payload)
-		{
-			TreeNode** ppNode = (TreeNode**)payload->Data;
-			TreeNode* pNode = *ppNode;
-
-			CGameObject* pGameObject = (CGameObject*)pNode->GetData();
-			if (pGameObject != nullptr)
-			{
-				CGameObject* objClone = pGameObject->Clone();
-				const wstring& objName = pGameObject->GetName();
-				if (CAssetMgr::GetInst()->FindAsset<CPrefab>(objName) != nullptr)
-				{
-					MD_ENGINE_WARN(L"\"{0}\"는 이미 있는 프리팹임. 저장안됨", objName);
-					EDITOR_WARN("prefab with the same objname already exists.");
-					delete objClone;
-				}
-				else
-				{
-					Ptr<CPrefab> pPrefab = new CPrefab;
-					pPrefab->SetOriginalObject(objClone);
-
-					CAssetMgr::GetInst()->AddAsset<CPrefab>(objName, pPrefab);
-				}
-			}
-		}
-
-		ImGui::EndDragDropTarget();
+		BuildContentTree();
 	}
 }
 
-void Content::Init()
+void Content::DropExtern(DWORD_PTR _ExternData, DWORD_PTR _DropNode)
 {
-	CAssetMgr::GetInst()->AsyncReloadContents();
+	TreeNode* DropNode = (TreeNode*)_DropNode;
+	CGameObject* pGameObject = (CGameObject*)DropNode->GetData();
+	if (pGameObject != nullptr)
+	{
+		CGameObject* objClone = pGameObject->Clone();
+		const wstring& objName = pGameObject->GetName();
+		if (CAssetMgr::GetInst()->FindAsset<CPrefab>(objName) != nullptr)
+		{
+			MD_ENGINE_WARN(L"\"{0}\"는 이미 있는 프리팹임. 저장안됨", objName);
+			EDITOR_WARN("prefab with the same objname already exists.");
+			delete objClone;
+		}
+		else
+		{
+			Ptr<CPrefab> pPrefab = new CPrefab;
+			pPrefab->SetOriginalObject(objClone);
+
+			CAssetMgr::GetInst()->AddAsset<CPrefab>(objName, pPrefab);
+		}
+	}
 }
 
-void Content::RenewContent()
+void Content::BuildContentTree()
 {
 	// 트리의 내용을 전부 제거
 	m_Tree->Clear();

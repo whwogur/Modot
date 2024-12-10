@@ -4,7 +4,7 @@
 
 #include "CEditorCameraScript.h"
 #include "TreeUI.h"
-#include "ModotHelpers.h"
+#include "ClientStatic.h"
 
 #include <Engine/CCamera.h>
 #include <Engine/CLevel.h>
@@ -258,7 +258,7 @@ void LevelEditor::EditorCameraSlider()
         float& camSpeed = eCamScript->GetCamSpeedRef();
 
         ImGui::SetNextItemWidth(150);
-        ModotHelpers::HSliderFloat("##EditorCamSpeedSlider", &camSpeed, 100.f, 1000.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+        ClientStatic::HSliderFloat("##EditorCamSpeedSlider", &camSpeed, 100.f, 1000.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
         ImGui::SetItemTooltip(u8"에디터 카메라 속도 조절");
     }
 }

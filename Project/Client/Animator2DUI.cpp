@@ -7,7 +7,7 @@
 #include "TreeUI.h"
 #include "CTaskMgr.h"
 #include "CAssetMgr.h"
-#include <ModotHelpers.h>
+#include <ClientStatic.h>
 Animator2DUI::Animator2DUI()
 	: ComponentUI(COMPONENT_TYPE::ANIMATOR2D)
 {
@@ -91,7 +91,7 @@ void Animator2DUI::Update()
 				ImGui::Text("Repeat Animation");
 				ImGui::SameLine(100);
 				bool& repeatRef = targetObj->Animator2D()->GetRepeatRef();
-				ModotHelpers::ToggleButton("Repeat", &repeatRef);
+				ClientStatic::ToggleButton("Repeat", &repeatRef);
 			}
 			else
 			{

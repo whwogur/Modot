@@ -19,7 +19,7 @@
 #include "MaterialUI.h"
 #include "CollisionCheck.h"
 #include "CEditorCameraScript.h"
-#include <ModotHelpers.h>
+#include <ClientStatic.h>
 
 void MenuUI::Tick()
 {
@@ -32,7 +32,6 @@ void MenuUI::Tick()
 		Tools();
 		Assets();
 		External();
-		EditorSettings();
 
 		OutputInfo();
 
@@ -209,7 +208,7 @@ void MenuUI::OutputInfo()
 {
 	// Debug Toggle
 	bool& bDebug = CRenderMgr::GetInst()->GetDebugRenderRef();
-	ModotHelpers::ToggleButton("##DebugToggle", &bDebug);
+	ClientStatic::ToggleButton("##DebugToggle", &bDebug);
 	ImGui::SameLine();
 	ImGui::Text(bDebug ? "Debug ON" : "Debug OFF");
 
@@ -288,40 +287,6 @@ void MenuUI::OutputInfo()
 
 	ImGui::SameLine(contentRegionAvailable);
 	ImGui::TextColored(color, buffer);
-}
-
-void MenuUI::EditorSettings()
-{
-	if (ImGui::BeginMenu(ICON_FA_COG " Editor"))
-	{
-		if (ImGui::BeginMenu(u8"테마 변경"))
-		{
-			if (ImGui::MenuItem("Microsoft"))
-			{
-				CEditorMgr::GetInst()->SetThemeMicrosoft();
-			}
-
-			if (ImGui::MenuItem("Unreal"))
-			{
-				CEditorMgr::GetInst()->SetThemeUnrealEngine();
-			}
-
-			if (ImGui::MenuItem("Moonlight"))
-			{
-				CEditorMgr::GetInst()->SetThemeMoonlight();
-			}
-
-			if (ImGui::MenuItem("Dark"))
-			{
-				CEditorMgr::GetInst()->SetThemeFutureDark();
-			}
-
-			ImGui::EndMenu();
-		}
-
-
-		ImGui::EndMenu();
-	}
 }
 
 void MenuUI::LoadLevel()

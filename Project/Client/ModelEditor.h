@@ -18,17 +18,12 @@ private:
     void RenderGizmo(); // 추상화시킬수도?
     void GizmoInfo();
     void AcceptDragDrop();
-    void FetchModelDialog(std::vector<wstring>& _FilesName, const wstring& _RelativePath, const std::vector<std::pair<wstring, wstring>>& filter);
 private:
     CGameObject*                            m_ModelObj;
     tMTBone*                                m_SelectedBone;
     CGameObject*                            m_SelectedPreviewObj;
 
-    bool                                    m_bDrawWireFrame;
-    bool                                    m_bRenderFloor;
     bool                                    m_bMeshSaved;
-    wstring                                 m_MeshDataPath;
-    bool                                    m_bMeshDataSaved;
 
     wstring                                 m_RecentPath;
 

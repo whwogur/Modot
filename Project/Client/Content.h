@@ -11,9 +11,11 @@ public:
 
 public:
     virtual void Update() override;
-    virtual void Init() override;
+
+public:
+    void DropExtern(DWORD_PTR _ExternData, DWORD_PTR _DropNode);
 private:
-    void RenewContent();
+    void BuildContentTree();
 
     void AssetClicked(DWORD_PTR _Param);
 

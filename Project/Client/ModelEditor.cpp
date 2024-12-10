@@ -10,12 +10,11 @@
 #include <Engine/CRenderMgr.h>
 #include <Engine/CLevelMgr.h>
 #include <Engine/CLevel.h>
-#include <ModotHelpers.h>
+#include <ClientStatic.h>
 
-#include <shobjidl.h>
-#include <shobjidl_core.h>
-#include <comdef.h>
-#include <shlobj_core.h>
+static const string strImportTab = ICON_FA_CLOUD_DOWNLOAD" Import";
+static const string strAnimInfoTab = ICON_FA_INFO_CIRCLE" Info";
+static const string strAnimControlTab = ICON_FA_YOUTUBE_PLAY" Animation";
 ModelEditor::ModelEditor()
 {
 }
@@ -23,7 +22,6 @@ ModelEditor::ModelEditor()
 ModelEditor::~ModelEditor()
 {
 }
-
 void ModelEditor::Update()
 {
     m_ModelEditorCam->Tick();
@@ -51,7 +49,7 @@ void ModelEditor::Update()
 
     ImGui::End();
 
-    ImGui::Begin("AnimatorControl##Animation3DView");//Temp
+    ImGui::Begin("AnimatedMesh##Animation3DView");//Temp
 
     CGameObject* pTarget = GetTargetObject();
     if (pTarget != nullptr)
@@ -61,154 +59,146 @@ void ModelEditor::Update()
         // Animation
         if (nullptr != pSkeletalMesh && pAnimator->IsValid())
         {
-            ImGui::SeparatorText(u8"컨트롤");
-
             const std::vector<tMTAnimClip>* vecAnimClip = pSkeletalMesh->GetAnimClip();
-
             int CurClipIdx = pAnimator->GetCurClipIdx();
             const tMTAnimClip& CurClip = vecAnimClip->at(CurClipIdx);
-
-            string CurClipName(CurClip.strAnimName.begin(), CurClip.strAnimName.end());
-
-            static ImGuiTextFilter filter;
-            int ChangedClipIdx = -1;
-            ImGui::Text(ICON_FA_FILTER); ImGui::SameLine(INDENT_2);
-            filter.Draw("##AnimationFilter");
-            ImGui::TextColored(HEADER_1, u8"목록 "); ImGui::SameLine(INDENT_2);
-            if (ImGui::BeginCombo("##Anim", CurClipName.c_str()))
+            ImGui::BeginTabBar("##AnimatedMeshTab");
+#pragma region 애니메이션 컨트롤
+            if (ImGui::BeginTabItem(strAnimControlTab.c_str(), 0, m_bMeshSaved ? 0 : ImGuiTabItemFlags_UnsavedDocument))
             {
                 ImGui::Separator();
 
-                for (int i = 0; i < vecAnimClip->size(); i++)
+                string CurClipName(CurClip.strAnimName.begin(), CurClip.strAnimName.end());
+
+                static ImGuiTextFilter filter;
+                int ChangedClipIdx = -1;
+                ImGui::Text(ICON_FA_FILTER); ImGui::SameLine(INDENT_2);
+                filter.Draw("##AnimationFilter");
+                ImGui::TextColored(HEADER_1, u8"목록 "); ImGui::SameLine(INDENT_2);
+                if (ImGui::BeginCombo("##Anim", CurClipName.c_str()))
                 {
-                    string ClipName(vecAnimClip->at(i).strAnimName.begin(), vecAnimClip->at(i).strAnimName.end());
-                    bool is_selected = (CurClipName == ClipName);
+                    ImGui::Separator();
 
-                    if (!filter.PassFilter(ClipName.c_str()))
-                        continue;
-
-                    if (ImGui::Selectable(ClipName.c_str(), is_selected))
+                    for (int i = 0; i < vecAnimClip->size(); i++)
                     {
-                        CurClipName = ClipName;
-                        ChangedClipIdx = i;
-                    }
+                        string ClipName(vecAnimClip->at(i).strAnimName.begin(), vecAnimClip->at(i).strAnimName.end());
+                        bool is_selected = (CurClipName == ClipName);
 
-                    if (is_selected)
-                    {
-                        ImGui::SetItemDefaultFocus();
+                        if (!filter.PassFilter(ClipName.c_str()))
+                            continue;
+
+                        if (ImGui::Selectable(ClipName.c_str(), is_selected))
+                        {
+                            CurClipName = ClipName;
+                            ChangedClipIdx = i;
+                        }
+
+                        if (is_selected)
+                        {
+                            ImGui::SetItemDefaultFocus();
+                        }
                     }
+                    ImGui::EndCombo();
                 }
-                ImGui::EndCombo();
-            }
 
-            if (ChangedClipIdx >= 0)
-            {
-                pAnimator->SetCurClipIdx(ChangedClipIdx);
-            }
-
-            ImGui::TextColored(HEADER_1, u8"프레임:");
-            ImGui::SameLine(INDENT_2);
-            int ClipFrameIdx = pAnimator->GetFrameIdx();
-            if (ImGui::SliderInt("##AnimationFrameIndex", &ClipFrameIdx, 0, CurClip.iFrameLength - 1))
-            {
-                pAnimator->SetFrameIdx(ClipFrameIdx);
-            }
-
-            ImGui::TextColored(HEADER_1, u8"재생속도:"); ImGui::SameLine();
-            float fPlaySpeed = pAnimator->GetPlaySpeed();
-            if (ImGui::DragFloat("##AnimationPlaySpeed", &fPlaySpeed, 0.01f, 0.f, 10.f))
-                pAnimator->SetPlaySpeed(fPlaySpeed);
-
-            // Buttons
-            ImGui::NewLine();
-            ImGui::SameLine(ImGui::GetContentRegionAvail().x * 0.48f);
-            bool bPlaying = pAnimator->IsPlayingAnim();
-            if (bPlaying)
-            {
-                if (ImGui::Button(ICON_FA_PAUSE))
-                    pAnimator->PauseAnimation();
-            }
-            else
-            {
-                if (ImGui::Button(ICON_FA_PLAY))
-                    pAnimator->ResumeAnimation();
-            }
-
-            ImGui::SameLine();
-            bool bRepeat = pAnimator->IsOnRepeat();
-            if (ImGui::Button(bRepeat ? ICON_FA_RANDOM : ICON_FA_REPEAT))
-                pAnimator->SetRepeat(!bRepeat);
-            
-
-#pragma region 애니메이션 정보
-
-            ImGui::SeparatorText(u8"클립 정보");
-            ImGui::NewLine();
-            ImGui::TextColored(HEADER_1, u8"클립이름:");
-            ImGui::SameLine(INDENT_1);
-            ImGui::Text("%s", string(CurClip.strAnimName.begin(), CurClip.strAnimName.end()).c_str());
-            ImGui::TextColored(HEADER_1, u8"클립인덱스:");
-            ImGui::SameLine(INDENT_1);
-            ImGui::Text("#%d", CurClipIdx);
-            ImGui::TextColored(HEADER_1, "FPS:");
-            ImGui::SameLine(INDENT_1);
-            ImGui::Text("%d", (int)pAnimator->GetFrameCount());
-            ImGui::TextColored(HEADER_1, u8"프레임범위:");
-            ImGui::SameLine(INDENT_1);
-            ImGui::Text("%d ~ %d", CurClip.iStartFrame);
-
-            ImGui::TextColored(HEADER_1, u8"프레임 길이:");
-            ImGui::SameLine(INDENT_1);
-            ImGui::Text("%d", CurClip.iFrameLength);
-
-            ImGui::TextColored(HEADER_1, u8"지속시간:");
-            ImGui::SameLine(INDENT_1);
-            ImGui::Text("%.3f ~ %.3f", CurClip.dStartTime, CurClip.dEndTime);
-
-            ImGui::TextColored(HEADER_1, u8"클립길이:");
-            ImGui::SameLine(INDENT_1);
-            ImGui::Text("%.3f", CurClip.dTimeLength);
-#pragma endregion
-
-            ImGui::SeparatorText(u8"메쉬정보");
-            if (nullptr != pTarget && nullptr != pTarget->Animator3D() && pTarget->Animator3D()->IsValid())
-            {
-                ImGui::Separator();
-                if (m_bMeshSaved)
+                if (ChangedClipIdx >= 0)
                 {
-                    ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_Button));
-                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyleColorVec4(ImGuiCol_ButtonHovered));
-                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImGui::GetStyleColorVec4(ImGuiCol_ButtonActive));
+                    pAnimator->SetCurClipIdx(ChangedClipIdx);
+                }
+
+                ImGui::TextColored(HEADER_1, u8"프레임");ImGui::SameLine(INDENT_2);
+                int ClipFrameIdx = pAnimator->GetFrameIdx();
+                if (ImGui::SliderInt("##AnimationFrameIndex", &ClipFrameIdx, 0, CurClip.iFrameLength - 1))
+                {
+                    pAnimator->SetFrameIdx(ClipFrameIdx);
+                }
+
+                ImGui::TextColored(HEADER_1, u8"재생속도"); ImGui::SameLine(INDENT_2);
+                float fPlaySpeed = pAnimator->GetPlaySpeed();
+                if (ImGui::DragFloat("##AnimationPlaySpeed", &fPlaySpeed, 0.01f, 0.f, 10.f))
+                    pAnimator->SetPlaySpeed(fPlaySpeed);
+
+                // Buttons
+                ImGui::NewLine();
+                ImGui::SameLine(ImGui::GetContentRegionAvail().x * 0.45f);
+                bool bPlaying = pAnimator->IsPlayingAnim();
+                if (bPlaying)
+                {
+                    if (ImGui::Button(ICON_FA_PAUSE))
+                        pAnimator->PauseAnimation();
                 }
                 else
                 {
-                    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
-                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
+                    if (ImGui::Button(ICON_FA_PLAY))
+                        pAnimator->ResumeAnimation();
                 }
+
+                ImGui::SameLine();
+                bool bRepeat = pAnimator->IsOnRepeat();
+                if (ImGui::Button(bRepeat ? ICON_FA_RANDOM : ICON_FA_REPEAT))
+                    pAnimator->SetRepeat(!bRepeat);
+
+                ImGui::EndTabItem();
+            }
+            
+#pragma endregion
+#pragma region 애니메이션 정보
+            if (ImGui::BeginTabItem(strAnimInfoTab.c_str(), 0, m_bMeshSaved ? 0 : ImGuiTabItemFlags_UnsavedDocument))
+            {
+                ImGui::Separator();
+                ImGui::NewLine();
+                ImGui::TextColored(HEADER_1, u8"클립이름:");
+                ImGui::SameLine(INDENT_1);
+                ImGui::Text("%s", string(CurClip.strAnimName.begin(), CurClip.strAnimName.end()).c_str());
+                ImGui::TextColored(HEADER_1, u8"클립인덱스:");
+                ImGui::SameLine(INDENT_1);
+                ImGui::Text("#%d", CurClipIdx);
+                ImGui::TextColored(HEADER_1, "FPS:");
+                ImGui::SameLine(INDENT_1);
+                ImGui::Text("%d", (int)pAnimator->GetFrameCount());
+                ImGui::TextColored(HEADER_1, u8"프레임범위:");
+                ImGui::SameLine(INDENT_1);
+                ImGui::Text("%d ~ %d", CurClip.iStartFrame);
+
+                ImGui::TextColored(HEADER_1, u8"프레임 길이:");
+                ImGui::SameLine(INDENT_1);
+                ImGui::Text("%d", CurClip.iFrameLength);
+
+                ImGui::TextColored(HEADER_1, u8"지속시간:");
+                ImGui::SameLine(INDENT_1);
+                ImGui::Text("%.3f ~ %.3f", CurClip.dStartTime, CurClip.dEndTime);
+
+                ImGui::TextColored(HEADER_1, u8"클립길이:");
+                ImGui::SameLine(INDENT_1);
+                ImGui::Text("%.3f", CurClip.dTimeLength);
+                ImGui::EndTabItem();
+            }
+            
+#pragma endregion
+#pragma region 임포트
+            if (ImGui::BeginTabItem(strImportTab.c_str(), 0, m_bMeshSaved ? 0 : ImGuiTabItemFlags_UnsavedDocument))
+            {
+                ImGui::Separator();
 
                 if (ImGui::Button(ICON_FA_FLOPPY_O))
                 {
                     Ptr<CMesh> pMesh = pTarget->Animator3D()->GetSkeletalMesh();
                     if (S_OK == pMesh->Save(pMesh->GetKey()))
                     {
-                        MessageBox(nullptr, L"Mesh 저장 성공!", L"Save Mesh", MB_ICONASTERISK);
+                        MessageBox(nullptr, L"Mesh 저장 성공!", L"Modot", MB_ICONASTERISK);
                         m_bMeshSaved = true;
                     }
                     else
                     {
-                        MessageBox(nullptr, L"Mesh 저장 실패!", L"Save Mesh", MB_ICONHAND);
+                        MessageBox(nullptr, L"Mesh 저장 실패!", L"Modot", MB_ICONHAND);
                     }
                 }
-                ImGui::PopStyleColor();
-                ImGui::PopStyleColor();
-                ImGui::PopStyleColor();
 
                 ImGui::SameLine();
-                if (ImGui::Button("Import Animation##ModelEditorDetails"))
+                if (ImGui::Button("Import FBX##ModelEditorDetails"))
                 {
                     std::vector<wstring> vec;
-                    FetchModelDialog(vec, m_RecentPath, { {L"FBX Files", L"*.fbx"} });
+                    ClientStatic::OpenFileDialog(vec, m_RecentPath, { {L"FBX", L"*.fbx"} });
 
                     for (wstring& strPath : vec)
                     {
@@ -237,7 +227,11 @@ void ModelEditor::Update()
                         }
                     }
                 }
+                ImGui::SetItemTooltip(u8"FBX 모델을 가져와\n메쉬데이터 추출");
+                ImGui::EndTabItem();
             }
+#pragma endregion
+            ImGui::EndTabBar();
         }
     }
     
@@ -268,6 +262,7 @@ void ModelEditor::Init()
     m_ModelEditorCam->Camera()->ClearLayerAll();
     m_ModelEditorCam->Camera()->SetLayer(21, true);
     m_ModelEditorCam->Camera()->SetFar(10000.f);
+    m_ModelEditorCam->Camera()->SetFOV(XM_PIDIV2);
     m_ModelEditorCam->Camera()->SetProjType(PERSPECTIVE);
     m_ModelEditorCam->Camera()->SetFrustumDebug(false);
 
@@ -294,7 +289,9 @@ void ModelEditor::Init()
     m_SkyBoxObj->SetName(L"ModelEditorSkyBox");
     m_SkyBoxObj->AddComponent(new CTransform);
     m_SkyBoxObj->AddComponent(new CSkyBox);
-
+    m_SkyBoxObj->SkyBox()->SetSkyBoxType(SKYBOX_TYPE::SPHERE);
+    m_SkyBoxObj->SkyBox()->SetSkyBoxTexture(CAssetMgr::GetInst()->Load<CTexture>(L"Sky01", L"texture\\Skybox\\Sky01.png"));
+    
     //========
     // 바닥
     //========
@@ -485,82 +482,5 @@ void ModelEditor::AcceptDragDrop()
             }
         }
         ImGui::EndDragDropTarget();
-    }
-}
-
-void ModelEditor::FetchModelDialog(std::vector<wstring>& _FilesName, const wstring& _RelativePath, const std::vector<std::pair<wstring, wstring>>& filter)
-{
-    WRL::ComPtr<IFileOpenDialog> pFileDialog;
-    HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, static_cast<void**>(&pFileDialog));
-    if (FAILED(hr))
-    {
-        EDITOR_ERROR("Failed to create FileOpenDialog instance");
-        return;
-    }
-
-    DWORD dwOptions;
-    hr = pFileDialog->GetOptions(&dwOptions);
-    if (SUCCEEDED(hr) && !(dwOptions & FOS_ALLOWMULTISELECT))
-    {
-        hr = pFileDialog->SetOptions(dwOptions | FOS_ALLOWMULTISELECT);
-    }
-
-    if (SUCCEEDED(hr))
-    {
-        wstring fullPath = CPathMgr::GetInst()->GetContentPath() + _RelativePath;
-        WRL::ComPtr<IShellItem> pInitialDirItem;
-        hr = SHCreateItemFromParsingName(fullPath.c_str(), NULL, IID_PPV_ARGS(&pInitialDirItem));
-        if (SUCCEEDED(hr))
-        {
-            pFileDialog->SetFolder(pInitialDirItem.Get());
-        }
-    }
-
-    std::vector<COMDLG_FILTERSPEC> fileTypes;
-    for (const auto& f : filter)
-    {
-        fileTypes.push_back({ f.first.c_str(), f.second.c_str() });
-    }
-    hr = pFileDialog->SetFileTypes(static_cast<UINT>(fileTypes.size()), fileTypes.data());
-    if (FAILED(hr))
-    {
-        EDITOR_ERROR("Failed to set file types");
-        return;
-    }
-
-    hr = pFileDialog->Show(NULL);
-    if (FAILED(hr))
-    {
-        if (hr != HRESULT_FROM_WIN32(ERROR_CANCELLED))
-        {
-            EDITOR_ERROR("Failed to open FileOpenDialog");
-        }
-        return;
-    }
-
-    WRL::ComPtr<IShellItemArray> pItems;
-    hr = pFileDialog->GetResults(&pItems);
-    if (SUCCEEDED(hr))
-    {
-        DWORD itemCount;
-        hr = pItems->GetCount(&itemCount);
-        if (SUCCEEDED(hr))
-        {
-            for (DWORD i = 0; i < itemCount; ++i)
-            {
-                WRL::ComPtr<IShellItem> pItem;
-                hr = pItems->GetItemAt(i, &pItem);
-                if (SUCCEEDED(hr))
-                {
-                    PWSTR pszFilePath;
-                    hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
-                    if (SUCCEEDED(hr))
-                    {
-                        _FilesName.emplace_back(pszFilePath);
-                        CoTaskMemFree(pszFilePath);
-                    }
-                }
-            }
-        }
     }
 }

@@ -24,13 +24,7 @@ public:
 
     void SetTargetObject(CGameObject* _Target);
 
-    void SetThemeMoonlight();
-    void SetThemeMicrosoft();
-    void SetThemeUnrealEngine();
-    void SetThemeFutureDark();
-    void SetThemeRedOni();
-    void SetThemeRedDuck();
-    void SetThemePurpleComfy();
+    void SetTheme();
 
     void EnableViewport(bool _b) { m_VPEnable = _b; }
     VIEWPORT_TYPE GetCurViewportType() const { return m_CurViewport; }

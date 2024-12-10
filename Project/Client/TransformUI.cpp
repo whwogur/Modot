@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "TransformUI.h"
 
-#include "ModotHelpers.h"
+#include "ClientStatic.h"
 #include <Engine/CGameObject.h>
 #include <Engine/CTransform.h>
 #include <Engine/CBoundingSphere.h>
@@ -36,9 +36,9 @@ void TransformUI::Update()
 		Vec3& vRot = pTrans->GetRelativeRotationRef();
 		vRot = (vRot / XM_PI) * 180.f;
 
-		ModotHelpers::DrawVec3Control("Position", vPos, 0.0f, 80.0f);
-		ModotHelpers::DrawVec3Control("Scale", vScale, 1.0f, 80.0f);
-		ModotHelpers::DrawVec3Control("Rotation", vRot, 0.0f, 80.0f);
+		ClientStatic::DrawVec3Control("Position", vPos, 0.0f, 80.0f);
+		ClientStatic::DrawVec3Control("Scale", vScale, 1.0f, 80.0f);
+		ClientStatic::DrawVec3Control("Rotation", vRot, 0.0f, 80.0f);
 
 		vRot = (vRot / 180.f) * XM_PI;
 

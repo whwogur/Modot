@@ -4,7 +4,7 @@
 #include <Engine/CLandscape.h>
 #include "ParamUI.h"
 #include <TreeUI.h>
-#include <ModotHelpers.h>
+#include <ClientStatic.h>
 constexpr const ImVec4 UICOLOR(0.05f, 0.2f, 0.45f, 1.f);
 LandscapeUI::LandscapeUI()
 	: ComponentUI(COMPONENT_TYPE::LANDSCAPE)
@@ -144,9 +144,9 @@ void LandscapeUI::BrushSettings(CLandscape* _Landscape)
 	}
 
 	auto& [x, y] = _Landscape->GetBrushScaleRef();
-	ModotHelpers::VSliderFloat("X##BrushScaleX", { 10.f, 60.f }, &x, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
+	ClientStatic::VSliderFloat("X##BrushScaleX", { 10.f, 60.f }, &x, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
 	ImGui::SetItemTooltip(u8"x 크기");
 	ImGui::SameLine();
-	ModotHelpers::VSliderFloat("Y##BrushScaleY", { 10.f, 60.f }, &y, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
+	ClientStatic::VSliderFloat("Y##BrushScaleY", { 10.f, 60.f }, &y, 0.02f, 0.3f, "%.3f", ImGuiSliderFlags_NoInput | ImGuiSliderFlags_AlwaysClamp);
 	ImGui::SetItemTooltip(u8"y 크기");
 }

@@ -5,7 +5,7 @@
 #include "FileBrowser.h"
 #include "TexturePreview.h"
 #include "MaterialEditor.h"
-#include <ModotHelpers.h>
+#include <ClientStatic.h>
 
 ToolBox::ToolBox()
 {

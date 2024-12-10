@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EditorViewport.h"
 #include "CAssetMgr.h"
-#include "ModotHelpers.h"
+#include "ClientStatic.h"
 #include "CEditorMgr.h"
 #include <Engine/CRenderMgr.h>
 
@@ -17,7 +17,7 @@ void EditorViewport::DrawLoadingAssetWindow()
 
         ImGui::SameLine(ImGui::GetContentRegionAvail().x / 2);
 
-        ModotHelpers::LoadingIndicatorCircle("##spinner", 30.f, { 0.5f, 0.8f, 1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, 10, 10.f);
+        ClientStatic::LoadingIndicatorCircle("##spinner", 30.f, { 0.5f, 0.8f, 1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, 10, 10.f);
 
         ImGui::End();
     }

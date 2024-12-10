@@ -19,7 +19,6 @@ private:
     void Assets();
     void External();
     void OutputInfo();
-    void EditorSettings();
 
     void LoadLevel();
     void SaveLevelAs();

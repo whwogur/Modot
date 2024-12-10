@@ -192,9 +192,10 @@ void HierarchyView::DropExtern(DWORD_PTR _ExternData, DWORD_PTR _DropNode)
 {
 	TreeNode* ContentNode = *((TreeNode**)_ExternData);
 	TreeNode* DropNode = (TreeNode*)_DropNode;
-	Ptr<CPrefab> pPrefab = (CPrefab*)DropNode->GetData();
-	if (pPrefab != nullptr)
+	Ptr<CAsset> pAsset = (CAsset*)DropNode->GetData();
+	if (ASSET_TYPE::PREFAB == pAsset->GetAssetType())
 	{
+		Ptr<CPrefab> pPrefab = (CPrefab*)DropNode->GetData();
 		CGameObject* pInstantiatedObj = pPrefab->Instantiate();
 		if (pInstantiatedObj != nullptr)
 		{
