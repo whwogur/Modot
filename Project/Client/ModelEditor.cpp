@@ -269,7 +269,7 @@ void ModelEditor::Init()
     m_ModelEditorCam->Camera()->SetProjType(PERSPECTIVE);
     m_ModelEditorCam->Camera()->SetFrustumDebug(false);
 
-    m_ModelEditorCam->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.f));
+    m_ModelEditorCam->Transform()->SetRelativePos(Vec3(400.f, 500.f, -400.f));
 
     // Light
     m_LightObj = new CGameObject;
@@ -303,7 +303,7 @@ void ModelEditor::Init()
     m_FloorObj->AddComponent(new CTransform);
     m_FloorObj->AddComponent(new CMeshRender);
 
-    m_FloorObj->Transform()->SetRelativePos(Vec3(0.f, -1000.f, 0.f));
+    m_FloorObj->Transform()->SetRelativePos(Vec3(0.f, -500.f, 0.f));
     m_FloorObj->Transform()->SetRelativeScale(Vec3(7777.f, 10.f, 7777.f));
 
     m_FloorObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"CubeMesh"));

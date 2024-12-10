@@ -31,6 +31,7 @@ public:
     UINT GetVertexCount() { return m_VtxCount; }
     UINT GetSubsetCount() { return (UINT)m_vecIdxInfo.size(); }
 
+    size_t GetClipCount() { return m_vecAnimClip.size(); }
     void* GetVtxSysMem() { return m_VtxSysMem; }
 
     const std::vector<tMTBone>* GetBones() { return &m_vecBones; }

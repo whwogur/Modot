@@ -104,7 +104,7 @@
       <Filter>08. Component\RenderComponent\TextRender</Filter>
     </ClInclude>
     <ClInclude Include="CAnimation.h">
-      <Filter>06. Asset\Animation</Filter>
+      <Filter>06. Asset\Animation2D</Filter>
     </ClInclude>
     <ClInclude Include="CPrefab.h">
       <Filter>06. Asset\Prefab</Filter>
@@ -293,7 +293,7 @@
       <Filter>08. Component\RenderComponent\TextRender</Filter>
     </ClCompile>
     <ClCompile Include="CAnimation.cpp">
-      <Filter>06. Asset\Animation</Filter>
+      <Filter>06. Asset\Animation2D</Filter>
     </ClCompile>
     <ClCompile Include="CPrefab.cpp">
       <Filter>06. Asset\Prefab</Filter>
@@ -480,9 +480,6 @@
     <Filter Include="06. Asset\Texture">
       <UniqueIdentifier>{d6f162aa-a841-45ef-bfdf-5d0c839c8d0a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06. Asset\Animation">
-      <UniqueIdentifier>{331a9fec-4f2e-403d-a6ab-7fe4c7bf4657}</UniqueIdentifier>
-    </Filter>
     <Filter Include="06. Asset\Prefab">
       <UniqueIdentifier>{fe88ad16-0092-40b5-9192-b41967fc1aa2}</UniqueIdentifier>
     </Filter>
@@ -626,6 +623,9 @@
     </Filter>
     <Filter Include="Shader\ComputeShader\Weightmap">
       <UniqueIdentifier>{0b360c43-c1e8-44ad-b63d-6d65f7be613d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Asset\Animation2D">
+      <UniqueIdentifier>{331a9fec-4f2e-403d-a6ab-7fe4c7bf4657}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

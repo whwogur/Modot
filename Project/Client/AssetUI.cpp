@@ -52,10 +52,10 @@ void AssetUI::OutputAssetName()
 	ImGui::NewLine();
 	ImGui::SeparatorText(u8"정보");
 	ImGui::NewLine();
-	ImGui::SameLine(60);
+	ImGui::SameLine(INDENT_2);
 
 	ImGui::TextColored(HEADER_1, u8"이름");
-	ImGui::SameLine(100);
+	ImGui::SameLine(INDENT_1);
 	ImGui::SetNextItemWidth(150.f);
 	ImGui::InputText("##AssetName", (char*)Name.c_str(), Name.length(), ImGuiInputTextFlags_ReadOnly);
 }

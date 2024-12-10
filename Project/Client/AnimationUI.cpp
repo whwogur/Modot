@@ -50,9 +50,9 @@ void AnimationUI::Update()
 
 	ImGui::NewLine();
 	ImGui::NewLine();
-	ImGui::SameLine(60);
+	ImGui::SameLine(INDENT_3);
 	ImGui::TextColored({0.2f, 0.56f, 0.77f, 1.0f}, u8"이름");
-	ImGui::SameLine(125);
+	ImGui::SameLine(INDENT_1);
 	ImGui::SetNextItemWidth(150.f);
 	if (ImGui::InputText("##AnimKey", m_AnimationName, sizeof(m_AnimationName), ImGuiInputTextFlags_EnterReturnsTrue))
 	{
@@ -64,16 +64,16 @@ void AnimationUI::Update()
 	}
 
 	ImGui::NewLine();
-	ImGui::SameLine(60);
+	ImGui::SameLine(INDENT_3);
 	ImGui::TextColored({ 0.2f, 0.56f, 0.77f, 1.0f }, u8"프레임수");
-	ImGui::SameLine(125);
+	ImGui::SameLine(INDENT_1);
 	ImGui::SetNextItemWidth(150.f);
 	ImGui::InputText("##AnimFrameCount", (char*)animFrameCount.c_str(), ImGuiInputTextFlags_ReadOnly);
 
 	ImGui::NewLine();
-	ImGui::SameLine(60);
+	ImGui::SameLine(INDENT_3);
 	ImGui::TextColored({ 0.2f, 0.56f, 0.77f, 1.0f }, u8"경로");
-	ImGui::SameLine(125);
+	ImGui::SameLine(INDENT_1);
 	ImGui::SetNextItemWidth(150.f);
 	ImGui::InputText("##AnimRelativePath", (char*)animRelativePath.c_str(), ImGuiInputTextFlags_ReadOnly);
 

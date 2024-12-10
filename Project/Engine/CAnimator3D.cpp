@@ -37,6 +37,9 @@ CAnimator3D::~CAnimator3D()
 
 	if (nullptr != m_pPrevBoneFinalMatBuffer)
 		delete m_pPrevBoneFinalMatBuffer;
+
+	if (nullptr != m_pBoneTransformMatBuffer)
+		delete m_pBoneTransformMatBuffer;
 }
 
 UINT CAnimator3D::GetClipIdx(const wstring& _ClipName)

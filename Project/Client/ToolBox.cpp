@@ -41,7 +41,7 @@ void ToolBox::Update()
 {
     ImVec4* colors = ImGui::GetStyle().Colors;
     ImGui::PushStyleColor(ImGuiCol_Tab, colors[ImGuiCol_ButtonHovered]);
-    ImGui::BeginTabBar("##ToolbarTab");
+    ImGui::BeginTabBar("##ToolbarTab", ImGuiTabBarFlags_Reorderable);
     for (UINT i = 0; i < (UINT)TOOL_TYPE::END; ++i)
     {
         if (ImGui::BeginTabItem(m_Tools[i]->GetName().c_str()))

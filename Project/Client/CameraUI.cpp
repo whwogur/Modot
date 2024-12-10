@@ -66,24 +66,24 @@ void CameraUI::Update()
 
         float Width = pCam->GetWidth();
         ImGui::Text("Width");
-        ImGui::SameLine(100);
+        ImGui::SameLine(INDENT_1);
         ImGui::InputFloat("##Width", &Width);
         pCam->SetWidth(Width);
 
         float Height = pCam->GetHeight();
         ImGui::Text("Height");
-        ImGui::SameLine(100);
+        ImGui::SameLine(INDENT_1);
         ImGui::InputFloat("##Height", &Height);
         pCam->SetHeight(Height);
 
         float AR = pCam->GetAspectRatio();
         ImGui::Text("AspectRatio");
-        ImGui::SameLine(100);
+        ImGui::SameLine(INDENT_1);
         ImGui::InputFloat("##AspectRatio", &AR, ImGuiInputTextFlags_::ImGuiInputTextFlags_ReadOnly);
 
         float Far = pCam->GetFar();
         ImGui::Text("Far");
-        ImGui::SameLine(100);
+        ImGui::SameLine(INDENT_1);
         ImGui::InputFloat("##Far", &Far);
         pCam->SetFar(Far);
 
@@ -94,14 +94,14 @@ void CameraUI::Update()
         bool IsPerspective = pCam->GetProjType() == PROJ_TYPE::PERSPECTIVE;
         ImGui::BeginDisabled(!IsPerspective);
         ImGui::Text("FOV");
-        ImGui::SameLine(100);
+        ImGui::SameLine(INDENT_1);
         ImGui::InputFloat("##FOV", &FOV);
         ImGui::EndDisabled();
 
         ImGui::BeginDisabled(IsPerspective);
         float Scale = pCam->GetScale();
         ImGui::Text("Scale");
-        ImGui::SameLine(100);
+        ImGui::SameLine(INDENT_1);
         if (ImGui::InputFloat("##Scale", &Scale, 0.5f, 0.5f, "%.1f", ImGuiInputTextFlags_EnterReturnsTrue))
         {
             pCam->SetScale(Scale);
@@ -110,7 +110,7 @@ void CameraUI::Update()
 
         int prior = pCam->GetPriority();
         ImGui::Text("Priority");
-        ImGui::SameLine(100);
+        ImGui::SameLine(INDENT_1);
         if (ImGui::InputInt("##Priority", &prior, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue))
         {
             pCam->SetPriority(prior);
@@ -179,7 +179,7 @@ void CameraUI::Projection()
     const char* combo_preview_value = items[Type];
 
     ImGui::Text("Projection");
-    ImGui::SameLine(100);
+    ImGui::SameLine(INDENT_1);
     ImGui::SetNextItemWidth(180);
 
     if (ImGui::BeginCombo("##ProjectionCombo", combo_preview_value))

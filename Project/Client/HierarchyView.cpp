@@ -81,7 +81,9 @@ void HierarchyView::Update()
 		string MeshName(wstrName.begin(), wstrName.end());
 
 		const map<wstring, Ptr<CAsset>>& mapMesh = CAssetMgr::GetInst()->GetAssets(ASSET_TYPE::MESH);
-
+		ImGui::TextColored(HEADER_2, u8"메쉬 선택");
+		ImGui::SameLine(INDENT_2);
+		ImGui::SetNextItemWidth(150);
 		if (ImGui::BeginCombo("##MeshSelect", MeshName.c_str()))
 		{
 			ImGui::Separator();
@@ -93,10 +95,20 @@ void HierarchyView::Update()
 				if (ImGui::Selectable(strName.c_str()))
 				{
 					pTarget->Animator3D()->SetSkeletalMesh((CMesh*)mesh.second.Get());
+					
+					if (!((CMesh*)mesh.second.Get())->IsAnimMesh())
+						EDITOR_WARN(u8"주의::애니메이션 메시 아님");
 				}
 			}
 			ImGui::EndCombo();
 		}
+
+		ImGui::NewLine();
+		int ClipCnt = static_cast<int>(pMesh->GetClipCount());
+		static string strClipCnt = std::to_string(ClipCnt);
+		ImGui::TextColored(HEADER_2, u8"클립 갯수");
+		ImGui::SameLine(INDENT_2);
+		ImGui::Text(strClipCnt.c_str());
 		break;
 	}
 	}
