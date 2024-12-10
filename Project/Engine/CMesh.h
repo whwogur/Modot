@@ -15,6 +15,7 @@ class CMesh :
     public CAsset
 {
 public:
+    friend class CAssetMgr;
     CMesh();
     ~CMesh();
 public:

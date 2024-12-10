@@ -30,8 +30,6 @@ Vec3 ExtractScale(const Matrix& _Mat);
 Vec3 ExtractRotation(const Matrix& _Mat);
 Vec3 ExtractPosition(const Matrix& _Mat);
 
-FbxAMatrix ConvertToFBXMatrix(Matrix& _Mat);
-
 template<typename T, int _Size>
 void Delete_Array(T(&_arr)[_Size])
 {

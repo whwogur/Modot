@@ -215,7 +215,7 @@ void MenuUI::OutputInfo()
 	// Info
 	float contentRegionAvailable = ImGui::GetContentRegionAvail().x;
 	LEVEL_STATE state = CLevelMgr::GetInst()->GetCurrentLevel()->GetState();
-	ImVec4 color;
+	ImVec4 color(1, 1, 1, 1);
 	UINT FPS = CTimeMgr::GetInst()->GetFPSRecord();
 	char buffer[30];
 	const char* iconFun = FPS > 500 ? ICON_FA_FIGHTER_JET :

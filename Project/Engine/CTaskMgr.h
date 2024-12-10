@@ -10,8 +10,7 @@ public:
 	void AddTask(const tTask& _Task);
 private:
 	void ClearGC();
-	void ExecuteTask();	
-
+	void ExecuteTask();
 private:
 	std::vector<tTask>			m_vecTask;
 	std::vector<CGameObject*>	m_GC;

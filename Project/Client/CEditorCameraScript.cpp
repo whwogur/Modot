@@ -147,12 +147,9 @@ void CEditorCameraScript::PerspectiveMove()
 		if (KEY_TAP(KEY::_7))
 		{
 			const Matrix& camWM = Transform()->GetWorldMat();
-			string temp("EditorCamera WorldMat:\n" + MatrixToString(camWM, 2));
+			string camName(GetName().begin(), GetName().end());
+			string temp(camName + "\n" + MatrixToString(camWM, 2));
 			EDITOR_TRACE(temp.c_str());
-
-			const Matrix& objWM = CLevelMgr::GetInst()->FindObjectByName(L"Monster")->Transform()->GetWorldMat();
-			string temp2("Monster WorldMat:\n" + MatrixToString(objWM, 2));
-			EDITOR_TRACE(temp2.c_str());
 		}
 	}
 }

@@ -16,7 +16,7 @@ void CAssetMgr::Init()
 
 	CreateEngineMaterial();
 
-	LoadSound();
+	LoadContents();
 }
 
 void CAssetMgr::CreateEngineMesh()
@@ -491,11 +491,6 @@ void CAssetMgr::CreateEngineMaterial()
 	pMtrl = new CMaterial(true);
 	pMtrl->SetShader(FindAsset<CGraphicShader>(L"LandScapeShader"));
 	AddAsset(L"LandScapeMtrl", pMtrl);
-}
-
-void CAssetMgr::LoadSound()
-{
-	
 }
 
 tPrimitiveInfo CAssetMgr::MakeCone(const float _Radius, const float _Height)

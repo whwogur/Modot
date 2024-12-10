@@ -224,6 +224,9 @@ void ModelEditor::Update()
                         // FBX ·Îµù
                         else
                         {
+                            m_RecentPath = filePath.lexically_relative(CPathMgr::GetInst()->GetContentPath()).parent_path();
+                            CAssetMgr::GetInst()->AsyncLoadFBX(m_ModelObj->Animator3D()->GetSkeletalMesh(),
+                                filePath.lexically_relative(CPathMgr::GetInst()->GetContentPath()));
                         }
                     }
                 }
@@ -300,12 +303,11 @@ void ModelEditor::Init()
     m_FloorObj->AddComponent(new CTransform);
     m_FloorObj->AddComponent(new CMeshRender);
 
-    m_FloorObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.f));
-    m_FloorObj->Transform()->SetRelativeScale(Vec3(1000.f, 10.f, 1000.f));
+    m_FloorObj->Transform()->SetRelativePos(Vec3(0.f, -1000.f, 0.f));
+    m_FloorObj->Transform()->SetRelativeScale(Vec3(7777.f, 10.f, 7777.f));
 
     m_FloorObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"CubeMesh"));
     m_FloorObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std3DMtrl"), 0);
-    //m_FloorObj->MeshRender()->GetDynamicMaterial(0)->SetMaterialCoefficient(Vec4(1.f, 1.f, 1.f, 1.f), Vec4(), Vec4(), Vec4());
     m_FloorObj->MeshRender()->SetFrustumCheck(false);
 
     //============
@@ -315,7 +317,7 @@ void ModelEditor::Init()
     m_ModelObj = pMeshData->Instantiate(); // TEST
     m_ModelObj->Transform()->SetRelativePos(Vec3(200.f, 0.f, 200.f));
     m_ModelObj->Transform()->SetRelativeScale(Vec3(1.f, 1.f, 1.f));
-    m_ModelObj->Transform()->SetRelativeRotation(Vec3(XM_PIDIV4, 0, XM_PIDIV4));
+    m_ModelObj->Transform()->SetRelativeRotation(Vec3(XM_PIDIV2, 0, XM_PI));
     
     CreateObject(m_ModelObj, LAYER_MODEL);
     CreateObject(m_FloorObj, LAYER_MODEL);

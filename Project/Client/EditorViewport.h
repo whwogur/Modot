@@ -12,7 +12,7 @@ enum class VIEWPORT_TYPE
 
 	END
 };
-
+class CTexture;
 class EditorViewport
 {
 public:
@@ -30,11 +30,11 @@ public:
 protected:
 	const Vec2& GetSize() { return m_Size; }
 	void SetSize(const Vec2& _Size) { m_Size = _Size; }
-	void DrawLoadingAssetWindow();
+	static void DrawLoadingAssetWindow();
 	void DrawViewportTransitionButtons();
 	void DrawRenderTarget();
 private:
-	CGameObject*	m_TargetObject = nullptr;
-	Vec2			m_Size = {};
+	CGameObject*			m_TargetObject = nullptr;
+	Vec2					m_Size = {};
 };
 

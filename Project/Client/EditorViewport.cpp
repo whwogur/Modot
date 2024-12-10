@@ -9,17 +9,58 @@ void EditorViewport::DrawLoadingAssetWindow()
 {
     if (CAssetMgr::GetInst()->IsAssetLoading())
     {
-        ImGui::Begin("Asset Loading", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoDocking);
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.02f, 0.02f, 0.02f, 0.f));
+        ImGui::Begin("Loading . . .", 0, ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoScrollbar);
 
+        // FPS 30
+        const float frameLength = 1.f / 30.f;
+        static float frameTimer = frameLength;
+
+        const int atlasRows = 10;
+        const int atlasCols = 10;
+        const int totalFrames = atlasRows * atlasCols;
+
+        static int currentFrame = 0;
+
+        // UV
+        float uvWidth = 1.0f / atlasCols;
+        float uvHeight = 1.0f / atlasRows;
+        int frameRow = currentFrame / atlasCols;
+        int frameCol = currentFrame % atlasCols;
+        float uv0_x = frameCol * uvWidth;
+        float uv0_y = frameRow * uvHeight;
+        float uv1_x = uv0_x + uvWidth;
+        float uv1_y = uv0_y + uvHeight;
+
+        ImGui::Image((ImTextureID)CAssetMgr::GetInst()->FindAsset<CTexture>(L"PepeCozy")->GetSRV().Get()
+            , ImVec2(500, 400), ImVec2(uv0_x, uv0_y), ImVec2(uv1_x, uv1_y), {1.f, 1.f, 1.f, 0.95f});
+
+        frameTimer -= ImGui::GetIO().DeltaTime;
+        if (frameTimer <= 0.f)
+        {
+            frameTimer = frameLength;
+            ++currentFrame;
+
+            if (currentFrame >= totalFrames)
+                currentFrame = 0;
+        }
+
+        // 현재 창의 크기와 시작 위치 가져오기
+        ImVec2 windowSize = ImGui::GetWindowSize();
+        ImVec2 contentRegionAvail = ImGui::GetContentRegionAvail();
+
+        // 콘텐츠 영역의 중앙 위치 계산
+        ImVec2 cursorPosInWindow(
+            (windowSize.x - contentRegionAvail.x) * 0.5f + contentRegionAvail.x * 0.5f,
+            (windowSize.y - contentRegionAvail.y) * 0.5f + contentRegionAvail.y * 0.5f
+        );
+
+        ImGui::SetCursorPos(cursorPosInWindow);
         const float prog = CAssetMgr::GetInst()->GetLoadingProgress();
-        const ImU32 spinnerCol = ImGui::GetColorU32(ImVec4{ 0.2f, 0.45f, 0.811f, 1.0f });
-        const ImU32 barCol = ImGui::GetColorU32(ImVec4{ 0.32f, 0.37f, 0.88f, 1.0f });
-
-        ImGui::SameLine(ImGui::GetContentRegionAvail().x / 2);
-
-        ClientStatic::LoadingIndicatorCircle("##spinner", 30.f, { 0.5f, 0.8f, 1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, 10, 10.f);
+        ClientStatic::LoadingIndicatorCircle("##spinner", 50.f, { 0.5f, 0.8f, 1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, 10, 10.f);
 
         ImGui::End();
+        ImGui::PopStyleColor(1);
     }
 }
 

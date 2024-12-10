@@ -33,6 +33,7 @@ public:
 	bool IsDirty() const { return m_Dirty; }
 
 	void AsyncReloadContents();
+	void AsyncLoadFBX(Ptr<CMesh> _Target, const wstring& _RelPath);
 	void LoadContents();
 	float GetLoadingProgress() { return m_CompletedThread / (float)m_listThreads.size(); }
 	bool IsAssetLoading() const { return m_listThreads.size() != m_CompletedThread; }
@@ -43,7 +44,6 @@ private:
 	void CreateEngineGraphicShader();
 	void CreateEngineComputeShader();
 	void DeleteAsset(ASSET_TYPE _Type, const wstring& _Key);
-	void LoadSound();
 
 private:
 	tPrimitiveInfo MakeCone(const float _Radius, const float _Height);
@@ -61,6 +61,7 @@ private:
 	void FindAssetName(const wstring& _FolderPath, const wstring& _Filter);
 	void LoadAsset(const path& _Path);
 	void AsyncReloadFunc();
+	void AsyncLoadFBXFunc(Ptr<CMesh> _Target, const wstring& _RelPath);
 	void ThreadRelease();
 private:
 	friend class CTaskMgr;

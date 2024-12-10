@@ -328,16 +328,3 @@ Vec3 ExtractPosition(const Matrix& _Mat)
 {
 	return { _Mat._41, _Mat._42, _Mat._43 };
 }
-
-FbxAMatrix ConvertToFBXMatrix(Matrix& _mat)
-{
-	FbxAMatrix mat;
-	for (int i = 0; i < 4; ++i)
-	{
-		for (int j = 0; j < 4; ++j)
-		{
-			mat[i][j] = _mat.m[i][j];
-		}
-	}
-	return mat;
-}

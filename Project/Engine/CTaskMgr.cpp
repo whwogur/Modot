@@ -15,15 +15,13 @@ CTaskMgr::~CTaskMgr()
 
 void CTaskMgr::Tick()
 {
-	MD_PROFILE_FUNCTION();
 	ClearGC();
-
 	ExecuteTask();
 }
 
 void CTaskMgr::AddTask(const tTask& _Task)
 {
-	m_vecTask.push_back(_Task);
+	m_vecTask.emplace_back(_Task);
 }
 
 void CTaskMgr::ClearGC()
