@@ -23,7 +23,7 @@ public:
     void EditorTrace(const string& _Log);
 
     void SetTargetObject(CGameObject* _Target);
-
+    void SetTargetObject(VIEWPORT_TYPE, CGameObject*);
     void SetTheme();
 
     void EnableViewport(bool _b) { m_VPEnable = _b; }
@@ -33,6 +33,8 @@ public:
         m_arrViewport[(UINT)_Type]->SetViewport(m_CurViewport);
         m_CurViewport = _Type;
     }
+    void ChangeViewport(VIEWPORT_TYPE _Type, CGameObject* _Target);
+    
     std::weak_ptr<EditorViewport> GetCurViewport() const { return m_arrViewport[(UINT)m_CurViewport]; }
     std::weak_ptr<EditorViewport> GetViewport(VIEWPORT_TYPE _Type) const { return m_arrViewport[(UINT)_Type]; }
 private:

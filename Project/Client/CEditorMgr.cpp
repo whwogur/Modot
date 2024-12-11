@@ -6,6 +6,8 @@
 #include <Engine/CEngine.h>
 #include <Engine/CDevice.h>
 #include <Engine/CPathMgr.h>
+#include <Engine/CLevelMgr.h>
+#include <Engine/CLevel.h>
 
 #include "CGameObjectEx.h"
 #include "Engine/components.h"
@@ -52,6 +54,21 @@ void CEditorMgr::Tick()
 	ObserveContents();
 }
 
+void CEditorMgr::ChangeViewport(VIEWPORT_TYPE _Type, CGameObject* _Target)
+{
+	CGameObject* ogObj = m_arrViewport[(UINT)_Type]->GetTargetObject();
+	int ogLayer = ogObj->GetLayerIdx();
+	int targetLayer = _Target->GetLayerIdx();
+
+	ogObj->DetachFromLayer();
+	_Target->DetachFromLayer();
+
+	CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(ogLayer, _Target, true);
+	CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(targetLayer, ogObj, true);
+
+	SetTargetObject(_Type, _Target);
+	ChangeViewport(_Type);
+}
 void CEditorMgr::CreateEditorObject()
 {
 	m_Logger = std::make_unique<EditorLogger>();

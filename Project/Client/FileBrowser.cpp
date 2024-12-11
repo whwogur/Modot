@@ -120,6 +120,11 @@ void FileBrowser::Update()
 				Refresh();
 			}
 
+			if (ImGui::MenuItem(u8"시스템으로 로딩"))
+			{
+
+			}
+
 			ImGui::EndPopup();
 		}
 

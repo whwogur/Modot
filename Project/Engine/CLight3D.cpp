@@ -44,7 +44,7 @@ void CLight3D::SetLightType(LIGHT_TYPE _Type)
 		m_Cam->Camera()->SetHeight(4096);
 		m_Cam->Camera()->SetLayerAll();
 		m_Cam->Camera()->SetLayer(31, false);
-		m_Cam->Camera()->SetScale(1.f);
+		m_Cam->Camera()->SetScale(0.001f);
 
 		//m_Cam->Camera()->SetFrustumDebug(false);
 		// 8192, 8192 해상도 ShadowMap 생성
@@ -83,7 +83,9 @@ void CLight3D::Render()
 	Transform()->Bind();
 	m_LightMtrl->SetScalarParam(SCALAR_PARAM::INT_0, m_LightIdx);
 
-	m_LightMtrl->SetScalarParam(SCALAR_PARAM::MAT_0, m_Cam->Camera()->GetcamViewRef() * m_Cam->Camera()->GetcamProjRef());
+	const Matrix& view = m_Cam->Camera()->GetcamViewRef();
+	const Matrix& proj = m_Cam->Camera()->GetcamProjRef();
+	m_LightMtrl->SetScalarParam(SCALAR_PARAM::MAT_0, view * proj);
 	m_LightMtrl->SetTexParam(TEX_PARAM::TEX_2, m_ShadowMapMRT->GetRT(0));
 	m_LightMtrl->Bind();
 	m_VolumeMesh->Render(0);
@@ -119,26 +121,26 @@ void CLight3D::FinalTick()
 	m_Info.WorldPos = Transform()->GetWorldPos();
 	m_Info.WorldDir = Transform()->GetWorldDir(DIR::FRONT);
 
-
 	// 광원의 위치설정
 	if (m_Info.Type == LIGHT_TYPE::DIRECTIONAL)
 	{
-		Transform()->SetRelativePos(-m_Info.WorldDir * 10000.f);
+		Transform()->SetRelativePos(m_Info.WorldDir * -10000.f);
 	}
+	else
+	{
+		// PointLight, SphereMesh, r = 0.5f
+		Transform()->SetRelativeScale(m_Info.Radius * 2.f, m_Info.Radius * 2.f, m_Info.Radius * 2.f);
+	}
+	// 자신을 RenderMgr 에 등록시킴
+	m_LightIdx = CRenderMgr::GetInst()->RegisterLight3D(this);
 
-	Transform()->SetRelativeScale(m_Info.Radius * 2.f, m_Info.Radius * 2.f, m_Info.Radius * 2.f);
-	m_LightIdx = (int)CRenderMgr::GetInst()->RegisterLight3D(this);
 	// DebugShape
 	if (m_Info.Type == LIGHT_TYPE::POINT)
 	{
 		DrawDebugSphere(Transform()->GetWorldMat(), Vec4(0.f, 1.f, 0.f, 1.f), 0.f, true);
 	}
-	else if (m_Info.Type == LIGHT_TYPE::SPOT)
-	{
-		Transform()->SetRelativeScale(Vec3(m_Info.Radius, m_Info.Radius, m_Info.Radius));
-		DrawDebugCone(Transform()->GetWorldMat(), Vec4(0.f, 1.f, 0.f, 1.f), 0.f, true);
-	}
 }
+
 void CLight3D::SaveToFile(FILE* _File)
 {
 	fwrite(&m_Info, sizeof(tLightInfo), 1, _File);

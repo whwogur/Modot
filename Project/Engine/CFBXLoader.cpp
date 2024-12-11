@@ -457,49 +457,34 @@ void CFBXLoader::LoadTexture()
 		create_directory(path_fbx_texture);
 	}
 
-	path path_origin;
-	path path_filename;
-	path path_dest;
-
 	for (UINT i = 0; i < m_vecContainer.size(); ++i)
 	{
 		for (UINT j = 0; j < m_vecContainer[i].vecMtrl.size(); ++j)
 		{
 			std::vector<path> vecPath;
-			vecPath.emplace_back(m_vecContainer[i].vecMtrl[j].strDiff.c_str());
-			vecPath.emplace_back(m_vecContainer[i].vecMtrl[j].strNormal.c_str());
-			vecPath.emplace_back(m_vecContainer[i].vecMtrl[j].strSpec.c_str());
-			vecPath.emplace_back(m_vecContainer[i].vecMtrl[j].strEmis.c_str());
+			vecPath.push_back(m_vecContainer[i].vecMtrl[j].strDiff.c_str());
+			vecPath.push_back(m_vecContainer[i].vecMtrl[j].strNormal.c_str());
+			vecPath.push_back(m_vecContainer[i].vecMtrl[j].strSpec.c_str());
+			vecPath.push_back(m_vecContainer[i].vecMtrl[j].strEmis.c_str());
 
 			for (size_t k = 0; k < vecPath.size(); ++k)
 			{
 				if (vecPath[k].filename().empty())
 					continue;
 
-				path_origin = vecPath[k];
-				path_filename = vecPath[k].filename();
-				path_dest = path_fbx_texture.wstring() + path_filename.wstring();
+				wstring TexturePath(path_fbx_texture.wstring() + vecPath[k].filename().wstring());
 
-				if (false == exists(path_dest))
-				{
-					copy(path_origin, path_dest);
-				}
-
-				path_dest = CPathMgr::GetInst()->GetRelativePath(path_dest);
-				wstring assetKey = path_dest.stem();
-				CAssetMgr::GetInst()->Load<CTexture>(assetKey, path_dest);
+				CAssetMgr::GetInst()->Load<CTexture>(vecPath[k].stem(), TexturePath);
 
 				switch (k)
 				{
-				case 0: m_vecContainer[i].vecMtrl[j].strDiff	= assetKey; break;
-				case 1: m_vecContainer[i].vecMtrl[j].strNormal	= assetKey; break;
-				case 2: m_vecContainer[i].vecMtrl[j].strSpec	= assetKey; break;
-				case 3: m_vecContainer[i].vecMtrl[j].strEmis	= assetKey; break;
+				case 0: m_vecContainer[i].vecMtrl[j].strDiff = vecPath[k].stem(); break;
+				case 1: m_vecContainer[i].vecMtrl[j].strNormal = vecPath[k].stem() ;break;
+				case 2: m_vecContainer[i].vecMtrl[j].strSpec = vecPath[k].stem() ;break;
+				case 3: m_vecContainer[i].vecMtrl[j].strEmis = vecPath[k].stem(); break;
 				}
 			}
 		}
-		path_origin = path_origin.parent_path();
-		remove_all(path_origin);
 	}
 }
 

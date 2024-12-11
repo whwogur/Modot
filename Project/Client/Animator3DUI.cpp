@@ -13,6 +13,17 @@ void Animator3DUI::Update()
 	Title();
 	if (!Collapsed())
 	{
-		
+		CAnimator3D* pAnimator = GetTargetObject()->Animator3D();
+		if (pAnimator != nullptr)
+		{
+			if (pAnimator->IsValid())
+			{
+				ImGui::NewLine();
+				if (ImGui::Button(u8"¸ðµ¨ ºä##ModelView"))
+				{
+					CEditorMgr::GetInst()->ChangeViewport(VIEWPORT_TYPE::MODEL, GetTargetObject());
+				}
+			}
+		}
 	}
 }

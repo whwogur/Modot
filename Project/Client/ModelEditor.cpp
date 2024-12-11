@@ -120,7 +120,7 @@ void ModelEditor::Update()
 
                 // Buttons
                 ImGui::NewLine();
-                ImGui::SameLine(ImGui::GetContentRegionAvail().x * 0.45f);
+                ImGui::SameLine(ImGui::GetContentRegionAvail().x * 0.43f);
                 bool bPlaying = pAnimator->IsPlayingAnim();
                 if (bPlaying)
                 {
@@ -158,7 +158,7 @@ void ModelEditor::Update()
                 ImGui::Text("%d", (int)pAnimator->GetFrameCount());
                 ImGui::TextColored(HEADER_1, u8"프레임범위:");
                 ImGui::SameLine(INDENT_1);
-                ImGui::Text("%d ~ %d", CurClip.iStartFrame);
+                ImGui::Text("%d ~ %d", CurClip.iStartFrame, CurClip.iEndFrame);
 
                 ImGui::TextColored(HEADER_1, u8"프레임 길이:");
                 ImGui::SameLine(INDENT_1);
@@ -166,7 +166,7 @@ void ModelEditor::Update()
 
                 ImGui::TextColored(HEADER_1, u8"지속시간:");
                 ImGui::SameLine(INDENT_1);
-                ImGui::Text("%.3f ~ %.3f", CurClip.dStartTime, CurClip.dEndTime);
+                ImGui::Text("%.3f` ~ %.3f`", CurClip.dStartTime, CurClip.dEndTime);
 
                 ImGui::TextColored(HEADER_1, u8"클립길이:");
                 ImGui::SameLine(INDENT_1);
@@ -247,7 +247,6 @@ void ModelEditor::SetViewport(VIEWPORT_TYPE _Type)
     EditorUI* hvTree = CEditorMgr::GetInst()->FindEditorUI("HierarchyView");
     if (hvTree != nullptr)
         hvTree->SetChildActive(false);
-    SetTargetObject(m_ModelObj);
 }
 
 void ModelEditor::Init()
@@ -313,7 +312,7 @@ void ModelEditor::Init()
     //============
     // 모델 오브젝트
     //============
-    Ptr<CMeshData> pMeshData = CAssetMgr::GetInst()->Load<CMeshData>(L"mn_vorc_00_ani", L"meshdata\\mn_vorc_00_ani.mdat");
+    Ptr<CMeshData> pMeshData = CAssetMgr::GetInst()->FindAsset<CMeshData>(L"mn_vorc_00_ani");
     m_ModelObj = pMeshData->Instantiate(); // TEST
     m_ModelObj->Transform()->SetRelativePos(Vec3(200.f, 0.f, 200.f));
     m_ModelObj->Transform()->SetRelativeScale(Vec3(1.f, 1.f, 1.f));
@@ -324,6 +323,7 @@ void ModelEditor::Init()
     CreateObject(m_SkyBoxObj, LAYER_MODEL);
     CreateObject(m_LightObj, LAYER_MODEL);
 
+    SetTargetObject(m_ModelObj);
     CRenderMgr::GetInst()->SetModelCam(m_ModelEditorCam->Camera());
 }
 

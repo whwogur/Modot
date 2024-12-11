@@ -220,3 +220,8 @@ void CEditorMgr::SetTargetObject(CGameObject* _Target)
 {
     m_arrViewport[(UINT)m_CurViewport]->SetTargetObject(_Target);
 }
+
+void CEditorMgr::SetTargetObject(VIEWPORT_TYPE _Type, CGameObject* _Target)
+{
+    m_arrViewport[(UINT)_Type]->SetTargetObject(_Target);
+}

@@ -2,6 +2,9 @@
 #include "TreeUI.h"
 #include <Engine/CGameObject.h>
 #include "HierarchyView.h"
+#include "CEditorMgr.h"
+#include <Engine/CAnimator3D.h>
+
 // ========
 // TreeNode
 // ========
@@ -48,14 +51,13 @@ void TreeNode::Update()
 
 	if (m_Owner->IsHierarchy())
 	{
+		CGameObject* targetObj = reinterpret_cast<CGameObject*>(m_Data);
 		if (m_vecChildNode.empty())
 		{
-			CGameObject* targetObj = reinterpret_cast<CGameObject*>(m_Data);
 			prefix = targetObj->IsDisabled() ? ICON_FA_EYE_SLASH"  " : prefix = ICON_FA_EYE"  ";
 		}
 		else
 		{
-			CGameObject* targetObj = reinterpret_cast<CGameObject*>(m_Data);
 			prefix = targetObj->IsDisabled() ? ICON_FA_EYE_SLASH"  " : prefix = ICON_FA_EYE"  ";
 		}
 	}
@@ -124,6 +126,16 @@ void TreeNode::Update()
 					CGameObject* targetObj = reinterpret_cast<CGameObject*>(m_Data);
 					reinterpret_cast<HierarchyView*>(m_Owner)->CopyGameObject(targetObj);
 
+					ImGui::CloseCurrentPopup();
+				}
+
+				if (ImGui::MenuItem(u8"¸ðµ¨ ºä"))
+				{
+					CGameObject* targetObj = reinterpret_cast<CGameObject*>(m_Data);
+					if (nullptr != targetObj->Animator3D() && targetObj->Animator3D()->IsValid())
+					{
+						CEditorMgr::GetInst()->ChangeViewport(VIEWPORT_TYPE::MODEL, targetObj);
+					}
 					ImGui::CloseCurrentPopup();
 				}
 			}

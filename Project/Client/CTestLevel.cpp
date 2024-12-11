@@ -68,27 +68,30 @@ void CTestLevel::CreateTestLevel()
 		
 		pLevel->AddObject(0, pObject);
 		
+		//Ptr<CMeshData> pMeshData = CAssetMgr::GetInst()->FindAsset<CMeshData>(L"mn_boag_00_ani");
+		
+		//CAssetMgr::GetInst()->LoadFBX(L"fbx\\mn_boag_00_ani.fbx");
 		//Ptr<CMeshData> pMeshData = nullptr;
 		//CGameObject* pObj = nullptr;
-		
-		//CAssetMgr::GetInst()->LoadFBX(L"fbx\\mn_vorc_00_ani.fbx");
-		//pMeshData = CAssetMgr::GetInst()->Load<CMeshData>(L"House", L"meshdata\\House.mdat");
-		//pObj = pMeshData->Instantiate();
-		//pObj->SetName(L"House");
+		//
+		////CAssetMgr::GetInst()->LoadFBX(L"fbx\\mn_vorc_00_ani.fbx");
+		////pMeshData = CAssetMgr::GetInst()->Load<CMeshData>(L"House", L"meshdata\\House.mdat");
+		//CGameObject* pObj = pMeshData->Instantiate();
+		////pObj->SetName(L"House");
 
-		//CAssetMgr::GetInst()->LoadFBX(L"fbx\\mn_vorc_00_ani.fbx");
+		////CAssetMgr::GetInst()->LoadFBX(L"fbx\\mn_vorc_00_ani.fbx");
 		//pMeshData = CAssetMgr::GetInst()->Load<CMeshData>(L"Dragon", L"meshdata\\Dragon.mdat");
-		//pObj = pMeshData->Instantiate();
-		//pObj->SetName(L"Dragon");
-		
-		//CAssetMgr::GetInst()->LoadFBX(L"fbx\\Monster.fbx");
+		////pObj = pMeshData->Instantiate();
+		////pObj->SetName(L"Dragon");
+		//
+		////CAssetMgr::GetInst()->LoadFBX(L"fbx\\Monster.fbx");
 		//pMeshData = CAssetMgr::GetInst()->Load<CMeshData>(L"Monster", L"meshdata\\Monster.mdat");
 		//pObj = pMeshData->Instantiate();
-		//pObj->SetName(L"Monster");
-		
+		////pObj->SetName(L"Monster");
+		////
 		//pObj->Transform()->SetRelativePos(Vec3(200.f, 0.f, 200.f));
 		//pObj->Transform()->SetRelativeScale(Vec3(5.f, 5.f, 5.f));
-		//
+		//////
 		//pLevel->AddObject(0, pObj);
 	}
 

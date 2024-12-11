@@ -49,9 +49,6 @@
     <Filter Include="Editor\EditorUI\Modal\ListUI">
       <UniqueIdentifier>{9e1fb6cc-172a-4e05-9310-7c822e2654ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor\EditorUI\Modal\FileBrowser">
-      <UniqueIdentifier>{096a4d61-abf6-4b31-a8d0-14470924ff5f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Editor\EditorUI\ComponentUI\Animator2D">
       <UniqueIdentifier>{dbc15f93-6def-4635-9198-3c177942cc1c}</UniqueIdentifier>
     </Filter>
@@ -175,6 +172,9 @@
     <Filter Include="Editor\Viewport\Level">
       <UniqueIdentifier>{a836382f-f364-46fb-8743-aed91b36c10b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\EditorUI\ToolBox\Tool\FileBrowser">
+      <UniqueIdentifier>{096a4d61-abf6-4b31-a8d0-14470924ff5f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -270,7 +270,7 @@
       <Filter>Editor\EditorUI\Modal\ListUI</Filter>
     </ClInclude>
     <ClInclude Include="FileBrowser.h">
-      <Filter>Editor\EditorUI\Modal\FileBrowser</Filter>
+      <Filter>Editor\EditorUI\ToolBox\Tool\FileBrowser</Filter>
     </ClInclude>
     <ClInclude Include="CollisionCheck.h">
       <Filter>Editor\EditorUI\ToolBox\Tool\Collision</Filter>
@@ -493,7 +493,7 @@
       <Filter>Editor\EditorUI\Modal\ListUI</Filter>
     </ClCompile>
     <ClCompile Include="FileBrowser.cpp">
-      <Filter>Editor\EditorUI\Modal\FileBrowser</Filter>
+      <Filter>Editor\EditorUI\ToolBox\Tool\FileBrowser</Filter>
     </ClCompile>
     <ClCompile Include="CollisionCheck.cpp">
       <Filter>Editor\EditorUI\ToolBox\Tool\Collision</Filter>

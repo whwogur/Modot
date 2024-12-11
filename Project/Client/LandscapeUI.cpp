@@ -94,8 +94,9 @@ void LandscapeUI::Update()
 				int weightIdx = pLandscape->GetWeightIdx();
 				for (int i = 0; i < WEIGHTCOUNT; ++i)
 				{
-					static string brushName = "##BrushPreview" + std::to_string(i);
-					if (ImGui::ImageButton(brushName.c_str(), (ImTextureID)m_WeightPalette[i]->GetSRV().Get(), {ICONSIZE, ICONSIZE}, {0, 0}, {1, 1}, ImVec4(0, 0, 0, 0), weightIdx == i ? UICOLOR : ImVec4(0.f, 0.f, 0.f, 0.f)))
+					const wstring& wName = m_WeightPalette[i]->GetKey();
+					string strName(wName.begin(), wName.end());
+					if (ImGui::ImageButton(strName.c_str(), (ImTextureID)m_WeightPalette[i]->GetSRV().Get(), {ICONSIZE, ICONSIZE}, {0, 0}, {1, 1}, ImVec4(0, 0, 0, 0), weightIdx == i ? UICOLOR : ImVec4(0.f, 0.f, 0.f, 0.f)))
 					{
 						pLandscape->SetWeightIdx(i);
 					}
@@ -134,8 +135,9 @@ void LandscapeUI::BrushSettings(CLandscape* _Landscape)
 	UINT brushIdx = _Landscape->GetBrushIdx();
 	for (int i = 0; i < BRUSHCOUNT; ++i)
 	{
-		static string paletteName = "##PalettePreview" + std::to_string(i);
-		if (ImGui::ImageButton(paletteName.c_str(), (ImTextureID)m_BrushPalette[i]->GetSRV().Get(), {ICONSIZE, ICONSIZE}, {0, 0}, {1, 1}, ImVec4(0, 0, 0, 0), brushIdx == i ? UICOLOR : ImVec4(0.f, 0.f, 0.f, 0.f)))
+		const wstring& wName = m_BrushPalette[i]->GetKey();
+		string strName(wName.begin(), wName.end());
+		if (ImGui::ImageButton(strName.c_str(), (ImTextureID)m_BrushPalette[i]->GetSRV().Get(), {ICONSIZE, ICONSIZE}, {0, 0}, {1, 1}, ImVec4(0, 0, 0, 0), brushIdx == i ? UICOLOR : ImVec4(0.f, 0.f, 0.f, 0.f)))
 		{
 			_Landscape->SetBrushIdx(i);
 		}
