@@ -84,6 +84,7 @@ struct tLightInfo
 		, ConeOuter(outer)
 		, ConeInner(inner)
 		, Falloff(falloff)
+		, Padding{0,}
 	{}
 
 	tLight		light;		// 광원 색상정보

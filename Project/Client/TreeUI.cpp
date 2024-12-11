@@ -132,7 +132,7 @@ void TreeNode::Update()
 				if (ImGui::MenuItem(u8"¸ðµ¨ ºä"))
 				{
 					CGameObject* targetObj = reinterpret_cast<CGameObject*>(m_Data);
-					if (nullptr != targetObj->Animator3D() && targetObj->Animator3D()->IsValid())
+					if (nullptr != targetObj->Animator3D() && nullptr != targetObj->Animator3D()->GetCurClip())
 					{
 						CEditorMgr::GetInst()->ChangeViewport(VIEWPORT_TYPE::MODEL, targetObj);
 					}

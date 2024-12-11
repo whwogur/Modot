@@ -7,10 +7,9 @@ class CCopyBoneCS :
 {
 public:
     CCopyBoneCS();
-    ~CCopyBoneCS();
-
+    ~CCopyBoneCS() = default;
 public:
-    // g_int_0 : BoneCount
+    // g_int_0 : BonCount
     void SetBoneCount(UINT _iBoneCount) { m_Const.iArr[0] = _iBoneCount; }
     // g_int_1 : RowIndex	
     void SetRowIndex(UINT _iRowIdx) { m_Const.iArr[1] = _iRowIdx; }
@@ -21,9 +20,8 @@ public:
     virtual int Bind() override;
     virtual void CalcGroupNum() override;
     virtual void Clear() override;
-
 private:
-    CStructuredBuffer*      m_SrcBuffer = nullptr;
-    CStructuredBuffer*      m_DestBuffer = nullptr;
+    CStructuredBuffer* m_SrcBuffer;
+    CStructuredBuffer* m_DestBuffer;
 };
 

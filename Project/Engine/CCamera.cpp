@@ -239,11 +239,10 @@ void CCamera::RenderDeferred()
 					= m_mapSingleObj.find((INT_PTR)pair.second[i].pObj);
 
 				if (iter != m_mapSingleObj.end())
-					iter->second.emplace_back(pair.second[i]);
+					iter->second.push_back(pair.second[i]);
 				else
 				{
-					m_mapSingleObj.emplace((INT_PTR)pair.second[i].pObj, std::vector<tInstObj>{pair.second[i]});
-					
+					m_mapSingleObj.insert(make_pair((INT_PTR)pair.second[i].pObj, std::vector<tInstObj>{pair.second[i]}));
 				}
 			}
 			continue;
@@ -268,8 +267,7 @@ void CCamera::RenderDeferred()
 			{
 				pair.second[i].pObj->Animator3D()->Bind();
 				tInstData.iRowIdx = iRowIdx++;
-				CInstancingBuffer::GetInst()->AddInstancingBoneMat(pair.second[i].pObj->Animator3D()->GetFinalBoneMat(), 
-					pair.second[i].pObj->Animator3D()->GetPrevFinalBoneMat());
+				CInstancingBuffer::GetInst()->AddInstancingBoneMat(pair.second[i].pObj->Animator3D()->GetFinalBoneMat());
 				bHasAnim3D = true;
 			}
 			else
@@ -283,17 +281,17 @@ void CCamera::RenderDeferred()
 
 		if (bHasAnim3D)
 		{
-			pMtrl->SetUsingAnim3D(true); // Animation Mesh 알리기
+			pMtrl->SetUsingAnim3D(1); // Animation Mesh 알리기
 			pMtrl->SetBoneCount(pMesh->GetBoneCount());
 		}
 
 		pMtrl->BindInstance();
-		pMesh->RenderInstance(pair.second[0].iMtrlIdx);
+		pMesh->Render_Instancing(pair.second[0].iMtrlIdx);
 
 		// 정리
 		if (bHasAnim3D)
 		{
-			pMtrl->SetUsingAnim3D(false); // Animation Mesh 알리기
+			pMtrl->SetUsingAnim3D(0); // Animation Mesh 알리기
 			pMtrl->SetBoneCount(0);
 		}
 	}
@@ -360,7 +358,6 @@ void CCamera::RenderForward()
 				else
 				{
 					m_mapSingleObj.emplace((INT_PTR)pair.second[i].pObj, std::vector<tInstObj>{pair.second[i]});
-
 				}
 			}
 			continue;
@@ -385,8 +382,7 @@ void CCamera::RenderForward()
 			{
 				pair.second[i].pObj->Animator3D()->Bind();
 				tInstData.iRowIdx = iRowIdx++;
-				CInstancingBuffer::GetInst()->AddInstancingBoneMat(pair.second[i].pObj->Animator3D()->GetFinalBoneMat(),
-					pair.second[i].pObj->Animator3D()->GetPrevFinalBoneMat());
+				CInstancingBuffer::GetInst()->AddInstancingBoneMat(pair.second[i].pObj->Animator3D()->GetFinalBoneMat());
 				bHasAnim3D = true;
 			}
 			else
@@ -405,7 +401,7 @@ void CCamera::RenderForward()
 		}
 
 		pMtrl->BindInstance();
-		pMesh->RenderInstance(pair.second[0].iMtrlIdx);
+		pMesh->Render_Instancing(pair.second[0].iMtrlIdx);
 
 		// 정리
 		if (bHasAnim3D)

@@ -4,34 +4,31 @@
 #include "CAssetMgr.h"
 
 CInstancingBuffer::CInstancingBuffer()
+	: m_MaxCount(10)
+	, m_AnimInstCount(0)
+	, m_BoneBuffer(nullptr)
 {
 	m_BoneBuffer = new CStructuredBuffer;
-	m_PrevBoneBuffer = new CStructuredBuffer;
 }
 
 CInstancingBuffer::~CInstancingBuffer()
 {
 	if (nullptr != m_BoneBuffer)
 		delete m_BoneBuffer;
-
-	if (nullptr != m_PrevBoneBuffer)
-		delete m_PrevBoneBuffer;
 }
 
 void CInstancingBuffer::Init()
 {
 	D3D11_BUFFER_DESC tDesc = {};
+
 	tDesc.ByteWidth = sizeof(tInstancingData) * m_MaxCount;
 	tDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	tDesc.Usage = D3D11_USAGE_DYNAMIC;
 	tDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateBuffer(&tDesc, NULL, &m_InstancingBuffer)), L"InstancingBuffer::Init 중 버퍼 생성 실패!");
-	
-	m_CopyShader = (CCopyBoneCS*)CAssetMgr::GetInst()->FindAsset<CComputeShader>(L"CopyBoneCS").Get();
+	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateBuffer(&tDesc, NULL, &m_InstancingBuffer)), L"인스턴싱 버퍼 생성 실패!");
 
-	if (m_CopyShader == nullptr)
-		m_CopyShader = new CCopyBoneCS;
+	m_CopyShader = new CCopyBoneCS;
 }
 
 void CInstancingBuffer::SetData()
@@ -56,9 +53,6 @@ void CInstancingBuffer::SetData()
 	{
 		m_BoneBuffer->Create(m_vecBoneMat[0]->GetElementSize()
 			, m_vecBoneMat[0]->GetElementCount() * (UINT)m_vecBoneMat.size(), SB_TYPE::SRV_UAV, false, nullptr);
-
-		m_PrevBoneBuffer->Create(m_vecPrevBoneMat[0]->GetElementSize(), m_vecPrevBoneMat[0]->GetElementCount() * (UINT)m_vecPrevBoneMat.size(),
-			SB_TYPE::SRV_UAV, false, nullptr);
 	}
 
 	// 복사용 컴퓨트 쉐이더 실행
@@ -70,23 +64,16 @@ void CInstancingBuffer::SetData()
 		m_CopyShader->SetSourceBuffer(m_vecBoneMat[i]);
 		m_CopyShader->SetDestBuffer(m_BoneBuffer);
 		m_CopyShader->Execute();
-
-		// Prev Bone
-		m_CopyShader->SetSourceBuffer(m_vecPrevBoneMat[i]);
-		m_CopyShader->SetDestBuffer(m_PrevBoneBuffer);
-		m_CopyShader->Execute();
 	}
 
 	// Bone 정보 전달 레지스터
 	m_BoneBuffer->Bind(17);
-	m_PrevBoneBuffer->Bind(19);
 }
 
-void CInstancingBuffer::AddInstancingBoneMat(CStructuredBuffer* _pBuffer, CStructuredBuffer* _pPrevBuffer)
+void CInstancingBuffer::AddInstancingBoneMat(CStructuredBuffer* _pBuffer)
 {
 	++m_AnimInstCount;
 	m_vecBoneMat.push_back(_pBuffer);
-	m_vecPrevBoneMat.push_back(_pPrevBuffer);
 }
 
 void CInstancingBuffer::Resize(UINT _iCount)
@@ -102,5 +89,5 @@ void CInstancingBuffer::Resize(UINT _iCount)
 	tDesc.Usage = D3D11_USAGE_DYNAMIC;
 	tDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateBuffer(&tDesc, NULL, &m_InstancingBuffer)), L"인스턴싱 버퍼 Resize 중 생성 실패!");
+	MD_ENGINE_ASSERT(SUCCEEDED(DEVICE->CreateBuffer(&tDesc, NULL, &m_InstancingBuffer)), L"인스턴싱 버퍼 Resize 도중 생성 실패!");
 }

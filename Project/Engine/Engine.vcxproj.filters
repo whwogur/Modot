@@ -34,9 +34,6 @@
     <ClInclude Include="enum.h">
       <Filter>01. Header</Filter>
     </ClInclude>
-    <ClInclude Include="CShader.h">
-      <Filter>06. Asset\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="CMesh.h">
       <Filter>06. Asset\Mesh</Filter>
     </ClInclude>
@@ -69,15 +66,6 @@
     </ClInclude>
     <ClInclude Include="CMaterial.h">
       <Filter>06. Asset\Material</Filter>
-    </ClInclude>
-    <ClInclude Include="CGraphicShader.h">
-      <Filter>06. Asset\Shader\GraphicShader</Filter>
-    </ClInclude>
-    <ClInclude Include="CComputeShader.h">
-      <Filter>06. Asset\Shader\ComputeShader</Filter>
-    </ClInclude>
-    <ClInclude Include="CParticleTickCS.h">
-      <Filter>06. Asset\Shader\ComputeShader\ParticleTick</Filter>
     </ClInclude>
     <ClInclude Include="Instrumentor.h">
       <Filter>Module</Filter>
@@ -184,29 +172,14 @@
     <ClInclude Include="CLandscape.h">
       <Filter>08. Component\RenderComponent\Landscape</Filter>
     </ClInclude>
-    <ClInclude Include="CHeightmapCS.h">
-      <Filter>06. Asset\Shader\ComputeShader\Heightmap</Filter>
-    </ClInclude>
-    <ClInclude Include="CRaycastCS.h">
-      <Filter>06. Asset\Shader\ComputeShader\Raycast</Filter>
-    </ClInclude>
-    <ClInclude Include="CWeightMapCS.h">
-      <Filter>06. Asset\Shader\ComputeShader\Weightmap</Filter>
-    </ClInclude>
     <ClInclude Include="CFBXLoader.h">
       <Filter>04. Manager\FBXLoader</Filter>
     </ClInclude>
     <ClInclude Include="CMeshData.h">
       <Filter>06. Asset\MeshData</Filter>
     </ClInclude>
-    <ClInclude Include="CAnimation3DShader.h">
-      <Filter>06. Asset\Shader\ComputeShader\Animation3D</Filter>
-    </ClInclude>
     <ClInclude Include="CAnimator3D.h">
       <Filter>08. Component\Animator3D</Filter>
-    </ClInclude>
-    <ClInclude Include="CCopyBoneCS.h">
-      <Filter>06. Asset\Shader\ComputeShader\CopyBones</Filter>
     </ClInclude>
     <ClInclude Include="CConstBuffer.h">
       <Filter>03. Device\Buffer\ConstantBuffer</Filter>
@@ -216,6 +189,33 @@
     </ClInclude>
     <ClInclude Include="CInstancingBuffer.h">
       <Filter>03. Device\Buffer\InstancingBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="CComputeShader.h">
+      <Filter>HLSL\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="CWeightMapCS.h">
+      <Filter>HLSL\ComputeShader\Weightmap</Filter>
+    </ClInclude>
+    <ClInclude Include="CRaycastCS.h">
+      <Filter>HLSL\ComputeShader\Raycast</Filter>
+    </ClInclude>
+    <ClInclude Include="CParticleTickCS.h">
+      <Filter>HLSL\ComputeShader\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimation3DShader.h">
+      <Filter>HLSL\ComputeShader\Animation3D\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="CCopyBoneCS.h">
+      <Filter>HLSL\ComputeShader\Animation3D\CopyBones</Filter>
+    </ClInclude>
+    <ClInclude Include="CHeightmapCS.h">
+      <Filter>HLSL\ComputeShader\Heightmap</Filter>
+    </ClInclude>
+    <ClInclude Include="CGraphicShader.h">
+      <Filter>HLSL\GraphicShader</Filter>
+    </ClInclude>
+    <ClInclude Include="CShader.h">
+      <Filter>HLSL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -233,9 +233,6 @@
     </ClCompile>
     <ClCompile Include="CAsset.cpp">
       <Filter>06. Asset</Filter>
-    </ClCompile>
-    <ClCompile Include="CShader.cpp">
-      <Filter>06. Asset\Shader</Filter>
     </ClCompile>
     <ClCompile Include="CMesh.cpp">
       <Filter>06. Asset\Mesh</Filter>
@@ -261,15 +258,6 @@
     </ClCompile>
     <ClCompile Include="func.cpp">
       <Filter>01. Header</Filter>
-    </ClCompile>
-    <ClCompile Include="CGraphicShader.cpp">
-      <Filter>06. Asset\Shader\GraphicShader</Filter>
-    </ClCompile>
-    <ClCompile Include="CComputeShader.cpp">
-      <Filter>06. Asset\Shader\ComputeShader</Filter>
-    </ClCompile>
-    <ClCompile Include="CParticleTickCS.cpp">
-      <Filter>06. Asset\Shader\ComputeShader\ParticleTick</Filter>
     </ClCompile>
     <ClCompile Include="CSound.cpp">
       <Filter>06. Asset\Sound</Filter>
@@ -382,29 +370,14 @@
     <ClCompile Include="CLandscape_Init.cpp">
       <Filter>08. Component\RenderComponent\Landscape</Filter>
     </ClCompile>
-    <ClCompile Include="CHeightmapCS.cpp">
-      <Filter>06. Asset\Shader\ComputeShader\Heightmap</Filter>
-    </ClCompile>
-    <ClCompile Include="CRaycastCS.cpp">
-      <Filter>06. Asset\Shader\ComputeShader\Raycast</Filter>
-    </ClCompile>
-    <ClCompile Include="CWeightMapCS.cpp">
-      <Filter>06. Asset\Shader\ComputeShader\Weightmap</Filter>
-    </ClCompile>
     <ClCompile Include="CFBXLoader.cpp">
       <Filter>04. Manager\FBXLoader</Filter>
     </ClCompile>
     <ClCompile Include="CMeshData.cpp">
       <Filter>06. Asset\MeshData</Filter>
     </ClCompile>
-    <ClCompile Include="CAnimation3DShader.cpp">
-      <Filter>06. Asset\Shader\ComputeShader\Animation3D</Filter>
-    </ClCompile>
     <ClCompile Include="CAnimator3D.cpp">
       <Filter>08. Component\Animator3D</Filter>
-    </ClCompile>
-    <ClCompile Include="CCopyBoneCS.cpp">
-      <Filter>06. Asset\Shader\ComputeShader\CopyBones</Filter>
     </ClCompile>
     <ClCompile Include="CConstBuffer.cpp">
       <Filter>03. Device\Buffer\ConstantBuffer</Filter>
@@ -414,6 +387,33 @@
     </ClCompile>
     <ClCompile Include="CInstancingBuffer.cpp">
       <Filter>03. Device\Buffer\InstancingBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="CComputeShader.cpp">
+      <Filter>HLSL\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="CWeightMapCS.cpp">
+      <Filter>HLSL\ComputeShader\Weightmap</Filter>
+    </ClCompile>
+    <ClCompile Include="CRaycastCS.cpp">
+      <Filter>HLSL\ComputeShader\Raycast</Filter>
+    </ClCompile>
+    <ClCompile Include="CParticleTickCS.cpp">
+      <Filter>HLSL\ComputeShader\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimation3DShader.cpp">
+      <Filter>HLSL\ComputeShader\Animation3D\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="CCopyBoneCS.cpp">
+      <Filter>HLSL\ComputeShader\Animation3D\CopyBones</Filter>
+    </ClCompile>
+    <ClCompile Include="CHeightmapCS.cpp">
+      <Filter>HLSL\ComputeShader\Heightmap</Filter>
+    </ClCompile>
+    <ClCompile Include="CGraphicShader.cpp">
+      <Filter>HLSL\GraphicShader</Filter>
+    </ClCompile>
+    <ClCompile Include="CShader.cpp">
+      <Filter>HLSL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -435,9 +435,6 @@
     <Filter Include="04. Manager">
       <UniqueIdentifier>{3c07900d-fa40-4f84-96e9-7eaabbbcef02}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shader">
-      <UniqueIdentifier>{2f103e03-edd5-4222-a648-4711c379c3f1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="05. Level">
       <UniqueIdentifier>{794d43a7-508c-4996-9266-05ff5ffdc18f}</UniqueIdentifier>
     </Filter>
@@ -447,32 +444,14 @@
     <Filter Include="06. Asset">
       <UniqueIdentifier>{a1caed79-31f7-4d87-b223-e662bb1c6e37}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06. Asset\Shader">
-      <UniqueIdentifier>{282c8023-2010-4afc-ab45-150e3e7ff0bd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="06. Asset\Mesh">
       <UniqueIdentifier>{f1afad9d-bf6c-4dc5-b252-234c9a0abc0b}</UniqueIdentifier>
     </Filter>
     <Filter Include="06. Asset\Material">
       <UniqueIdentifier>{7a1eec37-53aa-4ce5-9f89-9ac5397a0eb7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06. Asset\Shader\ComputeShader">
-      <UniqueIdentifier>{c3321f60-55dd-4560-a293-cf05dcab013e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06. Asset\Shader\GraphicShader">
-      <UniqueIdentifier>{7884fe33-d4b6-43c5-90ef-d49890f95e5c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\ComputeShader">
-      <UniqueIdentifier>{2299563f-7fa6-4171-953c-31985ab0c470}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\GraphicShader">
-      <UniqueIdentifier>{c2c85a06-967e-4e02-b9e3-27fe86af04bb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Device\Buffer">
       <UniqueIdentifier>{c7bd599f-f4ee-452b-a2b1-28f34191b34c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06. Asset\Shader\ComputeShader\ParticleTick">
-      <UniqueIdentifier>{30221452-0f10-43c6-bde5-bd2f57e19f0f}</UniqueIdentifier>
     </Filter>
     <Filter Include="06. Asset\Sound">
       <UniqueIdentifier>{c8e67bea-acdd-4d3b-993e-8c4b4ffd19e5}</UniqueIdentifier>
@@ -519,23 +498,11 @@
     <Filter Include="05. Level\Layer">
       <UniqueIdentifier>{2ef89d13-1eec-45b0-96b0-daffb5bed09d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06. Asset\Shader\ComputeShader\Heightmap">
-      <UniqueIdentifier>{f7145fba-482d-486a-b9ba-6b93e1c78a49}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06. Asset\Shader\ComputeShader\Raycast">
-      <UniqueIdentifier>{f7a0c0ec-242f-4a30-846f-ace0003d28a5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06. Asset\Shader\ComputeShader\Weightmap">
-      <UniqueIdentifier>{adb7d14d-18e7-4081-a14c-2e254f3f2460}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. Manager\FBXLoader">
       <UniqueIdentifier>{08c2dcbd-5601-45f1-b98a-23f7a55a2af7}</UniqueIdentifier>
     </Filter>
     <Filter Include="06. Asset\MeshData">
       <UniqueIdentifier>{98be0b3d-71de-427b-89e9-70b112fa48ea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06. Asset\Shader\ComputeShader\Animation3D">
-      <UniqueIdentifier>{8f21b8a3-5451-4286-a77a-727ab5c7bc5d}</UniqueIdentifier>
     </Filter>
     <Filter Include="08. Component">
       <UniqueIdentifier>{5ebb3e06-804f-4b56-b031-eaecfd721cb8}</UniqueIdentifier>
@@ -597,9 +564,6 @@
     <Filter Include="08. Component\Animator3D">
       <UniqueIdentifier>{d431c078-6b18-4e8d-8d49-c67c5744d499}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06. Asset\Shader\ComputeShader\CopyBones">
-      <UniqueIdentifier>{e398b230-71a1-45fd-b4d6-618615d9129f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Device\Buffer\ConstantBuffer">
       <UniqueIdentifier>{dacf31a5-5c44-4140-93c5-3ef64d547875}</UniqueIdentifier>
     </Filter>
@@ -609,23 +573,38 @@
     <Filter Include="03. Device\Buffer\InstancingBuffer">
       <UniqueIdentifier>{34f34e57-2180-4221-9883-28af94d02d94}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shader\ComputeShader\Animation">
-      <UniqueIdentifier>{ef34fc95-3596-4e21-86f5-f9f9db8e94a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\ComputeShader\Heightmap">
-      <UniqueIdentifier>{7057deef-bf8d-4338-bfed-b23a9f75c209}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\ComputeShader\Particle">
-      <UniqueIdentifier>{c8a3432b-bb69-41bb-afd8-5c33d7603091}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\ComputeShader\Raycast">
-      <UniqueIdentifier>{7eef9055-68c2-4488-b936-abba4342f82c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\ComputeShader\Weightmap">
-      <UniqueIdentifier>{0b360c43-c1e8-44ad-b63d-6d65f7be613d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="06. Asset\Animation2D">
       <UniqueIdentifier>{331a9fec-4f2e-403d-a6ab-7fe4c7bf4657}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL">
+      <UniqueIdentifier>{2f103e03-edd5-4222-a648-4711c379c3f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\ComputeShader">
+      <UniqueIdentifier>{2299563f-7fa6-4171-953c-31985ab0c470}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\ComputeShader\Heightmap">
+      <UniqueIdentifier>{7057deef-bf8d-4338-bfed-b23a9f75c209}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\ComputeShader\Particle">
+      <UniqueIdentifier>{c8a3432b-bb69-41bb-afd8-5c33d7603091}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\ComputeShader\Raycast">
+      <UniqueIdentifier>{7eef9055-68c2-4488-b936-abba4342f82c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\ComputeShader\Weightmap">
+      <UniqueIdentifier>{0b360c43-c1e8-44ad-b63d-6d65f7be613d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\GraphicShader">
+      <UniqueIdentifier>{c2c85a06-967e-4e02-b9e3-27fe86af04bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\ComputeShader\Animation3D">
+      <UniqueIdentifier>{ef34fc95-3596-4e21-86f5-f9f9db8e94a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\ComputeShader\Animation3D\CopyBones">
+      <UniqueIdentifier>{b86f274c-4bba-4967-8efa-a117f4237bb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\ComputeShader\Animation3D\Animation">
+      <UniqueIdentifier>{0e22dd4f-a51f-4864-badc-f681ac8e98f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -635,73 +614,73 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="value.fx">
-      <Filter>Shader</Filter>
+      <Filter>HLSL</Filter>
     </FxCompile>
     <FxCompile Include="struct.fx">
-      <Filter>Shader</Filter>
+      <Filter>HLSL</Filter>
     </FxCompile>
     <FxCompile Include="tilemap.fx">
-      <Filter>Shader\GraphicShader</Filter>
+      <Filter>HLSL\GraphicShader</Filter>
     </FxCompile>
     <FxCompile Include="std2d.fx">
-      <Filter>Shader\GraphicShader</Filter>
+      <Filter>HLSL\GraphicShader</Filter>
     </FxCompile>
     <FxCompile Include="postprocess.fx">
-      <Filter>Shader\GraphicShader</Filter>
+      <Filter>HLSL\GraphicShader</Filter>
     </FxCompile>
     <FxCompile Include="myFX.fx">
-      <Filter>Shader\GraphicShader</Filter>
+      <Filter>HLSL\GraphicShader</Filter>
     </FxCompile>
     <FxCompile Include="debug.fx">
-      <Filter>Shader\GraphicShader</Filter>
+      <Filter>HLSL\GraphicShader</Filter>
     </FxCompile>
     <FxCompile Include="func.fx">
-      <Filter>Shader</Filter>
+      <Filter>HLSL</Filter>
     </FxCompile>
     <FxCompile Include="particle.fx">
-      <Filter>Shader</Filter>
+      <Filter>HLSL</Filter>
     </FxCompile>
     <FxCompile Include="std3d.fx">
-      <Filter>Shader\GraphicShader</Filter>
+      <Filter>HLSL\GraphicShader</Filter>
     </FxCompile>
     <FxCompile Include="skybox.fx">
-      <Filter>Shader\GraphicShader</Filter>
+      <Filter>HLSL\GraphicShader</Filter>
     </FxCompile>
     <FxCompile Include="std3d_deferred.fx">
-      <Filter>Shader\GraphicShader</Filter>
+      <Filter>HLSL\GraphicShader</Filter>
     </FxCompile>
     <FxCompile Include="light.fx">
-      <Filter>Shader\GraphicShader</Filter>
+      <Filter>HLSL\GraphicShader</Filter>
     </FxCompile>
     <FxCompile Include="merge.fx">
-      <Filter>Shader\GraphicShader</Filter>
+      <Filter>HLSL\GraphicShader</Filter>
     </FxCompile>
     <FxCompile Include="decal.fx">
-      <Filter>Shader\GraphicShader</Filter>
+      <Filter>HLSL\GraphicShader</Filter>
     </FxCompile>
     <FxCompile Include="shadowmap.fx">
-      <Filter>Shader\GraphicShader</Filter>
+      <Filter>HLSL\GraphicShader</Filter>
     </FxCompile>
     <FxCompile Include="landscape.fx">
-      <Filter>Shader\GraphicShader</Filter>
-    </FxCompile>
-    <FxCompile Include="animation.fx">
-      <Filter>Shader\ComputeShader\Animation</Filter>
-    </FxCompile>
-    <FxCompile Include="copybone.fx">
-      <Filter>Shader\ComputeShader\Animation</Filter>
+      <Filter>HLSL\GraphicShader</Filter>
     </FxCompile>
     <FxCompile Include="heightmap.fx">
-      <Filter>Shader\ComputeShader\Heightmap</Filter>
+      <Filter>HLSL\ComputeShader\Heightmap</Filter>
     </FxCompile>
     <FxCompile Include="particletick.fx">
-      <Filter>Shader\ComputeShader\Particle</Filter>
+      <Filter>HLSL\ComputeShader\Particle</Filter>
     </FxCompile>
     <FxCompile Include="raycast.fx">
-      <Filter>Shader\ComputeShader\Raycast</Filter>
+      <Filter>HLSL\ComputeShader\Raycast</Filter>
     </FxCompile>
     <FxCompile Include="weightmap.fx">
-      <Filter>Shader\ComputeShader\Weightmap</Filter>
+      <Filter>HLSL\ComputeShader\Weightmap</Filter>
+    </FxCompile>
+    <FxCompile Include="animation.fx">
+      <Filter>HLSL\ComputeShader\Animation3D\Animation</Filter>
+    </FxCompile>
+    <FxCompile Include="copybone.fx">
+      <Filter>HLSL\ComputeShader\Animation3D\CopyBones</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

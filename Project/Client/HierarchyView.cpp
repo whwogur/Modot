@@ -94,7 +94,7 @@ void HierarchyView::Update()
 				string strName(wstrKey.begin(), wstrKey.end());
 				if (ImGui::Selectable(strName.c_str()))
 				{
-					pTarget->Animator3D()->SetSkeletalMesh((CMesh*)mesh.second.Get());
+					pTarget->MeshRender()->SetMesh((CMesh*)mesh.second.Get());
 					
 					if (!((CMesh*)mesh.second.Get())->IsAnimMesh())
 						EDITOR_WARN(u8"주의::애니메이션 메시 아님");

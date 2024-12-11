@@ -32,12 +32,11 @@ struct VS_OUT
 VS_OUT VS_Std3D_Deferred(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
-    float4 PrevPos = float4(_in.vPos, 1.f);
-    
+        
     if (g_iAnim)
     {
-        Skinning(_in.vPos, PrevPos.xyz, _in.vTangent, _in.vBinormal, _in.vNormal
-              , _in.vWeights, _in.vIndices, 0);
+        Skinning(_in.vPos, _in.vTangent, _in.vBinormal, _in.vNormal
+               , _in.vWeights, _in.vIndices, 0);
     }
     
     output.vPosition = mul(float4(_in.vPos, 1.f), matWVP);
@@ -77,15 +76,14 @@ VS_OUT VS_Std3D_Deferred_Inst(VS_IN_Inst _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
 	
-    float4 PrevPos = float4(_in.vPos, 1.f);
     if (g_iAnim)
     {
-        Skinning(_in.vPos, PrevPos.xyz, _in.vTangent, _in.vBinormal, _in.vNormal
+        Skinning(_in.vPos, _in.vTangent, _in.vBinormal, _in.vNormal
               , _in.vWeights, _in.vIndices, _in.iRowIndex);
     }
     
-    output.vPosition        = mul(float4(_in.vPos, 1.f), _in.matWVP);
-    output.vUV              = _in.vUV;
+    output.vPosition = mul(float4(_in.vPos, 1.f), _in.matWVP);
+    output.vUV = _in.vUV;
 	
     output.vViewPos         = mul(float4(_in.vPos, 1.f), _in.matWV);
     output.vViewTangent     = normalize(mul(float4(_in.vTangent, 0.f), _in.matWV));

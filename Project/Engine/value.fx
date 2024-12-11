@@ -118,6 +118,5 @@ StructuredBuffer<tLightInfo> g_Light3D : register(t12);
 
 // Animation3D Bone Matrix Buffer
 StructuredBuffer<Matrix> g_arrBoneMat : register(t17);
-StructuredBuffer<Matrix> g_arrPrevBoneMat : register(t19);
 #endif
 

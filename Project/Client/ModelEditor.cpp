@@ -55,9 +55,9 @@ void ModelEditor::Update()
     if (pTarget != nullptr)
     {
         CAnimator3D* pAnimator = pTarget->Animator3D();
-        Ptr<CMesh> pSkeletalMesh = pTarget->Animator3D()->GetSkeletalMesh();
+        Ptr<CMesh> pSkeletalMesh = pTarget->MeshRender()->GetMesh();
         // Animation
-        if (nullptr != pSkeletalMesh && pAnimator->IsValid())
+        if (nullptr != pSkeletalMesh && nullptr != pAnimator->GetCurClip())
         {
             const std::vector<tMTAnimClip>* vecAnimClip = pSkeletalMesh->GetAnimClip();
             int CurClipIdx = pAnimator->GetCurClipIdx();
@@ -103,7 +103,7 @@ void ModelEditor::Update()
 
                 if (ChangedClipIdx >= 0)
                 {
-                    pAnimator->SetCurClipIdx(ChangedClipIdx);
+                    pAnimator->SetClipIdx(ChangedClipIdx);
                 }
 
                 ImGui::TextColored(HEADER_1, u8"프레임");ImGui::SameLine(INDENT_2);
@@ -122,17 +122,10 @@ void ModelEditor::Update()
                 ImGui::NewLine();
                 ImGui::SameLine(ImGui::GetContentRegionAvail().x * 0.43f);
                 bool bPlaying = pAnimator->IsPlayingAnim();
-                if (bPlaying)
+                if (ImGui::Button(bPlaying ? ICON_FA_PAUSE : ICON_FA_PLAY))
                 {
-                    if (ImGui::Button(ICON_FA_PAUSE))
-                        pAnimator->PauseAnimation();
+                    pAnimator->SetPlay(!bPlaying);
                 }
-                else
-                {
-                    if (ImGui::Button(ICON_FA_PLAY))
-                        pAnimator->ResumeAnimation();
-                }
-
                 ImGui::SameLine();
                 bool bRepeat = pAnimator->IsOnRepeat();
                 if (ImGui::Button(bRepeat ? ICON_FA_RANDOM : ICON_FA_REPEAT))
@@ -182,7 +175,7 @@ void ModelEditor::Update()
 
                 if (ImGui::Button(ICON_FA_FLOPPY_O))
                 {
-                    Ptr<CMesh> pMesh = pTarget->Animator3D()->GetSkeletalMesh();
+                    Ptr<CMesh> pMesh = pTarget->MeshRender()->GetMesh();
                     if (S_OK == pMesh->Save(pMesh->GetKey()))
                     {
                         MessageBox(nullptr, L"Mesh 저장 성공!", L"Modot", MB_ICONASTERISK);
@@ -225,7 +218,7 @@ void ModelEditor::Update()
                         else
                         {
                             m_RecentPath = filePath.lexically_relative(CPathMgr::GetInst()->GetContentPath()).parent_path();
-                            CAssetMgr::GetInst()->AsyncLoadFBX(m_ModelObj->Animator3D()->GetSkeletalMesh(),
+                            CAssetMgr::GetInst()->AsyncLoadFBX(m_ModelObj->MeshRender()->GetMesh(),
                                 filePath.lexically_relative(CPathMgr::GetInst()->GetContentPath()));
                         }
                     }

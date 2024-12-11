@@ -16,7 +16,7 @@ void Animator3DUI::Update()
 		CAnimator3D* pAnimator = GetTargetObject()->Animator3D();
 		if (pAnimator != nullptr)
 		{
-			if (pAnimator->IsValid())
+			if (nullptr != pAnimator->GetCurClip())
 			{
 				ImGui::NewLine();
 				if (ImGui::Button(u8"¸ðµ¨ ºä##ModelView"))

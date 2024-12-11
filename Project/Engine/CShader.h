@@ -15,4 +15,3 @@ public:
 protected:
     WRL::ComPtr<ID3DBlob> m_ErrBlob;
 };
-

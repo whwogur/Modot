@@ -4,13 +4,10 @@
 
 CCopyBoneCS::CCopyBoneCS()
 	: CComputeShader(256, 1, 1, L"shader\\copybone.fx", "CS_CopyBoneMatrix")
+	, m_SrcBuffer(nullptr)
+	, m_DestBuffer(nullptr)
 {
 }
-
-CCopyBoneCS::~CCopyBoneCS()
-{
-}
-
 int CCopyBoneCS::Bind()
 {
 	// 구조화버퍼 전달

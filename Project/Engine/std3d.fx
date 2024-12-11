@@ -31,19 +31,17 @@ VS_OUT VS_Std3D(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
     
-    float4 PrevPos = float4(_in.vPos, 1.f);
     if (g_iAnim)
     {
-        Skinning(_in.vPos, PrevPos.xyz, _in.vTangent, _in.vBinormal, _in.vNormal
+        Skinning(_in.vPos, _in.vTangent, _in.vBinormal, _in.vNormal
               , _in.vWeights, _in.vIndices, 0);
     }
     
-    output.vPosition        = mul(float4(_in.vPos, 1.f), matWVP);
-    output.vUV              = _in.vUV;
+    output.vPosition = mul(float4(_in.vPos, 1.f), matWVP);
+    output.vUV = _in.vUV;
     
-    // 정점의 ViewSpace 좌표
-    output.vViewPos         = mul(float4(_in.vPos, 1.f), matWV).xyz;
-    
+    output.vViewPos = mul(float4(_in.vPos, 1.f), matWV).xyz;
+    // View Space에서 정점에서의 표면의 수직방향
     output.vViewTangent     = normalize(mul(float4(_in.vTangent, 0.f), matWV).xyz);
     output.vViewNormal      = normalize(mul(float4(_in.vNormal, 0.f), matWV).xyz);
     output.vViewBinormal    = normalize(mul(float4(_in.vBinormal, 0.f), matWV).xyz);
