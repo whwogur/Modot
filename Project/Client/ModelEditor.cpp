@@ -284,8 +284,8 @@ void ModelEditor::Init()
     m_SkyBoxObj->SetName(L"ModelEditorSkyBox");
     m_SkyBoxObj->AddComponent(new CTransform);
     m_SkyBoxObj->AddComponent(new CSkyBox);
-    m_SkyBoxObj->SkyBox()->SetSkyBoxType(SKYBOX_TYPE::SPHERE);
-    m_SkyBoxObj->SkyBox()->SetSkyBoxTexture(CAssetMgr::GetInst()->Load<CTexture>(L"Sky01", L"texture\\Skybox\\Sky01.png"));
+    m_SkyBoxObj->SkyBox()->SetSkyBoxType(SKYBOX_TYPE::CUBE);
+    m_SkyBoxObj->SkyBox()->SetSkyBoxTexture(CAssetMgr::GetInst()->FindAsset<CTexture>(L"SkyDawn"));
     
     //========
     // ¹Ù´Ú
@@ -308,8 +308,7 @@ void ModelEditor::Init()
     Ptr<CMeshData> pMeshData = CAssetMgr::GetInst()->FindAsset<CMeshData>(L"mn_vorc_00_ani");
     m_ModelObj = pMeshData->Instantiate(); // TEST
     m_ModelObj->Transform()->SetRelativePos(Vec3(200.f, 0.f, 200.f));
-    m_ModelObj->Transform()->SetRelativeScale(Vec3(1.f, 1.f, 1.f));
-    m_ModelObj->Transform()->SetRelativeRotation(Vec3(XM_PIDIV2, 0, XM_PI));
+    m_ModelObj->Transform()->SetRelativeScale(Vec3(3.f, 3.f, 3.f));
     
     CreateObject(m_ModelObj, LAYER_MODEL);
     CreateObject(m_FloorObj, LAYER_MODEL);

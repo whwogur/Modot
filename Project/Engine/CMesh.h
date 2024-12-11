@@ -40,9 +40,9 @@ public:
     const std::vector<tMTAnimClip>* GetAnimClip() { return &m_vecAnimClip; }
     bool IsAnimMesh() { return !m_vecAnimClip.empty(); }
 
-    CStructuredBuffer* GetBoneFrameDataBuffer() { return m_pBoneFrameData; }    // 전체 본 프레임 정보
-    CStructuredBuffer* GetBoneInverseBuffer() { return  m_pBoneInverse; }	    // 각 Bone 의 Inverse 행렬
-    CStructuredBuffer* GetBoneFrameDataBufferByIndex(int _Idx) { return m_pVecBoneFrameData[_Idx]; }
+    std::weak_ptr<CStructuredBuffer> GetBoneFrameDataBuffer() { return m_pBoneFrameData; }    // 전체 본 프레임 정보
+    std::weak_ptr<CStructuredBuffer> GetBoneInverseBuffer() { return  m_pBoneInverse; }	    // 각 Bone 의 Inverse 행렬
+    std::weak_ptr<CStructuredBuffer> GetBoneFrameDataBufferByIndex(int _Idx) { return m_pVecBoneFrameData[_Idx]; }
 
     virtual int Load(const wstring& _RelativePath) override;
     virtual int Save(const wstring& _RelativePath) override;
@@ -60,9 +60,9 @@ private:
     std::vector<tMTAnimClip>		m_vecAnimClip;
     std::vector<tMTBone>			m_vecBones;
 
-    CStructuredBuffer*              m_pBoneFrameData;    // 전체 본 프레임 정보(크기, 이동, 회전) (프레임 개수만큼)
-    CStructuredBuffer*              m_pBoneInverse;	     // 각 뼈의 Inverse 행렬(각 뼈의 위치를 되돌리는 행렬) (1행 짜리)
+    std::shared_ptr<CStructuredBuffer>              m_pBoneFrameData;    // 전체 본 프레임 정보(크기, 이동, 회전) (프레임 개수만큼)
+    std::shared_ptr<CStructuredBuffer>              m_pBoneInverse;	     // 각 뼈의 Inverse 행렬(각 뼈의 위치를 되돌리는 행렬) (1행 짜리)
 
-    std::vector<CStructuredBuffer*> m_pVecBoneFrameData;
+    std::vector<std::shared_ptr<CStructuredBuffer>> m_pVecBoneFrameData;
 };
 

@@ -20,11 +20,11 @@ CAnimator3D::CAnimator3D()
 	, m_bPlay(true)
 	, m_fPlaySpeed(1.0f)
 {
-	m_pBoneFinalMatBuffer = new CStructuredBuffer;
+	m_pBoneFinalMatBuffer = std::make_shared<CStructuredBuffer>();
 }
 
 CAnimator3D::CAnimator3D(const CAnimator3D& _origin)
-	: m_pVecBones(_origin.m_pVecBones)
+	: CComponent(COMPONENT_TYPE::ANIMATOR3D)
 	, m_pVecClip(_origin.m_pVecClip)
 	, m_iCurClip(_origin.m_iCurClip)
 	, m_dCurTime(_origin.m_dCurTime)
@@ -34,18 +34,13 @@ CAnimator3D::CAnimator3D(const CAnimator3D& _origin)
 	, m_iFrameIdx(_origin.m_iFrameIdx)
 	, m_iNextFrameIdx(_origin.m_iNextFrameIdx)
 	, m_fRatio(_origin.m_fRatio)
-	, CComponent(COMPONENT_TYPE::ANIMATOR3D)
+	, m_pVecBones(_origin.m_pVecBones)
 	, m_bPlay(_origin.m_bPlay)
 	, m_fPlaySpeed(_origin.m_fPlaySpeed)
 {
-	m_pBoneFinalMatBuffer = new CStructuredBuffer;
+	m_pBoneFinalMatBuffer = std::make_shared<CStructuredBuffer>();
 }
 
-CAnimator3D::~CAnimator3D()
-{
-	if (nullptr != m_pBoneFinalMatBuffer)
-		delete m_pBoneFinalMatBuffer;
-}
 
 void CAnimator3D::FinalTick()
 {
@@ -102,8 +97,7 @@ void CAnimator3D::Bind()
 		Ptr<CMesh> pMesh = MeshRender()->GetMesh();
 		check_mesh(pMesh);
 
-		//pUpdateShader->SetFrameDataBuffer(pMesh->GetBoneFrameDataBuffer());
-		pUpdateShader->SetFrameDataBuffer(pMesh->GetBoneFrameDataBufferByIndex(m_iCurClip));
+		pUpdateShader->SetFrameDataBuffer(pMesh->GetBoneFrameDataBuffer());
 		pUpdateShader->SetOffsetMatBuffer(pMesh->GetBoneInverseBuffer());
 		pUpdateShader->SetOutputBuffer(m_pBoneFinalMatBuffer);
 
@@ -117,10 +111,10 @@ void CAnimator3D::Bind()
 		pUpdateShader->Execute();
 
 		m_bFinalMatUpdate = true;
-	}
 
-	// t17 레지스터에 최종행렬 데이터(구조버퍼) 바인딩		
-	m_pBoneFinalMatBuffer->Bind(17);
+		// t17 레지스터에 최종행렬 데이터(구조버퍼) 바인딩		
+		m_pBoneFinalMatBuffer->Bind(17);
+	}
 }
 
 void CAnimator3D::ClearData()

@@ -16,9 +16,9 @@ public:
     void SetFrameIndex(int _iFrameIdx) { m_Const.iArr[1] = _iFrameIdx; }
     void SetNextFrameIdx(int _iFrameIdx) { m_Const.iArr[2] = _iFrameIdx; }
     void SetFrameRatio(float _fFrameRatio) { m_Const.fArr[0] = _fFrameRatio; }
-    void SetFrameDataBuffer(CStructuredBuffer* _buffer) { m_pFrameDataBuffer = _buffer; }
-    void SetOffsetMatBuffer(CStructuredBuffer* _buffer) { m_pOffsetMatBuffer = _buffer; }
-    void SetOutputBuffer(CStructuredBuffer* _buffer) { m_pOutputBuffer = _buffer; }
+    void SetFrameDataBuffer(std::weak_ptr<CStructuredBuffer> _buffer) { m_pFrameDataBuffer = _buffer; }
+    void SetOffsetMatBuffer(std::weak_ptr<CStructuredBuffer> _buffer) { m_pOffsetMatBuffer = _buffer; }
+    void SetOutputBuffer(std::weak_ptr<CStructuredBuffer> _buffer) { m_pOutputBuffer = _buffer; }
 
 public:
     virtual int Bind() override;
@@ -26,8 +26,8 @@ public:
     virtual void Clear() override;
 
 private:
-    CStructuredBuffer* m_pFrameDataBuffer;			// t16
-    CStructuredBuffer* m_pOffsetMatBuffer;			// t17 
-    CStructuredBuffer* m_pOutputBuffer;				// u0
+    std::weak_ptr<CStructuredBuffer>              m_pFrameDataBuffer;			// t16
+    std::weak_ptr<CStructuredBuffer>              m_pOffsetMatBuffer;			// t17 
+    std::weak_ptr<CStructuredBuffer>              m_pOutputBuffer;				// u0
 
 };

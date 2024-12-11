@@ -8,13 +8,11 @@ CInstancingBuffer::CInstancingBuffer()
 	, m_AnimInstCount(0)
 	, m_BoneBuffer(nullptr)
 {
-	m_BoneBuffer = new CStructuredBuffer;
+	m_BoneBuffer = std::make_shared<CStructuredBuffer>();
 }
 
 CInstancingBuffer::~CInstancingBuffer()
 {
-	if (nullptr != m_BoneBuffer)
-		delete m_BoneBuffer;
 }
 
 void CInstancingBuffer::Init()
@@ -48,15 +46,15 @@ void CInstancingBuffer::SetData()
 	if (m_vecBoneMat.empty())
 		return;
 
-	UINT iBufferSize = (UINT)m_vecBoneMat.size() * m_vecBoneMat[0]->GetBufferSize();
+	UINT iBufferSize = (UINT)m_vecBoneMat.size() * m_vecBoneMat[0].lock()->GetBufferSize();
 	if (m_BoneBuffer->GetBufferSize() < iBufferSize)
 	{
-		m_BoneBuffer->Create(m_vecBoneMat[0]->GetElementSize()
-			, m_vecBoneMat[0]->GetElementCount() * (UINT)m_vecBoneMat.size(), SB_TYPE::SRV_UAV, false, nullptr);
+		m_BoneBuffer->Create(m_vecBoneMat[0].lock()->GetElementSize()
+			, m_vecBoneMat[0].lock()->GetElementCount() * (UINT)m_vecBoneMat.size(), SB_TYPE::SRV_UAV, false, nullptr);
 	}
 
 	// 복사용 컴퓨트 쉐이더 실행
-	UINT iBoneCount = m_vecBoneMat[0]->GetElementCount();
+	UINT iBoneCount = m_vecBoneMat[0].lock()->GetElementCount();
 	m_CopyShader->SetBoneCount(iBoneCount);
 	for (UINT i = 0; i < (UINT)m_vecBoneMat.size(); ++i)
 	{
@@ -70,7 +68,7 @@ void CInstancingBuffer::SetData()
 	m_BoneBuffer->Bind(17);
 }
 
-void CInstancingBuffer::AddInstancingBoneMat(CStructuredBuffer* _pBuffer)
+void CInstancingBuffer::AddInstancingBoneMat(std::weak_ptr<CStructuredBuffer> _pBuffer)
 {
 	++m_AnimInstCount;
 	m_vecBoneMat.push_back(_pBuffer);

@@ -340,13 +340,7 @@ void CAssetMgr::AsyncLoadFBXFunc(Ptr<CMesh> _Target, const wstring& _RelPath)
 		}
 	}
 
-	if (nullptr != pMesh->m_pBoneFrameData)
-	{
-		delete pMesh->m_pBoneFrameData;
-		pMesh->m_pBoneFrameData = nullptr;
-	}
-
-	pMesh->m_pBoneFrameData = new CStructuredBuffer;
+	pMesh->m_pBoneFrameData = std::make_shared<CStructuredBuffer>();
 	pMesh->m_pBoneFrameData->Create(sizeof(tFrameTrans), (UINT)vecFrameTrans.size(), SB_TYPE::SRV_ONLY, false, vecFrameTrans.data());
 
 	MessageBox(nullptr, L"애니메이션 추가 성공!", L"애니메이션 로딩 성공", MB_ICONASTERISK);

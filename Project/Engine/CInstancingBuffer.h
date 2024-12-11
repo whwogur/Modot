@@ -25,9 +25,9 @@ public:
 	WRL::ComPtr<ID3D11Buffer> GetBuffer() { return m_InstancingBuffer; }
 	void SetData();
 
-	void AddInstancingBoneMat(CStructuredBuffer* _pBuffer);
+	void AddInstancingBoneMat(std::weak_ptr<CStructuredBuffer> _pBuffer);
 	int GetAnimInstancingCount() { return m_AnimInstCount; };
-	CStructuredBuffer* GetBoneBuffer() { return m_BoneBuffer; }
+	std::weak_ptr<CStructuredBuffer> GetBoneBuffer() { return m_BoneBuffer; }
 
 private:
 	void Resize(UINT _iCount);
@@ -39,9 +39,9 @@ private:
 	std::vector<tInstancingData>		m_vecData;
 
 	// anim3D ¿ëµµ
-	std::vector<CStructuredBuffer*>		m_vecBoneMat;
+	std::vector<std::weak_ptr<CStructuredBuffer>>		m_vecBoneMat;
 	int									m_AnimInstCount;
-	CStructuredBuffer*					m_BoneBuffer;
+	std::shared_ptr<CStructuredBuffer>					m_BoneBuffer;
 
 	Ptr<CCopyBoneCS>					m_CopyShader;
 };
