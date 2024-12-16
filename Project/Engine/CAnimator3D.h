@@ -34,7 +34,12 @@ public:
     float GetFrameRatio() const { return m_fRatio; }
 
     bool IsPlayingAnim() const { return m_bPlay; }
-    void SetPlay(bool _Play) { m_bPlay = _Play; }
+    void SetPlay(bool _Play)
+    { 
+        if (!m_bRepeat && _Play && m_iFrameIdx == m_pVecClip->at(m_iCurClip).iEndFrame)
+            m_bRepeat = true;
+        m_bPlay = _Play;
+    }
 
     void SetPlaySpeed(float _Speed) { m_fPlaySpeed = _Speed; }
     float GetPlaySpeed() const { return m_fPlaySpeed; }

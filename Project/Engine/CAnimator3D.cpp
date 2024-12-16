@@ -52,8 +52,15 @@ void CAnimator3D::FinalTick()
 
 		if (m_vecClipUpdateTime[m_iCurClip] >= m_pVecClip->at(m_iCurClip).dTimeLength)
 		{
-			m_vecClipUpdateTime[m_iCurClip] = 0.f;
-			//++m_iCurClip;
+			if (m_bRepeat)
+			{
+				m_vecClipUpdateTime[m_iCurClip] = 0.f;
+			}
+			else
+			{
+				m_bPlay = false;
+				return;
+			}
 		}
 
 		m_dCurTime = m_pVecClip->at(m_iCurClip).dStartTime + m_vecClipUpdateTime[m_iCurClip];
@@ -111,10 +118,9 @@ void CAnimator3D::Bind()
 		pUpdateShader->Execute();
 
 		m_bFinalMatUpdate = true;
-
-		// t17 레지스터에 최종행렬 데이터(구조버퍼) 바인딩		
-		m_pBoneFinalMatBuffer->Bind(17);
 	}
+	// t17 레지스터에 최종행렬 데이터(구조버퍼) 바인딩		
+	m_pBoneFinalMatBuffer->Bind(17);
 }
 
 void CAnimator3D::ClearData()

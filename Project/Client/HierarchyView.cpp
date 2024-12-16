@@ -81,6 +81,9 @@ void HierarchyView::Update()
 		string MeshName(wstrName.begin(), wstrName.end());
 
 		const map<wstring, Ptr<CAsset>>& mapMesh = CAssetMgr::GetInst()->GetAssets(ASSET_TYPE::MESH);
+		ImGui::Separator();
+		ImGui::SeparatorText(u8"메쉬 정보");
+		ImGui::NewLine();
 		ImGui::TextColored(HEADER_2, u8"메쉬 선택");
 		ImGui::SameLine(INDENT_2);
 		ImGui::SetNextItemWidth(150);
