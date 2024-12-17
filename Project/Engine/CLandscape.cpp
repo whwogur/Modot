@@ -135,6 +135,7 @@ void CLandscape::LoadFromFile(FILE* _File)
 
 int CLandscape::RayCast()
 {
+	Transform()->Bind();
 	// 현재 시점 카메라 가져오기
 	CCamera* pCam = CRenderMgr::GetInst()->GetMainCamera();
 	if (nullptr == pCam)

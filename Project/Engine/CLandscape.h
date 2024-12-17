@@ -7,7 +7,7 @@
 
 struct tRaycastOut
 {
-    Vec4    Location;
+    Vec4    WorldPos;
     Vec2    LocationUV;
     UINT    Distance;
     int     Success;
