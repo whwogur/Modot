@@ -1,9 +1,9 @@
 #include "pch.h"
-#include "CRigidBody.h"
+#include "CNavigation.h"
 #include "components.h"
 #include "CTimeMgr.h"
-CRigidBody::CRigidBody()
-	: CComponent(COMPONENT_TYPE::RIGIDBODY)
+CNavigation::CNavigation()
+	: CComponent(COMPONENT_TYPE::NAVIGATION)
 	, m_Mass(1.f)
 	, m_Friction(1500.f)
 	, m_FrictionScale(0.5f)
@@ -16,7 +16,7 @@ CRigidBody::CRigidBody()
 {
 }
 
-void CRigidBody::FinalTick()
+void CNavigation::FinalTick()
 {
     // F = M x A
     Vec2 vAccel = m_Force / m_Mass;
@@ -83,7 +83,7 @@ void CRigidBody::FinalTick()
     m_Force = Vec2(0.f, 0.f); // »˚ √ ±‚»≠
 }
 
-void CRigidBody::SaveToFile(FILE* _File)
+void CNavigation::SaveToFile(FILE* _File)
 {
 	fwrite(&m_Mass, sizeof(float), 1, _File);
 	fwrite(&m_Friction, sizeof(float), 1, _File);
@@ -93,7 +93,7 @@ void CRigidBody::SaveToFile(FILE* _File)
 	fwrite(&m_GravityAccel, sizeof(float), 1, _File);
 }
 
-void CRigidBody::LoadFromFile(FILE* _File)
+void CNavigation::LoadFromFile(FILE* _File)
 {
 	fread(&m_Mass, sizeof(float), 1, _File);
 	fread(&m_Friction, sizeof(float), 1, _File);

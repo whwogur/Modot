@@ -1,11 +1,11 @@
 #pragma once
 #include "ComponentUI.h"
-class RigidBodyUI :
+class NavigationUI :
     public ComponentUI
 {
 public:
-    RigidBodyUI();
-    ~RigidBodyUI() = default;
+    NavigationUI();
+    ~NavigationUI() = default;
 public:
     virtual void Update() override;
 };

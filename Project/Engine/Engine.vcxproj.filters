@@ -133,7 +133,7 @@
     <ClInclude Include="CTileMap.h">
       <Filter>08. Component\RenderComponent\Tilemap</Filter>
     </ClInclude>
-    <ClInclude Include="CRigidBody.h">
+    <ClInclude Include="CNavigation.h">
       <Filter>08. Component\RigidBody2D</Filter>
     </ClInclude>
     <ClInclude Include="CAnimator2D.h">
@@ -328,7 +328,7 @@
     <ClCompile Include="CTileMap.cpp">
       <Filter>08. Component\RenderComponent\Tilemap</Filter>
     </ClCompile>
-    <ClCompile Include="CRigidBody.cpp">
+    <ClCompile Include="CNavigation.cpp">
       <Filter>08. Component\RigidBody2D</Filter>
     </ClCompile>
     <ClCompile Include="CAnimator2D.cpp">

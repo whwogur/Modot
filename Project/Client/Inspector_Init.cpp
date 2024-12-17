@@ -17,7 +17,7 @@
 #include "Animator3DUI.h"
 #include "TileMapUI.h"
 #include "ParticleSystemUI.h"
-#include "RigidBodyUI.h"
+#include "NavigationUI.h"
 #include "TextRenderUI.h"
 #include "SkyBoxUI.h"
 #include "DecalUI.h"
@@ -89,9 +89,9 @@ void Inspector::CreateComponentUI()
 	m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLESYSTEM]->SetName("ParticleSystemUI");
 	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::PARTICLESYSTEM]);
 
-	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY] = new RigidBodyUI;
-	m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]->SetName("RigidBodyUI");
-	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::RIGIDBODY]);
+	m_arrComUI[(UINT)COMPONENT_TYPE::NAVIGATION] = new NavigationUI;
+	m_arrComUI[(UINT)COMPONENT_TYPE::NAVIGATION]->SetName("NavigationUI");
+	AddChild(m_arrComUI[(UINT)COMPONENT_TYPE::NAVIGATION]);
 
 	m_arrComUI[(UINT)COMPONENT_TYPE::TEXTRENDER] = new TextRenderUI;
 	m_arrComUI[(UINT)COMPONENT_TYPE::TEXTRENDER]->SetName("TextRenderUI");

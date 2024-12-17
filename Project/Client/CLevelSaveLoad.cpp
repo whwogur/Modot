@@ -230,8 +230,8 @@ CComponent* CLevelSaveLoad::GetComponent(COMPONENT_TYPE _Type)
 	case COMPONENT_TYPE::TEXTRENDER:
 		return new CTextRender;
 
-	case COMPONENT_TYPE::RIGIDBODY:
-		return new CRigidBody;
+	case COMPONENT_TYPE::NAVIGATION:
+		return new CNavigation;
 
 	case COMPONENT_TYPE::CAMERA:
 		return  new CCamera;

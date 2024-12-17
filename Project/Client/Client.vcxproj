@@ -119,7 +119,7 @@
     <ClInclude Include="ModelEditor.h" />
     <ClInclude Include="Modot_sequencer.h" />
     <ClInclude Include="Modot_sequencer_internal.h" />
-    <ClInclude Include="RigidBodyUI.h" />
+    <ClInclude Include="NavigationUI.h" />
     <ClInclude Include="ScriptUI.h" />
     <ClInclude Include="CTestLevel.h" />
     <ClInclude Include="FileBrowser.h" />
@@ -202,7 +202,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="RigidBodyUI.cpp" />
+    <ClCompile Include="NavigationUI.cpp" />
     <ClCompile Include="ScriptUI.cpp" />
     <ClCompile Include="CTestLevel.cpp" />
     <ClCompile Include="FileBrowser.cpp" />

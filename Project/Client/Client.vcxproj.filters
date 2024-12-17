@@ -70,9 +70,6 @@
     <Filter Include="Editor\EditorUI\ComponentUI\ParticleSystem">
       <UniqueIdentifier>{adcf2559-5689-4dac-822c-6839a293144e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor\EditorUI\ComponentUI\RigidBody">
-      <UniqueIdentifier>{0133d55f-7e8a-44ff-8c9e-226e907ee374}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Editor\EditorUI\ComponentUI\Script">
       <UniqueIdentifier>{1ed2bc47-22ca-44dc-87ff-eaae4cd34723}</UniqueIdentifier>
     </Filter>
@@ -174,6 +171,9 @@
     </Filter>
     <Filter Include="Editor\EditorUI\ToolBox\Tool\FileBrowser">
       <UniqueIdentifier>{096a4d61-abf6-4b31-a8d0-14470924ff5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorUI\ComponentUI\Navigation">
+      <UniqueIdentifier>{0133d55f-7e8a-44ff-8c9e-226e907ee374}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -311,8 +311,8 @@
     <ClInclude Include="ScriptUI.h">
       <Filter>Editor\EditorUI\ComponentUI\Script</Filter>
     </ClInclude>
-    <ClInclude Include="RigidBodyUI.h">
-      <Filter>Editor\EditorUI\ComponentUI\RigidBody</Filter>
+    <ClInclude Include="NavigationUI.h">
+      <Filter>Editor\EditorUI\ComponentUI\Navigation</Filter>
     </ClInclude>
     <ClInclude Include="TextRenderUI.h">
       <Filter>Editor\EditorUI\ComponentUI\Text</Filter>
@@ -534,8 +534,8 @@
     <ClCompile Include="ScriptUI.cpp">
       <Filter>Editor\EditorUI\ComponentUI\Script</Filter>
     </ClCompile>
-    <ClCompile Include="RigidBodyUI.cpp">
-      <Filter>Editor\EditorUI\ComponentUI\RigidBody</Filter>
+    <ClCompile Include="NavigationUI.cpp">
+      <Filter>Editor\EditorUI\ComponentUI\Navigation</Filter>
     </ClCompile>
     <ClCompile Include="TextRenderUI.cpp">
       <Filter>Editor\EditorUI\ComponentUI\Text</Filter>

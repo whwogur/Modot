@@ -1,12 +1,12 @@
 #pragma once
 #include "CComponent.h"
-class CRigidBody :
+class CNavigation :
     public CComponent
 {
 public:
-    CRigidBody();
-    ~CRigidBody() = default;
-    CLONE(CRigidBody);
+    CNavigation();
+    ~CNavigation() = default;
+    CLONE(CNavigation);
 
 public:
     virtual void FinalTick() override;

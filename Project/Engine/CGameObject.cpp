@@ -157,9 +157,9 @@ void CGameObject::AddComponentViaUI(COMPONENT_TYPE _Type)
 		CLevelMgr::GetInst()->SetLevelDirty();
 		return;
 	}
-	case COMPONENT_TYPE::RIGIDBODY:
+	case COMPONENT_TYPE::NAVIGATION:
 	{
-		CRigidBody* rigidBody = new CRigidBody;
+		CNavigation* rigidBody = new CNavigation;
 		AddComponent(rigidBody);
 		CLevelMgr::GetInst()->SetLevelDirty();
 		return;

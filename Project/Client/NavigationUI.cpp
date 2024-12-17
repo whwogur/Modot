@@ -1,19 +1,19 @@
 #include "pch.h"
-#include "RigidBodyUI.h"
+#include "NavigationUI.h"
 #include "CGameObject.h"
-#include "CRigidBody.h"
+#include "CNavigation.h"
 
-RigidBodyUI::RigidBodyUI()
-	: ComponentUI(COMPONENT_TYPE::RIGIDBODY)
+NavigationUI::NavigationUI()
+	: ComponentUI(COMPONENT_TYPE::NAVIGATION)
 {
 }
 
-void RigidBodyUI::Update()
+void NavigationUI::Update()
 {
 	Title();
 	if (!Collapsed())
 	{
-		CRigidBody* pRB = GetTargetObject()->RigidBody();
+		CNavigation* pRB = GetTargetObject()->Navigation();
 		if (pRB != nullptr)
 		{
 			float& mass = pRB->GetMassRef();
