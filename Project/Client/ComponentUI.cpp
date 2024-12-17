@@ -11,7 +11,7 @@ ComponentUI::ComponentUI(COMPONENT_TYPE _Type)
 	, m_Type(_Type)
 {
 	SetChildBorder(true);
-	m_IconTexture = CAssetMgr::GetInst()->Load<CTexture>(L"ComponentIcons", L"texture\\Engine\\ComponentIcons.png");
+	m_IconTexture = CAssetMgr::GetInst()->FindAsset<CTexture>(L"ComponentIcons");
 }
 
 void ComponentUI::SetTargetObject(CGameObject* _Object)

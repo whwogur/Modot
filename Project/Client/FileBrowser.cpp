@@ -15,8 +15,8 @@ FileBrowser::FileBrowser()
 
 void FileBrowser::Init()
 {
-	m_DirectoryIcon = CAssetMgr::GetInst()->Load<CTexture>(L"DirectoryIcon", L"texture\\Engine\\DirectoryIcon.png");
-	m_FileIcon = CAssetMgr::GetInst()->Load<CTexture>(L"FileIcon", L"texture\\Engine\\FileIcon.png");
+	m_DirectoryIcon = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DirectoryIcon");
+	m_FileIcon = CAssetMgr::GetInst()->FindAsset<CTexture>(L"FileIcon");
 	Refresh();
 }
 

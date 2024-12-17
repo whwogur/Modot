@@ -45,7 +45,7 @@ void CTestLevel::CreateTestLevel()
 		//pSkyBox->SkyBox()->SetSkyBoxTexture(pSkyBoxTex);
 		//pSkyBox->SkyBox()->SetSkyBoxType(CUBE);		
 		
-		Ptr<CTexture> pSkyBoxTex = CAssetMgr::GetInst()->Load<CTexture>(L"Sky01", L"texture\\Skybox\\Sky01.png");
+		Ptr<CTexture> pSkyBoxTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Sky01");
 		pSkyBox->SkyBox()->SetSkyBoxTexture(pSkyBoxTex);
 		pSkyBox->SkyBox()->SetSkyBoxType(SKYBOX_TYPE::SPHERE);
 		pLevel->AddObject(0, pSkyBox);

@@ -5,8 +5,8 @@
 AssetUI::AssetUI(ASSET_TYPE _Type)
 	: m_Type(_Type)
 {
-	m_AssetIcons = CAssetMgr::GetInst()->Load<CTexture>(L"AssetIcons", L"texture\\Engine\\AssetIcons.png");
-	m_LogoTex = CAssetMgr::GetInst()->Load<CTexture>(L"Modot_Logo", L"texture\\Engine\\Modot_Logo.png");
+	m_AssetIcons = CAssetMgr::GetInst()->FindAsset<CTexture>(L"AssetIcons");
+	m_LogoTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Modot_Logo");
 }
 
 void AssetUI::SetAsset(Ptr<CAsset> _Asset)
