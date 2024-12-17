@@ -31,7 +31,7 @@ void CLandscape::FinalTick()
 				if (m_Out.Success)
 				{
 					// 높이맵 설정
-					m_HeightmapCS->SetBrushPos(m_RaycastOut.get());
+					m_HeightmapCS->SetBrushPos(m_RaycastInfoBuffer.get());
 					m_HeightmapCS->SetBrushScale(m_BrushScale);
 					m_HeightmapCS->SetHeightMap(m_Heightmap);
 					m_HeightmapCS->SetBrushTex(m_vecBrush[m_BrushIdx]);
@@ -45,7 +45,7 @@ void CLandscape::FinalTick()
 			{
 				if (m_Out.Success)
 				{
-					m_WeightmapCS->SetBrushPos(m_RaycastOut.get());
+					m_WeightmapCS->SetBrushPos(m_RaycastInfoBuffer.get());
 					m_WeightmapCS->SetWeightMap(m_Weightmap.get());
 					m_WeightmapCS->SetBrushScale(m_BrushScale);
 					m_WeightmapCS->SetBrushTex(m_vecBrush[m_BrushIdx]);
@@ -95,7 +95,7 @@ void CLandscape::Render()
 	// Brush 정보
 	GetMaterial(0)->SetTexParam(TEX_PARAM::TEX_1, m_vecBrush[m_BrushIdx]);
 	GetMaterial(0)->SetScalarParam(SCALAR_PARAM::VEC2_0, m_BrushScale);
-	GetMaterial(0)->SetScalarParam(SCALAR_PARAM::VEC2_1, m_Out.Location);
+	GetMaterial(0)->SetScalarParam(SCALAR_PARAM::VEC2_1, m_Out.LocationUV);
 	GetMaterial(0)->SetScalarParam(SCALAR_PARAM::FLOAT_0, (float)m_Out.Success);
 
 	if(KEY_PRESSED(KEY::LBTN))
@@ -142,7 +142,7 @@ int CLandscape::RayCast()
 	// 구조화버퍼 클리어
 	m_Out = {};
 	m_Out.Distance = 0xffffffff;
-	m_RaycastOut->SetData(&m_Out);
+	m_RaycastInfoBuffer->SetData(&m_Out);
 	
 	// 카메라가 시점에서 마우스를 향하는 Ray 정보를 가져옴
 	tRay ray = pCam->GetRayRef();
@@ -158,14 +158,14 @@ int CLandscape::RayCast()
 	// Raycast 컴퓨트 쉐이더에 필요한 데이터 전달
 	m_RaycastCS->SetRayInfo(ray);
 	m_RaycastCS->SetFace(m_FaceX, m_FaceZ);
-	m_RaycastCS->SetOutBuffer(m_RaycastOut);
+	m_RaycastCS->SetOutBuffer(m_RaycastInfoBuffer);
 	m_RaycastCS->SetHeightMap(m_Heightmap);
 
 	// 컴퓨트쉐이더 실행
 	m_RaycastCS->Execute();
 
 	// 결과 확인
-	m_RaycastOut->GetData(&m_Out);
+	m_RaycastInfoBuffer->GetData(&m_Out);
 
 	return m_Out.Success;
 }

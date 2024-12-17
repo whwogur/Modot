@@ -1,104 +1,188 @@
 #include "pch.h"
 #include "CNavigation.h"
-#include "components.h"
-#include "CTimeMgr.h"
+#include "CCell.h"
+
 CNavigation::CNavigation()
 	: CComponent(COMPONENT_TYPE::NAVIGATION)
-	, m_Mass(1.f)
-	, m_Friction(1500.f)
-	, m_FrictionScale(0.5f)
-	, m_VelocityLimit(300.f)
-	, m_MaxGravityVel(800.f)
-	, m_GravityAccel(2500.f)
-	, m_Ground(false)
-	, m_Force{0, 0}
-    , m_GroundNormal{1, 0}
 {
+}
+
+float CNavigation::Compute_Height(const Vec3& _Position, float _Offset)
+{
+	if (m_NaviDesc.iCurrentCellIndex == -1)
+		return XMVectorGetY(_Position);
+
+	Vec3 PointA = XMLoadFloat3(&m_Cells[m_NaviDesc.iCurrentCellIndex]->Get_PointValue(CCell::POINT_A));
+	PointA = XMVectorSetW(PointA, 1.f);
+	Vec3 PointB = XMLoadFloat3(&m_Cells[m_NaviDesc.iCurrentCellIndex]->Get_PointValue(CCell::POINT_B));
+	PointB = XMVectorSetW(PointB, 1.f);
+	Vec3 PointC = XMLoadFloat3(&m_Cells[m_NaviDesc.iCurrentCellIndex]->Get_PointValue(CCell::POINT_C));
+	PointC = XMVectorSetW(PointC, 1.f);
+
+	Vec3 vPlane = XMPlaneFromPoints(PointA, PointB, PointC);
+
+	// _float		fHeight = (-ax - cz - d) / b;
+	float fHeight = 
+		(-XMVectorGetX(vPlane) * XMVectorGetX(_Position)
+			- XMVectorGetZ(vPlane) * XMVectorGetZ(_Position) 
+			- XMVectorGetW(vPlane)) / XMVectorGetY(vPlane) 
+		+ _Offset;
+
+	return fHeight;
+}
+
+void CNavigation::Compute_CurrentIdx_viaDistance(const Vec3& _Position)
+{
+	int	iIndexNum = 0;
+	float fMinDistance = 9999;
+	float fDistance;
+
+	for (int i = 0; i < m_Cells.size(); ++i)
+	{
+		fDistance = XMVectorGetX(XMVector3Length(_Position - m_Cells[i]->GetCenter()));
+
+		if (fMinDistance > fDistance)
+		{
+			fMinDistance = fDistance;
+			iIndexNum = i;
+		}
+	}
+
+	m_NaviDesc.iCurrentCellIndex = iIndexNum;
+}
+
+bool CNavigation::Compute_CurrentIdx_viaHeight(const Vec3& _Position)
+{
+	int iNeighborIndex = -1;
+
+	//셀을 순회하여 내 위치에 xz로 셀이 존재하는 지 확인한다.
+	for (int i = 0; i < m_Cells.size(); ++i)
+	{
+		if (m_Cells[i]->isIn(_Position, &iNeighborIndex, &m_vLastNormal))
+			m_CellsForComputation.push_back(m_Cells[i]);
+	}
+
+	//존재하지 않다면 false
+	if (m_CellsForComputation.size() == 0)
+		return false;
+	else
+	{
+		float fMinDistance = 9999;
+		float fDistance;
+
+		for (int i = 0; i < m_CellsForComputation.size(); ++i)
+		{
+			if (XMVectorGetY(_Position) < XMVectorGetY(m_CellsForComputation[i]->GetCenter()))
+				continue;
+
+			fDistance = XMVectorGetX(XMVector3Length(_Position - m_CellsForComputation[i]->GetCenter()));
+
+			if (fMinDistance > fDistance)
+			{
+				fMinDistance = fDistance;
+				iNeighborIndex = m_CellsForComputation[i]->GetIndex();
+			}
+		}
+
+		m_NaviDesc.iCurrentCellIndex = iNeighborIndex;
+		m_CellsForComputation.clear();
+
+		return true;
+	}
+}
+
+bool CNavigation::CanMove(const Vec3& _Position)
+{
+	if (m_NaviDesc.iCurrentCellIndex == -1)
+	{
+		Compute_CurrentIdx_viaDistance(_Position);
+	}
+
+	int		iNeighborIndex = -1;
+
+	/* 현재 존재하는 쎌안에서 움직였다. */
+	if (true == m_Cells[m_NaviDesc.iCurrentCellIndex]->isIn(_Position, &iNeighborIndex, &m_vLastNormal))
+		return true;
+
+	/* 현재 존재하는 쎌을 벗어난다.  */
+	else
+	{
+		/* 나간 방향에 이웃셀이 존재한다. */
+		if (0 <= iNeighborIndex)
+		{
+			while (true)
+			{
+				if (-1 == iNeighborIndex)
+					return false;
+
+				if (true == m_Cells[iNeighborIndex]->isIn(_Position, &iNeighborIndex, &m_vLastNormal))
+					break;
+			}
+
+			m_NaviDesc.iCurrentCellIndex = iNeighborIndex;
+			return true;
+		}
+
+		/* 나간 방향에 이웃셀이 존재하지않는다. . */
+		else
+		{
+			/*슬라이딩을 위한 리턴을 정의해도 된다. */
+			return false;
+		}
+	}
+	return false;
+}
+
+UINT CNavigation::Get_CurrentCelltype()
+{
+	if (m_NaviDesc.iCurrentCellIndex == -1)
+		return false;
+
+	return static_cast<UINT>(m_Cells[m_NaviDesc.iCurrentCellIndex]->GetCellType());
+}
+
+const Vec3& CNavigation::Get_CurrentCellCenter()
+{
+	return m_Cells[m_NaviDesc.iCurrentCellIndex]->GetCenter();
 }
 
 void CNavigation::FinalTick()
 {
-    // F = M x A
-    Vec2 vAccel = m_Force / m_Mass;
-    m_Velocity += vAccel * m_GroundNormal * DT;               // 가속도를 이용해서 속도 증가
-
-    // 땅에 있을 때
-    if (m_Ground)
-    {
-        Vec2 vFriction = -m_Velocity;
-        if (!(vFriction.x == 0.0f && vFriction.y == 0.0f))
-        {
-            vFriction.Normalize();
-            vFriction *= m_Friction * m_FrictionScale * m_Mass * DT;
-        }
-        if (m_Velocity.Length() <= vFriction.Length())
-        {
-            m_Velocity = Vec2(0.f, 0.f);
-        }
-        else
-        {
-            m_Velocity += vFriction;
-        }
-    }
-    else
-    {
-        m_FrictionScale = 0.1f;
-        Vec2 vFriction = -m_Velocity;
-
-        if (vFriction != Vec2())
-        {
-            vFriction.Normalize();
-            vFriction *= (m_Friction * m_FrictionScale * m_Mass * DT);
-        }
-
-        if (m_Velocity.Length() <= vFriction.Length())
-        {
-            m_Velocity = Vec2(0.f, 0.f);
-        }
-        else
-        {
-            m_Velocity += vFriction;
-        }
-
-        Vec2 vGravityAccel = Vec2(0.f, m_GravityAccel);
-        m_Velocity -= vGravityAccel * DT;
-    }
-
-    if (m_VelocityLimit < fabsf(m_Velocity.x))
-    {
-        m_Velocity.x = (m_Velocity.x / fabsf(m_Velocity.x)) * m_VelocityLimit;
-    }
-
-    if (m_MaxGravityVel < fabsf(m_Velocity.y))
-    {
-        m_Velocity.y = (m_Velocity.y / fabsf(m_Velocity.y)) * m_MaxGravityVel;
-    }
-
-    if ((m_RightWall && m_Velocity.x > 0) || (m_LeftWall && m_Velocity.x < 0))
-        m_Velocity.x = 0;
-
-    Vec3& vTrans = Transform()->GetRelativePosRef();
-    vTrans += {m_Velocity.x* DT, m_Velocity.y * DT, 0.0f};
-
-    m_Force = Vec2(0.f, 0.f); // 힘 초기화
 }
 
 void CNavigation::SaveToFile(FILE* _File)
 {
-	fwrite(&m_Mass, sizeof(float), 1, _File);
-	fwrite(&m_Friction, sizeof(float), 1, _File);
-	fwrite(&m_FrictionScale, sizeof(float), 1, _File);
-	fwrite(&m_VelocityLimit, sizeof(float), 1, _File);
-	fwrite(&m_MaxGravityVel, sizeof(float), 1, _File);
-	fwrite(&m_GravityAccel, sizeof(float), 1, _File);
 }
 
 void CNavigation::LoadFromFile(FILE* _File)
 {
-	fread(&m_Mass, sizeof(float), 1, _File);
-	fread(&m_Friction, sizeof(float), 1, _File);
-	fread(&m_FrictionScale, sizeof(float), 1, _File);
-	fread(&m_VelocityLimit, sizeof(float), 1, _File);
-	fread(&m_MaxGravityVel, sizeof(float), 1, _File);
-	fread(&m_GravityAccel, sizeof(float), 1, _File);
+}
+
+HRESULT CNavigation::InitializeNeighbors()
+{
+	for (const auto& From : m_Cells)
+	{
+		for (const auto& To : m_Cells)
+		{
+			if (From == To)
+				continue;
+
+			if (true == To->ComparePoints(From->Get_Point(CCell::POINT_A), From->Get_Point(CCell::POINT_B)))
+			{
+				From->InitializeNeighbor(CCell::LINE_AB, To);
+			}
+
+			if (true == To->ComparePoints(From->Get_Point(CCell::POINT_B), From->Get_Point(CCell::POINT_C)))
+			{
+				From->InitializeNeighbor(CCell::LINE_BC, To);
+			}
+
+			if (true == To->ComparePoints(From->Get_Point(CCell::POINT_C), From->Get_Point(CCell::POINT_A)))
+			{
+				From->InitializeNeighbor(CCell::LINE_CA, To);
+			}
+		}
+	}
+
+	return S_OK;
 }

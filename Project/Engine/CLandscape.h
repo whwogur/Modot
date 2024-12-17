@@ -7,7 +7,8 @@
 
 struct tRaycastOut
 {
-    Vec2    Location;
+    Vec4    Location;
+    Vec2    LocationUV;
     UINT    Distance;
     int     Success;
 };
@@ -17,6 +18,7 @@ enum LANDSCAPE_MODE
     NONE,
     HEIGHTMAP,
     SPLAT,
+    PINPOINT,
 };
 
 struct tWeight8
@@ -59,11 +61,14 @@ public:
     bool GetEditEnable() const { return m_EditEnable; }
 
     Vec2& GetBrushScaleRef() { return m_BrushScale;  }
+    void SetBrushScale(float _X, float _Y) { m_BrushScale.x = _X, m_BrushScale.y = _Y; }
 
     float& GetTessMaxLvRef() { return m_MaxLevel; }
     float& GetTessMinLvRef() { return m_MinLevel; }
     float& GetTessMaxThresholdRef() { return m_MaxThreshold; }
     float& GetTessMinThresholdRef() { return m_MinThreshold; }
+
+    const tRaycastOut& GetRaycastInfo() const { return m_Out; }
 public:
     virtual void Init() override;
     virtual void FinalTick() override;
@@ -78,8 +83,8 @@ private:
     void CreateTextureAndStructuredBuffer();
 
 private:
-    int                                             m_FaceX = 20;
-    int                                             m_FaceZ = 20;
+    int                                             m_FaceX = 1;
+    int                                             m_FaceZ = 1;
 
     // Tessellation
     float                                           m_MinLevel = 0;
@@ -114,7 +119,7 @@ private:
 
     // Raycasting
     Ptr<CRaycastCS>                                 m_RaycastCS;
-    std::shared_ptr<CStructuredBuffer>              m_RaycastOut;
+    std::shared_ptr<CStructuredBuffer>              m_RaycastInfoBuffer;
     tRaycastOut                                     m_Out;
 };
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "CComponent.h"
+class CCell;
 class CNavigation :
     public CComponent
 {
@@ -7,71 +8,38 @@ public:
     CNavigation();
     ~CNavigation() = default;
     CLONE(CNavigation);
+    typedef struct tagNavigationDesc
+    {
+        int			iCurrentCellIndex = -1;
+    }NAVIDESC;
+public:
+    float Compute_Height(const Vec3& _Position, float _Offset);
+    void Compute_CurrentIdx_viaDistance(const Vec3& _Position);
+    bool Compute_CurrentIdx_viaHeight(const Vec3& _Position);
 
 public:
+    bool CanMove(const Vec3& _Position);
+    int	Get_CurrentCellIndex() { return m_NaviDesc.iCurrentCellIndex; }
+    UINT Get_CurrentCelltype();
+    const Vec3& Get_CurrentCellCenter();
+    const Vec3& Get_LastNormal() { return m_vLastNormal; }
+
+public: // 컴포넌트 인터페이스
     virtual void FinalTick() override;
     virtual void SaveToFile(FILE* _File) override;
     virtual void LoadFromFile(FILE* _File) override;
 
-public:
-    void AddForce(Vec2 _Force) { m_Force += _Force; }
-    void SetVelocityLimit(float _Vel) { m_VelocityLimit = _Vel; }
-    void SetMaxGravityVel(float _Vel) { m_MaxGravityVel = _Vel; }
-
-    void SetVelocity(Vec2 _Velocity) { m_Velocity = _Velocity; }
-    Vec2 GetVelocity() const { return m_Velocity; }
-
-    void AddVelocity(Vec2 _AddV) { m_Velocity += _AddV; }
-
-    void SetFriction(float _f) { m_Friction = _f; }
-    void SetFrictionScale(float _f) { m_FrictionScale = _f; }
-    void SetGravityAccel(float _fAccel) { m_GravityAccel = _fAccel; }
-    void SetGround(bool _bGround)
-    {
-        m_Ground = _bGround;
-
-        if (m_Ground)
-        {
-            m_Velocity.y = 0.f;
-            m_FrictionScale = 0.5f;
-        }
-    }
-    void SetLeftWall(bool _b) { m_LeftWall = _b; }
-    void SetRightWall(bool _b) { m_RightWall = _b; }
-    void SetDownJump(bool _b) { m_CanJumpDown = _b; }
-    bool CanJumpDown() const { return m_CanJumpDown; }
-
-    bool IsGround()const { return m_Ground; }
-
-    void SetGroundNormal(Vec2 _Normal) { m_GroundNormal = _Normal; }
-public:
-    float& GetMassRef() { return m_Mass; }
-    float& GetFrictionRef() { return m_Friction; }
-    float& GetFrictionScaleRef() { return m_FrictionScale; }
-    float& GetVelocityLimitRef() { return m_VelocityLimit; }
-    float& GetMaxGravityAccelRef() { return m_MaxGravityVel; }
-    int& GetPlatformCountRef() { return m_PlatformCount; }
+private:
+    HRESULT InitializeNeighbors();
 
 private:
-    Vec2    m_Force;           // 힘
-    Vec2    m_Velocity;        // 속도 ( std::vector )
-    float   m_Mass;            // 질량
+    NAVIDESC				        m_NaviDesc;
+    std::vector<CCell*>	            m_Cells;
+    Vec3					        m_vLastNormal = {0, 0, 0};
+    bool					        m_bIs2D = false;
 
-    float   m_Friction;        // 마찰력
-    float   m_FrictionScale;   // 마찰계수
-
-    float   m_VelocityLimit;   // 제한 속도
-    float   m_MaxGravityVel;   // 중력에 의한 제한 속도
-
-
-    float   m_GravityAccel;    // 중력 가속도 설정
-    bool    m_Ground;          // 땅 체크
-
-    bool    m_LeftWall = false;
-    bool    m_RightWall = false;
-    bool    m_CanJumpDown = false;
-
-    int     m_PlatformCount = 0;
-    Vec2    m_GroundNormal;
+    /* x z가 같고 높이가 다른 셀이 존재할 수도 있어서 다른 컨테이너에 담아두고*/
+    /* 해당 벡터를 돌아서 높이 비교로 현재 셀을 확정 시킬 것*/
+    std::vector<CCell*>	            m_CellsForComputation;
 };
 

@@ -8,5 +8,8 @@ public:
     ~NavigationUI() = default;
 public:
     virtual void Update() override;
+
+private:
+    void CheckIfClicked(class CLandscape* _Landscape);
 };
 

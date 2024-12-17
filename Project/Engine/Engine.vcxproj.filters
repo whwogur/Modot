@@ -134,7 +134,7 @@
       <Filter>08. Component\RenderComponent\Tilemap</Filter>
     </ClInclude>
     <ClInclude Include="CNavigation.h">
-      <Filter>08. Component\RigidBody2D</Filter>
+      <Filter>08. Component\Navigation</Filter>
     </ClInclude>
     <ClInclude Include="CAnimator2D.h">
       <Filter>08. Component\Animator2D</Filter>
@@ -216,6 +216,9 @@
     </ClInclude>
     <ClInclude Include="CShader.h">
       <Filter>HLSL</Filter>
+    </ClInclude>
+    <ClInclude Include="CCell.h">
+      <Filter>08. Component\Navigation\Cells</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -329,7 +332,7 @@
       <Filter>08. Component\RenderComponent\Tilemap</Filter>
     </ClCompile>
     <ClCompile Include="CNavigation.cpp">
-      <Filter>08. Component\RigidBody2D</Filter>
+      <Filter>08. Component\Navigation</Filter>
     </ClCompile>
     <ClCompile Include="CAnimator2D.cpp">
       <Filter>08. Component\Animator2D</Filter>
@@ -414,6 +417,9 @@
     </ClCompile>
     <ClCompile Include="CShader.cpp">
       <Filter>HLSL</Filter>
+    </ClCompile>
+    <ClCompile Include="CCell.cpp">
+      <Filter>08. Component\Navigation\Cells</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -549,9 +555,6 @@
     <Filter Include="08. Component\Light3D">
       <UniqueIdentifier>{e205eabd-2306-4514-ac0d-525d881f4a03}</UniqueIdentifier>
     </Filter>
-    <Filter Include="08. Component\RigidBody2D">
-      <UniqueIdentifier>{471b9b4e-32c9-4e57-8858-610244077d39}</UniqueIdentifier>
-    </Filter>
     <Filter Include="08. Component\Script">
       <UniqueIdentifier>{225e82df-2731-4ae9-957a-7bbf75687f02}</UniqueIdentifier>
     </Filter>
@@ -605,6 +608,12 @@
     </Filter>
     <Filter Include="HLSL\ComputeShader\Animation3D\Animation">
       <UniqueIdentifier>{0e22dd4f-a51f-4864-badc-f681ac8e98f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\Navigation">
+      <UniqueIdentifier>{471b9b4e-32c9-4e57-8858-610244077d39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Component\Navigation\Cells">
+      <UniqueIdentifier>{01b0c7d2-b384-4342-b23b-3b5920b4baa4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

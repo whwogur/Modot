@@ -115,7 +115,8 @@ struct tParticleModule
 
 struct tRaycastOut
 {
-    float2  Location;
+    float4  Location;
+    float2  LocationUV;
     uint    Distance;
     int     Success;
 };
