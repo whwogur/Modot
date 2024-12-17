@@ -21,15 +21,15 @@ void CDecal::Render()
 {
 	Transform()->Bind();
 	if (m_DecalEnable)
-		GetMaterial(0)->SetTexParam(TEX_PARAM::TEX_1, m_DecalTex);
+		GetMaterial(GetMaterialIdx())->SetTexParam(TEX_PARAM::TEX_1, m_DecalTex);
 	else
 	{
-		GetMaterial(0)->SetTexParam(TEX_PARAM::TEX_2, m_EmissiveTex);
-		GetMaterial(0)->SetScalarParam(SCALAR_PARAM::FLOAT_0, m_EmissionMultiplier);
+		GetMaterial(GetMaterialIdx())->SetTexParam(TEX_PARAM::TEX_2, m_EmissiveTex);
+		GetMaterial(GetMaterialIdx())->SetScalarParam(SCALAR_PARAM::FLOAT_0, m_EmissionMultiplier);
 		assert(m_EmissiveEnable);
 	}
 
-	GetMaterial(0)->Bind();
+	GetMaterial(GetMaterialIdx())->Bind();
 	GetMesh()->Render(0);
 }
 
@@ -47,5 +47,5 @@ void CDecal::ToggleDecalMode(bool _Decal)
 	m_EmissiveEnable = !_Decal;
 
 	if (!m_EmissiveEnable)
-		GetMaterial(0)->SetTexParam(TEX_PARAM::TEX_2, nullptr);
+		GetMaterial(GetMaterialIdx())->SetTexParam(TEX_PARAM::TEX_2, nullptr);
 }

@@ -6,6 +6,8 @@
 #include <Engine/CNavigation.h>
 #include <Engine/CLandscape.h>
 #include <Engine/CKeyMgr.h>
+#include <Engine/CLevelMgr.h>
+#include <Engine/CTransform.h>
 NavigationUI::NavigationUI()
 	: ComponentUI(COMPONENT_TYPE::NAVIGATION)
 {
@@ -57,7 +59,13 @@ void NavigationUI::CheckIfClicked(CLandscape* _Landscape)
 		// Temp
 		const tRaycastOut& rayInfo = _Landscape->GetRaycastInfo();
 		string strInfo("X: " + std::to_string(static_cast<int>(rayInfo.Location.x)));
-		strInfo += "Z: " + std::to_string(static_cast<int>(rayInfo.Location.z));
+		strInfo += " Z: " + std::to_string(static_cast<int>(rayInfo.Location.z));
 		EDITOR_TRACE(strInfo);
+
+		CGameObject* testObj = CLevelMgr::GetInst()->FindObjectByName(L"TestObj");
+		if (testObj != nullptr)
+		{
+			testObj->Transform()->SetRelativePos({ rayInfo.Location.x, rayInfo.Location.y, rayInfo.Location.z });
+		}
 	}
 }

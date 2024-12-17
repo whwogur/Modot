@@ -305,8 +305,9 @@ void ModelEditor::Init()
     //============
     // 모델 오브젝트
     //============
-    Ptr<CMeshData> pMeshData = CAssetMgr::GetInst()->FindAsset<CMeshData>(L"mn_vorc_00_ani");
-    m_ModelObj = pMeshData->Instantiate(); // TEST
+    //Ptr<CMeshData> pMeshData = CAssetMgr::GetInst()->FindAsset<CMeshData>(L"mn_vorc_00_ani");
+    m_ModelObj = new CGameObject;
+    m_ModelObj->AddComponent(new CTransform);
     m_ModelObj->Transform()->SetRelativePos(Vec3(200.f, 0.f, 200.f));
     m_ModelObj->Transform()->SetRelativeScale(Vec3(3.f, 3.f, 3.f));
     

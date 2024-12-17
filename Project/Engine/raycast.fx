@@ -85,7 +85,7 @@ void CS_Raycast(uint3 _ID : SV_DispatchThreadID)
             CrossUV.y = 1.f - CrossUV.y;
             
             m_OutBuffer[0].LocationUV = CrossUV;
-            m_OutBuffer[0].Location = float4(vCrossPos, 0.f);
+            m_OutBuffer[0].Location = mul(float4(vCrossPos, 0.f), matWorld);
             m_OutBuffer[0].Success = 1;
         }
     }

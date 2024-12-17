@@ -139,8 +139,8 @@ void CParticleSystem::Render()
 	m_ModuleBuffer->Bind(21);	// t21
 
 	// 재질정보 바인딩
-	GetMaterial(0)->SetTexParam(TEX_0, m_ParticleTex);
-	GetMaterial(0)->Bind();
+	GetMaterial(GetMaterialIdx())->SetTexParam(TEX_0, m_ParticleTex);
+	GetMaterial(GetMaterialIdx())->Bind();
 
 	// 렌더링
 	GetMesh()->Render_Particle(m_MaxParticleCount);

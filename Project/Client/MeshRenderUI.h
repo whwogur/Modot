@@ -1,17 +1,18 @@
 #pragma once
 #include "ComponentUI.h"
+class CMeshRender;
 class MeshRenderUI :
     public ComponentUI
 {
 public:
     MeshRenderUI();
-    ~MeshRenderUI();
+    ~MeshRenderUI() = default;
 
 public:
     void SelectMesh(DWORD_PTR _AssetName);
-    void SelectMaterial(DWORD_PTR _AssetName);
 
 private:
     virtual void Update() override;
-
+    void Mesh(CMeshRender*);
+    void Material(CMeshRender*);
 };

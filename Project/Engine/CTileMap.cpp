@@ -51,12 +51,12 @@ void CTileMap::Render()
 	m_Buffer->SetData(m_vecTileInfo.data(), sizeof(tTileInfo) * m_Row * m_Col);
 	m_Buffer->Bind(15);
 
-	GetMaterial(0)->SetTexParam(TEX_0, m_TileAtlas);
-	GetMaterial(0)->SetScalarParam(INT_1, m_AtlasMaxRow);
-	GetMaterial(0)->SetScalarParam(INT_2, m_AtlasMaxCol);
-	GetMaterial(0)->SetScalarParam(VEC2_1, Vec2(m_Col, m_Row));
-	GetMaterial(0)->SetScalarParam(VEC2_0, m_AtlasTileSliceUV);
-	GetMaterial(0)->Bind();
+	GetMaterial(GetMaterialIdx())->SetTexParam(TEX_0, m_TileAtlas);
+	GetMaterial(GetMaterialIdx())->SetScalarParam(INT_1, m_AtlasMaxRow);
+	GetMaterial(GetMaterialIdx())->SetScalarParam(INT_2, m_AtlasMaxCol);
+	GetMaterial(GetMaterialIdx())->SetScalarParam(VEC2_1, Vec2(m_Col, m_Row));
+	GetMaterial(GetMaterialIdx())->SetScalarParam(VEC2_0, m_AtlasTileSliceUV);
+	GetMaterial(GetMaterialIdx())->Bind();
 	Transform()->Bind();
 	GetMesh()->Render(0);
 }
