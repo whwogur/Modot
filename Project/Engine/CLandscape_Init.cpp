@@ -99,8 +99,8 @@ void CLandscape::CreateComputeShader()
 void CLandscape::CreateTextureAndStructuredBuffer()
 {
 	// Raycast 결과를 받는 용도의 구조화버퍼
-	m_RaycastOut = std::make_shared<CStructuredBuffer>();
-	m_RaycastOut->Create(sizeof(tRaycastOut), 1, SB_TYPE::SRV_UAV, true);
+	m_RaycastInfoBuffer = std::make_shared<CStructuredBuffer>();
+	m_RaycastInfoBuffer->Create(sizeof(tRaycastOut), 1, SB_TYPE::SRV_UAV, true);
 
 	// LandScape 용 텍스쳐 로딩
 	m_ColorTex = CAssetMgr::GetInst()->Load<CTexture>(L"LS_Color", L"texture\\LandScape\\LS_Color.dds");

@@ -43,6 +43,8 @@ void CRenderComponent::SetMesh(Ptr<CMesh> _Mesh)
 	{
 		m_vecMtrls.clear();
 		std::vector<tMtrlSet> vecMtrls;
+		Ptr<CMaterial> stdDeferred = CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DeferredMtrl");
+		vecMtrls.emplace_back(stdDeferred, stdDeferred, stdDeferred);
 		m_vecMtrls.swap(vecMtrls);
 	}
 
@@ -60,7 +62,7 @@ void CRenderComponent::SetMaterial(Ptr<CMaterial> _Mtrl, UINT _idx)
 
 Ptr<CMaterial> CRenderComponent::GetMaterial(UINT _idx)
 {
-	return m_vecMtrls[_idx].pCurMtrl;
+	return m_vecMtrls.empty() ? nullptr : m_vecMtrls[_idx].pCurMtrl;
 }
 
 Ptr<CMaterial> CRenderComponent::GetSharedMaterial(UINT _idx)
@@ -107,6 +109,11 @@ ULONG64 CRenderComponent::GetInstID(UINT _iMtrlIdx)
 	return id.llID;
 }
 
+void CRenderComponent::EmplaceBackMaterial(Ptr<CMaterial> _Mat)
+{
+	m_vecMtrls.push_back(tMtrlSet{ _Mat, _Mat, _Mat });
+}
+
 void CRenderComponent::RenderShadow()
 {
 	// 재질은 ShadowMapMtrl 로 이미 Bind 되어있는걸 사용
@@ -134,6 +141,7 @@ void CRenderComponent::SaveDataToFile(FILE* _File)
 	{
 		SaveAssetRef(m_vecMtrls[i].pSharedMtrl, _File);
 	}
+	fwrite(&m_MaterialIndex, sizeof(UINT), 1, _File);
 }
 
 void CRenderComponent::LoadDataFromFile(FILE* _File)
@@ -146,4 +154,5 @@ void CRenderComponent::LoadDataFromFile(FILE* _File)
 	{
 		LoadAssetRef(m_vecMtrls[i].pSharedMtrl, _File);
 	}
+	fread(&m_MaterialIndex, sizeof(UINT), 1, _File);
 }

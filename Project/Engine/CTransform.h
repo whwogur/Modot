@@ -53,6 +53,10 @@ public:
             return m_BoundingSphere->GetRadius();
     }
 
+public: // 이동
+    bool MoveForward(float _DT, class CNavigation* _Navigation = nullptr, float _Radius = 1.f);
+    bool MoveForwardSliding(float _DT, CNavigation* _Navigation, float _Radius);
+public: // 컴포넌트 인터페이스
     virtual void SaveToFile(FILE* _File) override;
     virtual void LoadFromFile(FILE* _File) override;
 private:

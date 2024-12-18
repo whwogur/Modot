@@ -4,6 +4,8 @@
 #include "CDevice.h"
 #include "CConstBuffer.h"
 #include "CRenderComponent.h"
+#include "CNavigation.h"
+#include "CCell.h"
 CTransform::CTransform()
 	: CComponent(COMPONENT_TYPE::TRANSFORM)
 	, m_RelativeDir{}
@@ -150,6 +152,69 @@ std::weak_ptr<CBoundingSphere> CTransform::GetBoundingSphere()
 		return std::weak_ptr<CBoundingSphere>();
 
 	return m_BoundingSphere;
+}
+
+bool CTransform::MoveForward(float _DT, CNavigation* _Navigation, float _Radius)
+{
+	Vec3 vLook = m_WorldDir[DIR::FRONT];
+
+	m_RelativePos += vLook * /*TODO*/500.f * _DT;
+
+	if (nullptr == _Navigation)
+		m_RelativePos = m_RelativePos;
+	else if (true == _Navigation->CanMove(m_RelativePos + (vLook * _Radius)))
+		m_RelativePos = m_RelativePos;
+	else
+		return false;
+
+	return true;
+}
+
+bool CTransform::MoveForwardSliding(float _DT, CNavigation* _Navigation, float _Radius)
+{
+	Vec3 vLook = m_WorldDir[DIR::FRONT];
+
+	m_RelativePos += vLook * /*TODO*/500.f * _DT;
+
+	if (_Navigation)
+	{
+		_Navigation->Compute_CurrentIdx_viaDistance(m_RelativePos);
+	}
+
+	if (nullptr == _Navigation)
+		m_RelativePos = m_RelativePos;
+	else if (true == _Navigation->CanMove(m_RelativePos + vLook * _Radius))
+	{
+		if (_Navigation->Get_CurrentCelltype() == CCell::DROP)
+		{
+			Vec3 vNormal = XMVector3Normalize(_Navigation->Get_LastNormal());
+
+			float fDot = XMVectorGetX(XMVector3Dot(vLook, vNormal));
+			vNormal = vNormal * fDot * -1.f;
+			Vec3 vSliding = XMVector3Normalize(vLook + vNormal);
+			
+			if (true == _Navigation->CanMove(m_RelativePos + vLook * _Radius) && _Navigation->Get_CurrentCelltype() != CCell::DROP)
+				m_RelativePos += vSliding * _DT * /*TODO*/500.f;
+			return false;
+		}
+	}
+
+	else if (false == _Navigation->CanMove(m_RelativePos + vLook * _Radius))
+	{
+		Vec3 vNormal = XMVector3Normalize(_Navigation->Get_LastNormal());
+
+		float fDot = XMVectorGetX(XMVector3Dot(vLook, vNormal));
+		vNormal = vNormal * fDot * -1.f;
+		Vec3 vSliding = XMVector3Normalize(vLook + vNormal);
+
+		
+		if (true == _Navigation->CanMove(m_RelativePos + vLook * _Radius))
+			m_RelativePos += vSliding * _DT * /*TODO*/500.f;
+		return false;
+	}
+
+
+	return true;
 }
 
 void CTransform::SaveToFile(FILE* _File)

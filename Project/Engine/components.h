@@ -7,7 +7,7 @@
 #include "CLight2D.h"
 #include "CLight3D.h"
 #include "CScript.h"
-#include "CRigidBody.h"
+#include "CNavigation.h"
 #include "CAnimator2D.h"
 #include "CAnimator3D.h"
 #include "CTileMap.h"

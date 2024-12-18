@@ -31,7 +31,7 @@ const char* COMPONENT_TYPE_STRING[] =
 	"Animator2D",
 	"Animator3D",
 	"Text2D",
-	"RigidBody",
+	"Navigation",
 	"Camera",
 	"Mesh Render",
 	"Tilemap",

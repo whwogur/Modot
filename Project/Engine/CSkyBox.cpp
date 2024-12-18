@@ -27,28 +27,28 @@ void CSkyBox::FinalTick()
 void CSkyBox::Render()
 {
 	Transform()->Bind();
-	GetMaterial(0)->SetScalarParam(SCALAR_PARAM::INT_0, (int)m_Type);
+	GetMaterial(GetMaterialIdx())->SetScalarParam(SCALAR_PARAM::INT_0, (int)m_Type);
 	
 	if (m_SkyBoxTex.Get() != nullptr)
 	{
 		if (m_Type == SKYBOX_TYPE::SPHERE)
 		{
 			if (!m_SkyBoxTex->IsCubeMap())
-				GetMaterial(0)->SetTexParam(TEX_PARAM::TEX_0, m_SkyBoxTex);
+				GetMaterial(GetMaterialIdx())->SetTexParam(TEX_PARAM::TEX_0, m_SkyBoxTex);
 			else
-				GetMaterial(0)->SetTexParam(TEX_PARAM::TEX_0, nullptr);
+				GetMaterial(GetMaterialIdx())->SetTexParam(TEX_PARAM::TEX_0, nullptr);
 		}
 
 		else if (m_Type == SKYBOX_TYPE::CUBE)
 		{
 			if (m_SkyBoxTex->IsCubeMap())
-				GetMaterial(0)->SetTexParam(TEX_PARAM::TEXCUBE_0, m_SkyBoxTex);
+				GetMaterial(GetMaterialIdx())->SetTexParam(TEX_PARAM::TEXCUBE_0, m_SkyBoxTex);
 			else
-				GetMaterial(0)->SetTexParam(TEX_PARAM::TEXCUBE_0, nullptr);
+				GetMaterial(GetMaterialIdx())->SetTexParam(TEX_PARAM::TEXCUBE_0, nullptr);
 		}
 	}
 	
-	GetMaterial(0)->Bind();
+	GetMaterial(GetMaterialIdx())->Bind();
 	GetMesh()->Render(0);
 }
 

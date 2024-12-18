@@ -8,7 +8,7 @@ public:
     CWeightMapCS();
     ~CWeightMapCS() = default;
 public:
-    void SetBrushPos(CStructuredBuffer* _Buffer) { m_RaycastOut = _Buffer; }
+    void SetBrushPos(CStructuredBuffer* _Buffer) { m_RaycastInfoBuffer = _Buffer; }
     void SetBrushScale(Vec2 _Scale) { m_BrushScale = _Scale; }
     void SetWeightIdx(int _Idx) { m_WeightIdx = _Idx; }
     void SetWeightMapWidthHeight(UINT _Width, UINT _Height)
@@ -27,7 +27,7 @@ public:
 
 private:
     CStructuredBuffer*          m_WeightMap = nullptr;
-    CStructuredBuffer*          m_RaycastOut = nullptr;
+    CStructuredBuffer*          m_RaycastInfoBuffer = nullptr;
     Ptr<CTexture>               m_BrushTex;
     Vec2                        m_BrushScale;
     int                         m_WeightIdx = 0;

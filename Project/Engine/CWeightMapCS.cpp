@@ -11,7 +11,7 @@ int CWeightMapCS::Bind()
 {
 	if (nullptr == m_WeightMap ||
 		nullptr == m_BrushTex || 
-		nullptr == m_RaycastOut || 
+		nullptr == m_RaycastInfoBuffer || 
 		0 == m_WeightMapWidth || 
 		0 == m_WeightMapHeight)
 		return E_FAIL;
@@ -22,7 +22,7 @@ int CWeightMapCS::Bind()
 	m_Const.v2Arr[0] = m_BrushScale;
 	m_BrushTex->Bind_CS_SRV(0);
 	m_WeightMap->Bind_CS_UAV(0);
-	m_RaycastOut->Bind_CS_SRV(20);
+	m_RaycastInfoBuffer->Bind_CS_SRV(20);
 
 	return S_OK;
 }
@@ -40,5 +40,5 @@ void CWeightMapCS::Clear()
 {
 	m_BrushTex->Clear_CS_SRV();
 	m_WeightMap->Clear_CS_UAV();
-	m_RaycastOut->Clear_CS_SRV();
+	m_RaycastInfoBuffer->Clear_CS_SRV();
 }

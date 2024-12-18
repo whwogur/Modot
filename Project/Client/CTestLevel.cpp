@@ -14,8 +14,8 @@
 
 void CTestLevel::CreateTestLevel()
 {
-	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\NewLevel.lv");
-	
+	CLevel* pLevel = new CLevel;
+	pLevel->SetName(L"NewLevel");
 	{
 		// LandScape Ãß°¡
 		CGameObject* pLandScape = new CGameObject;
