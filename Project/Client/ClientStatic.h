@@ -28,5 +28,7 @@ namespace Modot
 
 		static void OpenFileDialog(std::vector<wstring>& _FilesName, const wstring& _RelativePath, const std::vector<std::pair<wstring, wstring>>& filter);
 		static wstring SaveFileDialog(const wstring& strRelativePath, const wchar_t* filter);
+
+		static bool ColorPicker(const char* label, Vec4& _Color, ImGuiColorEditFlags _Flags = 0, const Vec2& _Size = { 0, 0 });
 	};
 }

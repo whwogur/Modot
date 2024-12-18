@@ -491,4 +491,70 @@ namespace Modot
 
 		return wstring();
 	}
+
+	bool ClientStatic::ColorPicker(const char* label, Vec4& _Color, ImGuiColorEditFlags _Flags, const Vec2& _Size)
+	{
+		ImGuiWindow* window = ImGui::GetCurrentWindow();
+		if (window->SkipItems)
+			return false;
+
+		ImGuiContext& g = *GImGui;
+		const ImGuiID id = window->GetID(label);
+		const float default_size = ImGui::GetFrameHeight();
+		const ImVec2 size(_Size.x == 0.0f ? default_size : _Size.x, _Size.y == 0.0f ? default_size : _Size.y);
+		const ImRect bb(window->DC.CursorPos, { window->DC.CursorPos.x + size.x, window->DC.CursorPos.y + size.y });
+		ImGui::ItemSize(bb, (size.y >= default_size) ? g.Style.FramePadding.y : 0.0f);
+		if (!ImGui::ItemAdd(bb, id))
+			return false;
+
+		bool hovered, held;
+		bool pressed = ImGui::ButtonBehavior(bb, id, &hovered, &held);
+
+		if (_Flags & ImGuiColorEditFlags_NoAlpha)
+			_Flags &= ~(ImGuiColorEditFlags_AlphaPreview | ImGuiColorEditFlags_AlphaPreviewHalf);
+
+		ImVec4 col_rgb{ _Color.x, _Color.y, _Color.z, _Color.w };
+		if (_Flags & ImGuiColorEditFlags_InputHSV)
+			ImGui::ColorConvertHSVtoRGB(col_rgb.x, col_rgb.y, col_rgb.z, col_rgb.x, col_rgb.y, col_rgb.z);
+
+		ImVec4 col_rgb_without_alpha(col_rgb.x, col_rgb.y, col_rgb.z, 1.0f);
+		float grid_step = ImMin(size.x, size.y) / 2.99f;
+		float rounding = ImMin(g.Style.FrameRounding, grid_step * 0.5f);
+		ImRect bb_inner = bb;
+		float off = 0.0f;
+		if ((_Flags & ImGuiColorEditFlags_NoBorder) == 0)
+		{
+			off = -0.75f; // The border (using Col_FrameBg) tends to look off when color is near-opaque and rounding is enabled. This offset seemed like a good middle ground to reduce those artifacts.
+			bb_inner.Expand(off);
+		}
+		if ((_Flags & ImGuiColorEditFlags_AlphaPreviewHalf) && col_rgb.w < 1.0f)
+		{
+			float mid_x = IM_ROUND((bb_inner.Min.x + bb_inner.Max.x) * 0.5f);
+			ImGui::RenderColorRectWithAlphaCheckerboard(window->DrawList, ImVec2(bb_inner.Min.x + grid_step, bb_inner.Min.y), bb_inner.Max, ImGui::GetColorU32(col_rgb), grid_step, ImVec2(-grid_step + off, off), rounding, ImDrawFlags_RoundCornersRight);
+			window->DrawList->AddRectFilled(bb_inner.Min, ImVec2(mid_x, bb_inner.Max.y), ImGui::GetColorU32(col_rgb_without_alpha), rounding, ImDrawFlags_RoundCornersLeft);
+		}
+		else
+		{
+			// Because GetColorU32() multiplies by the global style Alpha and we don't want to display a checkerboard if the source code had no alpha
+			ImVec4 col_source = (_Flags & ImGuiColorEditFlags_AlphaPreview) ? col_rgb : col_rgb_without_alpha;
+			if (col_source.w < 1.0f)
+				ImGui::RenderColorRectWithAlphaCheckerboard(window->DrawList, bb_inner.Min, bb_inner.Max, ImGui::GetColorU32(col_source), grid_step, ImVec2(off, off), rounding);
+			else
+				window->DrawList->AddRectFilled(bb_inner.Min, bb_inner.Max, ImGui::GetColorU32(col_source), rounding);
+		}
+		ImGui::RenderNavCursor(bb, id);
+		if ((_Flags & ImGuiColorEditFlags_NoBorder) == 0)
+		{
+			if (g.Style.FrameBorderSize > 0.0f)
+				ImGui::RenderFrameBorder(bb.Min, bb.Max, rounding);
+			else
+				window->DrawList->AddRect(bb.Min, bb.Max, ImGui::GetColorU32(ImGuiCol_FrameBg), rounding); // Color button are often in need of some sort of border
+		}
+
+		// Tooltip
+		if (!(_Flags & ImGuiColorEditFlags_NoTooltip) && hovered && ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip))
+			ImGui::ColorTooltip(label, &_Color.x, _Flags & (ImGuiColorEditFlags_InputMask_ | ImGuiColorEditFlags_NoAlpha | ImGuiColorEditFlags_AlphaPreview | ImGuiColorEditFlags_AlphaPreviewHalf));
+
+		return pressed;
+	}
 }

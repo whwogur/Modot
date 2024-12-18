@@ -15,4 +15,6 @@ private:
     virtual void Update() override;
     void Mesh(CMeshRender*);
     void Material(CMeshRender*);
+    void MaterialSetInfo(struct tMtrlSet*);
+    void MaterialInfo(Ptr<CMaterial>);
 };
