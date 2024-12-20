@@ -61,8 +61,10 @@ void CRenderMgr::Tick()
 		{
 			if (nullptr == m_vecCam[i])
 				continue;
-
 			m_vecCam[i]->Render();
+			
+			if (i == 0 && m_DebugRender)
+				RenderDebugShape();
 		}
 	}
 
@@ -72,11 +74,12 @@ void CRenderMgr::Tick()
 		if (nullptr != m_EditorCamera)
 		{
 			m_EditorCamera->Render();
+			if (m_DebugRender)
+				RenderDebugShape();
 		}
 	}
 
-	if (m_DebugRender)
-		RenderDebugShape();
+	
 
 	DrawTextOnScreen();
 
