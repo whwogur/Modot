@@ -11,7 +11,7 @@ public:
 public:
 	virtual void Update() override;
 	virtual void Init() override {};
-	void ChangeTexture();
+	void ChangeTexture(DWORD_PTR _ListUI);
 	
 private:
 	Ptr<CTexture> m_Tex1 = nullptr;

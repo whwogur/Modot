@@ -96,7 +96,8 @@ void LandscapeUI::Update()
 				{
 					const wstring& wName = m_WeightPalette[i]->GetKey();
 					string strName(wName.begin(), wName.end());
-					if (ImGui::ImageButton(strName.c_str(), (ImTextureID)m_WeightPalette[i]->GetSRV().Get(), {ICONSIZE, ICONSIZE}, {0, 0}, {1, 1}, ImVec4(0, 0, 0, 0), weightIdx == i ? UICOLOR : ImVec4(0.f, 0.f, 0.f, 0.f)))
+					strName += i;
+					if (ClientStatic::ImageButton(strName.c_str(), (ImTextureID)m_WeightPalette[i]->GetSRV().Get(), { ICONSIZE, ICONSIZE }, { 0, 0 }, { 1, 1 }, weightIdx == i ? UICOLOR : ImVec4(0.f, 0.f, 0.f, 0.f) , { 1, 1, 1, 1 }, 0))
 					{
 						pLandscape->SetWeightIdx(i);
 					}
@@ -137,7 +138,7 @@ void LandscapeUI::BrushSettings(CLandscape* _Landscape)
 	{
 		const wstring& wName = m_BrushPalette[i]->GetKey();
 		string strName(wName.begin(), wName.end());
-		if (ImGui::ImageButton(strName.c_str(), (ImTextureID)m_BrushPalette[i]->GetSRV().Get(), {ICONSIZE, ICONSIZE}, {0, 0}, {1, 1}, ImVec4(0, 0, 0, 0), brushIdx == i ? UICOLOR : ImVec4(0.f, 0.f, 0.f, 0.f)))
+		if (ClientStatic::ImageButton(strName.c_str(), (ImTextureID)m_BrushPalette[i]->GetSRV().Get(), { ICONSIZE, ICONSIZE }, { 0, 0 }, { 1, 1 }, brushIdx == i ? UICOLOR : ImVec4(0.f, 0.f, 0.f, 0.f), { 1, 1, 1, 1 }, 0))
 		{
 			_Landscape->SetBrushIdx(i);
 		}

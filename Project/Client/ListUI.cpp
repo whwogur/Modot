@@ -44,7 +44,7 @@ void ListUI::Update()
 			{
 				(m_UI->*m_MemFunc)((DWORD_PTR)this);
 			}
-			else if (m_Tool && m_MemFunc)
+			else if (m_Tool && m_ToolFunc)
 			{
 				(m_Tool->*m_ToolFunc)((DWORD_PTR)this);
 			}

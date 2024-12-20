@@ -492,6 +492,37 @@ namespace Modot
 		return wstring();
 	}
 
+	bool ClientStatic::ImageButton(const char* str_id, ImTextureID texture_id, const Vec2& image_size, const ImVec2& uv0, const ImVec2& uv1, const ImVec4& bg_col, const ImVec4& tint_col, ImGuiButtonFlags flags)
+	{
+		ImGuiContext& g = *GImGui;
+		ImGuiWindow* window = g.CurrentWindow;
+		if (window->SkipItems)
+			return false;
+		ImGuiID id = window->GetID(str_id);
+
+		const ImVec2 padding = g.Style.FramePadding;
+		const ImRect bb(window->DC.CursorPos,  ImVec2(window->DC.CursorPos.x + image_size.x + padding.x * 2.0f, window->DC.CursorPos.y + image_size.y + padding.y * 2.0f ));
+		ImGui::ItemSize(bb);
+		if (!ImGui::ItemAdd(bb, id))
+			return false;
+
+		bool hovered, held;
+		bool pressed = ImGui::ButtonBehavior(bb, id, &hovered, &held, flags);
+
+		// Render
+		const ImU32 col = ImGui::GetColorU32((held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
+		ImGui::RenderNavCursor(bb, id);
+		ImGui::RenderFrame(bb.Min, bb.Max, col, true, ImClamp((float)ImMin(padding.x, padding.y), 0.0f, g.Style.FrameRounding));
+		if (bg_col.w > 0.0f)
+			window->DrawList->AddRectFilled(ImVec2(bb.Min.x + padding.x, bb.Min.y + padding.y), ImVec2(bb.Max.x - padding.x, bb.Max.y - padding.y), ImGui::GetColorU32(bg_col));
+		window->DrawList->AddImage(texture_id, ImVec2(bb.Min.x + padding.x, bb.Min.y + padding.y), ImVec2(bb.Max.x - padding.x, bb.Max.y - padding.y), uv0, uv1, ImGui::GetColorU32(tint_col));
+
+		return pressed;
+		return false;
+	}
+
+} // namespace Modot
+
 	bool ClientStatic::ColorPicker(const char* label, Vec4& _Color, ImGuiColorEditFlags _Flags, const Vec2& _Size)
 	{
 		ImGuiWindow* window = ImGui::GetCurrentWindow();

@@ -30,5 +30,6 @@ namespace Modot
 		static wstring SaveFileDialog(const wstring& strRelativePath, const wchar_t* filter);
 
 		static bool ColorPicker(const char* label, Vec4& _Color, ImGuiColorEditFlags _Flags = 0, const Vec2& _Size = { 0, 0 });
+		static bool ImageButton(const char* str_id, ImTextureID texture_id, const Vec2& image_size, const ImVec2& uv0, const ImVec2& uv1, const ImVec4& bg_col, const ImVec4& tint_col, ImGuiButtonFlags flags);
 	};
 }
