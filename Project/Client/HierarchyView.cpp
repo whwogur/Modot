@@ -43,77 +43,26 @@ HierarchyView::HierarchyView()
 
 void HierarchyView::Update()
 {
-	VIEWPORT_TYPE vpType = CEditorMgr::GetInst()->GetCurViewportType();
-	switch (vpType)
-	{
-	case VIEWPORT_TYPE::LEVEL:
-	{
-		if (CLevelMgr::GetInst()->IsDirty())
-			RefreshLevel();
-		const wstring& levelName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
-		string strLevelName(levelName.begin(), levelName.end());
-		ImGui::TextColored(HEADER_2, ICON_FA_CHROME" CurLevel: "); ImGui::SameLine();
-		ImGui::TextColored(HEADER_3, strLevelName.c_str());
+	if (CLevelMgr::GetInst()->IsDirty())
+		RefreshLevel();
+	const wstring& levelName = CLevelMgr::GetInst()->GetCurrentLevel()->GetName();
+	string strLevelName(levelName.begin(), levelName.end());
+	ImGui::TextColored(HEADER_2, ICON_FA_CHROME" CurLevel: "); ImGui::SameLine();
+	ImGui::TextColored(HEADER_3, strLevelName.c_str());
 
-		if (ImGui::BeginPopupContextWindow(0, 1))
+	if (ImGui::BeginPopupContextWindow(0, 1))
+	{
+		if (ImGui::MenuItem(u8"새 오브젝트"))
 		{
-			if (ImGui::MenuItem(u8"새 오브젝트"))
-			{
-				CGameObject* pGameObject = new CGameObject;
-				pGameObject->SetName(L"NewObject");
-				pGameObject->AddComponent(new CTransform);
-				pGameObject->Transform()->SetRelativePos(0.f, 0.f, 0.f);
-				pGameObject->Transform()->SetRelativeScale(100.f, 100.f, 100.f);
-				CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(0, pGameObject);
-			}
-
-			ImGui::EndPopup();
-		}
-		break;
-	}
-	case VIEWPORT_TYPE::MODEL:
-	{
-		std::weak_ptr<EditorViewport> pModelVP = CEditorMgr::GetInst()->GetCurViewport();
-		CGameObject* pTarget = pModelVP.lock()->GetTargetObject();
-		Ptr<CMesh> pMesh = pTarget->MeshRender()->GetMesh();
-
-		const wstring& wstrName = pMesh->GetKey();
-		string MeshName(wstrName.begin(), wstrName.end());
-
-		const map<wstring, Ptr<CAsset>>& mapMesh = CAssetMgr::GetInst()->GetAssets(ASSET_TYPE::MESH);
-		ImGui::Separator();
-		ImGui::SeparatorText(u8"메쉬 정보");
-		ImGui::NewLine();
-		ImGui::TextColored(HEADER_2, u8"메쉬 선택");
-		ImGui::SameLine(INDENT_2);
-		ImGui::SetNextItemWidth(150);
-		if (ImGui::BeginCombo("##MeshSelect", MeshName.c_str()))
-		{
-			ImGui::Separator();
-
-			for (const auto& mesh : mapMesh)
-			{
-				const wstring& wstrKey = mesh.second->GetKey();
-				string strName(wstrKey.begin(), wstrKey.end());
-				if (ImGui::Selectable(strName.c_str()))
-				{
-					pTarget->MeshRender()->SetMesh((CMesh*)mesh.second.Get());
-					
-					if (!((CMesh*)mesh.second.Get())->IsAnimMesh())
-						EDITOR_WARN(u8"주의::애니메이션 메시 아님");
-				}
-			}
-			ImGui::EndCombo();
+			CGameObject* pGameObject = new CGameObject;
+			pGameObject->SetName(L"NewObject");
+			pGameObject->AddComponent(new CTransform);
+			pGameObject->Transform()->SetRelativePos(0.f, 0.f, 0.f);
+			pGameObject->Transform()->SetRelativeScale(100.f, 100.f, 100.f);
+			CLevelMgr::GetInst()->GetCurrentLevel()->AddObject(0, pGameObject);
 		}
 
-		ImGui::NewLine();
-		int ClipCnt = static_cast<int>(pMesh->GetClipCount());
-		static string strClipCnt = std::to_string(ClipCnt);
-		ImGui::TextColored(HEADER_2, u8"클립 갯수");
-		ImGui::SameLine(INDENT_2);
-		ImGui::Text(strClipCnt.c_str());
-		break;
-	}
+		ImGui::EndPopup();
 	}
 }
 

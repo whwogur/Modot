@@ -14,7 +14,7 @@
 
 void CTestLevel::CreateTestLevel()
 {
-	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\NewLevel.lv");
+	CLevel* pLevel = new CLevel;//CLevelSaveLoad::LoadLevel(L"level\\NewLevel.lv");
 
 	{
 		// LandScape Ãß°¡

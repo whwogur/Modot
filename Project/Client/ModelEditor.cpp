@@ -108,7 +108,7 @@ void ModelEditor::Update()
 
                 ImGui::TextColored(HEADER_1, u8"ÇÁ·¹ÀÓ");ImGui::SameLine(INDENT_2);
                 int ClipFrameIdx = pAnimator->GetFrameIdx();
-                if (ImGui::SliderInt("##AnimationFrameIndex", &ClipFrameIdx, CurClip.iStartFrame, CurClip.iFrameLength - 1))
+                if (ImGui::SliderInt("##AnimationFrameIndex", &ClipFrameIdx, CurClip.iStartFrame, CurClip.iStartFrame + CurClip.iFrameLength))
                 {
                     pAnimator->SetFrameIdx(ClipFrameIdx);
                 }
@@ -237,9 +237,6 @@ void ModelEditor::Update()
 void ModelEditor::SetViewport(VIEWPORT_TYPE _Type)
 {
     ChangeLevelState(LEVEL_STATE::MODEL);
-    EditorUI* hvTree = CEditorMgr::GetInst()->FindEditorUI("HierarchyView");
-    if (hvTree != nullptr)
-        hvTree->SetChildActive(false);
 }
 
 void ModelEditor::Init()
@@ -296,7 +293,7 @@ void ModelEditor::Init()
     m_FloorObj->AddComponent(new CMeshRender);
 
     m_FloorObj->Transform()->SetRelativePos(Vec3(0.f, -500.f, 0.f));
-    m_FloorObj->Transform()->SetRelativeScale(Vec3(7777.f, 10.f, 7777.f));
+    m_FloorObj->Transform()->SetRelativeScale(Vec3(777777.f, 10.f, 777777.f));
 
     m_FloorObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"CubeMesh"));
     m_FloorObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std3DMtrl"), 0);

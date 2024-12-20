@@ -91,7 +91,7 @@ void MeshRenderUI::Material(CMeshRender* _MeshRender)
 		{
 			for (int i = 0; i < mtrlSetCnt; ++i)
 			{
-				static string strSelectable(std::to_string(i) + "##MaterialSet");
+				string strSelectable("MaterialSet " + std::to_string(i));
 				
 				if (ImGui::Selectable(strSelectable.c_str()))
 				{
@@ -171,22 +171,22 @@ void MeshRenderUI::MaterialInfo(Ptr<CMaterial> _Material)
 	Vec4& ambient = _Material->GetAmbRef();
 	ImGui::TextColored(HEADER_2, "Ambient");
 	ImGui::SameLine(INDENT_1);
-	ClientStatic::ColorPicker("##MaterialAmbientPicker", ambient, ImGuiColorEditFlags_DisplayRGB);
+	ClientStatic::ColorPicker("##MaterialAmbientPicker", ambient);
 
 	Vec4& diffuse = _Material->GetDiffRef();
 	ImGui::TextColored(HEADER_2, "Diffuse");
 	ImGui::SameLine(INDENT_1);
-	ClientStatic::ColorPicker("##MaterialDiffusePicker", diffuse, ImGuiColorEditFlags_DisplayRGB);
+	ClientStatic::ColorPicker("##MaterialDiffusePicker", diffuse);
 
 	Vec4& emissive = _Material->GetEmiRef();
 	ImGui::TextColored(HEADER_2, "Emissive");
 	ImGui::SameLine(INDENT_1);
-	ClientStatic::ColorPicker("##MaterialEmissivePicker", emissive, ImGuiColorEditFlags_DisplayRGB);
+	ClientStatic::ColorPicker("##MaterialEmissivePicker", emissive);
 
 	Vec4& specular = _Material->GetSpecRef();
 	ImGui::TextColored(HEADER_2, "Specular");
 	ImGui::SameLine(INDENT_1);
-	ClientStatic::ColorPicker("##MaterialSpecularPicker", specular, ImGuiColorEditFlags_DisplayRGB);
+	ClientStatic::ColorPicker("##MaterialSpecularPicker", specular);
 }
 
 void MeshRenderUI::SelectMesh(DWORD_PTR _ListUI)
