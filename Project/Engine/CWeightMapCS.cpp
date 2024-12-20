@@ -9,9 +9,9 @@ CWeightMapCS::CWeightMapCS()
 
 int CWeightMapCS::Bind()
 {
-	if (nullptr == m_WeightMap ||
+	if (nullptr == m_WeightMap.lock() ||
 		nullptr == m_BrushTex || 
-		nullptr == m_RaycastInfoBuffer || 
+		nullptr == m_RaycastInfoBuffer.lock() ||
 		0 == m_WeightMapWidth || 
 		0 == m_WeightMapHeight)
 		return E_FAIL;
@@ -21,8 +21,8 @@ int CWeightMapCS::Bind()
 	m_Const.iArr[2] = m_WeightIdx;
 	m_Const.v2Arr[0] = m_BrushScale;
 	m_BrushTex->Bind_CS_SRV(0);
-	m_WeightMap->Bind_CS_UAV(0);
-	m_RaycastInfoBuffer->Bind_CS_SRV(20);
+	m_WeightMap.lock()->Bind_CS_UAV(0);
+	m_RaycastInfoBuffer.lock()->Bind_CS_SRV(20);
 
 	return S_OK;
 }
@@ -39,6 +39,6 @@ void CWeightMapCS::CalcGroupNum()
 void CWeightMapCS::Clear()
 {
 	m_BrushTex->Clear_CS_SRV();
-	m_WeightMap->Clear_CS_UAV();
-	m_RaycastInfoBuffer->Clear_CS_SRV();
+	m_WeightMap.lock()->Clear_CS_UAV();
+	m_RaycastInfoBuffer.lock()->Clear_CS_SRV();
 }

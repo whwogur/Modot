@@ -20,7 +20,7 @@ void CLandscape::FinalTick()
 	if (m_Mode == LANDSCAPE_MODE::NONE)
 		return;
 
-	if (m_EditEnable && CRenderMgr::GetInst()->IsViewportHovered())
+	if (CRenderMgr::GetInst()->IsViewportHovered())
 	{
 		RayCast();
 
@@ -31,7 +31,7 @@ void CLandscape::FinalTick()
 				if (m_Out.Success)
 				{
 					// 높이맵 설정
-					m_HeightmapCS->SetBrushPos(m_RaycastInfoBuffer.get());
+					m_HeightmapCS->SetBrushPos(m_RaycastInfoBuffer);
 					m_HeightmapCS->SetBrushScale(m_BrushScale);
 					m_HeightmapCS->SetHeightMap(m_Heightmap);
 					m_HeightmapCS->SetBrushTex(m_vecBrush[m_BrushIdx]);
@@ -45,8 +45,8 @@ void CLandscape::FinalTick()
 			{
 				if (m_Out.Success)
 				{
-					m_WeightmapCS->SetBrushPos(m_RaycastInfoBuffer.get());
-					m_WeightmapCS->SetWeightMap(m_Weightmap.get());
+					m_WeightmapCS->SetBrushPos(m_RaycastInfoBuffer);
+					m_WeightmapCS->SetWeightMap(m_Weightmap);
 					m_WeightmapCS->SetBrushScale(m_BrushScale);
 					m_WeightmapCS->SetBrushTex(m_vecBrush[m_BrushIdx]);
 					m_WeightmapCS->SetWeightIdx(m_WeightIdx);
@@ -72,8 +72,8 @@ void CLandscape::Render()
 	Transform()->Bind();
 
 	// 지형의 면 개수
-	GetMaterial(GetMaterialIdx())->SetScalarParam(SCALAR_PARAM::INT_0,		m_FaceX);
-	GetMaterial(GetMaterialIdx())->SetScalarParam(SCALAR_PARAM::INT_1,		m_FaceZ);
+	GetMaterial(GetMaterialIdx())->SetScalarParam(SCALAR_PARAM::INT_0, m_FaceX);
+	GetMaterial(GetMaterialIdx())->SetScalarParam(SCALAR_PARAM::INT_1, m_FaceZ);
 	
 	// 지형 모드
 	GetMaterial(GetMaterialIdx())->SetScalarParam(SCALAR_PARAM::INT_2, (int)m_Mode);
@@ -135,7 +135,8 @@ void CLandscape::LoadFromFile(FILE* _File)
 
 int CLandscape::RayCast()
 {
-	Transform()->Bind();
+	if (LANDSCAPE_MODE::PINPOINT == m_Mode)
+		Transform()->Bind();
 	// 현재 시점 카메라 가져오기
 	CCamera* pCam = CRenderMgr::GetInst()->GetMainCamera();
 	if (nullptr == pCam)

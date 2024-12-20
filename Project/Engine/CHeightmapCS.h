@@ -11,7 +11,7 @@ public:
     ~CHeightmapCS() = default;
 
 public:
-    void SetBrushPos(CStructuredBuffer* _Buffer) { m_RaycastInfoBuffer = _Buffer;}
+    void SetBrushPos(std::weak_ptr<CStructuredBuffer> _Buffer) { m_RaycastInfoBuffer = _Buffer;}
     void SetBrushScale(Vec2 _Scale) { m_BrushScale = _Scale; }
     void SetHeightMap(Ptr<CTexture> _HeightMap) { m_HeightMapTex = _HeightMap; }
     void SetBrushTex(Ptr<CTexture> _BrushTex) { m_BrushTex = _BrushTex; }
@@ -23,7 +23,7 @@ public:
 private:
     Ptr<CTexture>                       m_HeightMapTex;
     Ptr<CTexture>                       m_BrushTex;
-    CStructuredBuffer*                  m_RaycastInfoBuffer;
+    std::weak_ptr<CStructuredBuffer>    m_RaycastInfoBuffer;
     Vec2                                m_BrushScale;
 };
 

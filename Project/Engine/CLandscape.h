@@ -56,10 +56,6 @@ public:
     int GetWeightIdx() const { return m_WeightIdx; }
     void SetWeightIdx(int _Idx) { m_WeightIdx = _Idx; }
 
-    bool& GetEditEnableRef() { return m_EditEnable; }
-    void SetEdit(bool _b) { m_EditEnable = _b; }
-    bool GetEditEnable() const { return m_EditEnable; }
-
     Vec2& GetBrushScaleRef() { return m_BrushScale;  }
     void SetBrushScale(float _X, float _Y) { m_BrushScale.x = _X, m_BrushScale.y = _Y; }
 
@@ -89,11 +85,10 @@ private:
     // Tessellation
     float                                           m_MinLevel = 0;
     float                                           m_MaxLevel = 4;
-    float                                           m_MinThreshold = 1500.f;
-    float                                           m_MaxThreshold = 500.f;
+    float                                           m_MinThreshold = 4000.f;
+    float                                           m_MaxThreshold = 1000.f;
 
     bool                                            m_WireFrame = false;
-    bool                                            m_EditEnable = false;
 
     // Weightmap
     Ptr<CTexture>                                   m_ColorTex = nullptr;

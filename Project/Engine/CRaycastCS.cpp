@@ -7,19 +7,18 @@ CRaycastCS::CRaycastCS()
 	, m_FaceX(0)
 	, m_FaceZ(0)
 	, m_Ray{}
-	, m_OutBuffer(nullptr)
 {
 }
 
 int CRaycastCS::Bind()
 {
-	if (nullptr == m_OutBuffer)
+	if (nullptr == m_OutBuffer.lock())
 		return E_FAIL;
 
 	// Raycasting 을 정확하게 계산하기위해서 t0 에 높이맵도 전달
 	m_Const.btex[0] = !!m_HeightMap.Get();
 	m_HeightMap->Bind_CS_SRV(0);
-	m_OutBuffer->Bind_CS_UAV(0);
+	m_OutBuffer.lock()->Bind_CS_UAV(0);
 
 	m_Const.iArr[0] = m_FaceX;
 	m_Const.iArr[1] = m_FaceZ;
@@ -43,8 +42,8 @@ void CRaycastCS::CalcGroupNum()
 
 void CRaycastCS::Clear()
 {
-	m_OutBuffer->Clear_CS_UAV();
-	m_OutBuffer = nullptr;
+	m_OutBuffer.lock()->Clear_CS_UAV();
+	m_OutBuffer = std::weak_ptr<CStructuredBuffer>();
 	m_HeightMap->Clear_CS_SRV();
 	m_HeightMap = nullptr;
 }

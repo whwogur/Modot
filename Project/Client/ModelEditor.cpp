@@ -108,7 +108,7 @@ void ModelEditor::Update()
 
                 ImGui::TextColored(HEADER_1, u8"프레임");ImGui::SameLine(INDENT_2);
                 int ClipFrameIdx = pAnimator->GetFrameIdx();
-                if (ImGui::SliderInt("##AnimationFrameIndex", &ClipFrameIdx, 0, CurClip.iFrameLength - 1))
+                if (ImGui::SliderInt("##AnimationFrameIndex", &ClipFrameIdx, CurClip.iStartFrame, CurClip.iFrameLength - 1))
                 {
                     pAnimator->SetFrameIdx(ClipFrameIdx);
                 }
@@ -305,9 +305,8 @@ void ModelEditor::Init()
     //============
     // 모델 오브젝트
     //============
-    //Ptr<CMeshData> pMeshData = CAssetMgr::GetInst()->FindAsset<CMeshData>(L"mn_vorc_00_ani");
-    m_ModelObj = new CGameObject;
-    m_ModelObj->AddComponent(new CTransform);
+    Ptr<CMeshData> pMeshData = CAssetMgr::GetInst()->FindAsset<CMeshData>(L"mn_vorc_00_ani");
+    m_ModelObj = pMeshData->Instantiate();
     m_ModelObj->Transform()->SetRelativePos(Vec3(200.f, 0.f, 200.f));
     m_ModelObj->Transform()->SetRelativeScale(Vec3(3.f, 3.f, 3.f));
     

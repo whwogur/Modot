@@ -27,7 +27,6 @@ void NavigationUI::Update()
 				if (ImGui::Button("TurnOFF##CellManipulation"))
 				{
 					pLandscape->SetMode(LANDSCAPE_MODE::NONE);
-					pLandscape->SetEdit(false);
 					pLandscape->SetBrushScale(0.2f, 0.2f);
 					pLandscape->SetBrushIdx(0);
 				}
@@ -38,7 +37,6 @@ void NavigationUI::Update()
 				if (ImGui::Button("TurnON##CellManipulation"))
 				{
 					pLandscape->SetMode(LANDSCAPE_MODE::PINPOINT);
-					pLandscape->SetEdit(true);
 					pLandscape->SetBrushScale(0.005f, 0.005f);
 					pLandscape->SetBrushIdx(2);
 				}

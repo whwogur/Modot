@@ -17,7 +17,7 @@ void CS_WeightMap(int3 _ID : SV_DispatchThreadID)
         return;
     
     // 마우스 피킹위치를 2차원 인덱스로 변환
-    int2 CenterPos = float2(WIDTH, HEIGHT) * Raycast[0].Location;
+    int2 CenterPos = float2(WIDTH, HEIGHT) * Raycast[0].LocationUV;
     
     // 브러시 범위를 해상도 단위로 변경
     int2 Scale = float2(WIDTH, HEIGHT) * BRUSH_SCALE;

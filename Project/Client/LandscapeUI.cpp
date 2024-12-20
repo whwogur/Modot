@@ -20,13 +20,11 @@ void LandscapeUI::Update()
 		if (pLandscape != nullptr)
 		{
 			ImGui::NewLine();
-			bool& editEnabled = pLandscape->GetEditEnableRef();
 
 			ImGui::BeginTabBar("##LandscapeUITab");
 				
 			if (ImGui::BeginTabItem(ICON_FA_SNOWFLAKE_O" Info"))
 			{
-				editEnabled = false;
 				pLandscape->SetMode(LANDSCAPE_MODE::NONE);
 				float& maxLv = pLandscape->GetTessMaxLvRef();
 				float& minLv = pLandscape->GetTessMinLvRef();
@@ -72,7 +70,6 @@ void LandscapeUI::Update()
 
 			if (ImGui::BeginTabItem(ICON_FA_AREA_CHART" HM"))
 			{
-				editEnabled = true;
 				pLandscape->SetMode(LANDSCAPE_MODE::HEIGHTMAP);
 				BrushSettings(pLandscape);
 				Ptr<CTexture> heightmapTex = pLandscape->GetHeightMap();
@@ -86,7 +83,6 @@ void LandscapeUI::Update()
 			
 			if (ImGui::BeginTabItem(ICON_FA_PAINT_BRUSH" WM"))
 			{
-				editEnabled = true;
 				pLandscape->SetMode(LANDSCAPE_MODE::SPLAT);
 				BrushSettings(pLandscape);
 				ImGui::NewLine();

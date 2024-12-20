@@ -14,8 +14,8 @@
 
 void CTestLevel::CreateTestLevel()
 {
-	CLevel* pLevel = new CLevel;
-	pLevel->SetName(L"NewLevel");
+	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\NewLevel.lv");
+
 	{
 		// LandScape Ãß°¡
 		CGameObject* pLandScape = new CGameObject;
@@ -45,7 +45,7 @@ void CTestLevel::CreateTestLevel()
 		//pSkyBox->SkyBox()->SetSkyBoxTexture(pSkyBoxTex);
 		//pSkyBox->SkyBox()->SetSkyBoxType(CUBE);		
 		
-		Ptr<CTexture> pSkyBoxTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Sky01");
+		Ptr<CTexture> pSkyBoxTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"Sky02");
 		pSkyBox->SkyBox()->SetSkyBoxTexture(pSkyBoxTex);
 		pSkyBox->SkyBox()->SetSkyBoxType(SKYBOX_TYPE::SPHERE);
 		pLevel->AddObject(0, pSkyBox);

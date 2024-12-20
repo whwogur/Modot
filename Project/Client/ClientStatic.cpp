@@ -521,7 +521,7 @@ namespace Modot
 		return false;
 	}
 
-} // namespace Modot
+
 
 	bool ClientStatic::ColorPicker(const char* label, Vec4& _Color, ImGuiColorEditFlags _Flags, const Vec2& _Size)
 	{
@@ -588,4 +588,4 @@ namespace Modot
 
 		return pressed;
 	}
-}
+} // namespace Modot

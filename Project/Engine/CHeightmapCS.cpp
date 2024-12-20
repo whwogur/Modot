@@ -13,7 +13,7 @@ int CHeightmapCS::Bind()
         return E_FAIL;
 
     m_HeightMapTex->Bind_CS_UAV(0);
-    m_RaycastInfoBuffer->Bind_CS_SRV(20);
+    m_RaycastInfoBuffer.lock()->Bind_CS_SRV(20);
 
     m_Const.iArr[0] = (UINT)m_HeightMapTex->Width();
     m_Const.iArr[1] = (UINT)m_HeightMapTex->Height();
@@ -46,8 +46,8 @@ void CHeightmapCS::Clear()
     m_HeightMapTex->Clear_CS_UAV();
     m_HeightMapTex = nullptr;
 
-    m_RaycastInfoBuffer->Clear_CS_SRV();
-    m_RaycastInfoBuffer = nullptr;
+    m_RaycastInfoBuffer.lock()->Clear_CS_SRV();
+    m_RaycastInfoBuffer = std::weak_ptr<CStructuredBuffer>();
 
     if (nullptr != m_BrushTex)
     {

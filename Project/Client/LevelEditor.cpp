@@ -153,6 +153,7 @@ void LevelEditor::Init()
     m_LevelEditorCam->AddComponent(new CEditorCameraScript);
 
     m_LevelEditorCam->Transform()->SetRelativeScale(1, 1, 1);
+    m_LevelEditorCam->Transform()->SetRelativePos(0, 0, 0);
     m_LevelEditorCam->Camera()->SetLayerGeneral();
     m_LevelEditorCam->Camera()->SetFar(10000.f);
     m_LevelEditorCam->Camera()->SetProjType(PERSPECTIVE);

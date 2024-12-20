@@ -23,7 +23,7 @@ void CS_HeightMap(int3 _ID : SV_DispatchThreadID)
     if (WIDTH <= _ID.x || HEIGHT <= _ID.y)
         return;
     
-    float2 vBrushPos = BrushPos[0].Location;
+    float2 vBrushPos = BrushPos[0].LocationUV;
     float2 vScale = vBrushScale * float2(WIDTH, HEIGHT);
     
     float2 vCenter = float2(WIDTH, HEIGHT) * vBrushPos;

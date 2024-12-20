@@ -19,6 +19,7 @@ CAnimator3D::CAnimator3D()
 	, m_fRatio(0.f)
 	, m_bPlay(true)
 	, m_fPlaySpeed(1.0f)
+	, m_bRepeat(true)
 {
 	m_pBoneFinalMatBuffer = std::make_shared<CStructuredBuffer>();
 }
@@ -37,6 +38,7 @@ CAnimator3D::CAnimator3D(const CAnimator3D& _origin)
 	, m_pVecBones(_origin.m_pVecBones)
 	, m_bPlay(_origin.m_bPlay)
 	, m_fPlaySpeed(_origin.m_fPlaySpeed)
+	, m_bRepeat(_origin.m_bRepeat)
 {
 	m_pBoneFinalMatBuffer = std::make_shared<CStructuredBuffer>();
 }
