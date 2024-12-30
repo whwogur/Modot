@@ -31,26 +31,26 @@ void CDemonScript::Begin()
 	CGameObject* hpBar = CLevelMgr::GetInst()->FindObjectByName(L"BossHPFill");
 	m_HPBar = static_cast<CUIBarScript*>(hpBar->FindScript((UINT)SCRIPT_TYPE::UIBARSCRIPT));
 
-	MD_ENGINE_ASSERT(m_Target != nullptr, L"플레이어 못찾음");
-	MD_ENGINE_ASSERT(m_AttackBox != nullptr, L"히트박스 못찾음");
-	MD_ENGINE_ASSERT(m_RoarBox != nullptr, L"히트박스 못찾음");
-	MD_ENGINE_ASSERT(m_HPBar != nullptr, L"HP바 스크립트 못찾음");
+	MD_ENGINE_ASSERT(nullptr != m_Target, L"플레이어 못찾음");
+	MD_ENGINE_ASSERT(nullptr != m_AttackBox, L"히트박스 못찾음");
+	MD_ENGINE_ASSERT(nullptr != m_RoarBox, L"히트박스 못찾음");
+	MD_ENGINE_ASSERT(nullptr != m_HPBar, L"HP바 스크립트 못찾음");
 
 	CGameObject* Fire = GetOwner()->GetChildObject(L"BreatheFireR");
-	if (Fire != nullptr)
+	if (nullptr != Fire)
 	{
 		Fire->ParticleSystem()->SetBurst(false);
 	}
 
 	Fire = GetOwner()->GetChildObject(L"BreatheFireL");
-	if (Fire != nullptr)
+	if (nullptr != Fire)
 	{
 		Fire->ParticleSystem()->SetBurst(false);
 		
 	}
 	
 	CGameObject* shockwave = GetOwner()->GetChildObject(L"Demon_Roar");
-	if (shockwave != nullptr)
+	if (nullptr != shockwave)
 	{
 		shockwave->ParticleSystem()->SetBurst(false);
 	}
@@ -58,7 +58,7 @@ void CDemonScript::Begin()
 	PLAY_BGM(m_Intro);
 
 	CBlurControl* GodRay = static_cast<CBlurControl*>(CLevelMgr::GetInst()->FindObjectByName(L"GodRay")->FindScript((UINT)SCRIPT_TYPE::BLURCONTROL));
-	if (GodRay != nullptr)
+	if (nullptr != GodRay)
 	{
 		GodRay->Activate();
 	}
@@ -78,10 +78,10 @@ void CDemonScript::Tick()
 			ChangeState(DemonState::INTRO2);
 
 			CGameObject* gameObj = CLevelMgr::GetInst()->FindObjectByName(L"DemonTextBox");
-			if (gameObj != nullptr)
+			if (nullptr != gameObj)
 			{
 				CNPCUIScript* scrpt = (CNPCUIScript*)gameObj->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT);
-				if (scrpt != nullptr)
+				if (nullptr != scrpt)
 				{
 					scrpt->Activate();
 				}
@@ -247,7 +247,7 @@ void CDemonScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherOb
 {
 	CScript* attack = _OtherObject->FindScript((UINT)SCRIPT_TYPE::ATTACKSCRIPT);
 
-	if (attack != nullptr)
+	if (nullptr != attack)
 	{
 		float& hpRef = m_HPBar->GetHPRef();
 		hpRef -= 5.f;
@@ -260,7 +260,7 @@ void CDemonScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherOb
 	{
 		CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
 		CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
-		if (camScript != nullptr)
+		if (nullptr != camScript)
 		{
 			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.5f);
 		}
@@ -292,7 +292,7 @@ void CDemonScript::BeginState(DemonState _State)
 
 		CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
 		CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
-		if (camScript != nullptr)
+		if (nullptr != camScript)
 		{
 			camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.5f);
 		}
@@ -313,7 +313,7 @@ void CDemonScript::BeginState(DemonState _State)
 		m_Timer = 0.8f;
 		Animator2D()->Play(L"Demon_Roar", 8.f, false);
 		CGameObject* FireR = GetOwner()->GetChildObject(L"RedAccum");
-		if (FireR != nullptr)
+		if (nullptr != FireR)
 		{
 			FireR->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = true;
 		}
@@ -332,7 +332,7 @@ void CDemonScript::BeginState(DemonState _State)
 		RigidBody()->SetVelocity(Vec2((targetPos.x - demonPos.x) * PI, 6666.f));
 
 		CGameObject* debris = CLevelMgr::GetInst()->FindObjectByName(L"Debris");
-		if (debris != nullptr)
+		if (nullptr != debris)
 		{
 			debris->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = true;
 		}
@@ -351,7 +351,7 @@ void CDemonScript::BeginState(DemonState _State)
 		m_Timer = 0.8f;
 		Animator2D()->Play(L"Demon_Roar", 8.f, false);
 		CGameObject* FireR = GetOwner()->GetChildObject(L"WhiteAccum");
-		if (FireR != nullptr)
+		if (nullptr != FireR)
 		{
 			FireR->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = true;
 		}
@@ -377,7 +377,7 @@ void CDemonScript::BeginState(DemonState _State)
 			if (demonPos.x - playerPos.x > 0)
 			{
 				CGameObject* FireL = GetOwner()->GetChildObject(L"BreatheFireL");
-				if (FireL != nullptr)
+				if (nullptr != FireL)
 				{
 					FireL->ParticleSystem()->Jerk();
 					FireL->ParticleSystem()->SetBurst(true);
@@ -387,7 +387,7 @@ void CDemonScript::BeginState(DemonState _State)
 			else
 			{
 				CGameObject* FireR = GetOwner()->GetChildObject(L"BreatheFireR");
-				if (FireR != nullptr)
+				if (nullptr != FireR)
 				{
 					FireR->ParticleSystem()->Jerk();
 					FireR->ParticleSystem()->SetBurst(true);
@@ -405,41 +405,41 @@ void CDemonScript::BeginState(DemonState _State)
 				if (demonPos.x > -600)
 				{
 					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire0");
-					if (Fire != nullptr)
+					if (nullptr != Fire)
 					{
 						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
+						if (nullptr != script)
 							script->Flicker();
 					}
 					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire1");
-					if (Fire != nullptr)
+					if (nullptr != Fire)
 					{
 						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
+						if (nullptr != script)
 							script->Flicker();
 					}
 					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire2");
-					if (Fire != nullptr)
+					if (nullptr != Fire)
 					{
 						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
+						if (nullptr != script)
 							script->Flicker();
 					}
 				}
 				else
 				{
 					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire0");
-					if (Fire != nullptr)
+					if (nullptr != Fire)
 					{
 						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
+						if (nullptr != script)
 							script->Flicker();
 					}
 					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire1");
-					if (Fire != nullptr)
+					if (nullptr != Fire)
 					{
 						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
+						if (nullptr != script)
 							script->Flicker();
 					}
 				}
@@ -452,48 +452,48 @@ void CDemonScript::BeginState(DemonState _State)
 					if (demonScale.x < 0)
 					{
 						CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire0");
-						if (Fire != nullptr)
+						if (nullptr != Fire)
 						{
 							CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-							if (script != nullptr)
+							if (nullptr != script)
 								script->Flicker();
 						}
 						Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire1");
-						if (Fire != nullptr)
+						if (nullptr != Fire)
 						{
 							CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-							if (script != nullptr)
+							if (nullptr != script)
 								script->Flicker();
 						}
 						Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire2");
-						if (Fire != nullptr)
+						if (nullptr != Fire)
 						{
 							CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-							if (script != nullptr)
+							if (nullptr != script)
 								script->Flicker();
 						}
 					}
 					else
 					{
 						CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire3");
-						if (Fire != nullptr)
+						if (nullptr != Fire)
 						{
 							CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-							if (script != nullptr)
+							if (nullptr != script)
 								script->Flicker();
 						}
 						Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire4");
-						if (Fire != nullptr)
+						if (nullptr != Fire)
 						{
 							CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-							if (script != nullptr)
+							if (nullptr != script)
 								script->Flicker();
 						}
 						Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire5");
-						if (Fire != nullptr)
+						if (nullptr != Fire)
 						{
 							CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-							if (script != nullptr)
+							if (nullptr != script)
 								script->Flicker();
 						}
 					}
@@ -501,47 +501,47 @@ void CDemonScript::BeginState(DemonState _State)
 				else if (demonPos.x > 300)
 				{
 					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire3");
-					if (Fire != nullptr)
+					if (nullptr != Fire)
 					{
 						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
+						if (nullptr != script)
 							script->Flicker();
 					}
 					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire4");
-					if (Fire != nullptr)
+					if (nullptr != Fire)
 					{
 						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
+						if (nullptr != script)
 							script->Flicker();
 					}
 				}
 				else
 				{
 					CGameObject* Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire4");
-					if (Fire != nullptr)
+					if (nullptr != Fire)
 					{
 						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
+						if (nullptr != script)
 							script->Flicker();
 					}
 					Fire = CLevelMgr::GetInst()->FindObjectByName(L"Fire5");
-					if (Fire != nullptr)
+					if (nullptr != Fire)
 					{
 						CHellfireScript* script = (CHellfireScript*)Fire->FindScript((UINT)SCRIPT_TYPE::HELLFIRESCRIPT);
-						if (script != nullptr)
+						if (nullptr != script)
 							script->Flicker();
 					}
 				}
 			}
 
 			CGameObject* shockwave = GetOwner()->GetChildObject(L"Demon_Roar");
-			if (shockwave != nullptr)
+			if (nullptr != shockwave)
 			{
 				shockwave->ParticleSystem()->Jerk();
 				shockwave->ParticleSystem()->SetBurst(true);
 			}
 			shockwave = GetOwner()->GetChildObject(L"DebrisBurst");
-			if (shockwave != nullptr)
+			if (nullptr != shockwave)
 			{
 				shockwave->ParticleSystem()->Jerk();
 				shockwave->ParticleSystem()->SetBurst(true);
@@ -549,7 +549,7 @@ void CDemonScript::BeginState(DemonState _State)
 
 			CGameObject* mainCam = CLevelMgr::GetInst()->FindObjectByName(L"MainCamera");
 			CCameraMoveScript* camScript = static_cast<CCameraMoveScript*>(mainCam->FindScript((UINT)SCRIPT_TYPE::CAMERAMOVESCRIPT));
-			if (camScript != nullptr)
+			if (nullptr != camScript)
 			{
 				camScript->SetCameraEffect(CAM_EFFECT::SHAKE, 0.5f);
 			}
@@ -564,10 +564,10 @@ void CDemonScript::BeginState(DemonState _State)
 		Animator2D()->Reset();
 
 		CGameObject* npcUI = CLevelMgr::GetInst()->FindObjectByName(L"BossHPUI");
-		if (npcUI != nullptr)
+		if (nullptr != npcUI)
 		{
 			CNPCUIScript* npcUIScript = static_cast<CNPCUIScript*>(npcUI->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT));
-			if (npcUIScript != nullptr)
+			if (nullptr != npcUIScript)
 			{
 				npcUIScript->Deactivate();
 			}
@@ -591,7 +591,7 @@ void CDemonScript::EndState(DemonState _State)
 	case DemonState::INTRO1:
 	{
 		CPlayerScript* pPlayerScript = static_cast<CPlayerScript*>(m_Target->FindScript((UINT)PLAYERSCRIPT));
-		if (pPlayerScript != nullptr)
+		if (nullptr != pPlayerScript)
 		{
 			pPlayerScript->ChangeState(PlayerState::SURPRISED);
 		}
@@ -601,22 +601,22 @@ void CDemonScript::EndState(DemonState _State)
 	case DemonState::INTRO2:
 	{
 		CPlayerScript* pPlayerScript = static_cast<CPlayerScript*>(m_Target->FindScript((UINT)SCRIPT_TYPE::PLAYERSCRIPT));
-		if (pPlayerScript != nullptr)
+		if (nullptr != pPlayerScript)
 		{
 			pPlayerScript->ChangeState(PlayerState::IDLE);
 		}
 
 		CGameObject* pTrigger = CLevelMgr::GetInst()->FindObjectByName(L"DemonTrigger");
-		if (pTrigger != nullptr)
+		if (nullptr != pTrigger)
 		{
 			pTrigger->Transform()->SetRelativePos(Vec3(-2222.f, -2222.f, -2222.f));
 		}
 
 		CGameObject* gameObj = CLevelMgr::GetInst()->FindObjectByName(L"DemonTextBox");
-		if (gameObj != nullptr)
+		if (nullptr != gameObj)
 		{
 			CNPCUIScript* scrpt = (CNPCUIScript*)gameObj->FindScript((UINT)SCRIPT_TYPE::NPCUISCRIPT);
-			if (scrpt != nullptr)
+			if (nullptr != scrpt)
 			{
 				scrpt->Deactivate();
 			}
@@ -633,7 +633,7 @@ void CDemonScript::EndState(DemonState _State)
 	case DemonState::BREATHEFIRE:
 	{
 		CGameObject* FireR = GetOwner()->GetChildObject(L"RedAccum");
-		if (FireR != nullptr)
+		if (nullptr != FireR)
 		{
 			FireR->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = false;
 		}
@@ -642,7 +642,7 @@ void CDemonScript::EndState(DemonState _State)
 	case DemonState::JUMPATTACK:
 	{
 		CGameObject* debris = CLevelMgr::GetInst()->FindObjectByName(L"Debris");
-		if (debris != nullptr)
+		if (nullptr != debris)
 		{
 			debris->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = false;
 		}
@@ -659,7 +659,7 @@ void CDemonScript::EndState(DemonState _State)
 	case DemonState::ROAR:
 	{
 		CGameObject* FireR = GetOwner()->GetChildObject(L"WhiteAccum");
-		if (FireR != nullptr)
+		if (nullptr != FireR)
 		{
 			FireR->ParticleSystem()->GetParticleModuleRef().Module[(UINT)PARTICLE_MODULE::SPAWN] = false;
 		}
@@ -670,13 +670,13 @@ void CDemonScript::EndState(DemonState _State)
 		if (m_Fire)
 		{
 			CGameObject* Fire = GetOwner()->GetChildObject(L"BreatheFireR");
-			if (Fire != nullptr)
+			if (nullptr != Fire)
 			{
 				Fire->ParticleSystem()->SetBurst(false);
 			}
 
 			Fire = GetOwner()->GetChildObject(L"BreatheFireL");
-			if (Fire != nullptr)
+			if (nullptr != Fire)
 			{
 				Fire->ParticleSystem()->SetBurst(false);
 			}
@@ -686,13 +686,13 @@ void CDemonScript::EndState(DemonState _State)
 		else
 		{
 			CGameObject* shockwave = GetOwner()->GetChildObject(L"Demon_Roar");
-			if (shockwave != nullptr)
+			if (nullptr != shockwave)
 			{
 				shockwave->ParticleSystem()->SetBurst(false);
 			}
 
 			shockwave = GetOwner()->GetChildObject(L"DebrisBurst");
-			if (shockwave != nullptr)
+			if (nullptr != shockwave)
 			{
 				shockwave->ParticleSystem()->SetBurst(false);
 			}
