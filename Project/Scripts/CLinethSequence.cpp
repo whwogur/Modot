@@ -68,8 +68,8 @@ void CLinethSequence::Tick()
 		pInspector->SetTargetAsset(nullptr);
 #endif
 
-		CPlayerManager::GetInst()->SetNextPos(Vec3(158.20f, -300.f, 1.8f));
-		CPlayerManager::GetInst()->SetNextCamPos(Vec3(125.18, 43.36f, 0.f));
+		CGameManager::GetInst()->SetNextPos(Vec3(158.20f, -300.f, 1.8f));
+		CGameManager::GetInst()->SetNextCamPos(Vec3(125.18, 43.36f, 0.f));
 		CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\ShrineAfterBoss.lv");
 		ChangeLevel(pLevel, LEVEL_STATE::PLAY);
 

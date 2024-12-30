@@ -14,7 +14,7 @@ CCameraMoveScript::CCameraMoveScript()
 
 void CCameraMoveScript::Begin()
 {
-	const std::shared_ptr<PlayerStatus>& playerStat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+	const std::shared_ptr<PlayerStatus>& playerStat = CGameManager::GetInst()->GetPlayerStatusRef();
 	m_Target = CLevelMgr::GetInst()->FindObjectByName(L"Player");
 
 	Transform()->SetRelativePos(playerStat.get()->CamPos);

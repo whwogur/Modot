@@ -15,8 +15,8 @@
 #include "CScriptMgr.h"
 #include "../Client/CPlayerManager.h"
 
-#define PLAY_BGM(SOUND) CPlayerManager::GetInst()->PlayBGM(SOUND)
-#define PLAY_EFFECT(SOUND) CPlayerManager::GetInst()->PlayEffect(SOUND)
+#define PLAY_BGM(SOUND) CGameManager::GetInst()->PlayBGM(SOUND)
+#define PLAY_EFFECT(SOUND) CGameManager::GetInst()->PlayEffect(SOUND)
 
 constexpr float PI = 3.14159265359;
 #endif //PCH_H

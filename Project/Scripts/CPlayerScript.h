@@ -38,8 +38,8 @@ public:
     void ChangeState(PlayerState _NextState);
     void SetDamaged(float _Damage);
 private:
-    void BeginState(PlayerState _State);
     void DirectionCheck();
+    void BeginState(PlayerState _State);
     void EndState(PlayerState _State);
 
     void Jump();

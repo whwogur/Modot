@@ -45,10 +45,10 @@ public:
 	Vec3		CamPos;
 };
 
-class CPlayerManager
-	: public CSingleton<CPlayerManager>
+class CGameManager
+	: public CSingleton<CGameManager>
 {
-	SINGLE(CPlayerManager)
+	SINGLE(CGameManager)
 public:
 	void Init();
 
@@ -107,6 +107,6 @@ public:
 	void UpdateCurBGMVolume();
 	void PlayEffect(Ptr<CSound> _Sound);
 private:
-	std::shared_ptr<PlayerStatus> m_PlayerStatus = nullptr;
-	std::shared_ptr<GameStatus> m_GameStatus = nullptr;
+	std::shared_ptr<PlayerStatus>	m_PlayerStatus;
+	std::shared_ptr<GameStatus>		m_GameStatus;
 };

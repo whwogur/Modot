@@ -68,7 +68,7 @@ void MenuUI::Tick()
 				pInspector->SetTargetObject(nullptr);
 				pInspector->SetTargetAsset(nullptr);
 				
-				CPlayerManager::GetInst()->StopCurBGM();
+				CGameManager::GetInst()->StopCurBGM();
 			}
 
 			color = { 0.45f, 0.55f, 0.88f, 1.0f };
@@ -92,7 +92,7 @@ void MenuUI::Tick()
 				Inspector* pInspector = (Inspector*)CEditorMgr::GetInst()->FindEditorUI("Inspector");
 				pInspector->SetTargetObject(nullptr);
 				pInspector->SetTargetAsset(nullptr);
-				CPlayerManager::GetInst()->StopCurBGM();
+				CGameManager::GetInst()->StopCurBGM();
 			}
 
 			color = { 1, 0, 0, 1 };

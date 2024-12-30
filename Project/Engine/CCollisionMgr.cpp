@@ -64,7 +64,7 @@ void CCollisionMgr::CollisionBtwLayer(UINT _Left, UINT _Right)
 {
 	// 현재 레벨 가져온다.
 	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
-	if (pCurLevel == nullptr)
+	if (nullptr == pCurLevel)
 		return;
 
 	// 각 레이어에 속한 모든 오브젝트들을 가져온다.

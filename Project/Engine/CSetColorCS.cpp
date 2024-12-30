@@ -8,7 +8,7 @@ CSetColorCS::CSetColorCS()
 
 int CSetColorCS::Bind()
 {
-	if (m_TargetTex == nullptr || m_TargetTex->GetUAV() == nullptr)
+	if (nullptr == m_TargetTex || nullptr == m_TargetTex->GetUAV())
 		return E_FAIL;
 
 	m_TargetTex->Bind_CS_UAV(0);

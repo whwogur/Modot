@@ -19,7 +19,7 @@
 void CTestLevel::CreateTestLevel()
 {
 	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\KohoHouseTEST.lv");
-	CPlayerManager::GetInst()->Init();
+	CGameManager::GetInst()->Init();
 	/*pLevel->GetLayer(5)->SetName(L"PlayerAttack");
 	pLevel->GetLayer(6)->SetName(L"MonsterAttack");
 	pLevel->GetLayer(8)->SetName(L"NPC");

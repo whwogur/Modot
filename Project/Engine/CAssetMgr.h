@@ -96,7 +96,7 @@ void CAssetMgr::AddAsset(const wstring& _Key, Ptr<T> _Asset)
 {
 	ASSET_TYPE Type = GetAssetType<T>();
 
-	MD_ENGINE_ASSERT(FindAsset(Type, _Key).Get() == nullptr, L"이미 있는 애셋 추가 시도");
+	MD_ENGINE_ASSERT(nullptr == FindAsset(Type, _Key).Get(), L"이미 있는 애셋 추가 시도");
 
 	_Asset->SetKey(_Key);
 	m_mapAsset[(UINT)Type].insert(make_pair(_Key, _Asset.Get()));

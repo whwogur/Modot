@@ -30,7 +30,7 @@ void Animator2DUI::Update()
 				{
 					for (size_t i = 0; i < vecAnim.size(); ++i)
 					{
-						if (vecAnim[i].Get() == nullptr)
+						if (nullptr == vecAnim[i].Get())
 						{
 							ImGui::Selectable("< Empty >", false, ImGuiSelectableFlags_Disabled);
 						}

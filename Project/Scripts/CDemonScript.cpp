@@ -573,7 +573,7 @@ void CDemonScript::BeginState(DemonState _State)
 			}
 		}
 
-		std::shared_ptr<GameStatus>& gameStat = CPlayerManager::GetInst()->GetGameStatusRef();
+		std::shared_ptr<GameStatus>& gameStat = CGameManager::GetInst()->GetGameStatusRef();
 		gameStat.get()->Kills += 1;
 
 		PLAY_EFFECT(m_Roar2);

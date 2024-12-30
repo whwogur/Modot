@@ -32,7 +32,7 @@ void CAttackScript::Tick()
 void CAttackScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject* _OtherObject, CCollider2D* _OtherCollider)
 {
 	CPlatformScript* platformCheck = dynamic_cast<CPlatformScript*>(_OtherObject->FindScript((UINT)SCRIPT_TYPE::PLATFORMSCRIPT));
-	if (platformCheck == nullptr)
+	if (nullptr == platformCheck)
 	{
 		const Vec3& hitPos = _OtherObject->Transform()->GetRelativePosRef();
 		const Vec3& attackPos = Transform()->GetRelativePosRef();

@@ -70,7 +70,7 @@ void CMenuScript::Tick()
 				PLAY_EFFECT(m_TickSound);
 			}
 
-			std::shared_ptr<GameStatus>& gameStat = CPlayerManager::GetInst()->GetGameStatusRef();
+			std::shared_ptr<GameStatus>& gameStat = CGameManager::GetInst()->GetGameStatusRef();
 
 			wstring kills(std::to_wstring(gameStat.get()->Kills));
 			wstring petcat(std::to_wstring(gameStat.get()->PetCat));
@@ -269,7 +269,7 @@ void CMenuScript::Tick()
 		}
 		case MENU_TYPE::OPTIONS:
 		{
-			std::shared_ptr<GameStatus>& gameStat = CPlayerManager::GetInst()->GetGameStatusRef();
+			std::shared_ptr<GameStatus>& gameStat = CGameManager::GetInst()->GetGameStatusRef();
 
 			if (KEY_TAP(KEY::RIGHT))
 			{
@@ -389,7 +389,7 @@ void CMenuScript::Tick()
 			{
 				if (m_ItemIdx == (int)OPTIONS::SAVECHANGES)
 				{
-					CPlayerManager::GetInst()->UpdateCurBGMVolume();
+					CGameManager::GetInst()->UpdateCurBGMVolume();
 				}
 				else if (m_ItemIdx == (int)OPTIONS::MAIN)
 				{
@@ -401,7 +401,7 @@ void CMenuScript::Tick()
 					CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\TitleTEST.lv");
 					ChangeLevel(pLevel, LEVEL_STATE::PLAY);
 
-					CPlayerManager::GetInst()->StopCurBGM();
+					CGameManager::GetInst()->StopCurBGM();
 				}
 				else
 				{

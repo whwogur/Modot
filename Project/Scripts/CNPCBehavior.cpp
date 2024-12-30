@@ -312,8 +312,8 @@ void CNPCBehavior::Tick()
 						{
 						case 0:
 						{
-							CPlayerManager::GetInst()->SetNextPos(Vec3(608.4f, -255.f, 1.8f));
-							CPlayerManager::GetInst()->SetNextCamPos(Vec3(192.52f, 60.68f, 0.f));
+							CGameManager::GetInst()->SetNextPos(Vec3(608.4f, -255.f, 1.8f));
+							CGameManager::GetInst()->SetNextCamPos(Vec3(192.52f, 60.68f, 0.f));
 							CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\DemonBossTEST.lv");
 							ChangeLevel(pLevel, LEVEL_STATE::PLAY);
 
@@ -323,8 +323,8 @@ void CNPCBehavior::Tick()
 						}
 						case 1:
 						{
-							CPlayerManager::GetInst()->SetNextPos(Vec3(-98.97f, -322.f, 1.8f));
-							CPlayerManager::GetInst()->SetNextCamPos(Vec3(-142.f, -56.12f, 0.f));
+							CGameManager::GetInst()->SetNextPos(Vec3(-98.97f, -322.f, 1.8f));
+							CGameManager::GetInst()->SetNextCamPos(Vec3(-142.f, -56.12f, 0.f));
 							CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\LinethTEST.lv");
 							ChangeLevel(pLevel, LEVEL_STATE::PLAY);
 
@@ -675,22 +675,22 @@ void CNPCBehavior::Tick()
 						{
 						case 0:
 						{
-							CPlayerManager::GetInst()->SetNextPos(Vec3(608.4f, -255.f, 1.8f));
-							CPlayerManager::GetInst()->SetNextCamPos(Vec3(192.52f, 60.68f, 0.f));
+							CGameManager::GetInst()->SetNextPos(Vec3(608.4f, -255.f, 1.8f));
+							CGameManager::GetInst()->SetNextCamPos(Vec3(192.52f, 60.68f, 0.f));
 							CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\DemonBossTEST.lv");
 							ChangeLevel(pLevel, LEVEL_STATE::PLAY);
 
-							CPlayerManager::GetInst()->StopCurBGM();
+							CGameManager::GetInst()->StopCurBGM();
 							break;
 						}
 						case 1:
 						{
-							CPlayerManager::GetInst()->SetNextPos(Vec3(-98.97f, -322.f, 1.8f));
-							CPlayerManager::GetInst()->SetNextCamPos(Vec3(-142.f, -56.12f, 0.f));
+							CGameManager::GetInst()->SetNextPos(Vec3(-98.97f, -322.f, 1.8f));
+							CGameManager::GetInst()->SetNextCamPos(Vec3(-142.f, -56.12f, 0.f));
 							CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\LinethTEST.lv");
 							ChangeLevel(pLevel, LEVEL_STATE::PLAY);
 
-							CPlayerManager::GetInst()->StopCurBGM();
+							CGameManager::GetInst()->StopCurBGM();
 							break;
 						}
 						}
@@ -754,8 +754,8 @@ void CNPCBehavior::Tick()
 					pInspector->SetTargetAsset(nullptr);
 #endif
 					CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\KohoVillageTEST.lv");
-					CPlayerManager::GetInst()->SetNextPos(Vec3(-20.83f, -150.94f, 1.8f));
-					CPlayerManager::GetInst()->SetNextCamPos(Vec3(-92.5, 83.f, 0.f));
+					CGameManager::GetInst()->SetNextPos(Vec3(-20.83f, -150.94f, 1.8f));
+					CGameManager::GetInst()->SetNextCamPos(Vec3(-92.5, 83.f, 0.f));
 					ChangeLevel(pLoadedLevel, LEVEL_STATE::PLAY);
 
 					break;

@@ -46,8 +46,8 @@ void CLevelTransitionScript::BeginOverlap(CCollider2D* _OwnCollider, CGameObject
 	pInspector->SetTargetAsset(nullptr);
 #endif
 
-	CPlayerManager::GetInst()->SetNextPos(m_Pos);
-	CPlayerManager::GetInst()->SetNextCamPos(m_CamPos);
+	CGameManager::GetInst()->SetNextPos(m_Pos);
+	CGameManager::GetInst()->SetNextCamPos(m_CamPos);
 	CLevel* pLevel = CLevelSaveLoad::LoadLevel(L"level\\" + wstrLevel);
 	ChangeLevel(pLevel, LEVEL_STATE::PLAY);
 }

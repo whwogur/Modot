@@ -37,7 +37,7 @@ CPlayerScript::CPlayerScript()
 void CPlayerScript::Begin()
 {
 	GetRenderComponent()->GetDynamicMaterial();
-	const std::shared_ptr<PlayerStatus>& playerStat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+	const std::shared_ptr<PlayerStatus>& playerStat = CGameManager::GetInst()->GetPlayerStatusRef();
 	if (KEY_PRESSED(KEY::LEFT))
 	{
 		Transform()->SetDir(OBJECT_DIR::LEFT);
@@ -160,17 +160,17 @@ void CPlayerScript::Tick()
 
 		if (KEY_TAP(KEY::_1))
 		{
-			CPlayerManager::GetInst()->TakeDamage(100);
+			CGameManager::GetInst()->TakeDamage(100);
 			EDITOR_TRACE(u8"데미지 100 받음");
 			m_Damaged = true;
 		}
 
 		if (KEY_TAP(KEY::E))
 		{
-			if (CPlayerManager::GetInst()->GetPlayerStatusRef().get()->MP > 20)
+			if (CGameManager::GetInst()->GetPlayerStatusRef().get()->MP > 20)
 			{
-				CPlayerManager::GetInst()->UseMP(15.f);
-				CPlayerManager::GetInst()->Recover(100.f);
+				CGameManager::GetInst()->UseMP(15.f);
+				CGameManager::GetInst()->Recover(100.f);
 				EDITOR_TRACE(u8"100 회복");
 				ChangeState(PlayerState::HEAL);
 			}
@@ -203,8 +203,8 @@ void CPlayerScript::Tick()
 		}
 		case PlayerState::JUMP:
 		{
-			CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
-			CPlayerManager::GetInst()->RecoverMP(5.f * DT);
+			CGameManager::GetInst()->RecoverStamina(15.f * DT);
+			CGameManager::GetInst()->RecoverMP(5.f * DT);
 			Jump();
 			if (KEY_PRESSED(KEY::RIGHT))
 			{
@@ -230,7 +230,7 @@ void CPlayerScript::Tick()
 		}
 		case PlayerState::DOUBLEJUMP:
 		{
-			CPlayerManager::GetInst()->RecoverMP(5.f * DT);
+			CGameManager::GetInst()->RecoverMP(5.f * DT);
 			if (KEY_PRESSED(KEY::RIGHT))
 			{
 				RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
@@ -246,8 +246,8 @@ void CPlayerScript::Tick()
 		}
 		case PlayerState::LAND:
 		{
-			CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
-			CPlayerManager::GetInst()->RecoverMP(5.f * DT);
+			CGameManager::GetInst()->RecoverStamina(15.f * DT);
+			CGameManager::GetInst()->RecoverMP(5.f * DT);
 			m_Acc += DT;
 			if (m_Acc > m_Timer)
 			{
@@ -259,16 +259,16 @@ void CPlayerScript::Tick()
 		}
 		case PlayerState::RUN:
 		{
-			CPlayerManager::GetInst()->RecoverMP(5.f * DT);
+			CGameManager::GetInst()->RecoverMP(5.f * DT);
 			Jump();
-			CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
+			CGameManager::GetInst()->RecoverStamina(15.f * DT);
 
 			if (KEY_PRESSED(KEY::RIGHT) && KEY_PRESSED(KEY::LEFT))
 				break;
 
 			if (KEY_PRESSED(KEY::LSHIFT))
 			{
-				const std::shared_ptr<PlayerStatus>& stat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+				const std::shared_ptr<PlayerStatus>& stat = CGameManager::GetInst()->GetPlayerStatusRef();
 				if (stat.get()->Stamina >= 40.f)
 				{
 					ChangeState(PlayerState::SPRINT);
@@ -305,23 +305,23 @@ void CPlayerScript::Tick()
 		}
 		case PlayerState::ROLL:
 		{
-			CPlayerManager::GetInst()->RecoverMP(5.f * DT);
+			CGameManager::GetInst()->RecoverMP(5.f * DT);
 			if (Animator2D()->IsFinished())
 				ChangeState(PlayerState::IDLE);
 			break;
 		}
 		case PlayerState::BRAKE:
 		{
-			CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
-			CPlayerManager::GetInst()->RecoverMP(5.f * DT);
+			CGameManager::GetInst()->RecoverStamina(15.f * DT);
+			CGameManager::GetInst()->RecoverMP(5.f * DT);
 			if (Animator2D()->IsFinished())
 				ChangeState(PlayerState::IDLE);
 			break;
 		}
 		case PlayerState::FALL:
 		{
-			CPlayerManager::GetInst()->RecoverStamina(15.f * DT);
-			CPlayerManager::GetInst()->RecoverMP(5.f * DT);
+			CGameManager::GetInst()->RecoverStamina(15.f * DT);
+			CGameManager::GetInst()->RecoverMP(5.f * DT);
 			if (KEY_PRESSED(KEY::RIGHT))
 			{
 				RigidBody()->AddForce(Vec2(m_Speed * 10.0f, 0.f));
@@ -378,21 +378,21 @@ void CPlayerScript::Tick()
 				pInspector->SetTargetAsset(nullptr);
 #endif
 				CLevel* pLoadedLevel = CLevelSaveLoad::LoadLevel(L"level\\KohoHouseTEST.lv");
-				CPlayerManager::GetInst()->SetNextPos(Vec3(-20.83f, -290.f, 1.8f));
-				CPlayerManager::GetInst()->SetNextCamPos(Vec3(-64.4, 43.5f, 0.f));
+				CGameManager::GetInst()->SetNextPos(Vec3(-20.83f, -290.f, 1.8f));
+				CGameManager::GetInst()->SetNextCamPos(Vec3(-64.4, 43.5f, 0.f));
 				ChangeLevel(pLoadedLevel, LEVEL_STATE::PLAY);
 
-				CPlayerManager::GetInst()->Recover(600.f);
+				CGameManager::GetInst()->Recover(600.f);
 			}
 			break;
 		}
 		case PlayerState::SPRINT:
 		{
-			CPlayerManager::GetInst()->RecoverMP(5.f * DT);
+			CGameManager::GetInst()->RecoverMP(5.f * DT);
 			Jump();
-			CPlayerManager::GetInst()->UseStamina(20.f * DT);
+			CGameManager::GetInst()->UseStamina(20.f * DT);
 
-			const std::shared_ptr<PlayerStatus>& stat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+			const std::shared_ptr<PlayerStatus>& stat = CGameManager::GetInst()->GetPlayerStatusRef();
 			if (stat.get()->Stamina <= 10.f)
 			{
 				ChangeState(PlayerState::RUN);
@@ -613,7 +613,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 	case PlayerState::ROLL:
 	{
 		m_Invincible = true;
-		CPlayerManager::GetInst()->UseStamina(30.f);
+		CGameManager::GetInst()->UseStamina(30.f);
 
 		const Vec3& relScale = Transform()->GetRelativeScaleRef();
 
@@ -793,7 +793,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 	}
 	case PlayerState::SHOOT:
 	{
-		std::shared_ptr<PlayerStatus>& playerStat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+		std::shared_ptr<PlayerStatus>& playerStat = CGameManager::GetInst()->GetPlayerStatusRef();
 
 		if (playerStat.get()->MP > 15.f)
 		{
@@ -853,7 +853,7 @@ void CPlayerScript::BeginState(PlayerState _State)
 		Animator2D()->Play(L"Momo_Pet", 10.0f, false);
 		Animator2D()->Reset();
 
-		std::shared_ptr<GameStatus>& gameStat = CPlayerManager::GetInst()->GetGameStatusRef();
+		std::shared_ptr<GameStatus>& gameStat = CGameManager::GetInst()->GetGameStatusRef();
 		gameStat.get()->PetCat += 1;
 		break;
 	}
@@ -952,7 +952,7 @@ void CPlayerScript::EndState(PlayerState _State)
 	case PlayerState::SPRINT:
 	{
 		CGameObject* fx = GetOwner()->GetChildObject(L"SprintParticle");
-		if (fx != nullptr)
+		if (nullptr != fx)
 		{
 			fx->ParticleSystem()->SetBurst(false);
 		}
@@ -1035,7 +1035,7 @@ void CPlayerScript::SetDamaged(float _Damage)
 	{// 효과
 		return;
 	}
-	CPlayerManager::GetInst()->TakeDamage(_Damage);
+	CGameManager::GetInst()->TakeDamage(_Damage);
 	m_Damaged = true;
 }
 
@@ -1077,7 +1077,7 @@ void CPlayerScript::Jump()
 
 void CPlayerScript::Dead()
 {
-	std::shared_ptr<PlayerStatus>& playerStat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+	std::shared_ptr<PlayerStatus>& playerStat = CGameManager::GetInst()->GetPlayerStatusRef();
 
 	if (playerStat.get()->HP <= 0.f)
 	{
@@ -1113,8 +1113,8 @@ void CPlayerScript::CloseMenu()
 
 void CPlayerScript::IdleRoutine()
 {
-	CPlayerManager::GetInst()->RecoverStamina(20.f * DT);
-	CPlayerManager::GetInst()->RecoverMP(5.f * DT);
+	CGameManager::GetInst()->RecoverStamina(20.f * DT);
+	CGameManager::GetInst()->RecoverMP(5.f * DT);
 
 	if (KEY_TAP(KEY::LEFT) || KEY_TAP(KEY::RIGHT) || KEY_PRESSED(KEY::LEFT) || KEY_PRESSED(KEY::RIGHT))
 	{

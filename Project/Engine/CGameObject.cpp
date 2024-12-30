@@ -36,7 +36,7 @@ CGameObject::CGameObject(const CGameObject& _Other)
 {
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
-		if (_Other.m_arrCom[i] == nullptr)
+		if (nullptr == _Other.m_arrCom[i])
 			continue;
 
 		CComponent* pClonedCom = _Other.m_arrCom[i]->Clone();
@@ -68,7 +68,7 @@ void CGameObject::AddComponent(CComponent* _Component)
 	}
 	else
 	{
-		MD_ENGINE_ASSERT(m_arrCom[(UINT)Type] == nullptr, L"이미 있는 컴포넌트 추가 시도");
+		MD_ENGINE_ASSERT(nullptr == m_arrCom[(UINT)Type], L"이미 있는 컴포넌트 추가 시도");
 
 		m_arrCom[(UINT)Type] = _Component;
 		m_arrCom[(UINT)Type]->SetOwner(this);

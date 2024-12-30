@@ -65,7 +65,7 @@ void CLayer::AddObject(CGameObject* _Object, bool _bChildMovesTogether)
 	}
 
 	// 최상위 오브젝트인 경우
-	if (_Object->GetParent() == nullptr)
+	if (nullptr == _Object->GetParent())
 	{
 		m_Parents.push_back(_Object);
 	}
@@ -116,7 +116,7 @@ void CLayer::DetachObject(CGameObject* _Object)
 
 	_Object->m_LayerIdx = -1;
 
-	if (_Object->GetParent() == nullptr)
+	if (nullptr == _Object->GetParent())
 	{
 		RemoveFromParentsList(_Object);
 	}

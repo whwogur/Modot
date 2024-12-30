@@ -32,7 +32,7 @@ void CUIBarScript::Begin()
 
 void CUIBarScript::Tick()
 {
-	const std::shared_ptr<PlayerStatus>& playerstat = CPlayerManager::GetInst()->GetPlayerStatusRef();
+	const std::shared_ptr<PlayerStatus>& playerstat = CGameManager::GetInst()->GetPlayerStatusRef();
 	Vec3& barPos = Transform()->GetRelativePosRef();
 
 	switch (m_Type)
@@ -86,7 +86,7 @@ void CUIBarScript::Tick()
 	}
 	}
 
-	if (GetOwner()->GetParent() == nullptr)
+	if (nullptr == GetOwner()->GetParent())
 			MeshRender()->GetDynamicMaterial()->SetScalarParam(VEC4_0, m_Tint);
 
 	if (m_Shake)

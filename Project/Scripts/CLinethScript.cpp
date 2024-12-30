@@ -526,7 +526,7 @@ void CLinethScript::BeginState(LinethState _State)
 	}
 	case LinethState::DEAD:
 	{
-		std::shared_ptr<GameStatus>& gameStat = CPlayerManager::GetInst()->GetGameStatusRef();
+		std::shared_ptr<GameStatus>& gameStat = CGameManager::GetInst()->GetGameStatusRef();
 		gameStat.get()->Kills += 1;
 
 		CGameObject* linTextBox = CLevelMgr::GetInst()->FindObjectByName(L"LinethTextBox");
